@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+    <title>Fullwidth Slider / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+		<link href="assets/js/ilightbox/css/ilightbox.css" rel="stylesheet" />
+		<style>
+			html, body {
+				background: #FFF;
+				font-family: Tahoma, 
+			}
+			#example {
+				height: 500px;
+				overflow: hidden;
+				margin-top: 50px;
+			}
+			#example .mSButtons {
+				height: 80%;
+			}
+			#example .frame {
+				width: 100%;
+				height: 100%;
+			}
+			#example .frame .slide_element {
+				height: 100%;
+			}
+			#example .frame .slide_element > div {
+				float: left;
+				height: 100%;
+				overflow: hidden;
+			}
+			#example .frame .mSCover img {
+				max-width: none;
+			}
+			#example .credit {
+				position: absolute;
+				bottom: 10px;
+				left: 10px;
+				font-size: 11px;
+				line-height: normal;
+				font-weight: 300;
+				text-shadow: rgba(0,0,0,0.7) 0 1px 0px;
+				color: #CCC;
+				background: #000;
+				background: rgba(0,0,0,0.6);
+				padding: 0 4px;
+				white-space: nowrap;
+				z-index: 1002;
+				text-transform: uppercase;
+			}
+			#example .credit a {
+				color: #FFF;
+				font-weight: 400;
+			}
+			.infoBlock {
+				position: absolute;
+				top: 30px;
+				right: 30px;
+				left: auto;
+				max-width: 30%;
+				padding-bottom: 0;
+				background: #FFF;
+				background: rgba(255, 255, 255, 0.6);
+				overflow: hidden;
+				padding: 20px;
+				z-index: 1002;
+			}
+			.infoBlockLeftBlack {
+				color: #FFF;
+				background: #000;
+				background: rgba(0,0,0,0.55);
+				left: 90px;
+				right: auto;
+				opacity: 0;
+			}
+			.infoBlock2 {
+				top: 90px;
+				left: 100px;
+			}
+			.infoBlock h4 {
+				font-size: 16px;
+				font-weight: 600;
+				line-height: 1.2;
+				margin: 0;
+				padding-bottom: 3px;
+				color: inherit;
+				text-align: left;
+			}
+			.infoBlock p {
+				font-size: 16px;
+				font-weight: 300;
+				margin: 4px 0 0;
+			}
+			.infoBlock a {
+				color: #FFF;
+				text-decoration: underline;
+			}
+			
+			@media (max-width: 979px) {
+				#example {
+					height: 400px;
+					margin-top: 0;
+				}
+				.infoBlock {
+					min-width: 40%;
+				}
+			}
+			
+			@media (max-width: 768px) {
+				#example {
+					margin: 0 -20px;
+					height: 300px;
+				}
+				.infoBlock {
+					padding: 10px;
+					height: auto;
+					max-height: 100%;
+				}
+				.infoBlock h4 {
+					font-size: 14px;
+					line-height: 17px;
+				}
+				.infoBlock p {
+					font-size: 12px;
+				}
+			}
+		</style>
+	
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+
+	<div id="example" class="mightyslider_modern_skin">
+		<div class="frame">
+			<div class="slide_element">
+				<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/2000x537/fd6a62/fff.png', link: { url: 'http://www.flickr.com/photos/36081137@N05/4251000773/', target: '_blank' }">
+					<div class="mSCaption infoBlock infoBlockLeftBlack" data-msanimation="{ speed: 700, easing: 'easeOutQuint', style: { left: 30, opacity: 1 } }">
+						<h4>This is an animated block, add any number of them to any type of slide</h4>
+						<p>Put completely anything inside - text, images, inputs, links, buttons.</p>
+					</div>
+					<div class="credit">
+						&copy; By <a href="http://www.flickr.com/photos/36081137@N05/" target="_blank">Fabius_climbing</a>
+					</div>
+				</div>
+				<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/2000x537/0ac2d2/fff.png', link: { url: 'http://www.flickr.com/photos/azalkimista/8482374380/', target: '_blank' }">
+					<div class="infoBlock">
+						<h4>This is a static HTML block</h4>
+						<p>It's always displayed and not animated by slider.</p>
+					</div>
+					<div class="credit">
+						&copy; By <a href="http://www.flickr.com/photos/azalkimista/" target="_blank">Csaba Kovacs</a>
+					</div>
+				</div>
+				<div class="slide" data-mightyslider="video: 'http://vimeo.com/14773535'">
+					<div class="mSCaption infoBlock infoBlockLeftBlack infoBlock2" data-msanimation="{ speed: 700, easing: 'easeOutQuint', style: { top: 30, opacity: 1 } }">
+						<h4>You can link to this slide by adding #2 to url.</h4>
+						<p><a href="fullscreen-slider.html">Learn more</a></p>
+					</div>
+					<div class="credit">
+						&copy; By <a href="http://vimeo.com/colinhesterly" target="_blank">Colin Hesterly</a>
+					</div>
+				</div>
+				<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/2000x537/f68dbb/fff.png', link: { url: 'http://www.flickr.com/photos/rosku/2237408064/', target: '_blank' }">
+					<div class="credit">
+						&copy; By <a href="http://www.flickr.com/photos/rosku/" target="_blank">Krzysztof Jurek</a>
+					</div>
+				</div>
+				<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/2000x537/60d7a9/fff.png', link: { url: 'http://www.flickr.com/photos/jerome934/61132898/', target: '_blank' }">
+					<div class="credit">
+						&copy; By <a href="http://www.flickr.com/photos/jerome934/" target="_blank">Jerome Chen</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container marketing">
+		<br><br><br><br>
+		<div class="featurette">
+			<div class="page-header">
+				<h2 class="slim">Fullwidth Slider</h2>
+			</div>
+			<p>Simple slider stretched to full width of wrapper.</p>
+			<p>As usual you can put anything in each slide, or add bullets, thumbnails or tabs.</p>
+		</div>
+	</div><!-- /.container -->
+
+		<div class="featurette-divider2"></div>
+
+		<div class="container marketing">
+			<div class="featurette">
+				<div class="clearfix">
+					<h2 class="slim pull-left">Code View</h2>
+				</div>
+				<div class="ms-tabs">
+					<ul class="nav-tabs clearfix">
+					  <li class="active"><a href="#js" data-toggle="tab">JavaScript</a></li>
+					  <li><a href="#html" data-toggle="tab">HTML</a></li>
+					  <li><a href="#css" data-toggle="tab">CSS</a></li>
+					  <li><a href="#full" data-toggle="tab">Full Page</a></li>
+					</ul>
+					<div class="tab-content">
+					  <div class="tab-pane active in" id="js">
+						<div class="describe"><i class="icon-info-circle"></i>You need to put the following scripts just before the <code>&lt;⁄body></code></div>
+						<pre class="prettyprint">
+&lt;script type="text/javascript">
+    jQuery(document).ready(function($) {
+        (function(){
+            // Global slider's DOM elements
+            var $example = $('#example'),
+                $frame = $('.frame', $example);
+
+            // Calling mightySlider via jQuery proxy
+            $frame.mightySlider({
+                <a href="http://mightyslider.com/documentation.html#global-options-speed" target="_blank" title="Get information about this on documentation">speed</a>: 1000,
+                <a href="http://mightyslider.com/documentation.html#global-options-easing" target="_blank" title="Get information about this on documentation">easing</a>: 'easeOutExpo',
+                <a href="http://mightyslider.com/documentation.html#global-options-viewport" target="_blank" title="Get information about this on documentation">viewport</a>: 'fill',
+                
+                // Navigation options
+                <a href="http://mightyslider.com/documentation.html#global-options-navigation" target="_blank" title="Get information about this on documentation">navigation</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation-slideSize" target="_blank" title="Get information about this on documentation">slideSize</a>: '100%',
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation-keyboardNavBy" target="_blank" title="Get information about this on documentation">keyboardNavBy</a>: 'slides'
+                },
+
+                // Dragging options
+                <a href="http://mightyslider.com/documentation.html#global-options-dragging" target="_blank" title="Get information about this on documentation">dragging</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-dragging-swingSpeed" target="_blank" title="Get information about this on documentation">swingSpeed</a>:    0.1
+                },
+
+                // Pages options
+                <a href="http://mightyslider.com/documentation.html#global-options-pages" target="_blank" title="Get information about this on documentation">pages</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-pages-activateOn" target="_blank" title="Get information about this on documentation">activateOn</a>: 'click'
+                },
+
+                // Commands options
+                <a href="http://mightyslider.com/documentation.html#global-options-commands" target="_blank" title="Get information about this on documentation">commands</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-commands-pages" target="_blank" title="Get information about this on documentation">pages</a>: 1,
+                    <a href="http://mightyslider.com/documentation.html#global-options-commands-buttons" target="_blank" title="Get information about this on documentation">buttons</a>: 1
+                }
+            });
+        })();
+    });
+&lt;/script>
+</pre>
+					  </div>
+					  <div class="tab-pane" id="html">
+						<div class="describe"><i class="icon-info-circle"></i>You need to put the following html markup in your html document where you want to have slider.</div>
+						<pre class="prettyprint">
+<a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- PARENT --></a>
+&lt;div id="example" class="mightyslider_modern_skin">
+    <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- FRAME --></a>
+    &lt;div class="frame">
+        <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- SLIDEELEMENT --></a>
+        &lt;div class="slide_element">
+            <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- SLIDES --></a>
+            &lt;div class="slide" data-mightyslider="
+                cover: 'assets/img/photos/4251000773_c9696b34f0_o.jpg',
+                link: {
+                    url: 'http://www.flickr.com/photos/36081137@N05/4251000773/',
+                    target: '_blank'
+                }
+            ">
+                &lt;div class="mSCaption infoBlock infoBlockLeftBlack" data-msanimation="{
+                    speed: 700,
+                    easing: 'easeOutQuint',
+                    style: {
+                        left: 30,
+                        opacity: 1
+                    }
+                }">
+                    &lt;h4>This is an animated block, add any number of them to any type of slide&lt;/h4>
+                    &lt;p>Put completely anything inside - text, images, inputs, links, buttons.&lt;/p>
+                &lt;/div>
+                &lt;div class="credit">
+                    &copy; By &lt;a href="http://www.flickr.com/photos/36081137@N05/" target="_blank">Fabius_climbing&lt;/a>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="slide" data-mightyslider="
+                cover: 'assets/img/photos/8482374380_75a2ba385f_h.jpg',
+                link: {
+                    url: 'http://www.flickr.com/photos/azalkimista/8482374380/',
+                    target: '_blank'
+                }
+            ">
+                &lt;div class="infoBlock">
+                    &lt;h4>This is a static HTML block&lt;/h4>
+                    &lt;p>It's always displayed and not animated by slider.&lt;/p>
+                &lt;/div>
+                &lt;div class="credit">
+                    &copy; By &lt;a href="http://www.flickr.com/photos/azalkimista/" target="_blank">Csaba Kovacs&lt;/a>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="slide" data-mightyslider="video: 'http://vimeo.com/14773535'">
+                &lt;div class="mSCaption infoBlock infoBlockLeftBlack infoBlock2" data-msanimation="{ speed: 700, easing: 'easeOutQuint', style: { top: 30, opacity: 1 } }">
+                    &lt;h4>You can link to this slide by adding #2 to url.&lt;/h4>
+                    &lt;p>&lt;a href="fullscreen-slider.html">Learn more&lt;/a>&lt;/p>
+                &lt;/div>
+                &lt;div class="credit">
+                    &copy; By &lt;a href="http://vimeo.com/colinhesterly" target="_blank">Colin Hesterly&lt;/a>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="slide" data-mightyslider="cover: 'assets/img/photos/2237408064_c583610dba_o.jpg', link: { url: 'http://www.flickr.com/photos/rosku/2237408064/', target: '_blank' }">
+                &lt;div class="credit">
+                    &copy; By &lt;a href="http://www.flickr.com/photos/rosku/" target="_blank">Krzysztof Jurek&lt;/a>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="slide" data-mightyslider="cover: 'assets/img/photos/61132898_2d8f9e5d9d_o.jpg', link: { url: 'http://www.flickr.com/photos/jerome934/61132898/', target: '_blank' }">
+                &lt;div class="credit">
+                    &copy; By &lt;a href="http://www.flickr.com/photos/jerome934/" target="_blank">Jerome Chen&lt;/a>
+                &lt;/div>
+            &lt;/div>
+            &lt;!-- END OF SLIDES -->
+        &lt;/div>
+        &lt;!-- END OF SLIDEELEMENT -->
+    &lt;/div>
+    &lt;!-- END OF FRAME -->
+&lt;/div>
+&lt;!-- END OF PARENT -->
+</pre>
+					  </div>
+					  <div class="tab-pane" id="css">
+						<div class="describe"><i class="icon-info-circle"></i>You need to put the following styles just before the <code>&lt;/head></code></div>
+						<pre class="prettyprint lang-css">
+&lt;style>
+#example {
+  height: 500px;
+  overflow: hidden;
+  margin-top: 50px;
+}
+#example .mSButtons {
+  height: 80%;
+}
+#example .frame {
+  width: 100%;
+  height: 100%;
+}
+#example .frame .slide_element {
+  height: 100%;
+}
+#example .frame .slide_element > div {
+  float: left;
+  height: 100%;
+  overflow: hidden;
+}
+#example .frame .mSCover img {
+  max-width: none;
+}
+#example .credit {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 11px;
+  line-height: normal;
+  font-weight: 300;
+  text-shadow: rgba(0,0,0,0.7) 0 1px 0px;
+  color: #CCC;
+  background: #000;
+  background: rgba(0,0,0,0.6);
+  padding: 0 4px;
+  white-space: nowrap;
+  z-index: 1002;
+  text-transform: uppercase;
+}
+#example .credit a {
+  color: #FFF;
+  font-weight: 400;
+}
+.infoBlock {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  left: auto;
+  max-width: 30%;
+  padding-bottom: 0;
+  background: #FFF;
+  background: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  padding: 20px;
+  z-index: 1002;
+}
+.infoBlockLeftBlack {
+  color: #FFF;
+  background: #000;
+  background: rgba(0,0,0,0.55);
+  left: 90px;
+  right: auto;
+  opacity: 0;
+}
+.infoBlock2 {
+  top: 90px;
+  left: 100px;
+}
+.infoBlock h4 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+  padding-bottom: 3px;
+  color: inherit;
+  text-align: left;
+}
+.infoBlock p {
+  font-size: 16px;
+  font-weight: 300;
+  margin: 4px 0 0;
+}
+.infoBlock a {
+  color: #FFF;
+  text-decoration: underline;
+}
+
+@media (max-width: 979px) {
+  #example {
+    height: 400px;
+    margin-top: 0;
+  }
+  .infoBlock {
+    min-width: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  #example {
+    margin: 0 -20px;
+    height: 300px;
+  }
+  .infoBlock {
+    padding: 10px;
+    height: auto;
+    max-height: 100%;
+  }
+  .infoBlock h4 {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .infoBlock p {
+    font-size: 12px;
+  }
+}
+&lt;/style>
+</pre>
+					  </div>
+					  <div class="tab-pane" id="full">
+						<pre class="prettyprint">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>&lt;/title>
+
+    &lt;!-- mightySlider basic stylesheet with skins imported -->
+    &lt;link rel="stylesheet" type="text/css" href="mightyslider/src/css/mightyslider.css"/>
+
+    &lt;style>
+#example {
+      height: 500px;
+      overflow: hidden;
+      margin-top: 50px;
+    }
+    #example .mSButtons {
+      height: 80%;
+    }
+    #example .frame {
+      width: 100%;
+      height: 100%;
+    }
+    #example .frame .slide_element {
+      height: 100%;
+    }
+    #example .frame .slide_element > div {
+      float: left;
+      height: 100%;
+      overflow: hidden;
+    }
+    #example .frame .mSCover img {
+      max-width: none;
+    }
+    #example .credit {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 11px;
+      line-height: normal;
+      font-weight: 300;
+      text-shadow: rgba(0,0,0,0.7) 0 1px 0px;
+      color: #CCC;
+      background: #000;
+      background: rgba(0,0,0,0.6);
+      padding: 0 4px;
+      white-space: nowrap;
+      z-index: 1002;
+      text-transform: uppercase;
+    }
+    #example .credit a {
+      color: #FFF;
+      font-weight: 400;
+    }
+    .infoBlock {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      left: auto;
+      max-width: 30%;
+      padding-bottom: 0;
+      background: #FFF;
+      background: rgba(255, 255, 255, 0.6);
+      overflow: hidden;
+      padding: 20px;
+      z-index: 1002;
+    }
+    .infoBlockLeftBlack {
+      color: #FFF;
+      background: #000;
+      background: rgba(0,0,0,0.55);
+      left: 90px;
+      right: auto;
+      opacity: 0;
+    }
+    .infoBlock2 {
+      top: 90px;
+      left: 100px;
+    }
+    .infoBlock h4 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0;
+      padding-bottom: 3px;
+      color: inherit;
+      text-align: left;
+    }
+    .infoBlock p {
+      font-size: 16px;
+      font-weight: 300;
+      margin: 4px 0 0;
+    }
+    .infoBlock a {
+      color: #FFF;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 979px) {
+      #example {
+        height: 400px;
+        margin-top: 0;
+      }
+      .infoBlock {
+        min-width: 40%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #example {
+        margin: 0 -20px;
+        height: 300px;
+      }
+      .infoBlock {
+        padding: 10px;
+        height: auto;
+        max-height: 100%;
+      }
+      .infoBlock h4 {
+        font-size: 14px;
+        line-height: 17px;
+      }
+      .infoBlock p {
+        font-size: 12px;
+      }
+    }
+    &lt;/style>
+&lt;/head>
+&lt;body>
+
+
+    &lt;!-- mightySlider requires jQuery 1.7+  -->
+    &lt;!-- If you already have jQuery on your page, you shouldn't include it second time. -->
+    &lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js">&lt;/script>
+    &lt;!-- Uses the built in easing capabilities added In jQuery 1.1 to offer multiple easing options -->
+    &lt;script type="text/javascript" src="assets/js/jquery.easing-1.3.pack.js">&lt;/script>
+    &lt;!-- Mobile touch events for jQuery -->
+    &lt;script type="text/javascript" src="assets/js/jquery.mobile.just-touch.js">&lt;/script>
+    &lt;!-- mightySlider captions animation engine -->
+    &lt;script type="text/javascript" src="mightyslider/src/js/tweenlite.js">&lt;/script>
+    &lt;!-- Main slider JS script file -->
+    &lt;script type="text/javascript" src="mightyslider/src/js/mightyslider.min.js">&lt;/script>
+
+    &lt;script type="text/javascript">
+    &lt;/script>
+&lt;/body>
+&lt;/html>
+</pre>
+					  </div>
+					</div>
+				  </div>
+			</div><!-- /.featurette -->
+		</div><!-- /.container -->
+
+	<div class="featurette-divider2"></div>
+	  
+      <!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+		<!--latest jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/google-code-prettify/prettify.js"></script>
+		<script src="assets/js/google-code-prettify/lang-css.js"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+		<script>
+			jQuery(document).ready(function($) {
+				(function(){
+					var $example = $('#example'),
+					$frame = $('.frame', $example);
+					$frame.mightySlider({
+						speed: 1000,
+						easing: 'easeOutExpo',
+						viewport: 'fill',
+						
+						// Navigation options
+						navigation: {
+							slideSize: '100%',
+							keyboardNavBy: 'slides'
+						},
+
+						// Dragging
+						dragging: {
+							swingSpeed:    0.1
+						},
+
+						// Pages
+						pages: {
+							activateOn: 'click'
+						},
+
+						// Commands
+						commands: {
+							pages: 1,
+							buttons: 1
+						}
+					});
+				})();
+			});
+		</script>
+  </body>
+</html>

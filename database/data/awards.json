@@ -1,0 +1,506 @@
+[
+  {
+    "__metadata": {
+      "id": "080c2d0b-1ccf-11e6-b1e1-e12b04098a26"
+    },
+    "id": "080c2d0b-1ccf-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:03:40",
+    "name": "Best Special Effects",
+    "slug": "best-special-effects",
+    "updatedAt": "2016-05-18T08:03:40"
+  },
+  {
+    "__metadata": {
+      "id": "0c6a14ea-1496-11e6-89ed-2088f168c8bb"
+    },
+    "id": "0c6a14ea-1496-11e6-89ed-2088f168c8bb",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-07T20:55:36",
+    "name": "Best Cinematography",
+    "slug": "best-cinematography",
+    "updatedAt": "2016-05-07T20:55:36"
+  },
+  {
+    "__metadata": {
+      "id": "0f5adc74-28ef-11e6-b8db-86ac961c55b2"
+    },
+    "id": "0f5adc74-28ef-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:23:10",
+    "name": "Most Motivational",
+    "slug": "most-motivational",
+    "updatedAt": "2016-06-02T18:23:10"
+  },
+  {
+    "__metadata": {
+      "id": "0febe7ca-1ccf-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "0febe7ca-1ccf-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:03:53",
+    "name": "Best Stuntperson",
+    "slug": "best-stuntperson",
+    "updatedAt": "2016-05-18T08:03:53"
+  },
+  {
+    "__metadata": {
+      "id": "15462612-28ef-11e6-8d88-f97eb8a09b17"
+    },
+    "id": "15462612-28ef-11e6-8d88-f97eb8a09b17",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:23:20",
+    "name": "Most Inspiring",
+    "slug": "most-inspiring",
+    "updatedAt": "2016-06-02T18:23:20"
+  },
+  {
+    "__metadata": {
+      "id": "1ef8a27c-1ccf-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "1ef8a27c-1ccf-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:04:18",
+    "name": "Best Foreign Language Film",
+    "slug": "best-foreign-language-film",
+    "updatedAt": "2016-05-18T08:04:18"
+  },
+  {
+    "__metadata": {
+      "id": "295d4fa7-1ccf-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "295d4fa7-1ccf-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:04:35",
+    "name": "Best Original Song",
+    "slug": "best-original-song",
+    "updatedAt": "2016-05-18T08:04:35"
+  },
+  {
+    "__metadata": {
+      "id": "3458107f-28e7-11e6-b8db-86ac961c55b2"
+    },
+    "id": "3458107f-28e7-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:26:56",
+    "name": "Most Adventurous",
+    "slug": "most-adventurous",
+    "updatedAt": "2016-06-02T17:26:56"
+  },
+  {
+    "__metadata": {
+      "id": "3f4161fc-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "3f4161fc-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:58:03",
+    "name": "Best Actor",
+    "slug": "best-actor",
+    "updatedAt": "2016-05-18T07:58:03"
+  },
+  {
+    "__metadata": {
+      "id": "41395363-28e7-11e6-b8db-86ac961c55b2"
+    },
+    "id": "41395363-28e7-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:27:17",
+    "name": "Most Bizarre",
+    "slug": "most-bizarre",
+    "updatedAt": "2016-06-02T17:27:17"
+  },
+  {
+    "__metadata": {
+      "id": "499c84a2-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "499c84a2-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:58:20",
+    "name": "Best Actress",
+    "slug": "best-actress",
+    "updatedAt": "2016-05-18T07:58:42"
+  },
+  {
+    "__metadata": {
+      "id": "53748823-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "53748823-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:58:37",
+    "name": "Best Director",
+    "slug": "best-director",
+    "updatedAt": "2016-05-18T07:58:37"
+  },
+  {
+    "__metadata": {
+      "id": "6950ef19-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "6950ef19-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:59:13",
+    "name": "Best Music Score",
+    "slug": "best-music-score",
+    "updatedAt": "2016-05-18T07:59:13"
+  },
+  {
+    "__metadata": {
+      "id": "6f197b67-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "6f197b67-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:59:23",
+    "name": "Best Screenplay",
+    "slug": "best-screenplay",
+    "updatedAt": "2016-05-18T07:59:23"
+  },
+  {
+    "__metadata": {
+      "id": "75322f6b-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "75322f6b-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:59:33",
+    "name": "Best Editing",
+    "slug": "best-editing",
+    "updatedAt": "2016-05-18T07:59:33"
+  },
+  {
+    "__metadata": {
+      "id": "7e42d9bd-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "7e42d9bd-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T07:59:48",
+    "name": "Best Sound Design",
+    "slug": "best-sound-design",
+    "updatedAt": "2016-05-18T07:59:48"
+  },
+  {
+    "__metadata": {
+      "id": "85f1c5e8-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "85f1c5e8-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:00:01",
+    "name": "Best Feature",
+    "slug": "best-feature",
+    "updatedAt": "2016-05-18T08:00:01"
+  },
+  {
+    "__metadata": {
+      "id": "883c607e-28e7-11e6-b8db-86ac961c55b2"
+    },
+    "id": "883c607e-28e7-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:29:16",
+    "name": "Most Controversial",
+    "slug": "most-controversial",
+    "updatedAt": "2016-06-02T17:29:16"
+  },
+  {
+    "__metadata": {
+      "id": "90377833-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "90377833-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:00:18",
+    "name": "Best Narrative Short",
+    "slug": "best-narrative-short",
+    "updatedAt": "2016-05-18T08:00:18"
+  },
+  {
+    "__metadata": {
+      "id": "97bb79cf-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "97bb79cf-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:00:31",
+    "name": "Best Documentary",
+    "slug": "best-documentary",
+    "updatedAt": "2016-05-18T08:00:31"
+  },
+  {
+    "__metadata": {
+      "id": "9d36bc6e-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "9d36bc6e-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:00:40",
+    "name": "Best Animation",
+    "slug": "best-animation",
+    "updatedAt": "2016-05-18T08:00:40"
+  },
+  {
+    "__metadata": {
+      "id": "9dc945b9-28e7-11e6-b8db-86ac961c55b2"
+    },
+    "id": "9dc945b9-28e7-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:29:53",
+    "name": "Most Daring",
+    "slug": "most-daring",
+    "updatedAt": "2016-06-02T17:29:53"
+  },
+  {
+    "__metadata": {
+      "id": "a4e45e82-28e7-11e6-b8db-86ac961c55b2"
+    },
+    "id": "a4e45e82-28e7-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:30:05",
+    "name": "Most Dramatic",
+    "slug": "most-dramatic",
+    "updatedAt": "2016-06-02T17:30:05"
+  },
+  {
+    "__metadata": {
+      "id": "a77d6f63-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "a77d6f63-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:00:58",
+    "name": "Best Visual Effects",
+    "slug": "best-visual-effects",
+    "updatedAt": "2016-05-18T08:00:58"
+  },
+  {
+    "__metadata": {
+      "id": "ac128a32-28e7-11e6-b8db-86ac961c55b2"
+    },
+    "id": "ac128a32-28e7-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:30:17",
+    "name": "Most Entertaining",
+    "slug": "most-entertaining",
+    "updatedAt": "2016-06-02T17:30:17"
+  },
+  {
+    "__metadata": {
+      "id": "af87e84b-28e7-11e6-8d88-f97eb8a09b17"
+    },
+    "id": "af87e84b-28e7-11e6-8d88-f97eb8a09b17",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:30:22",
+    "name": "Most Epic",
+    "slug": "most-epic",
+    "updatedAt": "2016-06-02T17:30:22"
+  },
+  {
+    "__metadata": {
+      "id": "afcb0ccd-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "afcb0ccd-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:01:11",
+    "name": "Best Recording Artist",
+    "slug": "best-recording-artist",
+    "updatedAt": "2016-05-18T08:01:11"
+  },
+  {
+    "__metadata": {
+      "id": "b46c2345-28ee-11e6-b8db-86ac961c55b2"
+    },
+    "id": "b46c2345-28ee-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:20:37",
+    "name": "Most Humorous",
+    "slug": "most-humorous",
+    "updatedAt": "2016-06-02T18:20:37"
+  },
+  {
+    "__metadata": {
+      "id": "bb53a64a-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "bb53a64a-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:01:31",
+    "name": "Best Web Series",
+    "slug": "best-web-series",
+    "updatedAt": "2016-05-18T08:01:31"
+  },
+  {
+    "__metadata": {
+      "id": "be953a15-28ee-11e6-b8db-86ac961c55b2"
+    },
+    "id": "be953a15-28ee-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:20:54",
+    "name": "Most Influential",
+    "slug": "most-influential",
+    "updatedAt": "2016-06-02T18:20:54"
+  },
+  {
+    "__metadata": {
+      "id": "ca1f2e22-28ee-11e6-b8db-86ac961c55b2"
+    },
+    "id": "ca1f2e22-28ee-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:21:13",
+    "name": "Most Informative",
+    "slug": "most-informative",
+    "updatedAt": "2016-06-02T18:21:13"
+  },
+  {
+    "__metadata": {
+      "id": "cb29f804-1cce-11e6-a2ae-ad4c5d3797ab"
+    },
+    "id": "cb29f804-1cce-11e6-a2ae-ad4c5d3797ab",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:01:57",
+    "name": "Best Youth In Arts (For Filmmakers/Artists Under 16)",
+    "slug": "best-youth-in-arts",
+    "updatedAt": "2016-05-18T08:01:57"
+  },
+  {
+    "__metadata": {
+      "id": "d38fd1a9-28ee-11e6-8d88-f97eb8a09b17"
+    },
+    "id": "d38fd1a9-28ee-11e6-8d88-f97eb8a09b17",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:21:29",
+    "name": "Most Revolutionary",
+    "slug": "most-revolutionary",
+    "updatedAt": "2016-06-02T18:21:29"
+  },
+  {
+    "__metadata": {
+      "id": "d6809000-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "d6809000-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:02:16",
+    "name": "Best Music Video",
+    "slug": "best-music-video",
+    "updatedAt": "2016-05-18T08:02:16"
+  },
+  {
+    "__metadata": {
+      "id": "dd3eaddf-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "dd3eaddf-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:02:28",
+    "name": "Best Trailer",
+    "slug": "best-trailer",
+    "updatedAt": "2016-05-18T08:02:28"
+  },
+  {
+    "__metadata": {
+      "id": "e4ce991e-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "e4ce991e-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:02:40",
+    "name": "Best Costume Design",
+    "slug": "best-costume-design",
+    "updatedAt": "2016-05-18T08:02:40"
+  },
+  {
+    "__metadata": {
+      "id": "ed4d84dc-28ee-11e6-8d88-f97eb8a09b17"
+    },
+    "id": "ed4d84dc-28ee-11e6-8d88-f97eb8a09b17",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:22:12",
+    "name": "Most Romantic",
+    "slug": "most-romantic",
+    "updatedAt": "2016-06-02T18:22:12"
+  },
+  {
+    "__metadata": {
+      "id": "ee343212-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "ee343212-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:02:56",
+    "name": "Best Production Design",
+    "slug": "best-production-design",
+    "updatedAt": "2016-05-18T08:02:56"
+  },
+  {
+    "__metadata": {
+      "id": "f327193f-28e6-11e6-b8db-86ac961c55b2"
+    },
+    "id": "f327193f-28e6-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T17:25:06",
+    "name": "Most Action-Packed",
+    "slug": "most-action-packed",
+    "updatedAt": "2016-06-02T17:25:06"
+  },
+  {
+    "__metadata": {
+      "id": "f92bd818-28ee-11e6-b8db-86ac961c55b2"
+    },
+    "id": "f92bd818-28ee-11e6-b8db-86ac961c55b2",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:22:32",
+    "name": "Most Suspenseful",
+    "slug": "most-suspenseful",
+    "updatedAt": "2016-06-02T18:22:32"
+  },
+  {
+    "__metadata": {
+      "id": "fc312b3b-1cce-11e6-b1e1-e12b04098a26"
+    },
+    "id": "fc312b3b-1cce-11e6-b1e1-e12b04098a26",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-05-18T08:03:20",
+    "name": "Best Makeup and Hairstyling",
+    "slug": "best-makeup-hairstyling",
+    "updatedAt": "2016-05-18T08:03:20"
+  },
+  {
+    "__metadata": {
+      "id": "ffdaae27-28ee-11e6-8d88-f97eb8a09b17"
+    },
+    "id": "ffdaae27-28ee-11e6-8d88-f97eb8a09b17",
+    "AwardWin_award": null,
+    "Nomination_awardPntr": null,
+    "createdAt": "2016-06-02T18:22:44",
+    "name": "Most Terrifying",
+    "slug": "most-terrifying",
+    "updatedAt": "2016-06-02T18:22:44"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "name": "getstream",
+  "version": "3.4.0",
+  "main": "dist/js/getstream.js",
+  "ignore": [
+    "src",
+    "test",
+    "node_modules",
+    "gulpfile.js",
+    "LICENSE",
+    "package.json",
+    "**/.*",
+    "**/*.json",
+    "**/*.html"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "homepage": "https://github.com/tschellenbach/stream-js",
+  "_release": "3.4.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.4.0",
+    "commit": "f35976ae8f8b71f918fb52b628dd5e50c9399852"
+  },
+  "_source": "https://github.com/tschellenbach/stream-js.git",
+  "_target": "*",
+  "_originalSource": "getstream"
+}

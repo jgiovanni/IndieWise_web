@@ -1,0 +1,112 @@
+<!--breadcrumbs-->
+<section id="breadcrumb">
+    <div class="row">
+        <div class="large-12 columns">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs">
+                    <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
+                    <li>
+                        <span class="show-for-sr">Current: </span> messages
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section><!--end breadcrumbs-->
+
+<div class="row">
+    <!-- left sidebar -->
+    <div class="large-4 columns">
+        <aside class="secBg sidebar">
+            <div class="row">
+                <!-- profile overview -->
+                <div class="large-12 columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>Inbox</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <ul class="menu vertical">
+                                <li ng-class="{'active':Msgs.selectedConvo.id == convo.id}" ng-repeat="convo in Msgs.conversations|orderBy:'-updatedAt'">
+                                    <a ng-click="Msgs.selectConvo(convo)">
+                                        <h6>{{::convo.subject}}</h6>
+                                        <span>{{::convo.recentFirstName}}: {{::convo.body}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End profile overview -->
+            </div>
+        </aside>
+    </div>
+    <!-- end sidebar -->
+    <!-- right side content area -->
+    <div class="large-8 columns profile-inner">
+        <!-- Comments -->
+        <section class="content comments">
+            <div class="row secBg">
+                <div class="large-12 columns">
+                    <div class="main-heading borderBottom">
+                        <div class="row padding-14">
+                            <div class="medium-12 small-12 columns">
+                                <div class="head-title">
+                                    <i class="fa fa-comments"></i>
+                                    <h4>Messages</h4>
+                                    - {{Msgs.selectedConvo.subject}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-box thumb-border" ng-show="Msgs.selectedConvo">
+                        <div class="media-object stack-for-small">
+                            <div class="media-object-section comment-img text-center">
+                                <div class="comment-box-img">
+                                    <img ng-src="{{::AppData.UserData.avatar}}" alt="comment">
+                                </div>
+                                <h6><a href="#">{{::AppData.User.fullName}}</a></h6>
+                            </div>
+                            <div class="media-object-section comment-textarea">
+                                <form ng-submit="Msgs.postReply()">
+                                    <textarea name="commentText" ng-model="Msgs.myReply" my-enter="Msgs.postReply()" placeholder="Send message..."></textarea>
+                                    <input type="submit" name="submit" value="send">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- main comment -->
+                    <div class="main-comment showmore_one">
+                        <div class="media-object stack-for-small" ng-repeat="msg in Msgs.messages.data|orderBy:'-createdAt'">
+                            <div class="media-object-section comment-img text-center">
+                                <div class="comment-box-img">
+                                    <img ng-src="{{::Msgs.messages.relatedObjects.users[msg.from].avatar || './assets/img/avatar-1.png'}}" alt="comment">
+                                </div>
+                            </div>
+                            <div class="media-object-section comment-desc">
+                                <div class="comment-title">
+                                    <span class="name">
+                                        <a href="#">{{::Msgs.messages.relatedObjects.users[msg.from].firstName+' '+Msgs.messages.relatedObjects.users[msg.from].lastName}}</a> Said:
+                                    </span>
+                                    <span class="time float-right">
+                                        <i class="fa fa-clock-o"></i>
+                                        <abbr title="{{::msg.createdAt|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::msg.createdAt"></abbr>
+                                    </span>
+                                </div>
+                                <div class="comment-text">
+                                    <p ng-bind="::msg.body"></p>
+                                </div>
+                        </div>
+
+                    </div>
+                    <!-- End main comment -->
+
+                </div>
+            </div>
+        </section>
+        <!-- End Comments -->
+    </div>
+    <!-- end left side content area -->
+</div>

@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: IndieWise
+        psr4_prefix: IndieWise
+        src_path: app

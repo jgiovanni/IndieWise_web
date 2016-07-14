@@ -1,0 +1,947 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="http://mightyslider.com/assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="http://mightyslider.com/assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    	<![endif]-->
+	</head>
+	<body data-spy="scroll" data-target=".navbar" data-offset='64'>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+	<!--start navigation-->
+	  <div class="navbar navbar-fixed-top navbar-default" id="navigation">
+        <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+		  <a href="#intro" class="brand"><img src="assets/img/logo.png" data-at2x="assets/img/logo@2x.png" width="149" height="41" alt="mightySlider"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav pull-right">
+			<li><a href="#intro">Home</a></li>
+			<li><a href="#examples-top">Examples</a></li>
+			<li><a href="#testimonial-top">Purchase</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#become-developer-top">Become a mightySlider Developer</a></li>
+					<li><a href="#affilates-top">Become an affiliate</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+				  <li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+				  <li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+				  <li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+				  <li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+				</ul>
+			</li>
+          </ul>
+        </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div>
+
+		<!--[if lt IE 9]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser.<br />Please <u><a href="http://browsehappy.com/">upgrade your browser</a></u> to improve your experience.</p>
+		<![endif]-->
+		<section id="intro">
+			<div id="intro_slider" class="mightySlider mightyslider_modern_skin">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide slide_1 present_mightyslider" data-mightyslider="pauseTime: 16500, skin: 'black'">
+							<div class="scaler centralize">
+								<img class="mSCaption centralize transparent logo" data-mightyslider="loop: true, startAtOnRepeat: 1, dontDelayOnRepeat: true" data-msanimation="{ speed: 500, style: { opacity: 1 } }, { delay: 12000, speed: 1500, easing: 'easeInExpo', style: { scale: 1.1 } }, { speed: 1500, easing: 'easeOutExpo', style: { scale: 1 } }" src="assets/img/mightyslider_logo.svg" data-no-retina />
+								<h2 class="mSCaption transparent headers" data-msanimation="{ style: { scale: 0 } }, { delay: 1000, speed: 400, easing: SlowMo.ease.config(0.25, 0.9, true), style: { scale: 1, opacity: 1 } }, { speed: 1500, easing: 'linear', style: { scale: 1.1 } }, { speed: 300, easing: SlowMo.ease.config(0.25, 0.9), style: { scale: 2, opacity: 0 } }">Multipurpose slider</h2>
+								<h2 class="mSCaption transparent headers" data-msanimation="{ style: { scale: 0 } }, { delay: 3200, speed: 400, easing: SlowMo.ease.config(0.25, 0.9, true), style: { scale: 1, opacity: 1 } }, { speed: 1500, easing: 'linear', style: { scale: 1.1 } }, { speed: 300, easing: SlowMo.ease.config(0.25, 0.9), style: { scale: 2, opacity: 0 } }">for everyone</h2>
+								<h2 class="mSCaption transparent headers" data-msanimation="{ style: { scale: 0 } }, { delay: 5400, speed: 400, easing: SlowMo.ease.config(0.25, 0.9, true), style: { scale: 1, opacity: 1 } }, { speed: 1500, easing: 'linear', style: { scale: 1.1 } }, { speed: 300, easing: SlowMo.ease.config(0.25, 0.9), style: { scale: 2, opacity: 0 } }">including designers and developers.</h2>
+								<h2 class="mSCaption transparent headers" data-msanimation="{ style: { scale: 0 } }, { delay: 7600, speed: 400, easing: SlowMo.ease.config(0.25, 0.9, true), style: { scale: 1, opacity: 1 } }, { speed: 1500, easing: 'linear', style: { scale: 1.1 } }, { speed: 300, easing: SlowMo.ease.config(0.25, 0.9), style: { scale: 2, opacity: 0 } }">It's easy to customize</h2>
+								<h2 class="mSCaption transparent headers" data-msanimation="{ style: { scale: 0 } }, { delay: 9800, speed: 400, easing: SlowMo.ease.config(0.25, 0.9, true), style: { scale: 1, opacity: 1 } }, { speed: 1500, easing: 'linear', style: { scale: 1.1 } }, { speed: 300, easing: SlowMo.ease.config(0.25, 0.9), style: { scale: 2, opacity: 0 } }">to build an awesome slider.</h2>
+								<h2 class="mSCaption transparent headers" data-mightyslider="loop: true, startAtOnRepeat: 2" data-msanimation="{ style: { scale: 0 } }, { delay: 12000, speed: 400, easing: SlowMo.ease.config(0.25, 0.9, true), style: { scale: 1, opacity: 1 } }, { speed: 1500, easing: 'easeInExpo', style: { scale: 1.1 } }, { speed: 1500, easing: 'easeOutExpo', style: { scale: 1 } }">It's MIGHTYSLIDER!</h2>
+							</div>
+						</div>
+						<div class="slide slide_2 layers_presentation" data-mightyslider="pauseTime: 40000, cover: 'assets/img/pattern.svg'">
+							<div class="scaler centralize preserve3d scaler1">
+								<div class="mSCaption centralize transparent first" data-msanimation="{ style: { transformOrigin: '50% 0% 0px', rotationX: -99 } }, { speed: 1500, easing: 'easeOutElastic', style: { rotationX: 0, opacity: 1 } }, { style: { transformOrigin: '50% 50%' } }, { delay: 300, speed: 1800, easing: 'easeInOutExpo', style: { rotationX: 720, marginTop: '-40%' } }, { delay: 2000, speed: 1500, style: { opacity: 0 } }">iProDev
+									<div class="relative">
+										<div class="mSCaption transparent layer1" data-msanimation="{ delay: 3600, speed: 1000, style: { opacity: 1 } }">presents</div>
+									</div>
+								</div>
+							</div>
+							<div class="scaler centralize preserve3d scaler2">
+								<div class="mSCaption centralize transparent second" data-msanimation="{ style: { skewX: 45 } }, { delay: 5000, speed: 1400, easing: 'easeOutExpo', style: { skewX: 0, opacity: 1, marginLeft: 0 } }, { style: { transformOrigin: '50% 50%' } }, { delay: 3500, speed: 1000, style: { marginLeft: '-40%', rotationY: -35, opacity: 0 } }, { style: { rotationY: 0 } }">
+									<div class="relative">
+										<div class="mSCaption transparent layer1" data-msanimation="{ style: { skewX: -45 } }, { delay: 6000, speed: 1400, easing: 'easeOutExpo', style: { skewX: 0, opacity: 1, marginRight: 0 } }">Accelerated</div>
+										<div class="mSCaption transparent layer2" data-msanimation="{ style: { scale: 3 } }, { delay: 6400, speed: 1400, easing: 'easeOutExpo', style: { scale: 1, opacity: 1 } }">&amp;</div>
+										<div class="preserve3d">
+											<div class="mSCaption transparent layer3" data-msanimation="{ style: { transformOrigin: '50% 0%', rotationX: 45 } }, { delay: 6800, speed: 1000, style: { rotationX: 0, opacity: 1, marginTop: 0 } }">super smooth</div>
+											<div class="mSCaption transparent layer4" data-msanimation="{ style: { transformOrigin: '50% 0%', rotationX: 45 } }, { delay: 7200, speed: 1000, style: { rotationX: 0, opacity: 1, marginTop: 0 } }">transitions</div>
+										</div>
+									</div>
+									Hardware
+								</div>
+							</div>
+							<div class="scaler centralize scaler3">
+								<div class="mSCaption centralize transparent third" data-msanimation="{ style: { skewX: -50 } }, { delay: 11900, speed: 750, easing: 'easeOutBack', style: { skewX: 0, opacity: 1, marginLeft: 0 } }, { delay: 15500, speed: 750, easing: 'easeInBack', style: { skewX: 50, opacity: 0, marginLeft: '13%' } }">
+									<div class="relative">
+										<div class="mSCaption centralizeX layer1" data-msanimation="{ style: { scrambleText: { text: '' } } }, { delay: 12650, speed: 600, easing: 'linear', style: { scrambleText: { text: 'Like never before!', chars: ' ' } } }, { delay: 1000, speed: 600, easing: 'linear', style: { scrambleText: { text: 'A Revolution', chars: ' ' } } }, { delay: 1500, speed: 600, easing: 'linear', style: { scrambleText: { text: 'in animating layers.', chars: ' ' } } }, { delay: 2000, speed: 1000, easing: 'linear', style: { scrambleText: { text: 'Almost everything possible!', chars: ' ' } } }, { delay: 2000, speed: 1000, easing: 'linear', style: { scrambleText: { text: 'Animate based on Keyframes', chars: ' ' } } }, { delay: 2000, speed: 1000, easing: 'linear', style: { scrambleText: { text: 'Control your every movement', chars: ' ' } } }"></div>
+									</div>
+									<span>Animate Layers</span>
+								</div>
+							</div>
+							<div class="scaler centralize scaler4">
+								<div class="mSCaption centralize transparent fourth" data-msanimation="{ delay: 29400, speed: 1400, easing: 'easeOutExpo', style: { opacity: 1, marginTop: 0 } }">
+									<span><em class="mSCaption" data-mightyslider="loop: true, dontDelayOnRepeat: true" data-msanimation="{ delay: 30800, speed: 1000, easing: 'linear', style: { textShadow: '1px 1px 0 rgba(0, 0, 0, 0.4)', color: '#FFF' } }, { speed: 1000, easing: 'linear', style: { textShadow: '1px 1px 0 rgba(255, 255, 255, 0.4)', color: '#000' } }">&#8734;</em>transition effects</span>
+									<div class="relative">
+										<div class="mSCaption transparent centralizeX layer1" data-msanimation="{ style: { skewX: 50 } }, { delay: 30100, speed: 2000, easing: 'easeOutElastic', style: { skewX: 0, opacity: 1, marginLeft: 0 } }">
+											You can easily add image, html formatted texts and video layers over each slide and each layer accepts unique animation parameters like styles, duration, delay, repeat, easing, 2D & 3D transforms, etc.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide slide_3 responsive_presentation" data-mightyslider="pauseTime: 20000, cover: 'assets/img/pattern_3.svg'">
+							<div class="scaler centralize scaler1">
+								<div class="mSCaption centralize first">
+									<div class="relative preserve3d1000">
+										<div class="mSCaption transparent origami bottomrow layer1" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationX: 0, rotationY: 90 } }, { delay: 0, speed: 400, style: { rotationY: 0, opacity: 1 } }, { style: { transformOrigin: '50% 50%' } }, { delay: 9400, speed: 800, style: { rotationY: 90, opacity: 0 } }"></div>
+										<div class="mSCaption transparent origami bottomrow layer2" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationX: 0, rotationY: 90 } }, { delay: 400, speed: 400, style: { rotationY: 0, opacity: 1 } }, { style: { transformOrigin: '50% 50%' } }, { delay: 9200, speed: 800, style: { rotationX: 90, opacity: 0 } }"></div>
+										<div class="mSCaption transparent origami toprow layer1" data-msanimation="{ style: { transformOrigin: '50% 100%', rotationX: 90, rotationY: 0 } }, { delay: 800, speed: 400, style: { rotationX: 0, opacity: 1 } }, { style: { transformOrigin: '50% 50%' } }, { delay: 8800, speed: 800, style: { rotationY: 90, opacity: 0 } }"></div>
+										<div class="mSCaption transparent origami toprow layer2" data-msanimation="{ style: { transformOrigin: '100% 100%', rotationX: 0, rotationY: -90 } }, { delay: 1200, speed: 400, style: { rotationY: 0, opacity: 1 } }, { style: { transformOrigin: '50% 50%' } }, { delay: 8600, speed: 800, style: { rotationX: 90, opacity: 0 } }"></div>
+
+										<div class="mSCaption transparent plus" data-msanimation="{ style: { transformOrigin: '100% 100%', rotationX: 90 } }, { delay: 1600, speed: 1600, easing: 'easeOutElastic', style: { rotationX: 0, opacity: 1 } }, { delay: 1500, speed: 1000, easing: 'easeInBack', style: { rotationX: 90, opacity: 0 } }">starter responsive templates</div>
+										<div class="mSCaption transparent morecomming" data-msanimation="{ style: { transformOrigin: '100% 100%', rotationX: 90 } }, { delay: 5700, speed: 1600, easing: 'easeOutElastic', style: { rotationX: 0, opacity: 1 } }, { delay: 1500, speed: 1000, easing: 'easeInBack', style: { rotationX: 90, opacity: 0 } }">and more to come...</div>
+									</div>
+								</div>
+							</div>
+							<div class="scaler centralize scaler2">
+								<div class="mSCaption centralize second">
+									<div class="relative preserve3d1000">
+										<div class="mSCaption transparent layer1" data-mightyslider="cover: 'assets/img/captions/video-cover.jpg', video: 'http://vimeo.com/77122175'" data-msanimation="{ style: { transformOrigin: '50% 100%', rotationX: 45 } }, { delay: 11500, speed: 1000, style: { marginTop: 0, boxShadow: '0 38px 30px -18px rgba(0, 0, 0, 0.9)', rotationX: 0, opacity: 1 } }"></div>
+										<div class="mSCaption transparent layer2" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12500, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">Multimedia Layer<span>Support</span></div>
+										<div class="mSCaption transparent layer3" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12550, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">with custom cover image</div>
+										<div class="mSCaption transparent layer4" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12600, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">HTML5 video with<span>custom player Support</span></div>
+										<div class="mSCaption transparent layer5" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12650, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">YouTube</div>
+										<div class="mSCaption transparent layer6" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12700, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">Vimeo</div>
+										<div class="mSCaption transparent layer7" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12750, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">Flash</div>
+										<div class="mSCaption transparent layer8" data-msanimation="{ style: { transformOrigin: '0% 50%', rotationY: 70 } }, { delay: 12800, speed: 700, easing: 'easeOutBack', style: { rotationY: 0, opacity: 1 } }">iFrame</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide slide_3 parallaxSlide" data-mightyslider="pauseTime: 10000">
+							<div class="scaler centralize">
+								<div class="centralize mountainParent">
+									<div class="mSCaption mountain" data-mightyslider="parallaxLevel: 2, parallaxAxises: {x:1}"></div>
+								</div>
+								<div class="relative preserve3d1000">
+									<div class="mSCaption spn" data-mightyslider="parallaxLevel: 10"><div class="mSCaption" data-mightyslider="loop: true" data-msanimation="{ delay: 100, style: { backgroundPosition: '-952px 0px' } }, { delay: 100, style: { backgroundPosition: '-1428px 0px' } }, { delay: 100, style: { backgroundPosition: '-1904px 0px' } }, { delay: 100, style: { backgroundPosition: '-2380px 0px' } }, { delay: 100, style: { backgroundPosition: '-2856px 0px' } }, { delay: 100, style: { backgroundPosition: '-3332px 0px' } }, { delay: 100, style: { backgroundPosition: '-3808px 0px' } }, { delay: 100, style: { backgroundPosition: '-4284px 0px' } }, { delay: 100, style: { backgroundPosition: '-4760px 0px' } }, { delay: 100, style: { backgroundPosition: '-5236px 0px' } }, { delay: 100, style: { backgroundPosition: '-5712px 0px' } }, { delay: 100, style: { backgroundPosition: '-6188px 0px' } }, { delay: 100, style: { backgroundPosition: '-6664px 0px' } }, { delay: 100, style: { backgroundPosition: '-7140px 0px' } }"></div></div>
+									<div class="mSCaption cloud1" data-mightyslider="parallaxLevel: 7"></div>
+									<div class="mSCaption cloud2" data-mightyslider="parallaxLevel: 6"></div>
+									<div class="mSCaption cloud3" data-mightyslider="parallaxLevel: 5.5"></div>
+
+									<div class="mSCaption transparent layer1" data-msanimation="{ style: { skewX: -50 } }, { speed: 750, easing: 'easeOutBack', style: { skewX: 0, opacity: 1, left: 806 } }">introducing</div>
+									<div class="mSCaption transparent layer2" data-msanimation="{ style: { skewX: 50 } }, { delay: 250, speed: 750, easing: 'easeOutBack', style: { skewX: 0, opacity: 1, left: 660 } }">3D PARALLAX LAYERS</div>
+									<div class="mSCaption transparent layer3" data-msanimation="{ style: { transformOrigin: '0% 50%', x: -50, rotationY: -60 } }, { delay: 500, speed: 1000, style: { x: 0, rotationY: 0, opacity: 1 } }">Fancy parallax effects by</div>
+									<div class="mSCaption transparent layer4" data-msanimation="{ delay: 1550, speed: 1000, style: { opacity: 1 } }">
+										<div class="relative">
+											<img class="mSCaption centralizeX" src="assets/img/captions/cursor-icon.svg" data-no-retina data-mightyslider="loop: true" data-msanimation="{ delay: 250, speed: 1000, style: { marginLeft: -50 } }, { delay: 250, speed: 1000, style: {  marginLeft: 0, marginTop: -30 } }, { delay: 250, speed: 1000, style: { marginLeft: 50, marginTop: 30 } }, { delay: 250, speed: 1000, style: { marginLeft: 0, marginTop: 0 } }" />
+											moving your mouse over this slide
+										</div>
+									</div>
+									<div class="mSCaption transparent layer5" data-msanimation="{ delay: 1550, speed: 1000, style: { opacity: 1 } }">
+										<div class="relative preserve3d">
+											<img class="mSCaption centralizeX" src="assets/img/captions/smartphone-icon.svg" data-no-retina data-mightyslider="loop: true, startAtOnRepeat: 1" data-msanimation="{ style: { transformOrigin: '50% 50%', rotationY: 0, rotationX: 0, rotationZ: 0 } }, { speed: 800, style: { rotationX: -30 } }, { speed: 800, style: { rotationX: 30 } }, , { speed: 800, style: { rotationX: 0 } }, { speed: 800, style: { rotationY: -30 } }, { speed: 800, style: { rotationY: 30 } }, { speed: 800, style: { rotationY: 0 } }, { speed: 800, style: { rotationZ: 20 } }, { speed: 800, style: { rotationZ: 0 } }" />
+											tilting your smart device equipped with a gyroscope
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide slide_4 videoBackground" data-mightyslider="cover: { webm: 'video/HS049.webm', mp4: 'video/HS049.mp4', poster: 'assets/img/HS049.jpg' }">
+							<div class="slide_pattern"></div>
+							<div class="scaler centralize">
+								<div class="relative">
+									<div class="mSCaption centralizeX transparent layer1" data-msanimation="{ style: { y: -50 } }, { speed: 1500, style: { y: 0, opacity: 1 } }">HD VIDEO BACKGROUNDS</div>
+									<div class="mSCaption centralizeX transparent layer2" data-msanimation="{ style: { y: 50 } }, { speed: 1500, style: { y: 0, opacity: 1 } }">Set any custom cover video for each device resolution, orientation, pixel-ratio, etc.</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide slide_5 buy_now" data-mightyslider="cover: 'assets/img/pattern_2.svg', skin: 'black'">
+							<div class="scaler centralize">
+								<div class="ticker_top relative">
+									<div class="mSCaption transparent" data-msanimation="{ style: { x: -200 } }, { speed: 1000, easing: 'easeOutExpo', style: { x: 0, opacity: 1 } }">Mighty</div>
+								</div>
+								<div class="ticker_bottom relative">
+									<div class="mSCaption transparent" data-mightyslider="loop: true, startAtOnRepeat: '00:01.1'" data-msanimation="{ style: { x: 200, y: 0 } }, { delay: 100, speed: 1000, easing: 'easeOutExpo', style: { x: 0, opacity: 1 } }, { delay: 2000, speed: 1000, easing: 'easeOutExpo', style: { y: -212 } }, { delay: 2000, speed: 1000, easing: 'easeOutExpo', style: { y: -452 } }, { delay: 2000, speed: 1000, easing: 'easeOutExpo', style: { y: -692 } }, { delay: 2000, speed: 1000, easing: 'easeOutExpo', style: { y: -932 } }">Slider<span>ideas</span><span>features</span><span>solution</span><span>Slider</span></div>
+								</div>
+								<ul class="call-to-action mSCaption centralizeX transparent" data-msanimation="{ speed: 1000, style: { opacity: 1 } }">
+									<li><a href="#introducing-top">Learn more</a></li>
+									<li><a class="no-border" href="http://codecanyon.net/item/mightyslider-mighty-responsive-slider/5898508?ref=hemn" target="_blank">Purchase now<i></i></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<canvas width="60" height="60" title="Pause"></canvas>
+			<div class="fadeInUp delay animated hidden-phone" id="more">
+				<a href="#introducing-top" class="m-btn a-btn blue big icn-only"><i class="icon-sort-down icon-3x pull-left"></i></a>
+			</div>
+		</section>
+	<!--start introducing header-->
+		<section id="introducing-top">
+	<!--start introducing-desktop header-->
+			<section id="introducing-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="80">
+				<h1 class="header">Introducing</h1>
+				<p class="header">Need reasons to love mightySlider? Look no further.</p>
+			</section>
+	<!--start introducing-mobile header-->
+			<section id="introducing-top-mobile" class="hidden-md hidden-lg">
+				<h1 class="header">Introducing</h1>
+				<p class="header">Need reasons to love mightySlider? Look no further.</p>
+			</section>
+		</section>
+	<!--start introducing-->
+		<section id="introducing">
+			<div class="container">
+				<div class="row divide">
+					<div class="col-md-12">
+						<p class="center"><img src="assets/img/ipadmini_white_angle1.png" data-at2x="assets/img/ipadmini_white_angle1@2x.png" width="901" alt="Responsive, Auto-scale & Auto-resize" /></p>
+					</div>
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Responsive, Auto-scale & Auto-resize</h2>
+						<p class="center">mightySlider is responsive, this means it has a high functionality on wide
+						range of screen sizes in any devices. It can adapt itself to any screen sizes for achieving best
+						viewing case. Plus auto-scale feature to scale height based on width and auto-resize to resize the slider size based on active slide size.</p>
+						<p class="center">mightySlider also gives you an option for set any specific cover image for any device resolution, orientation, pixel-ratio, etc.</p>
+						<br><p class="center"><img src="assets/img/qrcode.png" data-at2x="assets/img/qrcode@2x.png" width="100" height="100" alt="Responsive, Auto-scale & Auto-resize" /></p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row divide">
+					<div class="col-md-5 divide">
+						<h2>Powerful examples & templates</h2>
+						<p class="center">25+ starter templates are avilable that they all are responsive
+						down to mobile and have full source code. All skins shown
+						are included in download package!</p>
+					</div>
+					<div class="col-md-7">
+						<p class="center"><img src="assets/img/browsers.png" data-no-retina width="603" alt="Powerful examples & templates" /></p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row divide">
+					<div class="col-md-12">
+					</div>
+					<div class="col-md-7">
+						<p class="center"><img src="assets/img/video_player.png" data-no-retina width="460" alt="Videos and your custom player" /></p>
+					</div>
+					<div class="col-md-5">
+						<h2>Videos and your custom player</h2>
+						<p>YouTube or Vimeo can be added to any slide. Video will not append
+						into slide and doesn't load heavy iframe until required. Also,
+						there are API and instructions about how to add another
+						video source via HTML5 and fallback to QuickTime.
+
+						You can use your player as default player for video slides also.</p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row divide">
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Performance</h2>
+							<p class="center">In an attempt to achieve the most responsive experience with smoothest animations possible a lot of emphasis is placed on performance.<br><br>
+							<strong>mighty</strong>Slider has a custom high-performance animation rendering based around the <a href="http://www.w3.org/TR/animation-timing/" target="_blank">Animation Timing Interface</a> written directly for its needs. This provides an optimized 60 FPS rendering, and is designed to still accept easing functions from <a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">jQuery Easing Plugin</a>.<br><br>
+							The animation of slides is done by GPU accelerated translate transforms, which rapidly increase the rendering speed in browsers that support it, with absolute positioning fallback for those that don't.<br><br>
+							Helping with minimizing the frequency of frame drops due to inevitable JavaScript garbage collection are code optimizations that lower the garbage generation to a reasonable minimum.<br><br>
+							To provide a super responsive & smooth synchronization when dragging the slider, <strong>mighty</strong>Slider uses a destination based animation function controlled by a synchronization factor instead of a duration based (tweening) animations that are unsuitable for this type of use case, and lead to a choppy, and unpolished experience.<br><br>
+							This is the difference between using <code>jQuery.fn.animate</code> with unoptimized code and <strong>mighty</strong>Slider's custom high-performance animation rendering:</p>
+					</div>
+					<div class="col-md-12">
+						<p class="center"><img src="assets/img/fps_before_after.png" data-at2x="assets/img/fps_before_after@2x.png" width="847" alt="Performance" class="roundedImg" /></p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row divide">
+					<div class="col-md-12">
+						<p class="center"><img src="assets/img/network_time.png" data-no-retina width="699" alt="Super Smart lazy-loading" class="roundedImg" /></p>
+					</div>
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Super Smart lazy-loading</h2>
+						<p class="center">mightySlider gives you three options for cover image and video preloading.
+						Preload all (preload all cover images/videos after initialize), instant initialize (preload cover images/videos in sequence), and loads nearby (loads slides beside current slide).<br />
+						Also you can set any specific cover image for any device resolution, orientation, pixel-ratio, etc.</p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row divide">
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Super Smart viewport activity</h2>
+						<p class="center">mightySlider will just active sliders that are in the viewport and freeze the sliders that are not in the viewport to prevent wasting the memory & CPU and achieve the most responsive experience with smoothest animations possible.</p>
+						<p class="center">So you can use infinite sliders in your pages with no worries.</p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row divide">
+					<div class="col-md-5">
+						<h2>Extensive Documentation</h2>
+						<p>You are not alone out there! We have prepared a complete online documentation which grows
+						over time.<br>We have also gathered the most questionable areas and cover them in depth.</p>
+					</div>
+					<div class="col-md-7">
+						<p class="center"><img src="assets/img/doc-icon.png" data-at2x="assets/img/doc-icon.png" width="256" alt="Extensive Documentation" /></p>
+					</div>
+				</div>
+
+				<div class="divider" id="features"></div>
+				<h1 class="divide" style="margin-bottom: 0;">Features</h1>
+				<h4 class="small" style="margin-top: 0;">Why you need to choose mightySlider?</h4>
+				
+					<div class="row thumbnails">
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Compatibility</h4>
+								<p><strong>mighty</strong>Slider works in every desktop browsers. IEs lower than 9 are not officially supported and fully compatible with Tablet and Mobile devices.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Mobile</h4>
+								<p><strong>mighty</strong>Slider was made to not only look and behave great in the latest desktop browsers (as well as IE8!), but in tablet and smartphone browsers as well.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Performance</h4>
+							<p>In an attempt to achieve the most responsive experience with smoothest animations possible a lot of emphasis is placed on performance.<br><br>
+							<strong>mighty</strong>Slider has a custom high-performance animation rendering based around the <a href="http://www.w3.org/TR/animation-timing/" target="_blank">Animation Timing Interface</a> written directly for its needs. This provides an optimized 60 FPS rendering, and is designed to still accept easing functions from <a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">jQuery Easing Plugin</a>.<br><br>
+							The animation of slides is done by GPU accelerated translate transforms, which rapidly increase the rendering speed in browsers that support it, with absolute positioning fallback for those that don't.<br><br>
+							Helping with minimizing the frequency of frame drops due to inevitable JavaScript garbage collection are code optimizations that lower the garbage generation to a reasonable minimum.<br><br>
+							To provide a super responsive & smooth synchronization when dragging the slider, <strong>mighty</strong>Slider uses a destination based animation function controlled by a synchronization factor instead of a duration based (tweening) animations that are unsuitable for this type of use case, and lead to a choppy, and unpolished experience.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Responsive</h4>
+								<p><strong>mighty</strong>Slider has unique responsive features with Cross-browser and Cross-Devices support, fully compatible with Tablet, Desktop and Mobile. The layout of the components are scaled according to resolution of the device, thus more consistent regardless of the device.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Deep-Linking</h4>
+								<p><strong>mighty</strong>Slider is bookmarkable and also supports deep linking. Makes URL change automatically when you select slides and you can easily link to specific slide with hashtag. IDs are adjustable and SEO-Friendly. Deep linking is also supported with multiple sliders instances on the same page.</p>
+								<p><a href="fullscreen-slider.html" class="btn btn-default">View example &raquo;</a></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Multiple Instances</h4>
+								<p>Multiple instances are allowed on one page and different themes and options can be set without any conflict.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>SEO-friendly</h4>
+								<p>All content is always accessible to search engines and the markup is semantically correct to help you achieve the best possible SEO-friendly results even without JavaScript disabled.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Autoplay Support</h4>
+								<p>Automatically animate through Slides when visitors arrive on your website. You can set interval time of autoplay and optional stop on hover/click (smart autoplay).</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Smart lazy-loading</h4>
+								<p><strong>mighty</strong>Slider loads nearby cover images in background, so users don't need to wait each time and images are available instantly.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Animated Blocks</h4>
+								<p>Sliders can contain blocks of HTML that appear after slide transition. You can define animation frames for captions and animate them as what you wish.</p>
+								<p><a href="blocks-slider.html" class="btn btn-default">View example &raquo;</a></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Native Fullscreen</h4>
+								<p><strong>mighty</strong>Slider supports fullscreen mode that make whole slider fullscreen.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Video support</h4>
+								<p>YouTube or Vimeo can be added to any slide. Video will not append into slide and doesn't load heavy iframe until required. Also, there are API and instructions about how to add another video source via HTML5 and fallback to QuickTime.</p>
+								<p>You can use your player as default player for video slides also.</p>
+								<p><a href="videos-slider.html" class="btn btn-default">View example &raquo;</a></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>500px, Flickr & Instagram Integration</h4>
+								<p>Sometimes you don’t want to upload images manually, you would rather pull them from your favorite image service. <strong>mighty</strong>Slider integrates with 500px, Flickr & Instagram so you can automatically pull your latest mug shots from Instagram, get images from Flickr tagged “beach”, etc. You get the idea.</p>
+								<p><a href="mixed-slider.html" class="btn btn-default">View example &raquo;</a></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>User-friendly</h4>
+								<p>Doesn't block vertical scrolling, doesn't block default browser zoom, works if javascript is disabled, allows navigating as fast as user wants (doesn't block navigation), has options to disable mouse/touch drag for slides and thumbnails.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Auto image scaling</h4>
+								<p>Covers can "fit into area", "fill the area", "centralize" or "stretch into area".</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Documentation</h4>
+								<p>Fully documented and step-by-step guide provided to help you get up and running with <strong>mighty</strong>Slider.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Unminified Source</h4>
+								<p>You get unminified version of JS code and nicely organized CSS files, so feel free to modify them to fit your needs.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<h4>Lifetime Support and Updates</h4>
+								<p>Free lifetime support to help you if something went wrong. Provided by direct script developers, nothing is outsourced.<br><br>
+								<strong>mighty</strong>Slider is now in its 1st version, and each of these updates has been free. <strong>mighty</strong>Slider is always under development - new templates, features coming soon. </p>
+							</div>
+						</div>
+					</div>
+			</div>
+		</section>
+	<!--start examples header-->
+		<section id="examples-top">
+	<!--start examples-desktop header-->
+			<section id="examples-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="20">
+				<div class="inner">
+					<i id="black"></i>
+					<i id="white"></i>
+				</div>
+				<h1 class="header">Examples</h1>
+				<p class="header">Want to see that power in action?</p>
+			</section>
+	<!--start examples-mobile header-->
+			<section id="examples-top-mobile" class="hidden-md hidden-lg">
+				<div class="inner">
+					<i id="black"></i>
+					<i id="white"></i>
+				</div>
+				<h1 class="header">Examples</h1>
+				<p class="header">Want to see that power in action?</p>
+			</section>
+		</section>
+	<!--start examples-->
+	<!--start team-->
+		<section id="examples">
+			<div class="container">
+				<div class="divide">
+					<div>
+						<h2 class="slim center">What mightySlider can do?</h2>
+						<p class="center">With the help of a powerful API (and detailed docs), mightySlider‘s functionality can be completely customized.
+						All skins and templates shown here are included in download package with full source code!</p>
+					</div>
+					<div class="divide"></div>
+					<div class="row thumbnails">
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="tabs.html">
+									<div><img src="assets/img/examples/tabs.png" data-at2x="assets/img/examples/tabs@2x.png" alt="Tabs"></div>
+									<h4>Tabs</h4>
+								</a>
+								<p>Responsive and user-friendly horizontal and vertical tabs with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="carousels.html">
+									<div><img src="assets/img/examples/carousels.jpg" data-at2x="assets/img/examples/carousels@2x.jpg" alt="Carousels"></div>
+									<h4>Carousels</h4>
+								</a>
+								<p>Responsive and user-friendly carousels with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="videos-slider.html">
+									<div><img src="assets/img/examples/video_slider.jpg" data-at2x="assets/img/examples/video_slider@2x.jpg" alt="Video Slider"></div>
+									<h4>Video Slider</h4>
+								</a>
+								<p>Responsive and user-friendly video slider that included videos from YouTube, Vimeo and local video file with custom player.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="flickr-slider.html">
+									<div><img src="assets/img/examples/flickr.jpg" data-at2x="assets/img/examples/flickr@2x.jpg" alt="Flickr Gallery"></div>
+									<h4>Flickr Gallery</h4>
+								</a>
+								<p>Responsive and user-friendly flickr gallery that included images from flickr.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="parallax-slider.html">
+									<div><img src="assets/img/examples/parallax-slider.jpg" data-at2x="assets/img/examples/parallax-slider@2x.jpg" alt="Parallax Slider"></div>
+									<h4>Parallax Slider</h4>
+								</a>
+								<p>Responsive and user-friendly parallax slider with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="animate-slider.html">
+									<div><img src="assets/img/examples/animate-slider.jpg" data-at2x="assets/img/examples/animate-slider@2x.jpg" alt="Slider with Fancy Transitions"></div>
+									<h4>Slider with Fancy Transitions</h4>
+								</a>
+								<p>Responsive and user-friendly slider with fancy transition effects.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="fullscreen-slider-with-kenburns-effect.html">
+									<div><img src="assets/img/examples/kenburns-slider.jpg" data-at2x="assets/img/examples/kenburns-slider@2x.jpg" alt="Fullscreen Slider with Ken Burns Effect"></div>
+									<h4>Fullscreen Slider with Ken Burns Effect</h4>
+								</a>
+								<p>Responsive and user-friendly fullscreen slider with Ken Burns effect.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="vertical-slider.html">
+									<div><img src="assets/img/examples/vertical_slider.jpg" data-at2x="assets/img/examples/vertical_slider@2x.jpg" alt="Vertical Slider"></div>
+									<h4>Vertical Slider</h4>
+								</a>
+								<p>Responsive and user-friendly vertical slider with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="portfolio-slider.html">
+									<div><img src="assets/img/examples/portfolio_slider.jpg" data-at2x="assets/img/examples/portfolio_slider@2x.jpg" alt="Portfolio Slider"></div>
+									<h4>Portfolio Slider</h4>
+								</a>
+								<p>Responsive and user-friendly portfolio slider that creates a slider under thumbnails.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="fullwidth-slider.html">
+									<div><img src="assets/img/examples/fullwidth_slider.jpg" data-at2x="assets/img/examples/fullwidth_slider@2x.jpg" alt="Fullwidth Slider"></div>
+									<h4>Fullwidth Slider</h4>
+								</a>
+								<p>Responsive and user-friendly fullwidth slider with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="panorama-slider.html">
+									<div><img src="assets/img/examples/panorama_slider.jpg" data-at2x="assets/img/examples/panorama_slider@2x.jpg" alt="Panorama Slider"></div>
+									<h4>Panorama Slider</h4>
+								</a>
+								<p>Responsive and user-friendly panorama slider with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="lightbox-slider.html">
+									<div><img src="assets/img/examples/lightbox_slider.jpg" data-at2x="assets/img/examples/lightbox_slider@2x.jpg" alt="Slider in Lightbox"></div>
+									<h4>Slider in Lightbox</h4>
+								</a>
+								<p>Responsive and user-friendly lightbox slider with mightySlider capabilities.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="rotating-image-slider.html">
+									<div><img src="assets/img/examples/rotating_image_slider.jpg" data-at2x="assets/img/examples/rotating_image_slider@2x.jpg" alt="Rotating Image Slider"></div>
+									<h4>Rotating Image Slider</h4>
+								</a>
+								<p>Responsive and user-friendly rotating image slider that use 4 slider and navigate them via API.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="apple-style-slider.html">
+									<div><img src="assets/img/examples/apple_slider.jpg" data-at2x="assets/img/examples/apple_slider@2x.jpg" alt="Apple Slider Template"></div>
+									<h4>Apple Slider Template</h4>
+								</a>
+								<p>Responsive and user-friendly Apple style slider that stretched to full width of wrapper.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="nearby-slider.html">
+									<div><img src="assets/img/examples/nearby.jpg" data-at2x="assets/img/examples/nearby@2x.jpg" alt="Gallery with Visible Nearby Slides"></div>
+									<h4>Gallery with Visible Nearby Slides</h4>
+								</a>
+								<p>Responsive and user-friendly slider with visible nearby slides.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="facebook-paper-style-slider.html">
+									<div><img src="assets/img/examples/facebook_paper_style.jpg" data-at2x="assets/img/examples/facebook_paper_style@2x.jpg" alt="Facebook Paper Style Slider Template"></div>
+									<h4>Facebook Paper Style Slider Template</h4>
+								</a>
+								<p>Responsive and user-friendly Facebook Paper style slider template.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="fullscreen-slider-2.html">
+									<div><img src="assets/img/examples/fullscreen2.jpg" data-at2x="assets/img/examples/fullscreen2@2x.jpg" alt="Fullscreen Layer Slider"></div>
+									<h4>Fullscreen Layer Slider</h4>
+								</a>
+								<p>Responsive and user-friendly fullscreen layer slider that all just created with animated layers.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="grid-slider.html">
+									<div><img src="assets/img/examples/grid_slider.jpg" data-at2x="assets/img/examples/grid_slider@2x.jpg" alt="Grid Slider"></div>
+									<h4>Grid Slider</h4>
+								</a>
+								<p>Responsive and user-friendly grid slider which every grid item has its own custom slider.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="partial-view-slider.html">
+									<div><img src="assets/img/examples/partial_view_slider.jpg" data-at2x="assets/img/examples/partial_view_slider@2x.jpg" alt="Partial View Slider 1"></div>
+									<h4>Partial View Slider 1</h4>
+								</a>
+								<p>Responsive and user-friendly partial view slider. This template shows one complete slide plus two partial of nearby slides at a same time which it increases the interest of seeing other slides by the visitors.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="partial-view-slider2.html">
+									<div><img src="assets/img/examples/partial_view_slider2.jpg" data-at2x="assets/img/examples/partial_view_slider2@2x.jpg" alt="Partial View Slider 2"></div>
+									<h4>Partial View Slider 2</h4>
+								</a>
+								<p>Responsive and user-friendly partial view slider. This template shows one complete slide plus two partial of nearby slides at a same time which it increases the interest of seeing other slides by the visitors.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="partial-view-slider3.html">
+									<div><img src="assets/img/examples/partial_view_slider3.jpg" data-at2x="assets/img/examples/partial_view_slider3@2x.jpg" alt="Partial View Slider 3"></div>
+									<h4>Partial View Slider 3</h4>
+								</a>
+								<p>Responsive and user-friendly partial view slider. This template shows one complete slide plus four partial of nearby slides at a same time which it increases the interest of seeing other slides by the visitors.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="fullscreen-slider.html">
+									<div><img src="assets/img/examples/fullscreen.jpg" data-at2x="assets/img/examples/fullscreen@2x.jpg" alt="Fullscreen Slider with Deep-linking"></div>
+									<h4>Fullscreen Slider with Deep-linking</h4>
+								</a>
+								<p>Responsive and user-friendly fullscreen slider with deep-linking feature.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="mixed-slider.html">
+									<div><img src="assets/img/examples/mixed.jpg" data-at2x="assets/img/examples/mixed@2x.jpg" alt="Mixed 500px, Flickr, Instagram Slider"></div>
+									<h4>Mixed 500px, Flickr, Instagram Slider</h4>
+								</a>
+								<p>Responsive and user-friendly mixed slider that included images from 500px, Flickr and Instagram.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="thumbnail">
+								<a href="blocks-slider.html">
+									<div><img src="assets/img/examples/blocks.jpg" data-at2x="assets/img/examples/blocks@2x.jpg" alt="Slider with Animated Blocks"></div>
+									<h4>Slider with Animated Blocks</h4>
+								</a>
+								<p>Responsive and user-friendly slider with powerful animated blocks.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	<!--start testimonial header-->
+		<section id="testimonial-top">
+	<!--start testimonial-desktop header-->
+			<section id="testimonial-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.65" data-stellar-vertical-offset="350">
+				<div class="section_inner">
+					<h2 class="header">Testimonial</h2>
+					<div id="carousel_testimonial" class="carousel slide carousel-fade">
+						<div class="carousel-inner">
+							<div class="active item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p><strong>“mightySlider”</strong> Is just the perfect name for this absolutely Mighty Slider. it served all my needs and it was every thing I wanted of a slider. Thank you for your great work!</p>
+									<p>- <strong>ViQiDesigns</strong>&nbsp;&nbsp;&nbsp;&nbsp;<small>Rated 5 Star</small></p>
+								</div>
+							</div>
+							<div class="inactive item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p>Wow, this is just amazing, it’s one of those plugins that make people lives much easier. I love it.</p>
+									<p>- <strong>CapitalH</strong>&nbsp;&nbsp;&nbsp;&nbsp;<small>Rated 5 Star</small></p>
+								</div>
+							</div>
+							<div class="inactive item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p>Your slider is really mighty, I will buy extended version when my next project released</p>
+									<p>- <strong>huykhong</strong>&nbsp;&nbsp;&nbsp;&nbsp;<small>Rated 5 Star</small></p>
+								</div>
+							</div>
+							<div class="inactive item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p>Magnificent slider! Thank you very much for your work!</p>
+									<p>- <strong>vilis</strong>&nbsp;&nbsp;&nbsp;&nbsp;<small>Rated 5 Star</small></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button class="carousel-control left m-btn icn-only" href="#carousel_testimonial" data-slide="prev"><i class="icon-chevron-left"></i></button>
+					<button class="carousel-control right m-btn icn-only" href="#carousel_testimonial" data-slide="next"><i class="icon-chevron-right"></i></button>
+				</div>
+			</section>
+	<!--start testimonial-mobile header-->
+			<section id="testimonial-top-mobile" class="hidden-md hidden-lg">
+				<div class="section_inner">
+					<h2 class="header">Testimonial</h2>
+					<div id="carousel_testimonial_mini" class="carousel slide carousel-fade">
+						<div class="carousel-inner">
+							<div class="active item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p><strong>“mightySlider”</strong> Is just the perfect name for this absolutely Mighty Slider. it served all my needs and it was every thing I wanted of a slider. Thank you for your great work!</p>
+									<p>- <strong>ViQiDesigns</strong></p>
+								</div>
+							</div>
+							<div class="inactive item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p>Wow, this is just amazing, it’s one of those plugins that make people lives much easier. I love it.</p>
+									<p>- <strong>CapitalH</strong></p>
+								</div>
+							</div>
+							<div class="inactive item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p>Your slider is really mighty, I will buy extended version when my next project released</p>
+									<p>- <strong>huykhong</strong></p>
+								</div>
+							</div>
+							<div class="inactive item">
+								<div class="quote">
+									<i class="icon-quote-left"></i>
+									<p>Magnificent slider! Thank you very much for your work!</p>
+									<p>- <strong>vilis</strong></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button class="carousel-control left m-btn icn-only" href="#carousel_testimonial_mini" data-slide="prev"><i class="icon-chevron-left"></i></button>
+					<button class="carousel-control right m-btn icn-only" href="#carousel_testimonial_mini" data-slide="next"><i class="icon-chevron-right"></i></button>
+				</div>
+			</section>
+		</section>
+	<!--start purchase-->
+		<section id="purchase">
+			<div class="row">
+				<a href="http://codecanyon.net/item/mightyslider-mighty-responsive-slider/5898508?ref=hemn" class="download"><i class="icon-shopping-cart"></i>&nbsp;&nbsp;&nbsp;Purchase</a>
+				<a href="documentation.html" class="documentation"><i class="icon-book"></i>&nbsp;&nbsp;&nbsp;documentation</a>
+				<a href="http://goo.gl/REi0u2" class="discus"><i class="icon-comments"></i>&nbsp;&nbsp;&nbsp;Discussion</a>
+			</div>
+		</section>
+	<!--start become-developer header-->
+		<section id="become-developer-top">
+	<!--start become-developer-desktop header-->
+			<section id="become-developer-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="500">
+				<h1 class="header">Become a Developer</h1>
+				<p class="header">Become Developer of plugins and templates for mightySlider</p>
+			</section>
+	<!--start become-developer-mobile header-->
+			<section id="become-developer-top-mobile" class="hidden-md hidden-lg">
+				<h1 class="header">Become an Developer</h1>
+				<p class="header">Become Developer of plugins and templates for mightySlider<</p>
+			</section>
+		</section>
+	<!--start make_money_1-->
+		<section id="make_money_1">
+			<div class="container">
+				<div class="row divide">
+					<div class="col-md-8 col-md-offset-2">
+						<div class="content">
+							<p>Dear fellow developer,</p>
+							<p>mightySlider offers powerful API which allows 3rd party developers implement their own unique plugins/templates to sell them
+							on CodeCanyon as mightySlider compatible plugins/templates. By doing so, we encourage groups of developers and individuals take part in growth of mightySlider and its related market.</p>
+							
+							<p>Our team at <a title="mightySlider documentation" href="http://iprodev.com/" target="_blank">iProDev</a> are willing to provide free consulting and suggestions for developers who choose to start their own business with mightySlider
+							Plugins/Templates on CodeCanyon. Moreover, we promise to do our best for promotion of your plugins/templates through our communication channels in order to enhance your business and rise sales.</p>
+
+							<p>We encourage you to check our <a title="mightySlider documentation" href="http://mightyslider.com/documentation.html" target="_blank">documentation</a> and
+							see yourself how you can make mightySlider ready plugins/templates.
+							You can also check this <a title="Simple mightySlider plugin/template example" href="extend-mightyslider-plugin-example.zip" target="_blank">simple example/starter</a> plugin which can significantly
+							reduce time spent on development of plugins/templates and give you valuable insight on how to structure your plugin/template.</p>
+
+							<p>Feel free to get in touch with us at any time in case you want get more insight or have already implemented plugin/template. We would love to chat and assist you in further process towards common goal.</p>
+
+							<p>Thanks,<br>Hemn.</p>
+
+							<h4 class="small" style="margin-bottom: 10px;">A Simple starter plugin Ready to Develop</h4>
+							<p class="center"><a href="extend-mightyslider-plugin-example.zip" class="btn btn-primary btn-lg">Download simple example/starter plugin <i>(HTML/JS/CSS) 10KB</i></a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	<!--start affilates header-->
+		<section id="affilates-top">
+	<!--start affilates-desktop header-->
+			<section id="affilates-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="100">
+				<h1 class="header">Become an affiliate</h1>
+				<p class="header">Join an affiliate network that pays out more than $2 million dollars per year</p>
+			</section>
+	<!--start affilates-mobile header-->
+			<section id="affilates-top-mobile" class="hidden-md hidden-lg">
+				<h1 class="header">Become an affiliate</h1>
+				<p class="header">Join an affiliate network that pays out more than $2 million dollars per year<</p>
+			</section>
+		</section>
+	<!--start make_money_2-->
+		<section id="make_money_2">
+			<div class="container">
+				<div class="row divide">
+					<div class="col-md-8 col-md-offset-2">
+						<h2 class="center">How the affiliate program works</h2>
+						<p class="center">All you need is an <strong><a href="https://account.envato.com/sign_up?ref=hemn" target="_blank">envato account</a></strong>! Send traffic to mightySlider while adding your account username to the end of the URL.
+						Replace "hemn" with your own account name in the following link:<br>
+						<a href="http://mightyslider.com/?ref=hemn"><code>http://mightyslider.com/?ref=hemn</code></a></p>
+						<p class="center">When a new user clicks your referral link to mightySlider, signs up for an
+						account and purchase the mightySlider (or deposits money),
+						you will receive 30% of that person's first cash deposit or purchase price.
+						If they deposit $20 into their account, you get $6. Below you can see what is possible with just a handful of referal links!</p>
+						<p class="center"><img src="assets/img/earnings.png" data-at2x="assets/img/earnings.png" width="641" class="roundedImg" /></p>
+						<div class="divider divide"></div>
+						<h2>Referral banners</h2>
+						<h4 class="small" style="margin-bottom: 10px;">Common Ad Banner Sizes Ready to Use</h4>
+						<p class="center"><a href="referral_banners.zip" class="btn btn-primary btn-lg">Download referral banners <i>(PSD & PNG) 215KB</i></a></p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="#intro" class="brand"><img src="assets/img/logo.png" data-at2x="assets/img/logo@2x.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+		<!--latest jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mobile.just-touch.js"></script>
+		<script src="assets/js/jquery.requestAnimationFrame.js"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.isotope.min.js"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.stellar.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+	</body>
+</html>

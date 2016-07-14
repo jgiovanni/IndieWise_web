@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Portfolio Slider / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+		<link href="assets/js/ilightbox/css/ilightbox.css" rel="stylesheet" />
+	</head>
+
+  <body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+	<!--start introducing header-->
+		<section id="introducing-top">
+	<!--start header-top-desktop header-->
+			<section id="header-top-desktop" class="visible-md visible-lg">
+				<h1 class="header">Portfolio Slider</h1>
+			</section>
+	<!--start header-top-mobile header-->
+			<section id="header-top-mobile" class="hidden-md hidden-lg">
+				<h1 class="header">Portfolio Slider</h1>
+			</section>
+		</section>
+
+
+	<style>
+		div.portfolio {
+			text-align: left;
+			margin-top: 50px;
+		}
+		ul.items {
+			list-style: none;
+			padding: 0;
+			margin: 0 auto;
+			width: 1484px;
+		}
+		ul.items > li {
+			display: inline-block;
+			width: 371px;
+			height: 268px;
+			border-left: 1px solid #FFF;
+			border-top: 1px solid #FFF;
+			margin: 0;
+
+			-webkit-transition: height 350ms ease;
+				-ms-transition: height 350ms ease;
+				 -o-transition: height 350ms ease;
+					transition: height 350ms ease;
+		}
+		ul.items > li > a {
+			position: relative;
+			top: 0;
+			left: 0;
+			display: block;
+			width: 100%;
+			cursor: pointer;
+			color: #DDD;
+			text-decoration: none;
+		}
+		ul.items > li a .details {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			display: block;
+			padding: 10px 15px;
+			padding-top: 20px;
+			background: url('assets/img/gradient.png') repeat-x left top;
+			background-size: 100% 105%;
+
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+		}
+		ul.items > li a .details span {
+			display: block;
+			float: left;
+			font-weight: 300;
+			font-size: 13px;
+			text-align: left;
+			text-shadow: 1px 1px 0 #000;
+		}
+		ul.items > li a .details span.title {
+			float: none;
+			font-size: 22px;
+			font-weight: 400;
+			margin-bottom: 5px;
+			color: #FFF;
+		}
+		ul.items > li a .details span.price {
+			float: right;
+		}
+		ul.items > li a .loader {
+			display: none;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: #000 url(assets/img/loader.gif) no-repeat 50%;
+			opacity: 0.6;
+		}
+		ul.items > li.loader a .loader {
+			display: block;
+		}
+
+		ul.items > li.expanded > a:after {
+			top: auto;
+			bottom: -1px;
+			border: solid transparent;
+			content: '';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-bottom-color: #000;
+			border-width: 15px;
+			left: 50%;
+			margin: -29px 0 0 -15px;
+		}
+		ul.items > li .expander {
+			position: absolute;
+			width: 100%;
+			height: 0;
+			background-color: #000;
+			background-repeat: no-repeat;
+			background-position: 50%;
+			background-size: cover;
+			top: auto;
+			left: 0;
+			margin-top: 1px;
+			overflow: hidden;
+
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+
+			-webkit-transition: height 350ms ease;
+				-ms-transition: height 350ms ease;
+				 -o-transition: height 350ms ease;
+					transition: height 350ms ease;
+		}
+		ul.items > li .expander .expander_inner {
+			position: relative;
+			background: url('assets/img/matte.png');
+			background: rgba(0,0,0,.7);
+			padding: 0;
+			height: 100%;
+
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+		}
+		ul.items > li .expander .expander_inner:before,
+		ul.items > li .expander .expander_inner:after {
+			content: '';
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 20%;
+			left: 0;
+			pointer-events: none;
+			z-index: 90;
+		}
+		ul.items > li .expander .expander_inner:after {
+			background-image: -o-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* Opera 11.10+ */
+			background-image: -moz-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* FF3.6+ */
+			background-image: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgba(0,0,0, 0)), color-stop(0.1, rgba(0,0,0, 1))); /* Chrome,Safari4+ */
+			background-image: -webkit-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* Chrome10+,Safari5.1+ */
+			background-image: -ms-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* IE10+ */
+			background-image: linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+			bottom: 0;
+		}
+		ul.items > li .expander .expander_inner:before {
+			background-image: -o-linear-gradient(top , rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* Opera 11.10+ */
+			background-image: -moz-linear-gradient(top , rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%);
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgba(0,0,0, 1)), color-stop(1, rgba(0,0,0, 0))); /* Chrome,Safari4+ */
+			background-image: -webkit-linear-gradient(top , rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* Chrome10+,Safari5.1+ */
+			background-image: -ms-linear-gradient(top , rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* IE10+ */
+			background-image: linear-gradient(top , rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+
+			top: 0;
+		}
+		ul.items > li .expander .expander_inner a.close {
+			position: absolute;
+			background: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMTEvMTMvMTKswDp5AAAAd0lEQVQ4jb2VQRLAIAgDE///Z3qqY1FAhalHMCsCIkVEAIAkkVgvp2lDBgYAnAyHkWotLccNrEd4A7X2TqIdqLfnWBAdaF5rJdyJfjtPH5GT37CaGhoVq3nOm/XflUuLUto2pY1d+vRKh0Pp+MrAVtDe2JkvYNQ+jVSEEFmOkggAAAAASUVORK5CYII=) no-repeat center center;
+			cursor: pointer;
+			top: 15px;
+			right: 15px;
+			width: 20px;
+			height: 20px;
+			opacity: .2;
+			padding: 7px;
+			z-index: 1002;
+		}
+		ul.items > li .expander .expander_inner a.close:hover {
+			opacity: .5;
+		}
+		ul.items > li .expander .expander_inner .title {
+			position: absolute;
+			left: 15px;
+			top: 25px;
+			font-size: 32px;
+			font-weight: 300;
+			color: #FFF;
+			z-index: 1001;
+		}
+		
+		ul.items > li .expander .expander_inner div.frame {
+			height: 100%;
+			pointer-events: all;
+		}
+		ul.items > li .expander .expander_inner div.frame div.slide_element,
+		ul.items > li .expander .expander_inner div.frame div.slide_element .slide {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		ul.items > li .expander .expander_inner div.frame .mSCover img {
+			max-width: none;
+		}
+		
+		/* Responsive */
+		@media (min-width: 1114px) and (max-width: 1484px) {
+			ul.items {
+				width: 1113px;
+			}
+		}
+		@media (min-width: 782px) and (max-width: 1113px) {
+			ul.items {
+				width: 742px;
+			}
+		}
+		@media (min-width: 0px) and (max-width: 781px) {
+			ul.items {
+				width: 371px;
+			}
+		}
+	</style>
+	<div class="portfolio">
+		<ul class="items">
+			<li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Oblivion', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=wRCSo6pq-ak'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Oblivion</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Olympus Has Fallen', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=vwx1f0kyNwI'
+					
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Olympus Has Fallen</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Thor', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=JOddp-nlNvQ'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Thor</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Epic', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=-xu3JLXfuwQ'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Epic</span>
+						<span class="category">Animation & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Grown Ups', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=e01NVCveGkg',
+					skin: 'black'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					skin: 'black'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Grown Ups</span>
+						<span class="category">Comedy</span>
+						<span class="price">$2.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'The Avengers', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=eOrNdBpGMv8'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png.jpg'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">The Avengers</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Tron: Legacy', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=L9szn1QQfas‎'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Tron: Legacy</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="background: 'http://dummyimage.com/1920x1080/d12335/fff.png', title: 'Cowboys & Aliens', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=UdmupNxobP0‎'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Cowboys & Aliens</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li>
+		</ul>
+    </div>
+	  
+      <!-- /END THE FEATURETTES -->
+
+	<div class="featurette-divider2"></div>
+	  
+      <!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+		<!--latest jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.mobile.just-touch.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.scrollto-min.js"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+		<script>
+			jQuery(document).ready(function($) {
+				var $win = $(window),
+					$body = $('body'),
+					isTouch = !!('ontouchstart' in window),
+					clickEvent = isTouch ? 'tap' : 'click',
+					loader = null,
+					expanded = null,
+					$items = $('ul.items li a'),
+					sliderAPI = null,
+					mightySliderOptions = {
+						speed: 500,
+						easing: 'easeOutExpo',
+						viewport: 'fill',
+						
+						// Navigation options
+						navigation: {
+							slideSize: '100%'
+						},
+
+						// Commands
+						commands: {
+							buttons: 1
+						}
+					};
+
+
+
+				/**
+				 * Initialize the slider.
+				 *
+				 * @param {Array} slides
+				 *
+				 * @return {Void}
+				 */
+				function initializeSlider(slides) {
+					var $frame = $('.expander div.frame', expanded),
+						$parent = $frame.parent();
+
+					// Call mightySlider class
+					sliderAPI = new mightySlider($frame, mightySliderOptions,
+					{
+						active: function(name, index){
+							var skin = this.slides[index].options.skin || '';
+							$parent.removeClass('black').addClass(skin);
+						}
+					});
+
+					// Add slides into the slider
+					$.each(slides, function(i, slide) {
+						var slideString = trim(JSON.stringify(slide), '{}');
+						sliderAPI.add("<div class='slide' data-mightyslider='" + slideString + "'></div>");
+					});
+
+					// Initialize the slider
+					sliderAPI.init();
+					setTimeout(function(){
+						sliderAPI.reload();
+					}, 350);
+				}
+
+
+
+				/**
+				 * Destroy the slider.
+				 *
+				 * @return {Void}
+				 */
+				function destroySlider() {
+					sliderAPI.destroy();
+					sliderAPI = null;
+				}
+
+
+
+				/**
+				 * Expand the expander.
+				 *
+				 * @param {Object} $this
+				 * @param {Object} options
+				 *
+				 * @return {Void}
+				 */
+				function expand($this, options) {
+					var $parent = $this.parent(),
+						parentHeight = $parent.outerHeight(),
+						offset = 115,
+						viewport = getViewport(),
+						availHeight = viewport.height - offset,
+						$expanderHTML = $('<div class="expander"><div class="expander_inner mightyslider_modern_skin"><a class="close" title="Close"></a><span class="title"></span><div class="frame"><div class="slide_element"></div></div></div></div>');
+
+					expanded = $parent;
+					
+					// Append expander to DOM
+					$parent.addClass('expanded').append($expanderHTML);
+					// Set item height
+					$parent.css({ height: parentHeight + availHeight });
+					// Set background image if available
+					if (options.background) {
+						$expanderHTML.css({ backgroundImage: 'url("' + options.background + '")' });
+					}
+					if (options.title) {
+						$('.title', $expanderHTML).html(options.title);
+					}
+					// Set expander height
+					$expanderHTML.css({ height: availHeight });
+
+					// Scroll page
+					$body.stop().scrollTo( $expanderHTML, 350, { offset:{ top:-offset } } );
+					
+					// Initialize the mightySlider
+					if (options.slides) {
+						initializeSlider(options.slides);
+					}
+					
+					// Define click event for close button
+					$('div.expander_inner > a.close', $expanderHTML).one(clickEvent, function(){
+						unExpand();
+					});
+				}
+
+				/**
+				 * Unexpand the expander with callback.
+				 *
+				 * @param {Function} callback
+				 *
+				 * @return {Void}
+				 */
+				function unExpand(callback) {
+					var height = $('a > img', expanded).outerHeight(),
+						$expander = $('.expander', expanded);
+
+					// Scroll page
+					$body.stop().scrollTo( expanded, 350, { offset:{ top:-50 } } );
+					
+					// Set expanded item height to normal height
+					expanded.css({ height: height });
+					// Set expander height to 0
+					$expander.css({ height: 0 });
+					// Remove '.expanded' class from item
+					expanded.removeClass('expanded');
+					// Remove the expander from DOM
+					setTimeout(function(){
+						$expander.remove();
+					}, 350);
+					
+					// Destroy the mightySlider
+					if (sliderAPI) {
+						destroySlider();
+					}
+
+					expanded = null;
+
+					// Call callback function
+					if (callback) {
+						setTimeout(function(){
+							callback.call(this);
+						}, 360);
+					}
+				}
+
+
+				/**
+				 * Handler function for items click event.
+				 *
+				 * @return {Void}
+				 */
+				function itemClickHandler() {
+					if (loader) {
+						return false;
+					}
+					
+					var $this = $(this),
+						$parent = $this.parent();
+					
+					if ($parent.hasClass('expanded')) {
+						unExpand();
+						return false;
+					}
+					
+					var data = $parent.data('options'),
+						options = data && eval("({" + data + "})") || {};
+
+					if (expanded) {
+						unExpand(function(){
+							$this.triggerHandler(clickEvent);
+						});
+						return false;
+					}
+
+					var preload = [];
+
+					// Add background to preload
+					if (options.background) {
+						preload.push(options.background);
+					}
+					// Add first slide cover to preload
+					if (options.slides[0] && options.slides[0].cover) {
+						preload.push(options.slides[0].cover);
+					}
+
+					// Show loader
+					loader = 1;
+					$parent.addClass('loader');
+					
+					// Preload images if available then expand the expander
+					if (preload.length > 0) {
+						preloadimages(preload).done(function(img) {
+							// Hide loader
+							loader = 0;
+							$parent.removeClass('loader');
+
+							// Expand the expander
+							expand($this, options);
+						});
+					}
+					else {
+						// Expand the expander
+						expand($this, options);
+					}
+				}
+
+
+				/**
+				 * Handler function for window resize event.
+				 *
+				 * @return {Void}
+				 */
+				function winResizeHandler() {
+					if (expanded) {
+						var parentHeight = $('a > img', expanded).outerHeight(),
+							$expander = $('.expander', expanded),
+							offset = 115,
+							viewport = getViewport(),
+							availHeight = viewport.height - offset;
+
+						// Set item height
+						expanded.css({ height: parentHeight + availHeight + 1 });
+						// Set expander height
+						$expander.css({ height: availHeight });
+
+						// Scroll page
+						$body.stop().scrollTo( $expander, 0, { offset:{ top:-offset } } );
+					}
+				}
+
+				/**
+				 * Add click event for items
+				*/
+				$items.on(clickEvent, itemClickHandler);
+
+				/**
+				 * Add resize event for window for responsiveness purpose 
+				*/
+				$win.on('resize orientationchange', winResizeHandler);
+			});
+
+			/**
+			 * Preload images with callback.
+			 *
+			 * @param {Array} arr
+			 *
+			 * @return {Object}
+			 */
+			function preloadimages(arr) {
+				var newImages = [], loadedImages = 0,
+					postAction = function(){};
+
+				arr = (typeof arr !== "object") ? [arr] : arr;
+					
+				function imageLoadPost(){
+					loadedImages++;
+					if (loadedImages === arr.length) {
+						// call postAction and pass in newImages array as parameter
+						postAction(newImages);
+					}
+				}
+				
+				function handler() {
+					imageLoadPost();
+				}
+				
+				for (var i=0; i < arr.length; i++) {
+					newImages[i] = new Image();
+					newImages[i].src = arr[i];
+					newImages[i].onload = handler;
+					newImages[i].onerror = handler;
+				}
+				
+				// return blank object with done() method
+				return {
+					done: function(f) {
+						// remember user defined callback functions to be called when images load
+						postAction = f || postAction;
+					}
+				};
+			}
+
+
+
+			/**
+			 * A JavaScript equivalent of PHP’s trim
+			 *
+			 * @param {String} str         The string that will be trimmed.
+			 * @param {String} charlist    Optionally, the stripped characters can also be specified using the charlist parameter. Simply list all characters that you want to be stripped.
+			 *
+			 * @return {Void}
+			 */
+			function trim (str, charlist) {
+			  var whitespace, l = 0,
+				i = 0;
+			  str += '';
+
+			  if (!charlist) {
+				// default list
+				whitespace = " \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000";
+			  } else {
+				// preg_quote custom list
+				charlist += '';
+				whitespace = charlist.replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '$1');
+			  }
+
+			  l = str.length;
+			  for (i = 0; i < l; i++) {
+				if (whitespace.indexOf(str.charAt(i)) === -1) {
+				  str = str.substring(i);
+				  break;
+				}
+			  }
+
+			  l = str.length;
+			  for (i = l - 1; i >= 0; i--) {
+				if (whitespace.indexOf(str.charAt(i)) === -1) {
+				  str = str.substring(0, i + 1);
+				  break;
+				}
+			  }
+
+			  return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
+			}
+
+			/**
+			 * Get viewport/window size (width and height).
+			 *
+			 * @return {Object}
+			 */
+			function getViewport() {
+				var e = window,
+					a = 'inner';
+				if (!('innerWidth' in window)) {
+					a = 'client';
+					e = document.documentElement || document.body;
+				}
+				return {
+					width: e[a + 'Width'],
+					height: e[a + 'Height']
+				}
+			}
+
+
+			/*
+			window.___gcfg = {lang: "en"};
+			(function() {
+				var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+				po.src = "https://apis.google.com/js/plusone.js";
+				var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+			})();
+			*/
+		</script>
+	</body>
+</html>

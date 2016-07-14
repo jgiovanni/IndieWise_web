@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Tabs / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    	<![endif]-->
+	</head>
+	<body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+	<!--start introducing header-->
+		<section id="introducing-top">
+	<!--start header-top-desktop header-->
+			<section id="header-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.4" data-stellar-vertical-offset="80">
+				<h1 class="header">Tabs</h1>
+				<p class="header">Here we show the mightySlider capability in creating tabs.</p>
+				<p class="header">The size and amount of tabs slides will automatically adjust depending on the browser size and all skins shown here are included in download package!</p>
+			</section>
+	<!--start header-top-mobile header-->
+			<section id="header-top-mobile" class="hidden-md hidden-lg">
+				<h1 class="header">Tabs</h1>
+				<p class="header">Here we show the mightySlider capability in creating tabs.</p>
+				<p class="header">The size and amount of tabs slides will automatically adjust depending on the browser size and all skins shown here are included in download package!</p>
+			</section>
+		</section>
+
+	<div class="container">
+		<div class="page-header">
+			<h2 class="slim">Presets</h2>
+		</div>
+		<ul class="presets-container clearfix">
+			<li title="White" data-skin="mightyslider_tabsWhite_skin" class="active">
+				<div class="preset" style="background: #FFF;"></div>
+			</li><li title="Crystal" data-skin="mightyslider_tabsCrystal_skin">
+				<div class="preset" style="background-image: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(243, 243, 243) 50%, rgb(237, 237, 237) 51%, rgb(255, 255, 255) 100%); background-position: initial initial; background-repeat: initial initial;"></div>
+			</li><li title="Silver" data-skin="mightyslider_tabsSilver_skin">
+				<div class="preset" style="background-image: linear-gradient(135deg, #FDFCFC, #FBF9F9 50%, #F7F5F6 50%, #F2F0F0); background-position: initial initial; background-repeat: initial initial;"></div>
+			</li><li title="Blue Glass" data-skin="mightyslider_tabsBlue_skin">
+				<div class="preset" style="background-image: linear-gradient(135deg, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); background-position: initial initial; background-repeat: initial initial;"></div>
+			</li><li title="Black" data-skin="mightyslider_tabsBlack_skin">
+				<div class="preset" style="background-image: linear-gradient(135deg, rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); background-position: initial initial; background-repeat: initial initial;"></div>
+			</li><li title="Black Glass" data-skin="mightyslider_tabsBlackGlass_skin">
+				<div class="preset" style="background-image: linear-gradient(135deg, rgba(174,188,191,1) 0%,rgba(110,119,116,1) 50%,rgba(10,14,10,1) 51%,rgba(10,8,9,1) 100%); background-position: initial initial; background-repeat: initial initial;"></div>
+			</li><li title="Green" data-skin="mightyslider_tabsGreen_skin">
+				<div class="preset" style="background: rgb(41,154,11)"></div>
+			</li><li title="Green Glass" data-skin="mightyslider_tabsGreenGlass_skin">
+				<div class="preset" style="background-image: linear-gradient(135deg, rgba(191,210,85,1) 0%,rgba(142,185,42,1) 50%,rgba(114,170,0,1) 51%,rgba(158,203,45,1) 100%); background-position: initial initial; background-repeat: initial initial;"></div>
+			</li>
+		</ul>
+	</div>
+
+	<hr class="featurette-divider2" id="simple_tabs">
+
+	<style>
+		.featurette {
+			overflow: visible;
+		}
+		#simple .frame {
+			width: 100%;
+		}
+		#simple .frame * {
+			font-size: 13px;
+		}
+		#simple .frame ul {
+			list-style: none;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+		#simple .frame ul li {
+			float: left;
+			padding: 15px;
+		}
+		#simple .frame ul li img {
+			max-width: none;
+		}
+		#simple .mSTabs [class^="icon-"], #simple .mSTabs [class*=" icon-"] {
+			margin-top: 2px;
+			margin-right: 7px;
+		}
+	</style>
+	<div class="container">
+		<div class="page-header">
+			<h2 class="slim">Simple<br><small><p>A single content area with multiple panels, each associated with a header in a list.</p></small></h2>
+		</div>
+		<div class="featurette">
+			<div class="mightyslider_tabsWhite_skin clearfix" id="simple">
+				<div class="_mSTabs">
+					<div class="mSTabs">
+						<ul></ul>
+					</div>
+				</div>
+				<div class="frame">
+					<ul class="slide_element">
+						<li class="slide" data-mightyslider="title: 'Responsive Tabs', ID: 'responsive-tabs', icon: 'list'">
+							<blockquote>Sometimes using tabs just makes a lot of sense. For instance, if you have a limited amount of screen real estate, tabs can allow you to save room by giving the user a way to toggle between several items in a small space. And to take your tabs a step further, you can use mightySlider.<small>Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla.</small></blockquote><p class="muted">Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+						</li>
+						<li class="slide" data-mightyslider="title: 'Tabbed Navigation', ID: 'tabbed-navigation', icon: 'share-alt'">
+							<blockquote>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</blockquote>
+							<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+						</li>
+						<li class="slide" data-mightyslider="title: 'Tabbed Content', ID: 'tabbed-content', icon: 'comment'">
+							<blockquote>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. <small>Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis.</small></blockquote><p class="muted">Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+						</li>
+						<li class="slide" data-mightyslider="title: 'jQuery Tabs', ID: 'jquery-tabs', icon: 'info-sign'">
+							<p>Cras scelerisque metus vitae facilisis congue. Nulla facilisi. Phasellus non venenatis purus, a laoreet lorem. In arcu orci, volutpat eget orci eget, laoreet vestibulum ligula. Praesent accumsan est quis viverra pharetra. Nullam sed magna volutpat, congue mauris vitae, tincidunt urna. Phasellus hendrerit lectus ipsum, vel feugiat purus hendrerit vel. Proin sollicitudin eros eget urna rhoncus, eget ultrices lectus mollis. Integer tincidunt rutrum ultricies. Nam diam metus, semper id sapien ac, bibendum aliquam libero. Donec a quam vitae enim iaculis auctor. Duis ultrices, orci id dignissim placerat, nulla orci venenatis tortor, nec mollis sem urna quis elit.</p>
+							<blockquote>Nam sed velit eleifend, condimentum enim sit amet, tristique mauris. Praesent volutpat, turpis id consequat varius, magna dui convallis purus, sed consectetur lacus ligula in mi. Ut ligula tellus, tincidunt at justo a, varius vestibulum arcu. Fusce pellentesque commodo nibh non luctus. <small>Sed nisl massa, fermentum pharetra diam a, tempor tincidunt leo. Morbi viverra dignissim dolor sit amet consequat.</small></blockquote>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<hr class="featurette-divider2" id="vertical_tabs">
+
+	<style>
+		#vertical ._mSTabs.vertical {
+			position: absolute;
+			height: 100%;
+		}
+		#vertical ._mSTabs.vertical .mSTabs {
+			width: 100%;
+			height: 100%;
+		}
+		#vertical ._mSTabs.vertical .mSTabs ul {
+			width: 100%;
+		}
+		#vertical ._mSTabs.horizontal .mSTabs ul {
+			width: auto !important;
+		}
+		#vertical .frame {
+			margin-left: 25%;
+		}
+		#vertical .frame * {
+			font-size: 13px;
+		}
+		#vertical .frame ul {
+			list-style: none;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+		#vertical .frame ul li {
+			float: left;
+			padding: 15px;
+		}
+		#vertical .frame ul li img {
+			max-width: none;
+		}
+		#vertical .mSTabs [class^="icon-"], #vertical .mSTabs [class*=" icon-"] {
+			margin-top: 2px;
+			margin-right: 7px;
+		}
+		#vertical ._mSTabs {
+			float: left;
+			width: 25%;
+		}
+		#vertical .mSTabs ul li {
+			display: block;
+		}
+		#vertical.mSMobile .frame {
+			margin-left: 0;
+		}
+		#vertical.mSMobile ._mSTabs {
+			float: none;
+			width: 100%;
+		}
+		#vertical.mSMobile .mSTabs ul li {
+			display: inline-block;
+		}
+		#vertical.mSMobile .mSTabs ul {
+			height: auto !important;
+		}
+		#vertical ._mSTabs.vertical .mSTabs ul li {
+			height: 40px;
+		}
+	</style>
+	<div class="container">
+		<div class="page-header">
+			<h2 class="slim">Vertical Tabs<br><small><p>Vertical tabbed content area separates content into different and structured panes, and each content can be viewed one at a time. So it’s a nice and clean way to show specific content.</p></small></h2>
+		</div>
+		<div class="featurette">
+			<div class="mightyslider_tabsWhite_skin clearfix mSVertical" id="vertical">
+				<div class="_mSTabs">
+					<div class="mSTabs">
+						<ul></ul>
+					</div>
+				</div>
+				<div class="frame">
+					<ul class="slide_element">
+						<li class="slide" data-mightyslider="title: 'Responsive Tabs', icon: 'list'">
+							<blockquote>Sometimes using tabs just makes a lot of sense. For instance, if you have a limited amount of screen real estate, tabs can allow you to save room by giving the user a way to toggle between several items in a small space. And to take your tabs a step further, you can use mightySlider.<small>Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla.</small></blockquote><p class="muted">Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+						</li>
+						<li class="slide" data-mightyslider="title: 'Tabbed Navigation', icon: 'share-alt'">
+							<blockquote>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</blockquote>
+							<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+						</li>
+						<li class="slide" data-mightyslider="title: 'Tabbed Content', icon: 'comment'">
+							<blockquote>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. <small>Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis.</small></blockquote><p class="muted">Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+						</li>
+						<li class="slide" data-mightyslider="title: 'jQuery Tabs', icon: 'info-sign'">
+							<p>Cras scelerisque metus vitae facilisis congue. Nulla facilisi. Phasellus non venenatis purus, a laoreet lorem. In arcu orci, volutpat eget orci eget, laoreet vestibulum ligula. Praesent accumsan est quis viverra pharetra. Nullam sed magna volutpat, congue mauris vitae, tincidunt urna. Phasellus hendrerit lectus ipsum, vel feugiat purus hendrerit vel. Proin sollicitudin eros eget urna rhoncus, eget ultrices lectus mollis. Integer tincidunt rutrum ultricies. Nam diam metus, semper id sapien ac, bibendum aliquam libero. Donec a quam vitae enim iaculis auctor. Duis ultrices, orci id dignissim placerat, nulla orci venenatis tortor, nec mollis sem urna quis elit.</p>
+							<blockquote>Nam sed velit eleifend, condimentum enim sit amet, tristique mauris. Praesent volutpat, turpis id consequat varius, magna dui convallis purus, sed consectetur lacus ligula in mi. Ut ligula tellus, tincidunt at justo a, varius vestibulum arcu. Fusce pellentesque commodo nibh non luctus. <small>Sed nisl massa, fermentum pharetra diam a, tempor tincidunt leo. Morbi viverra dignissim dolor sit amet consequat.</small></blockquote>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<hr class="featurette-divider2" id="featured_content_slider">
+
+	<style>
+		#featured_content {
+			position: relative;
+			background: #000;
+			overflow: hidden;
+			
+			-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+			    moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+			        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+		}
+		#featured_content .mightyslider_modern_skin {
+			margin-left: 349px;
+		}
+		#featured_content .frame {
+			width: 100%;
+			height: 500px;
+		}
+		#featured_content .frame .slide_element {
+			height: 100%;
+		}
+		#featured_content .frame .slide_element > div {
+			float: left;
+			height: 100%;
+		}
+		#featured_content .frame .mSCover img {
+			max-width: none;
+		}
+		#featured_content .tabs {
+			position: absolute;
+			width: 349px;
+			height: 100%;
+			left: 0;
+			background: #2E2E2E;
+			overflow: visible !important;
+			z-index: 10;
+		}
+		#featured_content .tabs ul {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		#featured_content .tabs ul li {
+			position: relative;
+			background: #131313;
+			width: 100%;
+			height: 80px;
+			cursor: pointer;
+			padding: 10px;
+			line-height: 0;
+			
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+
+			-webkit-transition: background 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+			   -moz-transition: background 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+				-ms-transition: background 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+				 -o-transition: background 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+					transition: background 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+		}
+		#featured_content .tabs ul li img {
+			height: 100%;
+			float: left;
+			border: 2px solid #000;
+			
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+		}
+		#featured_content .tabs ul li h3 {
+			font-size: 18px;
+			line-height: normal;
+			font-weight: 400;
+			margin: 0;
+			margin-top: 3px;
+			margin-left: 116px;
+			padding: 2px 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		#featured_content .tabs ul li h3 small {
+			display: block;
+			margin-top: 8px;
+			padding: 2px 0;
+			font-weight: 300;
+			font-size: 12px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			color: #5a5a5a;
+			text-transform: normal !important;
+		}
+		#featured_content .tabs ul li:hover {
+			background: #000;
+			color: #999;
+		}
+		#featured_content .tabs ul li:hover h3 {
+			color: #FFF;
+		}
+		#featured_content .tabs ul li.active {
+			background: #000;
+			color: #FFF;
+		}
+		#featured_content .tabs ul li.active img {
+			border-color: #131313;
+		}
+		#featured_content .tabs ul li.active:after {
+			position: absolute;
+			top: 50%;
+			left: 100%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			border-color: rgba(0, 0, 0, 0);
+			border-left-color: #000000;
+			border-width: 40px;
+			margin-top: -40px;
+			pointer-events: none;
+		}
+		#featured_content .frame .details {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			display: block;
+			padding: 10px 15px;
+			padding-top: 20px;
+			color: #FFF;
+			font-size: 32px;
+			font-weight: 300;
+			line-height: normal;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-shadow: 0 1px 0 #000;
+			background-image: -o-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* Opera 11.10+ */
+			background-image: -moz-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* FF3.6+ */
+			background-image: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgba(0,0,0, 0)), color-stop(0.1, rgba(0,0,0, 1))); /* Chrome,Safari4+ */
+			background-image: -webkit-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* Chrome10+,Safari5.1+ */
+			background-image: -ms-linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* IE10+ */
+			background-image: linear-gradient(bottom, rgba(0,0,0, 1) 10%, rgba(0,0,0, 0) 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+		}
+		#featured_content .frame .details span {
+			display: block;
+			margin-top: 5px;
+			font-size: 12px;
+			white-space: normal;
+		}
+		
+		/* Responsive */
+		@media (min-width: 980px) and (max-width: 1199px) {
+			#featured_content .mightyslider_modern_skin {
+				margin-left: 289px;
+			}
+			#featured_content .tabs {
+				width: 289px;
+			}
+			#featured_content .tabs ul li {
+				height: 70px;
+			}
+			#featured_content .tabs ul li h3 {
+				font-size: 14px;
+				margin-top: 1px;
+				margin-left: 98px;
+			}
+			#featured_content .tabs ul li h3 small {
+				font-size: 11px;
+			}
+			#featured_content .tabs ul li.active:after {
+				border-width: 35px;
+				margin-top: -35px;
+			}
+			#featured_content .frame .details {
+				font-size: 25px;
+			}
+		}
+		
+		@media (max-width: 979px) {
+			#featured_content .mightyslider_modern_skin {
+				margin-left: 232px;
+			}
+			#featured_content .tabs {
+				width: 232px;
+			}
+			#featured_content .tabs ul li {
+				height: 60px;
+			}
+			#featured_content .tabs ul li h3 {
+				font-size: 11px;
+				margin-top: 0;
+				margin-left: 80px;
+				text-transform: uppercase;
+			}
+			#featured_content .tabs ul li h3 small {
+				font-size: 11px;
+				margin-top: 6px;
+			}
+			#featured_content .tabs ul li.active:after {
+				border-width: 30px;
+				margin-top: -30px;
+			}
+			#featured_content .frame .details {
+				font-size: 19px;
+			}
+			#featured_content .frame .details span {
+				display: none;
+			}
+		}
+		
+		@media (max-width: 480px) {
+			#featured_content .mightyslider_modern_skin {
+				margin-left: 0;
+			}
+			#featured_content .tabs {
+				display: none;
+			}
+			#featured_content .frame .details {
+				font-size: 14px;
+			}
+		}
+	</style>
+	<div class="container">
+		<div class="page-header">
+			<h2 class="slim">Featured Content Slider<br><small><p>Showing off the best content of your website or blog in a nice intuitive way will surely catch more eyeballs. Using an auto-playing content slider is the one of techniques to show your featured content. It saves you space and makes for a better user experience, and if you add a pinch of eye candy to it, then there’s no looking back.</p></small></h2>
+		</div>
+		<div class="featurette">
+			<div id="featured_content">
+				<div>
+					<div class="tabs">
+						<ul></ul>
+					</div>
+				</div>
+				<div class="mightyslider_modern_skin">
+					<div class="frame" data-mightyslider="width: 871, height: 490">
+						<div class="slide_element">
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', type: 'iframe', source: 'http://omg.yahoo.com/http://mightyslider.com/video/brad-pitt-reveals-importance-12-043223908.html?format=embed&player_autoplay=true', description: 'The standing ovation at the Princess of Wales Theater on King Street was', title: '’12 Years a Slave’ Captures the Toronto Audience'">
+								<div class="details">
+									’12 Years a Slave’ Captures the Toronto Audience
+									<span>The standing ovation at the Princess of Wales Theater on King Street was long and enthusiastic following the Canadian premiere of Steve McQueen's antebellum period drama "12 Years a Slave." ...</span>
+								</div>
+							</div>
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', description: 'The star tells Yahoo Movies his third go-round as', title: 'Vin Diesel on Why \'Riddick\' Had to Be Rated R', link: { url: 'http://movies.yahoo.com/http://mightyslider.com/video/riddick-insider-access-160038087.html', target: '_blank' }">
+								<div class="details">
+									Vin Diesel on Why 'Riddick' Had to Be Rated R
+									<span>The star tells Yahoo Movies his third go-round as the hardened ex-con is "the harshest one of all."</span>
+								</div>
+							</div>
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', description: 'Ring in 5774 with the comedy about a Gentile who\'s looking for a Jewish girl (Jennifer Love Hewitt).', title: 'Shanah Tovah! \'Jewtopia\' Trailer Premiere', link: { url: 'http://movies.yahoo.com/http://mightyslider.com/video/jewtopia-trailer-183041593.html', target: '_blank' }">
+								<div class="details">
+									Shanah Tovah! 'Jewtopia' Trailer Premiere
+									<span>Ring in 5774 with the comedy about a Gentile who's looking for a Jewish girl (Jennifer Love Hewitt).</span>
+								</div>
+							</div>
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', description: 'Ben Stiller soars in our fifth and final poster reveal for his new movie opening Christmas Day.', title: '\'The Secret Life of Walter Mitty\' Final Poster Reveal', skin: 'black', link: { url: 'http://movies.yahoo.com/photos/the-secret-life-of-walter-mitty-movie-stills-slideshow/', target: '_blank' }">
+								<div class="details">
+									'The Secret Life of Walter Mitty' Final Poster Reveal
+									<span>Ben Stiller soars in our fifth and final poster reveal for his new movie opening Christmas Day.</span>
+								</div>
+							</div>
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', type: 'iframe', source: 'http://movies.yahoo.com/http://mightyslider.com/video/hugh-jackman-prisoners-wasn-t-205051510.html?format=embed&player_autoplay=true', description: 'At the Toronto Film Festival, the stars of \'Prisoners\' tell Yahoo Movies about their own heartbreaks.', title: 'Hugh Jackman and Maria Bello on Parents\' Nightmare'">
+								<div class="details">
+									Hugh Jackman and Maria Bello on Parents' Nightmare
+									<span>At the Toronto Film Festival, the stars of 'Prisoners' tell Yahoo Movies about their own heartbreaks.</span>
+								</div>
+							</div>
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', description: 'Paul Rudd and Paul Giamatti try to make a quick buck selling Christmas trees in New York City.', title: 'Deck the Pauls: \'All Is Bright\' Trailer Premiere', link: { url: 'http://movies.yahoo.com/http://mightyslider.com/video/bright-trailer-1-161037191.html', target: '_blank' }">
+								<div class="details">
+									Deck the Pauls: 'All Is Bright' Trailer Premiere
+									<span>Paul Rudd and Paul Giamatti try to make a quick buck selling Christmas trees in New York City.</span>
+								</div>
+							</div>
+							<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/821x461/d12335/fff.png', thumbnail: 'http://dummyimage.com/300x200/d12335/fff.png', description: 'Radcliffe plays the young Allen Ginsberg in a true story of love, murder, and the creation of the Beats.', title: '\'Kill Your Darlings\' Trailer Premiere With Daniel Radcliffe', link: { url: 'http://movies.yahoo.com/http://mightyslider.com/video/kill-darlings-trailer-161028150.html', target: '_blank' }">
+								<div class="details">
+									'Kill Your Darlings' Trailer Premiere With Daniel Radcliffe
+									<span>Radcliffe plays the young Allen Ginsberg in a true story of love, murder, and the creation of the Beats.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<div class="featurette-divider2"></div>
+	  
+      <!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+	<!--latest jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mobile.just-touch.js"></script>
+		<script src="assets/js/jquery.requestAnimationFrame.js"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.isotope.min.js"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.stellar.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+		<script>
+			jQuery(document).ready(function($) {
+				var $win = $(window),
+					isTouch = !!('ontouchstart' in window),
+					clickEvent = isTouch ? 'tap' : 'click',
+					mouseEnterEvent = isTouch ? 'tap' : 'mouseenter',
+					presets = ['mightyslider_tabsWhite_skin','mightyslider_tabsCrystal_skin','mightyslider_tabsSilver_skin','mightyslider_tabsBlue_skin','mightyslider_tabsBlack_skin','mightyslider_tabsBlackGlass_skin','mightyslider_tabsGreen_skin','mightyslider_tabsGreenGlass_skin'],
+					$skinables = $('#simple, #vertical'),
+					$presetsItems = $('ul.presets-container li');
+
+				// Begin of the Simple Example
+				(function(){
+					var $holder = $('#simple'),
+					$tabsbar = $('.mSTabs ul', $holder),
+					$frame = $('.frame', $holder);
+
+					function calculator(width){
+						var percent = '25%';
+						if (width <= 480) {
+							percent = '80%';
+						}
+						else if (width <= 768) {
+							percent = '50%';
+						}
+						else {
+							percent = 0;
+						}
+
+						if (percent !== 0) {
+							$holder.addClass('mSMobile');
+						}
+						else {
+							$holder.removeClass('mSMobile');
+							$('li', $tabsbar).css('width', 'auto');
+						}
+
+						return percent;
+					};
+
+					var thumbnailSize = calculator($win.width());
+
+					$frame.mightySlider({
+						speed: 300,
+						autoResize: 1,
+
+						// Navigation options
+						navigation: {
+							navigationType: 'basic',
+							slideSize: '100%'
+						},
+						
+						// Deep-linking options
+						deeplinking: {
+							linkID: 'simple'
+						},
+						
+						// Thumbnails options
+						thumbnails: {
+							thumbnailsBar: $tabsbar[0],
+							thumbnailNav: thumbnailSize !== 0 ? 'centered' : 'basic',
+							thumbnailSize: thumbnailSize,
+							preloadThumbnails: 0,
+							activateOn: clickEvent,
+							thumbnailBuilder:
+								function (index, thumbnail) {
+									return '<li><span class="icon-' + this.slides[index].options.icon + '"></span>' + this.slides[index].options.title + '</li>';
+								}
+						},
+
+						// Dragging options
+						dragging: {
+							mouseDragging: 0,
+							touchDragging: 0
+						}
+					});
+
+					var API = $frame.data().mightySlider;
+
+					$win.resize(function(){
+						thumbnailSize = calculator($win.width());
+
+						API.set({
+							thumbnails: {
+								thumbnailNav: thumbnailSize !== 0 ? 'centered' : 'basic',
+								thumbnailSize: thumbnailSize
+							}
+						});
+					});
+				})();
+				// End of the Simple Example
+
+				// Begin of the Vertical Example
+				(function(){
+					var $holder = $('#vertical'),
+					$tabsbarParent = $('._mSTabs', $holder),
+					$tabsbar = $('.mSTabs ul', $tabsbarParent),
+					$frame = $('.frame', $holder);
+
+					function calculator(width){
+						var percent = '25%';
+						if (width <= 480) {
+							percent = '80%';
+						}
+						else if (width <= 768) {
+							percent = '50%';
+						}
+						else {
+							percent = 0;
+						}
+
+						if (percent !== 0) {
+							$holder.addClass('mSMobile').removeClass('mSVertical');
+							$tabsbarParent.removeClass('vertical').addClass('horizontal');
+						}
+						else {
+							$holder.removeClass('mSMobile').addClass('mSVertical');
+							$tabsbarParent.addClass('vertical').removeClass('horizontal');
+							$('li', $tabsbar).css('width', 'auto');
+						}
+
+						return percent;
+					};
+					
+					var thumbnailSize = calculator($win.width());
+
+					$frame.mightySlider({
+						speed: 300,
+						autoResize: 1,
+
+						// Navigation options
+						navigation: {
+							navigationType: 'basic',
+							slideSize: '100%'
+						},
+						
+						// Thumbnails options
+						thumbnails: {
+							horizontal: thumbnailSize !== 0,
+							thumbnailsBar: $tabsbar[0],
+							thumbnailNav: thumbnailSize !== 0 ? 'centered' : 'basic',
+							thumbnailSize: thumbnailSize,
+							preloadThumbnails: 0,
+							activateOn: clickEvent,
+							thumbnailBuilder:
+								function (index, thumbnail) {
+									return '<li><span class="icon-' + this.slides[index].options.icon + '"></span>' + this.slides[index].options.title + '</li>';
+								}
+						},
+
+						// Dragging options
+						dragging: {
+							mouseDragging: 0,
+							touchDragging: 0
+						}
+					});
+
+					var API = $frame.data().mightySlider;
+
+					$win.resize(function(){
+						var thumbnailSize = calculator($win.width());
+
+						API.set({
+							thumbnails: {
+								horizontal: thumbnailSize !== 0,
+								thumbnailNav: thumbnailSize !== 0 ? 'centered' : 'basic',
+								thumbnailSize: thumbnailSize 
+							}
+						});
+					});
+				})();
+				// End of the Vertical Example
+
+
+				// Begin of the Featured Content Slider Example
+				(function(){
+					var $holder = $('#featured_content'),
+						$parent = $('.mightyslider_modern_skin', $holder),
+						$tabs = $('.tabs ul', $holder),
+						$frame = $('.frame', $holder);
+
+					$frame.mightySlider({
+						speed: 550,
+						autoScale: 1,
+						easing: 'easeOutExpo',
+						viewport: 'fill',
+						
+						// Navigation options
+						navigation: {
+							slideSize: '100%'
+						},
+
+						// Thumbnails
+						thumbnails: {
+							horizontal: 0,
+							preloadThumbnails: 0,
+							activateOn: mouseEnterEvent,
+							thumbnailsBar: $tabs,
+							thumbnailBuilder:
+								function (index, thumbnail) {
+									return '<li><img src="' + thumbnail + '" /><h3>' + this.slides[index].options.title + '<small>' + this.slides[index].options.description + '</small></h3></li>';
+								}
+						},
+
+						// Commands
+						commands: {
+							buttons: 1
+						},
+
+						// Cycling
+						cycling: {
+							cycleBy: 'slides',
+							pauseOnHover: 1
+						}
+					},
+					{
+						active: function(name, index){
+							var skin = this.slides[index].options.skin || '';
+							$parent.removeClass('black').addClass(skin);
+						}
+					});
+				})();
+				// End of the Featured Content Slider Example
+
+
+				// Begin of the Skin Change Handler
+				$presetsItems.on(clickEvent, function(){
+					var $this = $(this),
+					skin = $this.data('skin');
+
+					// Remove '.active' class from presets items
+					$presetsItems.removeClass('active');
+
+					// Remove skins from tabs
+					$.each(presets, function(key, value) {
+						$skinables.removeClass(value);
+					});
+
+					// Add '.active' class to current preset item
+					$this.addClass('active');
+
+					// Add skin class to tabs
+					$skinables.addClass(skin);
+				});
+				// End of the Skin Change Handler
+
+			});
+			/*
+			window.___gcfg = {lang: "en"};
+			(function() {
+				var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+				po.src = "https://apis.google.com/js/plusone.js";
+				var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+			})();
+			*/
+		</script>
+	</body>
+</html>

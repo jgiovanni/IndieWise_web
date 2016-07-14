@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+    <title>Facebook Paper Style Slider / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="http://mightyslider.com/assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="http://mightyslider.com/assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="http://mightyslider.com/assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="http://mightyslider.com/assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="http://mightyslider.com/assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="http://mightyslider.com/assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="http://mightyslider.com/assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://mightyslider.com/assets/css/style.css" rel="stylesheet">
+		<link href="http://mightyslider.com/assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="http://mightyslider.com/assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+		<link href="http://mightyslider.com/assets/js/ilightbox/css/ilightbox.css" rel="stylesheet" />
+		<style>
+			html, body {
+				padding: 0;
+				margin: 0;
+				background: #000;
+			}
+			.hover {
+				position: absolute;
+				bottom: 20px;
+				right: 20px;
+				padding: 10px 20px;
+				background: rgba(255,255,255,.5);
+				font-weight: 500;
+				text-transform: uppercase;
+				color: #000;
+				border: 2px solid transparent;
+				border-radius: 50px;
+				cursor: pointer;
+				z-index: 100;
+	
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+			.hover:hover {
+				background: rgba(255,255,255,.0);
+				color: #FFF;
+				border-color: #FFF;
+			}
+			
+			/* Slider styles */
+			#example {
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				height: 100%;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+			}
+			#example .frame {
+				width: 100%;
+				height: 100%;
+
+				-webkit-perspective: 1000px;
+				-ms-perspective: 1000px;
+				perspective: 1000px;
+
+				-webkit-perspective-origin: 50% 50%;
+				-ms-perspective-origin: 50% 50%;
+				perspective-origin: 50% 50%;
+			}
+			#example .frame .slide_element {
+				height: 100%;
+
+				-webkit-transform-style: preserve-3d;
+				-ms-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			#example .frame .slide_element > div {
+				float: left;
+				height: 100%;
+			}
+			#example .frame .mSCover img {
+				max-width: none;
+			}
+
+			/* Animated layers styles */
+			.centralize {
+				left: 50%;
+				top: 50%;
+
+				-webkit-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+			.centralizeX {
+				left: 50%;
+
+				-webkit-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			.centralizeY {
+				top: 50%;
+
+				-webkit-transform: translateY(-50%);
+				transform: translateY(-50%);
+			}
+			#example .frame .slide_2 .mSCaption,
+			#example .frame .slide_3 .mSCaption,
+			#example .frame .slide_4 .mSCaption {
+				left: 50%;
+				right: 80px;
+				color: rgba(255, 255, 255, 0);
+				text-shadow: 0 0 20px rgba(255, 255, 255, 0);
+				cursor: default;
+			}
+			#example .frame .paper_h {
+				font-size: 64px;
+				font-weight: 500;
+			}
+			#example .frame .paper_p {
+				font-size: 34px;
+				font-weight: 200;
+				line-height: 40px;
+			}
+			#example .frame .slide_1 .mSVideo {
+				display: none !important;
+			}
+			#example .frame .slide_1 .paper_intro {
+				position: absolute;
+				left: 80px;
+				color: #FFF;
+			}
+			#example .frame .slide_1 .paper_p {
+				font-size: 28px;
+				line-height: 34px;
+				margin-top: 12px;
+			}
+			#example .hover {
+				bottom: 20px;
+				right: auto;
+				left: 20px;
+				padding: 4px 6px;
+				border-radius: 5px;
+				line-height: normal;
+			}
+			.paper_watchImage,
+			.paper_downloadImage {
+				width: 35px;
+				height: 35px;
+			}
+			.paper_watchNow {
+				margin-bottom: 30px;
+			}
+			.paper_watchImage, .paper_watch {
+				display: inline-block;
+				vertical-align: middle;
+				margin-top: 30px;
+			}
+			.paper_watch {
+				padding: 20px;
+				padding-left: 60px;
+				margin-left: -50px;
+				font-size: 26px;
+				font-weight: 200;
+				line-height: 1;
+				color: #fff;
+				cursor: pointer;
+			}
+			.paper_download {
+				display: block;
+				margin-top: 90px;
+				margin-bottom: -135px;
+			}
+			.paper_downloadText {
+				font-size: 26px;
+				font-weight: 200;
+				line-height: 1;
+				color: #fff;
+				padding-left: 10px;
+			}
+			.paper_downloadImage, .paper_downloadText {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			.mSClose {
+				top: 80px !important;
+			}
+			.isTouch .mSClose {
+				top: auto !important;
+			}
+
+
+			/* Responsive Improvements */
+			@media (max-width: 767px) {
+				#example .frame .mSSlide:not(.slide_1) .paper_h {
+					font-size: 28px;
+				}
+				#example .frame .mSSlide:not(.slide_1) .paper_p {
+					font-size: 16px;
+					line-height: 22px;
+					margin-top: 8px;
+				}
+				.paper_intro {
+					left: 40px;
+					-webkit-transform-origin: 0 0;
+					transform-origin: 0 0;
+					-webkit-transform: scale(0.6) translateY(-50%);
+							transform: scale(0.6) translateY(-50%);
+				}
+			}
+		</style>
+  </head>
+
+  <body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default visible-lg" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="#intro" class="brand"><img src="http://mightyslider.com/assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+
+	
+	<div id="example" class="mightyslider_paper_skin">
+		<div class="frame">
+			<div class="slide_element">
+				<div class="slide_1" data-mightyslider="cover: 'http://mightyslider.com/assets/img/fb_paper/851568_209350242603126_25189882_n.jpg', mp4: 'http://mightyslider.com/assets/img/fb_paper/851551_572845882806633_1041868699_n.mp4', webm: 'http://mightyslider.com/assets/img/fb_paper/851552_648195201907606_421474563_n.webm', videoFrame: 'src/videoframes/jwplayer.php'">
+					<div class="paper_intro centralizeY">
+						<div class="paper_h">Introducing Paper</div>
+						<div class="paper_p">Explore and share stories from<br>friends and the world around you.</div>
+						<a class="paper_download" href="https://www.facebook.com/paper/download" target="_blank"><img class="paper_downloadImage img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAEnUlEQVR42uXc32tTZxzH8SdNSNkgK9QWTJqIDC8nXno544U6V7eLTjYRWZsKq/+BNx0D2To2YYPOXAleTFi3VraCwytBpo7ethedduAuZG7JsI0RHTpp9y48g/DlOcuv8zzn5JwPvKScpH3CB5OTc85zHrW1teVKAq9hHJ/gClbwO+rQ4We26ceu6OeO699NQLlge4BBlPANKug2FcyhhB29VkwfjuIHPIetPNdjvIm+MBeTwvu4g3bzFH9p/Nx27mAcqbAVcwh30Sy/oIwpFDGCJJSQ1I8V9XPL+neb5S4OhaGYPL6DV17gGiaRg+pSDpO4pv+2V+aRD6qYMWzAlDo+RQHKkl16jDpM2cA7LovpxyxMeYyPMAjlyKAek7GNmUW/7WKGcAumXEYWKiBZ/RpMuY0hW8XkPfY4FYxChcQoKh57roLfxeRxDzI3kYUKmSx+gsxvyPtVzLDHrvgS0lAhlcYlj136cLfFpLEEmc+RgAq5hH6tMktId1PMLGTOQ/WY85D5qtNixjz2PIkeLCbhsccaa7eYEdTQmFtIQ/WoNG6iMTUU2ilmHo2pIgfV47KGXfmPrRZzGDLHoCLiGGTeblZMn+FL3AJUxCwYvvwl/6+Y9wzHPoUIFpM3HFud8ComgRXx5A+hrGg9ypJpMc4KEqZi3jActr8S4WIyWBdjHTUVMyeedA4qqsVo58RYc7KYAfyN/7KJ3TEoZjc2oUMHdNFYTAmNuQEV9WK0G2K8UmMx34sHJ2NUzCQaQhe6mKTh3G0uRsXkDIcJScU/+8QDq1BxKUZbFWPuM/1XKsewmAvyo2R745di41QMi5kSY36xvfGq2FiMYTEHxJhXtzcui40jMSxmRIy5vL3xD7ExFcNiUmLMB0pc4nwKFbtiIGZZ1OULrMa1GHlmz+9i9qAK16lij5/F2Hgr7UcdrvIE+y28lax8+B7EM9jOC7xl48PX5u76JDZhM2ds7q7lF7wDUD45C1s5C+WT1+UXPBeHBGX4nbKLQwJ5EHnB50GTWIRfWUTS9kGkq9MOL+E6us0SXnZ12iGJmoMTVQNYQaf5FcM2LtuaTlS5PrWZx320m/t41e2pTfcnw/eihlZTw16XJ8M7vnzi8AvgMxx0ffkk6Atu7zaZ3b2Jk8FecDNfol1HBsqiM06+wJll8FBeom31ov40lGUzkJmF0oK9qK+dMEwDyTueH3cZiSCmgYRx4lAa17V06CYOaUcCmmo2oIVwqpn35MQKslA9bif+7GhyopbHI3nfQASnsz5qazqrdioGE6BPdTpl/mKEp8xf7OZegv4I3GTxGWSW0O/HbTlrEbotZw3Dcb2Ra6fNG7mkQgRu/dtl82bR2yG+WfRrmPIzhoK+vXgaGYeFZDAd5O3F0nFswJSH+NjyAWhej8FYxtRwPKglDAqYb2EJgwlkfXq7TLSwhMECCmFY9OIw1tAsqyjjAxSRQ5/HUis5FPVzy1hFs6zhSBiXSZnoYpmUqtbpMiklpMK+sM6og4V1/sEiRm0trGPTDpzGnI9LMX2L026WYnK/eNdMw+JdD/CkYXmlddzDsn7OTBCLd/0Lzqb93q2becUAAAAASUVORK5CYII=" alt=""><span class="paper_downloadText"> Download Paper </span></a>
+						<img class="paper_watchImage paper_watchNow img" src="data:image/png;base64,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" alt="">
+						<div class="paper_watch paper_watchNow">Watch the video</div>
+					</div>
+				</div>
+				<div class="slide_2" data-mightyslider="cover: { webm: 'http://mightyslider.com/assets/img/fb_paper/851568_670658326306858_1262075112_n.webm', mp4: 'http://mightyslider.com/assets/img/fb_paper/851565_594673580609245_1899646996_n.mp4', poster: 'http://mightyslider.com/assets/img/fb_paper/851572_262081760624428_321418926_n.jpg' }">
+					<div class="mSCaption paper_h centralizeY" data-msanimation="{ speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 4000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Beautiful storytelling</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 7000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 5000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Browse your Paper with<br>simple, natural movements.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 14000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 6000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Stories appear fullscreen<br>and distraction free.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 29000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 9500, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Tilt to explore vivid<br>high-resolution photos.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 43000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 8500, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Tell visual stories with<br>gorgeous photo albums.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 57000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 13000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Immerse yourself in videos that<br>come to life and fill the screen.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 78000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 9500, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Unfold stories and news from<br>the world’s best sources.</div>
+				</div>
+				<div class="slide_3" data-mightyslider="cover: { webm: 'http://mightyslider.com/assets/img/fb_paper/851575_712198338804536_1091091082_n.webm', mp4: 'http://mightyslider.com/assets/img/fb_paper/851558_1389078601354955_205775253_n.mp4', poster: 'http://mightyslider.com/assets/img/fb_paper/851572_262081760624428_321418926_n.jpg' }">
+					<div class="mSCaption paper_h centralizeY" data-msanimation="{ speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 3000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Explore sections</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 4500, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 8500, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Choose from sections about<br>a range of themes and interests.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 14000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 8500, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Drag in your favorite sections<br>to make Paper your own.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 23000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 10000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Browse through sections to<br>see what catches your eye.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 35000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 14000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Each section includes photos, videos,<br>articles, essays and other insights.</div>
+				</div>
+				<div class="slide_4" data-mightyslider="cover: { webm: 'http://mightyslider.com/assets/img/fb_paper/851556_186230521586200_383150088_n.webm', mp4: 'http://mightyslider.com/assets/img/fb_paper/851547_1400323033558422_1409955025_n.mp4', poster: 'http://mightyslider.com/assets/img/fb_paper/851572_262081760624428_321418926_n.jpg' }">
+					<div class="mSCaption paper_h centralizeY" data-msanimation="{ speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 3000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">Share your stories</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 6000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }, { delay: 13000, speed: 500, style: { textShadow: '0px 0px 20px rgba(255, 255, 255, 0)' } }">See your story take shape as<br>you add text and photos.</div>
+					<div class="mSCaption paper_p centralizeY" data-msanimation="{ delay: 20000, speed: 500, style: { textShadow: '0px 0px 0px rgba(255, 255, 255, 1)' } }">Share your stories with<br>friends and the world.</div>
+				</div>
+			</div>
+		</div>
+		<a class="hover icon-expand icon-lg" id="fullscreen"></a>
+	</div>
+	
+	<a class="hover visible-md visible-lg" data-toggle="modal" data-target="#modal">About this slider</a>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">Facebook Paper Style Slider Template</h4>
+		  </div>
+		  <div class="modal-body">
+			<p>This slider created with mightySlider capabilities. But videos and images are from <a href="https://www.facebook.com/paper" target="_blank">Facebook Paper</a> page.</p>
+			<p>Whole slider, video player, video backgrounds, and all animated text layers are mightySlider's features. You can simply use videos or images in any sizes or insert multiple animated layers over each slide.</p>
+			<p>For better performance and customizability some mightySlider APIs were used.</p>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://mightyslider.com/assets/js/jquery.migrate.min.js"></script>
+	<script src="http://mightyslider.com/assets/js/jquery.mobile.just-touch.js"></script>
+	<script src="http://mightyslider.com/assets/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="http://mightyslider.com/assets/js/retina.js" type="text/javascript"></script>
+	<script src="http://mightyslider.com/assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+	<script src="http://mightyslider.com/assets/js/jquery.stellar.js" type="text/javascript"></script>
+	<script src="src/js/tweenlite.js" type="text/javascript"></script>
+	<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+	<script src="http://mightyslider.com/assets/js/custom.js" type="text/javascript"></script>
+    <script>
+		jQuery(document).ready(function($) {
+			var isTouch = !!('ontouchstart' in window),
+				clickEvent = isTouch ? 'tap' : 'click';
+
+
+			(function(){
+				var $example = $('#example'),
+				$frame = $('.frame', $example),
+				$caption = $('#caption', $example),
+				$fullscreen = $('#fullscreen', $example),
+				lastIndex = 0;
+
+				$frame.mightySlider({
+					speed: 1000,
+					viewport: 'fill',
+					easing: 'easeOutExpo',
+					
+					// Navigation options
+					navigation: {
+						slideSize: '100%',
+						keyboardNavBy: 'slides'
+					},
+
+					// Dragging
+					dragging: {
+						mouseDragging: 0,
+						touchDragging: 0
+					},
+						
+					// Pages
+					pages: {
+						activateOn: clickEvent
+					},
+						
+					// Buttons
+					buttons: {
+						fullScreen: $fullscreen
+					},
+
+					// Commands
+					commands: {
+						pages: 1,
+						buttons: 1
+					}
+				},
+				{
+					active: function(name, index) {
+						if (lastIndex === index)
+							return false;
+
+						var self = this,
+							el = this.slides[index].element,
+							$videos = $('video', $example),
+							$video = $('video', el);
+							video = $video[0];
+
+						$videos.unbind('ended').each(function() {
+							this.pause();
+						});
+
+						if (video && video.paused) {
+							if (video.currentTime !== 0)
+								video.currentTime = 0;
+
+							video.play();
+
+							$video.one('ended', function(){
+								if (index === self.slides.length-1)
+									self.activate('0');
+								else
+									self.next();
+							});
+						}
+
+						lastIndex = index;
+					},
+					coverLoaded: function(name, index) {
+						var self = this,
+							el = this.slides[index].element,
+							$video = $('video', el);
+							video = $video[0];
+
+						if (video) {
+							video.removeAttribute('loop');
+
+							if (self.relative.activeSlide !== index)
+								video.pause();
+							else
+								$video.one('ended', function(){
+									if (index === self.slides.length-1)
+										self.activate('0');
+									else
+										self.next();
+								});
+						}
+					},
+					enterFullScreen: function() {
+						$fullscreen.removeClass('icon-expand').addClass('icon-compress');
+					},
+					exitFullScreen: function() {
+						$fullscreen.addClass('icon-expand').removeClass('icon-compress');
+					}
+				});
+
+				$(document).on(clickEvent, '.paper_watch', function() {
+					var $parent = $(this).parents('.mSSlide'),
+						$playIcon = $('.mSVideo', $parent);
+
+					$playIcon.trigger('click');
+				});
+			})();
+		});
+    </script>
+  </body>
+</html>

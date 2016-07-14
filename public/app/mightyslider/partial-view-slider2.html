@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Partial View Slider 2 / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+
+		<style>
+			#example {
+				position: relative;
+				overflow: hidden;
+				margin-top: 61px;
+				background: transparent;
+			}
+			#example .frame {
+				position: relative;
+				width: 100%;
+				padding: 20px 0;
+				padding-bottom: 50px;
+
+				-webkit-perspective: 1000px;
+				perspective: 1000px;
+				-webkit-perspective-origin: 50% 50%;
+				perspective-origin: 50% 50%;
+			}
+			#example .frame .slide_element {
+				height: 100%;
+
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			#example .frame .slide_element .slide {
+				float: left;
+				height: 100%;
+				margin-right: 20px;
+				opacity: 0.6;
+				background: #000;
+				z-index: 9;
+				border-radius: 10px;
+
+				-webkit-box-reflect: below 0 -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), color-stop(0.9, transparent), to(rgba(255, 255, 255, 0.498039)));
+
+				-webkit-transform: translateZ(-150px);
+				transform: translateZ(-150px);
+
+				-webkit-transition: -webkit-transform 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+				-webkit-transition-property: opacity, -webkit-transform;
+				transition: transform 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+				transition-property: opacity, transform;
+			}
+			#example .frame .slide_element .slide.active {
+				opacity: 1;
+				z-index: 10;
+
+				-webkit-transform: translateZ(0);
+				transform: translateZ(0);
+			}
+			.ie #example .frame .slide_element .slide {
+				margin-right: -70px;
+				transform: scale(0.85);
+			}
+			.ie #example .frame .slide_element .slide.active {
+				transform: scale(1);
+			}
+			#example .details {
+				display: block;
+				text-align: center;
+				padding: 20px;
+				padding-top: 0;
+				opacity: 0;
+				min-height: 114px;
+				margin-top: -20px;
+			}
+			#example .details h3 {
+				text-transform: uppercase;
+				font-size: 32px;
+				font-weight: 300;
+				margin: 0;
+			}
+			#example .details h4#photographer {
+				text-transform: uppercase;
+				color: #7A7A7A;
+			}
+			#example .details #description {
+				color: #3D3D3D;
+			}
+			#example .mSButtons.mSPrev {
+				left: 25%;
+				right: auto;
+				bottom: 30px;
+			}
+			#example .mSButtons.mSNext {
+				right: 25%;
+				left: auto;
+				bottom: 30px;
+			}
+			#example.isTouch .mSButtons {
+				display: none;
+			}
+			#example .mSCaption {
+				left: 20px;
+				bottom: 40px;
+				font-size: 18px;
+				line-height: normal;
+				font-weight: 300;
+				color: #000;
+				opacity: 0;
+				letter-spacing: -1px;
+				white-space: nowrap;
+				text-transform: uppercase;
+				z-index: 1002;
+
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+			#example .mSCaption.showed {
+				bottom: 20px;
+				opacity: 1;
+			}
+
+
+			/* Responsive */
+			@media (max-width: 480px) {
+				#example .frame .slide_element .slide {
+					margin-right: 0;
+				}
+                .ie #example .frame .slide_element .slide {
+                    margin-right: -40px;
+                }
+			}
+		</style>
+
+		<div id="example" class="mightyslider_modern_skin black">
+			<div class="frame" data-mightyslider="width: 1585, height: 500">
+				<div class="slide_element">
+					<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1280x720/fd6a62/fff.png', title: 'Neque porro quisquam est qui', photographer: 'MARCUS ERIKSSON', description: 'Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris.'"></div>
+					<div class="slide active" data-mightyslider="cover: 'http://dummyimage.com/1280x720/0ac2d2/fff.png', title: 'Integer viverra felis a nisl volutpat placerat', photographer: 'MARCUS ERIKSSON', description: 'Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.'"></div>
+					<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1280x720/f68dbb/fff.png', video: 'http://vimeo.com/32685545', title: 'Donec dignissim est ut ligula', photographer: 'MARCUS ERIKSSON', description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.'">
+						<div class="mSCaption">
+							You can use direct video url<br>for full-sized videos &amp; covers
+						</div>
+					</div>
+					<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1280x720/60d7a9/fff.png', title: 'Neque porro quisquam est qui', photographer: 'MARCUS ERIKSSON', description: 'Nullam volutpat purus vel eleifend venenatis. Nulla bibendum mi sit amet elit convallis imperdiet.'"></div>
+					<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1280x720/fdc162/fff.png', title: 'Integer viverra felis a nisl volutpat placera', photographer: 'MARCUS ERIKSSON', description: 'Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris.'"></div>
+					<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1280x720/00aa00/fff.png', title: 'Donec dignissim est ut ligula', photographer: 'MARCUS ERIKSSON', description: 'Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.'"></div>
+				</div>
+				<a class="mSButtons mSPrev"></a>
+				<a class="mSButtons mSNext"></a>
+			</div>
+			<div class="details">
+				<h3 id="title"></h3>
+				<h4 id="photographer"></h4>
+				<p id="description"></p>
+			</div>
+		</div>
+
+		<div class="featurette-divider2"></div>
+
+		<div class="container marketing">
+			<div class="featurette">
+				<div class="page-header">
+					<h2 class="slim">Partial View Slider Template 2</h2>
+				</div>
+				<p>This template shows one complete slide plus two partial of nearby slides at a same time which it increases the interest of seeing other slides by the visitors.</p>
+				<p>As usual you can simply use videos or images in any sizes or insert multiple animated layers over each slide, or add bullets, thumbnails or tabs.</p>
+				<p>Each slide takes a unique html value. It also can be used with auto playing feature.</p>
+				<p>The beautiful photos are by <b>MARCUS ERIKSSON</b> and you can see his website here:
+				<a target="_blank" href="http://marcuseriksson.net/">http://marcuseriksson.net/</a></p>
+			</div><!-- /.featurette -->
+		</div><!-- /.container -->
+
+		<div class="featurette-divider2"></div>
+
+		<div class="container marketing">
+			<div class="featurette">
+				<div class="clearfix">
+					<h2 class="slim pull-left">Code View</h2>
+				</div>
+				<div class="ms-tabs">
+					<ul class="nav-tabs clearfix">
+					  <li class="active"><a href="#js" data-toggle="tab">JavaScript</a></li>
+					  <li><a href="#html" data-toggle="tab">HTML</a></li>
+					  <li><a href="#css" data-toggle="tab">CSS</a></li>
+					  <li><a href="#full" data-toggle="tab">Full Page</a></li>
+					</ul>
+					<div class="tab-content">
+					  <div class="tab-pane active in" id="js">
+						<div class="describe"><i class="icon-info-circle"></i>You need to put the following scripts just before the <code>&lt;⁄body></code></div>
+						<pre class="prettyprint theme-snappy-light">
+&lt;script type="text/javascript">
+    /**
+     * Get viewport/window size (width and height).
+     *
+     * @return {Object}
+     */
+    function getViewport() {
+        var e = window,
+            a = 'inner';
+        if (!('innerWidth' in window)) {
+            a = 'client';
+            e = document.documentElement || document.body;
+        }
+        return {
+            width: e[a + 'Width'],
+            height: e[a + 'Height']
+        }
+    }
+
+    jQuery(document).ready(function($) {
+        var $win = $(window),
+            isTouch = !!('ontouchstart' in window),
+            clickEvent = isTouch ? 'tap' : 'click';
+
+        (function(){
+            /**
+             * Calculate the slides width in percent based on the parent's width.
+             *
+             * @return {String}
+             */
+            function calculator(width){
+                var percent = '50%';
+
+                if (width <= 480) {
+                    percent = '60%';
+                }
+                else if (width <= 767) {
+                    percent = '55%';
+                }
+
+                return percent;
+            };
+
+            // Global slider's DOM elements
+            var $example = $('#example'),
+                $frame = $('.frame', $example),
+                $details = $('div.details', $example),
+                $title = $('#title', $details),
+                $photographer = $('#photographer', $details),
+                $description = $('#description', $details),
+                lastIndex = -1;
+
+            // Calling new mightySlider class
+            var slider = <a href="http://mightyslider.com/documentation.html#jsapi-calling-new-mightyslider-class" target="_blank" title="Get information about this on documentation">new mightySlider</a>($frame, {
+                <a href="http://mightyslider.com/documentation.html#global-options-speed" target="_blank" title="Get information about this on documentation">speed</a>: 1000,
+                <a href="http://mightyslider.com/documentation.html#global-options-startAt" target="_blank" title="Get information about this on documentation">startAt</a>: 1,
+                <a href="http://mightyslider.com/documentation.html#global-options-autoScale" target="_blank" title="Get information about this on documentation">autoScale</a>: 1,
+                <a href="http://mightyslider.com/documentation.html#global-options-easing" target="_blank" title="Get information about this on documentation">easing</a>: 'easeOutExpo',
+                
+                // Navigation options
+                <a href="http://mightyslider.com/documentation.html#global-options-navigation" target="_blank" title="Get information about this on documentation">navigation</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation-slideSize" target="_blank" title="Get information about this on documentation">slideSize</a>: calculator(getViewport().width),
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation-keyboardNavBy" target="_blank" title="Get information about this on documentation">keyboardNavBy</a>: 'slides',
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation-activateOn" target="_blank" title="Get information about this on documentation">activateOn</a>: clickEvent
+                },
+
+                // Dragging options
+                <a href="http://mightyslider.com/documentation.html#global-options-dragging" target="_blank" title="Get information about this on documentation">dragging</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-dragging-swingSpeed" target="_blank" title="Get information about this on documentation">swingSpeed</a>: 0.12,
+                    <a href="http://mightyslider.com/documentation.html#global-options-dragging-onePage" target="_blank" title="Get information about this on documentation">onePage</a>: 1
+                },
+
+                // Buttons options
+                <a href="http://mightyslider.com/documentation.html#global-options-buttons" target="_blank" title="Get information about this on documentation">buttons</a>: !isTouch ? {
+                    <a href="http://mightyslider.com/documentation.html#global-options-buttons-prev" target="_blank" title="Get information about this on documentation">prev</a>: $('a.mSPrev', $frame),
+                    <a href="http://mightyslider.com/documentation.html#global-options-buttons-next" target="_blank" title="Get information about this on documentation">next</a>: $('a.mSNext', $frame)
+                } : {},
+
+                // Cycling options
+                <a href="http://mightyslider.com/documentation.html#global-options-cycling" target="_blank" title="Get information about this on documentation">cycling</a>: {
+                    <a href="http://mightyslider.com/documentation.html#global-options-cycling-cycleBy" target="_blank" title="Get information about this on documentation">cycleBy</a>: 'slides'
+                }
+            },
+
+            // Register callbacks to the events
+            {
+                // Register mightySlider :active event callback
+                <a href="http://mightyslider.com/documentation.html#jsapi-events-active" target="_blank" title="Get information about this on documentation">active</a>: function(name, index) {
+                    var slideOptions = this.slides[index].options;
+
+                    if (lastIndex !== index)
+                        $details.stop().animate({ opacity: 0 }, 500, function(){
+                            $title.html(slideOptions.title);
+                            $photographer.html(slideOptions.photographer);
+                            $description.html(slideOptions.description);
+                            $details.animate({ opacity: 1 }, 500);
+                        });
+
+                    lastIndex = index;
+                }
+            }).init();
+
+            // Register window :resize event callback
+            $win.resize(function(){
+                // Update slider options using 'set' method
+                slider<a href="http://mightyslider.com/documentation.html#jsapi-methods-set" target="_blank" title="Get information about this on documentation">.set</a>({
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation" target="_blank" title="Get information about this on documentation">navigation</a>: {
+                        <a href="http://mightyslider.com/documentation.html#global-options-navigation-slideSize" target="_blank" title="Get information about this on documentation">slideSize</a>: calculator(getViewport().width)
+                    }
+                });
+            });
+        })();
+    });
+&lt;/script>
+</pre>
+					  </div>
+					  <div class="tab-pane" id="html">
+						<div class="describe"><i class="icon-info-circle"></i>You need to put the following html markup in your html document where you want to have slider.</div>
+						<pre class="prettyprint theme-snappy-light">
+<a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- PARENT --></a>
+&lt;div id="example" class="mightyslider_modern_skin black">
+    <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- FRAME --></a>
+    &lt;div class="frame" <a href="http://mightyslider.com/documentation.html#options-frame-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+        <a href="http://mightyslider.com/documentation.html#frame_options_width" target="_blank" title="Get information about this on documentation">width</a>: 1585,
+        <a href="http://mightyslider.com/documentation.html#frame_options_height" target="_blank" title="Get information about this on documentation">height</a>: 500
+    ">
+        <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- SLIDEELEMENT --></a>
+        &lt;div class="slide_element">
+            <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- SLIDES --></a>
+            &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27898.jpg',
+                title: 'Neque porro quisquam est qui',
+                photographer: 'MARCUS ERIKSSON',
+                description: 'Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris.'
+            ">&lt;/div>
+            &lt;div class="slide active" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27771.jpg',
+                title: 'Integer viverra felis a nisl volutpat placerat',
+                photographer: 'MARCUS ERIKSSON',
+                description: 'Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.'
+            ">&lt;/div>
+            &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27845.jpg',
+                <a href="http://mightyslider.com/documentation.html#slides-options-video" target="_blank" title="Get information about this on documentation">video</a>: 'http://vimeo.com/32685545',
+                title: 'Donec dignissim est ut ligula',
+                photographer: 'MARCUS ERIKSSON',
+                description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.'
+            ">
+                <a href="http://mightyslider.com/documentation.html#layers" target="_blank" title="Get information about this on documentation">&lt;!-- LAYER --></a>
+                &lt;div class="mSCaption">
+                    You can use direct video url&lt;br />for full-sized videos &amp; covers
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27780.jpg',
+                title: 'Neque porro quisquam est qui',
+                photographer: 'MARCUS ERIKSSON',
+                description: 'Nullam volutpat purus vel eleifend venenatis. Nulla bibendum mi sit amet elit convallis imperdiet.'
+            ">&lt;/div>
+            &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27749.jpg',
+                title: 'Integer viverra felis a nisl volutpat placera',
+                photographer: 'MARCUS ERIKSSON',
+                description: 'Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris.'
+            ">&lt;/div>
+            &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-278081.jpg',
+                title: 'Donec dignissim est ut ligula',
+                photographer: 'MARCUS ERIKSSON',
+                description: 'Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.'
+            ">&lt;/div>
+            &lt;!-- END OF SLIDES -->
+        &lt;/div>
+        &lt;!-- END OF SLIDEELEMENT -->
+        &lt;!-- ARROW BUTTONS -->
+        &lt;a class="mSButtons mSPrev">&lt;/a>
+        &lt;a class="mSButtons mSNext">&lt;/a>
+    &lt;/div>
+    &lt;!-- END OF FRAME -->
+    &lt;!-- SLIDER DETAILS (TITLE, PHOTOGRAPHER AND DESCRIPTION) -->
+    &lt;div class="details">
+        &lt;h3 id="title">&lt;/h3>
+        &lt;h4 id="photographer">&lt;/h4>
+        &lt;p id="description">&lt;/p>
+    &lt;/div>
+&lt;/div>
+&lt;!-- END OF PARENT -->
+</pre>
+					  </div>
+					  <div class="tab-pane" id="css">
+						<div class="describe"><i class="icon-info-circle"></i>You need to put the following styles just before the <code>&lt;/head></code></div>
+						<pre class="prettyprint lang-css theme-snappy-light">
+&lt;style>
+    #example {
+        position: relative;
+        overflow: hidden;
+        margin-top: 61px;
+        background: transparent;
+    }
+    #example .frame {
+        position: relative;
+        width: 100%;
+        padding: 20px 0;
+        padding-bottom: 50px;
+
+        -webkit-perspective: 1000px;
+        perspective: 1000px;
+        -webkit-perspective-origin: 50% 50%;
+        perspective-origin: 50% 50%;
+    }
+    #example .frame .slide_element {
+        height: 100%;
+
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    #example .frame .slide_element .slide {
+        float: left;
+        height: 100%;
+        margin-right: 20px;
+        opacity: 0.6;
+        background: #000;
+        z-index: 9;
+        border-radius: 10px;
+
+        -webkit-box-reflect: below 0 -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), color-stop(0.9, transparent), to(rgba(255, 255, 255, 0.498039)));
+
+        -webkit-transform: translateZ(-150px);
+        transform: translateZ(-150px);
+
+        -webkit-transition: -webkit-transform 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -webkit-transition-property: opacity, -webkit-transform;
+        transition: transform 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        transition-property: opacity, transform;
+    }
+    #example .frame .slide_element .slide.active {
+        opacity: 1;
+        z-index: 10;
+
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    .ie #example .frame .slide_element .slide {
+        margin-right: -70px;
+        transform: scale(0.85);
+    }
+    .ie #example .frame .slide_element .slide.active {
+        transform: scale(1);
+    }
+    #example .details {
+        display: block;
+        text-align: center;
+        padding: 20px;
+        padding-top: 0;
+        opacity: 0;
+        min-height: 114px;
+        margin-top: -20px;
+    }
+    #example .details h3 {
+        text-transform: uppercase;
+        font-size: 32px;
+        font-weight: 300;
+        margin: 0;
+    }
+    #example .details h4#photographer {
+        text-transform: uppercase;
+        color: #7A7A7A;
+    }
+    #example .details #description {
+        color: #3D3D3D;
+    }
+    #example .mSButtons.mSPrev {
+        left: 25%;
+        right: auto;
+        bottom: 30px;
+    }
+    #example .mSButtons.mSNext {
+        right: 25%;
+        left: auto;
+        bottom: 30px;
+    }
+    #example.isTouch .mSButtons {
+        display: none;
+    }
+    #example .mSCaption {
+        left: 20px;
+        bottom: 40px;
+        font-size: 18px;
+        line-height: normal;
+        font-weight: 300;
+        color: #000;
+        opacity: 0;
+        letter-spacing: -1px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        z-index: 1002;
+
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    #example .mSCaption.showed {
+        bottom: 20px;
+        opacity: 1;
+    }
+
+
+    /* Responsive Improvements */
+    @media (max-width: 480px) {
+        #example .frame .slide_element .slide {
+            margin-right: 0;
+        }
+        .ie #example .frame .slide_element .slide {
+            margin-right: -40px;
+        }
+    }
+&lt;/style>
+</pre>
+					  </div>
+					  <div class="tab-pane" id="full">
+						<pre class="prettyprint theme-snappy-light">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>&lt;/title>
+
+    &lt;!-- mightySlider basic stylesheet with skins imported -->
+    &lt;link rel="stylesheet" type="text/css" href="mightyslider/src/css/mightyslider.css"/>
+
+    &lt;style>
+        #example {
+            position: relative;
+            overflow: hidden;
+            margin-top: 61px;
+            background: transparent;
+        }
+        #example .frame {
+            position: relative;
+            width: 100%;
+            padding: 20px 0;
+            padding-bottom: 50px;
+
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
+            -webkit-perspective-origin: 50% 50%;
+            perspective-origin: 50% 50%;
+        }
+        #example .frame .slide_element {
+            height: 100%;
+
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+        #example .frame .slide_element .slide {
+            float: left;
+            height: 100%;
+            margin-right: 20px;
+            opacity: 0.6;
+            background: #000;
+            z-index: 9;
+            border-radius: 10px;
+
+            -webkit-box-reflect: below 0 -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), color-stop(0.9, transparent), to(rgba(255, 255, 255, 0.498039)));
+
+            -webkit-transform: translateZ(-150px);
+            transform: translateZ(-150px);
+
+            -webkit-transition: -webkit-transform 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            -webkit-transition-property: opacity, -webkit-transform;
+            transition: transform 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+            transition-property: opacity, transform;
+        }
+        #example .frame .slide_element .slide.active {
+            opacity: 1;
+            z-index: 10;
+
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        .ie #example .frame .slide_element .slide {
+            margin-right: -70px;
+            transform: scale(0.85);
+        }
+        .ie #example .frame .slide_element .slide.active {
+            transform: scale(1);
+        }
+        #example .details {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            padding-top: 0;
+            opacity: 0;
+            min-height: 114px;
+            margin-top: -20px;
+        }
+        #example .details h3 {
+            text-transform: uppercase;
+            font-size: 32px;
+            font-weight: 300;
+            margin: 0;
+        }
+        #example .details h4#photographer {
+            text-transform: uppercase;
+            color: #7A7A7A;
+        }
+        #example .details #description {
+            color: #3D3D3D;
+        }
+        #example .mSButtons.mSPrev {
+            left: 25%;
+            right: auto;
+            bottom: 30px;
+        }
+        #example .mSButtons.mSNext {
+            right: 25%;
+            left: auto;
+            bottom: 30px;
+        }
+        #example.isTouch .mSButtons {
+            display: none;
+        }
+        #example .mSCaption {
+            left: 20px;
+            bottom: 40px;
+            font-size: 18px;
+            line-height: normal;
+            font-weight: 300;
+            color: #000;
+            opacity: 0;
+            letter-spacing: -1px;
+            white-space: nowrap;
+            text-transform: uppercase;
+            z-index: 1002;
+
+            -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+        #example .mSCaption.showed {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+
+        /* Responsive Improvements */
+        @media (max-width: 480px) {
+            #example .frame .slide_element .slide {
+                margin-right: 0;
+            }
+            .ie #example .frame .slide_element .slide {
+                margin-right: -40px;
+            }
+        }
+    &lt;/style>
+&lt;/head>
+&lt;body>
+
+    <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- PARENT --></a>
+    &lt;div id="example" class="mightyslider_modern_skin black">
+        <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- FRAME --></a>
+        &lt;div class="frame" <a href="http://mightyslider.com/documentation.html#options-frame-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+            <a href="http://mightyslider.com/documentation.html#frame_options_width" target="_blank" title="Get information about this on documentation">width</a>: 1585,
+            <a href="http://mightyslider.com/documentation.html#frame_options_height" target="_blank" title="Get information about this on documentation">height</a>: 500
+        ">
+            <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- SLIDEELEMENT --></a>
+            &lt;div class="slide_element">
+                <a href="http://mightyslider.com/documentation.html#usage-markup" target="_blank" title="Get information about this on documentation">&lt;!-- SLIDES --></a>
+                &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                    <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27898.jpg',
+                    title: 'Neque porro quisquam est qui',
+                    photographer: 'MARCUS ERIKSSON',
+                    description: 'Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris.'
+                ">&lt;/div>
+                &lt;div class="slide active" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                    <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27771.jpg',
+                    title: 'Integer viverra felis a nisl volutpat placerat',
+                    photographer: 'MARCUS ERIKSSON',
+                    description: 'Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.'
+                ">&lt;/div>
+                &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                    <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27845.jpg',
+                    <a href="http://mightyslider.com/documentation.html#slides-options-video" target="_blank" title="Get information about this on documentation">video</a>: 'http://vimeo.com/32685545',
+                    title: 'Donec dignissim est ut ligula',
+                    photographer: 'MARCUS ERIKSSON',
+                    description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.'
+                ">
+                    <a href="http://mightyslider.com/documentation.html#layers" target="_blank" title="Get information about this on documentation">&lt;!-- LAYER --></a>
+                    &lt;div class="mSCaption">
+                        You can use direct video url&lt;br />for full-sized videos &amp; covers
+                    &lt;/div>
+                &lt;/div>
+                &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                    <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27780.jpg',
+                    title: 'Neque porro quisquam est qui',
+                    photographer: 'MARCUS ERIKSSON',
+                    description: 'Nullam volutpat purus vel eleifend venenatis. Nulla bibendum mi sit amet elit convallis imperdiet.'
+                ">&lt;/div>
+                &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                    <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-27749.jpg',
+                    title: 'Integer viverra felis a nisl volutpat placera',
+                    photographer: 'MARCUS ERIKSSON',
+                    description: 'Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris.'
+                ">&lt;/div>
+                &lt;div class="slide" <a href="http://mightyslider.com/documentation.html#options-slides-options" target="_blank" title="Get information about this on documentation">data-mightyslider</a>="
+                    <a href="http://mightyslider.com/documentation.html#slides-options-cover" target="_blank" title="Get information about this on documentation">cover</a>: 'assets/img/photos/MS-test-day-278081.jpg',
+                    title: 'Donec dignissim est ut ligula',
+                    photographer: 'MARCUS ERIKSSON',
+                    description: 'Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.'
+                ">&lt;/div>
+                &lt;!-- END OF SLIDES -->
+            &lt;/div>
+            &lt;!-- END OF SLIDEELEMENT -->
+            &lt;!-- ARROW BUTTONS -->
+            &lt;a class="mSButtons mSPrev">&lt;/a>
+            &lt;a class="mSButtons mSNext">&lt;/a>
+        &lt;/div>
+        &lt;!-- END OF FRAME -->
+        &lt;!-- SLIDER DETAILS (TITLE, PHOTOGRAPHER AND DESCRIPTION) -->
+        &lt;div class="details">
+            &lt;h3 id="title">&lt;/h3>
+            &lt;h4 id="photographer">&lt;/h4>
+            &lt;p id="description">&lt;/p>
+        &lt;/div>
+    &lt;/div>
+    &lt;!-- END OF PARENT -->
+
+    &lt;!-- mightySlider requires jQuery 1.7+  -->
+    &lt;!-- If you already have jQuery on your page, you shouldn't include it second time. -->
+    &lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js">&lt;/script>
+    &lt;!-- Uses the built in easing capabilities added In jQuery 1.1 to offer multiple easing options -->
+    &lt;script type="text/javascript" src="assets/js/jquery.easing-1.3.pack.js">&lt;/script>
+    &lt;!-- Mobile touch events for jQuery -->
+    &lt;script type="text/javascript" src="assets/js/jquery.mobile.just-touch.js">&lt;/script>
+    &lt;!-- mightySlider layers animation engine -->
+    &lt;script type="text/javascript" src="mightyslider/src/js/tweenlite.js">&lt;/script>
+    &lt;!-- Main slider JS script file -->
+    &lt;script type="text/javascript" src="mightyslider/src/js/mightyslider.min.js">&lt;/script>
+
+    &lt;script type="text/javascript">
+        /**
+         * Get viewport/window size (width and height).
+         *
+         * @return {Object}
+         */
+        function getViewport() {
+            var e = window,
+                a = 'inner';
+            if (!('innerWidth' in window)) {
+                a = 'client';
+                e = document.documentElement || document.body;
+            }
+            return {
+                width: e[a + 'Width'],
+                height: e[a + 'Height']
+            }
+        }
+
+        jQuery(document).ready(function($) {
+            var $win = $(window),
+                isTouch = !!('ontouchstart' in window),
+                clickEvent = isTouch ? 'tap' : 'click';
+
+            (function(){
+                /**
+                 * Calculate the slides width in percent based on the parent's width.
+                 *
+                 * @return {String}
+                 */
+                function calculator(width){
+                    var percent = '50%';
+
+                    if (width <= 480) {
+                        percent = '60%';
+                    }
+                    else if (width <= 767) {
+                        percent = '55%';
+                    }
+
+                    return percent;
+                };
+
+                // Global slider's DOM elements
+                var $example = $('#example'),
+                    $frame = $('.frame', $example),
+                    $details = $('div.details', $example),
+                    $title = $('#title', $details),
+                    $photographer = $('#photographer', $details),
+                    $description = $('#description', $details),
+                    lastIndex = -1;
+
+                // Calling new mightySlider class
+                var slider = <a href="http://mightyslider.com/documentation.html#jsapi-calling-new-mightyslider-class" target="_blank" title="Get information about this on documentation">new mightySlider</a>($frame, {
+                    <a href="http://mightyslider.com/documentation.html#global-options-speed" target="_blank" title="Get information about this on documentation">speed</a>: 1000,
+                    <a href="http://mightyslider.com/documentation.html#global-options-startAt" target="_blank" title="Get information about this on documentation">startAt</a>: 1,
+                    <a href="http://mightyslider.com/documentation.html#global-options-autoScale" target="_blank" title="Get information about this on documentation">autoScale</a>: 1,
+                    <a href="http://mightyslider.com/documentation.html#global-options-easing" target="_blank" title="Get information about this on documentation">easing</a>: 'easeOutExpo',
+                    
+                    // Navigation options
+                    <a href="http://mightyslider.com/documentation.html#global-options-navigation" target="_blank" title="Get information about this on documentation">navigation</a>: {
+                        <a href="http://mightyslider.com/documentation.html#global-options-navigation-slideSize" target="_blank" title="Get information about this on documentation">slideSize</a>: calculator(getViewport().width),
+                        <a href="http://mightyslider.com/documentation.html#global-options-navigation-keyboardNavBy" target="_blank" title="Get information about this on documentation">keyboardNavBy</a>: 'slides',
+                        <a href="http://mightyslider.com/documentation.html#global-options-navigation-activateOn" target="_blank" title="Get information about this on documentation">activateOn</a>: clickEvent
+                    },
+
+                    // Dragging options
+                    <a href="http://mightyslider.com/documentation.html#global-options-dragging" target="_blank" title="Get information about this on documentation">dragging</a>: {
+                        <a href="http://mightyslider.com/documentation.html#global-options-dragging-swingSpeed" target="_blank" title="Get information about this on documentation">swingSpeed</a>: 0.12,
+                        <a href="http://mightyslider.com/documentation.html#global-options-dragging-onePage" target="_blank" title="Get information about this on documentation">onePage</a>: 1
+                    },
+
+                    // Buttons options
+                    <a href="http://mightyslider.com/documentation.html#global-options-buttons" target="_blank" title="Get information about this on documentation">buttons</a>: !isTouch ? {
+                        <a href="http://mightyslider.com/documentation.html#global-options-buttons-prev" target="_blank" title="Get information about this on documentation">prev</a>: $('a.mSPrev', $frame),
+                        <a href="http://mightyslider.com/documentation.html#global-options-buttons-next" target="_blank" title="Get information about this on documentation">next</a>: $('a.mSNext', $frame)
+                    } : {},
+
+                    // Cycling options
+                    <a href="http://mightyslider.com/documentation.html#global-options-cycling" target="_blank" title="Get information about this on documentation">cycling</a>: {
+                        <a href="http://mightyslider.com/documentation.html#global-options-cycling-cycleBy" target="_blank" title="Get information about this on documentation">cycleBy</a>: 'slides'
+                    }
+                },
+
+                // Register callbacks to the events
+                {
+                    // Register mightySlider :active event callback
+                    <a href="http://mightyslider.com/documentation.html#jsapi-events-active" target="_blank" title="Get information about this on documentation">active</a>: function(name, index) {
+                        var slideOptions = this.slides[index].options;
+
+                        if (lastIndex !== index)
+                            $details.stop().animate({ opacity: 0 }, 500, function(){
+                                $title.html(slideOptions.title);
+                                $photographer.html(slideOptions.photographer);
+                                $description.html(slideOptions.description);
+                                $details.animate({ opacity: 1 }, 500);
+                            });
+
+                        lastIndex = index;
+                    }
+                }).init();
+
+                // Register window :resize event callback
+                $win.resize(function(){
+                    // Update slider options using 'set' method
+                    slider<a href="http://mightyslider.com/documentation.html#jsapi-methods-set" target="_blank" title="Get information about this on documentation">.set</a>({
+                        <a href="http://mightyslider.com/documentation.html#global-options-navigation" target="_blank" title="Get information about this on documentation">navigation</a>: {
+                            <a href="http://mightyslider.com/documentation.html#global-options-navigation-slideSize" target="_blank" title="Get information about this on documentation">slideSize</a>: calculator(getViewport().width)
+                        }
+                    });
+                });
+            })();
+        });
+    &lt;/script>
+&lt;/body>
+&lt;/html>
+</pre>
+					  </div>
+					</div>
+				  </div>
+			</div><!-- /.featurette -->
+		</div><!-- /.container -->
+
+		<div class="featurette-divider2"></div>
+		
+			<!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="assets/js/css_browser_selector.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.requestAnimationFrame.js"></script>
+		<script src="assets/js/jquery.mobile.just-touch.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.scrollto-min.js"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/google-code-prettify/prettify.js"></script>
+		<script src="assets/js/google-code-prettify/lang-css.js"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+		<script>
+			/**
+			 * Get viewport/window size (width and height).
+			 *
+			 * @return {Object}
+			 */
+			function getViewport() {
+				var e = window,
+					a = 'inner';
+				if (!('innerWidth' in window)) {
+					a = 'client';
+					e = document.documentElement || document.body;
+				}
+				return {
+					width: e[a + 'Width'],
+					height: e[a + 'Height']
+				}
+			}
+
+
+			jQuery(document).ready(function($) {
+				var $win = $(window),
+					isTouch = !!('ontouchstart' in window),
+					clickEvent = isTouch ? 'tap' : 'click';
+
+				(function(){
+					function calculator(width){
+						var percent = '50%';
+
+						if (width <= 480) {
+							percent = '60%';
+						}
+						else if (width <= 767) {
+							percent = '55%';
+						}
+
+						return percent;
+					};
+
+					var $example = $('#example'),
+						$frame = $('.frame', $example),
+						$details = $('div.details', $example),
+						$title = $('#title', $details),
+						$photographer = $('#photographer', $details),
+						$description = $('#description', $details),
+						lastIndex = -1;
+
+					$frame.mightySlider({
+						speed: 1000,
+						startAt: 1,
+						autoScale: 1,
+						easing: 'easeOutExpo',
+						
+						// Navigation options
+						navigation: {
+							slideSize: calculator(getViewport().width),
+							keyboardNavBy: 'slides',
+							activateOn: clickEvent
+						},
+
+						// Dragging
+						dragging: {
+							swingSpeed: 0.12,
+							onePage: 1
+						},
+
+						// Buttons
+						buttons: !isTouch ? {
+							prev: $('a.mSPrev', $frame),
+							next: $('a.mSNext', $frame)
+						} : {},
+
+						// Cycling
+						cycling: {
+							cycleBy: 'slides'
+						}
+					}, {
+						active: function(name, index) {
+							var slideOptions = this.slides[index].options;
+
+							if (lastIndex !== index)
+								$details.stop().animate({ opacity: 0 }, 500, function(){
+									$title.html(slideOptions.title);
+									$photographer.html(slideOptions.photographer);
+									$description.html(slideOptions.description);
+									$details.animate({ opacity: 1 }, 500);
+								});
+
+							lastIndex = index;
+						}
+					});
+
+					var API = $frame.data().mightySlider;
+
+					$win.resize(function(){
+						API.set({
+							navigation: {
+								slideSize: calculator(getViewport().width)
+							}
+						});
+					});
+				})();
+			});
+		</script>
+	</body>
+</html>

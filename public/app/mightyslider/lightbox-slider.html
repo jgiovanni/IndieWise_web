@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Slider in Lightbox / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+		<link href="assets/js/ilightbox/css/ilightbox.css" rel="stylesheet" />
+		<style>
+			body.mobile {
+				overflow: hidden;
+			}
+			.navbar.blur,
+			#footer.blur,
+			#introducing-top.blur,
+			.portfolio.blur {
+				-webkit-filter: blur(3px);
+				   -moz-filter: blur(3px);
+						filter: blur(3px);
+			}
+			.slider-modal-overlay {
+				display: none;
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				width: 100%;
+				height: 100%;
+				background: #000;
+				opacity: 0.7;
+				filter: alpha(opacity=70);
+				z-index: 10000;
+			}
+			.slider-modal {
+				background: transparent;
+				visibility: hidden;
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
+				width: 960px;
+				height: 480px;
+				max-width: 100%;
+				max-height: 100%;
+				z-index: 10001;
+				border: none;
+				
+				-webkit-border-radius: 6px;
+				   -moz-border-radius: 6px;
+						border-radius: 6px;
+
+				-webkit-box-sizing: border-box;
+				   -moz-box-sizing: border-box;
+						box-sizing: border-box;
+
+				-webkit-box-shadow: none;
+				   -moz-box-shadow: none;
+						box-shadow: none;
+
+				-webkit-perspective: 1000px;
+				   -moz-perspective: 1000px;
+						perspective: 1000px;
+
+				-webkit-transform-style: preserve-3d;
+				   -moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				   -moz-user-select: none;
+					-ms-user-select: none;
+			}
+			.slider-modal.show {
+				visibility: visible;
+			}
+			.slider-modal .slider-modal-content {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				background: #000;
+				opacity: 0;
+
+				-webkit-box-shadow: 0 0 45px rgba(0,0,0,.9);
+						box-shadow: 0 0 45px rgba(0,0,0,.9);
+
+				-webkit-transition: all 0.6s ease;
+				   -moz-transition: all 0.6s ease;
+						transition: all 0.6s ease;
+
+				-webkit-transform: scale(0.1) rotateY(-90deg);
+				   -moz-transform: scale(0.1) rotateY(-90deg);
+					-ms-transform: scale(0.1) rotateY(-90deg);
+						transform: scale(0.1) rotateY(-90deg);
+			}
+			.slider-modal .slider-modal-content:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 101;
+				pointer-events: none;
+				
+				-webkit-box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.11);
+						box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.11);
+			}
+			.ie .slider-modal .slider-modal-content:after {
+				display: none;
+			}
+			.slider-modal.show .slider-modal-content {
+				opacity: 1;
+				-webkit-transform: scale(1) rotateY(0deg);
+				   -moz-transform: scale(1) rotateY(0deg);
+					-ms-transform: scale(1) rotateY(0deg);
+						transform: scale(1) rotateY(0deg);
+			}
+			.slider-modal .slider-modal-content a.close-slider-modal {
+				position: absolute;
+				width: 38px;
+				height: 36px;
+				top: -13px;
+				right: -13px;
+				background: no-repeat url('data:image/png;base64,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');
+				background-size: 38px 36px;
+				cursor: pointer;
+				z-index: 102;
+			}
+			.slider-modal.mobile .slider-modal-content a.close-slider-modal {
+				top: 8px;
+				right: 8px;
+			}
+			.slider-modal .slider-modal-content .slider-modal-title {
+				position: absolute;
+				width: 100%;
+				height: 100px;
+				padding-top: 30px;
+				padding-left: 30px;
+				top: 0;
+				left: 0;
+				color: #FFF;
+				font-size: 32px;
+				font-weight: 300;
+				z-index: 101;
+				text-shadow: 1px 1px 0 #000;
+				pointer-events: none;
+				
+				background-image: -o-linear-gradient(top , rgba(0,0,0, .8) 0%, rgba(0,0,0, 0) 100%); /* Opera 11.10+ */
+				background-image: -moz-linear-gradient(top , rgba(0,0,0, .8) 0%, rgba(0,0,0, 0) 100%);
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0,0,0, .8)), color-stop(1, rgba(0,0,0, 0))); /* Chrome,Safari4+ */
+				background-image: -webkit-linear-gradient(top , rgba(0,0,0, .8) 0%, rgba(0,0,0, 0) 100%); /* Chrome10+,Safari5.1+ */
+				background-image: -ms-linear-gradient(top , rgba(0,0,0, .8) 0%, rgba(0,0,0, 0) 100%); /* IE10+ */
+				background-image: linear-gradient(top , rgba(0,0,0, .8) 0%, rgba(0,0,0, 0) 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+
+				-webkit-box-sizing: border-box;
+				   -moz-box-sizing: border-box;
+						box-sizing: border-box;
+			}
+			.slider-modal.mobile .slider-modal-content .slider-modal-title {
+				height: 52px;
+				top: 0;
+				left: 0;
+				font-size: 22px;
+				line-height: 32px;
+				padding: 0;
+				padding-top: 10px;
+				padding-left: 20px;
+			}
+			.slider-modal .slider-modal-content div.slider {
+				overflow: hidden;
+				width: 100%;
+				height: 100%;
+				z-index: 100;
+			}
+			.slider-modal .slider-modal-content div.frame {
+				height: 100%;
+			}
+			.slider-modal .slider-modal-content div.frame div.slide_element,
+			.slider-modal .slider-modal-content div.frame div.slide_element .slide {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				float: left;
+			}
+			.slider-modal .slider-modal-content div.frame .mSCover img {
+				max-width: none;
+			}
+		</style>
+  </head>
+
+  <body>
+	<div class="slider-modal-overlay"></div>
+	<div class="slider-modal">
+		<div class="slider-modal-content">
+			<div class="slider-modal-title"></div>
+			<a class="close-slider-modal" title="Close"></a>
+			<div class="slider mightyslider_modern_skin"><div class="frame"><div class="slide_element"></div></div></div>
+		</div>
+	</div>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+
+	<!--start introducing header-->
+		<section id="introducing-top">
+	<!--start header-top-desktop header-->
+			<section id="header-top-desktop" class="visible-md visible-lg" data-stellar-background-ratio="0.4" data-stellar-vertical-offset="80">
+				<h1 class="header">Slider in Lightbox</h1>
+			</section>
+	<!--start header-top-mobile header-->
+			<section id="header-top-mobile" class="hidden-md hidden-lg">
+				<h1 class="header">Slider in Lightbox</h1>
+			</section>
+		</section>
+
+	<style>
+		div.portfolio {
+			text-align: left;
+			margin-top: 50px;
+		}
+		ul.items {
+			list-style: none;
+			padding: 0;
+			margin: 0 auto;
+			width: 1484px;
+		}
+		ul.items > li {
+			display: inline-block;
+			width: 371px;
+			height: 268px;
+			border-left: 1px solid #FFF;
+			border-top: 1px solid #FFF;
+			margin: 0;
+		}
+		ul.items > li > a {
+			position: relative;
+			top: 0;
+			left: 0;
+			display: block;
+			width: 100%;
+			cursor: pointer;
+			color: #DDD;
+			text-decoration: none;
+		}
+		ul.items > li a .details {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			display: block;
+			padding: 10px 15px;
+			padding-top: 20px;
+			background: url('assets/img/gradient.png') repeat-x left top;
+			background-size: 100% 105%;
+
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+		}
+		ul.items > li a .details span {
+			display: block;
+			float: left;
+			font-weight: 300;
+			font-size: 13px;
+			text-align: left;
+			text-shadow: 1px 1px 0 #000;
+		}
+		ul.items > li a .details span.title {
+			float: none;
+			font-size: 22px;
+			font-weight: 400;
+			margin-bottom: 5px;
+			color: #FFF;
+		}
+		ul.items > li a .details span.price {
+			float: right;
+		}
+		ul.items > li a .loader {
+			display: none;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: #000 url(assets/img/loader.gif) no-repeat 50%;
+			opacity: 0.6;
+		}
+		ul.items > li.loader a .loader {
+			display: block;
+		}
+		
+		/* Responsive */
+		@media (min-width: 1114px) and (max-width: 1484px) {
+			ul.items {
+				width: 1113px;
+			}
+		}
+		@media (min-width: 782px) and (max-width: 1113px) {
+			ul.items {
+				width: 742px;
+			}
+		}
+		@media (min-width: 0px) and (max-width: 781px) {
+			ul.items {
+				width: 371px;
+			}
+		}
+	</style>
+	<div class="portfolio">
+		<ul class="items">
+			<li data-options="title: 'Oblivion', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=wRCSo6pq-ak'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Oblivion</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'Olympus Has Fallen', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=vwx1f0kyNwI'
+					
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Olympus Has Fallen</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'Thor', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=JOddp-nlNvQ'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Thor</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'Epic', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=-xu3JLXfuwQ'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Epic</span>
+						<span class="category">Animation & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'Grown Ups', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=e01NVCveGkg',
+					skin: 'black'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					skin: 'black'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Grown Ups</span>
+						<span class="category">Comedy</span>
+						<span class="price">$2.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'The Avengers', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=eOrNdBpGMv8'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png.jpg'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">The Avengers</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'Tron: Legacy', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=L9szn1QQfas‎'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Tron: Legacy</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li><li data-options="title: 'Cowboys & Aliens', slides: [
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					viewport: 'fit'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png',
+					video: 'https://www.youtube.com/watch?v=UdmupNxobP0‎'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				},
+				{
+					cover: 'http://dummyimage.com/1920x1080/d12335/fff.png'
+				}
+			]">
+				<a>
+					<img data-no-retina src="http://dummyimage.com/720x520/d12335/fff.png" />
+					<span class="details">
+						<span class="title">Cowboys & Aliens</span>
+						<span class="category">Action & Adventure</span>
+						<span class="price">$14.99</span>
+					</span>
+					<em class="loader"></em>
+				</a>
+			</li>
+		</ul>
+    </div>
+	  
+      <!-- /END THE FEATURETTES -->
+
+	<div class="featurette-divider2"></div>
+	  
+      <!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+		<!--latest jQuery-->
+		<script src="assets/js/css_browser_selector.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.mobile.just-touch.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+
+		<!-- for the blur effect -->
+		<!-- by @derSchepp https://github.com/Schepp/CSS-Filters-Polyfill -->
+		<script>
+			// this is important for IEs
+			var polyfilter_scriptpath = 'assets/js/';
+		</script>
+		<script src="assets/js/cssParser.js"></script>
+		<script src="assets/js/css-filters-polyfill.js"></script>
+
+		<script>
+			jQuery(document).ready(function($) {
+				var $win = $(window),
+					$doc = $(document),
+					$body = $('body'),
+					isTouch = !!('ontouchstart' in window),
+					clickEvent = isTouch ? 'tap' : 'click',
+					$containers = $('.navbar, #footer, #introducing-top, .portfolio'),
+					$modalOverlay = $('.slider-modal-overlay'),
+					$modal = $('.slider-modal'),
+					$modalTitle = $('.slider-modal-title', $modal),
+					$closers = $modalOverlay.add($('.slider-modal .close-slider-modal')),
+					$frame = $('div.frame', $modal),
+					loader = 0,
+					oldMobileOptimize = 0,
+					mobileOptimize = $doc.width() <= 979,
+					modalShowed = 0,
+					modalWidth = 960,
+					modalHeight = 480,
+					modalBorderOffset = 100,
+					$items = $('ul.items li a'),
+					sliderAPI = null,
+					mightySliderOptions = {
+						speed: 500,
+						easing: 'easeOutExpo',
+						viewport: 'fill',
+						
+						// Navigation options
+						navigation: {
+							slideSize: '100%'
+						},
+						
+						// Dragging
+						dragging: {
+							elasticBounds: 0
+						},
+						
+						// Pages
+						pages: {
+							activateOn: clickEvent
+						},
+
+						// Commands
+						commands: {
+							pages: 1,
+							buttons: 1
+						}
+					};
+
+
+
+
+				/**
+				 * Initialize the slider.
+				 *
+				 * @param {Array} slides
+				 *
+				 * @return {Void}
+				 */
+				function initializeSlider(slides) {
+					var $parent = $frame.parent();
+
+					// Call mightySlider class
+					sliderAPI = new mightySlider($frame, mightySliderOptions,
+					{
+						// slide active callback
+						active: function(name, index){
+							var skin = this.slides[index].options.skin || '';
+							$parent.removeClass('black').addClass(skin);
+						}
+					});
+
+					// Add slides into the slider
+					$.each(slides, function(i, slide) {
+						var slideString = trim(JSON.stringify(slide), '{}');
+						sliderAPI.add("<div class='slide' data-mightyslider='" + slideString + "'></div>");
+					});
+
+					// Initialize the slider
+					sliderAPI.init();
+					setTimeout(function(){
+						sliderAPI.reload();
+					}, 350);
+				}
+
+
+
+				/**
+				 * Destroy the slider.
+				 *
+				 * @return {Void}
+				 */
+				function destroySlider() {
+					// Destroy the slider
+					sliderAPI.destroy();
+					// Remove the slides
+					$frame.children().eq(0).empty();
+					// Remove the slider API
+					sliderAPI = null;
+				}
+
+
+
+				/**
+				 * Open the lightbox.
+				 *
+				 * @param {Object} $this
+				 * @param {Object} options
+				 *
+				 * @return {Void}
+				 */
+				function openLightbox($this, options) {
+					if (!mobileOptimize) {
+						// Show the lightbox dimmed background
+						$modalOverlay.show();
+
+						// Add '.blur' class to elements to blur them
+						$containers.addClass('blur');
+						
+						// Remove '.mobile' class from lightbox and body
+						$body.removeClass('mobile');
+						$modal.removeClass('mobile');
+					}
+					else {
+						// Add '.mobile' class to lightbox and body
+						$body.addClass('mobile');
+						$modal.addClass('mobile');
+					}
+
+					// Get new dimensions for lightbox based on windows width and height
+					var viewport = getViewport(),
+					newDimsions = mobileOptimize ? { width: viewport.width, height: viewport.height } : calculateDimensions(viewport.width - modalBorderOffset, viewport.height - modalBorderOffset, modalWidth, modalHeight);
+
+					// Set lightbox title
+					$modalTitle.html(options.title);
+					
+					// Set the width and height of the lightbox and add '.show' class
+					$modal.css({
+						width: newDimsions.width,
+						height: newDimsions.height
+					}).addClass('show');
+
+					// Initialize the slider
+					initializeSlider(options.slides);
+
+					// Set modalShowed to true
+					modalShowed = 1;
+				}
+
+				/**
+				 * Close the lightbox.
+				 *
+				 * @return {Void}
+				 */
+				function closeLightbox() {
+					// Hide the lightbox dimmed background
+					$modalOverlay.hide();
+
+					// Remove '.blur' class from elements to unblur them
+					$containers.removeClass('blur');
+
+					// Remove '.show' class from lightbox
+					$modal.removeClass('show');
+					
+					// Remove '.mobile' class from lightbox and body
+					$body.removeClass('mobile');
+					$modal.removeClass('mobile');
+
+					// Destroy yhe slider
+					setTimeout(function(){
+						destroySlider();
+					}, 600);
+
+					// Set modalShowed to false
+					modalShowed = 0;
+				}
+
+
+				/**
+				 * Handler function for items click event.
+				 *
+				 * @param  {Event} event
+				 *
+				 * @return {Void}
+				 */
+				function itemClickHandler(event) {
+					if (loader) {
+						return false;
+					}
+
+					var $this = $(this),
+						$parent = $this.parent();
+					
+					var data = $parent.data('options'),
+						options = data && eval("({" + data + "})") || {};
+
+					var preload = [];
+
+					// Add first slide cover to preload
+					if (options.slides[0] && options.slides[0].cover) {
+						preload.push(options.slides[0].cover);
+					}
+
+					// Show loader
+					loader = 1;
+					$parent.addClass('loader');
+					
+					// Preload images if available then open the lightbox
+					if (preload.length > 0) {
+						preloadimages(preload).done(function(img) {
+							// Hide loader
+							loader = 0;
+							$parent.removeClass('loader');
+
+							// Open the lightbox
+							openLightbox($this, options);
+						});
+					}
+					else {
+						// Open the lightbox
+						openLightbox($this, options);
+					}
+				}
+
+
+				/**
+				 * Handler function for closer elements click event.
+				 *
+				 * @return {Void}
+				 */
+				function closersClickHandler() {
+					if (modalShowed) {
+						closeLightbox();
+					}
+				}
+
+
+				/**
+				 * Handler function for keydown event.
+				 *
+				 * @param  {Event} event
+				 *
+				 * @return {Void}
+				 */
+				function keyDownHandler(event) {
+					// Close the lightbox when the Escape key pressed
+					if (event.keyCode === 27 && modalShowed) {
+						closeLightbox();
+					}
+				}
+
+
+				/**
+				 * Handler function for window resize event.
+				 *
+				 * @return {Void}
+				 */
+				function winResizeHandler(event) {
+					oldMobileOptimize = mobileOptimize;
+					var viewport = getViewport();
+					mobileOptimize = viewport.width <= 979;
+
+					if (modalShowed) {
+						var newDimsions = mobileOptimize ? { width: viewport.width, height: viewport.height } : calculateDimensions(viewport.width - modalBorderOffset, viewport.height - modalBorderOffset, modalWidth, modalHeight);
+						$modal.css({
+							width: newDimsions.width,
+							height: newDimsions.height
+						});
+
+						if (mobileOptimize) {
+							// Add '.mobile' class to lightbox and body
+							$body.addClass('mobile');
+							$modal.addClass('mobile');
+						}
+						else {
+							// Remove '.mobile' class from lightbox and body
+							$body.removeClass('mobile');
+							$modal.removeClass('mobile');
+						}
+						
+						if (!mobileOptimize && oldMobileOptimize) {
+							// Show the lightbox dimmed background
+							$modalOverlay.show();
+
+							// Add '.blur' class to elements to blur them
+							$containers.addClass('blur');
+						}
+					}
+				}
+
+				/**
+				 * Add click event for items
+				*/
+				$items.on(clickEvent, itemClickHandler);
+
+				/**
+				 * Add click event for closer elements
+				*/
+				$closers.on(clickEvent, closersClickHandler);
+
+				/**
+				 * Add keydown event
+				*/
+				$win.on('keydown', keyDownHandler);
+
+				/**
+				 * Add resize event for window for responsiveness purpose 
+				*/
+				$win.on('resize orientationchange', winResizeHandler);
+			});
+
+			/**
+			 * Preload images with callback.
+			 *
+			 * @param {Array} arr
+			 *
+			 * @return {Object}
+			 */
+			function preloadimages(arr) {
+				var newImages = [], loadedImages = 0,
+					postAction = function(){};
+
+				arr = (typeof arr !== "object") ? [arr] : arr;
+					
+				function imageLoadPost(){
+					loadedImages++;
+					if (loadedImages === arr.length) {
+						// call postAction and pass in newImages array as parameter
+						postAction(newImages);
+					}
+				}
+				
+				function handler() {
+					imageLoadPost();
+				}
+				
+				for (var i=0; i < arr.length; i++) {
+					newImages[i] = new Image();
+					newImages[i].src = arr[i];
+					newImages[i].onload = handler;
+					newImages[i].onerror = handler;
+				}
+				
+				// return blank object with done() method
+				return {
+					done: function(f) {
+						// remember user defined callback functions to be called when images load
+						postAction = f || postAction;
+					}
+				};
+			}
+
+			/**
+			 * Calculate new dimensions by old dimensions.
+			 *
+			 * @param {Number}   width
+			 * @param {Number}   height
+			 * @param {Number}   width_old
+			 * @param {Number}   height_old
+			 * @param {Number}   factor
+			 *
+			 * @return {Object}
+			 */
+			function calculateDimensions(width, height, width_old, height_old, factor) {
+				if (!factor) {
+					if (!width) {
+						factor = height / height_old;
+					}
+					else if (!height) {
+						factor = width / width_old;
+					}
+					else {
+						factor = Math.min( width / width_old, height / height_old );
+					}
+				}
+
+				return {
+					width: Math.round( width_old * factor ),
+					height: Math.round( height_old * factor ),
+					ratio:factor
+				};
+			}
+
+
+
+			/**
+			 * A JavaScript equivalent of PHP’s trim
+			 *
+			 * @param {String} str         The string that will be trimmed.
+			 * @param {String} charlist    Optionally, the stripped characters can also be specified using the charlist parameter. Simply list all characters that you want to be stripped.
+			 *
+			 * @return {Void}
+			 */
+			function trim (str, charlist) {
+			  var whitespace, l = 0,
+				i = 0;
+			  str += '';
+
+			  if (!charlist) {
+				// default list
+				whitespace = " \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000";
+			  } else {
+				// preg_quote custom list
+				charlist += '';
+				whitespace = charlist.replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '$1');
+			  }
+
+			  l = str.length;
+			  for (i = 0; i < l; i++) {
+				if (whitespace.indexOf(str.charAt(i)) === -1) {
+				  str = str.substring(i);
+				  break;
+				}
+			  }
+
+			  l = str.length;
+			  for (i = l - 1; i >= 0; i--) {
+				if (whitespace.indexOf(str.charAt(i)) === -1) {
+				  str = str.substring(0, i + 1);
+				  break;
+				}
+			  }
+
+			  return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
+			}
+
+			/**
+			 * Get viewport/window size (width and height).
+			 *
+			 * @return {Object}
+			 */
+			function getViewport() {
+				var e = window,
+					a = 'inner';
+				if (!('innerWidth' in window)) {
+					a = 'client';
+					e = document.documentElement || document.body;
+				}
+				return {
+					width: e[a + 'Width'],
+					height: e[a + 'Height']
+				}
+			}
+
+
+			/*
+			window.___gcfg = {lang: "en"};
+			(function() {
+				var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+				po.src = "https://apis.google.com/js/plusone.js";
+				var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+			})();
+			*/
+		</script>
+  </body>
+</html>

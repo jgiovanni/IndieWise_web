@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+    <title>Gallery with Visible Nearby Slides / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+		<link href="assets/js/ilightbox/css/ilightbox.css" rel="stylesheet" />
+  </head>
+
+  <body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+
+
+	  <style>
+		#example {
+			background: url('assets/img/dark_wood.png');
+			padding: 40px 0;
+		}
+		#example .frame {
+			width: 100%;
+			height: 560px;
+
+			-webkit-perspective: 1000px;
+			        perspective: 1000px;
+			-webkit-perspective-origin: 50% 50%;
+			        perspective-origin: 50% 50%;
+		}
+		#example .frame .slides {
+			position: relative !important;
+			height: 100%;
+
+			-webkit-transform-style: preserve-3d;
+			transform-style: preserve-3d;
+		}
+		#example .frame .slides > div {
+			float: left;
+			height: 100%;
+			margin-right: 10px;
+		}
+		#example .frame .slides > div {
+			opacity: 0.6;
+			filter: alpha(opacity=60);
+
+			-webkit-transform: rotateY(45deg) scale(0.7);
+	                transform: rotateY(45deg) scale(0.7);
+	            -ms-transform: scale(0.7);
+
+			-webkit-transition: -webkit-transform 500ms;
+			-webkit-transition-property: opacity, -webkit-transform;
+					transition: transform 500ms;
+			        transition-property: opacity, transform;
+		}
+		#example .frame .slides > div.active {
+			opacity: 1;
+			filter: alpha(opacity=100);
+			-webkit-transform: scale(1);
+			        transform: scale(1);
+			    -ms-transform: scale(1);
+		}
+		#example .frame .slides > div.active ~ div {
+			-webkit-transform: rotateY(-45deg) scale(0.7);
+			        transform: rotateY(-45deg) scale(0.7);
+			    -ms-transform: scale(0.7);
+		}
+		#example .frame .slides .mSCover {
+			max-width: none;
+		}
+		#example .details {
+			height: 40px;
+			text-align: center;
+			color: #FFF;
+			margin-top: 40px;
+			font-size: 16px;
+		}
+		#example .details #artist {
+			color: #CCC;
+			font-size: 13px;
+			font-weight: bold;
+		}
+		@media (max-width: 979px) {
+			#example .frame {
+				height: 400px;
+			}
+		}
+		@media (max-width: 767px) {
+			#example .frame {
+				height: 260px;
+			}
+		}
+		@media (max-width: 480px) {
+			#example .frame {
+				height: 160px;
+			}
+		}
+	  </style>
+      <div class="featurette featurette2">
+		<div id="example" class="mightyslider_windows8_skin">
+			<div class="frame">
+				<div class="slides">
+					<div class="active" data-mightyslider="cover: 'http://dummyimage.com/1024x768/fd6a62/fff.png', name: 'Annunciation, 1472', artist: 'Leonardo da Vinci'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/0ac2d2/fff.png', name: 'Science and Charity, 1897', artist: 'Pablo Picasso'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/f68dbb/fff.png', name: 'The Lady with the Ermine (Cecilia Gallerani), 1496', artist: 'Leonardo da Vinci'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/60d7a9/fff.png', name: 'Preparation for the Examination, 1864', artist: 'Ilya Repin'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/fdc162/fff.png', name: 'Mona Lisa, 1504', artist: 'Leonardo da Vinci'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/fd6a62/fff.png', name: 'Religious Procession, 1877', artist: 'Ilya Repin'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/0ac2d2/fff.png', name: 'The Great Roads at Kronstadt, 1836', artist: 'Ivan Aivazovsky'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/f68dbb/fff.png', name: 'The lovers, 1928', artist: 'Rene Magritte'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/60d7a9/fff.png', name: 'Flatford Mill from a Lock on the Stour, 1811', artist: 'John Constable'"></div>
+					<div data-mightyslider="cover: 'http://dummyimage.com/1024x768/fdc162/fff.png', name: 'The Barque of Dante (Dante and Virgil in the Underworld), 1822', artist: 'Eugene Delacroix'"></div>
+				</div>
+			</div>
+			<div class="details">
+				<div id="name"></div>
+				<div id="artist"></div>
+			</div>
+		</div>
+      </div>
+	  
+      <!-- /END THE FEATURETTES -->
+
+	<div class="featurette-divider2"></div>
+	  
+      <!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="index.html#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+		<!--latest jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.stellar.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+		<script>
+			jQuery(document).ready(function($) {
+				(function(){
+					var $example = $('#example'),
+					$frame = $('.frame', $example),
+					$name = $('div.details #name', $example),
+					$artist = $('div.details #artist', $example);
+					$frame.mightySlider({
+						speed: 1000,
+						easing: 'easeOutExpo',
+						viewport: 'fit',
+						
+						// Navigation options
+						navigation: {
+							slideSize: '60%',
+							activateOn: 'click'
+						},
+
+						// Dragging
+						dragging: {
+							swingSpeed:    0.1
+						}
+					}, {
+						active: function(name, index){
+							$name.html(this.slides[index].options.name);
+							$artist.html(this.slides[index].options.artist);
+						}
+					});
+				})();
+			});
+		</script>
+  </body>
+</html>

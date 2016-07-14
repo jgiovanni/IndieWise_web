@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Grid Slider / mightySlider &middot; Mighty Responsive Multipurpose Slider</title>
+
+		<!-- Behavioral Meta Data -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="mightySlider" />
+		<meta charset="utf-8" />
+
+		<!-- Core Meta Data -->
+		<meta name="author" content="Hemn Chawroka" />
+		<meta name="description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="keywords" content="jquery, slider, content slider, video slider, gallery, plugin, banner rotator, tabs, tabs slider, featured content slider" />
+
+		<!-- Apple Touch Icons -->
+		<link rel="apple-touch-icon" href="assets/icon/57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/icon/72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/icon/114.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/icon/144.png" />
+
+		<!-- Open Graph Meta Data -->
+		<meta property="og:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta property="og:url" content="http://mightyslider.com/" />
+		<meta property="og:image" content="assets/img/thumbnail.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+
+		<!-- Twitter Card Meta Data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content="@chawroka">
+		<meta name="twitter:url" content="http://mightyslider.com/" />
+		<meta name="twitter:title" content="mightySlider - Mighty Responsive Multipurpose Slider" />
+		<meta name="twitter:description" content="mightySlider is a jQuery plugin for creating advanced one-directional slider with item based navigation support." />
+		<meta name="twitter:image" content="assets/img/thumbnail.png" />
+
+		<!-- Humans -->
+		<link rel="author" href="humans.txt" />
+
+		<!-- Styles -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/m-styles.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="src/css/mightyslider.css" rel="stylesheet">
+		<link href="assets/js/ilightbox/css/ilightbox.css" rel="stylesheet" />
+	</head>
+
+  <body>
+		<div id="preloader">
+			<div id="status">
+				<div class="timer">Loading...</div>
+			</div>
+		</div>
+
+
+		<!--start navigation-->
+		<div class="navbar navbar-fixed-top navbar-default" id="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt="mightySlider"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index.html#intro">Home</a></li>
+						<li><a href="index.html#examples-top">Examples</a></li>
+						<li><a href="index.html#testimonial-top">Purchase</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Earn Money <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html#become-developer-top">Become a mightySlider Developer</a></li>
+								<li><a href="index.html#affilates-top">Become an affiliate</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="http://mightyslider.com/documentation.html">Documentation</a></li>
+								<li><a href="http://goo.gl/REi0u2">Discussion</a></li>
+								<li><a href="http://mightyslider.com/faq.html">Frequently Asked Questions</a></li>
+								<li><a href="http://mightyslider.com/changelog.html">Changelog</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</div>
+
+
+	<style>
+		div.grid {
+			margin-top: 61px;
+		}
+		ul.items {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+		}
+		ul.items li {
+			position: relative;
+			float: left;
+			padding: 0;
+		}
+		ul.items li.bigGrid {
+			width: 40%;
+		}
+		ul.items li.wideGrid {
+			width: 40%;
+		}
+		ul.items li.largeGrid {
+			width: 20%;
+		}
+		ul.items li.smallGrid {
+			width: 20%;
+		}
+		ul.items li .details {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			opacity: 0;
+			background: rgba(230, 230, 230, 0.8);
+			text-shadow: 0 1px 0 #fff;
+	
+			-webkit-transition: opacity 0.3s;
+			transition: opacity 0.3s;
+		}
+		ul.items li:hover .details {
+			opacity: 1;
+		}
+		ul.items li .details > div {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		ul.items li .details > div > div {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			right: 20px;
+		}
+		ul.items li .details h3 {
+			text-transform: uppercase;
+		}
+
+		/* Sliders Styles */
+		ul.items li .frame {
+			width: 100%;
+			height: 100%;
+		}
+		ul.items li .frame .slide_element {
+			height: 100%;
+		}
+		ul.items li .frame .slide_element > div {
+			float: left;
+			height: 100%;
+		}
+		ul.items li .frame .mSCover img {
+			max-width: none;
+		}
+
+
+		/* Responsive */
+		@media (max-width: 1200px) {
+			ul.items li.bigGrid,
+			ul.items li.wideGrid {
+				width: 50%;
+			}
+			ul.items li.largeGrid,
+			ul.items li.smallGrid {
+				width: 25%;
+			}
+		}
+		@media (max-width: 979px) {
+			ul.items li.bigGrid,
+			ul.items li.wideGrid {
+				width: 66.66%;
+			}
+			ul.items li.largeGrid,
+			ul.items li.smallGrid {
+				width: 33.33%;
+			}
+		}
+		@media (max-width: 767px) {
+			ul.items li.bigGrid,
+			ul.items li.wideGrid {
+				width: 100%;
+			}
+			ul.items li.largeGrid,
+			ul.items li.smallGrid {
+				width: 50%;
+			}
+		}
+		@media (max-width: 480px) {
+			ul.items li.bigGrid,
+			ul.items li.wideGrid,
+			ul.items li.largeGrid,
+			ul.items li.smallGrid {
+				width: 100%;
+			}
+		}
+	</style>
+	<div class="grid">
+		<ul class="items clearfix">
+			<li class="bigGrid">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fd6a62/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/0ac2d2/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/f68dbb/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/60d7a9/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fdc162/fff.png'"></div>
+					</div>
+				</div>
+				<div class="details">
+					<div>
+						<div>
+							<h3>Your project title</h3>
+							<p>Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris. Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.</p>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="smallGrid">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fdc162/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/60d7a9/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fd6a62/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/0ac2d2/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/f68dbb/fff.png'"></div>
+					</div>
+				</div>
+				<div class="details">
+					<div>
+						<div>
+							<h3>Your project title</h3>
+							<p>Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris. Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.</p>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="largeGrid">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fdc162/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fd6a62/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/60d7a9/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/0ac2d2/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/f68dbb/fff.png'"></div>
+					</div>
+				</div>
+				<div class="details">
+					<div>
+						<div>
+							<h3>Your project title</h3>
+							<p>Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris. Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.</p>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="smallGrid">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/0ac2d2/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fd6a62/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fdc162/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/f68dbb/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/60d7a9/fff.png'"></div>
+					</div>
+				</div>
+				<div class="details">
+					<div>
+						<div>
+							<h3>Your project title</h3>
+							<p>Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris. Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.</p>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="wideGrid">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/f68dbb/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/60d7a9/fff.png'"></div>
+					</div>
+				</div>
+				<div class="details">
+					<div>
+						<div>
+							<h3>Your project title</h3>
+							<p>Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris. Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.</p>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="smallGrid">
+				<div class="frame">
+					<div class="slide_element">
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/fd6a62/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/0ac2d2/fff.png'"></div>
+						<div class="slide" data-mightyslider="cover: 'http://dummyimage.com/1170x534/f68dbb/fff.png'"></div>
+					</div>
+				</div>
+				<div class="details">
+					<div>
+						<div>
+							<h3>Your project title</h3>
+							<p>Integer viverra felis a nisl volutpat placerat. Donec et lorem mauris. Proin pellentesque urna nulla. Nunc sed turpis semper, fermentum ipsum quis, ornare enim. Proin ut augue enim.</p>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+    </div>
+
+	<div class="container marketing">
+		<br><br><br><br>
+		<div class="featurette">
+			<div class="page-header">
+				<h2 class="slim">Grid Slider Template</h2>
+			</div>
+			<p>Every grid item has its own custom slider.</p>
+			<p>As usual you can simply use videos or images in any sizes or insert multiple animated layers over each slide, or add bullets, thumbnails or tabs.</p>
+			<p>For better performance and customizability some mightySlider APIs were used.</p>
+		</div>
+	</div><!-- /.container -->
+
+	<div class="featurette-divider2"></div>
+	  
+      <!-- /END THE FEATURETTES -->
+		<!--start footer-->
+		<section id="footer">
+			<div class="container">
+				<div class="row divide">
+		<!--logo and copyright-->
+					<div class="col-md-3">
+						<a href="#intro" class="brand"><img src="assets/img/logo.png" width="149" height="41" alt=""></a>
+						<p>&copy;2015 iProDev.</p><br>
+						<p><strong>mighty</strong>Slider is product of <a href="http://www.iprodev.com" target="_blank">iProDev</a></p><br>
+					</div>
+		<!--footer menu-->
+					<div class="col-md-2 col-md-offset-4">
+						<ul>
+							<li><h5>Menu</h5></li>
+							<li><a href="index.html#intro">Home</a></li>
+							<li><a href="index.html#examples-top">Examples</a></li>
+							<li><a href="index.html#testimonial-top">Purchase</a></li>
+							<li><a href="index.html#become-developer-top">Earn Money</a></li>
+						</ul>
+					</div>
+		<!--link to social networks-->
+					<div class="col-md-2 col-md-offset-1">
+						<ul>
+							<li><h5>Social</h5></li>
+							<li><a class="facebook" href="https://facebook.com/iprofessionaldev" target="_blank">Facebook</a></li>
+							<li><a class="twitter" href="http://www.twitter.com/chawroka" target="_blank">Twitter</a></li>
+							<li><a class="google" href="https://plus.google.com/+iprodev?rel=publisher" target="_blank">Google+</a></li>
+						</ul>
+					</div>	
+				</div>	
+			</div>
+		</section>
+
+		<!--latest jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="assets/js/jquery.mobile.just-touch.js"></script>
+		<script src="assets/js/jquery.migrate.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.scrollto-min.js"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="assets/js/retina.js" type="text/javascript"></script>
+		<script src="assets/js/freewall.min.js"></script>
+		<script src="assets/js/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.simplr.smoothscroll.js" type="text/javascript"></script>
+		<script src="src/js/tweenlite.js" type="text/javascript"></script>
+		<script src="src/js/mightyslider.min.js" type="text/javascript"></script>
+		<script src="assets/js/custom.js" type="text/javascript"></script>
+		<script>
+			/**
+			 * Get viewport/window size (width and height).
+			 *
+			 * @return {Object}
+			 */
+			function getViewport() {
+				var e = window,
+					a = 'inner';
+				if (!('innerWidth' in window)) {
+					a = 'client';
+					e = document.documentElement || document.body;
+				}
+				return {
+					width: e[a + 'Width'],
+					height: e[a + 'Height']
+				}
+			}
+
+
+			jQuery(document).ready(function($) {
+				var $win = $(window),
+					isTouch = !!('ontouchstart' in window),
+					clickEvent = isTouch ? 'tap' : 'click',
+					$gridsContainer = $('ul.items'),
+					$big = $('li.bigGrid', $gridsContainer),
+					$wide = $('li.wideGrid', $gridsContainer),
+					$large = $('li.largeGrid', $gridsContainer),
+					$small = $('li.smallGrid', $gridsContainer),
+					$frames = $('.frame', $gridsContainer),
+					sliders = $frames.length,
+					history = [],
+					wall = new freewall('ul.items');
+
+				function resizeGrids(width) {
+					var bigWidth = $big.eq(0).outerWidth(),
+						wideWidth = $wide.eq(0).outerWidth(),
+						largeWidth = $large.eq(0).outerWidth(),
+						smallWidth = $small.eq(0).outerWidth();
+
+					if (width <= 480) {
+						$big.height(bigWidth);
+						$small.height(smallWidth);
+						$wide.height(wideWidth);
+						$large.height(largeWidth);
+					}
+					else {
+						$big.height(bigWidth);
+						$small.height(smallWidth);
+						$wide.height(wideWidth / 2);
+						$large.height(largeWidth * 2);
+					}
+
+					wall.fitWidth();
+				}
+
+
+				wall.reset({
+					selector: 'li',
+					animate: 0,
+					cellW: 300,
+					cellH: 300,
+					fixSize: 0,
+					gutterY: 0,
+					gutterX: 0,
+					onResize: function () {
+						wall.fitWidth();
+					}
+				});
+
+
+				function countDown(sliderID) {
+					var time = 5000 + Math.floor(Math.random() * 10000);
+
+					history[sliderID] = clearTimeout(history[sliderID]);
+
+					history[sliderID] = setTimeout(function() {
+						var api = $frames.eq(sliderID).data('mightySlider');
+
+						if(api.relative.activeSlide === api.slides.length - 1)
+							api.activate(0);
+						else
+							api.next();
+					}, time);
+				}
+
+
+				// Resize the grids height to fix the aspect ratio
+				resizeGrids(getViewport().width);
+
+
+				$.fn.randomize = function(selector){
+					var $elems = selector ? $(this).find(selector) : $(this).children(),
+						$parents = $elems.parent();
+
+					$parents.each(function(){
+						$(this).children(selector).sort(function(){
+							return Math.round(Math.random()) - 0.5;
+						}).detach().appendTo(this);
+					});
+
+					return this;
+				};
+
+
+				$gridsContainer.randomize();
+
+
+				$frames.mightySlider({
+					speed: 1000,
+					viewport: 'fill',
+					easing: 'easeOutExpo',
+					
+					// Navigation options
+					navigation: {
+						slideSize: '100%'
+					},
+					
+					// Dragging options
+					dragging: {
+						mouseDragging: 0,
+						touchDragging: 0
+					}
+				}, {
+					active: function() {
+						var sliderID = $frames.index(this.frame);
+						countDown(sliderID);
+					}
+				});
+
+
+				$win.on('resize', function() {
+					// Resize the grids height to fix the aspect ratio
+					resizeGrids(getViewport().width);
+				});
+
+				setTimeout(function(){
+					$win.trigger('resize');
+				}, 100);
+			});
+		</script>
+	</body>
+</html>

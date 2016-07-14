@@ -1,0 +1,517 @@
+<div id="overlay"></div>
+
+<!--breadcrumbs-->
+<section id="breadcrumb">
+    <div class="row">
+        <div class="large-12 columns">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs">
+                    <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
+                    <!--<li><a href="#">Animation</a></li>-->
+                    <li>
+                        <a ui-sref="user.about({url_id: VC.film.owner.data.url_id})">{{VC.film.owner.data.firstName+' '+VC.film.owner.data.lastName}}</a>
+                    </li>
+                    <li>
+                        <span class="show-for-sr">Current: </span> {{::VC.film.name}}
+                    </li>
+                    <span class="pull-right" style="position: relative;z-index: 11;font-size: 13px;">
+                        <a class="lights-toggle-button" ng-click="VC.toggleLights()" style="color: #ffffff;">
+                            <i class="fa fa-lightbulb-o" ng-class="{ 'light-on': VC.lightsOff }"></i>
+                            <span ng-if="!VC.lightsOff">Lights Off</span>
+                            <span ng-if="VC.lightsOff">Lights On</span>
+                        </a>
+                        <span class="show-for-large">&nbsp;|&nbsp;</span>
+                        <a class="show-for-large" ng-click="VC.toggleWidthMode()"
+                           style="position: relative;z-index: 11;font-size: 13px;color: #ffffff;">
+                            <i ng-show="!VC.playerResponsiveMode" class="fa fa-expand"></i>
+                            <i ng-show="VC.playerResponsiveMode" class="fa fa-compress"></i>
+                            <span ng-show="!VC.playerResponsiveMode">Widescreen</span>
+                            <span ng-show="VC.playerResponsiveMode">Center</span>
+                        </a>
+                    </span>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section><!--end breadcrumbs-->
+<!-- full width Video -->
+<section class="fullwidth-single-video" ng-class="{'no-padding': VC.playerResponsiveMode}">
+    <div class="row" ng-class="{'no-max-width': VC.playerResponsiveMode}">
+        <div class="large-12" ng-class="{'columns': !VC.playerResponsiveMode}">
+            <div class="flex-video widescreen">
+                <!--<div class="switch"></div>-->
+                <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4" allowfullscreen></iframe>-->
+                <embed-video ng-if="VC.loaded && Body.checkContains(['other'], VC.type)" ng-href="{{VC.film.video_url}}"
+                             width="560" height="500" embed-watcher></embed-video>
+                <elite-player ng-if="VC.loaded && Body.checkContains(['youtube', 'vimeo', 'HTML5'], VC.type)"
+                              film="VC.film" type="VC.type" lights-off="VC.lightsOff"></elite-player>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="row">
+    <!-- left side content area -->
+    <div class="large-8 columns">
+        <!-- single post stats -->
+        <section class="SinglePostStats" id="SinglePostStats">
+            <!-- newest video -->
+            <div class="row secBg">
+                <div class="large-12 columns">
+                    <div class="media-object stack-for-small">
+                        <div class="media-object-section">
+                            <div class="author-img-sec">
+                                <div class="thumbnail author-single-post">
+                                    <a ui-sref="user.about({url_id: VC.film.owner.data.url_id})"><img
+                                            src="{{VC.film.owner.data.avatar}}" alt="post"></a>
+                                </div>
+                                <p class="text-center">
+                                    <a ui-sref="user.about({url_id: VC.film.owner.data.url_id})">
+                                        {{VC.film.owner.data.fullName}}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="media-object-section object-second">
+                            <div class="author-des clearfix">
+                                <div class="post-title">
+                                    <h4>{{::VC.film.name}} <span ng-if="::VC.film.nsfw" style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E" class="button tiny alert hollow">Mature</span></h4>
+                                    <p>
+                                        <span>
+                                            <i class="fa fa-clock-o"></i>
+                                            <i class="md-caption" am-time-ago="VC.film.createdAt"></i>
+                                        </span>
+                                        <span><i class="fa fa-smile-o"></i>{{VC.film.reactionCount||0}}</span>
+                                        <span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
+                                                class="fa fa-thumbs-o-up"></i>{{VC.film.rateUpCount||0}}</span>
+                                        <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
+                                                class="fa fa-thumbs-o-down"></i>{{VC.film.rateDownCount||0}}</span>
+                                        <!--<span><i class="fa fa-commenting"></i>{{VC.film.commentCount||0}}</span>-->
+                                    </p>
+                                </div>
+                                <div class="subscribe">
+                                    <form>
+                                        <button ng-click="VC.openReactionDialog()">
+                                            <span ng-if="VC.canReact===true" class="fa fa-smile-o"></span>
+                                            <span ng-if="VC.canReact===true">I'm feeling ...</span>
+                                            <span ng-if="VC.canReact!==true&&VC.canReact != 'login'">
+                                                <md-icon class="emoticon" md-svg-icon="{{VC.canReactIcon()}}"></md-icon>
+                                                I'm feeling {{VC.canReact.emotion}}
+                                            </span>
+                                        </button>
+                                        <a class="primary button tiny show-for-small-only"
+                                           ng-click="VC.openCritiqueDialog()" ng-if="VC.canCritique">
+                                            <span class="fa fa-star"></span>
+                                            <span ng-if="VC.canCritique===true">Judge</span>
+                                            <span ng-if="VC.canCritique!==true&&VC.canCritique != 'login'">
+                                                Judged: <span>{{VC.canCritique.overall}}</span>
+                                            </span>
+                                        </a>
+                                        <a class="primary button small hide-for-small-only" ng-cloak
+                                           ng-click="VC.openCritiqueDialog()" ng-if="VC.canCritique">
+                                            <span class="fa fa-star"></span>
+                                            <span ng-if="VC.canCritique===true">Judge</span>
+                                            <span ng-if="VC.canCritique!==true&&VC.canCritique != 'login'">
+                                                Judged: <span>{{VC.canCritique.overall}}</span>
+                                            </span>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="social-share hide-for-small-only">
+                                <div class="post-like-btn clearfix">
+                                    <form>
+                                        <a class="double-thumbs primary button tiny" ng-click="VC.rate('up')"
+                                           ng-class="{'active':VC.canRate.up}">
+                                            <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+                                        </a>
+                                        <a class="double-thumbs primary button tiny" ng-click="VC.rate('down')"
+                                           ng-class="{'active':VC.canRate.down}">
+                                            <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+                                        </a>
+                                        <playlists project="VC.film"></playlists>
+                                        <a class="button tiny" ng-click="VC.openShareDialog()"><i
+                                                class="fa fa-share"></i>Share
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-share show-for-small-only">
+                            <div class="post-like-btn clearfix">
+                                <form>
+                                    <a class="double-thumbs primary button tiny" ng-click="VC.throttledRate('up')"
+                                       ng-class="{'active':VC.canRate.up}">
+                                        <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+                                    </a>
+                                    <a class="double-thumbs primary button tiny" ng-click="VC.throttledRate('down')"
+                                       ng-class="{'active':VC.canRate.down}">
+                                        <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+                                    </a>
+                                    <playlists project="VC.film"></playlists>
+                                    <a class="button tiny" ng-click="VC.openShareDialog()"><i
+                                            class="fa fa-share"></i>Share
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End single post stats -->
+
+        <!-- single post description -->
+        <section class="singlePostDescription">
+            <div class="row secBg">
+                <div class="large-12 columns">
+                    <div class="heading">
+                        <h5>Description</h5>
+                    </div>
+                    <div class="description showmore_one" toggle-show-more>
+                        <p ng-if="::VC.film.description" ng-bind="::VC.film.description"></p>
+
+                        <div class="row" ng-if="::VC.film.keyCast">
+                            <div class="columns small-6">
+                                <span>
+                                    <b>Key Cast</b><br>
+                                    <span ng-bind="::VC.film.keyCast"></span>
+                                </span><br>
+                            </div>
+                        </div>
+
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Director</button>
+                            <a ui-sref="browse({q: VC.film.director})" class="inner-btn" ng-bind="::VC.film.director"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Writer</button>
+                            <a ui-sref="browse({q: VC.film.writer})" class="inner-btn" ng-bind="::VC.film.writer"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Producer(s)</button>
+                            <a ui-sref="browse({q: VC.film.producers})" class="inner-btn" ng-bind="::VC.film.producers"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Country of Filming</button>
+                            <a ui-sref="browse({q: VC.film.filmingCountryName})" class="inner-btn" ng-bind="::VC.film.filmingCountryName"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Year of Completion</button>
+                            <a ui-sref="browse({q: (VC.film.completionDate|date:'yyyy':'UTC')})" class="inner-btn" ng-bind="::(VC.film.completionDate|date:'yyyy':'UTC')||'N/A'"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Type</button>
+                            <a ui-sref="browse({types: VC.film.typeName})" class="inner-btn" ng-bind="::VC.film.typeName"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Genres</button>
+                            <a ng-repeat="g in VC.film.genres" ui-sref="browse({genres: g.name})" class="inner-btn">{{::g.name}}</a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Running Time</button>
+                            <a href="#" class="inner-btn"
+                               ng-bind="::VC.film.runTime|secondsToDateTime|date:'HH:mm:ss'"></a>
+                        </div>
+                        <div class="tags">
+                            <button><i class="fa fa-tags"></i>Tags</button>
+                            <a class="inner-btn" ui-sref="browse({q: tag})" ng-repeat="tag in VC.tagsArray" style="margin-right: 2px;">{{::tag}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End single post description -->
+
+        <section id="randomMedia" style="padding: 0;border-bottom: none;">
+            <div class="random-media-head text-center row" style="background-color:#ffffff;border:1px solid #ececec;border-bottom:none;margin-bottom:0;">
+                <div class="large-12 columns">
+                    <ul class="tabs">
+                        <li class="tabs-title" ng-class="{'is-active': VC.activeTab=='critiques'}">
+                            <a ng-click="VC.activeTab='critiques'">
+                                <i class="fa fa-star"></i>
+                                <ng-pluralize count="VC.critiques.length"
+                                              when="{'0': 'Critiques', 'one': ' 1 Critique', 'other': '{} Critiques'}">
+                                </ng-pluralize>
+                            </a>
+                        </li>
+                        <li class="tabs-title" ng-class="{'is-active': VC.activeTab=='awards'}">
+                            <a ng-click="VC.activeTab='awards'">
+                                <i class="fa fa-trophy"></i>
+                                <ng-pluralize count="VC.film.awardCount"
+                                              when="{'0': 'Awards', 'one': ' 1 Award', 'other': '{} Awards'}">
+                                </ng-pluralize>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!--<div class="sidebar customTabs">
+            <div class="widgetBox">
+                <div class="widgetContent">
+                    <ul class="menu vertical medium-horizontal expanded profile-overview">
+                        <li class="clearfix"><a ng-class="{'active': VC.activeTab=='critiques'}"
+                                                ng-click="VC.activeTab='critiques'"><i
+                                class="fa fa-star"></i>Critiques<span
+                                class="float-right">{{VC.critiques.totalRows||''}}</span></a></li>
+                        <li class="clearfix"><a ng-class="{'active': VC.activeTab=='awards'}"
+                                                ng-click="VC.activeTab='awards'"><i class="fa fa-trophy"></i>Awards<span
+                                class="float-right">{{VC.awards.totalRows||''}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>-->
+
+        <!-- Comments -->
+        <!--<comments-block ng-show="VC.activeTab=='comments'" comments="VC.comments" disable="VC.film.disableComments"
+                        parent="VC.film"></comments-block>-->
+        <!-- End Comments -->
+
+        <!-- Critiques -->
+        <critiques-block ng-show="VC.activeTab=='critiques'" critiques="VC.critiques" parent-url-id="VC.film.url_id"
+                         disable="VC.film.disableCritique"></critiques-block>
+        <!-- End Critiques -->
+
+        <!-- Awards -->
+        <section class="content comments" ng-show="VC.activeTab=='awards'">
+            <div class="row secBg">
+                <div class="large-12 columns">
+                    <div class="main-heading borderBottom">
+                        <div class="row padding-14">
+                            <div class="medium-12 small-12 columns">
+                                <div class="head-title">
+                                    <i class="fa fa-trophy"></i>
+                                    <h4>Awards <span>({{VC.film.awardCount||0}})</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <tabset>
+                        <tab heading="Nominations {{VC.nominations.data.length||0}}" ng-init="sortOrderA='-createdAt'">
+                            <br>
+
+                            <div class="comment-sort text-right">
+                                <span>Sort By : <a ng-class="{'active':sortOrderA=='-createdAt'}"
+                                                   ng-click="sortOrderA='-createdAt'">newest</a> | <a
+                                        ng-class="{'active':sortOrderA=='createdAt'}" ng-click="sortOrderA='createdAt'">oldest</a></span>
+                            </div>
+
+                            <!-- main comment -->
+                            <div class="main-comment showmore_one">
+                                <div class="media-object stack-for-small"
+                                     ng-repeat="nom in VC.nominations.data|orderBy:sortOrderA">
+                                    <div class="media-object-section comment-img text-center">
+                                        <div class="comment-box-img">
+                                            <img ng-src="{{::VC.nominations.relatedObjects.users[nom.nominator].avatar || './assets/img/avatar-1.png'}}"
+                                                 alt="comment">
+                                        </div>
+                                    </div>
+                                    <div class="media-object-section comment-desc">
+                                        <div class="comment-title">
+                                            <span class="name"><a ui-sref="user.about({url_id: nom.nominator.url_id})">
+                                                {{::VC.nominations.relatedObjects.users[nom.nominator].firstName+'
+                                                '+VC.nominations.relatedObjects.users[nom.nominator].lastName}}</a> nominated this video for:
+                                            </span>
+                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                <abbr title="{{::nom.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                      am-time-ago="::nom.createdAt"></abbr>
+                                            </span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>{{::VC.nominations.relatedObjects.Award[nom.awardPntr].name}} Award</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End main comment -->
+                        </tab>
+                        <tab heading="Wins {{VC.wins.data.length||0}}" ng-init="sortOrderA='-createdAt'">
+                            <br>
+
+                            <div class="comment-sort text-right">
+                                <span>Sort By : <a ng-class="{'active':sortOrderA=='-createdAt'}"
+                                                   ng-click="sortOrderA='-createdAt'">newest</a> | <a
+                                        ng-class="{'active':sortOrderA=='createdAt'}" ng-click="sortOrderA='createdAt'">oldest</a></span>
+                            </div>
+
+                            <div class="main-comment showmore_one">
+                                <div class="media-object stack-for-small" ng-repeat="win in VC.wins.data">
+                                    <div class="media-object-section comment-img text-center">
+                                        <div class="comment-box-img">
+                                            <img src="./assets/img/award_win_small.png"
+                                                 alt="award">
+                                        </div>
+                                    </div>
+                                    <div class="media-object-section comment-desc">
+                                        <div class="comment-title">
+                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                <abbr title="{{::win.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                      am-time-ago="::win.createdAt"></abbr>
+                                            </span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <h2>{{::VC.wins.relatedObjects.Award[win.award].name}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </tab>
+                    </tabset>
+
+                </div>
+            </div>
+        </section>
+        <!-- End Awards -->
+
+    </div>
+    <!-- end left side content area -->
+    <!-- sidebar -->
+    <div class="large-4 columns">
+        <aside class="secBg sidebar">
+            <div class="row">
+
+                <!-- IndieWise Average Widget -->
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5 class="has-tip"
+                                tooltip="This is the Average of all Ratings you've received on this Video."
+                                tooltip-placement="top" style="display: block;">
+                                IndieWise Average
+                                <span style="float: right;">
+                                    <span ng-if="VC.critiqueAverage&&VC.film.critiqueCount>0" class="label info">{{VC.critiqueAverage|number:1}}</span>
+                                    <span ng-if="!VC.critiqueAverage&&VC.film.critiqueCount>0" class="label info">{{VC.film.iwRating|number:1}}</span>
+                                    <span ng-if="!VC.critiqueAverage&&VC.film.critiqueCount==0"
+                                          class="label info">N/A</span>
+                                </span>
+
+                            </h5>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End IndieWise Average Widget -->
+
+                <!-- Awards Widget -->
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5 class="has-tip" tooltip="You need at least 5 nominations of the same award to win"
+                                tooltip-placement="top" style="display: block;">
+                                Awards
+                            </h5>
+
+                        </div>
+                        <div class="widgetContent">
+                            <ul>
+                                <li ng-repeat="win in VC.wins.data">
+                                    <h5>
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
+                                          <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
+                                        </span>
+                                        {{::VC.wins.relatedObjects.Award[win.award].name}}</h5>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Awards Widget -->
+
+                <!-- Reactions Widget -->
+                <div class="large-12 medium-7 medium-centered columns" ng-if="VC.film.reactionCount>0">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>
+                                Reactions
+                            </h5>
+
+                        </div>
+                        <div class="widgetContent">
+                            <!--ng-repeat="win in VC.wins"-->
+                            <ul>
+                                <li class="has-tip" style="display: block;border-bottom: none"
+                                    ng-repeat="(key, count) in VC.chartedReactions"
+                                    tooltip="{{count}} users feel {{::VC.getEmoticonByEmotion(key).name}}">
+                                    <md-icon class="emoticon" aria-label="{{::VC.getEmoticonByEmotion(key).name}}"
+                                             md-svg-icon="{{::VC.getEmoticonByEmotion(key).icon}}"></md-icon>
+                                    {{::VC.getEmoticonByEmotion(key).name}}
+                                    <div class="progress" role="progressbar" tabindex="0"
+                                         aria-valuenow="{{(count/VC.reactions.data.length)*100}}" aria-valuemin="0"
+                                         aria-valuetext="{{(count/VC.reactions.data.length)*100}} percent"
+                                         aria-valuemax="100">
+                                        <div class="progress-meter"
+                                             style="width: {{(count/VC.film.reactionCount)*100}}%"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Reactions Widget -->
+
+                <!-- most view Widget -->
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>Judge This Next...</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <div class="video-box thumb-border" ng-if="VC.relatedvideo.id">
+                                <div class="video-img-thumb">
+                                    <img ng-src="{{VC.relatedvideo.thumbnail_url || 'http://placehold.it/300x190'}}"
+                                         alt="Recently Watched Videos">
+                                    <a ui-sref="video({id: VC.relatedvideo.id, url_id: VC.relatedvideo.url_id})"
+                                       class="hover-posts">
+                                        <span><i class="fa fa-play"></i>Watch Video</span>
+                                    </a>
+                                </div>
+                                <div class="video-box-content">
+                                    <h6><a ui-sref="video({id: VC.relatedvideo.id, url_id: VC.relatedvideo.url_id})">{{::VC.relatedvideo.name}}</a>
+                                    </h6>
+
+                                    <p>
+                                        <span>
+                                            <i class="fa fa-user"></i>
+                                            <a ui-sref="user.about({url_id: VC.relatedvideo.owner.data.url_id})">
+                                                {{::VC.relatedvideo.owner.data.fullName}}
+                                            </a>
+                                        </span>
+                                        <!--<span><i class="fa fa-clock-o"></i>5 January 16</span>-->
+                                        <!--<span><i class="fa fa-eye"></i>1,862K</span>-->
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end most view Widget -->
+
+
+                <!-- ad banner widget -->
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <!--<div class="widgetTitle">
+                            <h5>Sponsored Ad</h5>
+                        </div>-->
+                        <div class="widgetContent">
+                            <div class="advBanner text-center">
+                                <broadstreet-zone zone="51349" width="300" height="250"></broadstreet-zone>
+                                <!--<a href="#"><img src="./assets/images/sideradv.png" alt="sidebar adv"></a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end ad banner widget -->
+            </div>
+        </aside>
+    </div>
+    <!-- end sidebar -->
+</div>
