@@ -107,44 +107,44 @@
         .config(function ($mdThemingProvider, $mdIconProvider) {
             // Emoticons
             $mdIconProvider
-                .icon("emotion", "./public/assets/svg/emotion.svg", 120)
-                .icon("angry", "./public/assets/svg/emoticons/angry.svg", 120)
-                .icon("annoyed", "./public/assets/svg/emoticons/annoyed.svg", 120)
-                .icon("big-smile", "./public/assets/svg/emoticons/big-smile.svg", 120)
-                .icon("bored", "./public/assets/svg/emoticons/bored.svg", 120)
-                .icon("confused", "./public/assets/svg/emoticons/confused.svg", 120)
-                .icon("crying", "./public/assets/svg/emoticons/crying.svg", 120)
-                .icon("disappointed", "./public/assets/svg/emoticons/disappointed.svg", 120)
-                .icon("emotional", "./public/assets/svg/emoticons/emotional.svg", 120)
-                .icon("grinning", "./public/assets/svg/emoticons/grinning.svg", 120)
-                .icon("happy", "./public/assets/svg/emoticons/happy.svg", 120)
-                .icon("hehe", "./public/assets/svg/emoticons/hehe.svg", 120)
-                .icon("hopeful", "./public/assets/svg/emoticons/hopeful.svg", 120)
-                .icon("interested", "./public/assets/svg/emoticons/interested.svg", 120)
-                .icon("joking", "./public/assets/svg/emoticons/joking.svg", 120)
-                .icon("kiss", "./public/assets/svg/emoticons/kiss.svg", 120)
-                .icon("love", "./public/assets/svg/emoticons/love.svg", 120)
-                .icon("mad", "./public/assets/svg/emoticons/mad.svg", 120)
-                .icon("meh", "./public/assets/svg/emoticons/meh.svg", 120)
-                .icon("mute", "./public/assets/svg/emoticons/mute.svg", 120)
-                .icon("nerdy", "./public/assets/svg/emoticons/nerdy.svg", 120)
-                .icon("neutral", "./public/assets/svg/emoticons/neutral.svg", 120)
-                .icon("ninja", "./public/assets/svg/emoticons/ninja.svg", 120)
-                .icon("nostalgic", "./public/assets/svg/emoticons/nostalgic.svg", 120)
-                .icon("oh-really", "./public/assets/svg/emoticons/oh-really.svg", 120)
-                .icon("sad", "./public/assets/svg/emoticons/sad.svg", 120)
-                .icon("sad-tear", "./public/assets/svg/emoticons/sad-tear.svg", 120)
-                .icon("sarcastic", "./public/assets/svg/emoticons/sarcastic.svg", 120)
-                .icon("sexy", "./public/assets/svg/emoticons/sexy.svg", 120)
-                .icon("shocked", "./public/assets/svg/emoticons/shocked.svg", 120)
-                .icon("silent", "./public/assets/svg/emoticons/silent.svg", 120)
-                .icon("silly", "./public/assets/svg/emoticons/silly.svg", 120)
-                .icon("smile", "./public/assets/svg/emoticons/smile.svg", 120)
-                .icon("sympathetic", "./public/assets/svg/emoticons/sympathetic.svg", 120)
-                .icon("wink", "./public/assets/svg/emoticons/wink.svg", 120)
-                .icon("woah", "./public/assets/svg/emoticons/woah.svg", 120)
-                .icon("matureSmall", "./public/assets/svg/OFLC_small_M.svg", 120)
-                .icon("matureLarge", "./public/assets/svg/OFLC_large_M.svg", 120);
+                .icon("emotion", "./assets/svg/emotion.svg", 120)
+                .icon("angry", "./assets/svg/emoticons/angry.svg", 120)
+                .icon("annoyed", "./assets/svg/emoticons/annoyed.svg", 120)
+                .icon("big-smile", "./assets/svg/emoticons/big-smile.svg", 120)
+                .icon("bored", "./assets/svg/emoticons/bored.svg", 120)
+                .icon("confused", "./assets/svg/emoticons/confused.svg", 120)
+                .icon("crying", "./assets/svg/emoticons/crying.svg", 120)
+                .icon("disappointed", "./assets/svg/emoticons/disappointed.svg", 120)
+                .icon("emotional", "./assets/svg/emoticons/emotional.svg", 120)
+                .icon("grinning", "./assets/svg/emoticons/grinning.svg", 120)
+                .icon("happy", "./assets/svg/emoticons/happy.svg", 120)
+                .icon("hehe", "./assets/svg/emoticons/hehe.svg", 120)
+                .icon("hopeful", "./assets/svg/emoticons/hopeful.svg", 120)
+                .icon("interested", "./assets/svg/emoticons/interested.svg", 120)
+                .icon("joking", "./assets/svg/emoticons/joking.svg", 120)
+                .icon("kiss", "./assets/svg/emoticons/kiss.svg", 120)
+                .icon("love", "./assets/svg/emoticons/love.svg", 120)
+                .icon("mad", "./assets/svg/emoticons/mad.svg", 120)
+                .icon("meh", "./assets/svg/emoticons/meh.svg", 120)
+                .icon("mute", "./assets/svg/emoticons/mute.svg", 120)
+                .icon("nerdy", "./assets/svg/emoticons/nerdy.svg", 120)
+                .icon("neutral", "./assets/svg/emoticons/neutral.svg", 120)
+                .icon("ninja", "./assets/svg/emoticons/ninja.svg", 120)
+                .icon("nostalgic", "./assets/svg/emoticons/nostalgic.svg", 120)
+                .icon("oh-really", "./assets/svg/emoticons/oh-really.svg", 120)
+                .icon("sad", "./assets/svg/emoticons/sad.svg", 120)
+                .icon("sad-tear", "./assets/svg/emoticons/sad-tear.svg", 120)
+                .icon("sarcastic", "./assets/svg/emoticons/sarcastic.svg", 120)
+                .icon("sexy", "./assets/svg/emoticons/sexy.svg", 120)
+                .icon("shocked", "./assets/svg/emoticons/shocked.svg", 120)
+                .icon("silent", "./assets/svg/emoticons/silent.svg", 120)
+                .icon("silly", "./assets/svg/emoticons/silly.svg", 120)
+                .icon("smile", "./assets/svg/emoticons/smile.svg", 120)
+                .icon("sympathetic", "./assets/svg/emoticons/sympathetic.svg", 120)
+                .icon("wink", "./assets/svg/emoticons/wink.svg", 120)
+                .icon("woah", "./assets/svg/emoticons/woah.svg", 120)
+                .icon("matureSmall", "./assets/svg/OFLC_small_M.svg", 120)
+                .icon("matureLarge", "./assets/svg/OFLC_large_M.svg", 120);
         })
         .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -154,25 +154,25 @@
                 .state('home', {
                     url: '/home',
                     authenticate: false,
-                    templateUrl: './public/src/home/view/index.html',
+                    templateUrl: './src/home/view/index.html',
                     controller: 'HomeCtrl as Home'
                 })
                 .state('browse', {
                     url: '/browse?q&sort&types&genres',
                     authenticate: false,
-                    templateUrl: './public/src/browse/view/index.html',
+                    templateUrl: './src/browse/view/index.html',
                     controller: 'BrowseCtrl as Browse'
                 })
                 .state('latest', {
                     url: '/latest',
                     authenticate: false,
-                    templateUrl: './public/src/latest/view/index.html',
+                    templateUrl: './src/latest/view/index.html',
                     controller: 'LatestCtrl as LC'
                 })
                 .state('video_critique', {
                     url: '/{video_url_id}/critique/{url_id}',
                     authenticate: false,
-                    templateUrl: './public/src/common/critique.html',
+                    templateUrl: './src/common/critique.html',
                     controller: 'VideoCritiqueCtrl as VCC',
                     resolve: {
                         Critique: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
@@ -188,7 +188,7 @@
                 .state('video_critique-edit', {
                     url: '/{video_url_id}/critique/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: './public/src/common/critique-edit.html',
+                    templateUrl: './src/common/critique-edit.html',
                     controller: 'VideoCritiqueEditCtrl',
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
@@ -210,7 +210,7 @@
                     url: '/user/{url_id}',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: './public/src/auth/user.html',
+                    templateUrl: './src/auth/user.html',
                     controller: 'UserCtrl as UserC',
                     resolve: {
                         User: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
@@ -231,12 +231,12 @@
                 })
                 .state('user.about', {
                     url: '/about',
-                    templateUrl: './public/src/auth/user-about.html',
+                    templateUrl: './src/auth/user-about.html',
                     controller: 'UserAboutController as UserAboutCtrl'
                 })
                 .state('user.videos', {
                     url: '/videos',
-                    templateUrl: './public/src/auth/user-videos.html',
+                    templateUrl: './src/auth/user-videos.html',
                     controller: 'UserVideosController as UserVideosCtrl',
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -254,7 +254,7 @@
                 })
                 .state('user.critiques', {
                     url: '/critiques',
-                    templateUrl: './public/src/auth/user-critiques.html',
+                    templateUrl: './src/auth/user-critiques.html',
                     controller: 'UserCritiquesController as UserCritiquesCtrl',
                     resolve: {
                         Critiques: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -277,7 +277,7 @@
                 })
                 .state('user.reactions', {
                     url: '/reactions',
-                    templateUrl: './public/src/auth/user-reactions.html',
+                    templateUrl: './src/auth/user-reactions.html',
                     controller: 'UserReactionsController as UserReactionsCtrl',
                     resolve: {
                         Reactions: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -300,7 +300,7 @@
                 })
                 .state('user.awards', {
                     url: '/awards',
-                    templateUrl: './public/src/auth/user-awards.html',
+                    templateUrl: './src/auth/user-awards.html',
                     controller: 'UserAwardsController as UserAwardsCtrl',
                     resolve: {
                         Awards: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -332,7 +332,7 @@
                     url: '/profile',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: './public/src/auth/profile.html',
+                    templateUrl: './src/auth/profile.html',
                     controller: 'ProfileCtrl as Profile',
                     resolve: {
                         User: ['AuthService', '$q', function (AuthService, $q) {
@@ -355,19 +355,19 @@
                 .state('profile.about', {
                     url: '/about',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-about.html',
+                    templateUrl: './src/auth/profile-about.html',
                     controller: 'ProfileAboutController as ProfileAboutCtrl'
                 })
                 .state('profile.upload', {
                     url: '/upload',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-upload.html',
+                    templateUrl: './src/auth/profile-upload.html',
                     controller: 'ProfileUploadController as UC'
                 })
                 .state('profile.videos', {
                     url: '/videos',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-videos.html',
+                    templateUrl: './src/auth/profile-videos.html',
                     controller: 'ProfileVideosController as ProfileVideosCtrl',
                     resolve: {
                         Videos: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -384,7 +384,7 @@
                 .state('profile.videos-edit', {
                     url: '/videos/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-videos-edit.html',
+                    templateUrl: './src/auth/profile-videos-edit.html',
                     controller: 'ProfileVideoEditCtrl as VEC',
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
@@ -406,7 +406,7 @@
                 .state('profile.critiques', {
                     url: '/critiques',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-critiques.html',
+                    templateUrl: './src/auth/profile-critiques.html',
                     controller: 'ProfileCritiquesController as ProfileCritiquesCtrl',
                     resolve: {
                         Critiques: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -430,7 +430,7 @@
                 .state('profile.reactions', {
                     url: '/reactions',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-reactions.html',
+                    templateUrl: './src/auth/profile-reactions.html',
                     controller: 'ProfileReactionsController as ProfileReactionsCtrl',
                     resolve: {
                         Reactions: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -454,7 +454,7 @@
                 .state('profile.awards', {
                     url: '/awards',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-awards.html',
+                    templateUrl: './src/auth/profile-awards.html',
                     controller: 'ProfileAwardsController as ProfileAwardsCtrl',
                     resolve: {
                         Awards: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -485,7 +485,7 @@
                 .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-playlists.html',
+                    templateUrl: './src/auth/profile-playlists.html',
                     controller: 'ProfilePlaylistsController as ProfilePlaylistsCtrl',
                     resolve: {
                         Playlists: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -502,7 +502,7 @@
                 .state('profile.settings', {
                     url: '/settings',
                     authenticate: true,
-                    templateUrl: './public/src/auth/profile-settings.html',
+                    templateUrl: './src/auth/profile-settings.html',
                     controller: 'ProfileSettingsController as PSC',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -528,7 +528,7 @@
                 .state('messages', {
                     url: '/messages',
                     authenticate: true,
-                    templateUrl: './public/src/auth/messages.html',
+                    templateUrl: './src/auth/messages.html',
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -544,13 +544,13 @@
                 })
                 .state('messages.message', {
                     authenticate: true,
-                    templateUrl: './public/src/auth/messages.html',
+                    templateUrl: './src/auth/messages.html',
                     controller: 'MessagesCtrl as Msgs'
                 })
                 /*.state('notifications', {
                  url: '/notifications',
                  authenticate: true,
-                 templateUrl: './public/src/auth/notifications.html',
+                 templateUrl: './src/auth/notifications.html',
                  controller: 'NotificationsCtrl as NC'
                  })*/
 
@@ -558,19 +558,19 @@
                 .state('register', {
                     url: '/register',
                     authenticate: false,
-                    templateUrl: './public/src/auth/register.html',
+                    templateUrl: './src/auth/register.html',
                     controller: 'RegisterCtrl as RC'
                 })
                 .state('sign_in', {
                     url: '/sign-in',
                     authenticate: false,
-                    templateUrl: './public/src/auth/sign-in.html',
+                    templateUrl: './src/auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'
                 })
                 .state('reset_password', {
                     url: '/reset-password?token',
                     authenticate: false,
-                    templateUrl: './public/src/auth/reset-password.html',
+                    templateUrl: './src/auth/reset-password.html',
                     controller: 'ForgotPasswordCtrl as FPC'
                 })
 
@@ -578,39 +578,39 @@
                 .state('about', {
                     url: '/about',
                     authenticate: false,
-                    templateUrl: './public/src/static/about.html'
+                    templateUrl: './src/static/about.html'
                 })
                 .state('contact', {
                     url: '/contact',
                     authenticate: false,
-                    templateUrl: './public/src/static/contact.html'
+                    templateUrl: './src/static/contact.html'
                 })
                 .state('tos', {
                     url: '/terms-of-service',
                     authenticate: false,
-                    templateUrl: './public/src/static/tos.html'
+                    templateUrl: './src/static/tos.html'
                 })
                 .state('advertise', {
                     url: '/advertise',
                     authenticate: false,
-                    templateUrl: './public/src/static/advertise.html'
+                    templateUrl: './src/static/advertise.html'
                 })
                 .state('privacy', {
                     url: '/privacy-policy',
                     authenticate: false,
-                    templateUrl: './public/src/static/privacy.html'
+                    templateUrl: './src/static/privacy.html'
                 })
                 .state('404', {
                     url: '/404',
                     authenticate: false,
-                    templateUrl: './public/src/static/404.html'
+                    templateUrl: './src/static/404.html'
                 })
 
                 // Video Pages
                 .state('video', {
                     url: '/{url_id:[0-9]{13}}',
                     authenticate: false,
-                    templateUrl: './public/src/common/video.html',
+                    templateUrl: './src/common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {

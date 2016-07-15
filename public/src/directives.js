@@ -8,7 +8,7 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                templateUrl: './public/src/directives/layerSlider.html',
+                templateUrl: './src/directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     DataService.query('countUsers').then(function (res) {
@@ -21,7 +21,7 @@
                                 layersContainer: 1280,
                                 skin: 'noskin',
                                 hoverPrevNext: false,
-                                skinsPath: './public/assets/layerslider/skins/'
+                                skinsPath: './assets/layerslider/skins/'
                             });
                         }, 0);
                     });
@@ -33,7 +33,7 @@
                 restrict: 'E',
                 replace: true,
                 //transclude: true,
-                templateUrl: './public/src/directives/featured-area.html',
+                templateUrl: './src/directives/featured-area.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     DataService.collection("projects", {}[{
@@ -117,7 +117,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './public/src/directives/people-watching.html',
+                templateUrl: './src/directives/people-watching.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     scope.getWatchedList = function () {
@@ -201,7 +201,7 @@
         .directive('playlists', ['$rootScope', 'DataService', 'UserActions', '_', function ($rootScope, DataService, UserActions, _) {
             return {
                 restrict: 'E',
-                templateUrl: './public/src/directives/playlists.html',
+                templateUrl: './src/directives/playlists.html',
                 replace: false,
                 scope: {
                     project: '='
@@ -324,7 +324,7 @@
         .directive('elitePlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
             return {
                 restrict: 'E',
-                templateUrl: './public/src/directives/videoPlayer.html',
+                templateUrl: './src/directives/videoPlayer.html',
                 scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
                 link: function (scope, el, attrs) {
                     var listenerStarted = false;
@@ -457,7 +457,7 @@
                             googlePlus: window.location.href, //share link over Google +
                             logoShow: "Yes",                              //"Yes","No"
                             logoClickable: "Yes",                         //"Yes","No"
-                            logoPath: "./public/assets/img/Logo_alt2_web_87x45.png",             //path to logo image
+                            logoPath: "./assets/img/Logo_alt2_web_87x45.png",             //path to logo image
                             logoGoToLink: "http://getindiewise.com",       //redirect to page when logo clicked
                             logoPosition: "bottom-left",                  //choose logo position: "bottom-right","bottom-left"
                             embedShow: "No",                             //enable/disable embed option: "Yes","No"
@@ -606,7 +606,7 @@
         .directive('elitePlayerEmbed', ['$rootScope', '_', function ($rootScope, _) {
             return {
                 restrict: 'E',
-                templateUrl: './public/src/directives/videoPlayer.html',
+                templateUrl: './src/directives/videoPlayer.html',
                 scope: { name: '=', hosting_id: '=', url: '=', type: '=', thumbnail: '=', description: '=' },
                 link: function (scope, el, attrs) {
                     var playlist = [];
@@ -686,7 +686,7 @@
                         googlePlus: window.location.href, //share link over Google +
                         logoShow: "Yes",                              //"Yes","No"
                         logoClickable: "Yes",                         //"Yes","No"
-                        logoPath: "./public/assets/img/Logo_alt2_web_87x45.png",             //path to logo image
+                        logoPath: "./assets/img/Logo_alt2_web_87x45.png",             //path to logo image
                         logoGoToLink: "http://getindiewise.com",       //redirect to page when logo clicked
                         logoPosition: "bottom-left",                  //choose logo position: "bottom-right","bottom-left"
                         embedShow: "No",                             //enable/disable embed option: "Yes","No"
@@ -727,7 +727,7 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                templateUrl: './public/src/directives/help-info.html',
+                templateUrl: './src/directives/help-info.html',
                 scope: {
                     text: '=text',
                     direction: '=direction'
@@ -739,7 +739,7 @@
                 restrict: 'E',
                 transclude: true,
                 replace: false,
-                templateUrl: './public/src/directives/project-card.html',
+                templateUrl: './src/directives/project-card.html',
                 scope: {
                     video: '=video',
                     type: '=type',
@@ -785,7 +785,7 @@
 
                     function openShareDialog(video) {
                         $modal.open({
-                            templateUrl: './public/src/common/shareDialog.html',
+                            templateUrl: './src/common/shareDialog.html',
                             resolve: {
                                 Video: function () {
                                     return video;
@@ -834,7 +834,7 @@
         .directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', 'UtilsService', '$modal', '_', function ($rootScope, DataService, UserActions, UtilsService, $modal, _) {
             return {
                 restrict: 'E',
-                templateUrl: './public/src/directives/comments.html',
+                templateUrl: './src/directives/comments.html',
                 scope: {
                     comments: '=comments',
                     disable: '=disable',
@@ -996,7 +996,7 @@
         .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', 'UtilsService', '$modal', function ($rootScope, DataService, UserActions, UtilsService, $modal) {
             return {
                 restrict: 'E',
-                templateUrl: './public/src/directives/critiques.html',
+                templateUrl: './src/directives/critiques.html',
                 scope: {
                     critiques: '=critiques',
                     disable: '=disable',
@@ -1018,7 +1018,7 @@
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
                                 var modalInstance = $modal.open({
-                                    templateUrl: './public/src/common/confirmDialog.html',
+                                    templateUrl: './src/common/confirmDialog.html',
                                     controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                                         $scope.ok = function () {
                                             $modalInstance.close(true);
@@ -1083,7 +1083,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './public/src/directives/replies.html',
+                templateUrl: './src/directives/replies.html',
                 link: function (scope, el, attrs) {
 
                 }
@@ -1093,7 +1093,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './public/src/directives/reply-comment.html',
+                templateUrl: './src/directives/reply-comment.html',
                 link: function (scope, el, attrs) {
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
@@ -1164,7 +1164,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './public/src/directives/reply-comment.html',
+                templateUrl: './src/directives/reply-comment.html',
                 link: function (scope, el, attrs) {
                     scope.model = {
                         isLoggedIn: $rootScope.AppData.User,
@@ -1207,7 +1207,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './public/src/directives/edit-comment.html',
+                templateUrl: './src/directives/edit-comment.html',
                 link: function (scope, el, attrs) {
                     scope.editedBody = scope.editComment.body;
                     scope.updateComment = _.throttle(updateComment, 1000);
@@ -1306,7 +1306,7 @@
         .directive('broadstreetZone', ['$window', '$sce', function ($window, $sce) {
             return {
                 restrict: 'E',
-                templateUrl: './public/src/directives/broadstreet-zone.html',
+                templateUrl: './src/directives/broadstreet-zone.html',
                 transclude: true,
                 scope: { 
                     zone: "=",
