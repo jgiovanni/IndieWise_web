@@ -15,22 +15,22 @@ class Comment extends Model
 
     public function author()
     {
-        return $this->belongsTo('IndieWise\User');
+        return $this->belongsTo(User::class);
     }
 
     public function critique()
     {
-        return $this->belongsTo('IndieWise\Critique');
+        return $this->belongsTo(Critique::class);
     }
 
     public function comment()
     {
-        return $this->belongsTo('IndieWise\Comment');
+        return $this->belongsTo(Comment::class);
     }
 
     public function replies()
     {
-        return $this->hasMany('IndieWise\Comment');
+        return $this->hasMany(Comment::class);
     }
 
 
