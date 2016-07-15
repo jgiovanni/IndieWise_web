@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaylistItem extends Model
 {
-    protected $table = 'playlist_items';
+    protected $table = 'PlaylistItem';
     public $timestamps = false;
 
     public function playlist()

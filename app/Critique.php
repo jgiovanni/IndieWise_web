@@ -10,7 +10,7 @@ class Critique extends Model
 {
     use SoftDeletes, Filterable, UuidForKey;
 
-    protected $table = 'critiques';
+    protected $table = 'Critique';
 
     protected $guarded = ['url_id'];
 

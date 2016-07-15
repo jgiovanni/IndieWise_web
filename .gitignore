@@ -5,7 +5,9 @@ Homestead.json
 .env
 .htaccess
 
+# JetBrains stuff
 
+.idea/*
 # Elastic Beanstalk Files
 
 .elasticbeanstalk/*

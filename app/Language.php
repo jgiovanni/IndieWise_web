@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Language extends Model
 {
     //
-    protected $table = 'languages';
+    protected $table = 'Language';
     public $timestamps = false;
 
     public function projects()

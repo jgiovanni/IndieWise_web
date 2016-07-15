@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Award extends Model
 {
     //
-    protected $table = 'awards';
+    protected $table = 'Award';
     public $timestamps = false;
 
     public function wins()

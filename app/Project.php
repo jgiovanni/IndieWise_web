@@ -10,7 +10,7 @@ class Project extends Model
 {
     use SoftDeletes, Filterable, UuidForKey;
 
-    protected $table = 'projects';
+    protected $table = 'Project';
 
     protected $guarded = ['url_id'];
 

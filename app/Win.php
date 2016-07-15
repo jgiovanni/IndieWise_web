@@ -9,7 +9,7 @@ class Win extends Model
 {
     use SoftDeletes, UuidForKey;
     //
-    protected $table = 'wins';
+    protected $table = 'AwardWin';
 
     protected $fillable = ['award_id', 'project_id', 'owner_id'];
 

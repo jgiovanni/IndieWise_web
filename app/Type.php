@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Type extends Model
 {
     //
-    protected $table = 'types';
+    protected $table = 'Type';
     public $timestamps = false;
 
     public function projects()
