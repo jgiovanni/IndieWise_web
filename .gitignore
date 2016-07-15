@@ -7,7 +7,7 @@ Homestead.json
 
 # JetBrains stuff
 
-.idea/*
+#.idea/*
 # Elastic Beanstalk Files
 
 .elasticbeanstalk/*
