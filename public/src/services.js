@@ -61,7 +61,6 @@
                  */
 
 
-                var API = 'http://getindiewise.com/laravel/api/';
                 var service = {
                     /**
                      *
