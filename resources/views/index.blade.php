@@ -2,7 +2,7 @@
 <html lang="en" ng-app="IndieWise" class="no-js">
 <head>
     <title>IndieWise</title>
-    <base href="http://getindiewise.com/laravel/">
+    {{--<base href="http://indiewise.myddmxbu6d.us-west-2.elasticbeanstalk.com/">--}}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
