@@ -314,15 +314,21 @@
 
         $rootScope.generateGenres = function () {
             var deferred = $q.defer();
+            $localForage.removeItem('genres');
             $localForage.getItem('genres', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
                 } else {
-                    DataService.getList('Genre', [], [], 50).then(function (result) {
-                        $rootScope.genresList = result.data.data;
-                        $localForage.setItem('genres', result.data.data);
-                        deferred.resolve(result);
+                    DataService.collection('genres').then(function (result) {
+                        $rootScope.genresList = result.data.Genres;
+                        $localForage.setItem('genres', result.data.Genres);
+                        deferred.resolve(result.data.Genres);
                     });
+                    /*DataService.getList('Genre', [], [], 50).then(function (result) {
+                     $rootScope.genresList = result.data.data;
+                     $localForage.setItem('genres', result.data.data);
+                     deferred.resolve(result.data.data);
+                     });*/
                 }
             }, function (error) {
                 debugger;
@@ -333,15 +339,22 @@
 
         $rootScope.generateTypes = function () {
             var deferred = $q.defer();
+            $localForage.removeItem('types');
             $localForage.getItem('types', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
                 } else {
-                    DataService.getList('Type', [], [], 50).then(function (result) {
-                        $rootScope.typesList = result.data.data;
-                        $localForage.setItem('types', result.data.data);
-                        deferred.resolve(result);
+                    DataService.collection('types').then(function (result) {
+                        $rootScope.typesList = result.data.Types;
+                        $localForage.setItem('types', result.data.Types);
+                        deferred.resolve(result.data.Types);
                     });
+
+                    /*DataService.getList('Type', [], [], 50).then(function (result) {
+                     $rootScope.typesList = result.data.data;
+                     $localForage.setItem('types', result.data.data);
+                     deferred.resolve(result.data.data);
+                     });*/
                 }
             }, function (error) {
                 debugger;
@@ -352,15 +365,21 @@
 
         $rootScope.generateCountries = function () {
             var deferred = $q.defer();
+            $localForage.removeItem('countries');
             $localForage.getItem('countries', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
                 } else {
-                    DataService.getList('Country', [], [], 300).then(function (result) {
-                        $rootScope.countryList = result.data.data;
-                        $localForage.setItem('countries', result.data.data);
-                        deferred.resolve(result);
+                    DataService.collection('countries').then(function (result) {
+                        $rootScope.countryList = result.data.Countries;
+                        $localForage.setItem('countries', result.data.Countries);
+                        deferred.resolve(result.data.Countries);
                     });
+                    /*DataService.getList('Country', [], [], 300).then(function (result) {
+                     $rootScope.countryList = result.data.data;
+                     $localForage.setItem('countries', result.data.data);
+                     deferred.resolve(result.data.data);
+                     });*/
                 }
             }, function (error) {
                 debugger;
@@ -371,15 +390,21 @@
 
         $rootScope.generateLanguages = function () {
             var deferred = $q.defer();
-            $localForage.getItem('countries', true).then(function (data) {
+            $localForage.removeItem('languages');
+            $localForage.getItem('languages', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
                 } else {
-                    DataService.collection('Language', [], [], 300).then(function (result) {
-                        $rootScope.languageList = result.data.data;
-                        $localForage.setItem('languages', result.data.data);
-                        deferred.resolve(result);
+                    DataService.collection('languages').then(function (result) {
+                        $rootScope.languageList = result.data.Languages;
+                        $localForage.setItem('languages', result.data.Languages);
+                        deferred.resolve(result.data.Languages);
                     });
+                    /*DataService.getList('Language', [], [], 300).then(function (result) {
+                     $rootScope.languageList = result.data.data;
+                     $localForage.setItem('languages', result.data.data);
+                     deferred.resolve(result.data.data);
+                     });*/
                 }
             }, function (error) {
                 debugger;
