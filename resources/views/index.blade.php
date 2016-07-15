@@ -41,39 +41,39 @@
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
-    <link rel="stylesheet" href="./public/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
-    <link rel="stylesheet" href="./public/app/bower_components/animate.css/animate.min.css"/>
+    <link rel="stylesheet" href="./app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
+    <link rel="stylesheet" href="./app/bower_components/animate.css/animate.min.css"/>
 
     <!-- Elite Video Player Scripts-->
-    <script type="text/javascript" src="./public/app/eliteplayer/deploy/js/froogaloop.js"></script>
-    <script type="text/javascript" src="./public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="./public/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
-    <script type="text/javascript" src="./public/app/eliteplayer/deploy/js/videoPlayer.js"></script>
-    <script type="text/javascript" src="./public/app/eliteplayer/deploy/js/Playlist.js"></script>
-    <script type="text/javascript" src="./public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
+    <script type="text/javascript" src="./app/eliteplayer/deploy/js/froogaloop.js"></script>
+    <script type="text/javascript" src="./app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="./app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
+    <script type="text/javascript" src="./app/eliteplayer/deploy/js/videoPlayer.js"></script>
+    <script type="text/javascript" src="./app/eliteplayer/deploy/js/Playlist.js"></script>
+    <script type="text/javascript" src="./app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
 
-    <!--    <link rel="stylesheet" href="./public/app/bower_components/foundation-apps/dist/css/foundation-apps.min.css">-->
+    <!--    <link rel="stylesheet" href="./app/bower_components/foundation-apps/dist/css/foundation-apps.min.css">-->
 
-    <!--    <script src="./public/app/bower_components/foundation-apps/dist/js/foundation-apps.min.js"></script>-->
+    <!--    <script src="./app/bower_components/foundation-apps/dist/js/foundation-apps.min.js"></script>-->
 
-    <!--    <script src="./public/app/bower_components/foundation-apps/dist/js/foundation-apps-templates.min.js"></script>-->
+    <!--    <script src="./app/bower_components/foundation-apps/dist/js/foundation-apps-templates.min.js"></script>-->
 
     <!-- BeTube Styles-->
-    <link rel="stylesheet" href="./public/assets/css/app.css">
-    <link rel="stylesheet" href="./public/assets/css/theme.css">
-    <link rel="stylesheet" href="./public/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/app.css">
+    <link rel="stylesheet" href="./assets/css/theme.css">
+    <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
-    <link rel="stylesheet" href="./public/assets/layerslider/css/layerslider.css" type="text/css">
-    <link rel="stylesheet" href="./public/assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="./public/assets/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="./public/assets/css/jquery.kyco.easyshare.css">
-    <link rel="stylesheet" href="./public/assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/layerslider/css/layerslider.css" type="text/css">
+    <link rel="stylesheet" href="./assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="./assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="./assets/css/jquery.kyco.easyshare.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
     <!-- Elite Video Player Styles-->
-    <link rel="stylesheet" href="./public/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="./public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
-    <link rel="stylesheet" href="./public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
+    <link rel="stylesheet" href="./app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="./app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="./app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="./public/assets/app.css"/>
+    <link rel="stylesheet" href="./assets/app.css"/>
 
     <script src="//api.filepicker.io/v1/filepicker.js"></script>
     <script src="http://cdn.broadstreetads.com/init.js"></script>
@@ -211,7 +211,7 @@
                                         <button class="menu-icon" type="button"
                                                 data-toggle="offCanvas-responsive"></button>
                                         <div class="title-bar-title">
-                                            <img src="./public/assets/img/Logo_alt2_web_87x45.png" alt="logo">
+                                            <img src="./assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                         </div>
                                         <div class="title-bar-right">
                                             <a ng-if="AppData.User" class="fa fa-bell menu-icon right-off-canvas-toggle"></a>
@@ -223,7 +223,7 @@
                                             <ul class="menu">
                                                 <li class="menu-text">
                                                     <a ui-sref="home">
-                                                        <img src="./public/assets/img/Logo_alt2_web_87x45.png" alt="logo">
+                                                        <img src="./assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                                     </a>
                                                 </li>
                                                 <li class="search end">
@@ -330,7 +330,7 @@
                                 <div class="media-object" ng-repeat="video in Body.footerRecentVideos.data|limitTo:3">
                                     <div class="media-object-section">
                                         <div class="recent-img">
-                                            <img ng-src="@{{::video.thumbnail_url||'./public/assets/img/default_video_thumbnail.jpg'}}" alt="recent">
+                                            <img ng-src="@{{::video.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="recent">
                                             <a ui-sref="video({url_id: video.url_id})" class="hover-posts">
                                                 <span><i class="fa fa-play"></i></span>
                                             </a>
@@ -663,7 +663,7 @@
             <!-- footer -->
             <div id="footer-bottom" ng-cloak>
                 <div class="logo text-center">
-                    <img src="./public/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
+                    <img src="./assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
                 </div>
                 <div class="btm-footer-text text-center">
                     <p>2015 - {{ date('Y') }} &copy; IndieWise</p>
@@ -727,49 +727,49 @@
 </script>
 
 <!-- AngularJs Components -->
-<script src="./public/app/bower_components/lodash/lodash.js"></script>
-<script src="./public/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>
+<script src="./app/bower_components/lodash/lodash.js"></script>
+<script src="./app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.min.js+angular-aria.min.js+angular-messages.min.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>
-<script src="./public/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
-<script src="./public/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
-<script src="./public/app/bower_components/ngAnimate-animate.css/animate.js"></script>
-<script src="./public/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
-<script src="./public/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
-<script src="./public/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>
-<script src="./public/app/bower_components/angular-material/angular-material.min.js"></script>
-<script src="./public/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>
-<script src="./public/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>
-<script src="./public/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
-<script src="./public/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
+<script src="./app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
+<script src="./app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
+<script src="./app/bower_components/ngAnimate-animate.css/animate.js"></script>
+<script src="./app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
+<script src="./app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
+<script src="./app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>
+<script src="./app/bower_components/angular-material/angular-material.min.js"></script>
+<script src="./app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>
+<script src="./app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>
+<script src="./app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
+<script src="./app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>
 <!--[if lte IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
 <![endif]-->
 <!-- Backand SDK for Angular -->
-<script src="./public/app/bower_components/angularbknd-sdk/dist/backand.min.js"></script>
+<script src="./app/bower_components/angularbknd-sdk/dist/backand.min.js"></script>
 <!-- Backand Realtime -->
 <script src="https://api.backand.com:4000/socket.io/socket.io.js"></script>
 
 <!-- BeTube script files -->
-<script src="./public/app/bower_components/what-input/what-input.js"></script>
-<script src="./public/app/bower_components/foundation-sites/dist/foundation.js"></script>
-<script src="./public/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
-<script src="./public/assets/js/app.js"></script>
-<script src="./public/assets/layerslider/js/greensock.js" type="text/javascript"></script>
+<script src="./app/bower_components/what-input/what-input.js"></script>
+<script src="./app/bower_components/foundation-sites/dist/foundation.js"></script>
+<script src="./assets/js/jquery.showmore.src.js" type="text/javascript"></script>
+<script src="./assets/js/app.js"></script>
+<script src="./assets/layerslider/js/greensock.js" type="text/javascript"></script>
 <!-- LayerSlider script files -->
-<script src="./public/assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
-<script src="./public/assets/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
-<script src="./public/assets/js/owl.carousel.min.js"></script>
-<!--<script src="./public/assets/js/inewsticker.js" type="text/javascript"></script>-->
-<!--<script src="./public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
+<script src="./assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
+<script src="./assets/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
+<script src="./assets/js/owl.carousel.min.js"></script>
+<!--<script src="./assets/js/inewsticker.js" type="text/javascript"></script>-->
+<!--<script src="./assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
-<script src="./public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
-<script src="./public/src/utils.js"></script>
+<script src="./app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
+<script src="./src/utils.js"></script>
 
-<script src="./public/src/directives.js"></script>
-<script src="./public/src/services.js"></script>
-<script src="./public/src/controllers.js"></script>
-<script src="./public/src/app.js"></script>
+<script src="./src/directives.js"></script>
+<script src="./src/services.js"></script>
+<script src="./src/controllers.js"></script>
+<script src="./src/app.js"></script>
 
 </body>
 </html>
