@@ -375,7 +375,7 @@
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
                 } else {
-                    DataService.getList('Language', [], [], 300).then(function (result) {
+                    DataService.collection('Language', [], [], 300).then(function (result) {
                         $rootScope.languageList = result.data.data;
                         $localForage.setItem('languages', result.data.data);
                         deferred.resolve(result);

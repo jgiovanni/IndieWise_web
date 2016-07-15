@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Playlist extends Model
 {
+    use UuidForKey;
+
     protected $table = 'Playlist';
     public $timestamps = false;
 

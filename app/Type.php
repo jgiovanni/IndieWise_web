@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
+    use UuidForKey;
     //
     protected $table = 'Type';
     public $timestamps = false;

@@ -1,5 +1,7 @@
 (function () {
     'use strict';
+    var API = 'http://52.207.215.154/api/';
+
     angular
         .module('IndieWise.services', [])
         .factory('FacebookAngularPatch', function ($q, $timeout) {
@@ -502,7 +504,6 @@
 
     DataService.$inject = ['$rootScope', '$http', 'Backand', '$q'];
     function DataService($rootScope, $http, Backand, $q) {
-        var API = 'http://getindiewise.com/laravel/api/';
         var vm = this;
         // Newsletter Form
         vm.notifyMe = function (params) {

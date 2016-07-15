@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Genre extends Model
 {
+    use UuidForKey;
     //
     protected $table = 'Genre';
     public $timestamps = false;

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    use UuidForKey;
     //
     protected $table = 'Country';
     
