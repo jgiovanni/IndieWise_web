@@ -626,7 +626,7 @@
             ;
 
             $urlRouterProvider.otherwise('/404');
-            $locationProvider.html5Mode(false);
+            $locationProvider.html5Mode(true);
 
         }])
         .constant('Config', {

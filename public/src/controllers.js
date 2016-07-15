@@ -314,7 +314,7 @@
 
         $rootScope.generateGenres = function () {
             var deferred = $q.defer();
-            $localForage.removeItem('genres');
+            // $localForage.removeItem('genres');
             $localForage.getItem('genres', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
@@ -339,7 +339,7 @@
 
         $rootScope.generateTypes = function () {
             var deferred = $q.defer();
-            $localForage.removeItem('types');
+            // $localForage.removeItem('types');
             $localForage.getItem('types', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
@@ -365,7 +365,7 @@
 
         $rootScope.generateCountries = function () {
             var deferred = $q.defer();
-            $localForage.removeItem('countries');
+            // $localForage.removeItem('countries');
             $localForage.getItem('countries', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
@@ -390,7 +390,7 @@
 
         $rootScope.generateLanguages = function () {
             var deferred = $q.defer();
-            $localForage.removeItem('languages');
+            // $localForage.removeItem('languages');
             $localForage.getItem('languages', true).then(function (data) {
                 if( !_.isNull(data) ) {
                     deferred.resolve(data);
