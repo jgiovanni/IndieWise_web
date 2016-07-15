@@ -11,7 +11,7 @@ class ProjectFilter extends ModelFilter
 
     public function owner($owner)
     {
-        return $this->where('owner_id', $owner);
+        return $this->where('owner', $owner);
     }
 
     public function notVideo($notVideo)
@@ -21,7 +21,7 @@ class ProjectFilter extends ModelFilter
 
     public function types($types)
     {
-        return $this->whereIn('type_id', explode(',', $types));
+        return $this->whereIn('type', explode(',', $types));
     }
 
     public function genres($genres)

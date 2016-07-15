@@ -3,7 +3,7 @@
 namespace IndieWise\Http\Transformers\v1;
 
 
-//use IndieWise\User;
+use IndieWise\User;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
