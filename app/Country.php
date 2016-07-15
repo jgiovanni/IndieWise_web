@@ -14,12 +14,12 @@ class Country extends Model
 
     public function projects()
     {
-        return $this->hasMany('IndieWise\Projects');
+        return $this->hasMany(Project::class);
     }
 
     public function users()
     {
-        return $this->hasMany('IndieWise\User');
+        return $this->hasMany(User::class);
     }
 
 }

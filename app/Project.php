@@ -14,20 +14,22 @@ class Project extends Model
 
     protected $guarded = ['url_id'];
 
-    protected $with = ['type', 'filmingCountry', 'language'];
+    protected $with = ['type', 'filmingCountry', 'language', 'owner'];
+
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'dob'];
+
 
      /* Relations */
     //  Child of
     public function owner()
     {
-        return $this->belongsTo(User::class, 'owner');
+        return $this->belongsTo(User::class, 'owner', 'id');
     }
 
     public function filmingCountry()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class, 'filmingCountry');
     }
 
     public function language()
@@ -46,10 +48,10 @@ class Project extends Model
         return $this->hasMany(Critique::class);
     }
 
-    /*public function genres()
+    public function genres()
     {
         return $this->morphToMany(Genre::class,'genres_selected');
-    }*/
+    }
 
     public function wins()
     {
