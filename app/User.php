@@ -79,51 +79,51 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     // Relations
     public function country()
     {
-        return $this->belongsTo('IndieWise\Country');
+        return $this->belongsTo(Country::class);
     }
 
     public function projects()
     {
-        return $this->hasMany('IndieWise\Project', 'id', 'owner_id');
+        return $this->hasMany(Project::class, 'id', 'owner');
     }
 
     public function critiques()
     {
-        return $this->hasMany('IndieWise\Critique');
+        return $this->hasMany(Critique::class);
     }
 
     public function comments()
     {
-        return $this->hasMany('IndieWise\Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function reactions()
     {
-        return $this->hasMany('IndieWise\Reaction');
+        return $this->hasMany(Reaction::class);
     }
 
     public function genres()
     {
-        return $this->morphToMany('IndieWise\Genre', 'genres_selected');
+        return $this->morphToMany(Genre::class, 'genres_selected');
     }
 
     public function nominations()
     {
-        return $this->hasMany('IndieWise\Nomination');
+        return $this->hasMany(Nomination::class);
     }
 
     public function ratings()
     {
-        return $this->hasMany('IndieWise\Rating');
+        return $this->hasMany(Rating::class);
     }
 
     public function playlists()
     {
-        return $this->hasMany('IndieWise\Playlist');
+        return $this->hasMany(Playlist::class);
     }
 
     public function actions()
     {
-        return $this->hasMany('IndieWise\Action');
+        return $this->hasMany(Action::class);
     }
 }

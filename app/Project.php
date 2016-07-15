@@ -22,7 +22,7 @@ class Project extends Model
     //  Child of
     public function owner()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->belongsTo(User::class, 'owner');
     }
 
     public function filmingCountry()
