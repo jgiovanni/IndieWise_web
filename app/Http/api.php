@@ -28,6 +28,12 @@ $api->version('v1', [
     $api->post('login', 'AuthController@login');
     $api->post('register', 'AuthController@register');
 
+    // Static Data Routes
+    $api->resource('countries', 'CountriesController');
+    $api->resource('languages', 'LanguagesController');
+    $api->resource('awards', 'AwardsController');
+    $api->resource('genres', 'GenresController');
+    $api->resource('types', 'TypesController');
 
     $api->get('users/me', 'UsersController@me');
     $api->post('users/me', 'UsersController@updateMe');
