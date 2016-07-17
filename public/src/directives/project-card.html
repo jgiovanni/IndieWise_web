@@ -1,7 +1,7 @@
 <div class="item large-3 medium-6 small-12 columns {{type||'grid-medium'}} project-card nga-default nga-stagger nga-fade" ng-if="::video.name" ng-class="{'end':$last}">
     <div class="post thumb-border">
         <a class="post-thumb" ui-sref="video({url_id: video.url_id})">
-            <img ng-src="{{::video.thumbnail_url||'./public/assets/img/default_video_thumbnail.jpg'}}" alt="new video">
+            <img ng-src="{{::video.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="new video">
             <!--<a class="hover-posts">
                 <span><i class="fa fa-play"></i>Watch Video</span>
             </a>-->
@@ -29,11 +29,8 @@
             <div class="post-stats clearfix">
                 <p class="pull-left">
                     <i class="fa fa-user"></i>
-                    <span ng-if="isQueried">
-                        <a ui-sref="user.about({url_id: video.ownerUrlId})">{{::video.ownerFullName}}</a>
-                    </span>
-                    <span ng-if="!isQueried">
-                        <a ui-sref="user.about({id: video.owner})">{{::related.users[video.owner].firstName+' '+related.users[video.owner].lastName}}</a>
+                    <span>
+                        <a ui-sref="user.about({url_id: video.owner.url_id})">{{::video.owner.fullName}}</a>
                     </span>
                 </p>
                 <p class="pull-left" ng-if="::!$state.is('profile')">

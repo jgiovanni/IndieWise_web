@@ -27,6 +27,8 @@ $api->version('v1', [
     // Authentication
     $api->post('login', 'AuthController@login');
     $api->post('register', 'AuthController@register');
+    $api->post('requestPasswordReset', 'AuthController@requestPasswordReset');
+    $api->post('resetPassword', 'AuthController@resetPassword');
 
     // Static Data Routes
     $api->resource('countries', 'CountriesController');
@@ -35,10 +37,15 @@ $api->version('v1', [
     $api->resource('genres', 'GenresController');
     $api->resource('types', 'TypesController');
 
+    // Auth Routes
     $api->get('users/me', 'UsersController@me');
     $api->post('users/me', 'UsersController@updateMe');
+
+    // Resource Routes
     $api->resource('users', 'UsersController');
     $api->resource('projects', 'ProjectsController');
+    $api->resource('reactions', 'ReactionsController');
+    $api->resource('critiques', 'CritiquesController');
 
 
 });

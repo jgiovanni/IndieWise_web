@@ -669,22 +669,22 @@
 
         self.refresh = function () {
             // Trending Videos
-            DataService.collection('projects', { include: 'owner', sort:'reactionCount', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'reactionCount', per_page: 6}).then(function (result) {
                 self.trending = result.data;
             });
 
             // Highest Rated Videos
-            DataService.collection('projects', { include: 'owner', sort:'iwRating', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'iwRating', per_page: 6}).then(function (result) {
                 self.highestRated = result.data;
             });
 
             // Highest Awarded Videos
-            DataService.collection('projects', { include: 'owner', sort:'awardCount', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'awardCount', per_page: 6}).then(function (result) {
                 self.highestAwarded = result.data;
             });
 
             // Recent Videos
-            DataService.collection('projects', { include: 'owner', sort:'createdAt', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'createdAt', per_page: 6}).then(function (result) {
                 self.recentFilms = result.data;
             });
         };
@@ -855,9 +855,9 @@
                 url: window.location.href
             };
 
-            // self.qReactions();
+            self.qReactions();
 
-            // self.qCritiques();
+            self.qCritiques();
 
             // self.qNominations();
 
@@ -887,22 +887,19 @@
                 }
             }
 
-            //List Genres
-            /*DataService.query('getProjectGenres', {id: self.film.id})
-                .then(function (res) {
-                    self.film.genres = res.data;
-                });*/
+
 
             // Get related video
-            /*DataService.query('getRelatedVideo', {
-                id: self.film.id,
-                userId: $rootScope.AppData.User ? $rootScope.AppData.User.userId : null
+            DataService.collection('projects', {
+                notVideo: self.film.id,
+                notOwner: $rootScope.AppData.User ? $rootScope.AppData.User.userId : undefined,
+                per_page: 1
             })
                 .then(function (res) {
                     if (res) {
-                        self.relatedvideo = res.data[0];
+                        self.relatedvideo = res.data.data[0];
                     }
-                });*/
+                });
 
             // Register Listener
             // console.log('Listener registered!');
@@ -916,19 +913,19 @@
                  })*/
             });
         }
-        self.videoOwner = angular.isObject(self.film.owner) ? self.film.owner.data : { id: self.film.owner_id };
+        self.videoOwner = self.film.owner;
 
         self.checkUserActions = function () {
             var loggedIn = $rootScope.AppData.User;
             if (loggedIn) {
-                var videoOwnerisYou = self.videoOwner.id === $rootScope.AppData.User.userId;
+                var videoOwnerIsYou = self.videoOwner.id === $rootScope.AppData.User.userId;
                 UserActions.canReact(self.film.id).then(function (res) {
                     self.canReact = res;
                 }, function (error) {
                     self.canReact = error;
                 });
 
-                if (self.film.disableCritique || (videoOwnerisYou)) {
+                if (self.film.disableCritique || (videoOwnerIsYou)) {
                     console.log('owner');
                     self.canCritique = false;
                 } else {
@@ -938,7 +935,6 @@
                         self.canCritique = error;
                     });
                 }
-
 
                 UserActions.canRate(self.film.id).then(function (res) {
                     self.canRate = res;
@@ -965,9 +961,8 @@
 
         self.qReactions = function () {
             // Fetch Reactions
-            DataService.getList("Reaction", [{fieldName: "createdAt", order: "desc"}],
-                [{fieldName: "project", operator: "in", value: self.film.id}],
-                20, false, false, 1).then(function (result) {
+            DataService.collection('reactions', { project: self.film.id, sort: 'created_at', per_page: 300 })
+                .then(function (result) {
                     self.reactions = result.data;
                     self.chartedReactions = _.countBy(self.reactions.data, function (r) {
                         return _.contains(self.reactions.data, r) ? r.emotion : undefined;
@@ -979,7 +974,7 @@
                     var sortable = [];
                     for (var r in self.chartedReactions)
                         sortable.push([r, self.chartedReactions[r]])
-                    sortable.sort(function (a, b) {
+                        sortable.sort(function (a, b) {
                         return b[1] - a[1]
                     });
 
@@ -989,9 +984,9 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.query('getProjectCritiques', {id: self.film.id})
+            DataService.collection('critiques', { project: self.film.id, per_page: 300})
                 .then(function (result) {
-                    self.critiques = result.data;
+                    self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);
                 });
         };
@@ -1039,7 +1034,7 @@
                         templateUrl: './src/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
-                                return self.videoOwner;
+                                return self.videoOwner.id;
                             }
                         },
                         controller: ContactUserDialogController

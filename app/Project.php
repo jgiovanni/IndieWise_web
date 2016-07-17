@@ -5,6 +5,7 @@ namespace IndieWise;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -14,22 +15,22 @@ class Project extends Model
 
     protected $guarded = ['url_id'];
 
-    protected $with = ['type', 'filmingCountry', 'language', 'owner'];
+    protected $with = ['owner', 'genres', 'type', 'filmingCountry'];
 
+    protected $appends = [];
 
-    public $dates = ['created_at', 'updated_at', 'deleted_at', 'dob'];
-
+    public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
 
      /* Relations */
     //  Child of
     public function owner()
     {
-        return $this->belongsTo(User::class, 'owner', 'id');
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function filmingCountry()
     {
-        return $this->belongsTo(Country::class, 'filmingCountry');
+        return $this->belongsTo(Country::class, 'filmingCountry_id');
     }
 
     public function language()
@@ -50,7 +51,7 @@ class Project extends Model
 
     public function genres()
     {
-        return $this->morphToMany(Genre::class,'genres_selected');
+        return $this->hasMany(SelectedGenres::class, 'project');
     }
 
     public function wins()
@@ -58,10 +59,10 @@ class Project extends Model
         return $this->hasMany(Win::class);
     }
 
-    /*public function reactions()
+    public function reactions()
     {
         return $this->hasMany(Reaction::class);
-    }*/
+    }
 
     public function nominations()
     {
@@ -73,10 +74,10 @@ class Project extends Model
         return $this->hasMany(Rating::class);
     }
 
-    /*public function actions()
+    public function actions()
     {
         return $this->hasMany(Action::class);
-    }*/
+    }
 
     // Siblings
     public function watches()

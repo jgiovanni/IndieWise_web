@@ -12,7 +12,11 @@
 */
 
 Route::any('{path?}', function() {
-    return view("index");
+    if (App::environment('local')) {
+        return view("dev");
+    } else {
+        return view("index");
+    }
 })->where("path", ".+");
 
 /*

@@ -4,22 +4,32 @@ namespace IndieWise\Filters\v1;
 
 use EloquentFilter\ModelFilter;
 
-class ProjectFilter extends ModelFilter
+class CritiqueFilter extends ModelFilter
 {
 
     public $relations = [];
 
-    public function owner($owner)
+    public function user($user)
     {
-        return $this->where('owner_id', $owner);
+        return $this->where('user_id', $user);
     }
 
-    public function notOwner($owner)
+    public function notUser($user)
     {
-        return $this->where('owner_id', '<>', $owner);
+        return $this->where('user_id', '<>', $user);
     }
 
-    public function notVideo($notVideo)
+    public function project($project)
+    {
+        return $this->where('project_id', $project);
+    }
+
+    public function notProject($project)
+    {
+        return $this->where('project_id', '<>', $project);
+    }
+
+    /*public function notVideo($notVideo)
     {
         return $this->whereNotIn('id', explode(',', $notVideo));
     }
@@ -55,12 +65,12 @@ class ProjectFilter extends ModelFilter
                         ->orWhere('lastName', 'LIKE', strtolower("%$search%"));
                 });
         });
-    }
+    }*/
     
     public function sort($sort)
     {
         $sortable = [
-            'iwRating', 'critiqueCount', 'awardCount', 'reactionCount', 'created_at', 'name'
+            'created_at'
         ];
 
         $param = preg_split('/\|+/', $sort);

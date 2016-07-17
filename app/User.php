@@ -21,7 +21,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     protected $guarded = ['url_id', 'public', 'id'];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['bcryptPassword', 'remember_token'];
 
     protected $appends = ['fullName'];
 
@@ -32,9 +32,9 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
      *
      * @param $password
      */
-    public function setPasswordAttribute($password)
+    public function setBcryptPasswordAttribute($password)
     {
-        $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
+        $this->attributes['bcryptPassword'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
     }
 
     // Mutators
@@ -69,7 +69,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function projects()
     {
-        return $this->hasMany(Project::class, 'id', 'owner');
+        return $this->hasMany(Project::class, 'id', 'owner_id');
     }
 
     public function critiques()
@@ -89,7 +89,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function genres()
     {
-        return $this->morphToMany(Genre::class, 'genres_selected');
+        return $this->morphToMany(Genre::class, 'genreables');
     }
 
     public function nominations()

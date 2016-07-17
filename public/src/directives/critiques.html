@@ -22,17 +22,17 @@
                      ng-init="critique.replies=[];critique.showReplies=false;">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
-                            <img ng-src="{{::critique.userAvatar||'./assets/img/avatar-1.png'}}" alt="comment">
+                            <img ng-src="{{::critique.user.avatar||'./assets/img/avatar-1.png'}}" alt="comment">
                         </div>
                     </div>
                     <div class="media-object-section comment-desc">
                         <div class="comment-title">
                             <span class="name"><a ui-sref="user.about({url_id: critique.userUrlId})">
-                                {{::critique.userFullName}}</a> Said:
+                                {{::critique.user.fullName}}</a> Said:
                             </span>
                             <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                <abbr title="{{::critique.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
-                                      am-time-ago="::critique.createdAt"></abbr>
+                                <abbr title="{{::critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                      am-time-ago="::critique.created_at"></abbr>
 
                                 <!--<span ng-if="critique.editedAt && !Body.isSame(critique.createdAt, critique.editedAt)">
                                     |Edited: <abbr title="{{::critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
@@ -138,10 +138,10 @@
                             </span>
                             <span><a ui-sref="video_critique({video_url_id: parentUrlId, url_id:critique.url_id})"><i class="fa fa-comments"></i>View</a></span>
                             <span ng-if="::isPrivate(critique)" class="has-tip" style="margin-right: 0" tooltip="Private"><i class="fa fa-lock"></i></span>
-                            <span ng-if="critique.author === isLoggedIn.userId">
+                            <span ng-if="critique.user_id === isLoggedIn.userId">
                                 <a ui-sref="video_critique-edit({video_url_id: parentUrlId, url_id:critique.url_id})"><i class="fa fa-pencil"></i>Edit</a>
                             </span>
-                            <!--<span ng-if="critique.author === isLoggedIn.userId">
+                            <!--<span ng-if="critique.user_id === isLoggedIn.userId">
                                 <a ng-click="Vcritique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
                             </span>-->
                         </div>

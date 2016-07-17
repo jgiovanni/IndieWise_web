@@ -17,17 +17,17 @@ class Win extends Model
 
     public function award()
     {
-        return $this->belongsTo('IndieWise\Award');
+        return $this->belongsTo(Award::class);
     }
 
     public function project()
     {
-        return $this->belongsTo('IndieWise\Project');
+        return $this->belongsTo(Project::class);
     }
 
     public function actions()
     {
-        return $this->hasMany('IndieWise\Action');
+        return $this->hasMany(Action::class);
     }
 
 }

@@ -12,7 +12,7 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('Project', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->uuid('id')->primary()->unique();
             $table->uuid('language_id')->index()->references('id')->on('languages');

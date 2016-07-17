@@ -615,7 +615,7 @@
                     resolve: {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.item('projects', $stateParams.url_id, 'owner').then(function (result) {
+                            DataService.item('projects', $stateParams.url_id, '').then(function (result) {
                                 deferred.resolve(result.data.data);
                             });
 
@@ -626,7 +626,7 @@
             ;
 
             $urlRouterProvider.otherwise('/404');
-            $locationProvider.html5Mode(true);
+            $locationProvider.html5Mode(false);
 
         }])
         .constant('Config', {

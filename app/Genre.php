@@ -16,7 +16,7 @@ class Genre extends Model
      */
     public function users()
     {
-        return $this->morphedByMany('IndieWise\User', 'genres_selected');
+        return $this->morphedByMany(User::class, 'genreables');
     }
 
     /**
@@ -24,6 +24,11 @@ class Genre extends Model
      */
     public function projects()
     {
-        return $this->morphedByMany('IndieWise\Project', 'genres_selected');
+        return $this->morphedByMany(Project::class, 'genreables');
+    }
+
+    public function selected()
+    {
+        return $this->hasMany(SelectedGenres::class, 'genre');
     }
 }

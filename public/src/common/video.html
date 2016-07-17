@@ -9,7 +9,7 @@
                     <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
                     <!--<li><a href="#">Animation</a></li>-->
                     <li>
-                        <a ui-sref="user.about({url_id: VC.film.owner.data.url_id})">{{VC.film.owner.data.firstName+' '+VC.film.owner.data.lastName}}</a>
+                        <a ui-sref="user.about({url_id: VC.film.owner.url_id})">{{VC.film.owner.fullName}}</a>
                     </li>
                     <li>
                         <span class="show-for-sr">Current: </span> {{::VC.film.name}}
@@ -61,12 +61,12 @@
                         <div class="media-object-section">
                             <div class="author-img-sec">
                                 <div class="thumbnail author-single-post">
-                                    <a ui-sref="user.about({url_id: VC.film.owner.data.url_id})"><img
-                                            src="{{VC.film.owner.data.avatar}}" alt="post"></a>
+                                    <a ui-sref="user.about({url_id: VC.film.owner.url_id})"><img
+                                            src="{{VC.film.owner.avatar}}" alt="post"></a>
                                 </div>
                                 <p class="text-center">
-                                    <a ui-sref="user.about({url_id: VC.film.owner.data.url_id})">
-                                        {{VC.film.owner.data.fullName}}
+                                    <a ui-sref="user.about({url_id: VC.film.owner.url_id})">
+                                        {{VC.film.owner.fullName}}
                                     </a>
                                 </p>
                             </div>
@@ -194,19 +194,19 @@
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Country of Filming</button>
-                            <a ui-sref="browse({q: VC.film.filmingCountryName})" class="inner-btn" ng-bind="::VC.film.filmingCountryName"></a>
+                            <a ui-sref="browse({q: VC.film.filming_country.name})" class="inner-btn" ng-bind="::VC.film.filming_country.name"></a>
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Year of Completion</button>
-                            <a ui-sref="browse({q: (VC.film.completionDate|date:'yyyy':'UTC')})" class="inner-btn" ng-bind="::(VC.film.completionDate|date:'yyyy':'UTC')||'N/A'"></a>
+                            <a ui-sref="browse({q: (VC.film.completionDate)})" class="inner-btn" ng-bind="::(VC.film.completionDate)||'N/A'"></a>
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Type</button>
-                            <a ui-sref="browse({types: VC.film.typeName})" class="inner-btn" ng-bind="::VC.film.typeName"></a>
+                            <a ui-sref="browse({types: VC.film.type.name})" class="inner-btn" ng-bind="::VC.film.type.name"></a>
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Genres</button>
-                            <a ng-repeat="g in VC.film.genres" ui-sref="browse({genres: g.name})" class="inner-btn">{{::g.name}}</a>
+                            <a ng-repeat="g in VC.film.genres" ui-sref="browse({genres: g.genre.name})" class="inner-btn">{{::g.genre.name}}</a>
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Running Time</button>
@@ -230,7 +230,7 @@
                         <li class="tabs-title" ng-class="{'is-active': VC.activeTab=='critiques'}">
                             <a ng-click="VC.activeTab='critiques'">
                                 <i class="fa fa-star"></i>
-                                <ng-pluralize count="VC.critiques.length"
+                                <ng-pluralize count="VC.film.critiqueCount"
                                               when="{'0': 'Critiques', 'one': ' 1 Critique', 'other': '{} Critiques'}">
                                 </ng-pluralize>
                             </a>
@@ -247,22 +247,6 @@
                 </div>
             </div>
         </section>
-
-        <!--<div class="sidebar customTabs">
-            <div class="widgetBox">
-                <div class="widgetContent">
-                    <ul class="menu vertical medium-horizontal expanded profile-overview">
-                        <li class="clearfix"><a ng-class="{'active': VC.activeTab=='critiques'}"
-                                                ng-click="VC.activeTab='critiques'"><i
-                                class="fa fa-star"></i>Critiques<span
-                                class="float-right">{{VC.critiques.totalRows||''}}</span></a></li>
-                        <li class="clearfix"><a ng-class="{'active': VC.activeTab=='awards'}"
-                                                ng-click="VC.activeTab='awards'"><i class="fa fa-trophy"></i>Awards<span
-                                class="float-right">{{VC.awards.totalRows||''}}</span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>-->
 
         <!-- Comments -->
         <!--<comments-block ng-show="VC.activeTab=='comments'" comments="VC.comments" disable="VC.film.disableComments"
@@ -289,7 +273,7 @@
                         </div>
                     </div>
                     <tabset>
-                        <tab heading="Nominations {{VC.nominations.data.length||0}}" ng-init="sortOrderA='-createdAt'">
+                        <tab heading="Nominations {{VC.nominations.length||0}}" ng-init="sortOrderA='-createdAt'">
                             <br>
 
                             <div class="comment-sort text-right">
@@ -301,7 +285,7 @@
                             <!-- main comment -->
                             <div class="main-comment showmore_one">
                                 <div class="media-object stack-for-small"
-                                     ng-repeat="nom in VC.nominations.data|orderBy:sortOrderA">
+                                     ng-repeat="nom in VC.nominations|orderBy:sortOrderA">
                                     <div class="media-object-section comment-img text-center">
                                         <div class="comment-box-img">
                                             <img ng-src="{{::VC.nominations.relatedObjects.users[nom.nominator].avatar || './assets/img/avatar-1.png'}}"
@@ -327,7 +311,7 @@
                             </div>
                             <!-- End main comment -->
                         </tab>
-                        <tab heading="Wins {{VC.wins.data.length||0}}" ng-init="sortOrderA='-createdAt'">
+                        <tab heading="Wins {{VC.wins.length||0}}" ng-init="sortOrderA='-createdAt'">
                             <br>
 
                             <div class="comment-sort text-right">
@@ -337,7 +321,7 @@
                             </div>
 
                             <div class="main-comment showmore_one">
-                                <div class="media-object stack-for-small" ng-repeat="win in VC.wins.data">
+                                <div class="media-object stack-for-small" ng-repeat="win in VC.wins">
                                     <div class="media-object-section comment-img text-center">
                                         <div class="comment-box-img">
                                             <img src="./assets/img/award_win_small.png"
@@ -408,7 +392,7 @@
                         </div>
                         <div class="widgetContent">
                             <ul>
-                                <li ng-repeat="win in VC.wins.data">
+                                <li ng-repeat="win in VC.wins">
                                     <h5>
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
@@ -443,8 +427,8 @@
                                              md-svg-icon="{{::VC.getEmoticonByEmotion(key).icon}}"></md-icon>
                                     {{::VC.getEmoticonByEmotion(key).name}}
                                     <div class="progress" role="progressbar" tabindex="0"
-                                         aria-valuenow="{{(count/VC.reactions.data.length)*100}}" aria-valuemin="0"
-                                         aria-valuetext="{{(count/VC.reactions.data.length)*100}} percent"
+                                         aria-valuenow="{{(count/VC.reactions.length)*100}}" aria-valuemin="0"
+                                         aria-valuetext="{{(count/VC.reactions.length)*100}} percent"
                                          aria-valuemax="100">
                                         <div class="progress-meter"
                                              style="width: {{(count/VC.film.reactionCount)*100}}%"></div>
@@ -480,8 +464,8 @@
                                     <p>
                                         <span>
                                             <i class="fa fa-user"></i>
-                                            <a ui-sref="user.about({url_id: VC.relatedvideo.owner.data.url_id})">
-                                                {{::VC.relatedvideo.owner.data.fullName}}
+                                            <a ui-sref="user.about({url_id: VC.relatedvideo.owner.url_id})">
+                                                {{::VC.relatedvideo.owner.fullName}}
                                             </a>
                                         </span>
                                         <!--<span><i class="fa fa-clock-o"></i>5 January 16</span>-->

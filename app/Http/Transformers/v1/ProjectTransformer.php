@@ -3,7 +3,9 @@
 namespace IndieWise\Http\Transformers\v1;
 
 
+use Carbon\Carbon;
 use IndieWise\Project;
+use League\Fractal\ParamBag;
 use League\Fractal\TransformerAbstract;
 
 class ProjectTransformer extends TransformerAbstract
@@ -26,7 +28,10 @@ class ProjectTransformer extends TransformerAbstract
      */
     public function transform(Project $project)
     {
-        return $project->toArray();
+        $p = $project->toArray();
+        $p['completionDate'] = (string) Carbon::parse($project->completionDate)->year;
+
+        return $p;
     }
 
     /**
@@ -38,30 +43,49 @@ class ProjectTransformer extends TransformerAbstract
     public function includeOwner(Project $project)
     {
         $owner = $project->owner;
-        return $this->item($owner, new UserTransformer);
+//        dd($owner);
+        if($owner)
+            return $this->item($owner, new UserTransformer);
+
     }
 
     public function includeFilmingCountry(Project $project)
     {
-        $fc = $project->filmingCountry;
-        return $this->item($fc, new UserTransformer);
+        $fc = $project->filmingCountry_id;
+        if($fc)
+            return $this->item($fc, new CountryTransformer);
+
     }
 
     public function includeLanguage(Project $project)
     {
         $language = $project->language;
-        return $this->item($language, new UserTransformer);
+        if($language)
+            return $this->item($language, new LanguageTransformer);
+
     }
 
     public function includeType(Project $project)
     {
         $type = $project->type;
-        return $this->item($type, new UserTransformer);
+        if($type)
+            return $this->item($type, new TypeTransformer);
+
     }
 
-    public function includeCritiques(Project $project)
+    public function includeGenres(Project $project)
+    {
+        $genres = $project->genres;
+        if($genres)
+            return $this->collection($genres, new SelectedGenresTransformer);
+
+    }
+
+    /*public function includeCritiques(Project $project)
     {
         $critiques = $project->critiques;
-        return $this->item($critiques, new UserTransformer);
-    }
+        if($critiques)
+            return $this->item($critiques, new UserTransformer);
+
+    }*/
 }

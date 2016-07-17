@@ -366,7 +366,7 @@
                     });
 
                     // Generate playlist
-                    DataService.collection('projects', {owner: video.owner_id, notVideo: video.id, per_page: 20}).then(function (result) {
+                    DataService.collection('projects', {owner: video.owner.id, notVideo: video.id, per_page: 20}).then(function (result) {
                         scope.playlistFilms = result.data.data;
                         return scope.playlistFilms;
                     }).then(function (res) {

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGenreSelectedTable extends Migration
+class CreateGenreablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CreateGenreSelectedTable extends Migration
      */
     public function up()
     {
-        Schema::create('genre_selected', function (Blueprint $table) {
+        Schema::create('genreables', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->uuid('genre_id')->index()->references('id')->on('genres');
-            $table->uuid('genre_selected_id')->index();
-            $table->string('genre_selected_type');
+            $table->uuid('genre_id')->index()->references('id')->on('Genre');
+            $table->uuid('genreables_id')->index();
+            $table->string('genreables_type');
         });
     }
 
@@ -27,6 +27,6 @@ class CreateGenreSelectedTable extends Migration
      */
     public function down()
     {
-        Schema::drop('genre_selected');
+        Schema::drop('genreables');
     }
 }

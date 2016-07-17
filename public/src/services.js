@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var API = 'http://52.207.215.154/api/';
+    var API = window.API || 'http://52.207.215.154/api/';
 
     angular
         .module('IndieWise.services', [])
@@ -210,7 +210,7 @@
                      * @returns {Promise}
                      */
                     requestPasswordReset: function (email) {
-                        return Backand.requestResetPassword(email).then(function (res) {
+                        return $http.post(API + 'requestPasswordReset', {email: email}).then(function (res) {
                             console.log(res);
                             return res;
                         }, function (error) {
@@ -504,20 +504,7 @@
     DataService.$inject = ['$rootScope', '$http', 'Backand', '$q'];
     function DataService($rootScope, $http, Backand, $q) {
         var vm = this;
-        // Newsletter Form
-        vm.notifyMe = function (params) {
-            return $http.post('utils/notify-me.php', params);
-        };
-        //get the object name and optional parameters
-        vm.query = function (name, params) {
-            return $http({
-                method: 'GET',
-                url: Backand.getApiUrl() + '/1/query/data/' + name,
-                params: {
-                    parameters: params
-                }
-            });
-        };
+
         vm.collection = function (name, params) {
             var data = angular.extend({per_page: 10, page: 1}, params);
             return $http({
@@ -533,6 +520,22 @@
                 params: {
                     include: include,
                     search: search,
+                }
+            });
+        };
+
+
+        // Newsletter Form
+        vm.notifyMe = function (params) {
+            return $http.post('utils/notify-me.php', params);
+        };
+        //get the object name and optional parameters
+        vm.query = function (name, params) {
+            return $http({
+                method: 'GET',
+                url: Backand.getApiUrl() + '/1/query/data/' + name,
+                params: {
+                    parameters: params
                 }
             });
         };

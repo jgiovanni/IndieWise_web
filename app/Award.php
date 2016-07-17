@@ -13,12 +13,12 @@ class Award extends Model
 
     public function wins()
     {
-        return $this->hasMany('IndieWise\Win');
+        return $this->hasMany(Win::class);
     }
 
     public function nominations()
     {
-        return $this->hasMany('IndieWise\Nomination');
+        return $this->hasMany(Nomination::class);
     }
 
 }

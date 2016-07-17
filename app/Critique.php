@@ -12,33 +12,35 @@ class Critique extends Model
 
     protected $table = 'Critique';
 
-    protected $guarded = ['url_id'];
+    protected $guarded = ['id', 'url_id'];
+
+    protected $with = ['user'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     // Relations
     public function project()
     {
-        return $this->belongsTo('IndieWise\Project');
+        return $this->belongsTo(Project::class);
     }
 
-    public function author()
+    public function user()
     {
-        return $this->belongsTo('IndieWise\User');
+        return $this->belongsTo(User::class);
     }
 
     public function comments()
     {
-        return $this->hasMany('IndieWise\Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function nomination()
     {
-        return $this->hasOne('IndieWise\Nomination');
+        return $this->hasOne(Nomination::class);
     }
 
     public function actions()
     {
-        return $this->hasMany('IndieWise\Action');
+        return $this->hasMany(Action::class);
     }
 }

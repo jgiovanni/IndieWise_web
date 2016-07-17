@@ -29,6 +29,13 @@ class UserTransformer extends TransformerAbstract
         return $user->toArray();
     }
 
+    public function includeCountry(User $user)
+    {
+        $country = $user->country;
+        if($country)
+            return $this->item($country, new CountryTransformer);
+    }
+
 
 
 }
