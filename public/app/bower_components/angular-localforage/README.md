@@ -52,7 +52,13 @@ angular.module('yourModule', ['LocalForageModule'])
 
 - `setItem(key/Array<key>, value/Array<value>)`: stores data (async, promise)
 
-- `getItem(key/Array<key>)`: retrieves stored data (async, promise)
+- `getItem(key/Array<key>, rejectIfNull)`: retrieves stored data, rejects if rejectIfNull is truthy and one of the values is null (async, promise)
+
+localForage will return null for a lookup on a key that does not exist. If you set `rejectIfNull` to
+true, it will reject the promise if the value (or one of the values of the array lookup) is null. If
+you normally store `null` in the database, you can use the single arity version of the function to
+retrieve the null value, but you have no way to know if you've retrieved `null` or if the key did
+not exist.
 
 - `removeItem(key/Array<key>)`: removes stored data (async, promise)
 
@@ -72,7 +78,7 @@ Iterate supports early exit by returning non `undefined` value inside `iteratorC
 Resulting value will be passed to the promise as the result of iteration.
 You can use this to make a search in your data:
 ```js
-$localForage.iterate(function(value, key) {
+$localForage.iterate(function(value, key, iterationNumber) {
     if(angular.isInt(value) && value > 10) {
         return key;
     }
@@ -85,11 +91,11 @@ $localForage.iterate(function(value, key) {
 ```js
 $localForage.bind($scope, 'myStorageKey');
 ```
-
+**Note: It only binds when the object is already stored in the database or when you provide a default value.**
 ```js
 $localForage.bind($scope, {
     key: 'myStorageKey', // required
-    defaultValue: {test: 'my test'}, // a default value
+    defaultValue: {test: 'my test'}, // a default value (needed if it is not already in the database)
     scopeKey: 'myObj.myVar', // the name of the scope key (if you want it to be different from key)
     name: 'myApp' // instance name
 });
@@ -166,15 +172,17 @@ Download the required libs :
 
 ```
 npm install
+bower install
 ```
 
 Then start the tests with :
 
 ```
-npm test
+gulp karma
 ```
 
-It will launch Chrome and Firefox, edit karma.conf.js if you want to change something. We could use more tests, see "contributing" below.
+It will launch Chrome and Firefox, edit the `karma` task in `gulpfile.js` if you want to change
+something. We could use more tests, see "contributing" below.
 
 ##Contributing
 

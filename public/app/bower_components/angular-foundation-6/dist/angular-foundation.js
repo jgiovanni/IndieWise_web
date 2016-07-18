@@ -9,7 +9,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * angular-foundation-6
  * http://circlingthesun.github.io/angular-foundation-6/
 
- * Version: 0.9.38 - 2016-06-14
+ * Version: 0.9.41 - 2016-07-14
  * License: MIT
  * (c) 
  */
@@ -904,10 +904,13 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
             // Watch for modal resize
             // This allows for scrolling
             options.scope.$watch(function () {
-                return modalDomEl[0].offsetHeight;
+                return Math.floor(modalDomEl[0].offsetHeight / 10);
             }, resizeHandler);
 
-            return $q.all(promises);
+            return $q.all(promises).then(function () {
+                var focusedElem = modalDomEl[0].querySelector('[autofocus]') || modalDomEl[0];
+                focusedElem.focus();
+            });
         });
     };
 
@@ -1127,7 +1130,7 @@ angular.module('mm.foundation.offcanvas', []).directive('offCanvasWrapper', ['$w
 
             var win = angular.element($window);
 
-            // win.bind('resize.body', $ctrl.hide);
+            win.bind('resize.body', $ctrl.hide);
 
             $scope.$on('$destroy', function () {
                 win.unbind('resize.body', $ctrl.hide);

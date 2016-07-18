@@ -1,6 +1,6 @@
 /**
  * angular-localforage - Angular service & directive for https://github.com/mozilla/localForage (Offline storage, improved.)
- * @version v1.2.5
+ * @version v1.3.1
  * @link https://github.com/ocombe/angular-localForage
  * @license MIT
  * @author Olivier Combe <olivier.combe@gmail.com>
@@ -8,15 +8,15 @@
 (function(root, factory) {
   'use strict';
 
+  var angular = (root && root.angular) || (window && window.angular);
   if(typeof define === 'function' && define.amd) {                    // AMD
     define(['localforage'], function(localforage) {
-      factory(root.angular, localforage);
+      factory(angular, localforage);
     });
   } else if(typeof exports === 'object' || typeof global === 'object') {
-    var angular = root.angular || (window && window.angular);
     module.exports = factory(angular, require('localforage')); // Node/Browserify
   } else {
-    return factory(root.angular, root.localforage);                        // Browser
+    return factory(angular, root.localforage);                        // Browser
   }
 })(this, function(angular, localforage, undefined) {
   'use strict';
@@ -145,7 +145,7 @@
       };
 
       // Directly get a value from storage
-      LocalForageInstance.prototype.getItem = function getItem(key) {
+      LocalForageInstance.prototype.getItem = function getItem(key, rejectOnNull) {
         // throw error on undefined key
         if(angular.isUndefined(key)) {
           throw new Error("You must define a key to get");
@@ -169,16 +169,26 @@
               return res;
             }
           }).then(function() {
+            var shouldResolve = true;
             for (var i = 0; i < key.length; i++) {
               if (angular.isUndefined(res[i])) {
                 res[i] = null;
+                shouldResolve = false;
               }
             }
-            deferred.resolve(res);
+            if (shouldResolve || !rejectOnNull) {
+              deferred.resolve(res);
+            } else {
+              deferred.reject(res);
+            }
           });
         } else {
           promise = self._localforage.getItem(self.prefix() + key).then(function(item) {
-            deferred.resolve(item);
+            if (rejectOnNull && item === null) {
+              deferred.reject(item);
+            } else {
+              deferred.resolve(item);
+            }
           });
         }
 

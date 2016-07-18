@@ -1,4 +1,4 @@
-# localForage [![Build Status](https://secure.travis-ci.org/mozilla/localForage.png?branch=master)](http://travis-ci.org/mozilla/localForage)
+# localForage [![Build Status](https://travis-ci.org/mozilla/localForage.svg?branch=master)](http://travis-ci.org/mozilla/localForage)
 
 localForage is a fast and simple storage library for JavaScript. localForage
 improves the offline experience of your web app by using asynchronous storage
@@ -15,7 +15,7 @@ To use localForage, just drop a single JavaScript file into your page:
 ```
 
 Download the [latest localForage from GitHub](https://github.com/mozilla/localForage/releases/latest), or install with
-[npm](https://www.npmjs.org/):
+[npm](https://www.npmjs.com/):
 
 ```bash
 npm install localforage
@@ -38,7 +38,7 @@ Lost? Need help? Try the
 
 If you're stuck using the library, running the tests, or want to contribute
 to localForage, you can visit
-[irc.mozilla.org](https://wiki.mozilla.org/IRC) and head to the `#apps`
+[irc.freenode.net](https://freenode.net/) and head to the `#localforage`
 channel to ask questions about localForage.
 
 The best person to ask about localForage is [**tofumatt**][tofumatt], who
@@ -48,83 +48,46 @@ is usually online from 8am-8pm GMT (London Time).
 
 # How to use localForage
 
-## Callbacks
+## Callbacks vs Promises
 
 Because localForage uses async storage, it has an async API.
 It's otherwise exactly the same as the
 [localStorage API](https://hacks.mozilla.org/2009/06/localstorage/).
 
-```javascript
-// In localStorage, we would do:
-localStorage.setItem('key', JSON.stringify('value'));
-alert('value');
+localForage has a dual API that allows you to either use Node-style callbacks 
+or [Promises](https://www.promisejs.org/). If you are unsure which one is right for you, it's recommend to use Promises.
 
-// With localForage, we use callbacks:
-localforage.setItem('key', 'value', function(err, value) { alert(value); });
-```
+Here's an example of the Node-style callback form:
 
-Similarly, please don't expect a return value from calls to
-`localforage.getItem()`. Instead, use a callback:
-
-```javascript
-// Synchronous; slower!
-var value = JSON.parse(localStorage.getItem('key'));
-alert(value);
-
-// Async, fast, and non-blocking!
-localforage.getItem('key', function(err, value) { alert(value) });
-```
-
-Callbacks in localForage are Node-style (error argument first) since version
-`0.9.3`. This means if you're using callbacks, your code should look like this:
-
-```javascript
-// Use err as your first argument.
-localforage.getItem('key', function(err, value) {
-    if (err) {
-        console.error('Oh noes!');
-    } else {
-        alert(value);
-    }
+```js
+localforage.setItem('key', 'value', function (err) {
+  // if err is non-null, we got an error
+  localforage.getItem('key', function (err, value) {
+    // if err is non-null, we got an error. otherwise, value is the value 
+  });
 });
 ```
+
+And the Promise form:
+
+```js
+localforage.setItem('key', 'value').then(function () {
+  return localforage.getItem('key');
+}).then(function (value) {
+  // we got our value
+}).catch(function (err) {
+  // we got an error
+});
+```
+
+For more examples, please visit [the API docs](http://mozilla.github.io/localForage). 
+
+## Storing Blobs, TypedArrays, and other JS objects
 
 You can store any type in localForage; you aren't limited to strings like in
 localStorage. Even if localStorage is your storage backend, localForage
 automatically does `JSON.parse()` and `JSON.stringify()` when getting/setting
 values.
-
-## Promises
-
-Promises are pretty cool! If you'd rather use promises than callbacks,
-localForage supports that too:
-
-```javascript
-function doSomethingElse(value) {
-    console.log(value);
-}
-
-// With localForage, we allow promises:
-localforage.setItem('key', 'value').then(doSomethingElse);
-```
-
-When using Promises, `err` is **not** the first argument passed to a function.
-Instead, you handle an error with the rejection part of the Promise:
-
-```javascript
-// A full setItem() call with Promises.
-localforage.setItem('key', 'value').then(function(value) {
-    alert(value + ' was set!');
-}, function(error) {
-    console.error(error);
-});
-```
-
-localForage relies on native [ES6 Promises](http://www.promisejs.org/), but
-[ships with an awesome polyfill](https://github.com/jakearchibald/ES6-Promises)
-for browsers that don't support ES6 Promises yet.
-
-## Storing Blobs, TypedArrays, and other JS objects
 
 localForage supports storing all native JS objects that can be serialized to
 JSON, as well as ArrayBuffers, Blobs, and TypedArrays. Check the
@@ -157,6 +120,26 @@ localforage.config({
 means calling `config()` before using `getItem()`, `setItem()`, `removeItem()`,
 `clear()`, `key()`, `keys()` or `length()`.
 
+## Multiple instances
+
+You can create multiple instances of localForage that point to different stores
+using `createInstance`. All the configuration options used by
+[`config`](#configuration) are supported.
+
+``` javascript
+var store = localforage.createInstance({
+  name: "nameHere"
+});
+
+var otherStore = localforage.createInstance({
+  name: "otherName"
+});
+
+// Setting the key on one of these doesn't affect the other.
+store.setItem("key", "value");
+otherStore.setItem("key", "value2");
+```
+
 ## RequireJS
 
 You can use localForage with [RequireJS](http://requirejs.org/):
@@ -173,17 +156,26 @@ define(['localforage'], function(localforage) {
 
 ## Browserify and Webpack
 
-localForage should work with both Browserify and Webpack.
-You should not override the entry point defined in `package.json`.
+localForage 1.3+ works with both Browserify and Webpack. If you're using an
+earlier version of localForage and are having issues with Browserify or
+Webpack, please upgrade to 1.3.0 or above.
 
-**For Webpack:** currently, you need to require localForage as `require('script!localforage')`.
+If you're using localForage in your own build system (eg. browserify or
+webpack) make sure you have the
+[required plugins and transformers](https://github.com/mozilla/localForage/blob/master/package.json#L24)
+installed (eg. `npm install --save-dev babel-plugin-system-import-transformer`).
 
-## Web Workers
+## TypeScript
 
-Web Worker support in Firefox is blocked by [bug 701634][]. Until it is fixed,
-web workers are not officially supported by localForage.
+To import localForage in TypeScript:
 
-[bug 701634]: https://bugzilla.mozilla.org/show_bug.cgi?id=701634
+```javascript
+const localForage:LocalForage = require("localforage");
+```
+
+Note that the ES6 style import is not supported for our module type. Check out the following to know why:
+* http://stackoverflow.com/questions/29596714/new-es6-syntax-for-importing-commonjs-amd-modules-i-e-import-foo-require
+* http://www.jbrantly.com/es6-modules-with-typescript-and-webpack/
 
 ## Framework Support
 
@@ -210,9 +202,8 @@ There is a [list of custom drivers on the wiki][custom drivers].
 
 # Working on localForage
 
-You'll need [node/npm](http://nodejs.org/),
-[bower](http://bower.io/#installing-bower), and
-[Grunt](http://gruntjs.com/getting-started#installing-the-cli).
+You'll need [node/npm](http://nodejs.org/) and
+[bower](http://bower.io/#installing-bower).
 
 To work on localForage, you should start by
 [forking it](https://github.com/mozilla/localForage/fork) and installing its
@@ -220,6 +211,10 @@ dependencies. Replace `USERNAME` with your GitHub username and run the
 following:
 
 ```bash
+# Install bower globally if you don't have it:
+npm install -g bower
+
+# Replace USERNAME with your GitHub username:
 git clone git@github.com:USERNAME/localForage.git
 cd localForage
 npm install
@@ -232,7 +227,7 @@ Omitting the bower dependencies will cause the tests to fail!
 
 You need PhantomJS installed to run local tests. Run `npm test` (or,
 directly: `grunt test`). Your code must also pass the
-[linter](http://www.jshint.com/).
+[linter](http://jshint.com/).
 
 localForage is designed to run in the browser, so the tests explicitly require
 a browser environment. Local tests are run on a headless WebKit (using
@@ -240,6 +235,27 @@ a browser environment. Local tests are run on a headless WebKit (using
 
 When you submit a pull request, tests will be run against all browsers that
 localForage supports on Travis CI using [Sauce Labs](https://saucelabs.com/).
+
+## Building the API Documentation
+
+We currently use a Ruby tool to build our
+[API documentation](https://mozilla.github.io/localForage). You can install the Ruby dependencies with [Bundler](http://bundler.io):
+
+```bash
+# From inside the localForage directory
+bundle install
+```
+
+Then use `grunt` to serve the site:
+
+```bash
+grunt site
+```
+
+Navigate to [localhost:4567](http://localhost:4567/) in your browser to see the
+docs.
+
+There is an [open issue to move to a node tool for the docs](https://github.com/mozilla/localForage/issues/192).
 
 # License
 

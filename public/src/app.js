@@ -580,7 +580,8 @@
                 .state('contact', {
                     url: '/contact',
                     authenticate: false,
-                    templateUrl: './src/static/contact.html'
+                    templateUrl: './src/static/contact.html',
+                    controller: 'ContactPageCtrl as CC'
                 })
                 .state('tos', {
                     url: '/terms-of-service',
