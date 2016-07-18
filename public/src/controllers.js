@@ -889,8 +889,6 @@
                 }
             }
 
-
-
             // Get related video
             DataService.collection('projects', {
                 notVideo: self.film.id,
@@ -1568,6 +1566,53 @@
             } else {
                 overlay.addClass('highlight');
             }
+        };
+
+        self.reportDialog = function () {
+            var modalInstance = $modal.open({
+                templateUrl: './src/common/reportVideoDialog.html',
+                resolve: {
+                    Video: function () {
+                        return self.film;
+                    }
+                },
+                closeOnClick: false,
+                size: Foundation.MediaQuery.atLeast('medium') ? 'small' : 'full',
+                controller: ['$scope', '$modalInstance', 'DataService', 'Video', function ($scope, $modalInstance, DataService, Video) {
+                    zIndexPlayer();
+                    $scope.video = Video;
+                    $scope.report = {
+                        name: '',
+                        email: '',
+                        body: '',
+                        project_id: $scope.video.id,
+                        video: $scope.video.url_id
+                    };
+
+                    $scope.cancel = function () {
+                        zIndexPlayer(true);
+                        $modalInstance.dismiss('cancel');
+                    };
+
+                    $scope.closeDialog = function () {
+                        zIndexPlayer(true);
+                        $modalInstance.close($scope.report);
+                    };
+                }]
+            });
+
+            modalInstance.result.then(function (report) {
+                DataService.action('Flag', 'Send Flag Email', report).then(function () {
+                    $rootScope.toastMessage('Your Report has been Sent');
+                });
+            }, function () {
+                // console.info('Modal dismissed at: ' + new Date());
+            }).then(function () {
+                $timeout(function () {
+                    // console.log('remove is-reveal-open');
+                    jQuery('body').removeClass('is-reveal-open')
+                }, 500);
+            });
         };
 
         function zIndexPlayer(remove) {
