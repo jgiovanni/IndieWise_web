@@ -515,14 +515,15 @@
                 params: data
             });
         };
-        vm.item = function (name, id, include, search) {
+        vm.item = function (name, id, include, search, otherData) {
+            var params = { include: include, search: search};
+            if(otherData && angular.isObject(otherData)) {
+                angular.extend(params, otherData);
+            }
             return $http({
                 method: 'GET',
                 url: API + name + '/' + id,
-                params: {
-                    include: include,
-                    search: search,
-                }
+                params: params
             });
         };
 

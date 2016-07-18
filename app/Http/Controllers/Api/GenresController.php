@@ -18,7 +18,7 @@ class GenresController extends Controller
     public function index()
     {
         //
-        return Genre::all();
+        return Genre::orderBy('name', 'desc')->get();
     }
 
     /**

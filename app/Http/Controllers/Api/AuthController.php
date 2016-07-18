@@ -3,13 +3,16 @@
 namespace IndieWise\Http\Controllers\Api;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests;
 use Dingo\Api\Contract\Http\Request;
+use IndieWise\PasswordReset;
 use IndieWise\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use IndieWise\Http\Requests\v1\AuthenticationRequest;
 
 class AuthController extends Controller
 {
@@ -21,7 +24,7 @@ class AuthController extends Controller
         $this->middleware('guest');
     }
 
-    public function login(Request $request){
+    public function login(AuthenticationRequest $request){
         $credentials = $request->only('email', 'password');
 
         try {
@@ -33,7 +36,14 @@ class AuthController extends Controller
         }
 
 
-        return response()->json(compact('token'));//Response::json(compact('token'));
+        return response()->json(compact('token'));
+    }
+
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+
+        return response()->json(['message' => 'Logged out!'], 200);
     }
 
     public function register(Request $request) {
@@ -47,34 +57,56 @@ class AuthController extends Controller
             return response()->json(['error' => 'User already exists.'], 409);
         }
 
-        //$token = JWTAuth::fromUser($user);
-
         return response()->json(compact('token'));
     }
 
-    public function requestPasswordReset(Request $request)
+    public function sendResetLinkEmail(Request $request)
     {
-        $this->validateSendResetLinkEmail($request->only('email'));
-
-        $broker = $this->getBroker();
-
-        $response = Password::broker($broker)->sendResetLink(
-            $this->getSendResetLinkEmailCredentials($request->only('email')),
-            $this->resetEmailBuilder()
-        );
-
-        switch ($response) {
-            case Password::RESET_LINK_SENT:
-                return $this->getSendResetLinkEmailSuccessResponse($response);
-            case Password::INVALID_USER:
-            default:
-                return $this->getSendResetLinkEmailFailureResponse($response);
-        }
-//        return response()->json($this->postEmail($request->only('email')));
+        $this->validate($request, [
+            'email' => 'required|email|exists:users,email',
+        ]);
+        //invalidate old tokens
+        PasswordReset::whereEmail($request->email)->delete();
+        $email = $request->email;
+        $reset = PasswordReset::create([
+            'email' => $email,
+            'token' => str_random(10),
+        ]);
+        $token = $reset->token;
+        Mail::send('auth.emails.password', compact('email', 'token'), function ($mail) use ($email) {
+            $mail->to($email)
+                ->from('noreply@getindiewise.com')
+                ->subject('Password reset link');
+        });
+//        return response()->json($token);
+        return response()->json(true);
     }
-
-    public function resetPassword(Request $request)
+    public function verify(Request $request)
     {
-        return response()->json($this->postEmail($request->all()));
+        $this->validate($request, [
+            'email' => 'required|email',
+            'token' => 'required',
+        ]);
+        $check = PasswordReset::whereEmail($request->email)
+            ->whereToken($request->token)
+            ->first();
+        if (!$check) {
+            return response()->error('Email does not exist', 422);
+        }
+        return response()->json(true);
+    }
+    public function reset(Request $request)
+    {
+        $this->validate($request, [
+            'email'    => 'required|email',
+            'token'    => "required|exists:password_resets,token,email,{$request->email}",
+            'password' => 'required|min:8|confirmed',
+        ]);
+        $user = User::whereEmail($request->email)->firstOrFail();
+        $user->bcryptPassword = bcrypt($request->password);
+        $user->save();
+        //delete pending resets
+        PasswordReset::whereEmail($request->email)->delete();
+        return response()->json(true);
     }
 }

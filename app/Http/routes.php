@@ -11,11 +11,15 @@
 |
 */
 
-Route::any('{path?}', function() {
+
+$dispatcher = app('Dingo\Api\Dispatcher');
+
+Route::any('{path?}', function() use ($dispatcher) {
+    $countries = $dispatcher->get('countries', ['sort' => 'name']);
     if (App::environment('local')) {
-        return view("dev");
+        return view("dev", compact('countries'));
     } else {
-        return view("index");
+        return view("index", compact('countries'));
     }
 })->where("path", ".+");
 

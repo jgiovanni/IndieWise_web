@@ -95,6 +95,11 @@
                     });
                     return defer.promise;
                 },
+                'response': function(response) {
+                    // only contains "content-type" and "cache-control"
+                    console.log(response.headers());
+                    return response;
+                },
                 'responseError': function (response) {
                         if (response.status === 401 || response.status === 403) {   
                             //$location.path('/sign-in');
@@ -194,7 +199,7 @@
                         Critique: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
                             var deferred = $q.defer();
                             DataService.query('getCritiqueByUrlId', {urlId: $stateParams.url_id}).then(function (result) {
-                                if (result.data[0].author === AuthService.currentUser.userId) {
+                                if (result.data[0].author === AuthService.currentUser.id) {
                                     deferred.resolve(result);
                                 } else {
                                     deferred.reject('Not Owner');
@@ -222,7 +227,7 @@
                         }],
                         UserStats: ['User', 'DataService', '$q', function (User, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('countUserStats', {userId: User.id}).then(function (response) {
+                            DataService.query('countUserStats', {id: User.id}).then(function (response) {
                                 deferred.resolve(response);
                             });
                             return deferred.promise;
@@ -312,7 +317,7 @@
                         }],
                         Nominations: ['User', 'DataService', '$q', function (User, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserNominations', {userId: User.id})
+                            DataService.query('getUserNominations', {id: User.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -320,7 +325,7 @@
                         }],
                         Nominated: ['User', 'DataService', '$q', function (User, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserNominated', {userId: User.id})
+                            DataService.query('getUserNominated', {id: User.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -337,7 +342,7 @@
                     resolve: {
                         User: ['AuthService', '$q', function (AuthService, $q) {
                             var deferred = $q.defer();
-                            AuthService.getCurrentUserData().then(function (response) {
+                            AuthService.getCurrentUser().then(function (response) {
                                 //console.log(response);
                                 deferred.resolve(response);
                             });
@@ -345,8 +350,8 @@
                         }],
                         UserStats: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('countUserStats', {userId: AuthService.currentUser.userId}).then(function (response) {
-                                deferred.resolve(response);
+                            DataService.collection('users/countUserStats').then(function (response) {
+                                deferred.resolve(response.data);
                             });
                             return deferred.promise;
                         }]
@@ -372,9 +377,8 @@
                     resolve: {
                         Videos: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.getList('Project', [{fieldName: "createdAt", order: "desc"}],
-                                [{fieldName: "owner", operator: "in", value: AuthService.currentUser.userId}],
-                                20).then(function (result) {
+                            DataService.collection('projects', {owner: AuthService.currentUser.id, sort: 'created_at', per_page: 50})
+                                .then(function (result) {
                                     deferred.resolve(result);
                                 });
                             return deferred.promise;
@@ -389,16 +393,9 @@
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getProjectByUrlId', {urlId: $stateParams.url_id}).then(function (result) {
-                                if (result.data[0].ownerId === AuthService.currentUser.userId) {
-                                    DataService.getItem('Project', result.data[0].id, true, false, 1).then(function (res) {
-                                        deferred.resolve(res);
-                                    });
-                                } else {
-                                    deferred.reject('Not Owner');
-                                }
+                            DataService.item('projects', result.data[0].id, true, false, 1).then(function (res) {
+                                deferred.resolve(res);
                             });
-
                             return deferred.promise;
                         }]
                     }
@@ -411,7 +408,7 @@
                     resolve: {
                         Critiques: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserCritiques', {id: AuthService.currentUser.userId})
+                            DataService.collection('critiques', {user: AuthService.currentUser.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -419,7 +416,7 @@
                         }],
                         Critiqued: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserCritiqued', {id: AuthService.currentUser.userId})
+                            DataService.collection('critiques', {notUser: AuthService.currentUser.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -435,7 +432,7 @@
                     resolve: {
                         Reactions: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserReactions', {id: AuthService.currentUser.userId})
+                            DataService.collection('reactions', {user: AuthService.currentUser.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -443,7 +440,7 @@
                         }],
                         Reacted: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserReacted', {id: AuthService.currentUser.userId})
+                            DataService.collection('reactions', {notUser: AuthService.currentUser.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -459,14 +456,14 @@
                     resolve: {
                         Awards: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserAwards', {id: AuthService.currentUser.userId}).then(function (result) {
+                            DataService.collection('awards', {id: AuthService.currentUser.id}).then(function (result) {
                                 deferred.resolve(result);
                             });
                             return deferred.promise;
                         }],
                         Nominations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserNominations', {userId: AuthService.currentUser.userId})
+                            DataService.collection('nominations', {user: AuthService.currentUser.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -474,7 +471,7 @@
                         }],
                         Nominated: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getUserNominated', {userId: AuthService.currentUser.userId})
+                            DataService.query('nominations', {notUser: AuthService.currentUser.id})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -490,8 +487,8 @@
                     resolve: {
                         Playlists: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.getList('Playlist', [],
-                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.userId}],
+                            DataService.collection('playlists', [],
+                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
                                 50, true, false).then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -508,7 +505,7 @@
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
                             DataService.getList('Genres', [],
-                                [{fieldName: "user", operator: "in", value: AuthService.currentUser.userId}],
+                                [{fieldName: "user", operator: "in", value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -517,7 +514,7 @@
                         UserTypes: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
                             DataService.getList('UserTypes', [],
-                                [{fieldName: "user", operator: "in", value: AuthService.currentUser.userId}],
+                                [{fieldName: "user", operator: "in", value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -568,7 +565,7 @@
                     controller: 'SignInCtrl as SIC'
                 })
                 .state('reset_password', {
-                    url: '/reset-password?token',
+                    url: '/reset-password?email&token',
                     authenticate: false,
                     templateUrl: './src/auth/reset-password.html',
                     controller: 'ForgotPasswordCtrl as FPC'
@@ -626,7 +623,7 @@
             ;
 
             $urlRouterProvider.otherwise('/404');
-            $locationProvider.html5Mode(false);
+            $locationProvider.html5Mode({enabled: false, requireBase: true, rewriteLinks: true});
 
         }])
         .constant('Config', {
@@ -638,7 +635,7 @@
             FastClick.attach(document.body);
             $rootScope.AppData = {
                 User: AuthService.currentUser,
-                UserData: AuthService.currentUser ? AuthService.getCurrentUserData() : null,
+                //UserData: AuthService.currentUser,
                 Notifications: {
                     loaded: 'indeterminate'
                 },
@@ -706,7 +703,7 @@
             };
 
             var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
-                if (newValue && angular.isString(newValue.userId)) {
+                if (newValue && angular.isString(newValue.id)) {
                     console.log('User Logged In');
                     $rootScope.listenNotifications(newValue.username);
                     endWatch();
@@ -757,12 +754,21 @@
             $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$, $state, AuthService) {
                 return AuthService.currentUser ? $state.target('home') : true;
             });
+            $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$, $state, AuthService) {
+                return AuthService.currentUser ? $state.target('home') : true;
+            });
             $transitions.onStart({
                 to: function (state) {
                     return !!state.authenticate;
                 }
             }, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? true : $state.target('sign_in');
+                return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
+                    return true;
+                }, function () {
+                    return $state.target('sign_in');
+                });
+
+                //return  ? true : $state.target('sign_in');
             });
 
             $transitions.onSuccess({}, function () {
@@ -791,7 +797,7 @@
                 'self',
                 'http://getindiewise.com/**',
                 'http://www.getindiewise.com/**',
-                'https://api.backand.com/**',
+                // 'https://api.backand.com/**',
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);

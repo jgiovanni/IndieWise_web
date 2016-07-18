@@ -2,7 +2,7 @@
 
 return [
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'local'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'url' => 'http://getindiewise.com/laravel',
+    'url' => env('APP_URL', 'http://indiewise.dev'),
 
     /*
     |--------------------------------------------------------------------------

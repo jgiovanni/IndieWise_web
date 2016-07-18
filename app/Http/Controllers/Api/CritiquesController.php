@@ -30,7 +30,7 @@ class CritiquesController extends Controller
     public function index(Request $request)
     {
         //
-        $critiques = $this->critique->filter($request->all())->paginate($request->get('per_page', 300));
+        $critiques = $this->critique->filter($request->all())->paginate($request->get('per_page', 50));
         return $this->response->paginator($critiques, new CritiqueTransformer);
     }
 

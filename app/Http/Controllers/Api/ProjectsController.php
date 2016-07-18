@@ -15,7 +15,8 @@ class ProjectsController extends Controller
 
     public function __construct(Project $project)
     {
-        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
+        $this->middleware('api.auth', ['only' => ['store', 'update', 'destroy']]);
+        $this->middleware('jwt.refresh', ['only' => ['store', 'update', 'destroy']]);
         $this->project = $project;
     }
 
@@ -30,16 +31,6 @@ class ProjectsController extends Controller
         //
         $projects = $this->project->filter($request->all())->paginate($request->get('per_page', 10));
         return $this->response->paginator($projects, new ProjectTransformer);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Dingo\Api\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

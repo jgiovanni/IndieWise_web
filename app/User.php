@@ -38,6 +38,11 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     }
 
     // Mutators
+    public function getPasswordAttribute()
+    {
+        return $this->attributes['bcryptPassword'];
+    }
+
     public function getFullNameAttribute()
     {
         return $this->attributes['firstName'] . ' ' . $this->attributes['lastName'];

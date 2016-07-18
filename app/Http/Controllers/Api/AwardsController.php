@@ -18,7 +18,7 @@ class AwardsController extends Controller
     public function index()
     {
         //
-        return Award::all();
+        return Award::orderBy('name', 'desc')->get();
     }
 
     /**

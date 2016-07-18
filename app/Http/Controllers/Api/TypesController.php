@@ -18,7 +18,7 @@ class TypesController extends Controller
     public function index()
     {
         //
-        return Type::all();
+        return Type::orderBy('name', 'desc')->get();
     }
 
     /**

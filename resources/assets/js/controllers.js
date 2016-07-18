@@ -302,8 +302,8 @@
 
 
         // Recent Videos Footer Section
-        DataService.collection('projects',{ per_page: 3, sort: 'created_at'}).then(function (result) {
-            self.footerRecentVideos = result.data;
+        DataService.query('getProjectsBy', {order: "createdAt"}).then(function (result) {
+            self.footerRecentVideos = result;
         });
 
         self.startSearch = function (text) {
@@ -1659,8 +1659,8 @@
     function ProfileCtrl($rootScope, DataService, User, UserStats, AuthService, $modal, _) {
         $rootScope.metadata.title = 'Profile';
         var self = this;
-        self.user = User;
-        self.userStats = UserStats;
+        self.user = User.data;
+        self.userStats = UserStats.data[0];
         self.updateAvatar = _.throttle(updateAvatar, 1000);
         self.updateCoverPhoto = _.throttle(updateCoverPhoto, 1000);
 
@@ -2391,16 +2391,16 @@
     function UserCritiquesController($rootScope, User, Critiques, Critiqued) {
         var self = this;
         self.user = User;
-        self.critiques = Critiques.data.data;
-        self.critiqued = Critiqued.data.data;
+        self.critiques = Critiques.data;
+        self.critiqued = Critiqued.data;
     }
 
     UserReactionsController.$inject = ['$rootScope', 'User', 'Reactions', 'Reacted', '_'];
     function UserReactionsController($rootScope, User, Reactions, Reacted, _) {
         var self = this;
         self.user = User;
-        self.reactions = Reactions.data.data;
-        self.reacted = Reacted.data.data;
+        self.reactions = Reactions.data;
+        self.reacted = Reacted.data;
 
         self.getEmoticonByEmotion = function (emotion) {
             var reactions = $rootScope.generateReactions();
@@ -2413,9 +2413,9 @@
     function UserAwardsController($rootScope, DataService, User, Awards, Nominations, Nominated) {
         var self = this;
         self.user = User;
-        self.awards = Awards.data.data;
-        self.nominations = Nominations.data.data;
-        self.nominated = Nominated.data.data;
+        self.awards = Awards.data;
+        self.nominations = Nominations.data;
+        self.nominated = Nominated.data;
     }
 
     MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$modal', 'UserActions', 'UtilsService', '$q', '_'];

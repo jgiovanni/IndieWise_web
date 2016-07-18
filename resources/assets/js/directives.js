@@ -11,8 +11,8 @@
                 templateUrl: './src/directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
-                    DataService.collection('users/count').then(function (res) {
-                        scope.users = res.data;
+                    DataService.query('countUsers').then(function (res) {
+                        scope.users = res.data[0].users;
                     }).then(function () {
                         $timeout(function () {
                             jQuery("#layerslider").layerSlider({

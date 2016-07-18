@@ -14,7 +14,7 @@ use Dingo\Api\Contract\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
-    //'middleware' => 'api.throttle', 'limit' => 75, 'expires' => 1,
+    'middleware' => 'api.throttle', 'limit' => 50, 'expires' => 24,
     'namespace' => 'IndieWise\Http\Controllers\Api'
 ], function ($api) {
 
@@ -26,9 +26,14 @@ $api->version('v1', [
 
     // Authentication
     $api->post('login', 'AuthController@login');
+    $api->post('logout', 'AuthController@logout');
     $api->post('register', 'AuthController@register');
-    $api->post('requestPasswordReset', 'AuthController@requestPasswordReset');
-    $api->post('resetPassword', 'AuthController@resetPassword');
+    $api->post('requestPasswordReset', 'AuthController@sendResetLinkEmail');
+    $api->post('resetPassword', 'AuthController@reset');
+
+    // Auth Routes
+    $api->get('users/me', 'UsersController@me');
+    $api->post('users/me', 'UsersController@updateMe');
 
     // Static Data Routes
     $api->resource('countries', 'CountriesController');
@@ -37,11 +42,9 @@ $api->version('v1', [
     $api->resource('genres', 'GenresController');
     $api->resource('types', 'TypesController');
 
-    // Auth Routes
-    $api->get('users/me', 'UsersController@me');
-    $api->post('users/me', 'UsersController@updateMe');
-
     // Resource Routes
+    $api->get('users/count', 'UsersController@count');
+    $api->get('users/countUserStats', 'UsersController@countUserStats');
     $api->resource('users', 'UsersController');
     $api->resource('projects', 'ProjectsController');
     $api->resource('reactions', 'ReactionsController');

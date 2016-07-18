@@ -16,7 +16,10 @@ class CritiqueFilter extends ModelFilter
 
     public function notUser($user)
     {
-        return $this->where('user_id', '<>', $user);
+        return $this->where('user_id', '<>', $user)
+            ->whereHas('project', function ($query) use ($user) {
+                $query->where('owner_id', $user);
+            });
     }
 
     public function project($project)

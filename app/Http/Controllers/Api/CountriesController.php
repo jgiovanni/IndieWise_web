@@ -18,7 +18,7 @@ class CountriesController extends Controller
     public function index()
     {
         //
-        return Country::all();
+        return Country::orderBy('name', 'desc')->get();
     }
 
     /**
