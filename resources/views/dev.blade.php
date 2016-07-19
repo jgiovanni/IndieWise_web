@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="./app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
+    <link rel="stylesheet" href="./app/bower_components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="./app/bower_components/animate.css/animate.min.css"/>
 
     <!-- Elite Video Player Scripts-->
@@ -363,6 +364,7 @@
 <script src="./app/bower_components/lodash/lodash.js"></script>
 <script src="./app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.min.js+angular-aria.min.js+angular-messages.min.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>
+<script src="./app/bower_components/angular-loading-bar/build/loading-bar.js"></script>
 <script src="./app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
 <script src="./app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
 <script src="./app/bower_components/ngAnimate-animate.css/animate.js"></script>

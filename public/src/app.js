@@ -15,6 +15,7 @@
             'underscore',
             'angularMoment',
             'videosharing-embed',
+            'angular-loading-bar',
             'LocalForageModule',
             'ui.router',
             'angular-google-analytics',
@@ -59,6 +60,7 @@
             // significant performance boost
             $compileProvider.debugInfoEnabled(false);
         }])
+        .constant('API', window.API || 'http://52.207.215.154/api/')
         .constant('angularMomentConfig', {
             timezone: 'UTC'
         })
@@ -78,18 +80,13 @@
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
         }])
-        .factory('authInterceptor', ['$q', '$injector', '$localForage', '$location', function ($q, $injector, $localForage, $location) {
+        .factory('authInterceptor', ['$q', '$injector', '$localForage', '$location', 'API', function ($q, $injector, $localForage, $location, API) {
             return {
                 'request': function (config) {
                     var defer = $q.defer();
                     config.headers = config.headers || {};
-                    /*if ($localStorage.token) {
-                        config.headers.Authorization = 'Bearer ' + $localStorage.token;
-                    }*/
-
                     $localForage.getItem('token').then(function (token) {
-                        if (token) {
-
+                        if (config.url.indexOf(API) === 0 && token) {
                             config.headers.Authorization = 'Bearer ' + token;
                         }
                         defer.resolve(config);

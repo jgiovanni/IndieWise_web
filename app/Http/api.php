@@ -27,9 +27,13 @@ $api->version('v1', [
         ];
     });
 
-    $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
+    /*$api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.
     });
+
+    $api->group(['middleware' => ['jwt.refresh']], function ($api) {
+        $api->get('token', 'AuthController@getToken');
+    });*/
 
     // Authentication
     $api->post('login', 'AuthController@login');
