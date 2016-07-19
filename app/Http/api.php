@@ -17,7 +17,7 @@ $api = app('Dingo\Api\Routing\Router');
 // 'middleware' => ['api.auth', 'jwt.refresh','api.throttle']
 
 $api->version('v1', [
-    'middleware' => 'api.throttle', 'limit' => 50, 'expires' => 24,
+    'middleware' => 'api.throttle', 'limit' => 100, 'expires' => 1,
     'namespace' => 'IndieWise\Http\Controllers\Api'
 ], function ($api) {
 
@@ -37,9 +37,10 @@ $api->version('v1', [
     $api->post('register', 'AuthController@register');
     $api->post('requestPasswordReset', 'AuthController@sendResetLinkEmail');
     $api->post('resetPassword', 'AuthController@reset');
+    $api->get('authenticate', 'AuthController@authenticatedUser');
+    $api->get('token', 'AuthController@getToken');
 
-    // Auth Routes
-    $api->get('users/me', 'UsersController@me');
+    // User Routes
     $api->post('users/me', 'UsersController@updateMe');
 
     // Static Data Routes

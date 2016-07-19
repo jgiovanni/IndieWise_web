@@ -8,6 +8,7 @@ use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\UserTransformer;
 use IndieWise\User;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
@@ -18,8 +19,8 @@ class UsersController extends Controller
     
     public function __construct(User $user)
     {
-        $this->middleware('api.auth', ['except' => ['show', 'count', 'me']]);
-        $this->middleware('jwt.refresh', ['except' => ['show', 'count', 'me']]);
+        $this->middleware('api.auth', ['except' => ['show', 'count']]);
+        $this->middleware('jwt.refresh', ['except' => ['show', 'count']]);
         $this->user = $user;
     }
 
@@ -135,7 +136,11 @@ class UsersController extends Controller
 
     public function me()
     {
-        $user = JWTAuth::parseToken()->toUser();
-        return response()->json($user);
+        try {
+            $user = JWTAuth::parseToken()->toUser();
+            return response()->json($user);
+        } catch (JWTException $e) {
+            //return response()->json($e);
+        }
     }
 }

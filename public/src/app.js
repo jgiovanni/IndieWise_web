@@ -89,6 +89,7 @@
 
                     $localForage.getItem('token').then(function (token) {
                         if (token) {
+
                             config.headers.Authorization = 'Bearer ' + token;
                         }
                         defer.resolve(config);

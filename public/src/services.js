@@ -132,43 +132,20 @@
                      */
                     currentUser: null,
                     getCurrentUser: function () {
-                        return $http.get(API + 'users/me').then(function (response) {
-                            return $rootScope.AppData.User = service.currentUser = response.data;
-                            // service.getCurrentUserData();
-                        });
-                        /*var p = Backand.getUserDetails();
-                        p.then(function (response) {
-                            $rootScope.AppData.User = service.currentUser = response;
-                            service.getCurrentUserData();
-                            //console.log(response);
-                        });*/
-                        // return p;
-                    },
-                    /*currentUserData: null,
-                    getCurrentUserData: function () {
-                        var deferred = $q.defer();
-                        var user = Backand.getUserDetails();
-                        user.then(function (data) {
-                            if (data) {
-                                var p = $http({
-                                    method: 'GET',
-                                    url: Backand.getApiUrl() + '/1/objects/users/' + data.userId,
-                                    params: {
-                                        deep: false
-                                    }
-                                });
-
-                                p.then(function (response) {
-                                    $rootScope.AppData.UserData = service.currentUserData = response.data;
-                                    deferred.resolve(response);
-                                });
-
+                        return service.isAuthed().then(function (res) {
+                            if(res) {
+                                if (!angular.isObject(service.currentUser)) {
+                                    return $http.get(API + 'authenticate').then(function (response) {
+                                        return $rootScope.AppData.User = service.currentUser = response.data.user;
+                                    });
+                                } else {
+                                    return service.currentUser;
+                                }
                             } else {
-                                return $q.reject(null);
+                                return null;
                             }
                         });
-                        return deferred.promise;
-                    },*/
+                    },
                     /**
                      *
                      * @param _user
@@ -247,6 +224,23 @@
                                 console.log(self.error);
                             }
                         )
+                    },
+
+                    parseJwt: function(token) {
+                        var base64Url = token.split('.')[1];
+                        var base64 = base64Url.replace('-', '+').replace('_', '/');
+                        return JSON.parse($window.atob(base64));
+                    },
+                    isAuthed: function() {
+                        return $localForage.getItem('token').then(function (token) {
+                            var params = service.parseJwt(token);
+                            console.log(params);
+                            return Math.round(new Date().getTime() / 1000) <= params.exp;
+                        }, function (res) {
+                            return false
+                        });
+
+
                     }
                 };
 

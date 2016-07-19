@@ -22,26 +22,48 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => 'getToken']);
     }
 
-    public function token(){
-
-        try {
-            if( !$token = JWTAuth::getToken() ){
-                return response()->json(['error' => 'Token not provided'], 401);
-            }
-            try{
-                $token = JWTAuth::refresh($token);
-            } catch(JWTException $e){
-                return response()->json(['error' => 'The token is invalid'], 401);
-            }
-        } catch ( JWTException $e) {
-            return response()->json($e, 401);
+    /**
+     * Refresh the token
+     *
+     * @return mixed
+     */
+    public function getToken()
+    {
+        $token = JWTAuth::getToken();
+        if (!$token) {
+            return $this->response->errorMethodNotAllowed('Token not provided');
         }
+        try {
+            $refreshedToken = JWTAuth::refresh($token);
+        } catch (JWTException $e) {
+            return $this->response->errorInternal('Not able to refresh Token');
+        }
+        return $this->response->withArray(['token' => $refreshedToken]);
+    }
 
-
-        return $this->response->withArray(['token'=>$token]);
+    /**
+     * Returns the authenticated user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authenticatedUser()
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_absent'], 401);
+        }
+        // the token is valid and we have found the user via the sub claim
+        return response()->json(compact('user'));
     }
 
     public function login(AuthenticationRequest $request){
