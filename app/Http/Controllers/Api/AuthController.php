@@ -13,15 +13,35 @@ use IndieWise\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use IndieWise\Http\Requests\v1\AuthenticationRequest;
+use Dingo\Api\Routing\Helpers;
 
 class AuthController extends Controller
 {
-    use ResetsPasswords;
+    use Helpers, ResetsPasswords;
     //
 
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function token(){
+
+        try {
+            if( !$token = JWTAuth::getToken() ){
+                return response()->json(['error' => 'Token not provided'], 401);
+            }
+            try{
+                $token = JWTAuth::refresh($token);
+            } catch(JWTException $e){
+                return response()->json(['error' => 'The token is invalid'], 401);
+            }
+        } catch ( JWTException $e) {
+            return response()->json($e, 401);
+        }
+
+
+        return $this->response->withArray(['token'=>$token]);
     }
 
     public function login(AuthenticationRequest $request){

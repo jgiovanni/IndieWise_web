@@ -14,7 +14,7 @@ return [
     'supportsCredentials' => false,
     'allowedOrigins' => ['*'],
     'allowedHeaders' => ['*'],
-    'allowedMethods' => ['GET', 'POST', 'PUT',  'DELETE'],
+    'allowedMethods' => ['*'],//['GET', 'POST', 'PUT',  'DELETE'],
     'exposedHeaders' => ['phpdebugbar', 'phpdebugbar-id'],
     'maxAge' => 0,
     'hosts' => [],

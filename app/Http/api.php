@@ -14,7 +14,8 @@ use Dingo\Api\Contract\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
-    'middleware' => 'api.auth', 'jwt.refresh', 'api.throttle', 'limit' => 50, 'expires' => 24,
+    ///*'api.auth', 'jwt.refresh', */
+    /*'middleware' => 'api.throttle',*/ 'limit' => 50, 'expires' => 24,
     'namespace' => 'IndieWise\Http\Controllers\Api'
 ], function ($api) {
 
@@ -25,6 +26,7 @@ $api->version('v1', [
     });
 
     // Authentication
+    $api->get('token', 'AuthController@token');
     $api->post('login', 'AuthController@login');
     $api->post('logout', 'AuthController@logout');
     $api->post('register', 'AuthController@register');
