@@ -432,7 +432,7 @@
                     resolve: {
                         Reactions: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.collection('reactions', {user: AuthService.currentUser.id})
+                            DataService.collection('reactions', {user: AuthService.currentUser.id, include: 'user,project'})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -440,7 +440,7 @@
                         }],
                         Reacted: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.collection('reactions', {notUser: AuthService.currentUser.id})
+                            DataService.collection('reactions', {notUser: AuthService.currentUser.id, include: 'user,project'})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -456,14 +456,14 @@
                     resolve: {
                         Awards: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.collection('awards', {id: AuthService.currentUser.id}).then(function (result) {
+                            DataService.collection('wins', {user: AuthService.currentUser.id}).then(function (result) {
                                 deferred.resolve(result);
                             });
                             return deferred.promise;
                         }],
                         Nominations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.collection('nominations', {user: AuthService.currentUser.id})
+                            DataService.collection('nominations', {user: AuthService.currentUser.id, include: 'user,project,award'})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -471,7 +471,7 @@
                         }],
                         Nominated: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('nominations', {notUser: AuthService.currentUser.id})
+                            DataService.collection('nominations', {notUser: AuthService.currentUser.id, include: 'user,project,award'})
                                 .then(function (result) {
                                     deferred.resolve(result);
                                 });
@@ -479,7 +479,7 @@
                         }]
                     }
                 })
-                .state('profile.playlists', {
+                .state('profile.playlists  ', {
                     url: '/playlists',
                     authenticate: true,
                     templateUrl: './src/auth/profile-playlists.html',

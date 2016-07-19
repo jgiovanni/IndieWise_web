@@ -126,7 +126,7 @@ class UsersController extends Controller
             'LEFT JOIN ( SELECT COUNT(id) AS critiqueCount, project_id, user_id AS uId FROM Critique WHERE project_id IN (SELECT p.id FROM Project p WHERE p.owner_id = \''.$id.'\') ) AS critiqueB ON critiqueB.project_id IN (SELECT p.id FROM Project p WHERE p.owner_id = u.id) ' .
             'LEFT JOIN ( SELECT COUNT(id) AS reactionCount, project_id , user_id AS uId FROM Reaction WHERE user_id = \''.$id.'\' ) AS reactionA ON reactionA.uId = u.id ' .
             'LEFT JOIN ( SELECT COUNT(id) AS reactionCount, project_id , user_id AS uId FROM Reaction WHERE project_id IN (SELECT p.id FROM Project p WHERE p.owner_id = \''.$id.'\') ) AS reactionB ON reactionB.project_id IN (SELECT p.id FROM Project p WHERE p.owner_id = u.id) ' .
-            'LEFT JOIN ( SELECT COUNT(id) AS winCount, project FROM AwardWin GROUP BY project ) AS award ON award.project IN ( SELECT p.id FROM Project p WHERE p.owner_id = u.id GROUP BY p.id ) ' .
+            'LEFT JOIN ( SELECT COUNT(id) AS winCount, project_id FROM AwardWin GROUP BY project_id ) AS award ON award.project_id IN ( SELECT p.id FROM Project p WHERE p.owner_id = u.id GROUP BY p.id ) ' .
             'WHERE (u.id = \''.$id.'\') GROUP BY u.id ORDER BY u.id DESC');
         return response()->json($user[0]);
 

@@ -2,12 +2,11 @@
 
 namespace IndieWise\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use Dingo\Api\Contract\Http\Request;
 
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\CritiqueTransformer;
-use IndieWise\Http\Transformers\v1\ReactionTransformer;
 use IndieWise\Critique;
 
 class CritiquesController extends Controller

@@ -14,7 +14,7 @@ use Dingo\Api\Contract\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
-    'middleware' => 'api.throttle', 'limit' => 50, 'expires' => 24,
+    'middleware' => 'api.auth', 'jwt.refresh', 'api.throttle', 'limit' => 50, 'expires' => 24,
     'namespace' => 'IndieWise\Http\Controllers\Api'
 ], function ($api) {
 
@@ -49,6 +49,8 @@ $api->version('v1', [
     $api->resource('projects', 'ProjectsController');
     $api->resource('reactions', 'ReactionsController');
     $api->resource('critiques', 'CritiquesController');
+    $api->resource('nominations', 'NominationsController');
+    $api->resource('wins', 'WinsController');
 
 
 });

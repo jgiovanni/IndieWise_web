@@ -26,6 +26,33 @@ class ReactionTransformer extends TransformerAbstract
         return $reaction->toArray();
     }
 
+    /**
+     * Include Project
+     *
+     * @param Reaction $reaction
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeProject(Reaction $reaction)
+    {
+        $project = $reaction->project;
+        if($project)
+            return $this->item($project, new ProjectTransformer);
+
+    }
+
+    /**
+     * Include User
+     *
+     * @param Reaction $reaction
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeUser(Reaction $reaction)
+    {
+        $user = $reaction->user;
+        if($user)
+            return $this->item($user, new UserTransformer);
+
+    }
 
 
 }

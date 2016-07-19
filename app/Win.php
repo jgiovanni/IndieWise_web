@@ -2,12 +2,13 @@
 
 namespace IndieWise;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Win extends Model
 {
-    use SoftDeletes, UuidForKey;
+    use SoftDeletes, Filterable, UuidForKey;
     //
     protected $table = 'AwardWin';
 

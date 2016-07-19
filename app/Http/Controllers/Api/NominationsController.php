@@ -2,33 +2,35 @@
 
 namespace IndieWise\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use Dingo\Api\Contract\Http\Request;
 
-use IndieWise\Country;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Requests\v1\CountryRequest;
+use IndieWise\Http\Transformers\v1\NominationTransformer;
+use IndieWise\Nomination;
 
-class CountriesController extends Controller
+class NominationsController extends Controller
 {
 
-    private $country;
+    private $nomination;
 
-    public function __construct(Country $country)
+    public function __construct(Nomination $nomination)
     {
-        $this->country = $country;
+        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
+        $this->nomination = $nomination;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param CountryRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(CountryRequest $request)
+    public function index(Request $request)
     {
         //
-        return Country::orderBy('name', 'desc')->get();
+        $nominations = $this->nomination->filter($request->all())->paginate($request->get('per_page', 50));
+        return $this->response->paginator($nominations, new NominationTransformer);
     }
 
     /**
@@ -61,7 +63,9 @@ class CountriesController extends Controller
     public function show($id)
     {
         //
-        return Country::findOrFail($id);
+        $nomination = $this->nomination->whereId($id)->firstOrFail();
+        return $this->response->item($nomination, new NominationTransformer);
+
     }
 
     /**

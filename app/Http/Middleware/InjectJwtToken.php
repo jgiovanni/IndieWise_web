@@ -9,7 +9,7 @@ class InjectJwtToken
 {
     public function handle($request, Closure $next)
     {
-        if ($request instanceof Dingo\Api\Http\InternalRequest) {
+        if ($request instanceof \Dingo\Api\Http\InternalRequest) {
             if ($session->has('jwt_token')) {
                 $request->headers->set('authorization', sprintf('Bearer %s', $session->get('jwt_token')));
             }

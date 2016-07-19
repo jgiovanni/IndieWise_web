@@ -5,7 +5,7 @@
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://indiewisedb.c7fag5garfip.us-west-2.rds.amazonaws.com:3306/indiewise_db</jdbc-url>
+      <jdbc-url>jdbc:mysql://indiewise-db.crvy7dtszc30.us-east-1.rds.amazonaws.com:3306/indiewise_db</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />

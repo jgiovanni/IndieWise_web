@@ -13,7 +13,7 @@ class Reaction extends Model
 
     protected $guarded = ['id'];
 
-    public $dates = ['created_at', 'updated_at'];
+    public $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public function project()
     {

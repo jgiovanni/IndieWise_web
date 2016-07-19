@@ -4,7 +4,7 @@ namespace IndieWise\Filters\v1;
 
 use EloquentFilter\ModelFilter;
 
-class ReactionFilter extends ModelFilter
+class NominationFilter extends ModelFilter
 {
 
     public $relations = [];
@@ -31,6 +31,18 @@ class ReactionFilter extends ModelFilter
     {
         return $this->where('project_id', '<>', $project);
     }
+
+    public function critique($critique)
+    {
+        return $this->where('critique_id', $critique);
+    }
+
+    public function award($award)
+    {
+        return $this->where('award_id', $award);
+    }
+
+
     /*public function notVideo($notVideo)
     {
         return $this->whereNotIn('id', explode(',', $notVideo));
