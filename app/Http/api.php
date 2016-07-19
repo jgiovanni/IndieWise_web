@@ -13,9 +13,11 @@
 use Dingo\Api\Contract\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
+// must protext actions instead of routes unless admin routes
+// 'middleware' => ['api.auth', 'jwt.refresh','api.throttle']
+
 $api->version('v1', [
-    ///*'api.auth', 'jwt.refresh', */
-    /*'middleware' => 'api.throttle',*/ 'limit' => 50, 'expires' => 24,
+    'middleware' => 'api.throttle', 'limit' => 50, 'expires' => 24,
     'namespace' => 'IndieWise\Http\Controllers\Api'
 ], function ($api) {
 
@@ -25,8 +27,11 @@ $api->version('v1', [
         ];
     });
 
+    $api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
+        // Endpoints registered here will have the "foo" middleware applied.
+    });
+
     // Authentication
-    $api->get('token', 'AuthController@token');
     $api->post('login', 'AuthController@login');
     $api->post('logout', 'AuthController@logout');
     $api->post('register', 'AuthController@register');

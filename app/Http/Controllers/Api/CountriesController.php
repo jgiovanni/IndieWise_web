@@ -12,13 +12,6 @@ use IndieWise\Http\Requests\v1\CountryRequest;
 class CountriesController extends Controller
 {
 
-    private $country;
-
-    public function __construct(Country $country)
-    {
-        $this->country = $country;
-    }
-
     /**
      * Display a listing of the resource.
      *
