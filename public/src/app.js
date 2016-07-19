@@ -701,13 +701,13 @@
                 });
             };
 
-            var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
+            /*var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                 if (newValue && angular.isString(newValue.id)) {
                     console.log('User Logged In');
                     $rootScope.listenNotifications(newValue.username);
                     endWatch();
                 }
-            });
+            });*/
 
             // loading animation
             $rootScope.setLoading = function () {
