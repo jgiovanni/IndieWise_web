@@ -38,17 +38,17 @@ return [
     'facebook' => [
         'client_id' => '150687055270744',
         'client_secret' => '7d611466ddac25c2f70bc06cc73d4af1',
-        'redirect' => 'http://your-callback-url',
+        'redirect' => env('SOCIALITE_FACEBOOK_REDIRECT', 'http://indiewise.dev/auth/facebook/callback'),
     ],
     'twitter' => [
         'client_id' => 'nnSvvHd86gBpxPwJaLGvzM2Mm',
         'client_secret' => 'TbzbhcsQIDzbNLPrDfyirstXTJXI71WANCISNjf4NImzXACHZq',
-        'redirect' => 'http://your-callback-url',
+        'redirect' => env('SOCIALITE_FACEBOOK_REDIRECT', 'http://indiewise.dev/auth/twitter/callback'),
     ],
     'google' => [
         'client_id' => '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com',
         'client_secret' => '6kjGiH7lv9fCoXzf3HjS4X3f',
-        'redirect' => 'http://your-callback-url',
+        'redirect' => env('SOCIALITE_FACEBOOK_REDIRECT', 'http://indiewise.dev/auth/google/callback'),
     ],
 
 ];

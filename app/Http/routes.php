@@ -16,6 +16,12 @@ use IndieWise\Country;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
+Route::group(['middleware' => 'web'], function () {
+    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+    Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+});
+
+
 Route::any('{path?}', function() use ($dispatcher) {
 //    $countries = $dispatcher->get('countries', ['sort' => 'name']);
     $countries = Country::orderBy('name', 'desc')->get();
