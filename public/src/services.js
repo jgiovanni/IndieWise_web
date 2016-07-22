@@ -53,8 +53,8 @@
 
 
         })
-        .factory('AuthService', ['$rootScope', '$q', '$localForage', '$state', 'UtilsService', 'Backand', '$http', 'DataService', '$interval', '$window',
-            function ($rootScope, $q, $localForage, $state, UtilsService, Backand, $http, DataService, $interval, $window) {
+        .factory('AuthService', ['$rootScope', '$q', '$localForage', '$state', 'UtilsService', 'Backand', '$http', 'DataService', '$interval', '$window', '$auth',
+            function ($rootScope, $q, $localForage, $state, UtilsService, Backand, $http, DataService, $interval, $window, $auth) {
                 /**
                  *
                  * @returns {*}
@@ -132,19 +132,20 @@
                      */
                     currentUser: null,
                     getCurrentUser: function () {
-                        return service.isAuthed().then(function (res) {
-                            if(res) {
-                                if (!angular.isObject(service.currentUser)) {
-                                    return $http.get(API + 'authenticate').then(function (response) {
-                                        return $rootScope.AppData.User = service.currentUser = response.data.user;
-                                    });
-                                } else {
-                                    return service.currentUser;
-                                }
+                        var deferred = $q.defer();
+                        if(service.isAuthenticated()) {
+                            if (!angular.isObject(service.currentUser)) {
+                                $http.get(API + 'authenticate').then(function (response) {
+                                    deferred.resolve($rootScope.AppData.User = service.currentUser = response.data.user);
+                                });
                             } else {
-                                return null;
+                                deferred.resolve(service.currentUser);
                             }
-                        });
+                        } else {
+                            deferred.reject(false);
+                        }
+                        return deferred.promise;
+
                     },
                     /**
                      *
@@ -157,10 +158,9 @@
                         $http.post(API + 'login', { email: _user, password: _password })
                             .then(function (response) {
                                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                                $localForage.setItem('token', response.data.token).then(function (token) {
-                                    service.getCurrentUser();
-                                    defered.resolve(true);
-                                });
+                                $auth.setToken(response.data.token);
+                                service.getCurrentUser();
+                                defered.resolve(true);
                             }, function (data) {
                                 console.log(data);
                                 self.error = data && data.error_description || 'Unknown error from server';
@@ -169,6 +169,25 @@
                         );
                         return defered.promise;
                     },
+                    socialLogin: function (provider) {
+                        return $auth.authenticate(provider)
+                            .then(function(response) {
+                                console.log(response.data);
+                                service.getCurrentUser().then(function (user) {
+                                    self.error = '';
+                                    if (moment(user.created_at).isSame(moment(), 'hour')) {
+                                        console.log('User ' + user.username + ' created successfully!');
+                                        $state.go('profile.about');
+                                    } else {
+                                        $state.go('home');
+                                    }
+                                });
+                            })
+                            .catch(function(response) {
+                                console.log(response);
+                                self.error = response && response.error_description || 'Unknown error from server';
+                            });
+                    },
                     /**
                      *
                      * @returns {Promise}
@@ -176,8 +195,9 @@
                     logout: function () {
                         //var deferred = $q.defer();
                         return $http.post(API + 'logout', null).then(function () {
-                            $localForage.removeItem('User');
-                            $rootScope.AppData.User = undefined;
+                            $auth.removeToken();
+                            // localStorage.removeItem('User');
+                            // $rootScope.AppData.User = undefined;
                             //deferred.resolve(true);
                         });
                         //return deferred.promise;
@@ -207,40 +227,8 @@
                                 return error;
                             });
                     },
-                    socialLogin: function (provider, newUser) {
-                        var socialSignIn = newUser ? Backand.socialSignUp(provider) : Backand.socialSignIn(provider);
-                        return socialSignIn
-                            .then(function (userData) {
-                                service.getCurrentUser();
-                                self.error = '';
-                                if (newUser) {
-                                    console.log('User ' + userData.username + ' created successfully!');
-                                    $state.go('profile.about');
-                                } else {
-                                    $state.go('home');
-                                }
-                            }, function (error) {
-                                self.error = error && error.error_description || 'Unknown error from server';
-                                console.log(self.error);
-                            }
-                        )
-                    },
-
-                    parseJwt: function(token) {
-                        var base64Url = token.split('.')[1];
-                        var base64 = base64Url.replace('-', '+').replace('_', '/');
-                        return JSON.parse($window.atob(base64));
-                    },
-                    isAuthed: function() {
-                        return $localForage.getItem('token').then(function (token) {
-                            var params = service.parseJwt(token);
-                            console.log(params);
-                            return Math.round(new Date().getTime() / 1000) <= params.exp;
-                        }, function (res) {
-                            return false
-                        });
-
-
+                    isAuthenticated: function() {
+                        return $auth.isAuthenticated();
                     }
                 };
 

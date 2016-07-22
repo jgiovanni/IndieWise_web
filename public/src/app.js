@@ -194,6 +194,7 @@ jQuery(document).ready(function (jQuery) {
             'ui.router',
             'angular-google-analytics',
             'flow',
+            'satellizer',
             'angular-filepicker',
             'backand',
             'pascalprecht.translate',
@@ -205,6 +206,29 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.filters',
             'IndieWise.utilities'
         ])
+        .config(['$authProvider', function($authProvider) {
+            // $authProvider.tokenPrefix = '';
+            // $authProvider.tokenName = 'token';
+            // $authProvider.withCredentials = false;
+            // $authProvider.httpInterceptor = false;
+            $authProvider.facebook({
+                clientId: '150687055270744',
+                // url: window.location.origin + '/auth/facebook',
+                // redirectUri: window.location.origin + '/auth/facebook/callback',
+            });
+
+            $authProvider.google({
+                clientId: '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com',
+                // url: window.location.origin + '/auth/google',
+                // redirectUri: window.location.origin + '/auth/google/callback',
+            });
+
+            $authProvider.twitter({
+                clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm',
+                // url: window.location.origin + '/auth/twitter',
+                // redirectUri: window.location.origin + '/auth/twitter/callback',
+            });
+        }])
         .config(['flowFactoryProvider', function (flowFactoryProvider) {
             flowFactoryProvider.defaults = {
                 //target: 'utils/upload.php',
@@ -254,22 +278,15 @@ jQuery(document).ready(function (jQuery) {
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
         }])
-        .factory('authInterceptor', ['$q', '$injector', '$localForage', '$location', 'API', function ($q, $injector, $localForage, $location, API) {
+        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', function ($q, $injector, $location, API) {
             return {
                 'request': function (config) {
-                    var defer = $q.defer();
                     config.headers = config.headers || {};
-                    $localForage.getItem('token').then(function (token) {
-                        if (config.url.indexOf(API) === 0 && token) {
-                            config.headers.Authorization = 'Bearer ' + token;
-                        }
-                        defer.resolve(config);
-                    });
-                    return defer.promise;
+                    return config;
                 },
                 'response': function (response) {
                     // only contains "content-type" and "cache-control"
-                    console.log(response.headers());
+                    // console.log(response.headers());
                     return response;
                 },
                 'responseError': function (response) {
@@ -951,11 +968,7 @@ jQuery(document).ready(function (jQuery) {
                     return !!state.authenticate;
                 }
             }, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
-                    return true;
-                }, function () {
-                    return $state.target('sign_in');
-                });
+                return AuthService.currentUser ? true : AuthService.isAuthenticated();
 
                 //return  ? true : $state.target('sign_in');
             });
@@ -990,5 +1003,5 @@ jQuery(document).ready(function (jQuery) {
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);
-})
+    })
 ();

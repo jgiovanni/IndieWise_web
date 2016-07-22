@@ -3,7 +3,10 @@
 namespace IndieWise\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use IndieWise\SocialAccountService;
 use IndieWise\User;
+use League\OAuth1\Client\Credentials\TemporaryCredentials;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use IndieWise\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -69,28 +72,66 @@ class AuthController extends Controller
     /**
      * Redirect the user to the Facebook authentication page.
      *
+     * @param string $provider
+     * @param Request $request
+     * @param SocialAccountService $service
      * @return Response
      */
-    public function redirect($provider = null)
+    public function redirect($provider = 'facebook', Request $request, SocialAccountService $service)
     {
-        return $this->socialite->with($provider)->redirect();
+        //return $this->socialite->with($provider)->stateless()->redirect();
+        if ($provider == 'twitter') {
+            // Part 1 of 2: Initial request from Satellizer.
+            if (!$request->input('oauth_token') || !$request->input('oauth_verifier')) {
+                // Redirect to fill the session (without actually redirecting)
+                $provider->redirect();
+
+                /** @var TemporaryCredentials $temp */
+                $credentials = $request->getSession()->get('oauth.temp');
+
+                return response()->json(['oauth_token' => $credentials->getIdentifier()]);
+            } // Part 2 of 2: Second request after Authorize app is clicked.
+            else {
+                $credentials = new TemporaryCredentials();
+                $credentials->setIdentifier($request->input('oauth_token'));
+                $request->getSession()->set('oauth.temp', $credentials);
+
+                // Handle the user etc.
+            }
+        } else {
+            if ($request->has('redirectUri')) {
+                config()->set("services.{$provider}.redirect", $request->get('redirectUri'));
+            }
+        }
+
+        // Step 1 + 2
+        $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
+        if($user) {
+            $token = JWTAuth::fromUser($user);
+        }else{
+            return response()->make('something went wrong');
+        }
+
+        return response()->json(compact('token'));
     }
 
     /**
      * Obtain the user information from Facebook.
      *
+     * @param null $provider
+     * @param SocialAccountService $service
      * @return Response
      */
-    public function callback($provider = null, Request $request)
+    public function callback($provider = null, SocialAccountService $service)
     {
-        if($user = $this->socialite->with($provider)->stateless()->user()){
-            dd($user);
+        $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
+        if($user) {
+            $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');
         }
-        //$user = Socialite::driver($provider)->user();
 
-        // $user->token;
+        return response()->json(compact('token'), 200, ['Token' => $token]);
     }
 
 }
