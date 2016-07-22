@@ -47,6 +47,14 @@ $api->version('v1', [
     // User Routes
     $api->post('users/me', 'UsersController@updateMe');
 
+    // Query Routes
+    $api->get('users/count', 'UsersController@count');
+    $api->get('users/countUserStats', 'UsersController@countUserStats');
+    $api->get('projects/watched', 'ProjectsController@recentlyWatched');
+    $api->get('reactions/latest', 'ReactionsController@latest');
+    $api->get('nominations/latest', 'NominationsController@latest');
+    $api->get('critiques/latest', 'CritiquesController@latest');
+
     // Static Data Routes
     $api->resource('countries', 'CountriesController');
     $api->resource('languages', 'LanguagesController');
@@ -55,8 +63,6 @@ $api->version('v1', [
     $api->resource('types', 'TypesController');
 
     // Resource Routes
-    $api->get('users/count', 'UsersController@count');
-    $api->get('users/countUserStats', 'UsersController@countUserStats');
     $api->resource('users', 'UsersController');
     $api->resource('projects', 'ProjectsController');
     $api->resource('reactions', 'ReactionsController');
@@ -64,5 +70,6 @@ $api->version('v1', [
     $api->resource('nominations', 'NominationsController');
     $api->resource('wins', 'WinsController');
 
+    $api->post('contact', 'MailController@contactUs');
 
 });

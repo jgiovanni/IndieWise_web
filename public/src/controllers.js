@@ -727,9 +727,10 @@
                 order: 'DESC',
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
-                search: self.filters.search||undefined
+                search: self.filters.search||undefined,
+                per_page: 50,
             }).then(function (res) {
-                return self.films = res.data;
+                return self.films = res.data.data;
             });
 
             $scope.$broadcast('scroll.refreshComplete');
@@ -764,13 +765,13 @@
         var self = this;
 
         self.init = function () {
-            DataService.query('getLatestReactions').then(function (res) {
+            DataService.collection('reactions/latest').then(function (res) {
                 self.reactions = res.data;
             });
-            DataService.query('getLatestNominations').then(function (res) {
+            DataService.collection('nominations/latest').then(function (res) {
                 self.nominations = res.data;
             });
-            DataService.query('getLatestCritiques').then(function (res) {
+            DataService.collection('critiques/latest').then(function (res) {
                 self.critiques = res.data;
             });
         };
@@ -2681,8 +2682,8 @@
         ];
 
         self.submitForm = function () {
-            self.form.to = self.selectedEmail.address
-            DataService.action('users', 'Contact Us', self.form).then(function (res) {
+            self.form.to = self.selectedEmail.address;
+            DataService.mail('contact', self.form).then(function (res) {
                 $rootScope.toastMessage('Message Sent, Thank you!');
                 self.form = {
                     to: '',

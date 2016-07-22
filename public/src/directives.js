@@ -121,7 +121,7 @@
                 scope: {},
                 link: function (scope, el, attrs) {
                     scope.getWatchedList = function () {
-                        DataService.query('getRecentlyWatched').then(function (result) {
+                        DataService.collection('projects/watched').then(function (result) {
                             scope.watched = result.data;
                             // console.log('watched');
                             // console.log(scope.watched);

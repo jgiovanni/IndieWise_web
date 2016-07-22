@@ -515,11 +515,14 @@
                 url: API + name + '/' + id,
                 params: {
                     include: include,
-                    search: search,
+                    search: search
                 }
             });
         };
 
+        vm.mail = function (route, params) {
+            return $http.post(API + route, params);
+        };
 
         // Newsletter Form
         vm.notifyMe = function (params) {

@@ -11,8 +11,8 @@
                 templateUrl: './src/directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
-                    DataService.query('countUsers').then(function (res) {
-                        scope.users = res.data[0].users;
+                    DataService.collection('users/count').then(function (res) {
+                        scope.users = res.data;
                     }).then(function () {
                         $timeout(function () {
                             jQuery("#layerslider").layerSlider({
@@ -1315,7 +1315,16 @@
                     scope.link = $sce.trustAsResourceUrl('http://ad.broadstreetads.com/zdisplay/' + scope.zone + '.html');
                 }
             }
+        }])
+        .directive('staticSideBar', ['$window', '$sce', function ($window, $sce) {
+            return {
+                restrict: 'E',
+                templateUrl: './src/directives/static-sidebar.html',
+                transclude: true,
+                replace: true
+            }
         }]);
+
     angular.module('IndieWise.filters', [])
         .filter('truncate', function () {
             return function (text, length, end) {

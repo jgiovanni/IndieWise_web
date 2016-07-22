@@ -52,7 +52,8 @@ class ProjectFilter extends ModelFilter
                 ->orWhereHas('owner', function ($u) use ($search) {
                     return $u
                         ->where('firstName', 'LIKE',strtolower("%$search%"))
-                        ->orWhere('lastName', 'LIKE', strtolower("%$search%"));
+                        ->orWhere('lastName', 'LIKE', strtolower("%$search%"))
+                        ->orWhere('fullName', 'LIKE', strtolower("%$search%"));
                 });
         });
     }

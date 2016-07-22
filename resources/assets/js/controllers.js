@@ -65,6 +65,8 @@
         .controller('VideoCtrl', VideoCtrl)
         .controller('VideoCritiqueCtrl', VideoCritiqueCtrl)
         .controller('VideoCritiqueEditCtrl', VideoCritiqueEditCtrl)
+        .controller('ContactPageCtrl', ContactPageCtrl)
+
     ;
 
     RegisterCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', 'DataService', 'anchorSmoothScroll', '_'];
@@ -302,8 +304,8 @@
 
 
         // Recent Videos Footer Section
-        DataService.query('getProjectsBy', {order: "createdAt"}).then(function (result) {
-            self.footerRecentVideos = result;
+        DataService.collection('projects',{ per_page: 3, sort: 'created_at'}).then(function (result) {
+            self.footerRecentVideos = result.data;
         });
 
         self.startSearch = function (text) {
@@ -316,22 +318,14 @@
             var deferred = $q.defer();
             // $localForage.removeItem('genres');
             $localForage.getItem('genres', true).then(function (data) {
-                if( !_.isNull(data) ) {
-                    deferred.resolve(data);
-                } else {
-                    DataService.collection('genres').then(function (result) {
-                        $rootScope.genresList = result.data.Genres;
-                        $localForage.setItem('genres', result.data.Genres);
-                        deferred.resolve(result.data.Genres);
-                    });
-                    /*DataService.getList('Genre', [], [], 50).then(function (result) {
-                     $rootScope.genresList = result.data.data;
-                     $localForage.setItem('genres', result.data.data);
-                     deferred.resolve(result.data.data);
-                     });*/
-                }
+                $rootScope.genresList = data;
+                deferred.resolve(data);
             }, function (error) {
-                debugger;
+                DataService.collection('genres').then(function (result) {
+                    $rootScope.genresList = result.data.Genres;
+                    $localForage.setItem('genres', result.data.Genres);
+                    deferred.resolve(result.data.Genres);
+                });
             });
 
             return deferred.promise;
@@ -341,23 +335,14 @@
             var deferred = $q.defer();
             // $localForage.removeItem('types');
             $localForage.getItem('types', true).then(function (data) {
-                if( !_.isNull(data) ) {
-                    deferred.resolve(data);
-                } else {
-                    DataService.collection('types').then(function (result) {
-                        $rootScope.typesList = result.data.Types;
-                        $localForage.setItem('types', result.data.Types);
-                        deferred.resolve(result.data.Types);
-                    });
-
-                    /*DataService.getList('Type', [], [], 50).then(function (result) {
-                     $rootScope.typesList = result.data.data;
-                     $localForage.setItem('types', result.data.data);
-                     deferred.resolve(result.data.data);
-                     });*/
-                }
+                $rootScope.typesList = data;
+                deferred.resolve(data);
             }, function (error) {
-                debugger;
+                DataService.collection('types').then(function (result) {
+                    $rootScope.typesList = result.data.Types;
+                    $localForage.setItem('types', result.data.Types);
+                    deferred.resolve(result.data.Types);
+                });
             });
 
             return deferred.promise;
@@ -367,22 +352,14 @@
             var deferred = $q.defer();
             // $localForage.removeItem('countries');
             $localForage.getItem('countries', true).then(function (data) {
-                if( !_.isNull(data) ) {
-                    deferred.resolve(data);
-                } else {
-                    DataService.collection('countries').then(function (result) {
-                        $rootScope.countryList = result.data.Countries;
-                        $localForage.setItem('countries', result.data.Countries);
-                        deferred.resolve(result.data.Countries);
-                    });
-                    /*DataService.getList('Country', [], [], 300).then(function (result) {
-                     $rootScope.countryList = result.data.data;
-                     $localForage.setItem('countries', result.data.data);
-                     deferred.resolve(result.data.data);
-                     });*/
-                }
+                $rootScope.countryList = data;
+                deferred.resolve(data);
             }, function (error) {
-                debugger;
+                DataService.collection('countries').then(function (result) {
+                    $rootScope.countryList = result.data.Countries;
+                    $localForage.setItem('countries', result.data.Countries);
+                    deferred.resolve(result.data.Countries);
+                });
             });
 
             return deferred.promise;
@@ -392,22 +369,14 @@
             var deferred = $q.defer();
             // $localForage.removeItem('languages');
             $localForage.getItem('languages', true).then(function (data) {
-                if( !_.isNull(data) ) {
-                    deferred.resolve(data);
-                } else {
-                    DataService.collection('languages').then(function (result) {
-                        $rootScope.languageList = result.data.Languages;
-                        $localForage.setItem('languages', result.data.Languages);
-                        deferred.resolve(result.data.Languages);
-                    });
-                    /*DataService.getList('Language', [], [], 300).then(function (result) {
-                     $rootScope.languageList = result.data.data;
-                     $localForage.setItem('languages', result.data.data);
-                     deferred.resolve(result.data.data);
-                     });*/
-                }
+                $rootScope.languageList = data;
+                deferred.resolve(data);
             }, function (error) {
-                debugger;
+                DataService.collection('languages').then(function (result) {
+                    $rootScope.languageList = result.data.Languages;
+                    $localForage.setItem('languages', result.data.Languages);
+                    deferred.resolve(result.data.Languages);
+                });
             });
 
             return deferred.promise;
@@ -886,8 +855,6 @@
                     self.tagsArray = self.film.tags.split(',');
                 }
             }
-
-
 
             // Get related video
             DataService.collection('projects', {
@@ -1568,6 +1535,53 @@
             }
         };
 
+        self.reportDialog = function () {
+            var modalInstance = $modal.open({
+                templateUrl: './src/common/reportVideoDialog.html',
+                resolve: {
+                    Video: function () {
+                        return self.film;
+                    }
+                },
+                closeOnClick: false,
+                size: Foundation.MediaQuery.atLeast('medium') ? 'small' : 'full',
+                controller: ['$scope', '$modalInstance', 'DataService', 'Video', function ($scope, $modalInstance, DataService, Video) {
+                    zIndexPlayer();
+                    $scope.video = Video;
+                    $scope.report = {
+                        name: '',
+                        email: '',
+                        body: '',
+                        project_id: $scope.video.id,
+                        video: $scope.video.url_id
+                    };
+
+                    $scope.cancel = function () {
+                        zIndexPlayer(true);
+                        $modalInstance.dismiss('cancel');
+                    };
+
+                    $scope.closeDialog = function () {
+                        zIndexPlayer(true);
+                        $modalInstance.close($scope.report);
+                    };
+                }]
+            });
+
+            modalInstance.result.then(function (report) {
+                DataService.action('Flag', 'Send Flag Email', report).then(function () {
+                    $rootScope.toastMessage('Your Report has been Sent');
+                });
+            }, function () {
+                // console.info('Modal dismissed at: ' + new Date());
+            }).then(function () {
+                $timeout(function () {
+                    // console.log('remove is-reveal-open');
+                    jQuery('body').removeClass('is-reveal-open')
+                }, 500);
+            });
+        };
+
         function zIndexPlayer(remove) {
             var vidDiv = jQuery('.flex-video');
             !!remove ? vidDiv.css('z-index', '') : vidDiv.css('z-index', 0);
@@ -1659,8 +1673,8 @@
     function ProfileCtrl($rootScope, DataService, User, UserStats, AuthService, $modal, _) {
         $rootScope.metadata.title = 'Profile';
         var self = this;
-        self.user = User.data;
-        self.userStats = UserStats.data[0];
+        self.user = User;
+        self.userStats = UserStats;
         self.updateAvatar = _.throttle(updateAvatar, 1000);
         self.updateCoverPhoto = _.throttle(updateCoverPhoto, 1000);
 
@@ -2391,16 +2405,16 @@
     function UserCritiquesController($rootScope, User, Critiques, Critiqued) {
         var self = this;
         self.user = User;
-        self.critiques = Critiques.data;
-        self.critiqued = Critiqued.data;
+        self.critiques = Critiques.data.data;
+        self.critiqued = Critiqued.data.data;
     }
 
     UserReactionsController.$inject = ['$rootScope', 'User', 'Reactions', 'Reacted', '_'];
     function UserReactionsController($rootScope, User, Reactions, Reacted, _) {
         var self = this;
         self.user = User;
-        self.reactions = Reactions.data;
-        self.reacted = Reacted.data;
+        self.reactions = Reactions.data.data;
+        self.reacted = Reacted.data.data;
 
         self.getEmoticonByEmotion = function (emotion) {
             var reactions = $rootScope.generateReactions();
@@ -2413,9 +2427,9 @@
     function UserAwardsController($rootScope, DataService, User, Awards, Nominations, Nominated) {
         var self = this;
         self.user = User;
-        self.awards = Awards.data;
-        self.nominations = Nominations.data;
-        self.nominated = Nominated.data;
+        self.awards = Awards.data.data;
+        self.nominations = Nominations.data.data;
+        self.nominated = Nominated.data.data;
     }
 
     MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$modal', 'UserActions', 'UtilsService', '$q', '_'];
@@ -2637,6 +2651,50 @@
 
         self.refresh();
     }
+
+    ContactPageCtrl.$inject = ['$rootScope', 'DataService', '$sce'];
+    function ContactPageCtrl($rootScope, DataService, $sce) {
+        var self = this;
+        self.selectedEmail = null;
+        self.description = '';
+        self.getDescription = function () {
+            self.description = angular.isObject(self.selectedEmail) ? $sce.trustAsHtml(self.selectedEmail.description) : $sce.trustAsHtml('');
+        };
+        self.form = {
+            to: '',
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+        };
+        self.emails = [
+            { title: 'Technical Support', address: 'support@getindiewise.com', description: 'For all your Tech Support Needs and Issues.'},
+            { title: 'SafeGuard', address: 'safeguard@getindiewise.com', description: 'IndieWise cares about the safety and well-being of its users. Contact us immediately, if you come across any inappropriate content on the site. This includes, but is not limited to: content that is Excessively Violent, Pornographic, Racially Offensive, Unlawful, of a Bullying Nature, Directly Harmful to any Individual, Copyright Infringement, Spam, etc.'},
+            { title: 'Marketing', address: 'marketing@getindiewise.com', description: 'Would you like to advertise your company to our vast and diverse audience? Would you like a featured listing of your film at the top of our Homepage for all to see? Reach out today!'},
+            { title: 'Awards', address: 'awards@getindiewise.com', description: 'So you have such an amazing project, that 5 or more Users felt like you deserve an Award for it! Congrats! We can help!'},
+            { title: 'Public Relations', address: 'pr@getindiewise.com', description: 'Reach out for any press and/or media inquiries. Also let us know if you’d like to be featured in our bi-weekly newsletter. Also stay tuned for important announcements and updates!'},
+            { title: 'Career Center', address: 'careers@getindiewise.com', description: 'Interested in joining Team IndieWise? Let us know! There are several internship opportunities available.'},
+            { title: 'Become a Sponsor', address: 'sponsor@getindiewise.com', description: 'We’ve reserved a unique spot on our homepage to showcase our amazing sponsors. If you’re interested in becoming a sponsor of IndieWise, let us know!'},
+            { title: 'Invest in IndieWise', address: 'investors@getindiewise.com', description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'},
+            { title: 'Register for IndieWise Convention (JULY 28-30, 2017)', address: 'convention@getindiewise.com', description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'},
+            { title: 'Feedback Center', address: 'feedback@getindiewise.com', description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'},
+        ];
+
+        self.submitForm = function () {
+            self.form.to = self.selectedEmail.address
+            DataService.action('users', 'Contact Us', self.form).then(function (res) {
+                $rootScope.toastMessage('Message Sent, Thank you!');
+                self.form = {
+                    to: '',
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
+                };
+            });
+        }
+    }
+
 
 })
 ();

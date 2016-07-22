@@ -6,7 +6,6 @@ use EloquentFilter\ModelFilter;
 
 class AwardFilter extends ModelFilter
 {
-
     public $relations = [];
 
     public function user($user)

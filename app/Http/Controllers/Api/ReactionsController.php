@@ -4,6 +4,7 @@ namespace IndieWise\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\ReactionTransformer;
@@ -97,5 +98,12 @@ class ReactionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function latest()
+    {
+        $reactions = DB::select('SELECT r.id, r.created_at, r.emotion, r.user_id, reactor.userFullName, reactor.userUrlId, reactor.userAvatar, r.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM Reaction r LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail FROM Project p WHERE p.unlist IS FALSE) AS project ON project.id = r.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS reactor ON reactor.id = r.user_id ORDER BY r.created_at DESC LIMIT 6');
+        return response()->json($reactions);
     }
 }
