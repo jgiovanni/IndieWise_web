@@ -1,13 +1,13 @@
 function loadScript(url, callback) {
 
-    var script = document.createElement("script");
-    script.type = "text/javascript";
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
 
     script.onload = function () {
         callback();
     };
     script.src = url;
-    document.getElementsByTagName("head")[0].appendChild(script);
+    document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 if (window.chrome && window.chrome.cookies) {
@@ -22,54 +22,27 @@ if (window.chrome && window.chrome.cookies) {
 jQuery.noConflict();
 jQuery(document).foundation();
 jQuery(document).ready(function (jQuery) {
-    "use strict";
-    /*Layer slider trigger*/
-    /*jQuery("#layerslider").layerSlider({
-     responsive: false,
-     responsiveUnder: 1280,
-     layersContainer: 1280,
-     skin: 'noskin',
-     hoverPrevNext: false,
-     skinsPath: '../layerslider/skins/'
-     });*/
+    'use strict';
     //login register click
-    jQuery(".loginReg").on("click", function (e) {
+    jQuery('.loginReg').on('click', function (e) {
         e.preventDefault();
         jQuery(this).next().slideToggle();
-        jQuery(this).toggleClass("active");
+        jQuery(this).toggleClass('active');
     });
 
     //search bar
-    jQuery(".search.end").on("click", function () {
-        if (jQuery(this).children().hasClass("fa-search")) {
-            jQuery(this).children().removeClass("fa-search");
-            jQuery(this).children().addClass("fa-times");
+    jQuery('.search.end').on('click', function () {
+        if (jQuery(this).children().hasClass('fa-search')) {
+            jQuery(this).children().removeClass('fa-search');
+            jQuery(this).children().addClass('fa-times');
         } else {
-            jQuery(this).children().removeClass("fa-times");
-            jQuery(this).children().addClass("fa-search");
+            jQuery(this).children().removeClass('fa-times');
+            jQuery(this).children().addClass('fa-search');
         }
-        jQuery(this).toggleClass("search-active");
-        jQuery("#search-bar").slideToggle();
+        jQuery(this).toggleClass('search-active');
+        jQuery('#search-bar').slideToggle();
 
     });
-
-    //grid system
-    /*jQuery(".grid-system > a").on("click", function(event){
-     event.preventDefault();
-     var selector = jQuery(this).parent().parent().next().find('div.item');
-     var classStr = jQuery(selector).attr('class'),
-     lastClass = classStr.substr( classStr.lastIndexOf(' ') + 1);
-     jQuery(selector)
-     // Remove last class
-     .removeClass(lastClass)
-     // Put back .item class + the clicked elements class with the added prefix "group-item-".
-     .addClass('item group-item-' + jQuery(this).attr('class') );
-     if(jQuery(this).hasClass("current")!== true)
-     {
-     jQuery('.grid-system > a').removeClass("current");
-     jQuery(this) .addClass("current");
-     }
-     });*/
 
     //back to top
     var backtotop = '#back-to-top';
@@ -94,58 +67,19 @@ jQuery(document).ready(function (jQuery) {
             }, 700);
         });
     }
-    //newsTicker
-    /*jQuery('#newsBar').inewsticker({
-     speed       : 2500,
-     effect      : 'fade',
-     dir         : 'ltr',
-     font_size   : 13,
-     color       : '#fff',
-     font_family : 'arial',
-     delay_after : 1000
-     });*/
-
-    //show more and less
-    /*jQuery('.showmore_one').showMore({
-     speedDown: 300,
-     speedUp: 300,
-     height: '165px',
-     showText: 'Show more',
-     hideText: 'Show less'
-     });*/
-
-    /*jQuery(".reply").each(function(){
-     if(jQuery(this).parent().next().length > 0){
-     jQuery(this).html('Hide replies <i class="fa fa-angle-up"></i>');
-     }
-     });
-     //comments reply hide show
-     jQuery(".reply").on('click', function(){
-     if(jQuery(this).parent().next().length > 0){
-     jQuery(this).parent().nextAll().slideToggle();
-     //jQuery(this).html(jQuery(this).text() === 'Hide replies' ? 'Show replies' : 'Hide replies');
-     if(jQuery(this).hasClass('hide-reply')){
-     jQuery(this).removeClass('hide-reply');
-     jQuery(this).html('show replies <i class="fa fa-angle-down"></i>');
-     }else {
-     jQuery(this).addClass('hide-reply');
-     jQuery(this).html('Hide replies <i class="fa fa-angle-up"></i>');
-     }
-     }
-     });*/
-
+    
     //register form
-    jQuery("div.social-login").mouseenter(function () {
-        jQuery("i.arrow-left").addClass("active");
+    jQuery('div.social-login').mouseenter(function () {
+        jQuery('i.arrow-left').addClass('active');
     })
         .mouseleave(function () {
-            jQuery("i.arrow-left").removeClass("active");
+            jQuery('i.arrow-left').removeClass('active');
         });
-    jQuery("div.register-form").mouseenter(function () {
-        jQuery("i.arrow-right").addClass("active");
+    jQuery('div.register-form').mouseenter(function () {
+        jQuery('i.arrow-right').addClass('active');
     })
         .mouseleave(function () {
-            jQuery("i.arrow-right").removeClass("active");
+            jQuery('i.arrow-right').removeClass('active');
         });
 
     //vertical thumb slider
@@ -160,17 +94,9 @@ jQuery(document).ready(function (jQuery) {
     var $par = jQuery('.thumb-slider .thumbs .thumbnails').scrollTop(0);
     jQuery('.thumb-slider .thumbs a').click(function (e) {
         e.preventDefault();                      // Prevent defautl Anchors behavior
-        var n = jQuery(this).hasClass("down") ? "+=200" : "-=200"; // Direction
+        var n = jQuery(this).hasClass('down') ? '+=200' : '-=200'; // Direction
         $par.animate({scrollTop: n});
     });
-
-    //tab panel
-    /*jQuery('[data-tab]').on('click', function (e) {
-     jQuery(this).addClass('active').siblings('[data-tab]').removeClass('active');
-     jQuery(this).siblings('[data-content=' + jQuery(this).data('tab') + ']').addClass('active').siblings('[data-content]').removeClass('active');
-     e.preventDefault();
-     });*/
-
 });
 (function () {
     'use strict';
@@ -207,6 +133,7 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.utilities'
         ])
         .constant('API', window.API || 'http://52.207.215.154/api/')
+        .constant('BASE', window.BASE || BASE + 'public/')
         .config(['$authProvider', 'API', function ($authProvider, API) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
@@ -233,7 +160,7 @@ jQuery(document).ready(function (jQuery) {
             flowFactoryProvider.defaults = {
                 //target: 'utils/upload.php',
                 query: {
-                    upload_preset: "r0kuyqef"
+                    upload_preset: 'r0kuyqef'
                 },
                 target: 'https://api.cloudinary.com/v1_1/indiewise/upload',
                 permanentErrors: [404, 500, 501],
@@ -251,8 +178,8 @@ jQuery(document).ready(function (jQuery) {
         })
         .config(['cloudinaryProvider', function (cloudinaryProvider) {
             cloudinaryProvider
-                .set("cloud_name", "indiewise")
-                .set("upload_preset", "r0kuyqef");
+                .set('cloud_name', 'indiewise')
+                .set('upload_preset', 'r0kuyqef');
         }])
         .config(['$compileProvider', function ($compileProvider) {
             // significant performance boost
@@ -284,7 +211,7 @@ jQuery(document).ready(function (jQuery) {
                     return config;
                 },
                 'response': function (response) {
-                    // only contains "content-type" and "cache-control"
+                    // only contains 'content-type' and 'cache-control'
                     // console.log(response.headers());
                     return response;
                 },
@@ -297,49 +224,49 @@ jQuery(document).ready(function (jQuery) {
             };
         }])
 
-        .config(function ($mdThemingProvider, $mdIconProvider) {
+        .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
             // Emoticons
             $mdIconProvider
-                .icon("emotion", "./assets/svg/emotion.svg", 120)
-                .icon("angry", "./assets/svg/emoticons/angry.svg", 120)
-                .icon("annoyed", "./assets/svg/emoticons/annoyed.svg", 120)
-                .icon("big-smile", "./assets/svg/emoticons/big-smile.svg", 120)
-                .icon("bored", "./assets/svg/emoticons/bored.svg", 120)
-                .icon("confused", "./assets/svg/emoticons/confused.svg", 120)
-                .icon("crying", "./assets/svg/emoticons/crying.svg", 120)
-                .icon("disappointed", "./assets/svg/emoticons/disappointed.svg", 120)
-                .icon("emotional", "./assets/svg/emoticons/emotional.svg", 120)
-                .icon("grinning", "./assets/svg/emoticons/grinning.svg", 120)
-                .icon("happy", "./assets/svg/emoticons/happy.svg", 120)
-                .icon("hehe", "./assets/svg/emoticons/hehe.svg", 120)
-                .icon("hopeful", "./assets/svg/emoticons/hopeful.svg", 120)
-                .icon("interested", "./assets/svg/emoticons/interested.svg", 120)
-                .icon("joking", "./assets/svg/emoticons/joking.svg", 120)
-                .icon("kiss", "./assets/svg/emoticons/kiss.svg", 120)
-                .icon("love", "./assets/svg/emoticons/love.svg", 120)
-                .icon("mad", "./assets/svg/emoticons/mad.svg", 120)
-                .icon("meh", "./assets/svg/emoticons/meh.svg", 120)
-                .icon("mute", "./assets/svg/emoticons/mute.svg", 120)
-                .icon("nerdy", "./assets/svg/emoticons/nerdy.svg", 120)
-                .icon("neutral", "./assets/svg/emoticons/neutral.svg", 120)
-                .icon("ninja", "./assets/svg/emoticons/ninja.svg", 120)
-                .icon("nostalgic", "./assets/svg/emoticons/nostalgic.svg", 120)
-                .icon("oh-really", "./assets/svg/emoticons/oh-really.svg", 120)
-                .icon("sad", "./assets/svg/emoticons/sad.svg", 120)
-                .icon("sad-tear", "./assets/svg/emoticons/sad-tear.svg", 120)
-                .icon("sarcastic", "./assets/svg/emoticons/sarcastic.svg", 120)
-                .icon("sexy", "./assets/svg/emoticons/sexy.svg", 120)
-                .icon("shocked", "./assets/svg/emoticons/shocked.svg", 120)
-                .icon("silent", "./assets/svg/emoticons/silent.svg", 120)
-                .icon("silly", "./assets/svg/emoticons/silly.svg", 120)
-                .icon("smile", "./assets/svg/emoticons/smile.svg", 120)
-                .icon("sympathetic", "./assets/svg/emoticons/sympathetic.svg", 120)
-                .icon("wink", "./assets/svg/emoticons/wink.svg", 120)
-                .icon("woah", "./assets/svg/emoticons/woah.svg", 120)
-                .icon("matureSmall", "./assets/svg/OFLC_small_M.svg", 120)
-                .icon("matureLarge", "./assets/svg/OFLC_large_M.svg", 120);
-        })
-        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+                .icon('emotion', BASE + 'assets/svg/emotion.svg', 120)
+                .icon('angry', BASE + 'assets/svg/emoticons/angry.svg', 120)
+                .icon('annoyed', BASE + 'assets/svg/emoticons/annoyed.svg', 120)
+                .icon('big-smile', BASE + 'assets/svg/emoticons/big-smile.svg', 120)
+                .icon('bored', BASE + 'assets/svg/emoticons/bored.svg', 120)
+                .icon('confused', BASE + 'assets/svg/emoticons/confused.svg', 120)
+                .icon('crying', BASE + 'assets/svg/emoticons/crying.svg', 120)
+                .icon('disappointed', BASE + 'assets/svg/emoticons/disappointed.svg', 120)
+                .icon('emotional', BASE + 'assets/svg/emoticons/emotional.svg', 120)
+                .icon('grinning', BASE + 'assets/svg/emoticons/grinning.svg', 120)
+                .icon('happy', BASE + 'assets/svg/emoticons/happy.svg', 120)
+                .icon('hehe', BASE + 'assets/svg/emoticons/hehe.svg', 120)
+                .icon('hopeful', BASE + 'assets/svg/emoticons/hopeful.svg', 120)
+                .icon('interested', BASE + 'assets/svg/emoticons/interested.svg', 120)
+                .icon('joking', BASE + 'assets/svg/emoticons/joking.svg', 120)
+                .icon('kiss', BASE + 'assets/svg/emoticons/kiss.svg', 120)
+                .icon('love', BASE + 'assets/svg/emoticons/love.svg', 120)
+                .icon('mad', BASE + 'assets/svg/emoticons/mad.svg', 120)
+                .icon('meh', BASE + 'assets/svg/emoticons/meh.svg', 120)
+                .icon('mute', BASE + 'assets/svg/emoticons/mute.svg', 120)
+                .icon('nerdy', BASE + 'assets/svg/emoticons/nerdy.svg', 120)
+                .icon('neutral', BASE + 'assets/svg/emoticons/neutral.svg', 120)
+                .icon('ninja', BASE + 'assets/svg/emoticons/ninja.svg', 120)
+                .icon('nostalgic', BASE + 'assets/svg/emoticons/nostalgic.svg', 120)
+                .icon('oh-really', BASE + 'assets/svg/emoticons/oh-really.svg', 120)
+                .icon('sad', BASE + 'assets/svg/emoticons/sad.svg', 120)
+                .icon('sad-tear', BASE + 'assets/svg/emoticons/sad-tear.svg', 120)
+                .icon('sarcastic', BASE + 'assets/svg/emoticons/sarcastic.svg', 120)
+                .icon('sexy', BASE + 'assets/svg/emoticons/sexy.svg', 120)
+                .icon('shocked', BASE + 'assets/svg/emoticons/shocked.svg', 120)
+                .icon('silent', BASE + 'assets/svg/emoticons/silent.svg', 120)
+                .icon('silly', BASE + 'assets/svg/emoticons/silly.svg', 120)
+                .icon('smile', BASE + 'assets/svg/emoticons/smile.svg', 120)
+                .icon('sympathetic', BASE + 'assets/svg/emoticons/sympathetic.svg', 120)
+                .icon('wink', BASE + 'assets/svg/emoticons/wink.svg', 120)
+                .icon('woah', BASE + 'assets/svg/emoticons/woah.svg', 120)
+                .icon('matureSmall', BASE + 'assets/svg/OFLC_small_M.svg', 120)
+                .icon('matureLarge', BASE + 'assets/svg/OFLC_large_M.svg', 120);
+        }])
+        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'BASE', function ($stateProvider, $urlRouterProvider, $locationProvider, BASE) {
 
             $urlRouterProvider.when('', '/home');
             $urlRouterProvider.when('/', '/home');
@@ -347,25 +274,25 @@ jQuery(document).ready(function (jQuery) {
                 .state('home', {
                     url: '/home',
                     authenticate: false,
-                    templateUrl: './src/home/view/index.html',
+                    templateUrl: BASE + '/src/home/view/index.html',
                     controller: 'HomeCtrl as Home'
                 })
                 .state('browse', {
                     url: '/browse?q&sort&types&genres',
                     authenticate: false,
-                    templateUrl: './src/browse/view/index.html',
+                    templateUrl: BASE + 'src/browse/view/index.html',
                     controller: 'BrowseCtrl as Browse'
                 })
                 .state('latest', {
                     url: '/latest',
                     authenticate: false,
-                    templateUrl: './src/latest/view/index.html',
+                    templateUrl: BASE + 'src/latest/view/index.html',
                     controller: 'LatestCtrl as LC'
                 })
                 .state('video_critique', {
                     url: '/{video_url_id}/critique/{url_id}',
                     authenticate: false,
-                    templateUrl: './src/common/critique.html',
+                    templateUrl: BASE + 'src/common/critique.html',
                     controller: 'VideoCritiqueCtrl as VCC',
                     resolve: {
                         Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
@@ -378,7 +305,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('video_critique-edit', {
                     url: '/{video_url_id}/critique/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: './src/common/critique-edit.html',
+                    templateUrl: BASE + 'src/common/critique-edit.html',
                     controller: 'VideoCritiqueEditCtrl',
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
@@ -395,7 +322,7 @@ jQuery(document).ready(function (jQuery) {
                     url: '/user/{url_id}',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: './src/auth/user.html',
+                    templateUrl: BASE + 'src/auth/user.html',
                     controller: 'UserCtrl as UserC',
                     resolve: {
                         User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
@@ -412,12 +339,12 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.about', {
                     url: '/about',
-                    templateUrl: './src/auth/user-about.html',
+                    templateUrl: BASE + 'src/auth/user-about.html',
                     controller: 'UserAboutController as UserAboutCtrl'
                 })
                 .state('user.videos', {
                     url: '/videos',
-                    templateUrl: './src/auth/user-videos.html',
+                    templateUrl: BASE + 'src/auth/user-videos.html',
                     controller: 'UserVideosController as UserVideosCtrl',
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -434,7 +361,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.critiques', {
                     url: '/critiques',
-                    templateUrl: './src/auth/user-critiques.html',
+                    templateUrl: BASE + 'src/auth/user-critiques.html',
                     controller: 'UserCritiquesController as UserCritiquesCtrl',
                     resolve: {
                         Critiques: ['User', 'DataService', function (User, DataService) {
@@ -453,7 +380,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.reactions', {
                     url: '/reactions',
-                    templateUrl: './src/auth/user-reactions.html',
+                    templateUrl: BASE + 'src/auth/user-reactions.html',
                     controller: 'UserReactionsController as UserReactionsCtrl',
                     resolve: {
                         Reactions: ['User', 'DataService', function (User, DataService) {
@@ -472,7 +399,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.awards', {
                     url: '/awards',
-                    templateUrl: './src/auth/user-awards.html',
+                    templateUrl: BASE + 'src/auth/user-awards.html',
                     controller: 'UserAwardsController as UserAwardsCtrl',
                     resolve: {
                         Awards: ['User', 'DataService', function (User, DataService) {
@@ -504,7 +431,7 @@ jQuery(document).ready(function (jQuery) {
                     url: '/profile',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: './src/auth/profile.html',
+                    templateUrl: BASE + 'src/auth/profile.html',
                     controller: 'ProfileCtrl as Profile',
                     resolve: {
                         User: ['AuthService', function (AuthService) {
@@ -522,19 +449,19 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.about', {
                     url: '/about',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-about.html',
+                    templateUrl: BASE + 'src/auth/profile-about.html',
                     controller: 'ProfileAboutController as ProfileAboutCtrl'
                 })
                 .state('profile.upload', {
                     url: '/upload',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-upload.html',
+                    templateUrl: BASE + 'src/auth/profile-upload.html',
                     controller: 'ProfileUploadController as UC'
                 })
                 .state('profile.videos', {
                     url: '/videos',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-videos.html',
+                    templateUrl: BASE + 'src/auth/profile-videos.html',
                     controller: 'ProfileVideosController as ProfileVideosCtrl',
                     resolve: {
                         Videos: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -552,7 +479,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.videos-edit', {
                     url: '/videos/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-videos-edit.html',
+                    templateUrl: BASE + 'src/auth/profile-videos-edit.html',
                     controller: 'ProfileVideoEditCtrl as VEC',
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
@@ -565,7 +492,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.critiques', {
                     url: '/critiques',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-critiques.html',
+                    templateUrl: BASE + 'src/auth/profile-critiques.html',
                     controller: 'ProfileCritiquesController as ProfileCritiquesCtrl',
                     resolve: {
                         Critiques: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -585,7 +512,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.reactions', {
                     url: '/reactions',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-reactions.html',
+                    templateUrl: BASE + 'src/auth/profile-reactions.html',
                     controller: 'ProfileReactionsController as ProfileReactionsCtrl',
                     resolve: {
                         Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -611,7 +538,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.awards', {
                     url: '/awards',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-awards.html',
+                    templateUrl: BASE + 'src/auth/profile-awards.html',
                     controller: 'ProfileAwardsController as ProfileAwardsCtrl',
                     resolve: {
                         Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -642,7 +569,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-playlists.html',
+                    templateUrl: BASE + 'src/auth/profile-playlists.html',
                     controller: 'ProfilePlaylistsController as ProfilePlaylistsCtrl',
                     resolve: {
                         Playlists: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -655,19 +582,19 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.settings', {
                     url: '/settings',
                     authenticate: true,
-                    templateUrl: './src/auth/profile-settings.html',
+                    templateUrl: BASE + 'src/auth/profile-settings.html',
                     controller: 'ProfileSettingsController as PSC',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             return DataService.collection('Genres', [],
-                                [{fieldName: "user", operator: "in", value: AuthService.currentUser.id}],
+                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
                                 return result;
                             });
                         }],
                         UserTypes: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             return DataService.collection('UserTypes', [],
-                                [{fieldName: "user", operator: "in", value: AuthService.currentUser.id}],
+                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
                                 return result;
                             });
@@ -677,7 +604,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('messages', {
                     url: '/messages',
                     authenticate: true,
-                    templateUrl: './src/auth/messages.html',
+                    templateUrl: BASE + 'src/auth/messages.html',
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -691,13 +618,13 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('messages.message', {
                     authenticate: true,
-                    templateUrl: './src/auth/messages.html',
+                    templateUrl: BASE + 'src/auth/messages.html',
                     controller: 'MessagesCtrl as Msgs'
                 })
                 /*.state('notifications', {
                  url: '/notifications',
                  authenticate: true,
-                 templateUrl: './src/auth/notifications.html',
+                 templateUrl: BASE + 'src/auth/notifications.html',
                  controller: 'NotificationsCtrl as NC'
                  })*/
 
@@ -705,19 +632,19 @@ jQuery(document).ready(function (jQuery) {
                 .state('register', {
                     url: '/register',
                     authenticate: false,
-                    templateUrl: './src/auth/register.html',
+                    templateUrl: BASE + 'src/auth/register.html',
                     controller: 'RegisterCtrl as RC'
                 })
                 .state('sign_in', {
                     url: '/sign-in',
                     authenticate: false,
-                    templateUrl: './src/auth/sign-in.html',
+                    templateUrl: BASE + 'src/auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'
                 })
                 .state('reset_password', {
                     url: '/reset-password?email&token',
                     authenticate: false,
-                    templateUrl: './src/auth/reset-password.html',
+                    templateUrl: BASE + 'src/auth/reset-password.html',
                     controller: 'ForgotPasswordCtrl as FPC'
                 })
 
@@ -725,40 +652,40 @@ jQuery(document).ready(function (jQuery) {
                 .state('about', {
                     url: '/about',
                     authenticate: false,
-                    templateUrl: './src/static/about.html'
+                    templateUrl: BASE + 'src/static/about.html'
                 })
                 .state('contact', {
                     url: '/contact',
                     authenticate: false,
-                    templateUrl: './src/static/contact.html',
+                    templateUrl: BASE + 'src/static/contact.html',
                     controller: 'ContactPageCtrl as CC'
                 })
                 .state('tos', {
                     url: '/terms-of-service',
                     authenticate: false,
-                    templateUrl: './src/static/tos.html'
+                    templateUrl: BASE + 'src/static/tos.html'
                 })
                 .state('advertise', {
                     url: '/advertise',
                     authenticate: false,
-                    templateUrl: './src/static/advertise.html'
+                    templateUrl: BASE + 'src/static/advertise.html'
                 })
                 .state('privacy', {
                     url: '/privacy-policy',
                     authenticate: false,
-                    templateUrl: './src/static/privacy.html'
+                    templateUrl: BASE + 'src/static/privacy.html'
                 })
                 .state('404', {
                     url: '/404',
                     authenticate: false,
-                    templateUrl: './src/static/404.html'
+                    templateUrl: BASE + 'src/static/404.html'
                 })
 
                 // Video Pages
                 .state('video', {
-                    url: '/{url_id:[0-9]{13}}',
+                    url: '/{url_id:[0-9a-zA-Z]{1,13}}',
                     authenticate: false,
-                    templateUrl: './src/common/video.html',
+                    templateUrl: BASE + 'src/common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
@@ -774,7 +701,7 @@ jQuery(document).ready(function (jQuery) {
             ;
 
             $urlRouterProvider.otherwise('/404');
-            $locationProvider.html5Mode({enabled: false, requireBase: true, rewriteLinks: true});
+            $locationProvider.html5Mode(true);
 
         }])
         .constant('Config', {
@@ -913,7 +840,7 @@ jQuery(document).ready(function (jQuery) {
         .config(['$localForageProvider', function ($localForageProvider) {
             $localForageProvider.config({
                 //driver      : 'localStorageWrapper', // if you want to force a driver
-                name: 'iw', // name of the database and prefix for your data, it is "lf" by default
+                name: 'iw', // name of the database and prefix for your data, it is 'lf' by default
                 version: 1.0, // version of the database, you shouldn't have to use this
                 storeName: 'keyvaluepairs', // name of the table
                 description: 'some description'

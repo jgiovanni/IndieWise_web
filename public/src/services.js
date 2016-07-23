@@ -295,7 +295,7 @@
                 canReact: function (filmId) {
                     var deferred = $q.defer();
                     if (AuthService.currentUser) {
-                        DataService.query('canReact', {filmId: filmId, userId: AuthService.currentUser.userId})
+                        DataService.collection('canReact', {filmId: filmId, userId: AuthService.currentUser.userId})
                             .then(function (res) {
                                 res.data.length
                                     // critique exists already from this user
@@ -311,7 +311,7 @@
                 canRate: function (filmId) {
                     var deferred = $q.defer();
                     if (AuthService.currentUser) {
-                        DataService.query('canRate', {filmId: filmId, userId: AuthService.currentUser.userId})
+                        DataService.collection('canRate', {filmId: filmId, userId: AuthService.currentUser.userId})
                             .then(function (res) {
                                 res.data.length
                                     // critique exists already from this user
@@ -324,98 +324,12 @@
                     }
                     return deferred.promise;
                 },
-                checkFavorite: function (obj) {
-                    var deferred = $q.defer();
-                    service.checkAuth().then(function (res) {
-                        DataService.query('checkFavorite', {
-                            parentId: obj.id,
-                            userId: AuthService.currentUser.userId
-                        }).then(function (res) {
-                            if (res.data.length) {
-                                deferred.resolve(res.data[0]);
-                            } else {
-                                deferred.reject(false);
-                            }
-                        });
-                    }, function (err) {
-                        deferred.reject('login');
-                        //service.loginModal();
-                    });
-                    return deferred.promise;
-                },
-                favorite: function (obj) {
-                    service.checkAuth().then(function (res) {
-                        DataService.query('checkFavorite', {
-                            parentId: obj.id,
-                            userId: AuthService.currentUser.userId
-                        }).then(function (res) {
-                            if (res.data.length) {
-                                DataService.delete('Favorites', res.data[0].id);
-                                $rootScope.toastMessage('Removed from Favorites');
-                            } else {
-                                DataService.save('Favorites', {
-                                    project: obj.id,
-                                    user: AuthService.currentUser.userId
-                                }).then(function (res) {
-                                    $rootScope.toastMessage('Added to Favorites');
-                                }, function (err) {
-                                    console.log('Error: ', err);
-                                });
-                            }
-                        });
-                    }, function (err) {
-                        service.loginModal();
-                    });
-                },
-                checkWatchLater: function (obj) {
-                    var deferred = $q.defer();
-                    service.checkAuth().then(function (res) {
-                        DataService.query('checkWatchLater', {
-                            parentId: obj.id,
-                            userId: AuthService.currentUser.userId
-                        }).then(function (res) {
-                            if (res.data.length) {
-                                deferred.resolve(res.data[0]);
-                            } else {
-                                deferred.reject(false);
-                            }
-                        });
-                    }, function (err) {
-                        deferred.reject('login');
-                        //service.loginModal();
-                    });
-                    return deferred.promise;
-                },
-                watchLater: function (obj) {
-                    service.checkAuth().then(function (res) {
-                        DataService.query('checkWatchLater', {
-                            parentId: obj.id,
-                            userId: AuthService.currentUser.userId
-                        }).then(function (res) {
-                            if (res.data.length) {
-                                DataService.delete('WatchLater', res.data[0].id);
-                                $rootScope.toastMessage('Removed from Watch Later');
-                            } else {
-                                DataService.save('WatchLater', {
-                                    project: obj.id,
-                                    user: AuthService.currentUser.userId
-                                }).then(function (res) {
-                                    $rootScope.toastMessage('Added to Watch Later');
-                                }, function (err) {
-                                    console.log('Error: ', err);
-                                });
-                            }
-                        });
-                    }, function (err) {
-                        service.loginModal();
-                    });
-                },
                 loginModal: function () {
                     if (!$rootScope.authModalOpen) {
                         var modalInstance = $modal.open({
                             controller: SignInModalCtrl,
                             controllerAs: 'SIC',
-                            templateUrl: './src/auth/sign-in-dialog.html',
+                            templateUrl: BASE + 'src/auth/sign-in-dialog.html',
                             size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
                         });
                         modalInstance.result.then(function (answer) {

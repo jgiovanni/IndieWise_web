@@ -56,7 +56,7 @@ class Project extends Model
 
     public function genres()
     {
-        return $this->hasMany(SelectedGenres::class, 'project');
+        return $this->belongsToMany(Genre::class, 'Genreables');
     }
 
     public function wins()
@@ -95,5 +95,9 @@ class Project extends Model
         return $this->hasOne(Watch::class);
     }
 
+    public function syncGenres($ids)
+    {
+        $this->genres()->sync($ids);
+    }
 
 }

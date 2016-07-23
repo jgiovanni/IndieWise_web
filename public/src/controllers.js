@@ -708,17 +708,17 @@
             var filterField = '';
             switch (self.filters.sort) {
                 case 'trending':
-                    filterField = "reactionCount";
+                    filterField = 'reactionCount';
                     break;
                 case 'rating':
-                    filterField = "iwRating";
+                    filterField = 'iwRating';
                     break;
                 case 'awards':
-                    filterField = "awardCount";
+                    filterField = 'awardCount';
                     break;
                 case 'recent':
                 default:
-                    filterField = "created_at";
+                    filterField = 'created_at';
                     break;
             }
 
@@ -821,7 +821,7 @@
 
             self.qWins();
 
-            // self.checkUserActions();
+            self.checkUserActions();
 
             $rootScope.initWatch = function () {
                 Analytics.trackEvent('video', 'play', self.film.name);
@@ -872,8 +872,7 @@
         self.videoOwner = self.film.owner;
 
         self.checkUserActions = function () {
-            var loggedIn = $rootScope.AppData.User;
-            if (loggedIn) {
+            if ($rootScope.isAuthenticated()) {
                 var videoOwnerIsYou = self.videoOwner.id === $rootScope.AppData.User.id;
                 UserActions.canReact(self.film.id).then(function (res) {
                     self.canReact = res;
@@ -902,18 +901,18 @@
             }
         };
 
-        self.qComments = function () {
+        /*self.qComments = function () {
             // Fetch Comments
-            DataService.collection("comments", [{fieldName: "created_at", order: "desc"}],
+            DataService.collection('comments', [{fieldName: 'created_at', order: 'desc'}],
                 [
-                    {fieldName: "project", operator: "in", value: self.film.id},
-                    {fieldName: "parentComment", operator: "in", value: ''}
+                    {fieldName: 'project', operator: 'in', value: self.film.id},
+                    {fieldName: 'parentComment', operator: 'in', value: ''}
                 ],
                 20, false, false, 1).then(function (result) {
                     self.comments = result.data;
-                    // console.log("comments: ", result.data);
+                    // console.log('comments: ", result.data);
                 });
-        };
+        };*/
 
         self.qReactions = function () {
             // Fetch Reactions
@@ -979,7 +978,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var params = {
-                        templateUrl: './src/common/contactUserDialog.html',
+                        templateUrl: BASE + 'src/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.videoOwner.id;
@@ -1173,7 +1172,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: './src/common/confirmDialog.html',
+                        templateUrl: BASE + 'src/common/confirmDialog.html',
                         controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                             $scope.ok = function () {
                                 $modalInstance.close(true);
@@ -1326,7 +1325,7 @@
                 // is logged in
                 if (res) {
                     $modal.open({
-                        templateUrl: './src/common/critiqueDialog.html',
+                        templateUrl: BASE + 'src/common/critiqueDialog.html',
                         resolve: {
                             critique: function () {
                                 return {
@@ -1361,7 +1360,7 @@
 
         self.openShareDialog = function () {
             $modal.open({
-                templateUrl: './src/common/shareDialog.html',
+                templateUrl: BASE + 'src/common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1371,7 +1370,7 @@
                 controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
                     zIndexPlayer();
                     $scope.video = Video;
-                    $scope.shareLink = window.location.origin + '/alpha/' + Video.url_id;
+                    $scope.shareLink = window.location.origin + '/' + Video.url_id;
                     $scope.cancel = function () {
                         zIndexPlayer(true);
                         $modalInstance.close();
@@ -1385,7 +1384,7 @@
                 // is logged in
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: './src/common/reactionDialog.html',
+                        templateUrl: BASE + 'src/common/reactionDialog.html',
                         resolve: {
                             Video: function () {
                                 return self.film;
@@ -1447,7 +1446,7 @@
 
         self.openAddToDialog = function () {
             $modal.open({
-                templateUrl: './src/common/shareDialog.html',
+                templateUrl: BASE + 'src/common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1457,7 +1456,7 @@
                 controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
                     zIndexPlayer();
                     $scope.video = Video;
-                    $scope.shareLink = window.location.origin + '/alpha/' + Video.url_id;
+                    $scope.shareLink = window.location.origin + '/' + Video.url_id;
                     $scope.cancel = function () {
                         zIndexPlayer(true);
                         $modalInstance.close();
@@ -1514,7 +1513,7 @@
 
         self.reportDialog = function () {
             var modalInstance = $modal.open({
-                templateUrl: './src/common/reportVideoDialog.html',
+                templateUrl: BASE + 'src/common/reportVideoDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1717,16 +1716,16 @@
         self.selectedGenre = null;
 
         $rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res.data.data;
+            $rootScope.genresList = self.genresList = res;
         });
         $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res.data.data;
+            $rootScope.typesList = self.typesList = res;
         });
         $rootScope.generateCountries().then(function (res) {
-            $rootScope.countryList = self.countryList = res.data.data;
+            $rootScope.countryList = self.countryList = res;
         });
         $rootScope.generateLanguages().then(function (res) {
-            $rootScope.languageList = self.languageList = res.data.data;
+            $rootScope.languageList = self.languageList = res;
         });
 
         self.runtimeToSeconds = function () {
@@ -1771,7 +1770,7 @@
                 } else if (url.indexOf('vine') != -1) {
                     self.newVideo.hosting_type = 'vine';
                     self.newVideo.hosting_id = undefined;
-                    $http.get('/alpha/utils/get-vine-data.php?url=' + url).then(function (res) {
+                    $http.get('/utils/get-vine-data.php?url=' + url).then(function (res) {
                         return self.newVideo.thumbnail_url = res.data;
                     });
                 }
@@ -1839,22 +1838,19 @@
 
         self.submitNewVideo = function () {
             if (!!self.validateNewVideoForm()) {
-                    if (angular.isArray(self.genresArr) && self.genresArr.length) {
-                        _.each(self.genresArr, function (a) {
-                            self.newVideo.genres.push({genre: a.id});
-                        });
-                    }
+                if (angular.isArray(self.genresArr) && self.genresArr.length) {
+                    self.newVideo.genres = _.pluck(self.genresArr, 'id');
+                }
 
                 var filmParams = {
-                    urlId: moment().valueOf(),
                     name: self.newVideo.name,
                     description: self.newVideo.description,
                     director: self.newVideo.director,
                     writer: self.newVideo.writer,
                     producers: self.newVideo.producers,
                     keyCast: self.newVideo.keyCast,
-                    completionDate: moment(self.newVideo.completionDate).toDate(),
-                    owner: self.newVideo.owner,
+                    completionDate: moment({year: self.newVideo.completionDate}).startOf('year').format('YYYY-MM-DD HH:MM:SS'),
+                    owner_id: self.newVideo.owner,
                     runTime: self.newVideo.runTime,
                     video_url: self.newVideo.video_url,
                     thumbnail_url: self.newVideo.thumbnail_url,
@@ -1863,23 +1859,24 @@
                     tags: self.newVideo.tags,
                     disableComments: self.newVideo.disableComments || false,
                     disableCritique: self.newVideo.disableCritique || false,
-                    language: self.newVideo.language,
-                    filmingCountry: self.newVideo.filmingCountry,
-                    originCountry: self.newVideo.originCountry,
-                    type: self.newVideo.type,
+                    language_id: self.newVideo.language,
+                    filmingCountry_id: self.newVideo.filmingCountry,
+                    // originCountry: self.newVideo.originCountry,
+                    type_id: self.newVideo.type,
                     unlist: self.newVideo.unlist,
                     nsfw: self.newVideo.nsfw,
-                    copyrightOwner: self.newVideo.copyrightOwner
+                    copyrightOwner: self.newVideo.copyrightOwner,
+                    genres: self.newVideo.genres
                 };
-                DataService.save('Project', filmParams, true, true)
+
+                DataService.save('projects', filmParams)
                     .then(function (film) {
-                        // add genres after create
-                        DataService.update('Project', film.data.id, {genres: self.newVideo.genres}, true);
+                        console.log(film.data.data);
                         $rootScope.toastMessage('Video Uploaded Successfully');
                         // register Action
-                        UtilsService.recordActivity(film, 'upload');
-                        $state.go('video', {url_id: film.data.url_id});
-                        return film;
+                        UtilsService.recordActivity(film.data.data, 'upload');
+                        $state.go('video', {url_id: film.data.data.url_id});
+                        //return film;
                     }, function (err) {
                         // console.log(err);
                         alert('Failed to create new video, with error: ' + err.message);
@@ -1898,8 +1895,7 @@
 
         self.pickFile = function (){
 
-            filepickerService.pick(
-                {
+            filepickerService.pick({
                     mimetype: 'video/*'
                 },
                 self.onSuccess
@@ -2012,7 +2008,7 @@
                 } else if (url.indexOf('youku') != -1) {
 
                 } else if (url.indexOf('vine') != -1) {
-                    $http.get('/alpha/utils/get-vine-data.php?url=' + url).then(function (res) {
+                    $http.get('/utils/get-vine-data.php?url=' + url).then(function (res) {
                         return self.editedProject.thumbnail_url = self.project.thumbnail_url = res.data;
                     });
                 }
@@ -2295,7 +2291,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     $modal.open({
-                        templateUrl: './src/common/contactUserDialog.html',
+                        templateUrl: BASE + 'src/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.user;
@@ -2327,7 +2323,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: './src/common/confirmDialog.html',
+                        templateUrl: BASE + 'src/common/confirmDialog.html',
                         controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                             $scope.ok = function () {
                                 $modalInstance.close(true);
@@ -2446,18 +2442,18 @@
             self.postNewMsg = postNewMsg;
 
             function postNewMsg() {
-                var newConvoObj = new Parse.Object("Conversation");
+                var newConvoObj = new Parse.Object('Conversation');
                 // Create Conversation
                 newConvoObj.save().then(function (convo) {
 
                     // Set Participants
                     self.newConvo.participants.push($rootScope.AppData.User.id);
-                    var relParticipants = convo.relation("participants");
+                    var relParticipants = convo.relation('participants');
                     relParticipants.add(self.newConvo.participants);
                     newConvoObj.save();
 
                     // Create Message
-                    var message = new Parse.Object("Message");
+                    var message = new Parse.Object('Message');
                     message.set('body', self.newConvo.body);
                     message.set('parent', convo);
                     message.set('from', $rootScope.AppData.User.id);
@@ -2497,13 +2493,13 @@
 
             //Search user
             var searchUsersFirstName = new Parse.Query('User');
-            searchUsersFirstName.notEqualTo("objectId", $rootScope.AppData.User.id);
+            searchUsersFirstName.notEqualTo('objectId', $rootScope.AppData.User.id);
             _.each(query.split(' '), function (a) {
                 searchUsersFirstName.startsWith('first_name', a);
                 //searchUsersFirstName.matches('first_name', a);
             });
             var searchUsersLastName = new Parse.Query('User');
-            searchUsersLastName.notEqualTo("objectId", $rootScope.AppData.User.id);
+            searchUsersLastName.notEqualTo('objectId', $rootScope.AppData.User.id);
             _.each(query.split(' '), function (a) {
                 searchUsersLastName.startsWith('last_name', a);
                 //searchUsersLastName.matches('last_name', a);
@@ -2512,7 +2508,7 @@
             searchUsers.find().then(function (data) {
                 _.each(data, function (a) {
                     a.name = a.first_name + ' ' + a.last_name;
-                    a.image = a.avatar || './assets/img/avatar-1.png';
+                    a.image = a.avatar || BASE + 'assets/img/avatar-1.png';
                     a.email = '     ';
                 });
                 // console.log(data);
@@ -2541,16 +2537,16 @@
                 .cancel('No');
             $modal.show(confirm).then(function () {
                 var me = $rootScope.AppData.User.id;
-                var message = new Parse.Object("Message");
-                message.set('body', me.first_name + ' ' + me.last_name + " left the conversation...");
+                var message = new Parse.Object('Message');
+                message.set('body', me.first_name + ' ' + me.last_name + ' left the conversation...');
                 message.set('parent', {
-                    __type: "Pointer",
-                    className: "Conversation",
+                    __type: 'Pointer',
+                    className: 'Conversation',
                     objectId: self.selectedConvo.id
                 });
                 message.set('from', $rootScope.AppData.User.id);
                 message.save().then(function (result) {
-                    var relParticipants = self.selectedConvo.relation("participants");
+                    var relParticipants = self.selectedConvo.relation('participants');
                     relParticipants.remove(me);
 
                     self.selectedConvo.set('updatedAt', moment().toDate());

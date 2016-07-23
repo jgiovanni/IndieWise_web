@@ -209,7 +209,7 @@
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Genres</button>
-                            <a ng-repeat="g in VC.film.genres" ui-sref="browse({genres: g.genre.name})" class="inner-btn">{{::g.genre.name}}</a>
+                            <a ng-repeat="g in VC.film.genres" ui-sref="browse({genres: g.name})" style="margin-right: 2px;" class="inner-btn">{{::g.name}}</a>
                         </div>
                         <div class="categories">
                             <button><i class="fa fa-chevron-right"></i>Running Time</button>

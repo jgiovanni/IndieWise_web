@@ -8,6 +8,7 @@ use IndieWise\Http\Requests;
 use IndieWise\Http\Transformers\v1\ProjectTransformer;
 use IndieWise\Project;
 use Dingo\Api\Contract\Http\Request;
+use IndieWise\Http\Requests\v1\ProjectRequest;
 
 
 class ProjectsController extends Controller
@@ -37,12 +38,16 @@ class ProjectsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request|ProjectRequest $request
      * @return \Dingo\Api\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        //
+        $project = Project::create($request->except('genres'));
+
+        $project->syncGenres($request->get('genres'));
+
+        return $this->response->item($project, new ProjectTransformer);
     }
 
     /**

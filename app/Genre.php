@@ -16,7 +16,7 @@ class Genre extends Model
      */
     public function users()
     {
-        return $this->morphedByMany(User::class, 'genreables');
+        return $this->belongsToMany(User::class, 'Genreables');
     }
 
     /**
@@ -24,11 +24,6 @@ class Genre extends Model
      */
     public function projects()
     {
-        return $this->morphedByMany(Project::class, 'genreables');
-    }
-
-    public function selected()
-    {
-        return $this->hasMany(SelectedGenres::class, 'genre');
+        return $this->belongsToMany(Project::class, 'Genreables');
     }
 }

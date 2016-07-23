@@ -11,6 +11,8 @@
 |
 */
 use Dingo\Api\Contract\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
+
 $api = app('Dingo\Api\Routing\Router');
 
 // must protext actions instead of routes unless admin routes
@@ -26,6 +28,12 @@ $api->version('v1', [
             'message' => 'Welcome to the IndieWise API'
         ];
     });
+
+/*    $api->get('hash', function () {
+        return [
+            'message' => Hashids::encode((int)microtime(true)),
+        ];
+    });*/
 
     /*$api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.
