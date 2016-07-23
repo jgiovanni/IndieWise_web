@@ -2,35 +2,31 @@
 
 namespace IndieWise\Http\Controllers\Api;
 
-use Dingo\Api\Contract\Http\Request;
 
+use Dingo\Api\Http\Request;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\NominationTransformer;
-use IndieWise\Http\Transformers\v1\WinTransformer;
-use IndieWise\Win;
+use IndieWise\PlaylistItem;
 
-class WinsController extends Controller
+class PlaylistItemsController extends Controller
 {
+    private $item;
 
-    private $win;
-
-    public function __construct(Win $win)
+    public function __construct(PlaylistItem $item)
     {
-        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
-        $this->win = $win;
+        $this->item = $item;
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        //
-        $wins = $this->win->filter($request->all())->paginate($request->get('per_page', 50));
-        return $this->response->paginator($wins, new WinTransformer);
+        $items = $this->item->filter($request->all())->with('project.owner')->get();
+        return response()->json(compact('items'));
     }
 
     /**
@@ -62,7 +58,8 @@ class WinsController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = $this->item->firstOrFail($id);
+        return response()->json(compact('item'));
     }
 
     /**
@@ -97,5 +94,11 @@ class WinsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function checkIn($id)
+    {
+        $item = $this->item->where('project_id', $id)->firstOrFail();
+        return response()->json(compact('item'));
     }
 }

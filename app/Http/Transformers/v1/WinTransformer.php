@@ -16,6 +16,14 @@ class WinTransformer extends TransformerAbstract
     protected $availableIncludes = ['project', 'award', 'actions'];
 
     /**
+     * List of resources to automatically include
+     *
+     * @var array
+     */
+    protected $defaultIncludes = [
+        'award', 'project'
+    ];
+    /**
      * Turn this item object into a generic array
      *
      * @param Win $win

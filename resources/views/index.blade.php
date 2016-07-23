@@ -94,8 +94,8 @@
                 <li><a ui-sref="home" ui-sref-active="active"><i class="fa fa-home"></i>Home</a></li>
                 <li><a ui-sref="browse" ui-sref-active="active"><i class="fa fa-th"></i>Browse</a></li>
                 <li><a ui-sref="latest" ui-sref-active="active"><i class="fa fa-bolt"></i>Latest</a></li>
-                <li ng-if="AppData.User"><a ui-sref="profile.about" ui-sref-active="active"><i class="fa fa-user"></i>Profile</a></li>
-                <li ng-if="AppData.User"><a ui-sref="messages" ui-sref-active="active"><i class="fa fa-envelope"></i>Messages</a></li>
+                <li ng-if="isAuthenticated()"><a ui-sref="profile.about" ui-sref-active="active"><i class="fa fa-user"></i>Profile</a></li>
+                <li ng-if="isAuthenticated()"><a ui-sref="messages" ui-sref-active="active"><i class="fa fa-envelope"></i>Messages</a></li>
                 <li><a ui-sref="profile.upload" ui-sref-active="active"><i class="fa fa-upload"></i>Upload</a></li>
             </ul>
             <div class="responsive-search">
@@ -117,10 +117,10 @@
             </div>
             <div class="top-button">
                 <ul class="menu" off-canvas-nav>
-                    <li class="dropdown-login" ng-if="!AppData.User">
+                    <li class="dropdown-login" ng-if="!isAuthenticated()">
                         <a ui-sref="sign_in">login/Register</a>
                     </li>
-                    <li class="dropdown-login" ng-if="AppData.User">
+                    <li class="dropdown-login" ng-if="isAuthenticated()">
                         <a ng-click="Body.doSignOut();">logout</a>
                     </li>
                 </ul>
@@ -167,8 +167,8 @@
                                         <a ui-sref="upload">upload Video</a>
                                     </li>-->
                                     <li class="dropdown-login">
-                                        <a ng-if="!AppData.User" ui-sref="sign_in">login/Register</a>
-                                        <a ng-if="AppData.User" ng-click="Body.doSignOut();">logout</a>
+                                        <a ng-if="!isAuthenticated()" ui-sref="sign_in">login/Register</a>
+                                        <a ng-if="isAuthenticated()" ng-click="Body.doSignOut();">logout</a>
 
                                         <div class="login-form">
                                             <h6 class="text-center">Great to have you back!</h6>
@@ -215,7 +215,7 @@
                                             <img src="./assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                         </div>
                                         <div class="title-bar-right">
-                                            <a ng-if="AppData.User" class="fa fa-bell menu-icon right-off-canvas-toggle"></a>
+                                            <a ng-if="isAuthenticated()" class="fa fa-bell menu-icon right-off-canvas-toggle"></a>
                                         </div>
                                     </div>
 
@@ -234,15 +234,15 @@
                                         </div>
                                         <div class="top-bar-right search-btn">
                                             <ul class="menu dropdown" dropdown-menu>
-                                                <li ng-if="AppData.User" class="search" ui-sref="profile.about">
+                                                <li ng-if="isAuthenticated()" class="search" ui-sref="profile.about">
                                                     <i class="fa fa-user"></i>
                                                 </li>
-                                                <li ng-if="AppData.User" class="search right-off-canvas-toggle">
+                                                <li ng-if="isAuthenticated()" class="search right-off-canvas-toggle">
                                                     <i class="fa fa-bell-o" ng-show="AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen"></i>
                                                     <i class="fa fa-bell" ng-show="AppData.Notifications.unseen"></i>
                                                     <span ng-show="AppData.Notifications.unseen>0" class="alert badge">@{{AppData.Notifications.unseen}}</span>
                                                 </li>
-                                                <li ng-if="AppData.User" class="search" ui-sref="messages">
+                                                <li ng-if="isAuthenticated()" class="search" ui-sref="messages">
                                                     <i class="fa fa-envelope"></i>
                                                 </li>
                                                 <li class="upl-btn end">

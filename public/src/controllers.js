@@ -653,7 +653,7 @@
             });
 
             // Recent Videos
-            DataService.collection('projects', { sort:'createdAt', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'created_at', per_page: 6}).then(function (result) {
                 self.recentFilms = result.data;
             });
         };
@@ -678,7 +678,7 @@
             types: []
         };
         self.filters = {
-            sort: $rootScope.$stateParams.sort||'createdAt',
+            sort: $rootScope.$stateParams.sort||'created_at',
             genres: $rootScope.$stateParams.genres||undefined,
             type: $rootScope.$stateParams.types||undefined,
             search: $rootScope.$stateParams.q||undefined
@@ -718,7 +718,7 @@
                     break;
                 case 'recent':
                 default:
-                    filterField = "createdAt";
+                    filterField = "created_at";
                     break;
             }
 
@@ -804,8 +804,6 @@
         self.film = Project;
         function init(result) {
             $rootScope.currentTitle = result.name;
-            //self.film = result;
-            //$scope.commentsParent = self.film;
 
             if (self.film.video_url.indexOf('youtu') != -1) {
                 self.type = 'youtube';
@@ -829,9 +827,9 @@
 
             self.qCritiques();
 
-            // self.qNominations();
+            self.qNominations();
 
-            // self.qWins();
+            self.qWins();
 
             // self.checkUserActions();
 
@@ -916,7 +914,7 @@
 
         self.qComments = function () {
             // Fetch Comments
-            DataService.getList("Comment", [{fieldName: "createdAt", order: "desc"}],
+            DataService.getList("Comment", [{fieldName: "created_at", order: "desc"}],
                 [
                     {fieldName: "project", operator: "in", value: self.film.id},
                     {fieldName: "parentComment", operator: "in", value: ''}
@@ -960,22 +958,19 @@
         };
 
         self.qNominations = function () {
-            DataService.getList('Nomination', [{fieldName: "createdAt", order: "desc"}],
-                [{fieldName: "project", operator: "in", value: self.film.id}],
-                20, true, true, 1).then(function (result) {
-                    self.nominations = result.data;
+            DataService.collection('nominations', {project: self.film.id, sort: 'created_at'})
+                .then(function (result) {
+                    self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);
                 });
         };
 
         self.qWins = function () {
-            DataService.getList('AwardWin', [{fieldName: "createdAt", order: "desc"}],
-                [{fieldName: "project", operator: "in", value: self.film.id}],
-                20, true, true, 1).then(function (result) {
-                    self.wins = result.data;
-                    // console.log('AwardWin: ', result.data);
-                });
-        };
+            DataService.collection('wins', {project: self.film.id, sort: 'created_at'}).then(function (result) {
+                self.wins = result.data.data;
+                // console.log('AwardWin: ', result.data);
+            });
+    };
 
         self.calcIwAverage = function (critiques) {
             var total = 0;
@@ -2101,16 +2096,16 @@
     function ProfilePlaylistsController($rootScope, DataService, User, Playlists, UserActions, _, $interval, $http) {
         var self = this;
         self.user = User.data;
-        self.playlists = Playlists.data;
+        self.playlists = Playlists.data.playlists;
         self.playlistItems = [];
         var hasFave = _.findWhere(self.playlists, {name: 'Favorites', private: true});
-        self.selectedPlaylist = !!hasFave ? hasFave.id : self.playlists.data.length ? self.playlists.data[0].id : null;
+        self.selectedPlaylist = !!hasFave ? hasFave.id : self.playlists.length ? self.playlists[0].id : null;
 
         self.loadPlaylistItems = function () {
-            DataService.query('getUserPlaylistItems', {id: self.selectedPlaylist, userId: self.user.id})
+            DataService.collection('playlistItems', {playlist: self.selectedPlaylist})
                 .then(function (res) {
                     // console.log(res);
-                    self.playlistItems = res.data;
+                    self.playlistItems = res.data.items;
                 })
         };
 
@@ -2118,7 +2113,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     DataService.delete('PlaylistItem', id).then(function () {
-                        return self.playlists = _.reject(self.playlists.data, function (a) {
+                        return self.playlists = _.reject(self.playlists, function (a) {
                             return a.id === id;
                         });
                     })
@@ -2130,21 +2125,6 @@
         if (angular.isString(self.selectedPlaylist)) {
             self.loadPlaylistItems();
         }
-
-        if (self.user.id = "00000000-0000-6463-7952-633635765552") {
-            /*// console.log('Executing function');
-
-             $http.get('utils/allLeft.json').then(function (res) {
-             var jsonData = res.data;
-             var i = 0;
-             $interval(function () {
-             if (jsonData[i]) {
-             DataService.save('Country', jsonData[i++],false);
-             }
-             }, 1000, jsonData.length)
-             })*/
-        }
-
     }
 
     ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window'];
@@ -2274,7 +2254,7 @@
     function UserCtrl($rootScope, DataService, User, UserStats, $state, UserActions, $modal, _) {
         var self = this;
         self.user = User;
-        self.userStats = UserStats.data[0];
+        self.userStats = UserStats;
         $rootScope.metadata.title = 'Profile: ' + self.user.firstName + ' ' + self.user.lastName;
 
         self.showMessageDialog = function () {
@@ -2451,7 +2431,7 @@
             self.newMode = false;
             self.selectedConvo = convo;
             self.currentParticipants = convo.participants;
-            DataService.getList('Message', [{fieldName: 'createdAt', order: 'desc'}], [{
+            DataService.getList('Message', [{fieldName: 'created_at', order: 'desc'}], [{
                 fieldName: 'conversation', operator: 'in', value: convo.id
             }], 30, false, true).then(function (msgs) {
                 // console.log('Messages: ', msgs.data);
@@ -2695,7 +2675,5 @@
             });
         }
     }
-
-
 })
 ();

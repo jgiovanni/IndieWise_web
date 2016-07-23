@@ -138,6 +138,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         // Custom
+        EloquentFilter\ServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,

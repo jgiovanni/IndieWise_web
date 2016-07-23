@@ -30,7 +30,7 @@ class ProjectsController extends Controller
     public function index(Request $request)
     {
         //
-        $projects = $this->project->filter($request->all())->paginate($request->get('per_page', 10));
+        $projects = $this->project->listed()->filter($request->all())->paginate($request->get('per_page', 10));
         return $this->response->paginator($projects, new ProjectTransformer);
     }
 

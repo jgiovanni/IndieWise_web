@@ -256,7 +256,7 @@
             var service = {
                 checkAuth: function () {
                     var deferred = $q.defer();
-                    AuthService.currentUser ? deferred.resolve(true) : deferred.reject(false);
+                    AuthService.isAuthenticated() ? deferred.resolve(true) : deferred.reject(false);
                     return deferred.promise;
                 },
                 markAsWatched: function (video) {

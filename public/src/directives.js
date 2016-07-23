@@ -216,20 +216,16 @@
 
                     // Get playlists
                     if ($rootScope.AppData.User) {
-                        DataService.getList('Playlist', [], [{
-                            fieldName: 'user',
-                            operator: 'in',
-                            value: $rootScope.AppData.User.userId
-                        }], 10, true, false)
+                        DataService.collection('playlists')
                             .then(function (res) {
                                 // Check playlist items for this video
-                                DataService.query('checkInPlaylist', {id: scope.project.id})
+                                DataService.item('playlistItems/check', scope.project.id)
                                     .then(function (resA) {
                                         // console.log(resA);
-                                        scope.model.playlistArr = resA.data;
+                                        scope.model.playlistArr = resA.data.item;
 
                                         // list playlists
-                                        scope.playlists = res.data;
+                                        scope.model.playlists = res.data.playlists;
                                         // console.log(scope.playlists);
                                     });
                             });
@@ -245,9 +241,9 @@
 
                     scope.newPlaylist = function () {
                         UserActions.checkAuth().then(function (res) {
-                            DataService.save('Playlist', {
+                            DataService.save('playlists', {
                                 name: scope.model.newName,
-                                user: $rootScope.AppData.User.userId
+                                user: $rootScope.AppData.User.id
                             }, false, true).then(function (pl) {
                                 scope.toggleNewPlInput(false);
                                 scope.model.newName = null;
@@ -264,7 +260,7 @@
                         if (bool) {
                             // add item
                             scope.model.playlistArr.push(item);
-                            DataService.save('PlaylistItem', {playlist: item.id, project: scope.project.id});
+                            DataService.save('playlistItems', {playlist: item.id, project: scope.project.id});
                             $rootScope.toastMessage('Added to playlist');
                             // console.log('Added to playlist: ', item);
                         } else {
@@ -411,7 +407,7 @@
                                 info: ""                                                                                    //video info
                             });
                         });
-                    }).finally(function () {
+                    }).then(function () {
                         window.videoPlayer = scope.videoPlayer = el.Video({                  //ALL PLUGIN OPTIONS
                             instanceName: "player1",                      //name of the player instance
                             autohideControls: 2,                          //autohide HTML5 player controls
@@ -500,7 +496,10 @@
                             $state.go('video', {url_id: urlId});
                         });
 
-                        startedPlaying();
+                        $timeout(function () {
+                            startedPlaying();
+                        }, 100);
+
                     });
 
                     var startedPlaying = $interval(function () {
@@ -864,7 +863,7 @@
                                     body: scope.model.myComment,
                                     parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
                                     parentCritique: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    author: scope.model.isLoggedIn.userId
+                                    author: scope.model.isLoggedIn.id
                                 }, true, true)
                                     .then(function (comment) {
                                         angular.extend(comment.data, {
@@ -1010,7 +1009,7 @@
                     };
 
                     scope.isOwnerOrAuthor = function (critique) {
-                        return scope.isLoggedIn && (scope.isLoggedIn.userId == critique.author || scope.isLoggedIn.userId == critique.projectOwner);
+                        return scope.isLoggedIn && (scope.isLoggedIn.id == critique.author || scope.isLoggedIn.id == critique.projectOwner);
                     };
 
                     scope.deleteCritique = function (c) {
@@ -1104,7 +1103,7 @@
                                     //parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
                                     parentCritique: scope.parent.id,
                                     parentComment: repliedTo.id,
-                                    author: scope.model.isLoggedIn.userId
+                                    author: scope.model.isLoggedIn.id
                                 }, true, true).then(function (comment) {
                                     if (!!repliedTo.repliesLoaded) {
                                         var repliesLoaded = true;
@@ -1176,7 +1175,7 @@
                                 DataService.save('Comment', {
                                     body: scope.myReply,
                                     parentCritique: scope.critique.id,
-                                    author: scope.model.isLoggedIn.userId
+                                    author: scope.model.isLoggedIn.id
                                 }, false, true).then(function (comment) {
                                     scope.critique.commentCount++;
                                     angular.extend(comment.data, {

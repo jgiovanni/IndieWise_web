@@ -3,34 +3,30 @@
 namespace IndieWise\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
-
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\NominationTransformer;
-use IndieWise\Http\Transformers\v1\WinTransformer;
-use IndieWise\Win;
+use IndieWise\Playlist;
 
-class WinsController extends Controller
+class PlaylistsController extends Controller
 {
+    private $playlist;
 
-    private $win;
-
-    public function __construct(Win $win)
+    public function __construct(Playlist $playlist)
     {
-        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
-        $this->win = $win;
+        $this->playlist = $playlist;
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        //
-        $wins = $this->win->filter($request->all())->paginate($request->get('per_page', 50));
-        return $this->response->paginator($wins, new WinTransformer);
+        $user = $this->auth->user();
+        $playlists = $this->playlist->where('user_id', $user->id)->get();
+        return response()->json(compact('playlists'));
     }
 
     /**

@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        <section class="content" ng-init="sortOrder='-createdAt'">
+        <section class="content" ng-init="sortOrder='-created_at'">
             <!-- newest video -->
             <div class="row">
                 <div class="large-12 columns">
@@ -19,33 +19,32 @@
                             <div class="large-12 columns comments">
 
                                 <div class="comment-sort text-right">
-                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-createdAt'}"
-                                                       ng-click="sortOrder='-createdAt'">newest</a> | <a
-                                            ng-class="{'active':sortOrder=='createdAt'}"
-                                            ng-click="sortOrder='createdAt'">oldest</a></span>
+                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}"
+                                                       ng-click="sortOrder='-created_at'">newest</a> | <a
+                                            ng-class="{'active':sortOrder=='created_at'}"
+                                            ng-click="sortOrder='created_at'">oldest</a></span>
                                 </div>
 
                                 <!-- main comment -->
                                 <div class="main-comment">
                                     <div class="media-object stack-for-small"
-                                         ng-repeat="critique in UserCritiquesCtrl.critiques|orderBy:sortOrder"
-                                         ng-init="critique.replies=[];critique.showReplies=false;">
+                                         ng-repeat="critique in UserCritiquesCtrl.critiques|orderBy:sortOrder">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
-                                                <img ng-src="{{::critique.userAvatar||'./assets/img/avatar-1.png'}}"
+                                                <img ng-src="{{::critique.user.avatar||'./assets/img/avatar-1.png'}}"
                                                      alt="comment">
                                             </div>
                                         </div>
                                         <div class="media-object-section comment-desc">
                                             <div class="comment-title">
-                                                <span class="name"><a ui-sref="user.about({url_id: critique.userUrlId})">
-                                                    {{::critique.userFullName}}</a> Said:
+                                                <span class="name"><a ui-sref="user.about({url_id: critique.user.url_id})">
+                                                    {{::critique.user.fullName}}</a> Said:
                                                 </span>
                                                 <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                                    <abbr title="{{::critique.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
-                                                          am-time-ago="::critique.createdAt"></abbr>
+                                                    <abbr title="{{::critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                          am-time-ago="::critique.created_at"></abbr>
 
-                                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.createdAt, critique.editedAt)">
+                                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.created_at, critique.editedAt)">
                                                         |Edited: <abbr title="{{::critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
                                                                        am-time-ago="::critique.editedAt"></abbr>
                                                     </span>-->
@@ -58,7 +57,7 @@
                                                     </div>
                                                     <div class="columns medium-5 small-7">
                                                         <div class="row"
-                                                             ng-if="::critique.private && AppData.User.userId != critique.author">
+                                                             ng-if="::critique.private && AppData.User.id != critique.user.id">
                                                             <h3 class="text-center">Private</h3>
 
                                                             <div class="row columns">
@@ -71,7 +70,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row columns"
-                                                             ng-if="::!critique.private||AppData.User.userId == critique.author">
+                                                             ng-if="::!critique.private||AppData.User.id == critique.user.id">
                                                             <div class="row columns">
                                                                 <div class="columns medium-8 small-9 text-right">
                                                                     <span class="md-body-1">Acting</span>
@@ -148,13 +147,13 @@
                                             <div class="comment-btns">
                                                 <span>{{::critique.commentCount||0}} comments</span>
                                                 <span><a
-                                                        ui-sref="video_critique({video_url_id: critique.projectUrlId, url_id:critique.url_id})"><i
+                                                        ui-sref="video_critique({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
                                                         class="fa fa-comments"></i>View</a></span>
-                            <span ng-if="critique.author === $rootScope.AppData.User.userId">
-                                <a ui-sref="video_critique-edit({video_url_id: critique.projectUrlId, url_id:critique.url_id})"><i
+                            <span ng-if="critique.user.id === $rootScope.AppData.User.id">
+                                <a ui-sref="video_critique-edit({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
                                         class="fa fa-pencil"></i>Edit</a>
                             </span>
-                                                <!--<span ng-if="critique.author === $rootScope.AppData.User.userId">
+                                                <!--<span ng-if="critique.user.id === $rootScope.AppData.User.id">
                                                     <a ng-click="Vcritique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
                                                 </span>-->
                                             </div>
@@ -170,10 +169,10 @@
                             <div class="large-12 columns comments">
 
                                 <div class="comment-sort text-right">
-                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-createdAt'}"
-                                                       ng-click="sortOrder='-createdAt'">newest</a> | <a
-                                            ng-class="{'active':sortOrder=='createdAt'}"
-                                            ng-click="sortOrder='createdAt'">oldest</a></span>
+                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}"
+                                                       ng-click="sortOrder='-created_at'">newest</a> | <a
+                                            ng-class="{'active':sortOrder=='created_at'}"
+                                            ng-click="sortOrder='created_at'">oldest</a></span>
                                 </div>
 
                                 <!-- main comment -->
@@ -183,20 +182,20 @@
                                          ng-init="critique.replies=[];critique.showReplies=false;">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
-                                                <img ng-src="{{::critique.userAvatar||'./assets/img/avatar-1.png'}}"
+                                                <img ng-src="{{::critique.user.avatar||'./assets/img/avatar-1.png'}}"
                                                      alt="comment">
                                             </div>
                                         </div>
                                         <div class="media-object-section comment-desc">
                                             <div class="comment-title">
-                                <span class="name"><a ui-sref="user.about({url_id: critique.userUrlId})">
-                                    {{::critique.userFullName}}</a> Said:
+                                <span class="name"><a ui-sref="user.about({url_id: critique.user.url_id})">
+                                    {{::critique.user.fullName}}</a> Said:
                                 </span>
                                 <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                    <abbr title="{{::critique.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
-                                          am-time-ago="::critique.createdAt"></abbr>
+                                    <abbr title="{{::critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                          am-time-ago="::critique.created_at"></abbr>
 
-                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.createdAt, critique.editedAt)">
+                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.created_at, critique.editedAt)">
                                         |Edited: <abbr title="{{::critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
                                                        am-time-ago="::critique.editedAt"></abbr>
                                     </span>-->
@@ -209,7 +208,7 @@
                                                     </div>
                                                     <div class="columns medium-5 small-7">
                                                         <div class="row"
-                                                             ng-if="::critique.private && $rootScope.AppData.User.userId != critique.author">
+                                                             ng-if="::critique.private && $rootScope.AppData.User.id != critique.user.id">
                                                             <h3 class="text-center">Private</h3>
 
                                                             <div class="row columns">
@@ -222,7 +221,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row columns"
-                                                             ng-if="::!critique.private||$rootScope.AppData.User.userId == critique.author">
+                                                             ng-if="::!critique.private||$rootScope.AppData.User.id == critique.user.id">
                                                             <div class="row columns">
                                                                 <div class="columns medium-8 small-9 text-right">
                                                                     <span class="md-body-1">Acting</span>
@@ -299,13 +298,13 @@
                                             <div class="comment-btns">
                                                 <span>{{::critique.commentCount||0}} comments</span>
                                                 <span><a
-                                                        ui-sref="video_critique({video_url_id: critique.projectUrlId, url_id:critique.url_id})"><i
+                                                        ui-sref="video_critique({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
                                                         class="fa fa-comments"></i>View</a></span>
-                                <span ng-if="critique.author === $rootScope.AppData.User.userId">
-                                    <a ui-sref="video_critique-edit({video_url_id: critique.projectUrlId, url_id:critique.url_id})"><i
+                                <span ng-if="critique.user.id === $rootScope.AppData.User.id">
+                                    <a ui-sref="video_critique-edit({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
                                             class="fa fa-pencil"></i>Edit</a>
                                 </span>
-                                                <!--<span ng-if="critique.author === $rootScope.AppData.User.userId">
+                                                <!--<span ng-if="critique.user.id === $rootScope.AppData.User.id">
                                                     <a ng-click="Vcritique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
                                                 </span>-->
                                             </div>

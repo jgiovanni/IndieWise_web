@@ -21,6 +21,11 @@ class Project extends Model
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
 
+    // Scopes
+    public function scopeListed($query)
+    {
+        return $query->where('unlist', 0);
+    }
      /* Relations */
     //  Child of
     public function owner()
@@ -68,6 +73,11 @@ class Project extends Model
     {
         return $this->hasMany(Nomination::class);
     }
+
+    /*public function playlistsItems()
+    {
+        return $this->hasMany(PlaylistItem::class);
+    }*/
 
     public function ratings()
     {

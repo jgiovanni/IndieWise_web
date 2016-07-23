@@ -10,7 +10,7 @@
                        ng-change="VC.toFavorites()">
                 <label class="customLabel" for="isFaved">Favorites</label>
             </li>-->
-            <li class="checkbox" ng-repeat="pl in playlists.data|orderBy:'name'">
+            <li class="checkbox" ng-repeat="pl in model.playlists|orderBy:'name'">
                 <input type="checkbox" id="pl{{$index}}" ng-model="bool"
                        ng-click="syncPlaylists(bool, pl)" ng-checked="isCheckedPlaylist(pl.id)">
                 <label class="customLabel" for="pl{{$index}}">{{pl.name}}</label>

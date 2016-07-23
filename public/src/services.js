@@ -67,14 +67,22 @@
                      * @param _userParams
                      */
                     createUser: function (_userParams) {
-                        return Backand.signup(_userParams.firstName, _userParams.lastName, _userParams.email, _userParams.password, _userParams.passwordCheck, {
+
+                        var user = {
+                            email: _userParams.email,
+                            password: _userParams.password,
+                            password_confirmation:_userParams.passwordCheck,
                             username: _userParams.email,
+                            firstName: _userParams.firstName,
+                            lastName: _userParams.lastName,
                             fullName: _userParams.firstName + ' ' + _userParams.lastName,
                             country: _userParams.country,
                             dob: moment(_userParams.dob).startOf('day').toDate(),
                             gender: _userParams.gender,
                             url_id: moment().valueOf()
-                        })
+                        };
+
+                        return $auth.signup(user)
                             .then(function (userData) {
                                 service.error = '';
                                 console.log('User ' + userData.username + ' created successfully!');
@@ -135,7 +143,7 @@
                         var deferred = $q.defer();
                         if(service.isAuthenticated()) {
                             if (!angular.isObject(service.currentUser)) {
-                                $http.get(API + 'authenticate').then(function (response) {
+                                return $http.get(API + 'authenticate').then(function (response) {
                                     deferred.resolve($rootScope.AppData.User = service.currentUser = response.data.user);
                                 });
                             } else {
@@ -154,20 +162,22 @@
                      * @returns {Promise}
                      */
                     login: function (_user, _password) {
-                        var defered = $q.defer();
-                        $http.post(API + 'login', { email: _user, password: _password })
+                        var deferred = $q.defer();
+                        $auth.login({ email: _user, password: _password })
                             .then(function (response) {
                                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                                 $auth.setToken(response.data.token);
                                 service.getCurrentUser();
-                                defered.resolve(true);
-                            }, function (data) {
-                                console.log(data);
-                                self.error = data && data.error_description || 'Unknown error from server';
-                                defered.reject(data);
-                            }
-                        );
-                        return defered.promise;
+                                deferred.resolve(true);
+                            })
+                            .catch(function(response) {
+                                // Handle errors here, such as displaying a notification
+                                // for invalid email and/or password.
+                                console.log(response);
+                                self.error = response && response.error_description || 'Unknown error from server';
+                                deferred.reject(response);
+                            });
+                        return deferred.promise;
                     },
                     socialLogin: function (provider) {
                         return $auth.authenticate(provider)
@@ -196,6 +206,7 @@
                         //var deferred = $q.defer();
                         return $http.post(API + 'logout', null).then(function () {
                             $auth.removeToken();
+                            $auth.logout();
                             // localStorage.removeItem('User');
                             // $rootScope.AppData.User = undefined;
                             //deferred.resolve(true);
@@ -227,7 +238,14 @@
                                 return error;
                             });
                     },
+                    parseJwt: function(token) {
+                        var base64Url = token.split('.')[1];
+                        var base64 = base64Url.replace('-', '+').replace('_', '/');
+                        return JSON.parse($window.atob(base64));
+                    },
                     isAuthenticated: function() {
+                        //var params = $auth.getPayload();
+                        //console.log(params);
                         return $auth.isAuthenticated();
                     }
                 };
@@ -507,10 +525,32 @@
                 }
             });
         };
-
+        vm.save = function (name, data, params) {
+            return $http({
+                method: 'POST',
+                url: API + name,
+                params: params,
+                data: data
+            });
+        };
+        vm.update = function (name, id, data, params) {
+            return $http({
+                method: 'PUT',
+                url: API + name + '/' + id,
+                params: params,
+                data: data
+            });
+        };
+        vm.delete = function (name, id) {
+            return $http({
+                method: 'DELETE',
+                url: API + name + '/' + id
+            });
+        };
         vm.mail = function (route, params) {
             return $http.post(API + route, params);
         };
+
 
         // Newsletter Form
         vm.notifyMe = function (params) {
@@ -551,42 +591,6 @@
                     deep: deep || false,
                     exclude: exclude || '',
                     level: level || 1
-                }
-            });
-        };
-        vm.save = function (name, params, deep, returnObject) {
-            return $http({
-                method: 'POST',
-                url: Backand.getApiUrl() + '/1/objects/' + name,
-                params: {
-                    deep: deep,
-                    returnObject: returnObject
-                },
-                data: params,
-                headers: {
-                    Authorization: Backand.getToken(),
-                    AppName: 'indiewise'
-                }
-            });
-        };
-        vm.update = function (name, id, params, deep, returnObject, direction) {
-            if(params.hasOwnProperty('__metadata')) {
-                angular.extend(params, {
-                    __metadata: {id: id}
-                });
-            }
-            return $http({
-                method: 'PUT',
-                url: Backand.getApiUrl() + '/1/objects/' + name + '/' + id,
-                params: {
-                    deep: deep,
-                    returnObject: returnObject,
-                    direction: direction || undefined
-                },
-                data: params,
-                headers: {
-                    Authorization: Backand.getToken(),
-                    AppName: 'indiewise'
                 }
             });
         };
@@ -633,16 +637,7 @@
 
             return deferred.promise;
         };
-        vm.delete = function (name, id) {
-            return $http({
-                method: 'DELETE',
-                url: Backand.getApiUrl() + '/1/objects/' + name + '/' + id,
-                headers: {
-                    Authorization: Backand.getToken(),
-                    AppName: 'indiewise'
-                }
-            });
-        };
+
         return vm;
     }
 

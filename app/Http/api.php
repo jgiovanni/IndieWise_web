@@ -49,11 +49,12 @@ $api->version('v1', [
 
     // Query Routes
     $api->get('users/count', 'UsersController@count');
-    $api->get('users/countUserStats', 'UsersController@countUserStats');
+    $api->get('users/countUserStats/{id?}', 'UsersController@countUserStats');
     $api->get('projects/watched', 'ProjectsController@recentlyWatched');
     $api->get('reactions/latest', 'ReactionsController@latest');
     $api->get('nominations/latest', 'NominationsController@latest');
     $api->get('critiques/latest', 'CritiquesController@latest');
+    $api->get('playlistItems/check/{id?}', 'PlaylistItemsController@checkIn');
 
     // Static Data Routes
     $api->resource('countries', 'CountriesController');
@@ -64,6 +65,8 @@ $api->version('v1', [
 
     // Resource Routes
     $api->resource('users', 'UsersController');
+    $api->resource('playlists', 'PlaylistsController');
+    $api->resource('playlistItems', 'PlaylistItemsController');
     $api->resource('projects', 'ProjectsController');
     $api->resource('reactions', 'ReactionsController');
     $api->resource('critiques', 'CritiquesController');

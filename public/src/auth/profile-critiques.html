@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        <section class="content" ng-init="sortOrder='-createdAt'">
+        <section class="content" ng-init="sortOrder='-created_at'">
             <!-- newest video -->
             <div class="row">
                 <div class="large-12 columns">
@@ -19,10 +19,10 @@
                             <div class="large-12 columns comments">
 
                                 <div class="comment-sort text-right">
-                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-createdAt'}"
-                                                       ng-click="sortOrder='-createdAt'">newest</a> | <a
-                                            ng-class="{'active':sortOrder=='createdAt'}"
-                                            ng-click="sortOrder='createdAt'">oldest</a></span>
+                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}"
+                                                       ng-click="sortOrder='-created_at'">newest</a> | <a
+                                            ng-class="{'active':sortOrder=='created_at'}"
+                                            ng-click="sortOrder='created_at'">oldest</a></span>
                                 </div>
 
                                 <!-- main comment -->
@@ -44,7 +44,7 @@
                                                     <abbr title="{{::critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
                                                           am-time-ago="::critique.created_at"></abbr>
 
-                                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.createdAt, critique.editedAt)">
+                                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.created_at, critique.editedAt)">
                                                         |Edited: <abbr title="{{::critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
                                                                        am-time-ago="::critique.editedAt"></abbr>
                                                     </span>-->
@@ -155,10 +155,10 @@
                             <div class="large-12 columns comments">
 
                                 <div class="comment-sort text-right">
-                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-createdAt'}"
-                                                       ng-click="sortOrder='-createdAt'">newest</a> | <a
-                                            ng-class="{'active':sortOrder=='createdAt'}"
-                                            ng-click="sortOrder='createdAt'">oldest</a></span>
+                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}"
+                                                       ng-click="sortOrder='-created_at'">newest</a> | <a
+                                            ng-class="{'active':sortOrder=='created_at'}"
+                                            ng-click="sortOrder='created_at'">oldest</a></span>
                                 </div>
 
                                 <!-- main comment -->
@@ -181,7 +181,7 @@
                                                     <abbr title="{{::critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
                                                           am-time-ago="::critique.created_at"></abbr>
 
-                                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.createdAt, critique.editedAt)">
+                                                    <!--<span ng-if="critique.editedAt && !Body.isSame(critique.created_at, critique.editedAt)">
                                                         |Edited: <abbr title="{{::critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
                                                                        am-time-ago="::critique.editedAt"></abbr>
                                                     </span>-->

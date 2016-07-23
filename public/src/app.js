@@ -206,11 +206,11 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.filters',
             'IndieWise.utilities'
         ])
-        .config(['$authProvider', function($authProvider) {
-            // $authProvider.tokenPrefix = '';
-            // $authProvider.tokenName = 'token';
-            // $authProvider.withCredentials = false;
-            // $authProvider.httpInterceptor = false;
+        .constant('API', window.API || 'http://52.207.215.154/api/')
+        .config(['$authProvider', 'API', function ($authProvider, API) {
+            $authProvider.loginUrl = '/api/login';
+            $authProvider.signupUrl = '/api/register';
+
             $authProvider.facebook({
                 clientId: '150687055270744',
                 // url: window.location.origin + '/auth/facebook',
@@ -258,7 +258,6 @@ jQuery(document).ready(function (jQuery) {
             // significant performance boost
             $compileProvider.debugInfoEnabled(false);
         }])
-        .constant('API', window.API || 'http://52.207.215.154/api/')
         .constant('angularMomentConfig', {
             timezone: 'UTC'
         })
@@ -369,13 +368,10 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/common/critique.html',
                     controller: 'VideoCritiqueCtrl as VCC',
                     resolve: {
-                        Critique: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getCritiqueByUrlId', {urlId: $stateParams.url_id}).then(function (result) {
-                                deferred.resolve(result);
+                        Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
+                            return DataService.item('critiques', $stateParams.url_id).then(function (result) {
+                                return result;
                             });
-
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -387,13 +383,8 @@ jQuery(document).ready(function (jQuery) {
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.query('getCritiqueByUrlId', {urlId: $stateParams.url_id}).then(function (result) {
-                                if (result.data[0].author === AuthService.currentUser.id) {
-                                    deferred.resolve(result);
-                                } else {
-                                    deferred.reject('Not Owner');
-                                }
-                                deferred.resolve(result);
+                            DataService.item('critiques', $stateParams.url_id).then(function (result) {
+                                result.data[0].author === AuthService.currentUser.id ? deferred.resolve(result) : deferred.reject('Not Owner');
                             });
                             return deferred.promise;
                         }]
@@ -407,19 +398,15 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/user.html',
                     controller: 'UserCtrl as UserC',
                     resolve: {
-                        User: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserByUrlId', {urlId: $stateParams.url_id}, false).then(function (result) {
-                                deferred.resolve(result.data[0]);
+                        User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
+                            return DataService.item('users', $stateParams.url_id).then(function (result) {
+                                return result.data.data;
                             });
-                            return deferred.promise;
                         }],
-                        UserStats: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('countUserStats', {id: User.id}).then(function (response) {
-                                deferred.resolve(response);
+                        UserStats: ['User', 'DataService', function (User, DataService) {
+                            return DataService.item('users/countUserStats', User.id).then(function (response) {
+                                return response.data;
                             });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -434,15 +421,14 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'UserVideosController as UserVideosCtrl',
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.getList('Project', [{fieldName: "createdAt", order: "desc"}],
-                                [
-                                    {fieldName: "owner", operator: "in", value: User.id},
-                                    {fieldName: "unlist", operator: "is", value: false}
-                                ], 20, true, true, 1).then(function (result) {
-                                deferred.resolve(result);
-                            });
-                            return deferred.promise;
+                            return DataService.collection('projects', {
+                                owner: User.id,
+                                sort: 'created_at',
+                                per_page: 50
+                            })
+                                .then(function (result) {
+                                    return result;
+                                });
                         }]
                     }
                 })
@@ -451,21 +437,17 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/user-critiques.html',
                     controller: 'UserCritiquesController as UserCritiquesCtrl',
                     resolve: {
-                        Critiques: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserCritiques', {id: User.id})
+                        Critiques: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('critiques', {user: User.id})
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }],
-                        Critiqued: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserCritiqued', {id: User.id})
+                        Critiqued: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('critiques', {notUser: User.id})
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -474,21 +456,17 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/user-reactions.html',
                     controller: 'UserReactionsController as UserReactionsCtrl',
                     resolve: {
-                        Reactions: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserReactions', {id: User.id})
+                        Reactions: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('reactions', {user: User.id, include: 'user,project'})
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }],
-                        Reacted: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserReacted', {id: User.id})
+                        Reacted: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('reactions', {notUser: User.id, include: 'user,project'})
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -497,28 +475,28 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/user-awards.html',
                     controller: 'UserAwardsController as UserAwardsCtrl',
                     resolve: {
-                        Awards: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserAwards', {id: User.id}).then(function (result) {
-                                deferred.resolve(result);
+                        Awards: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('wins', {user: User.id}).then(function (result) {
+                                return result;
                             });
-                            return deferred.promise;
                         }],
-                        Nominations: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserNominations', {id: User.id})
+                        Nominations: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('nominations', {
+                                user: User.id,
+                                include: 'user,project,award'
+                            })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }],
-                        Nominated: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserNominated', {id: User.id})
+                        Nominated: ['User', 'DataService', function (User, DataService) {
+                            return DataService.collection('nominations', {
+                                notUser: User.id,
+                                include: 'user,project,award'
+                            })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -529,20 +507,15 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/profile.html',
                     controller: 'ProfileCtrl as Profile',
                     resolve: {
-                        User: ['AuthService', '$q', function (AuthService, $q) {
-                            var deferred = $q.defer();
-                            AuthService.getCurrentUser().then(function (response) {
-                                //console.log(response);
-                                deferred.resolve(response);
+                        User: ['AuthService', function (AuthService) {
+                            return AuthService.getCurrentUser().then(function (response) {
+                                return response;
                             });
-                            return deferred.promise;
                         }],
-                        UserStats: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('users/countUserStats').then(function (response) {
-                                deferred.resolve(response.data);
+                        UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('users/countUserStats').then(function (response) {
+                                return response.data;
                             });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -564,17 +537,15 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/profile-videos.html',
                     controller: 'ProfileVideosController as ProfileVideosCtrl',
                     resolve: {
-                        Videos: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('projects', {
+                        Videos: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('projects', {
                                 owner: AuthService.currentUser.id,
                                 sort: 'created_at',
                                 per_page: 50
                             })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -584,12 +555,10 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/profile-videos-edit.html',
                     controller: 'ProfileVideoEditCtrl as VEC',
                     resolve: {
-                        Project: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.item('projects', result.data[0].id, true, false, 1).then(function (res) {
-                                deferred.resolve(res);
+                        Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
+                            return DataService.item('projects', $stateParams.url_id, true, false, 1).then(function (result) {
+                                return result;
                             });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -599,21 +568,17 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/profile-critiques.html',
                     controller: 'ProfileCritiquesController as ProfileCritiquesCtrl',
                     resolve: {
-                        Critiques: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('critiques', {user: AuthService.currentUser.id})
+                        Critiques: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('critiques', {user: AuthService.currentUser.id})
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }],
-                        Critiqued: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('critiques', {notUser: AuthService.currentUser.id})
+                        Critiqued: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('critiques', {notUser: AuthService.currentUser.id})
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -623,27 +588,23 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/profile-reactions.html',
                     controller: 'ProfileReactionsController as ProfileReactionsCtrl',
                     resolve: {
-                        Reactions: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('reactions', {
+                        Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('reactions', {
                                 user: AuthService.currentUser.id,
                                 include: 'user,project'
                             })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }],
-                        Reacted: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('reactions', {
+                        Reacted: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('reactions', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project'
                             })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -653,51 +614,41 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: './src/auth/profile-awards.html',
                     controller: 'ProfileAwardsController as ProfileAwardsCtrl',
                     resolve: {
-                        Awards: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('wins', {user: AuthService.currentUser.id}).then(function (result) {
-                                deferred.resolve(result);
+                        Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('wins', {user: AuthService.currentUser.id}).then(function (result) {
+                                return result;
                             });
-                            return deferred.promise;
                         }],
-                        Nominations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('nominations', {
+                        Nominations: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('nominations', {
                                 user: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }],
-                        Nominated: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('nominations', {
+                        Nominated: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('nominations', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
                                 .then(function (result) {
-                                    deferred.resolve(result);
+                                    return result;
                                 });
-                            return deferred.promise;
                         }]
                     }
                 })
-                .state('profile.playlists  ', {
+                .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
                     templateUrl: './src/auth/profile-playlists.html',
                     controller: 'ProfilePlaylistsController as ProfilePlaylistsCtrl',
                     resolve: {
-                        Playlists: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('playlists', [],
-                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
-                                50, true, false).then(function (result) {
-                                deferred.resolve(result);
+                        Playlists: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.collection('playlists').then(function (result) {
+                                return result;
                             });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -708,22 +659,18 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'ProfileSettingsController as PSC',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.getList('Genres', [],
+                            return DataService.collection('Genres', [],
                                 [{fieldName: "user", operator: "in", value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
-                                deferred.resolve(result);
+                                return result;
                             });
-                            return deferred.promise;
                         }],
                         UserTypes: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.getList('UserTypes', [],
+                            return DataService.collection('UserTypes', [],
                                 [{fieldName: "user", operator: "in", value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
-                                deferred.resolve(result);
+                                return result;
                             });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -734,13 +681,11 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.query('getUserConversations', {
+                            return DataService.query('getUserConversations', {
                                 username: AuthService.currentUser.username
                             }).then(function (result) {
-                                deferred.resolve(result);
+                                return result;
                             });
-                            return deferred.promise;
                         }]
                     }
                 })
@@ -841,7 +786,6 @@ jQuery(document).ready(function (jQuery) {
             FastClick.attach(document.body);
             $rootScope.AppData = {
                 User: AuthService.currentUser,
-                //UserData: AuthService.currentUser,
                 Notifications: {
                     loaded: 'indeterminate'
                 },
@@ -862,8 +806,11 @@ jQuery(document).ready(function (jQuery) {
             };
             $rootScope.$stateParams = $stateParams;
             $rootScope.isViewLoading = false;
-
             $rootScope.today = moment().toDate();
+
+            $rootScope.isAuthenticated = function () {
+                return AuthService.isAuthenticated();
+            };
 
             $rootScope.listenNotifications = function (username) {
                 $rootScope.refreshNotifications(username);
@@ -908,45 +855,20 @@ jQuery(document).ready(function (jQuery) {
                 });
             };
 
-            /*var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
-             if (newValue && angular.isString(newValue.id)) {
-             console.log('User Logged In');
-             $rootScope.listenNotifications(newValue.username);
-             endWatch();
-             }
-             });*/
+            var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
+                if (newValue && angular.isString(newValue.id)) {
+                    console.log('User Logged In');
+                    //$rootScope.listenNotifications(newValue.username);
+                    endWatch();
+                }
+            });
 
             // loading animation
             $rootScope.setLoading = function () {
-                /*var opts = {
-                 lines: 13 // The number of lines to draw
-                 , length: 9 // The length of each line
-                 , width: 7 // The line thickness
-                 , radius: 42 // The radius of the inner circle
-                 , scale: 1 // Scales overall size of the spinner
-                 , corners: 1 // Corner roundness (0..1)
-                 , color: '#000' // #rgb or #rrggbb or array of colors
-                 , opacity: 0.25 // Opacity of the lines
-                 , rotate: 0 // The rotation offset
-                 , direction: 1 // 1: clockwise, -1: counterclockwise
-                 , speed: 1 // Rounds per second
-                 , trail: 60 // Afterglow percentage
-                 , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-                 , zIndex: 2e9 // The z-index (defaults to 2000000000)
-                 , className: 'spinner' // The CSS class to assign to the spinner
-                 , top: '-50%' // Top position relative to parent
-                 , left: '50%' // Left position relative to parent
-                 , shadow: true // Whether to render a shadow
-                 , hwaccel: true // Whether to use hardware acceleration
-                 , position: 'absolute' // Element positioning
-                 };
-                 var target = document.getElementById('alerts');
-                 $rootScope.spinner = window.spinner = new Spinner(opts).spin(target);*/
                 $rootScope.isViewLoading = true;
             };
             $rootScope.unsetLoading = function () {
                 $rootScope.isViewLoading = false;
-                //$rootScope.spinner.stop();
             };
 
             // State transition hooks
@@ -968,9 +890,12 @@ jQuery(document).ready(function (jQuery) {
                     return !!state.authenticate;
                 }
             }, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? true : AuthService.isAuthenticated();
+                return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
+                    return true;
+                }, function () {
+                    return $state.target('sign_in');
+                });
 
-                //return  ? true : $state.target('sign_in');
             });
 
             $transitions.onSuccess({}, function () {
@@ -1003,5 +928,5 @@ jQuery(document).ready(function (jQuery) {
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);
-    })
+})
 ();

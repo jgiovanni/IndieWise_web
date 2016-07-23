@@ -78,7 +78,7 @@
                                     <p>
                                         <span>
                                             <i class="fa fa-clock-o"></i>
-                                            <i class="md-caption" am-time-ago="VC.film.createdAt"></i>
+                                            <i class="md-caption" am-time-ago="VC.film.created_at"></i>
                                         </span>
                                         <span><i class="fa fa-smile-o"></i>{{VC.film.reactionCount||0}}</span>
                                         <span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
@@ -279,13 +279,13 @@
                         </div>
                     </div>
                     <tabset>
-                        <tab heading="Nominations {{VC.nominations.length||0}}" ng-init="sortOrderA='-createdAt'">
+                        <tab heading="Nominations {{VC.nominations.length||0}}" ng-init="sortOrderA='-created_at'">
                             <br>
 
                             <div class="comment-sort text-right">
-                                <span>Sort By : <a ng-class="{'active':sortOrderA=='-createdAt'}"
-                                                   ng-click="sortOrderA='-createdAt'">newest</a> | <a
-                                        ng-class="{'active':sortOrderA=='createdAt'}" ng-click="sortOrderA='createdAt'">oldest</a></span>
+                                <span>Sort By : <a ng-class="{'active':sortOrderA=='-created_at'}"
+                                                   ng-click="sortOrderA='-created_at'">newest</a> | <a
+                                        ng-class="{'active':sortOrderA=='created_at'}" ng-click="sortOrderA='created_at'">oldest</a></span>
                             </div>
 
                             <!-- main comment -->
@@ -294,36 +294,35 @@
                                      ng-repeat="nom in VC.nominations|orderBy:sortOrderA">
                                     <div class="media-object-section comment-img text-center">
                                         <div class="comment-box-img">
-                                            <img ng-src="{{::VC.nominations.relatedObjects.users[nom.nominator].avatar || './assets/img/avatar-1.png'}}"
+                                            <img ng-src="{{::nom.user.avatar || './assets/img/avatar-1.png'}}"
                                                  alt="comment">
                                         </div>
                                     </div>
                                     <div class="media-object-section comment-desc">
                                         <div class="comment-title">
                                             <span class="name"><a ui-sref="user.about({url_id: nom.nominator.url_id})">
-                                                {{::VC.nominations.relatedObjects.users[nom.nominator].firstName+'
-                                                '+VC.nominations.relatedObjects.users[nom.nominator].lastName}}</a> nominated this video for:
+                                                {{::nom.user.fullName}}</a> nominated this video for:
                                             </span>
                                             <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                                <abbr title="{{::nom.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
-                                                      am-time-ago="::nom.createdAt"></abbr>
+                                                <abbr title="{{::nom.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                      am-time-ago="::nom.created_at"></abbr>
                                             </span>
                                         </div>
                                         <div class="comment-text">
-                                            <p>{{::VC.nominations.relatedObjects.Award[nom.awardPntr].name}} Award</p>
+                                            <p>{{::nom.award.data.name}} Award</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- End main comment -->
                         </tab>
-                        <tab heading="Wins {{VC.wins.length||0}}" ng-init="sortOrderA='-createdAt'">
+                        <tab heading="Wins {{VC.wins.length||0}}" ng-init="sortOrderA='-created_at'">
                             <br>
 
                             <div class="comment-sort text-right">
-                                <span>Sort By : <a ng-class="{'active':sortOrderA=='-createdAt'}"
-                                                   ng-click="sortOrderA='-createdAt'">newest</a> | <a
-                                        ng-class="{'active':sortOrderA=='createdAt'}" ng-click="sortOrderA='createdAt'">oldest</a></span>
+                                <span>Sort By : <a ng-class="{'active':sortOrderA=='-created_at'}"
+                                                   ng-click="sortOrderA='-created_at'">newest</a> | <a
+                                        ng-class="{'active':sortOrderA=='created_at'}" ng-click="sortOrderA='created_at'">oldest</a></span>
                             </div>
 
                             <div class="main-comment showmore_one">
@@ -337,12 +336,12 @@
                                     <div class="media-object-section comment-desc">
                                         <div class="comment-title">
                                             <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                                <abbr title="{{::win.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
-                                                      am-time-ago="::win.createdAt"></abbr>
+                                                <abbr title="{{::win.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                      am-time-ago="::win.created_at"></abbr>
                                             </span>
                                         </div>
                                         <div class="comment-text">
-                                            <h2>{{::VC.wins.relatedObjects.Award[win.award].name}}</h2>
+                                            <h2>{{::win.award.data.name}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -404,7 +403,7 @@
                                           <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
                                           <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
                                         </span>
-                                        {{::VC.wins.relatedObjects.Award[win.award].name}}</h5>
+                                        {{::win.award.data.name}}</h5>
                                 </li>
                             </ul>
 

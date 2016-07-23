@@ -9,6 +9,11 @@ class ProjectFilter extends ModelFilter
 
     public $relations = [];
 
+    public function listed()
+    {
+        return $this->where('unlist', false);
+    }
+
     public function owner($owner)
     {
         return $this->where('owner_id', $owner);
