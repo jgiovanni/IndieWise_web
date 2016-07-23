@@ -38,6 +38,7 @@ angular.module('IndieWise.utilities', [])
             recordActivity: function (object, verb) {
                 console.log('Activity Object: ', object);
                 console.log('Activity Verb: ', verb);
+                return true;
                 switch (verb) {
                     case 'comment':
                     case 'reply':
@@ -115,6 +116,7 @@ angular.module('IndieWise.utilities', [])
             updateActivity: function (object, verb) {
                 console.log('Activity Object: ', object);
                 console.log('Activity Verb: ', verb);
+                return true;
                 switch (verb) {
                     case 'like':
                     case 'unlike':

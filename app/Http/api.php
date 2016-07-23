@@ -70,6 +70,7 @@ $api->version('v1', [
     $api->resource('projects', 'ProjectsController');
     $api->resource('reactions', 'ReactionsController');
     $api->resource('critiques', 'CritiquesController');
+    $api->resource('comments', 'CommentsController');
     $api->resource('nominations', 'NominationsController');
     $api->resource('wins', 'WinsController');
 

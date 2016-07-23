@@ -11,7 +11,7 @@ class Playlist extends Model
     protected $table = 'Playlist';
     public $timestamps = false;
 
-    public function items()
+    public function playlistItems()
     {
         return $this->hasMany(PlaylistItem::class);
     }

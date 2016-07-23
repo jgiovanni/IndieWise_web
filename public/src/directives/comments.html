@@ -1,4 +1,4 @@
-<section class="content comments" ng-if="!disable" ng-init="sortOrder='-createdAt'">
+<section class="content comments" ng-if="!disable" ng-init="sortOrder='-created_at'">
     <div class="row secBg">
         <div class="large-12 columns">
             <div class="main-heading borderBottom">
@@ -18,7 +18,7 @@
                         <div class="comment-box-img">
                             <img ng-src="{{model.isLoggedIn.avatar || './assets/img/avatar-1.png'}}" alt="comment">
                         </div>
-                        <h6><a ui-sref="user.about({id: model.isLoggedIn.userId})">{{model.isLoggedIn.fullName}}</a></h6>
+                        <h6><a ui-sref="user.about({id: model.isLoggedIn.id})">{{model.isLoggedIn.fullName}}</a></h6>
                     </div>
                     <div class="media-object-section comment-textarea">
                         <form name="commentForm" id="commentForm" ng-submit="postComment()">
@@ -31,7 +31,7 @@
             </div>
 
             <div class="comment-sort text-right">
-                <span>Sort By : <a ng-class="{'active':sortOrder=='-createdAt'}" ng-click="sortOrder='-createdAt'">newest</a> | <a ng-class="{'active':sortOrder=='createdAt'}" ng-click="sortOrder='createdAt'">oldest</a></span>
+                <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a> | <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a></span>
             </div>
 
             <!-- main comment -->
@@ -40,17 +40,17 @@
                      ng-init="comment.replies=[];comment.showReplies=false;">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
-                            <img ng-src="{{::comment.ownerAvatar || './assets/img/avatar-1.png'}}" alt="comment">
+                            <img ng-src="{{::comment.author.avatar || './assets/img/avatar-1.png'}}" alt="comment">
                         </div>
                     </div>
                     <div class="media-object-section comment-desc">
                         <div class="comment-title">
-                            <span class="name"><a ui-sref="user.about({url_id: comment.ownerUrlId})">
-                                {{::comment.ownerFullName}}</a> Said:
+                            <span class="name"><a ui-sref="user.about({url_id: comment.author.url_id})">
+                                {{::comment.author.fullName}}</a> Said:
                             </span>
                             <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                <abbr title="{{::comment.createdAt|amUtc|amLocal|amDateFormat:'lll'}}"
-                                      am-time-ago="::comment.createdAt"></abbr>
+                                <abbr title="{{::comment.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                      am-time-ago="::comment.created_at"></abbr>
                             </span>
                         </div>
                         <div class="comment-text">
@@ -73,21 +73,21 @@
                         <div class="media-object stack-for-small reply-comment" ng-repeat-start="reply in comment.replies">
                             <div class="media-object-section comment-img text-center">
                                 <div class="comment-box-img">
-                                    <img ng-src="{{::reply.ownerAvatar || './assets/img/avatar-1.png'}}"
+                                    <img ng-src="{{::reply.author.avatar || './assets/img/avatar-1.png'}}"
                                          alt="comment">
                                 </div>
                             </div>
                             <div class="media-object-section comment-desc">
                                 <div class="comment-title">
-                                    <span class="name"><a ui-sref="user.about({url_id: reply.ownerUrlId})">{{::reply.ownerFullName}}</a> Said:</span>
+                                    <span class="name"><a ui-sref="user.about({url_id: reply.author.urlId})">{{::reply.author.fullName}}</a> Said:</span>
                                     <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                        <abbr title="{{::reply.createdAt|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::reply.createdAt"></abbr>
+                                        <abbr title="{{::reply.created_at|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::reply.created_at"></abbr>
                                     </span>
                                 </div>
                                 <div class="comment-text">
                                     <p ng-show="editComment.id!=reply.id" ng-bind="reply.body"></p>
                                     <edit-comment-block
-                                            ng-if="reply.author === model.isLoggedIn.userId && !!editCommentMode"></edit-comment-block>
+                                            ng-if="reply.author === model.isLoggedIn.id && !!editCommentMode"></edit-comment-block>
                                 </div>
                                 <div class="comment-btns">
                                     <span>
@@ -129,9 +129,9 @@
                 Send
             </md-button>
         </md-list-item>
-        <md-list-item class="md-3-line" ng-repeat-start="comment in comments|orderBy:'-createdAt'"
+        <md-list-item class="md-3-line" ng-repeat-start="comment in comments|orderBy:'-created_at'"
                       ng-init="comment.replies=[];"
-                      ng-class="{'secondary-button-padding': comment.attributes.author.id === model.model.isLoggedIn.userId&&!!editCommentMode&&editComment.id===comment.id}">
+                      ng-class="{'secondary-button-padding': comment.attributes.author.id === model.model.isLoggedIn.id&&!!editCommentMode&&editComment.id===comment.id}">
             <img ng-src="{{::comment.attributes.author.attributes.avatar || './assets/img/avatar-1.png'}}"
                  class="md-avatar">
 
@@ -141,8 +141,8 @@
                         {{::comment.attributes.author.attributes.first_name+'
                         '+comment.attributes.author.attributes.last_name}}
                     </a>
-                    <abbr title="{{::comment.createdAt|date:'fullDate'}}"
-                          am-time-ago="::comment.createdAt" class="md-caption"></abbr>
+                    <abbr title="{{::comment.created_at|date:'fullDate'}}"
+                          am-time-ago="::comment.created_at" class="md-caption"></abbr>
                 <span class="grey-text md-caption" ng-if="comment.attributes.editedAt">&middot;&nbsp;Edited:
                     <abbr title="{{comment.attributes.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
                           am-time-ago="comment.attributes.editedAt" class=""></abbr>
@@ -151,23 +151,23 @@
 
                 <p ng-show="editComment.id!=comment.id" ng-bind="comment.attributes.body"></p>
                 <edit-comment-block
-                        ng-if="comment.attributes.author.id === model.model.isLoggedIn.userId&&!!editCommentMode&&editComment.id===comment.id"></edit-comment-block>
+                        ng-if="comment.attributes.author.id === model.model.isLoggedIn.id&&!!editCommentMode&&editComment.id===comment.id"></edit-comment-block>
 
                 <p ng-show="editComment.id!=comment.id">
-                    <a ng-if="comment.attributes.author.id === model.model.isLoggedIn.userId"
+                    <a ng-if="comment.attributes.author.id === model.model.isLoggedIn.id"
                        ng-click="toggleEditCommentMode(comment)"
                        class="md-warn md-caption action-link">Edit</a>
-                    <span ng-if="comment.attributes.author.id === model.model.isLoggedIn.userId">&nbsp;&middot;&nbsp;</span>
-                    <a ng-if="comment.attributes.author.id === model.model.isLoggedIn.userId"
+                    <span ng-if="comment.attributes.author.id === model.model.isLoggedIn.id">&nbsp;&middot;&nbsp;</span>
+                    <a ng-if="comment.attributes.author.id === model.model.isLoggedIn.id"
                        ng-click="deleteComment(comment)"
                        class="md-warn md-caption action-link">Delete</a>
-                    <span ng-if="comment.attributes.author.id === model.model.isLoggedIn.userId">&nbsp;&middot;&nbsp;</span>
+                    <span ng-if="comment.attributes.author.id === model.model.isLoggedIn.id">&nbsp;&middot;&nbsp;</span>
                     <a ng-click="toggleReplyInput(comment)"
                        class="md-warn md-caption action-link">Reply</a>
                 </p>
 
                 <p class="hint"
-                   ng-if="comment.attributes.author.id===model.model.isLoggedIn.userId&&editComment.id===comment.id"
+                   ng-if="comment.attributes.author.id===model.model.isLoggedIn.id&&editComment.id===comment.id"
                    ng-show="editCommentMode">
                     <a ng-click="toggleEditCommentMode(comment)" class="md-warn md-caption action-link">Cancel Edit</a>
                 </p>

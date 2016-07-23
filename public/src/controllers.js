@@ -551,8 +551,8 @@
                 // console.log(it);
             });
 
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.userId, token);
+            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                 feed.get({limit: 5, mark_seen: true}, function (a) {
                     // console.log(a);
                     _.each($rootScope.AppData.RawNotifications.list, function (n) {
@@ -564,8 +564,8 @@
         };
 
         self.markAllAsRead = function () {
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.userId, token);
+            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                 feed.get({limit: 20, mark_read: true}, function (a) {
                     _.each($rootScope.AppData.RawNotifications.list, function (n) {
                         n.is_read = true;
@@ -804,16 +804,6 @@
         self.film = Project;
         function init(result) {
             $rootScope.currentTitle = result.name;
-
-            if (self.film.video_url.indexOf('youtu') != -1) {
-                self.type = 'youtube';
-            } else if (self.film.video_url.indexOf('vimeo') != -1) {
-                self.type = 'vimeo';
-            } else if (self.film.hosting_type === 'cdn') {
-                self.type = 'HTML5';
-            } else {
-                self.type = 'other';
-            }
             self.loaded = true;
 
             $rootScope.metadata = {
@@ -858,7 +848,7 @@
             // Get related video
             DataService.collection('projects', {
                 notVideo: self.film.id,
-                notOwner: $rootScope.AppData.User ? $rootScope.AppData.User.userId : undefined,
+                notOwner: $rootScope.AppData.User ? $rootScope.AppData.User.id : undefined,
                 per_page: 1
             })
                 .then(function (res) {
@@ -869,22 +859,22 @@
 
             // Register Listener
             // console.log('Listener registered!');
-            Backand.on('video_updated_' + self.film.url_id, function (data) {
+            //Backand.on('video_updated_' + self.film.url_id, function (data) {
                 //// console.log(self.film);
                 // console.log('Listener Triggered!');
                 // console.log(data);
-                self.updateVideoObj();
+                //self.updateVideoObj();
                 /*_.each(data, function (a) {
                  self.film[a.Key] = a.value;
                  })*/
-            });
+            //});
         }
         self.videoOwner = self.film.owner;
 
         self.checkUserActions = function () {
             var loggedIn = $rootScope.AppData.User;
             if (loggedIn) {
-                var videoOwnerIsYou = self.videoOwner.id === $rootScope.AppData.User.userId;
+                var videoOwnerIsYou = self.videoOwner.id === $rootScope.AppData.User.id;
                 UserActions.canReact(self.film.id).then(function (res) {
                     self.canReact = res;
                 }, function (error) {
@@ -914,7 +904,7 @@
 
         self.qComments = function () {
             // Fetch Comments
-            DataService.getList("Comment", [{fieldName: "created_at", order: "desc"}],
+            DataService.collection("comments", [{fieldName: "created_at", order: "desc"}],
                 [
                     {fieldName: "project", operator: "in", value: self.film.id},
                     {fieldName: "parentComment", operator: "in", value: ''}
@@ -950,7 +940,7 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', { project: self.film.id, per_page: 300})
+            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 300})
                 .then(function (result) {
                     self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);
@@ -958,7 +948,7 @@
         };
 
         self.qNominations = function () {
-            DataService.collection('nominations', {project: self.film.id, sort: 'created_at'})
+            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at'})
                 .then(function (result) {
                     self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);
@@ -985,11 +975,6 @@
             return _.findWhere(reactions, {emotion: emotion});
         };
 
-        self.openMenu = function ($mdOpenMenu, ev) {
-            var originatorEv = ev;
-            $mdOpenMenu(ev);
-        };
-
         self.showMessageDialog = function () {
             UserActions.checkAuth().then(function (res) {
                 if (res) {
@@ -1010,10 +995,6 @@
         };
 
         self.rateThrottled = false;
-        /*self.throttledRate = function (direction) {
-            _.throttle(self.rate(direction), 2000);
-        };*/
-
         self.rate = function (direction) {
             if (!!self.rateThrottled) {
                 return false;
@@ -1025,7 +1006,7 @@
                     var actionVerb = 'like';
                     if (self.canRate === true) {
                         DataService.save('Rating', {
-                            author: $rootScope.AppData.User.userId,
+                            author: $rootScope.AppData.User.id,
                             project: self.film.id,
                             up: direction === 'up',
                             down: direction === 'down'
@@ -1154,7 +1135,7 @@
                         var actionVerb = 'react';
                         if (self.canReact === true) {
                             DataService.save('Reaction', {
-                                user: $rootScope.AppData.User.userId,
+                                user: $rootScope.AppData.User.id,
                                 project: self.film.id,
                                 emotion: emotion.emotion
                             }, true, true).then(function (resA) {
@@ -1256,7 +1237,7 @@
 
                 $scope.nominated = {
                     awardPntr: $scope.dialogModel.awardId,
-                    nominator: $rootScope.AppData.User.userId,
+                    nominator: $rootScope.AppData.User.id,
                     project: $scope.critique.project,
                     critique: undefined
                 };
@@ -1361,7 +1342,7 @@
                                     music: 0,
                                     overall: 0,
                                     private: false,
-                                    author: $rootScope.AppData.User.userId,
+                                    author: $rootScope.AppData.User.id,
                                     body: '',
                                     project: self.film.id
                                 };
@@ -1509,10 +1490,10 @@
         });
 
         self.updateVideoObj = function () {
-            return DataService.query('getProjectById', {id: self.film.id})
+            return DataService.collection('projects', {id: self.film.id})
                 .then(function (a) {
                     console.log('Project Updated: ', a);
-                    self.film = a.data[0];
+                    self.film = a.data.data;
                 });
         };
 
@@ -1587,31 +1568,23 @@
         init(self.film);
     }
 
-    VideoCritiqueCtrl.$inject = ['$rootScope', '$scope', 'Critique', 'UserActions', 'DataService'];
-    function VideoCritiqueCtrl($rootScope, $scope, Critique, UserActions, DataService) {
+    VideoCritiqueCtrl.$inject = ['$rootScope', '$scope', 'Critique', 'UserActions', 'DataService', '_'];
+    function VideoCritiqueCtrl($rootScope, $scope, Critique, UserActions, DataService, _) {
         var self = this;
+        self.commentsPage = 1;
+
         // Fetch Critique
         var init = function (critique) {
             self.critique = critique;
-            //get project w/ owner
-            DataService.query('getProjectById', {id: critique.project}, false).then(function (res) {
-                // console.log(res);
-                self.project = res.data[0];
-            });
-
             $scope.commentsParent = self.critique;
-            // console.log('Critique: ', critique);
-            //self.loaded = true;
-            //$scope.$broadcast('scroll.refreshComplete');
 
             // Fetch Comments
-            DataService.query('getCritiqueComments', {id: self.critique.id}).then(function (result) {
-                // console.log("Comments: ", result.data);
-                self.comments = result;
+            DataService.collection('comments', {critique: self.critique.id, per_page: 10, page: self.commentsPage}).then(function (result) {
+                self.comments = result.data;
             });
 
         };
-        init(Critique.data[0]);
+        init(Critique.data.data);
     }
 
     VideoCritiqueEditCtrl.$inject = ['$rootScope', '$scope', 'DataService', '$state', 'Critique'];
@@ -1632,7 +1605,7 @@
         $scope.update = function () {
             $scope.editedCritique.editedAt = moment().toDate();
             $scope.editedCritique.private = !!$scope.editedCritique.private;
-            DataService.update('Critique', $scope.critique.id, $scope.editedCritique).then(function (res) {
+            DataService.update('critiques', $scope.critique.id, $scope.editedCritique).then(function (res) {
                     $rootScope.toastMessage('Critique Updated');
                     /*if ($state.is('profile_critique-edit'))
                      $state.go('profile_critiqueselfid: self.critique.id});*/
@@ -1717,7 +1690,7 @@
             completionDate: '',
             filmingCountry: undefined,
             originCountry: undefined,
-            owner: $rootScope.AppData.User.userId,
+            owner: $rootScope.AppData.User.id,
             genres: [],
             type: undefined,
             runTime: 0,
@@ -1934,7 +1907,7 @@
         };
 
         self.onSuccess = function (Blob){
-            self.newVideo.hosting_type = 'cdn';
+            self.newVideo.hosting_type = 'HTML5';
             self.newVideo.video_url = Blob.url;
             self.files.push(Blob);
             $window.localStorage.setItem('files', JSON.stringify(self.files));
@@ -2063,7 +2036,7 @@
         };
 
         /*self.deleteProject = function (ev) {
-         if ($rootScope.AppData.User && ($rootScope.AppData.User.userId === self.project.owner.id)) {
+         if ($rootScope.AppData.User && ($rootScope.AppData.User.id === self.project.owner.id)) {
          var confirm = $modal.confirm()
          .title('Would you like to delete your project?')
          //.content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
@@ -2102,10 +2075,10 @@
         self.selectedPlaylist = !!hasFave ? hasFave.id : self.playlists.length ? self.playlists[0].id : null;
 
         self.loadPlaylistItems = function () {
-            DataService.collection('playlistItems', {playlist: self.selectedPlaylist})
+            DataService.collection('playlistItems', {playlist: self.selectedPlaylist, include: 'project.owner'})
                 .then(function (res) {
                     // console.log(res);
-                    self.playlistItems = res.data.items;
+                    self.playlistItems = res.data.data;
                 })
         };
 
@@ -2157,7 +2130,7 @@
                         $window.pushwooshSubscribe();
 
                         $window.pushwooshSetTags({
-                            userId: self.user.id,
+                            id: self.user.id,
                             urlId: self.user.url_id,
                             username: self.user.email,
                             firstName: self.user.firstName,
@@ -2276,10 +2249,10 @@
                                 subject: $rootScope.AppData.User.fullName + ', ' + $scope.recipient.firstName + ' ' + $scope.recipient.lastName
                             }, true, true).then(function (convo) {
                                     // Add Participants
-                                    DataService.save('Participant', {user: $rootScope.AppData.User.userId, conversation: convo.data.id});
+                                    DataService.save('Participant', {user: $rootScope.AppData.User.id, conversation: convo.data.id});
                                     DataService.save('Participant', {user: $scope.recipient.id, conversation: convo.data.id});
                                     //Send Message
-                                    DataService.save('Message', {body: $scope.model.myMessage, from: $rootScope.AppData.User.userId, conversation: convo.data.id});
+                                    DataService.save('Message', {body: $scope.model.myMessage, from: $rootScope.AppData.User.id, conversation: convo.data.id});
 
                                     $scope.model.myMessage = null;
                                     $rootScope.toastMessage('Message sent!');
@@ -2292,11 +2265,11 @@
                                     /*DataService.update('Conversation', convo.data.id, {
                                         id: convo.data.id,
                                         participants: [
-                                            {user: $rootScope.AppData.User.userId},
+                                            {user: $rootScope.AppData.User.id},
                                             {user: $scope.recipient.id}
                                         ],
                                         messages: [
-                                            {body: $scope.model.myMessage, from: $rootScope.AppData.User.userId}
+                                            {body: $scope.model.myMessage, from: $rootScope.AppData.User.id}
                                         ]
                                     }, true, true).then(function (convo) {
 
@@ -2445,7 +2418,7 @@
                     DataService.save('Message', {
                         body: self.myReply,
                         conversation: self.selectedConvo.id,
-                        from: $rootScope.AppData.User.userId
+                        from: $rootScope.AppData.User.id
                     }, true, true).then(function (result) {
                         self.myReply = null;
                         // set relatedObjects users data
@@ -2478,7 +2451,7 @@
                 newConvoObj.save().then(function (convo) {
 
                     // Set Participants
-                    self.newConvo.participants.push($rootScope.AppData.User.userId);
+                    self.newConvo.participants.push($rootScope.AppData.User.id);
                     var relParticipants = convo.relation("participants");
                     relParticipants.add(self.newConvo.participants);
                     newConvoObj.save();
@@ -2487,7 +2460,7 @@
                     var message = new Parse.Object("Message");
                     message.set('body', self.newConvo.body);
                     message.set('parent', convo);
-                    message.set('from', $rootScope.AppData.User.userId);
+                    message.set('from', $rootScope.AppData.User.id);
                     message.save().then(function (result) {
                         // Clear forms
                         self.myReply = null;
@@ -2524,13 +2497,13 @@
 
             //Search user
             var searchUsersFirstName = new Parse.Query('User');
-            searchUsersFirstName.notEqualTo("objectId", $rootScope.AppData.User.userId);
+            searchUsersFirstName.notEqualTo("objectId", $rootScope.AppData.User.id);
             _.each(query.split(' '), function (a) {
                 searchUsersFirstName.startsWith('first_name', a);
                 //searchUsersFirstName.matches('first_name', a);
             });
             var searchUsersLastName = new Parse.Query('User');
-            searchUsersLastName.notEqualTo("objectId", $rootScope.AppData.User.userId);
+            searchUsersLastName.notEqualTo("objectId", $rootScope.AppData.User.id);
             _.each(query.split(' '), function (a) {
                 searchUsersLastName.startsWith('last_name', a);
                 //searchUsersLastName.matches('last_name', a);
@@ -2551,7 +2524,7 @@
 
         function fetchConvos() {
             DataService.query('getConversations', {
-                userId: $rootScope.AppData.User.userId
+                id: $rootScope.AppData.User.id
             }).then(function (result) {
                 self.conversations = result.data;
             });
@@ -2567,7 +2540,7 @@
                 .ok('Yes')
                 .cancel('No');
             $modal.show(confirm).then(function () {
-                var me = $rootScope.AppData.User.userId;
+                var me = $rootScope.AppData.User.id;
                 var message = new Parse.Object("Message");
                 message.set('body', me.first_name + ' ' + me.last_name + " left the conversation...");
                 message.set('parent', {
@@ -2575,7 +2548,7 @@
                     className: "Conversation",
                     objectId: self.selectedConvo.id
                 });
-                message.set('from', $rootScope.AppData.User.userId);
+                message.set('from', $rootScope.AppData.User.id);
                 message.save().then(function (result) {
                     var relParticipants = self.selectedConvo.relation("participants");
                     relParticipants.remove(me);
@@ -2607,8 +2580,8 @@
         };
 
         self.markAllAsRead = function () {
-            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.userId, token);
+            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
+                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
                 feed.get({limit: 20, mark_read: true}, function (a) {
                     _.each($rootScope.AppData.NotificationsFeed.list, function (n) {
                         n.is_read = true;
@@ -2619,8 +2592,8 @@
         };
 
         self.markAsRead = function (n) {
-            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.userId, token);
+            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
+                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
                 feed.get({limit: 5, mark_read: [n.id]}, function (a) {
                     n.is_read = true;
                     --$rootScope.AppData.NotificationsFeed.unseen;

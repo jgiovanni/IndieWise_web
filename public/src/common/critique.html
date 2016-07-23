@@ -6,13 +6,13 @@
                 <ul class="breadcrumbs">
                     <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
                     <li>
-                        <a ui-sref="user.about({url_id: VCC.project.ownerUrlId})">{{::VCC.project.ownerFullName}}</a>
+                        <a ui-sref="user.about({url_id: VCC.critique.project.data.owner.data.url_id})">{{::VCC.critique.project.data.owner.data.fullName}}</a>
                     </li>
                     <li>
-                        <a ui-sref="video({url_id: VCC.project.url_id})">{{::VCC.project.name}}</a>
+                        <a ui-sref="video({url_id: VCC.critique.project.data.url_id})">{{::VCC.critique.project.data.name}}</a>
                     </li>
                     <li>
-                        <span class="show-for-sr">Current: </span> Critique by {{::VCC.critique.ownerFullName}}
+                        <span class="show-for-sr">Current: </span> Critique by {{::VCC.critique.user.fullName}}
                     </li>
                 </ul>
             </nav>
@@ -31,17 +31,17 @@
                     <div class="heading">
                         <h5>
                             Critique by
-                            <a ui-sref="user.about({url_id:VCC.critique.ownerUrlId})">
-                                {{::VCC.critique.ownerFullName}}
+                            <a ui-sref="user.about({url_id:VCC.critique.owner.url_id})">
+                                {{::VCC.critique.user.fullName}}
                             </a>
                             on
-                            <abbr title="{{::VCC.critique.createdAt|amUtc|amLocal|amDateFormat:'lll'}}" class="md-caption"
-                                  ng-bind="::VCC.critique.createdAt|amUtc|amLocal|amDateFormat:'lll'"></abbr> <span class="grey-text" ng-if="VCC.critique.editedAt && !Body.isSame(VCC.critique.createdAt, VCC.critique.editedAt)">Edited:
-                            <abbr title="{{::VCC.critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}" class="md-caption"
-                                  ng-bind="::VCC.critique.editedAt|amUtc|amLocal|amDateFormat:'lll'"></abbr></span>
+                            <abbr title="{{::VCC.critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}" class="md-caption"
+                                  ng-bind="::VCC.critique.created_at|amUtc|amLocal|amDateFormat:'lll'"></abbr> <span class="grey-text" ng-if="VCC.critique.edited_at && !Body.isSame(VCC.critique.created_at, VCC.critique.edited_at)">Edited:
+                            <abbr title="{{::VCC.critique.edited_at|amUtc|amLocal|amDateFormat:'lll'}}" class="md-caption"
+                                  ng-bind="::VCC.critique.edited_at|amUtc|amLocal|amDateFormat:'lll'"></abbr></span>
 
-                            <a ui-sref="video_critique-edit({video_url_id:VCC.project.url_id, url_id:VCC.critique.url_id})"
-                               ng-if="AppData.User.userId == VCC.critique.author" class="fa fa-edit pull-right"></a>
+                            <a ui-sref="video_critique-edit({video_url_id:VCC.critique.project.data.url_id, url_id:VCC.critique.url_id})"
+                               ng-if="AppData.User.id == VCC.critique.user_id" class="fa fa-edit pull-right"></a>
                         </h5>
                     </div>
                     <div class="description">
@@ -50,7 +50,7 @@
                                 <p ng-bind="::VCC.critique.body"></p>
                             </div>
                             <div class="columns medium-5">
-                                <div class="row" ng-if="::VCC.critique.private && AppData.User.userId != VCC.critique.author">
+                                <div class="row" ng-if="::VCC.critique.private && AppData.User.id != VCC.critique.user_id">
                                     <h3 class="text-center">Private</h3>
 
                                     <div class="row columns">
@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row columns" ng-if="::!VCC.critique.private||AppData.User.userId == VCC.critique.author">
+                                <div class="row columns" ng-if="::!VCC.critique.private||AppData.User.id == VCC.critique.user_id">
                                     <div class="row columns">
                                         <div class="columns medium-8 small-6 text-right">
                                             <span class="md-body-1">Acting</span>
@@ -160,17 +160,17 @@
                         </div>
                         <div class="widgetContent">
                             <div class="video-box thumb-border">
-                                <a class="video-img-thumb" ui-sref="video({url_id:VCC.critique.projectUrlId})">
-                                    <img ng-src="{{::VCC.critique.projectThumbnail||'./assets/img/default_video_thumbnail.jpg'}}" alt="Watch The Video">
+                                <a class="video-img-thumb" ui-sref="video({url_id:VCC.critique.project.dataurl_id})">
+                                    <img ng-src="{{::VCC.critique.project.data.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="Watch The Video">
                                     <!--<a href="#" class="hover-posts">
                                         <span><i class="fa fa-play"></i>Watch Video</span>
                                     </a>-->
                                 </a>
                                 <div class="video-box-content">
-                                    <h6><a ui-sref="video({url_id:VCC.critique.projectUrlId})">{{::VCC.critique.projectName}}</a></h6>
+                                    <h6><a ui-sref="video({url_id:VCC.critique.project.data.url_id})">{{::VCC.critique.project.data.name}}</a></h6>
 
                                     <p>
-                                        <span><i class="fa fa-user"></i><a ui-sref="user.about({url_id: VCC.project.ownerUrlId})">{{::VCC.project.ownerFullName}}</a></span>
+                                        <span><i class="fa fa-user"></i><a ui-sref="user.about({url_id: VCC.critique.project.data.owner.dataurl_id})">{{::VCC.critique.project.data.owner.data.fullName}}</a></span>
                                     </p>
                                 </div>
                             </div>

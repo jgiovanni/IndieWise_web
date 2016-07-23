@@ -12,25 +12,25 @@
                 </select>
             </label>
             <hr>
-            <div class="profile-video" ng-repeat="video in ProfilePlaylistsCtrl.playlistItems">
+            <div class="profile-video" ng-repeat="item in ProfilePlaylistsCtrl.playlistItems">
                 <div class="media-object stack-for-small">
                     <div class="media-object-section media-img-content">
-                        <div class="video-img" ui-sref="video({url_id: video.project.url_id})">
-                            <img ng-src="{{::video.project.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="video thumbnail">
+                        <div class="video-img" ui-sref="video({url_id: item.project.data.url_id})">
+                            <img ng-src="{{::item.project.data.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="video thumbnail">
                         </div>
                     </div>
                     <div class="media-object-section media-video-content">
                         <div class="video-content">
-                            <h5><a ui-sref="video({url_id: video.project.url_id})">{{::video.project.name}}</a></h5>
-                            <p>{{::video.project.description}}</p>
+                            <h5><a ui-sref="video({url_id: item.project.data.url_id})">{{::item.project.data.name}}</a></h5>
+                            <p>{{::item.project.data.description}}</p>
                         </div>
                         <div class="video-detail clearfix">
                             <div class="video-stats">
-                                <span><i class="fa fa-user"></i><a ui-sref="user.about({url_id:video.project.owner.url_id})">{{::video.project.owner.fullName}}</a></span>
-                                <span><i class="fa fa-clock-o"></i>{{::video.project.created_at|amUtc|amLocal|amDateFormat:'lll'}}</span>
+                                <span><i class="fa fa-user"></i><a ui-sref="user.about({url_id:item.project.data.owner.data.url_id})">{{::item.project.data.owner.data.fullName}}</a></span>
+                                <span><i class="fa fa-clock-o"></i>{{::item.project.data.created_at|amUtc|amLocal|amDateFormat:'lll'}}</span>
                             </div>
                             <div class="video-btns">
-                                <a class="video-btn" ng-click="ProfilePlaylistsCtrl.removeItem(video.id)">
+                                <a class="video-btn" ng-click="ProfilePlaylistsCtrl.removeItem(item.id)">
                                     <i class="fa fa-times"></i> Remove item
                                 </a>
                             </div>

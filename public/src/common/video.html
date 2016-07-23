@@ -41,10 +41,7 @@
             <div class="flex-video widescreen">
                 <!--<div class="switch"></div>-->
                 <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4" allowfullscreen></iframe>-->
-                <embed-video ng-if="VC.loaded && Body.checkContains(['other'], VC.type)" ng-href="{{VC.film.video_url}}"
-                             width="560" height="500" embed-watcher></embed-video>
-                <elite-player ng-if="VC.loaded && Body.checkContains(['youtube', 'vimeo', 'HTML5'], VC.type)"
-                              film="VC.film" type="VC.type" lights-off="VC.lightsOff"></elite-player>
+                <elite-player ng-if="VC.film" film="VC.film" type="VC.film.hosting_type" lights-off="VC.lightsOff"></elite-player>
             </div>
         </div>
     </div>
@@ -260,7 +257,7 @@
         <!-- End Comments -->
 
         <!-- Critiques -->
-        <critiques-block ng-show="VC.activeTab=='critiques'" critiques="VC.critiques" parent-url-id="VC.film.url_id"
+        <critiques-block ng-show="VC.activeTab=='critiques'" critiques="VC.critiques" parent-url-id="VC.film.url_id" parent-owner-id="VC.film.owner_id"
                          disable="VC.film.disableCritique"></critiques-block>
         <!-- End Critiques -->
 
@@ -294,14 +291,14 @@
                                      ng-repeat="nom in VC.nominations|orderBy:sortOrderA">
                                     <div class="media-object-section comment-img text-center">
                                         <div class="comment-box-img">
-                                            <img ng-src="{{::nom.user.avatar || './assets/img/avatar-1.png'}}"
+                                            <img ng-src="{{::nom.user.data.avatar || './assets/img/avatar-1.png'}}"
                                                  alt="comment">
                                         </div>
                                     </div>
                                     <div class="media-object-section comment-desc">
                                         <div class="comment-title">
-                                            <span class="name"><a ui-sref="user.about({url_id: nom.nominator.url_id})">
-                                                {{::nom.user.fullName}}</a> nominated this video for:
+                                            <span class="name"><a ui-sref="user.about({url_id: nom.user.data.url_id})">
+                                                {{::nom.user.data.fullName}}</a> nominated this video for:
                                             </span>
                                             <span class="time float-right"><i class="fa fa-clock-o"></i>
                                                 <abbr title="{{::nom.created_at|amUtc|amLocal|amDateFormat:'lll'}}"

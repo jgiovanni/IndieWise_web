@@ -138,10 +138,10 @@
                             </span>
                             <span><a ui-sref="video_critique({video_url_id: parentUrlId, url_id:critique.url_id})"><i class="fa fa-comments"></i>View</a></span>
                             <span ng-if="::isPrivate(critique)" class="has-tip" style="margin-right: 0" tooltip="Private"><i class="fa fa-lock"></i></span>
-                            <span ng-if="critique.user_id === isLoggedIn.userId">
+                            <span ng-if="critique.user_id === isLoggedIn.id">
                                 <a ui-sref="video_critique-edit({video_url_id: parentUrlId, url_id:critique.url_id})"><i class="fa fa-pencil"></i>Edit</a>
                             </span>
-                            <!--<span ng-if="critique.user_id === isLoggedIn.userId">
+                            <!--<span ng-if="critique.user_id === isLoggedIn.id">
                                 <a ng-click="Vcritique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
                             </span>-->
                         </div>

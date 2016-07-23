@@ -4,18 +4,19 @@ namespace IndieWise\Http\Controllers\Api;
 
 
 use Dingo\Api\Http\Request;
+use IndieWise\Comment;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\PlaylistItemTransformer;
-use IndieWise\PlaylistItem;
+use IndieWise\Http\Transformers\v1\CommentTransformer;
 
-class PlaylistItemsController extends Controller
+class CommentsController extends Controller
 {
-    private $item;
+    private $comment;
 
-    public function __construct(PlaylistItem $item)
+    public function __construct(Comment $comment)
     {
-        $this->item = $item;
+        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
+        $this->comment = $comment;
     }
 
     /**
@@ -26,8 +27,8 @@ class PlaylistItemsController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->item->filter($request->all())->get();
-        return $this->response->collection($items, new PlaylistItemTransformer);
+        $critiques = $this->comment->filter($request->all())->paginate($request->get('per_page', 50));
+        return $this->response->paginator($critiques, new CommentTransformer);
     }
 
     /**
@@ -59,8 +60,7 @@ class PlaylistItemsController extends Controller
      */
     public function show($id)
     {
-        $item = $this->item->firstOrFail($id);
-        return response()->json(compact('item'));
+        //
     }
 
     /**
@@ -95,11 +95,5 @@ class PlaylistItemsController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function checkIn($id)
-    {
-        $item = $this->item->whereIn('project_id', $id)->firstOrFail();
-        return response()->json(compact('item'));
     }
 }

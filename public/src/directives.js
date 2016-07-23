@@ -209,7 +209,7 @@
                 link: function (scope, el, attrs) {
                     scope.model = {
                         newName: null,
-                        playlistArr: []
+                        playlistArr: [],
                     };
                     scope.playlists = [];
                     scope.newPlInput = false;
@@ -219,13 +219,13 @@
                         DataService.collection('playlists')
                             .then(function (res) {
                                 // Check playlist items for this video
-                                DataService.item('playlistItems/check', scope.project.id)
+                                DataService.collection('playlistItems', {project: scope.project.id, playlists: _.pluck(res.data.playlists, 'id').toString()})
                                     .then(function (resA) {
                                         // console.log(resA);
-                                        scope.model.playlistArr = resA.data.item;
+                                        scope.model.playlistArr = resA.data.data;
 
                                         // list playlists
-                                        scope.model.playlists = res.data.playlists;
+                                        scope.playlists = res.data.playlists;
                                         // console.log(scope.playlists);
                                     });
                             });
@@ -247,7 +247,7 @@
                             }, false, true).then(function (pl) {
                                 scope.toggleNewPlInput(false);
                                 scope.model.newName = null;
-                                scope.playlists.data.push(pl.data)
+                                scope.playlists.push(pl.data)
                             });
                         }, function (err) {
                             UserActions.loginModal().then(function (res) {
@@ -270,7 +270,7 @@
                                 if (scope.model.playlistArr[i].id == item.id) {
                                     var genreSetting = _.findWhere(scope.model.playlistArr, {
                                         project: scope.project.id,
-                                        playlist: item.id
+                                        playlist_id: item.id
                                     });
                                     // console.log(genreSetting);
                                     if (genreSetting) {
@@ -287,7 +287,7 @@
                     scope.isCheckedPlaylist = function (id) {
                         var match = false;
                         for (var i = 0; i < scope.model.playlistArr.length; i++) {
-                            if (scope.model.playlistArr[i].playlist == id) {
+                            if (scope.model.playlistArr[i].playlist_id == id) {
                                 match = true;
                             }
                         }
@@ -296,7 +296,7 @@
                 }
             }
         }])
-        .directive('toggleShowMore', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+         .directive('toggleShowMore', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
             return {
                 restrict: 'A',
                 scope: {
@@ -407,7 +407,7 @@
                                 info: ""                                                                                    //video info
                             });
                         });
-                    }).then(function () {
+                    }).finally(function () {
                         window.videoPlayer = scope.videoPlayer = el.Video({                  //ALL PLUGIN OPTIONS
                             instanceName: "player1",                      //name of the player instance
                             autohideControls: 2,                          //autohide HTML5 player controls
@@ -496,49 +496,49 @@
                             $state.go('video', {url_id: urlId});
                         });
 
-                        $timeout(function () {
-                            startedPlaying();
-                        }, 100);
+                        // $timeout(function () {
+                        //     scope.startedPlaying();
+                        // }, 100);
+
+                        scope.startedPlaying = $interval(function () {
+                            // If Vimeo video
+                            if (scope.videoPlayer.state === 'loading' && !!angular.element('#elite_vp_vimeoWrapper iframe')) {
+                                // Listen for messages from the player
+                                if (!listenerStarted) {
+                                    if (window.addEventListener) {
+                                        window.addEventListener('message', vimeoListener, false);
+                                    }
+                                    else {
+                                        window.attachEvent('onmessage', vimeoListener);
+                                    }
+                                    listenerStarted = true;
+                                }
+                            }
+
+                            // if YouTube Video
+                            if (scope.videoPlayer.state === "elite_vp_playing") {
+                                toggleLights();
+                                $rootScope.initWatch();
+
+                                switch (scope.type) {
+                                    case "youtube":
+                                        //console.log('Youtube API is Ready');
+                                        scope.videoPlayer.youtubePlayer.addEventListener("onStateChange", function (a) {
+                                            //console.log(a.target.getPlayerState());
+                                            if (a.target.getPlayerState() == 0) {
+                                                //console.log('Scroll page to content');
+                                                toggleLights();
+                                                anchorSmoothScroll.scrollTo('SinglePostStats');
+                                            }
+                                        });
+                                        break;
+                                }
+
+                                $interval.cancel(scope.startedPlaying)
+                            }
+                        }, 1000);
 
                     });
-
-                    var startedPlaying = $interval(function () {
-                        // If Vimeo video
-                        if (scope.videoPlayer.state === 'loading' && !!angular.element('#elite_vp_vimeoWrapper iframe')) {
-                            // Listen for messages from the player
-                            if (!listenerStarted) {
-                                if (window.addEventListener) {
-                                    window.addEventListener('message', vimeoListener, false);
-                                }
-                                else {
-                                    window.attachEvent('onmessage', vimeoListener);
-                                }
-                                listenerStarted = true;
-                            }
-                        }
-
-                        // if YouTube Video
-                        if (scope.videoPlayer.state === "elite_vp_playing") {
-                            toggleLights();
-                            $rootScope.initWatch();
-
-                            switch (scope.type) {
-                                case "youtube":
-                                    //console.log('Youtube API is Ready');
-                                    scope.videoPlayer.youtubePlayer.addEventListener("onStateChange", function (a) {
-                                        //console.log(a.target.getPlayerState());
-                                        if (a.target.getPlayerState() == 0) {
-                                            //console.log('Scroll page to content');
-                                            toggleLights();
-                                            anchorSmoothScroll.scrollTo('SinglePostStats');
-                                        }
-                                    });
-                                    break;
-                            }
-
-                            $interval.cancel(startedPlaying)
-                        }
-                    }, 1000);
 
                     function vimeoListener(event) {
                         // Handle messages from the vimeo player only
@@ -554,7 +554,7 @@
                                 }
                                 $rootScope.initWatch();
                                 hasWatched = true;
-                                $interval.cancel(startedPlaying)
+                                $interval.cancel(scope.startedPlaying)
                             }
 
                             if (window.addEventListener) {
@@ -747,40 +747,8 @@
                 },
                 link: function (scope, el, attrs) {
                     scope.isQueried = scope.queried === 'true';
-                    scope.isOpenFab = false;
                     scope.isLoggedIn = $rootScope.AppData.User;
                     scope.openShareDialog = openShareDialog;
-                    scope.toFavorites = toFavorites;
-                    scope.toWatchLater = toWatchLater;
-                    scope.check = check;
-
-                    function check(obj) {
-                        UserActions.checkAuth().then(function (res) {
-                            // Check Saved and Faved Status
-                            UserActions.checkFavorite(obj).then(function (res) {
-                                scope.isFaved = true;
-                            }, function (res) {
-                                scope.isFaved = res;
-                            });
-                            UserActions.checkWatchLater(obj).then(function (res) {
-                                scope.isSaved = true;
-                            }, function (res) {
-                                scope.isSaved = res;
-                            });
-                        }, function (err) {
-                            UserActions.loginModal().then(function (res) {
-                                debugger;
-                            });
-                        });
-                    }
-
-                    function toFavorites(obj) {
-                        return UserActions.favorite(obj);
-                    }
-
-                    function toWatchLater(obj) {
-                        return UserActions.watchLater(obj);
-                    }
 
                     function openShareDialog(video) {
                         $modal.open({
@@ -792,41 +760,13 @@
                             },
                             controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
                                 $scope.video = Video;
-                                $scope.shareLink = window.location.origin + '/alpha/' + Video.url_id;
+                                $scope.shareLink = window.location.origin + '/' + Video.url_id;
                                 $scope.cancel = function () {
                                     $modalInstance.close();
                                 };
                             }]
                         })
                     }
-
-                    scope.deleteProject = function (ev) {
-                        if ($rootScope.isLoggedIn && ($rootScope.isLoggedIn.id === scope.video.owner.id)) {
-                            var confirm = $modal.confirm()
-                                .title('Would you like to delete your project?')
-                                //.content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
-                                //.ariaLabel('Lucky day')
-                                .targetEvent(ev)
-                                .ok('Delete it!')
-                                .cancel('Never mind');
-                            $modal.show(confirm).then(function () {
-                                //self.project.set('disableProject', true);
-                                self.project.destroy({
-                                    success: function (myObject) {
-                                        // The object was deleted from the Parse Cloud.
-                                        $state.go('profile');
-                                    },
-                                    error: function (myObject, error) {
-                                        // The delete failed.
-                                        // error is a Parse.Error with an error code and message.
-                                    }
-                                });
-                                $state.go('profile');
-                            }, function () {
-                                //$scope.status = 'You decided to keep your debt.';
-                            });
-                        }
-                    };
                 }
             }
         }])
@@ -861,32 +801,34 @@
                             if (res) {
                                 DataService.save('Comment', {
                                     body: scope.model.myComment,
-                                    parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    parentCritique: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
+                                    //parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
+                                    critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
                                     author: scope.model.isLoggedIn.id
                                 }, true, true)
                                     .then(function (comment) {
-                                        angular.extend(comment.data, {
+                                        debugger;
+                                        /*angular.extend(comment.data, {
                                             ownerId: comment.data.author.id,
                                             ownerUrlId: comment.data.author.url_id,
                                             ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
                                             ownerAvatar: comment.data.author.avatar
-                                        });
+                                        });*/
 
                                         scope.comments.data.push(comment.data);
                                         $rootScope.toastMessage('Comment posted!');
                                         scope.model.myComment = null;
                                         clearCommentinput();
                                         // refresh parent data
-                                        scope.parent.commentCount++;
+                                        scope.parent.replyCount++;
                                         /*if (scope.parent.hasOwnProperty('unlist')) {
                                          DataService.getItem('Project', scope.parent.id, true, '', 2).then(function (a) {
                                          scope.parent = a.data;
                                          });
                                          } else {*/
-                                        DataService.query('getCritiqueByUrlId', {urlId: scope.parent.url_id}).then(function (result) {
-                                            scope.parent = result.data[0];
+                                        DataService.item('critiques', scope.parent.url_id, 'project.owner').then(function (result) {
+                                            scope.parent = result.data.data;
                                         });
+
                                         //}
                                         // register Action
                                         UtilsService.recordActivity(comment.data, 'comment');
@@ -955,8 +897,8 @@
                     function loadReplies(comment) {
                         // Fetch Replies
                         if (!comment.repliesLoaded) {
-                            DataService.query('getCommentReplies', {id: comment.id}).then(function (replies) {
-                                comment.replies = replies.data;
+                            DataService.collection('comments', {comment: comment.id}).then(function (replies) {
+                                comment.replies = replies.data.data;
                                 comment.repliesLoaded = true;
                                 comment.showReplies = !comment.showReplies;
                                 return comment;
@@ -998,18 +940,19 @@
                 scope: {
                     critiques: '=critiques',
                     disable: '=disable',
-                    parentUrlId: '='
+                    parentUrlId: '=',
+                    parentOwnerId: '='
                 },
                 link: function (scope, el, attrs) {
                     scope.isLoggedIn = $rootScope.AppData.User;
-                    scope.showQuickReply = !1;
+                    scope.showQuickReply = !0;
 
                     scope.isPrivate = function (critique) {
                         return critique.private;
                     };
 
                     scope.isOwnerOrAuthor = function (critique) {
-                        return scope.isLoggedIn && (scope.isLoggedIn.id == critique.author || scope.isLoggedIn.id == critique.projectOwner);
+                        return scope.isLoggedIn && (scope.isLoggedIn.id == critique.user_id || scope.isLoggedIn.id == scope.parentOwnerId);
                     };
 
                     scope.deleteCritique = function (c) {

@@ -11,4 +11,21 @@ class CommentFilter extends ModelFilter
     * @var array
     */
     public $relations = [];
+
+    public function critique($critique)
+    {
+        return $this->where('critique_id', $critique);
+    }
+
+    public function comment($comment)
+    {
+        return $this->where('comment_id', $comment);
+    }
+
+    public function author($author)
+    {
+        return $this->where('author_id', $author);
+    }
+
+
 }

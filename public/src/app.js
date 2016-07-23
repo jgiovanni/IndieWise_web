@@ -369,7 +369,7 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'VideoCritiqueCtrl as VCC',
                     resolve: {
                         Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
-                            return DataService.item('critiques', $stateParams.url_id).then(function (result) {
+                            return DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
                                 return result;
                             });
                         }]
@@ -383,7 +383,7 @@ jQuery(document).ready(function (jQuery) {
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
                             var deferred = $q.defer();
-                            DataService.item('critiques', $stateParams.url_id).then(function (result) {
+                            DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
                                 result.data[0].author === AuthService.currentUser.id ? deferred.resolve(result) : deferred.reject('Not Owner');
                             });
                             return deferred.promise;

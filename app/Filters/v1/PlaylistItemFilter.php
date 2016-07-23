@@ -14,6 +14,22 @@ class PlaylistItemFilter extends ModelFilter
 
     public function playlist($playlist)
     {
-        return $this->where('playlist_id', $playlist);
+        $user_id = app('Dingo\Api\Auth\Auth')->user()->id;
+        return $this->whereHas('playlist', function ($query) use ($playlist, $user_id) {
+            return $query->where('id', $playlist)->where('user_id', $user_id);
+        });
+    }
+
+    public function playlists($playlists)
+    {
+        $user_id = app('Dingo\Api\Auth\Auth')->user()->id;
+        return $this->whereHas('playlist', function ($query) use ($playlists, $user_id) {
+            return $query->whereIn('id', explode(',', $playlists))->where('user_id', $user_id);
+        });
+    }
+
+    public function project($project)
+    {
+        return $this->where('project_id', $project);
     }
 }

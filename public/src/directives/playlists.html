@@ -4,13 +4,7 @@
     </toggle>
     <pane>
         <ul class="menu vertical">
-            <!--<li class="checkbox">
-                <input type="checkbox" id="isFaved" ng-model="VC.isFaved"
-                       ng-false-value="false||'login'"
-                       ng-change="VC.toFavorites()">
-                <label class="customLabel" for="isFaved">Favorites</label>
-            </li>-->
-            <li class="checkbox" ng-repeat="pl in model.playlists|orderBy:'name'">
+            <li class="checkbox" ng-repeat="pl in playlists|orderBy:'name'">
                 <input type="checkbox" id="pl{{$index}}" ng-model="bool"
                        ng-click="syncPlaylists(bool, pl)" ng-checked="isCheckedPlaylist(pl.id)">
                 <label class="customLabel" for="pl{{$index}}">{{pl.name}}</label>

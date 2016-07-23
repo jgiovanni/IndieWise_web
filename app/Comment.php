@@ -2,20 +2,23 @@
 
 namespace IndieWise;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use SoftDeletes, UuidForKey;
+    use SoftDeletes, Filterable, UuidForKey;
     //
     protected $table = 'Comment';
+
+    protected $with = ['author'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'edited_at', 'replied_at'];
 
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function critique()
@@ -30,7 +33,7 @@ class Comment extends Model
 
     public function replies()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'comment_id');
     }
 
 
