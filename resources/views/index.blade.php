@@ -38,6 +38,7 @@
     <script>
         // Underscore noConflict();
         var ___ = _.noConflict();
+        var BASE = './public/';
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>

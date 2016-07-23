@@ -38,10 +38,8 @@
     <script>
         // Underscore noConflict();
         var ___ = _.noConflict();
-        @if(app()->environment('local'))
         var API = 'http://indiewise.dev/api/';
         var BASE = './public/';
-        @endif;
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
