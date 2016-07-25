@@ -360,6 +360,7 @@
 
 <!-- AngularJs Components -->
 <script src="./app/bower_components/lodash/lodash.js"></script>
+<script src="./app/bower_components/getstream/dist/js_min/getstream.js"></script>
 <script src="./app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.min.js+angular-aria.min.js+angular-messages.min.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>
 <script src="./app/bower_components/angular-loading-bar/build/loading-bar.js"></script>
