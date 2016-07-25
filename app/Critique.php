@@ -3,12 +3,14 @@
 namespace IndieWise;
 
 use EloquentFilter\Filterable;
+use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use IndieWise\Events\Event;
 
 class Critique extends Model
 {
-    use SoftDeletes, Filterable, UuidForKey;
+    use SoftDeletes, Filterable, UuidForKey, ActivityTrait;
 
     protected $table = 'Critique';
 
@@ -43,4 +45,19 @@ class Critique extends Model
     {
         return $this->hasMany(Action::class);
     }
+
+    public static function boot()
+    {
+
+        parent::boot();
+
+        static::created(function($critique) {
+            Event::fire('critique.created', $critique);
+        });
+
+        static::deleted(function($critique) {
+            Event::fire('critique.deleted', $critique);
+        });
+    }
+
 }

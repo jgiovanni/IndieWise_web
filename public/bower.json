@@ -19,15 +19,16 @@
     "angucomplete-alt": "^2.4.1",
     "cloudinary_ng": "^1.0.0",
     "angular-ui-router": "1.0.0-alpha.5",
-    "angular-socialshare": "angularjs-socialshare#2.1.6",
-    "angular-foundation-6": "^0.9.35",
-    "foundation-apps": "^1.2.0"
+    "angular-socialshare": "*",
+    "angular-foundation-6": "*"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0",
     "angular-translate-loader-partial": "^2.11.0"
   },
   "resolutions": {
-    "angular": "^1.4.x"
+    "angular": "^1.4.x",
+    "angular-ui-router": "1.0.0-alpha.5",
+    "jquery": "~2.2.0"
   }
 }

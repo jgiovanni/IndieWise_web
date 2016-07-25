@@ -94,13 +94,13 @@
                                         var t = 0;
                                         if (angular.isArray(_userParams.genres) && _userParams.genres.length) {
                                             $interval(function () {
-                                                DataService.save('Genres', {user: res.userId, genre: _userParams.genres[g++].id});
+                                                DataService.save('Genres', {user: res.id, genre: _userParams.genres[g++].id});
                                             }, 500, _userParams.genres.length);
                                         }
                                         if (angular.isArray(_userParams.types) && _userParams.types.length) {
                                             $interval(function () {
                                                 DataService.save('UserTypes', {
-                                                    user: res.userId,
+                                                    user: res.id,
                                                     type_id: _userParams.types[t].id,
                                                     type_name: _userParams.types[t++].name
                                                 });
@@ -278,12 +278,12 @@
                 },
                 canCritique: function (filmId) {
                     var deferred = $q.defer();
-                    if (AuthService.currentUser) {
-                        DataService.query('canCritique', {filmId: filmId, userId: AuthService.currentUser.userId})
+                    if (AuthService.isAuthenticated()) {
+                        DataService.collection('critiques', {project: filmId, user: AuthService.currentUser.id})
                             .then(function (res) {
-                                res.data.length
+                                res.data.data.length
                                     // critique exists already from this user
-                                    ? deferred.reject(res.data[0])
+                                    ? deferred.reject(res.data.data[0])
                                     // user hasn't critiqued yet
                                     : deferred.resolve(true);
                             });
@@ -295,11 +295,11 @@
                 canReact: function (filmId) {
                     var deferred = $q.defer();
                     if (AuthService.currentUser) {
-                        DataService.collection('canReact', {filmId: filmId, userId: AuthService.currentUser.userId})
+                        DataService.collection('reactions', {project: filmId, user: AuthService.currentUser.id})
                             .then(function (res) {
-                                res.data.length
+                                res.data.data.length
                                     // critique exists already from this user
-                                    ? deferred.reject(res.data[0])
+                                    ? deferred.reject(res.data.data[0])
                                     // user hasn't critiqued yet
                                     : deferred.resolve(true);
                             });
@@ -311,11 +311,11 @@
                 canRate: function (filmId) {
                     var deferred = $q.defer();
                     if (AuthService.currentUser) {
-                        DataService.collection('canRate', {filmId: filmId, userId: AuthService.currentUser.userId})
+                        DataService.collection('ratings', {project: filmId, user: AuthService.currentUser.id})
                             .then(function (res) {
-                                res.data.length
+                                res.data.ratings.length
                                     // critique exists already from this user
-                                    ? deferred.reject(res.data[0])
+                                    ? deferred.reject(res.data.ratings[0])
                                     // user hasn't critiqued yet
                                     : deferred.resolve(true);
                             });

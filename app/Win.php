@@ -3,12 +3,14 @@
 namespace IndieWise;
 
 use EloquentFilter\Filterable;
+use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use IndieWise\Events\Event;
 
 class Win extends Model
 {
-    use SoftDeletes, Filterable, UuidForKey;
+    use SoftDeletes, Filterable, UuidForKey, ActivityTrait;
     //
     protected $table = 'AwardWin';
 
@@ -29,6 +31,30 @@ class Win extends Model
     public function actions()
     {
         return $this->hasMany(Action::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function activityActorMethodName()
+    {
+        return 'owner';
+    }
+
+    public static function boot()
+    {
+
+        parent::boot();
+
+        static::created(function($win) {
+            Event::fire('win.created', $win);
+        });
+
+        static::deleted(function($win) {
+            Event::fire('win.deleted', $win);
+        });
     }
 
 }

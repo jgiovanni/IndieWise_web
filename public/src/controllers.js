@@ -638,7 +638,7 @@
 
         self.refresh = function () {
             // Trending Videos
-            DataService.collection('projects', { sort:'reactionCount', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'reactions_count', per_page: 6}).then(function (result) {
                 self.trending = result.data;
             });
 
@@ -648,7 +648,7 @@
             });
 
             // Highest Awarded Videos
-            DataService.collection('projects', { sort:'awardCount', per_page: 6}).then(function (result) {
+            DataService.collection('projects', { sort:'wins_count', per_page: 6}).then(function (result) {
                 self.highestAwarded = result.data;
             });
 
@@ -708,13 +708,13 @@
             var filterField = '';
             switch (self.filters.sort) {
                 case 'trending':
-                    filterField = 'reactionCount';
+                    filterField = 'reactions_count';
                     break;
                 case 'rating':
                     filterField = 'iwRating';
                     break;
                 case 'awards':
-                    filterField = 'awardCount';
+                    filterField = 'wins_count';
                     break;
                 case 'recent':
                 default:
@@ -869,18 +869,16 @@
                  })*/
             //});
         }
-        self.videoOwner = self.film.owner;
 
         self.checkUserActions = function () {
             if ($rootScope.isAuthenticated()) {
-                var videoOwnerIsYou = self.videoOwner.id === $rootScope.AppData.User.id;
                 UserActions.canReact(self.film.id).then(function (res) {
                     self.canReact = res;
                 }, function (error) {
                     self.canReact = error;
                 });
 
-                if (self.film.disableCritique || (videoOwnerIsYou)) {
+                if (self.film.disableCritique || (self.film.owner_id === $rootScope.AppData.User.id)) {
                     console.log('owner');
                     self.canCritique = false;
                 } else {
@@ -939,7 +937,7 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 300})
+            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 50})
                 .then(function (result) {
                     self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);
@@ -1004,27 +1002,27 @@
                     self.rateThrottled = true;
                     var actionVerb = 'like';
                     if (self.canRate === true) {
-                        DataService.save('Rating', {
-                            author: $rootScope.AppData.User.id,
-                            project: self.film.id,
+                        DataService.save('ratings', {
+                            author_id: $rootScope.AppData.User.id,
+                            project_id: self.film.id,
                             up: direction === 'up',
                             down: direction === 'down'
-                        }, false, true).then(function (res) {
+                        }).then(function (res) {
                             // console.log(res);
                             switch (direction) {
                                 case 'up':
-                                    // Increment film rateUpCount
-                                    self.film.rateUpCount++;
+                                    // Increment film up_ratings_count
+                                    self.film.up_ratings_count++;
                                     break;
                                 case 'down':
-                                    // Increment film rateDownCount
-                                    self.film.rateDownCount++;
+                                    // Increment film down_ratings_count
+                                    self.film.down_ratings_count++;
                                     actionVerb = 'unlike';
                                     break;
                             }
 
                             self.updateVideoObj();
-                            angular.extend(res.data, { projectOwner: self.videoOwner.id});
+                            angular.extend(res.data, { projectOwner: self.film.owner_id});
                             UtilsService.recordActivity(res.data, actionVerb);
                             self.checkUserActions();
                         });
@@ -1032,26 +1030,25 @@
                     } else if (angular.isObject(self.canRate)) {
                         //up is false && down is false
                         if (!self.canRate.up && !self.canRate.down) {
-                            DataService.update('Rating', self.canRate.id, {
-                                up: direction === 'up' ? true : undefined,
-                                down: direction === 'down' ? true : undefined,
-                                direction: direction
-                            }, false, true, direction)
+                            DataService.update('ratings', self.canRate.id, {
+                                up: direction === 'up',
+                                down: direction === 'down',
+                            })
                                 .then(function (res) {
                                     switch (direction) {
                                         case 'up':
-                                            // Increment film rateUpCount
-                                            self.film.rateUpCount++;
+                                            // Increment film up_ratings_count
+                                            self.film.up_ratings_count++;
                                             break;
                                         case 'down':
-                                            // Increment film rateDownCount
-                                            self.film.rateDownCount++;
+                                            // Increment film down_ratings_count
+                                            self.film.down_ratings_count++;
                                             actionVerb = 'unlike';
                                             break;
                                     }
                                     angular.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.videoOwner.id});
+                                    angular.extend(res.data, { projectOwner: self.film.owner_id});
                                     UtilsService.recordActivity(res.data, actionVerb);
                                     //self.checkUserActions();
                                 });
@@ -1060,14 +1057,14 @@
                         } else if (!!self.canRate.up && direction === 'up') {
                             //DataService.delete('Rating', self.canRate.id)
                             angular.extend(self.canRate, {up: false});
-                            DataService.update('Rating', self.canRate.id, {
+                            DataService.update('ratings', self.canRate.id, {
                                 up: false,
-                                direction: direction
-                            }, false, true, direction)
+                                down: true
+                            })
                                 .then(function (res) {
-                                    self.film.rateUpCount--;
+                                    self.film.up_ratings_count--;
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.videoOwner.id});
+                                    angular.extend(res.data, { projectOwner: self.film.owner_id});
                                     UtilsService.updateActivity(res.data, 'like');
                                     //self.checkUserActions();
                                 });
@@ -1076,14 +1073,14 @@
                         } else if (!!self.canRate.down && direction === 'down') {
                             //DataService.delete('Rating', self.canRate.id)
                             angular.extend(self.canRate, {down: false});
-                            DataService.update('Rating', self.canRate.id, {
+                            DataService.update('ratings', self.canRate.id, {
+                                up: true,
                                 down: false,
-                                direction: direction
-                            }, false, true, direction)
+                            })
                                 .then(function (res) {
-                                    self.film.rateDownCount--;
+                                    self.film.down_ratings_count--;
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.videoOwner.id});
+                                    angular.extend(res.data, { projectOwner: self.film.owner_id});
                                     UtilsService.updateActivity(res.data, 'unlike');
                                     //self.checkUserActions();
                                 });
@@ -1094,26 +1091,25 @@
                             switch (direction) {
                                 case 'up':
                                     up = true;
-                                    self.film.rateUpCount++;
-                                    self.film.rateDownCount--;
+                                    self.film.up_ratings_count++;
+                                    self.film.down_ratings_count--;
                                     angular.extend(self.canRate, {up: up, down: down});
                                     break;
                                 case 'down':
                                     down = true;
-                                    self.film.rateUpCount--;
-                                    self.film.rateDownCount++;
+                                    self.film.up_ratings_count--;
+                                    self.film.down_ratings_count++;
                                     angular.extend(self.canRate, {up: up, down: down});
                                     actionVerb = 'unlike';
                                     break;
                             }
-                            DataService.update('Rating', self.canRate.id, {
+                            DataService.update('ratings', self.canRate.id, {
                                 up: up,
                                 down: down,
-                                direction: direction
-                            }, false, true, direction).then(function (res) {
+                            }).then(function (res) {
                                 //self.updateVideoObj();
                                 //self.checkUserActions();
-                                angular.extend(res.data, { projectOwner: self.videoOwner.id});
+                                angular.extend(res.data, { projectOwner: self.film.owner_id});
                                 UtilsService.updateActivity(res.data, actionVerb);
                             });
                         }
@@ -1133,23 +1129,23 @@
                     if (res) {
                         var actionVerb = 'react';
                         if (self.canReact === true) {
-                            DataService.save('Reaction', {
-                                user: $rootScope.AppData.User.id,
-                                project: self.film.id,
+                            DataService.save('reactions', {
+                                user_id: $rootScope.AppData.User.id,
+                                project_id: self.film.id,
                                 emotion: emotion.emotion
-                            }, true, true).then(function (resA) {
-                                self.film.reactionCount++;
+                            }).then(function (resA) {
+                                self.film.reactions_count++;
                                 self.updateVideoObj();
-                                angular.extend(resA.data, { projectOwner: self.videoOwner.id});
+                                angular.extend(resA.data, { projectOwner: self.film.owner_id});
                                 UtilsService.recordActivity(resA.data, actionVerb);
                                 self.checkUserActions();
                                 self.qReactions();
                             });
                         } else if (angular.isObject(self.canReact)) {
                             if (self.canReact.emotion !== emotion.emotion) {
-                                DataService.update('Reaction', self.canReact.id, {
+                                DataService.update('reactions', self.canReact.id, {
                                     emotion: emotion.emotion
-                                }, false, true).then(function (resA) {
+                                }).then(function (resA) {
                                     self.canReact = resA.data;
                                     self.updateVideoObj();
                                     self.checkUserActions();
@@ -1197,8 +1193,8 @@
 
                             DataService.delete('Critique', c.id).then(function () {
                                 $rootScope.toastMessage('Your critique was deleted.');
-                                // Decrement film critiqueCount
-                                self.film.critiqueCount--;
+                                // Decrement film critiques_count
+                                self.film.critiques_count--;
                                 self.updateVideoObj();
                                 self.checkUserActions();
                                 self.critiques = _.reject(self.critiques, function (a) {
@@ -1215,7 +1211,7 @@
 
         self.openCritiqueDialog = function ($event) {
             if (self.canCritique !== true && self.canCritique !== false) {
-                return $state.go('video_critique-edit', {video_id: self.film.id, id: self.canCritique.id});
+                return $state.go('video_critique', {video_url_id: self.film.url_id, url_id: self.canCritique.url_id});
             }
 
             CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', '$q', 'Analytics'];
@@ -1280,13 +1276,13 @@
                             projectId: self.film.url_id,
                             projectUrlId: self.film.url_id,
                             projectThumbnail: self.film.thumbnail_url,
-                            projectOwner: self.videoOwner.id
+                            projectOwner: self.film.owner_id
                         });
 
                         self.critiques.push(obj);
                         self.calcIwAverage(self.critiques);
-                        // Increment film critiqueCount
-                        self.film.critiqueCount++;
+                        // Increment film critiques_count
+                        self.film.critiques_count++;
 
                         // register Action
                         UtilsService.recordActivity(obj, 'judge');
@@ -1367,7 +1363,7 @@
                     }
                 },
                 size: Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
-                controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
+                controller: ['$rootScope', '$scope', '$modalInstance', 'Video', function ($rootScope, $scope, $modalInstance, Video) {
                     zIndexPlayer();
                     $scope.video = Video;
                     $scope.shareLink = window.location.origin + '/' + Video.url_id;
@@ -1913,15 +1909,15 @@
     ProfileVideoEditCtrl.$inject = ['$rootScope', '$state', '$modal', 'UserActions', 'Project', 'DataService', 'anchorSmoothScroll', '_'];
     function ProfileVideoEditCtrl($rootScope, $state, $modal, UserActions, Project, DataService, anchorSmoothScroll, _) {
         var self = this;
-        self.project = Project.data;
+        self.project = Project.data.data;
         self.uploadType = 2;
         self.genresArr = self.project.genres;
         self.saveComplete = false;
         self.editedProject = angular.copy(self.project);
         angular.extend(self.editedProject, {
-            type: self.project.type.id,
-            language: self.project.language.id,
-            filmingCountry: self.project.filmingCountry.id,
+            type_id: self.project.type_id,
+            language_id: self.project.language_id,
+            filmingCountry_id: self.project.filmingCountry_id,
             completionDate: moment(self.project.completionDate).year()
         });
         // console.log(self.editedProject);
@@ -1940,29 +1936,30 @@
         }
 
         $rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res.data.data;
+            $rootScope.genresList = self.genresList = res;
         });
         $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res.data.data;
+            $rootScope.typesList = self.typesList = res;
         });
         $rootScope.generateCountries().then(function (res) {
-            $rootScope.countryList = self.countryList = res.data.data;
+            $rootScope.countryList = self.countryList = res;
         });
         $rootScope.generateLanguages().then(function (res) {
-            $rootScope.languageList = self.languageList = res.data.data;
+            $rootScope.languageList = self.languageList = res;
         });
 
         self.syncGenres = function (bool, item) {
             if (bool) {
                 // add item
-                DataService.save('Genres', {project: self.editedProject.id, genre: item.id}, true, true)
+                self.genresArr.push(item);
+                /*DataService.save('Genres', {project: self.editedProject.id, genre: item.id}, true, true)
                     .then(function (res) {
                         self.genresArr.push(res.data);
-                    });
+                    });*/
             } else {
                 // remove item
                 for (var i = 0; i < self.genresArr.length; i++) {
-                    if (self.genresArr[i].genre.id == item.id) {
+                    if (self.genresArr[i].id == item.id) {
                         DataService.delete('Genres', self.genresArr[i].id);
                         self.genresArr.splice(i, 1);
                     }
@@ -1973,7 +1970,7 @@
         self.isCheckedGenre = function (id) {
             var match = false;
             for (var i = 0; i < self.genresArr.length; i++) {
-                if (self.genresArr[i].genre.id == id) {
+                if (self.genresArr[i].id == id) {
                     match = true;
                 }
             }
@@ -2008,7 +2005,7 @@
                 } else if (url.indexOf('youku') != -1) {
 
                 } else if (url.indexOf('vine') != -1) {
-                    $http.get('/utils/get-vine-data.php?url=' + url).then(function (res) {
+                    $http.get('api/utils/get-vine-data?url=' + url).then(function (res) {
                         return self.editedProject.thumbnail_url = self.project.thumbnail_url = res.data;
                     });
                 }
@@ -2020,8 +2017,9 @@
         };
 
         self.updateProject = function () {
-            self.editedProject.completionDate = moment().year(self.editedProject.completionDate).toDate();
-            DataService.update('Project', self.editedProject.id, self.editedProject, false, true)
+            self.editedProject.genres = _.pluck(self.genresArr, 'id');
+            self.editedProject.completionDate = moment({year: self.editedProject.completionDate}).startOf('year').format('YYYY-MM-DD HH:MM:SS');
+            DataService.update('projects', self.editedProject.id, self.editedProject)
                 .then(function (res) {
                     // console.log(res);
                     self.saveComplete = true;
@@ -2337,7 +2335,7 @@
                         keyboard: true
                     });
                     modalInstance.result.then(function () {
-                        DataService.delete('Project', videoId).then(function () {
+                        DataService.delete('projects', videoId).then(function () {
                             self.projects = _.reject(self.projects.data, function (a) {
                                 return a.id === videoId;
                             });
@@ -2509,7 +2507,7 @@
                 _.each(data, function (a) {
                     a.name = a.first_name + ' ' + a.last_name;
                     a.image = a.avatar || BASE + 'assets/img/avatar-1.png';
-                    a.email = '     ';
+                    a.email = '';
                 });
                 // console.log(data);
                 deferred.resolve(data);

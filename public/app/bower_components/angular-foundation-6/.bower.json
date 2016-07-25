@@ -1,6 +1,6 @@
 {
   "name": "angular-foundation-6",
-  "version": "0.9.42",
+  "version": "0.10.0",
   "homepage": "https://github.com/circlingthesun/angular-foundation-6",
   "description": "Angular module for foundation 6 components",
   "main": [
@@ -24,13 +24,13 @@
     "test",
     "tests"
   ],
-  "_release": "0.9.42",
+  "_release": "0.10.0",
   "_resolution": {
     "type": "version",
-    "tag": "v0.9.42",
-    "commit": "1a95f47abee2d4fda3295f62447cc65645ae511f"
+    "tag": "v0.10.0",
+    "commit": "e432f9cefe50089366834a3dc6dafa35ba67b9c0"
   },
   "_source": "https://github.com/circlingthesun/angular-foundation-6.git",
-  "_target": "^0.9.35",
+  "_target": "*",
   "_originalSource": "angular-foundation-6"
 }

@@ -31,6 +31,7 @@ class ReactionFilter extends ModelFilter
     {
         return $this->where('project_id', '<>', $project);
     }
+
     /*public function notVideo($notVideo)
     {
         return $this->whereNotIn('id', explode(',', $notVideo));

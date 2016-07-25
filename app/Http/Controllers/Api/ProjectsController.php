@@ -31,19 +31,23 @@ class ProjectsController extends Controller
     public function index(Request $request)
     {
         //
-        $projects = $this->project->listed()->filter($request->all())->paginate($request->get('per_page', 10));
+        if ($request->has('owner') && $request->get('owner') == $this->auth->user()->id) {
+            $projects = $this->project->filter($request->all())->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->paginate($request->get('per_page', 10));
+        } else {
+            $projects = $this->project->listed()->filter($request->all())->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->paginate($request->get('per_page', 10));
+        }
         return $this->response->paginator($projects, new ProjectTransformer);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request|ProjectRequest $request
+     * @param \Illuminate\Http\ProjectRequest|ProjectRequest $request
      * @return \Dingo\Api\Http\Response
      */
     public function store(ProjectRequest $request)
     {
-        $project = Project::create($request->except('genres'));
+        $project = $this->project->create($request->except('genres'));
 
         $project->syncGenres($request->get('genres'));
 
@@ -59,20 +63,23 @@ class ProjectsController extends Controller
     public function show($id)
     {
         //
-        $project = $this->project->whereId($id)->orWhere('url_id', $id)->firstOrFail();
+        $project = $this->project->whereId($id)->orWhere('url_id', $id)->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->firstOrFail();
         return $this->response->item($project, new ProjectTransformer);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\ProjectRequest|ProjectRequest $request
+     * @param  int $id
      * @return \Dingo\Api\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProjectRequest $request, $id)
     {
-        //
+        $project = $this->project->find($id);
+        $project->update($request->except('genres', 'owner', 'language', 'type', 'filming_country', 'up_ratings_count', 'down_ratings_count', 'wins_count', 'critiques_count', 'nominations_count', 'reactions_count'));
+        $project->syncGenres($request->get('genres'));
+        return $this->response->item($project, new ProjectTransformer);
     }
 
     /**

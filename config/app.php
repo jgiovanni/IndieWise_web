@@ -147,7 +147,7 @@ return [
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
+        GetStream\StreamLaravel\StreamLaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -157,6 +157,10 @@ return [
         IndieWise\Providers\EventServiceProvider::class,
         IndieWise\Providers\RouteServiceProvider::class,
 
+        /*
+         * My Service Providers
+         */
+        IndieWise\Providers\v1\ProjectServiceProvider::class,
     ],
 
     /*
@@ -211,6 +215,7 @@ return [
         'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
+        'FeedManager'   => GetStream\StreamLaravel\Facades\FeedManager::class,
     ],
 
 ];

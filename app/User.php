@@ -77,6 +77,11 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         return $this->hasMany(Project::class, 'id', 'owner_id');
     }
 
+    public function wins()
+    {
+        return $this->hasMany(Win::class, 'id', 'owner_id');
+    }
+
     public function critiques()
     {
         return $this->hasMany(Critique::class);
@@ -115,5 +120,14 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     public function actions()
     {
         return $this->hasMany(Action::class);
+    }
+
+    public function threads()
+    {
+        return $this->belongsToMany(Thread::class, 'messages', 'user_id', 'thread_id')
+            ->withTimestamps()
+            ->withPivot(['body'])
+            ->groupBy('thread_id')
+            ->latest('updated_at');
     }
 }

@@ -1,100 +1,3 @@
-<!--<section layout="column" layout-align="center center">
-    <md-content layout-padding>
-        <form ng-submit="VEC.submitNewVideo()" name="NewVideoForm">
-            <fieldset>
-                <legend>Video Upload/URL</legend>
-                <div layout layout-lt-md="column">
-                    <md-radio-group ng-model="VEC.uploadType">
-                        <md-radio-button value="1" disabled>Upload Video (coming soon)</md-radio-button>
-                        <md-radio-button value="2">Video Link (YouTube, Vimeo, DailyMotion, Youku, Vine)
-                        </md-radio-button>
-                    </md-radio-group>
-                </div>
-                <div layout="column" ng-if="VEC.uploadType == 2">
-                    <div class="large-12 columns">
-                        <md-input-container flex>
-                            <label>Video URL</label>
-                            <input type="url" ng-model="VEC.editedProject.video_url" ng-required="VEC.uploadType == 2"
-                                   ng-change="VEC.getThumbnailUrl(VEC.editedProject.video_url)">
-                        </md-input-container>
-                        <div flex>
-                            <hr>
-                            <embed-video ng-if="VEC.editedProject.video_url != ''" ng-href="{{VEC.editedProject.video_url}}"
-                                         width="100%" height="200"></embed-video>
-                        </div>
-                    </div>
-                    <div class="large-12 columns">
-                        <md-switch ng-model="uploadOwnArt" aria-label="Private" style="margin: 0;">
-                            Upload your own video thumbnail/artwork ?
-                        </md-switch>
-                    </div>
-                    <div class="large-12 columns" layout-align="center top" ng-if="!uploadOwnArt">
-                        <md-input-container flex>
-                            <label>Poster Artwork/Video Thumbnail URL</label>
-                            <input type="url" ng-model="VEC.editedProject.thumbnailUrl">
-                        </md-input-container>
-                        <div flex>
-                            <hr>
-                            <img ng-if="VEC.editedProject.thumbnailUrl != ''" ng-src="{{VEC.editedProject.thumbnailUrl}}"
-                                 alt="Video Thumbnail URL">
-                        </div>
-                    </div>
-                    <div class="large-12 columns" layout-align="center top" ng-if="!!uploadOwnArt">
-                        <md-card flow-init="{target: 'utils/upload_artwork.php',}" flow
-                                 flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
-                                 flow-files-submitted="$flow.upload()" flow-complete="VEC.uploadArtwork($flow)">
-                            <img ng-hide="$flow.files.length"
-                                 ng-src="{{VEC.editedProject.thumbnailUrl||'./assets/img/default_video_thumbnail.jpg'}}"
-                                 class="md-card-image" alt="Avatar" style="max-width: 560px"/>
-                            <img ng-show="$flow.files.length" flow-img="$flow.files[0]" class="md-card-image"
-                                 style="max-width: 560px"/>
-                            <md-card-actions layout="row" layout-align="end center">
-                                <button class="" ng-hide="$flow.files.length" flow-btn
-                                           flow-attrs="{accept:'image/*'}">Select image
-                                </button>
-                                <button class="" ng-show="$flow.files.length" flow-btn
-                                           flow-attrs="{accept:'image/*'}">Change
-                                </button>
-                                <button class="" ng-show="$flow.files.length" ng-click="$flow.cancel()">
-                            </md-card-actions>
-                        </md-card>
-                    </div>
-                </div>
-            </fieldset>
-            <br>
-            <fieldset>
-                <legend>Optional Details</legend>
-                <div layout layout-lt-md="column">
-                    <md-chips flex
-                              ng-model="VEC.editedProject.tags"
-                              placeholder="Enter a tag"
-                              delete-button-label="Remove Tag"
-                              delete-hint="Press delete to remove tag"
-                              secondary-placeholder="Tags"></md-chips>
-                    <br/>
-                    &lt;!&ndash;<md-select flex placeholder="Country of Origin" ng-model="VEC.editedProject.originCountry"
-                               md-on-open="VEC.getCountries()" style="min-width: 200px;">
-                        <md-option ng-value="c.id" ng-repeat="c in countryList|orderBy:'attributes.name.common'"
-                                   class="md-accent">
-                            {{c.attributes.name.common}}
-                        </md-option>
-                    </md-select>&ndash;&gt;
-                </div>
-            </fieldset>
-
-            <div class="md-actions" layout="row" layout-align="right center">
-                <button class="md-warn" ui-sref="home">Cancel</button>
-                <span flex></span>
-                <button type="submit" class="md-raised md-accent md-hue-2" ng-disabled="">
-                    Submit
-                </button>
-            </div>
-
-        </form>
-
-    </md-content>
-</section>-->
-
 <!-- profile settings -->
 <section class="submit-post">
     <div class="row secBg">
@@ -269,7 +172,7 @@
 
                                 <div class="post-category">
                                     <label>Type: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                        <select ng-model="VEC.editedProject.type"
+                                        <select ng-model="VEC.editedProject.type_id"
                                                 ng-options="t.id as t.name for t in VEC.typesList|orderBy:'name'" required>
                                             <option value="">Select a type</option>
                                         </select>
@@ -277,7 +180,7 @@
                                 </div>
                                 <div class="post-category">
                                     <label>Language: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                        <select ng-model="VEC.editedProject.language" required>
+                                        <select ng-model="VEC.editedProject.language_id" required>
                                             <optgroup>
                                                 <option value="00000000-0000-6b6e-4371-305344643451">English</option>
                                             </optgroup>
@@ -289,7 +192,7 @@
                                 </div>
                                 <div class="post-category">
                                     <label>Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                        <select ng-model="VEC.editedProject.filmingCountry" ng-options="c.id as c.name for c in VEC.countryList|orderBy:'name'" required>
+                                        <select ng-model="VEC.editedProject.filmingCountry_id" ng-options="c.id as c.name for c in VEC.countryList|orderBy:'name'" required>
                                             <option value="">Select Country</option>
                                         </select>
                                     </label>

@@ -8,7 +8,7 @@ return [
 
     'participant_model' => Cmgmyr\Messenger\Models\Participant::class,
 
-    'thread_model' => Cmgmyr\Messenger\Models\Thread::class,
+    'thread_model' => IndieWise\Thread::class, //Cmgmyr\Messenger\Models\Thread::class,
 
     /**
      * Define custom database table names.

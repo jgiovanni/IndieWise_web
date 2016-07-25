@@ -1,14 +1,16 @@
 {
   "name": "satellizer",
   "description": "Token-based AngularJS Authentication",
-  "version": "0.15.3",
+  "version": "0.15.4",
   "main": "dist/satellizer.js",
   "scripts": {
     "start": "supervisor ./examples/server/node/server.js",
     "test": "karma start",
-    "build": "npm run clean && tsc && rollup -c && uglifyjs dist/satellizer.js -o dist/satellizer.min.js",
+    "build": "npm run clean && tsc && rollup -c && uglifyjs dist/satellizer.js -o dist/satellizer.min.js && npm run copy",
     "clean": "rimraf build dist",
-    "copy": "cp dist/satellizer.js examples/client/vendor && cp -R examples/client/ examples/server/php/public/"
+    "copy": "cp dist/satellizer.js examples/client/vendor && cp -R examples/client/ examples/server/php/public/",
+    "bump": "npm version patch",
+    "postversion": "npm test && npm run build && git add -A dist && git commit -m 'Release'"
   },
   "author": {
     "name": "Sahat Yalkabov",
@@ -41,6 +43,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-typescript-preprocessor": "^0.2.1",
     "karma-webpack": "^1.7.0",
+    "npm-run-all": "^2.3.0",
     "phantomjs-prebuilt": "^2.1.7",
     "rollup": "^0.34.1",
     "rollup-plugin-babel": "^2.4.0",

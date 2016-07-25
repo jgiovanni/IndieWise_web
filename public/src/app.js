@@ -134,26 +134,20 @@ jQuery(document).ready(function (jQuery) {
         ])
         .constant('API', window.API || 'http://52.207.215.154/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
-        .config(['$authProvider', 'API', function ($authProvider, API) {
+        .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
 
             $authProvider.facebook({
-                clientId: '150687055270744',
-                // url: window.location.origin + '/auth/facebook',
-                // redirectUri: window.location.origin + '/auth/facebook/callback',
+                clientId: '150687055270744'
             });
 
             $authProvider.google({
-                clientId: '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com',
-                // url: window.location.origin + '/auth/google',
-                // redirectUri: window.location.origin + '/auth/google/callback',
+                clientId: '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com'
             });
 
             $authProvider.twitter({
-                clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm',
-                // url: window.location.origin + '/auth/twitter',
-                // redirectUri: window.location.origin + '/auth/twitter/callback',
+                clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm'
             });
         }])
         .config(['flowFactoryProvider', function (flowFactoryProvider) {
@@ -483,7 +477,7 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'ProfileVideoEditCtrl as VEC',
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
-                            return DataService.item('projects', $stateParams.url_id, true, false, 1).then(function (result) {
+                            return DataService.item('projects', $stateParams.url_id).then(function (result) {
                                 return result;
                             });
                         }]
@@ -705,138 +699,185 @@ jQuery(document).ready(function (jQuery) {
 
         }])
         .constant('Config', {
-            streamApiKey: 'pftnxtwf4yuz',
-            streamApiSecret: 'k563yw7srhjeubw6xbx26def8xta47ume75uqaaewh6k4qyzj4mr3cfcmbts6cf3',
+            streamApiKey: '97wfnrargt9f',
+            streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Backand', function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Backand) {
-            FastClick.attach(document.body);
-            $rootScope.AppData = {
-                User: AuthService.currentUser,
-                Notifications: {
-                    loaded: 'indeterminate'
-                },
-                NotificationsFeed: {
-                    loaded: 'indeterminate'
-                },
-                MessageNotifications: {
-                    loaded: 'indeterminate'
-                },
-                searchText: ''
-            };
-            $rootScope.$state = window.thisState = $state;
-            $rootScope.metadata = {
-                title: '',
-                description: '',
-                image: '',
-                url: ''
-            };
-            $rootScope.$stateParams = $stateParams;
-            $rootScope.isViewLoading = false;
-            $rootScope.today = moment().toDate();
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Backand', 'Config',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Backand, Config) {
+                FastClick.attach(document.body);
+                $rootScope.AppData = {
+                    User: AuthService.currentUser,
+                    Notifications: {
+                        loaded: 'indeterminate'
+                    },
+                    NotificationsFeed: {
+                        loaded: 'indeterminate'
+                    },
+                    MessageNotifications: {
+                        loaded: 'indeterminate'
+                    },
+                    searchText: ''
+                };
+                $rootScope.$state = window.thisState = $state;
+                $rootScope.metadata = {
+                    title: '',
+                    description: '',
+                    image: '',
+                    url: ''
+                };
+                $rootScope.$stateParams = $stateParams;
+                $rootScope.isViewLoading = false;
+                $rootScope.today = moment().toDate();
 
-            $rootScope.isAuthenticated = function () {
-                return AuthService.isAuthenticated();
-            };
+                $rootScope.isAuthenticated = function () {
+                    return AuthService.isAuthenticated();
+                };
 
-            $rootScope.listenNotifications = function (username) {
-                $rootScope.refreshNotifications(username);
-                Backand.on('notifications', function (data) {
-                    console.log('Notifications: ', data);
+                $rootScope.listenNotifications = function (username) {
                     $rootScope.refreshNotifications(username);
-                });
-            };
+                    Backand.on('notifications', function (data) {
+                        console.log('Notifications: ', data);
+                        $rootScope.refreshNotifications(username);
+                    });
+                };
 
-            $rootScope.refreshNotifications = function (id) {
-                $rootScope.AppData.Notifications.loaded = 'indeterminate';
-                DataService.query('getUserNotifications', {
-                    username: id
-                }).then(function (res) {
-                    console.log(res.data);
-                    $rootScope.AppData.Notifications = {
-                        loaded: '',
-                        list: res.data,
-                        unseen: _.where(res.data, {seen: false}).length,
-                        unread: 0
-                    };
-                    console.log($rootScope.AppData.Notifications);
-                });
-            };
-
-            $rootScope.getMessagesFeed = function (feed) {
-                feed.get({limit: 10}, function (error, response, body) {
-                    console.log('Messages Notifications: ', body);
-                    try {
-                        //var data = UtilsService.enrichRawNotifications(body.results);
-                        //console.log(data);
-                        $rootScope.AppData.MessageNotifications = {
+                $rootScope.refreshNotifications = function (id) {
+                    $rootScope.AppData.Notifications.loaded = 'indeterminate';
+                    DataService.query('getUserNotifications', {
+                        username: id
+                    }).then(function (res) {
+                        console.log(res.data);
+                        $rootScope.AppData.Notifications = {
                             loaded: '',
-                            list: body.results,
-                            unseen: body.unseen,
-                            unread: body.unread
+                            list: res.data,
+                            unseen: _.where(res.data, {seen: false}).length,
+                            unread: 0
                         };
-                        console.log($rootScope.AppData.MessageNotifications);
-                    } catch (e) {
-                        console.log(e);
+                        console.log($rootScope.AppData.Notifications);
+                    });
+                };
+
+                $rootScope.getMessagesFeed = function (feed) {
+                    feed.get({limit: 10}, function (error, response, body) {
+                        console.log('Messages Notifications: ', body);
+                        try {
+                            //var data = UtilsService.enrichRawNotifications(body.results);
+                            //console.log(data);
+                            $rootScope.AppData.MessageNotifications = {
+                                loaded: '',
+                                list: body.results,
+                                unseen: body.unseen,
+                                unread: body.unread
+                            };
+                            console.log($rootScope.AppData.MessageNotifications);
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    });
+                };
+
+                $rootScope.StreamClient = stream.connect(Config.streamApiKey, null, Config.streamApp, {location: 'us-east'});
+                $rootScope.getNewToken = function (type, id) {
+                    return $http.get('api/notifications/token?type=' + type).then(function (res) {
+                        return res.data.token;
+                    });
+                };
+
+                $rootScope.subscribeUserFeeds = function () {
+                    $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                        var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                        feed.subscribe(function (obj) {
+                            console.log('Notification: ', obj);
+                            $rootScope.getNotificationsFeed(feed);
+                        }).then(function () {
+                            $rootScope.getNotificationsFeed(feed);
+                        });
+                        $rootScope.getNotificationsFeed(feed);
+                    });
+                };
+
+                $rootScope.getNotificationsFeed = function (feed) {
+                    $http.get('api/notifications/feed').then(function (res) {
+                        console.log('Notification: ', res.data.activities);
+                        $rootScope.AppData.Notifications = res.data.activities;
+                    });
+                    /*feed.get({limit: 10}, function (error, response, body) {
+                        console.log('Notifications: ', body);
+                        try {
+                            var data = UtilsService.enrichRawNotifications(body.results);
+                            console.log(data);
+                            $rootScope.AppData.RawNotifications = {
+                                loaded: '',
+                                list: data.data,
+                                unseen: body.unseen,
+                                unread: body.unread
+                            };
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    });*/
+                };
+
+                var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
+                    if (newValue && angular.isString(newValue.id)) {
+                        console.log('User Logged In');
+
+                        // initialize stream
+                        $rootScope.subscribeUserFeeds();
+                        //$rootScope.listenNotifications(newValue.username);
+                        endWatch();
                     }
                 });
-            };
 
-            var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
-                if (newValue && angular.isString(newValue.id)) {
-                    console.log('User Logged In');
-                    //$rootScope.listenNotifications(newValue.username);
-                    endWatch();
-                }
-            });
+                // loading animation
+                $rootScope.setLoading = function () {
+                    $rootScope.isViewLoading = true;
+                };
+                $rootScope.unsetLoading = function () {
+                    $rootScope.isViewLoading = false;
+                };
 
-            // loading animation
-            $rootScope.setLoading = function () {
-                $rootScope.isViewLoading = true;
-            };
-            $rootScope.unsetLoading = function () {
-                $rootScope.isViewLoading = false;
-            };
-
-            // State transition hooks
-            $transitions.onBefore({}, function ($transition$) {
-                $rootScope.setLoading();
-            });
-
-            $transitions.onStart({to: 'register', from: '*'}, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? $state.target('home') : true;
-            });
-            $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? $state.target('home') : true;
-            });
-            $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? $state.target('home') : true;
-            });
-            $transitions.onStart({
-                to: function (state) {
-                    return !!state.authenticate;
-                }
-            }, function ($transition$, $state, AuthService) {
-                return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
-                    return true;
-                }, function () {
-                    return $state.target('sign_in');
+                // State transition hooks
+                $transitions.onBefore({}, function ($transition$) {
+                    $rootScope.setLoading();
                 });
 
-            });
+                $transitions.onStart({to: 'register', from: '*'}, function ($transition$, $state, AuthService) {
+                    return AuthService.currentUser ? $state.target('home') : true;
+                });
+                $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$, $state, AuthService) {
+                    return AuthService.currentUser ? $state.target('home') : true;
+                });
+                $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$, $state, AuthService) {
+                    return AuthService.currentUser ? $state.target('home') : true;
+                });
+                $transitions.onStart({
+                    to: function (state) {
+                        return !!state.authenticate;
+                    }
+                }, function ($transition$, $state, AuthService) {
+                    return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
+                        return true;
+                    }, function () {
+                        return $state.target('sign_in');
+                    });
 
-            $transitions.onSuccess({}, function () {
-                $rootScope.unsetLoading();
-                $timeout(function () {
-                    jQuery(document).foundation();
-                }, 100);
-                //Analytics.trackPage($location.path());
-            });
+                });
 
-            $transitions.onError({}, function ($state) {
-                console.log($state);
-            });
-        }])
+                $transitions.onSuccess({}, function () {
+                    $rootScope.unsetLoading();
+                    $timeout(function () {
+                        jQuery(document).foundation();
+                    }, 100);
+                    //Analytics.trackPage($location.path());
+                });
+
+                $transitions.onError({}, function ($state) {
+                    console.log($state);
+                });
+            }
+        ])
         .config(['$localForageProvider', function ($localForageProvider) {
             $localForageProvider.config({
                 //driver      : 'localStorageWrapper', // if you want to force a driver

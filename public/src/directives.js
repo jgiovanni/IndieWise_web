@@ -976,8 +976,8 @@
                                     if (scope.isOwnerOrAuthor) {
                                         DataService.delete('Critique', c.id).then(function () {
                                             $rootScope.toastMessage('Your critique was deleted.');
-                                            // Decrement film critiqueCount
-                                            self.film.critiqueCount--;
+                                            // Decrement film critiques_count
+                                            self.film.critiques_count--;
                                             scope.updateVideoObj();
                                             self.checkUserActions();
                                             scope.critiques = _.reject(scope.critiques, function (a) {

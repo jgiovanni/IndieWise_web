@@ -26,9 +26,9 @@
                                 <!--<span><i class="fa fa-eye"></i>1,862K</span>-->
                             </div>
                             <div class="video-btns">
-                                <a class="video-btn" ng-if="::$state.is('profile.videos') && ProfileVideosCtrl.user.data.id === video.owner"
+                                <a class="video-btn" ng-if="::$state.is('profile.videos')"
                                    ui-sref="profile.videos-edit({url_id: video.url_id})"><i class="fa fa-pencil-square-o"></i>Edit</a>
-                                <a class="video-btn" ng-if="::$state.is('profile.videos') && ProfileVideosCtrl.user.data.id === video.owner"
+                                <a class="video-btn" ng-if="::$state.is('profile.videos')"
                                    ng-click="ProfileVideosCtrl.deleteProject(video.id)"><i class="fa fa-trash"></i>Delete</a>
                             </div>
                         </div>

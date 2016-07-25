@@ -89,7 +89,7 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <div class="li-text float-left">
-                                    <p class="number-text">{{::Profile.userStats.critiqueCount}}</p>
+                                    <p class="number-text">{{::Profile.userStats.critiques_count}}</p>
                                     <span>Critiques</span>
                                 </div>
                             </li>
@@ -98,7 +98,7 @@
                                     <i class="fa fa-smile-o"></i>
                                 </div>
                                 <div class="li-text float-left">
-                                    <p class="number-text">{{::Profile.userStats.reactionCount}}</p>
+                                    <p class="number-text">{{::Profile.userStats.reactions_count}}</p>
                                     <span>Reactions</span>
                                 </div>
                             </li>
@@ -116,7 +116,7 @@
                                     <i class="fa fa-trophy"></i>
                                 </div>
                                 <div class="li-text float-left">
-                                    <p class="number-text">{{::Profile.userStats.winCount}}</p>
+                                    <p class="number-text">{{::Profile.userStats.wins_count}}</p>
                                     <span>Awards</span>
                                 </div>
                             </li>
@@ -196,19 +196,19 @@
                                 <li class="clearfix">
                                     <a ui-sref="profile.critiques({id: Profile.user.id})" ui-sref-active="active">
                                         <i class="fa fa-star"></i>Critiques
-                                        <span class="float-right">{{::Profile.userStats.critiqueCount}}</span>
+                                        <span class="float-right">{{::Profile.userStats.critiques_count}}</span>
                                     </a>
                                 </li>
                                 <li class="clearfix">
                                     <a ui-sref="profile.reactions({id: Profile.user.id})" ui-sref-active="active"><i
                                         class="fa fa-smile-o"></i>Reactions
-                                        <span class="float-right">{{::Profile.userStats.reactionCount}}</span>
+                                        <span class="float-right">{{::Profile.userStats.reactions_count}}</span>
                                     </a>
                                 </li>
                                 <li class="clearfix">
                                     <a ui-sref="profile.awards({id: Profile.user.id})" ui-sref-active="active">
                                         <i class="fa fa-trophy"></i>Awards
-                                        <span class="float-right">{{::Profile.userStats.winCount}}</span>
+                                        <span class="float-right">{{::Profile.userStats.wins_count}}</span>
                                     </a>
                                 </li>
                                 <li class="clearfix">

@@ -55,7 +55,7 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <div class="li-text float-left">
-                                    <p class="number-text">{{::UserC.userStats.critiqueCount}}</p>
+                                    <p class="number-text">{{::UserC.userStats.critiques_count}}</p>
                                     <span>Critiques</span>
                                 </div>
                             </li>
@@ -64,7 +64,7 @@
                                     <i class="fa fa-smile-o"></i>
                                 </div>
                                 <div class="li-text float-left">
-                                    <p class="number-text">{{::UserC.userStats.reactionCount}}</p>
+                                    <p class="number-text">{{::UserC.userStats.reactions_count}}</p>
                                     <span>Reactions</span>
                                 </div>
                             </li>
@@ -73,7 +73,7 @@
                                     <i class="fa fa-trophy"></i>
                                 </div>
                                 <div class="li-text float-left">
-                                    <p class="number-text">{{::UserC.userStats.winCount}}</p>
+                                    <p class="number-text">{{::UserC.userStats.wins_count}}</p>
                                     <span>Awards</span>
                                 </div>
                             </li>
@@ -101,9 +101,9 @@
                             <ul class="profile-overview">
                                 <li class="clearfix"><a ui-sref="user.about({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-user"></i>about me</a></li>
                                 <li class="clearfix"><a ui-sref="user.videos({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-video-camera"></i>Videos <span class="float-right">{{::UserC.userStats.projectCount}}</span></a></li>
-                                <li class="clearfix"><a ui-sref="user.critiques({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-star"></i>Critiques<span class="float-right">{{::UserC.userStats.critiqueCount}}</span></a></li>
-                                <li class="clearfix"><a ui-sref="user.reactions({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-users"></i>Reactions<span class="float-right">{{::UserC.userStats.reactionCount}}</span></a></li>
-                                <li class="clearfix"><a ui-sref="user.awards({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-trophy"></i>Awards<span class="float-right">{{::UserC.userStats.winCount}}</span></a></li>
+                                <li class="clearfix"><a ui-sref="user.critiques({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-star"></i>Critiques<span class="float-right">{{::UserC.userStats.critiques_count}}</span></a></li>
+                                <li class="clearfix"><a ui-sref="user.reactions({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-users"></i>Reactions<span class="float-right">{{::UserC.userStats.reactions_count}}</span></a></li>
+                                <li class="clearfix"><a ui-sref="user.awards({id: UserC.user.id})" ui-sref-active="active"><i class="fa fa-trophy"></i>Awards<span class="float-right">{{::UserC.userStats.wins_count}}</span></a></li>
                             </ul>
                         </div>
                     </div>

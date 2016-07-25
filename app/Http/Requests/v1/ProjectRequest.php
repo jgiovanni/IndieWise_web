@@ -40,6 +40,12 @@ class ProjectRequest extends FormRequest
             'description' => 'string',
             'keyCast' => 'string',
             'tags' => 'string',
+            'unlist' => 'required|boolean',
+            'nsfw' => 'required|boolean',
+            'disableProject' => 'required|boolean',
+            'disableCritique' => 'required|boolean',
+            'disableComments' => 'required|boolean',
+            'copyrightOwner' => 'required|boolean',
         ];
     }
 }

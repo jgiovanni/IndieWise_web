@@ -12,6 +12,7 @@
 */
 
 
+use GetStream\Stream\Client;
 use IndieWise\Country;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
@@ -24,7 +25,7 @@ $dispatcher = app('Dingo\Api\Dispatcher');
 
 
 Route::any('{path?}', function() use ($dispatcher) {
-//    $countries = $dispatcher->get('countries', ['sort' => 'name']);
+
     $countries = Country::orderBy('name', 'desc')->get();
     if (App::environment('local')) {
         return view("dev", compact('countries'));

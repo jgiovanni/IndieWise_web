@@ -13,20 +13,13 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Project', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->uuid('id')->primary()->unique();
             $table->uuid('language_id')->index()->references('id')->on('languages');
             $table->uuid('filmingCountry_id')->index()->references('id')->on('countries');
             $table->uuid('owner_id')->index()->references('id')->on('users');
             $table->uuid('type_id')->index()->references('id')->on('types');
-            $table->bigInteger('awardCount')->unsigned()->default(0);
-            $table->bigInteger('commentCount')->unsigned()->default(0);
-            $table->bigInteger('critiqueCount')->unsigned()->default(0);
-            $table->bigInteger('nominationCount')->unsigned()->default(0);
-            $table->bigInteger('rateUpCount')->unsigned()->default(0);
-            $table->bigInteger('rateDownCount')->unsigned()->default(0);
-            $table->bigInteger('reactionCount')->unsigned()->default(0);
             $table->decimal('runTime');
             $table->decimal('iwRating')->default(0);
             $table->string('name');
@@ -43,12 +36,12 @@ class CreateProjectsTable extends Migration
             $table->text('description')->nullable();
             $table->text('keyCast')->nullable();
             $table->text('tags')->nullable();
-            $table->boolean('disableComments')->default(false);
-            $table->boolean('disableCritiques')->default(false);
-            $table->boolean('disableProject')->default(false);
-            $table->boolean('nsfw')->default(false);
-            $table->boolean('copyrightOwner')->default(false);
-            $table->boolean('unlist')->default(false);
+            $table->tinyInteger('disableComments')->default(0);
+            $table->tinyInteger('disableCritiques')->default(0);
+            $table->tinyInteger('disableProject')->default(0);
+            $table->tinyInteger('nsfw')->default(0);
+            $table->tinyInteger('copyrightOwner')->default(0);
+            $table->tinyInteger('unlist')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

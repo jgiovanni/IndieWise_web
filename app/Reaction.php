@@ -3,11 +3,13 @@
 namespace IndieWise;
 
 use EloquentFilter\Filterable;
+use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use Illuminate\Database\Eloquent\Model;
+use IndieWise\Events\Event;
 
 class Reaction extends Model
 {
-    use UuidForKey, Filterable;
+    use UuidForKey, Filterable, ActivityTrait;
     //
     protected $table = 'Reaction';
 
@@ -25,5 +27,23 @@ class Reaction extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function activityVerb()
+    {
+        return 'react';
+    }
+
+    public static function boot()
+    {
+
+        parent::boot();
+
+        static::created(function($reaction) {
+            Event::fire('reaction.created', $reaction);
+        });
+
+        static::deleted(function($reaction) {
+            Event::fire('reaction.deleted', $reaction);
+        });
+    }
 
 }

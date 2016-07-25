@@ -11,6 +11,9 @@
 |
 */
 use Dingo\Api\Contract\Http\Request;
+use GetStream\Stream\Client;
+use GetStream\StreamLaravel\Enrich;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Vinkla\Hashids\Facades\Hashids;
 
 $api = app('Dingo\Api\Routing\Router');
@@ -29,11 +32,37 @@ $api->version('v1', [
         ];
     });
 
-/*    $api->get('hash', function () {
-        return [
-            'message' => Hashids::encode((int)microtime(true)),
-        ];
-    });*/
+    $api->get('notifications/token', function (\Dingo\Api\Http\Request $request) {
+        $user_id = app('Dingo\Api\Auth\Auth')->user()->id;
+
+        // Instantiate a new client, find your API keys here https://getstream.io/dashboard/
+        $client = new Client('97wfnrargt9f', '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82');
+        // Set API endpoint location
+        $client->setLocation('us-east');
+        // Instantiate a feed object
+        $user_feed = $client->feed($request->type, $user_id);
+        //echo $_GET;
+        $token = $user_feed->getToken();
+
+        return response()->json(compact('token'));
+    });
+
+    $api->get('notifications/feed', function (\Dingo\Api\Http\Request $request) {
+        $user_id = app('Dingo\Api\Auth\Auth')->user()->id;
+
+        $enricher = new Enrich();
+        $feed = FeedManager::getNotificationFeed($user_id);
+        $activities = $feed->getActivities(0,25)['results'];
+        $activities = $enricher->enrichActivities($activities);
+
+        return response()->json(compact('activities'));
+    });
+
+    $api->get('messages', 'MessagesController@index');
+    $api->post('messages', 'MessagesController@store');
+    $api->get('messages/{id}', 'MessagesController@show');
+    $api->put('messages/{id}', 'MessagesController@update');
+
 
     /*$api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.
@@ -77,6 +106,7 @@ $api->version('v1', [
     $api->resource('playlistItems', 'PlaylistItemsController');
     $api->resource('projects', 'ProjectsController');
     $api->resource('reactions', 'ReactionsController');
+    $api->resource('ratings', 'RatingsController');
     $api->resource('critiques', 'CritiquesController');
     $api->resource('comments', 'CommentsController');
     $api->resource('nominations', 'NominationsController');

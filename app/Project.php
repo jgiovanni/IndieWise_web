@@ -13,13 +13,55 @@ class Project extends Model
 
     protected $table = 'Project';
 
-    protected $guarded = ['url_id'];
+    protected $guarded = ['id', 'url_id'];
 
-    protected $with = ['owner', 'genres', 'type', 'filmingCountry'];
+    protected $with = ['owner', 'genres', 'type', 'filmingCountry', 'language'];
 
-    protected $appends = [];
+//    protected $appends = [];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'copyrightOwner' => 'boolean',
+        'disableComments' => 'boolean',
+        'disableCritique' => 'boolean',
+        'disableProject' => 'boolean',
+        'nsfw' => 'boolean',
+        'unlist' => 'boolean',
+    ];
+
+    /*
+     * Set Bool values
+     */
+    public function setUnlistAttribute($val)
+    {
+        $this->attributes['unlist'] = (boolean)($val);
+    }
+    public function setNsfwAttribute($val)
+    {
+        $this->attributes['nsfw'] = (boolean)($val);
+    }
+    public function setDisableProjectAttribute($val)
+    {
+        $this->attributes['disableProject'] = (boolean)($val);
+    }
+    public function setDisableCritiqueAttribute($val)
+    {
+        $this->attributes['disableCritique'] = (boolean)($val);
+    }
+    public function setDisableCommentsAttribute($val)
+    {
+        $this->attributes['disableComments'] = (boolean)($val);
+    }
+    public function setCopyrightOwnerAttribute($val)
+    {
+        $this->attributes['copyrightOwner'] = (boolean)($val);
+    }
 
     // Scopes
     public function scopeListed($query)
@@ -31,6 +73,11 @@ class Project extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function activityActorMethodName()
+    {
+        return 'owner';
     }
 
     public function filmingCountry()
@@ -82,6 +129,16 @@ class Project extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function upRatings()
+    {
+        return $this->hasMany(Rating::class)->where('up', true);
+    }
+
+    public function downRatings()
+    {
+        return $this->hasMany(Rating::class)->where('down', true);
     }
 
     public function actions()
