@@ -139,11 +139,11 @@
                      * @returns {Promise}
                      */
                     currentUser: null,
-                    getCurrentUser: function () {
+                    getCurrentUser: function (force) {
                         var deferred = $q.defer();
                         if(service.isAuthenticated()) {
                             if (!angular.isObject(service.currentUser)) {
-                                return $http.get(API + 'authenticate').then(function (response) {
+                                $http.get(API + 'authenticate').then(function (response) {
                                     deferred.resolve($rootScope.AppData.User = service.currentUser = response.data.user);
                                 });
                             } else {
@@ -182,7 +182,7 @@
                     socialLogin: function (provider) {
                         return $auth.authenticate(provider)
                             .then(function(response) {
-                                console.log(response.data);
+                                // console.log(response.data);
                                 service.getCurrentUser().then(function (user) {
                                     self.error = '';
                                     if (moment(user.created_at).isSame(moment(), 'hour')) {

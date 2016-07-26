@@ -53,18 +53,8 @@ class RatingsController extends Controller
      */
     public function show($id)
     {
-        $rating = $this->rating->where('id', $id)->firstOrFail();
+        $rating = $this->rating->findOrFail($id);
         return $this->response->item($rating, new RatingTransformer);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
     }
 
     /**
@@ -76,7 +66,9 @@ class RatingsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rating = $this->rating->where('id', $id)->where('author_id', $this->user()->id)->firstOrFail();
+        $rating->update($request->all());
+        return $this->response->item($rating, new RatingTransformer);
     }
 
     /**

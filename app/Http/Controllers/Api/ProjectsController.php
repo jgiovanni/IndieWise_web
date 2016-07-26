@@ -31,7 +31,8 @@ class ProjectsController extends Controller
     public function index(Request $request)
     {
         //
-        if ($request->has('owner') && $request->get('owner') == $this->auth->user()->id) {
+        $user = $this->auth->user();
+        if ($request->has('owner') && !is_null($user) && ($request->get('owner') == $user->id)) {
             $projects = $this->project->filter($request->all())->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->paginate($request->get('per_page', 10));
         } else {
             $projects = $this->project->listed()->filter($request->all())->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->paginate($request->get('per_page', 10));
@@ -76,7 +77,7 @@ class ProjectsController extends Controller
      */
     public function update(ProjectRequest $request, $id)
     {
-        $project = $this->project->find($id);
+        $project = $this->project->where('id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
         $project->update($request->except('genres', 'owner', 'language', 'type', 'filming_country', 'up_ratings_count', 'down_ratings_count', 'wins_count', 'critiques_count', 'nominations_count', 'reactions_count'));
         $project->syncGenres($request->get('genres'));
         return $this->response->item($project, new ProjectTransformer);
@@ -90,7 +91,12 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $project = $this->project->find($id);
+        if($this->auth->user()->id === $project->owner_id) {
+            $project->destroy();
+        }
+        return response()->json(true);
+
     }
 
     public function recentlyWatched()

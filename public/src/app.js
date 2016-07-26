@@ -844,13 +844,13 @@ jQuery(document).ready(function (jQuery) {
                 });
 
                 $transitions.onStart({to: 'register', from: '*'}, function ($transition$, $state, AuthService) {
-                    return AuthService.currentUser ? $state.target('home') : true;
+                    return AuthService.isAuthenticated() ? $state.target('home') : true;
                 });
                 $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$, $state, AuthService) {
-                    return AuthService.currentUser ? $state.target('home') : true;
+                    return AuthService.isAuthenticated() ? $state.target('home') : true;
                 });
                 $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$, $state, AuthService) {
-                    return AuthService.currentUser ? $state.target('home') : true;
+                    return AuthService.isAuthenticated() ? $state.target('home') : true;
                 });
                 $transitions.onStart({
                     to: function (state) {
