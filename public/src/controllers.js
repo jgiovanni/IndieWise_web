@@ -1057,10 +1057,7 @@
                         } else if (!!self.canRate.up && direction === 'up') {
                             //DataService.delete('Rating', self.canRate.id)
                             angular.extend(self.canRate, {up: false});
-                            DataService.update('ratings', self.canRate.id, {
-                                up: false,
-                                down: true
-                            })
+                            DataService.update('ratings', self.canRate.id, {up: false, down: false})
                                 .then(function (res) {
                                     self.film.up_ratings_count--;
                                     //self.updateVideoObj();
@@ -1073,10 +1070,7 @@
                         } else if (!!self.canRate.down && direction === 'down') {
                             //DataService.delete('Rating', self.canRate.id)
                             angular.extend(self.canRate, {down: false});
-                            DataService.update('ratings', self.canRate.id, {
-                                up: true,
-                                down: false,
-                            })
+                            DataService.update('ratings', self.canRate.id, {up: false, down: false})
                                 .then(function (res) {
                                     self.film.down_ratings_count--;
                                     //self.updateVideoObj();
@@ -1103,10 +1097,7 @@
                                     actionVerb = 'unlike';
                                     break;
                             }
-                            DataService.update('ratings', self.canRate.id, {
-                                up: up,
-                                down: down,
-                            }).then(function (res) {
+                            DataService.update('ratings', self.canRate.id, {up: up, down: down}).then(function (res) {
                                 //self.updateVideoObj();
                                 //self.checkUserActions();
                                 angular.extend(res.data, { projectOwner: self.film.owner_id});
@@ -1135,8 +1126,7 @@
                                 emotion: emotion.emotion
                             }).then(function (resA) {
                                 self.film.reactions_count++;
-                                self.updateVideoObj();
-                                angular.extend(resA.data, { projectOwner: self.film.owner_id});
+                                // self.updateVideoObj();
                                 UtilsService.recordActivity(resA.data, actionVerb);
                                 self.checkUserActions();
                                 self.qReactions();
@@ -1147,7 +1137,7 @@
                                     emotion: emotion.emotion
                                 }).then(function (resA) {
                                     self.canReact = resA.data;
-                                    self.updateVideoObj();
+                                    // self.updateVideoObj();
                                     self.checkUserActions();
                                     self.qReactions();
                                 });
@@ -1182,11 +1172,11 @@
                         keyboard: true
                     });
                     modalInstance.result.then(function () {
-                        DataService.getList('Nomination', [], [{
+                        DataService.collection('nominations', [], [{
                             critique: c.id
                         }]).then(function (noms) {
                             var nom = noms.data.data[0];
-                            DataService.delete('Nomination', nom.id).then(function () {
+                            DataService.delete('Nominations', nom.id).then(function () {
                                 // Decrement film nominationCount
                                 self.film.nominationCount--;
                             });
@@ -1221,8 +1211,7 @@
                 $scope.ratingMax = 10;
                 $scope.makePrivateHelp = false;
 
-                DataService.getList('Award', [], [], 50)
-                    .then(function (result) {
+                DataService.collection('awards').then(function (result) {
                         $scope.awardsList = result.data;
                     });
 
@@ -1231,10 +1220,10 @@
                 };
 
                 $scope.nominated = {
-                    awardPntr: $scope.dialogModel.awardId,
-                    nominator: $rootScope.AppData.User.id,
-                    project: $scope.critique.project,
-                    critique: undefined
+                    award_id: $scope.dialogModel.awardId,
+                    user_id: $rootScope.AppData.User.id,
+                    project_id: $scope.critique.project,
+                    critique_id: undefined
                 };
 
                 $scope.starArray = angular.copy([{"num": 0}, {"num": 1}, {"num": 2}, {"num": 3}, {"num": 4}, {"num": 5}, {"num": 6}, {"num": 7}, {"num": 8}, {"num": 9}, {"num": 10}].reverse());
@@ -1266,18 +1255,8 @@
 
                 $scope.postCritique = function () {
                     $scope.critique.url_id = moment().valueOf();
-                    DataService.save('Critique', $scope.critique, true, true).then(function (res) {
+                    DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
                         var obj = res.data;
-                        angular.extend(obj, {
-                            userFullName: obj.author.firstName + ' ' + obj.author.lastName,
-                            userUrlId: obj.author.url_id,
-                            userAvatar: obj.author.avatar,
-                            projectName: self.film.name,
-                            projectId: self.film.url_id,
-                            projectUrlId: self.film.url_id,
-                            projectThumbnail: self.film.thumbnail_url,
-                            projectOwner: self.film.owner_id
-                        });
 
                         self.critiques.push(obj);
                         self.calcIwAverage(self.critiques);
@@ -1290,12 +1269,12 @@
 
                         // if an award has been selected, create a nomination
                         if (!!$scope.dialogModel.awardId && angular.isString($scope.dialogModel.awardId)) {
-                            $scope.nominated.critique = obj.id;
-                            $scope.nominated.awardPntr = $scope.dialogModel.awardId;
-                            DataService.save('Nomination', $scope.nominated, true, true).then(function (nom) {
+                            $scope.nominated.critique_id = obj.id;
+                            $scope.nominated.award_id = $scope.dialogModel.awardId;
+                            DataService.save('nominations', $scope.nominated).then(function (nom) {
                                 // Increment film commentCount
                                 self.film.nominationCount++;
-                                self.updateVideoObj();
+                                // self.updateVideoObj();
                                 // register Action
                                 self.qNominations();
                                 nom.critique = obj;
@@ -1574,7 +1553,7 @@
             $scope.commentsParent = self.critique;
 
             // Fetch Comments
-            DataService.collection('comments', {critique: self.critique.id, per_page: 10, page: self.commentsPage}).then(function (result) {
+            DataService.collection('comments', {critique: self.critique.id, per_page: 10, page: self.commentsPage, replies:false}).then(function (result) {
                 self.comments = result.data;
             });
 
@@ -1584,22 +1563,21 @@
 
     VideoCritiqueEditCtrl.$inject = ['$rootScope', '$scope', 'DataService', '$state', 'Critique'];
     function VideoCritiqueEditCtrl($rootScope, $scope, DataService, $state, Critique) {
-        $scope.critique = Critique.data[0];
+        $scope.critique = Critique.data.data;
         $scope.ratingMax = 10;
         $scope.makePrivateHelp = false;
 
         $scope.editedCritique = angular.copy($scope.critique);
-        $scope.editedCritique.private = $scope.editedCritique.private === 1 || $scope.editedCritique.private === true ;
 
-        DataService.getList('Award', '', '', 50)
+        DataService.collection('awards')
             .then(function (result) {
-                $scope.awardsList = result.data;
+                $scope.awardsList = result.data.awards;
             });
 
 
         $scope.update = function () {
-            $scope.editedCritique.editedAt = moment().toDate();
-            $scope.editedCritique.private = !!$scope.editedCritique.private;
+            $scope.editedCritique.edited_at = moment().toDate();
+            // $scope.editedCritique.private = !!$scope.editedCritique.private;
             DataService.update('critiques', $scope.critique.id, $scope.editedCritique).then(function (res) {
                     $rootScope.toastMessage('Critique Updated');
                     /*if ($state.is('profile_critique-edit'))
@@ -2398,11 +2376,9 @@
             self.newMode = false;
             self.selectedConvo = convo;
             self.currentParticipants = convo.participants;
-            DataService.getList('Message', [{fieldName: 'created_at', order: 'desc'}], [{
-                fieldName: 'conversation', operator: 'in', value: convo.id
-            }], 30, false, true).then(function (msgs) {
+            DataService.collection('messages', {conversation: convo.id, sort: 'created_at', per_page: 30, page: 1}).then(function (msgs) {
                 // console.log('Messages: ', msgs.data);
-                self.messages = msgs.data;
+                self.messages = msgs.data.data;
             });
         }
 

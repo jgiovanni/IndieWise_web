@@ -22,6 +22,11 @@ class CommentFilter extends ModelFilter
         return $this->where('comment_id', $comment);
     }
 
+    public function replies($replies)
+    {
+        return (boolean)$replies ? $this->whereNull('comment_id') : $this->whereNotNull('comment_id');
+    }
+
     public function author($author)
     {
         return $this->where('author_id', $author);

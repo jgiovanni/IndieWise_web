@@ -17,6 +17,28 @@ class Rating extends Model
 
     public $dates = ['created_at', 'updated_at'];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'up' => 'boolean',
+        'down' => 'boolean',
+    ];
+
+    /*
+     * Set Bool values
+     */
+    public function setUpAttribute($val)
+    {
+        $this->attributes['up'] = (boolean)($val);
+    }
+    public function setDownAttribute($val)
+    {
+        $this->attributes['down'] = (boolean)($val);
+    }
+
     public function activityVerb()
     {
         return 'rate';

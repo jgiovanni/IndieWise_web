@@ -91,10 +91,8 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $project = $this->project->find($id);
-        if($this->auth->user()->id === $project->owner_id) {
-            $project->destroy();
-        }
+        $project = $this->project->where('id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
+        $project->destroy();
         return response()->json(true);
 
     }

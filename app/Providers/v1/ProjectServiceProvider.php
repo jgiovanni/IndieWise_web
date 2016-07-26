@@ -5,7 +5,7 @@ namespace IndieWise\Providers\v1;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use IndieWise\Project;
-use IndieWise\Rating;
+use IndieWise\Critique;
 
 class ProjectServiceProvider extends ServiceProvider
 {
@@ -16,24 +16,33 @@ class ProjectServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*Rating::creating(function ($rating){
-            $column = !!$rating->up && !$rating->down ? 'rateUpCount' : 'rateDownCount';
-            DB::table('Project')->where('id', $rating->project_id)->increment($column);
+/*        Critique::creating(function ($critique){
+            dd('here');
+            $this->updateIndieWiseAverage($critique->project_id);
             return true;
         });
 
-        Rating::updating(function ($rating){
-            dd($rating);
-            $dbRow = DB::table('Rating')->where('project_id')->first();
+        Critique::updating(function ($critique){
+            dd('here');
+            $this->updateIndieWiseAverage($critique->project_id);
             return false;
         });
 
-        Rating::deleting(function ($rating){
-            $column = !!$rating->up && !$rating->down ? 'rateUpCount' : 'rateDownCount';
-            DB::table('Project')->where('id', $rating->project_id)->decrement($column);
+        Critique::deleting(function ($critique){
+            dd('here');
+            $this->updateIndieWiseAverage($critique->project_id);
             return false;
         });*/
 
+    }
+
+    /**
+     * Recalculate the indiewise average for the Project
+     * @param $id
+     */
+    private function updateIndieWiseAverage($id)
+    {
+        DB::update('UPDATE Project p INNER JOIN ( SELECT (SUM(c.overall) / count(*)) AS iwAverage, c.project_id FROM Critique c GROUP BY c.project_id) AS crit ON crit.project_id = p.id SET p.iwRating = crit.iwAverage WHERE p.id = :id', [$id]);
     }
 
     /**

@@ -937,7 +937,7 @@
                                             // Increment film commentCount
                                             var pcQuery = new Parse.Query("Comment");
                                             pcQuery.get(p.id).then(function (res) {
-                                                res.increment('replyCount', -1);
+                                                res.increment('replies_count', -1);
                                                 res.save();
                                             });
 
@@ -1055,14 +1055,12 @@
         .directive('toggleReplies', ['$rootScope', function ($rootScope) {
             return {
                 restrict: 'A',
+                // transclude: true,
                 link: function (scope, el, attrs) {
-                    if (scope.comment.replyCount) {
-                        el.html('Show replies <i class="fa fa-angle-down"></i>');
-                    }
                     //comments reply hide show
                     el.on('click', function () {
                         scope.loadReplies(scope.comment);
-                        if (scope.comment.replyCount  /*jQuery(this).parent().next().length > 0*/) {
+                        if (scope.comment.replies_count  /*jQuery(this).parent().next().length > 0*/) {
                             jQuery(this).parent().nextAll().slideToggle();
                             //jQuery(this).html(jQuery(this).text() === 'Hide replies' ? 'Show replies' : 'Hide replies');
                             if (jQuery(this).hasClass('hide-reply')) {
@@ -1098,7 +1096,7 @@
                     function postReply() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                var repliedTo = angular.isObject(scope.targetComment.parentComment) ? scope.targetComment.parentComment : scope.targetComment;
+                                var repliedTo = angular.isObject(scope.targetComment.comment_id) ? scope.targetComment.comment_id : scope.targetComment;
                                 DataService.save('Comment', {
                                     body: scope.myReply,
                                     //parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,

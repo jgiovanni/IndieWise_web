@@ -9,6 +9,7 @@ use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\CritiqueTransformer;
 use IndieWise\Critique;
+use IndieWise\Nomination;
 
 class CritiquesController extends Controller
 {
@@ -17,7 +18,7 @@ class CritiquesController extends Controller
 
     public function __construct(Critique $critique)
     {
-        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
+        $this->middleware('api.auth', ['only' => ['store', 'update', 'destroy']]);
         $this->critique = $critique;
     }
 
@@ -29,19 +30,8 @@ class CritiquesController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $critiques = $this->critique->filter($request->all())->paginate($request->get('per_page', 50));
+        $critiques = $this->critique->filter($request->all())->withCount('comments')->paginate($request->get('per_page', 50));
         return $this->response->paginator($critiques, new CritiqueTransformer);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -52,7 +42,8 @@ class CritiquesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $critique = Critique::create($request->all());
+        return $this->response->item($critique, new CritiqueTransformer);
     }
 
     /**
@@ -63,20 +54,8 @@ class CritiquesController extends Controller
      */
     public function show($id)
     {
-        //
-        $critique = $this->critique->whereId($id)->orWhere('url_id', $id)->firstOrFail();
+        $critique = $this->critique->whereId($id)->orWhere('url_id', $id)->withCount('comments')->firstOrFail();
         return $this->response->item($critique, new CritiqueTransformer);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -88,7 +67,9 @@ class CritiquesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $critique = $this->critique->where('id', $id)->where('user_id', $this->user()->id)->firstOrFail();
+        $critique->update($request->except('project', 'user'));
+        return $this->response->item($critique, new CritiqueTransformer);
     }
 
     /**
@@ -99,7 +80,9 @@ class CritiquesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $critique = $this->critique->where('id', $id)->where('user_id', $this->user()->id)->firstOrFail();
+        $critique->destroy();
+        return response()->json(true);
     }
 
     public function latest()

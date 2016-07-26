@@ -302,12 +302,10 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: BASE + 'src/common/critique-edit.html',
                     controller: 'VideoCritiqueEditCtrl',
                     resolve: {
-                        Critique: ['AuthService', '$stateParams', 'DataService', '$q', function (AuthService, $stateParams, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
-                                result.data[0].author === AuthService.currentUser.id ? deferred.resolve(result) : deferred.reject('Not Owner');
+                        Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
+                            return DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
+                                return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result : 'Not Owner';
                             });
-                            return deferred.promise;
                         }]
                     }
                 })

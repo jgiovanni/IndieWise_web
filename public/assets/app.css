@@ -9,6 +9,13 @@
     -webkit-overflow-scrolling : touch;
 }*/
 
+footer #back-to-top{
+    display: none;
+}
+footer #back-to-top.show{
+    display: block;
+}
+
 #elite_vp_shuffleBtn {
     display: none;
 }

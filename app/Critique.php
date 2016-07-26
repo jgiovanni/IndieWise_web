@@ -6,6 +6,7 @@ use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use IndieWise\Events\Event;
 
 class Critique extends Model
@@ -19,6 +20,23 @@ class Critique extends Model
     protected $with = ['user'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'private' => 'boolean',
+    ];
+
+    /*
+     * Set Bool values
+     */
+    public function setPrivateAttribute($val)
+    {
+        $this->attributes['private'] = (boolean)($val);
+    }
 
     // Relations
     public function project()
@@ -52,12 +70,29 @@ class Critique extends Model
         parent::boot();
 
         static::created(function($critique) {
-            Event::fire('critique.created', $critique);
+            $critique->updateIndieWiseAverage($critique->project_id);
+//            Event::fire('critique.created', $critique);
+        });
+
+        static::updated(function($critique) {
+            $critique->updateIndieWiseAverage($critique->project_id);
+//            Event::fire('critique.updated', $critique);
         });
 
         static::deleted(function($critique) {
-            Event::fire('critique.deleted', $critique);
+            $critique->updateIndieWiseAverage($critique->project_id);
+//            Event::fire('critique.deleted', $critique);
         });
     }
+
+    /**
+     * Recalculate the indiewise average for the Project
+     * @param $id
+     */
+    public function updateIndieWiseAverage($id)
+    {
+        DB::update('UPDATE Project p INNER JOIN ( SELECT (SUM(c.overall) / count(*)) AS iwAverage, c.project_id FROM Critique c GROUP BY c.project_id) AS crit ON crit.project_id = p.id SET p.iwRating = crit.iwAverage WHERE p.id = :id', [$id]);
+    }
+
 
 }

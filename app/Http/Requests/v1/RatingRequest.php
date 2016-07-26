@@ -27,8 +27,8 @@ class RatingRequest extends FormRequest
             $rules = [
                 'author_id' => 'required|string|exists:users,id',
                 'project_id' => 'required|string|exists:Project,id',
-                'up' => 'required|boolean|different:down',
-                'down' => 'required|boolean|different:up',
+                'up' => 'required|boolean',
+                'down' => 'required|boolean',
             ];
         }
 

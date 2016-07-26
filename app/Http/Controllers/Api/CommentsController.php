@@ -15,7 +15,7 @@ class CommentsController extends Controller
 
     public function __construct(Comment $comment)
     {
-        $this->middleware('api.auth', ['only' => ['create', 'store', 'update', 'destroy']]);
+        $this->middleware('api.auth', ['only' => ['store', 'update', 'destroy']]);
         $this->comment = $comment;
     }
 
@@ -27,18 +27,8 @@ class CommentsController extends Controller
      */
     public function index(Request $request)
     {
-        $critiques = $this->comment->filter($request->all())->paginate($request->get('per_page', 50));
-        return $this->response->paginator($critiques, new CommentTransformer);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $comments = $this->comment->filter($request->all())->withCount('replies')->paginate($request->get('per_page', 50));
+        return $this->response->paginator($comments, new CommentTransformer);
     }
 
     /**
@@ -49,7 +39,8 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = Comment::create($request->all());
+        return $this->response->item($comment, new CommentTransformer);
     }
 
     /**
@@ -64,17 +55,6 @@ class CommentsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -83,7 +63,9 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = $this->comment->where('id', $id)->where('user_id', $this->user()->id)->firstOrFail();
+        $comment->update($request->except('author'));
+        return $this->response->item($comment, new CommentTransformer);
     }
 
     /**
@@ -94,6 +76,8 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = $this->comment->where('id', $id)->where('user_id', $this->user()->id)->firstOrFail();
+        $comment->destroy();
+        return response()->json(true);
     }
 }

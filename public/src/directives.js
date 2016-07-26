@@ -799,41 +799,18 @@
                     function postComment() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                DataService.save('Comment', {
+                                DataService.save('comments', {
                                     body: scope.model.myComment,
-                                    //parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
                                     critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    author: scope.model.isLoggedIn.id
-                                }, true, true)
+                                    user_id: scope.model.isLoggedIn.id
+                                })
                                     .then(function (comment) {
-                                        debugger;
-                                        /*angular.extend(comment.data, {
-                                            ownerId: comment.data.author.id,
-                                            ownerUrlId: comment.data.author.url_id,
-                                            ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
-                                            ownerAvatar: comment.data.author.avatar
-                                        });*/
-
-                                        scope.comments.data.push(comment.data);
+                                        scope.comments.data.push(comment.data.data);
                                         $rootScope.toastMessage('Comment posted!');
                                         scope.model.myComment = null;
                                         clearCommentinput();
-                                        // refresh parent data
-                                        scope.parent.replyCount++;
-                                        /*if (scope.parent.hasOwnProperty('unlist')) {
-                                         DataService.getItem('Project', scope.parent.id, true, '', 2).then(function (a) {
-                                         scope.parent = a.data;
-                                         });
-                                         } else {*/
-                                        DataService.item('critiques', scope.parent.url_id, 'project.owner').then(function (result) {
-                                            scope.parent = result.data.data;
-                                        });
-
-                                        //}
-                                        // register Action
+                                        scope.parent.comments_count++;
                                         UtilsService.recordActivity(comment.data, 'comment');
-
-
                                     }, function (error) {
                                         console.log('Failed to create new comment, with error code: ' + error.message);
                                     });
@@ -854,7 +831,7 @@
                                 $modal.show(confirm).then(function () {
                                     var p = c.parentComment || undefined;
 
-                                    DataService.delete('Comment', c.id).then(function (res) {
+                                    DataService.delete('comments', c.id).then(function (res) {
                                         // Decrement film commentCount
                                         scope.parent.commentCount--;
 
@@ -998,13 +975,13 @@
             return {
                 restrict: 'A',
                 link: function (scope, el, attrs) {
-                    if (scope.comment.replyCount) {
+                    /*if (scope.comment.replies_count) {
                         el.html('Show replies <i class="fa fa-angle-down"></i>');
-                    }
+                    }*/
                     //comments reply hide show
                     el.on('click', function () {
                         scope.loadReplies(scope.comment);
-                        if (scope.comment.replyCount  /*jQuery(this).parent().next().length > 0*/) {
+                        if (scope.comment.replies_count  /*jQuery(this).parent().next().length > 0*/) {
                             jQuery(this).parent().nextAll().slideToggle();
                             //jQuery(this).html(jQuery(this).text() === 'Hide replies' ? 'Show replies' : 'Hide replies');
                             if (jQuery(this).hasClass('hide-reply')) {
@@ -1040,14 +1017,17 @@
                     function postReply() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                var repliedTo = angular.isObject(scope.targetComment.parentComment) ? scope.targetComment.parentComment : scope.targetComment;
-                                DataService.save('Comment', {
+                                var repliedTo = angular.isString(scope.targetComment.comment_id) ? scope.targetComment.comment_id : scope.targetComment;
+                                if (angular.isString(repliedTo)) {
+                                    repliedTo = _.findWhere(scope.comments.data, {id: scope.targetComment.comment_id})
+                                }
+                                DataService.save('comments', {
                                     body: scope.myReply,
-                                    //parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    parentCritique: scope.parent.id,
-                                    parentComment: repliedTo.id,
-                                    author: scope.model.isLoggedIn.id
-                                }, true, true).then(function (comment) {
+                                    critique_id: scope.parent.id,
+                                    comment_id: repliedTo.id,
+                                    user_id: scope.model.isLoggedIn.id
+                                }).then(function (comment) {
+
                                     if (!!repliedTo.repliesLoaded) {
                                         var repliesLoaded = true;
                                         var oldReplies = repliedTo.replies || [];
@@ -1055,43 +1035,35 @@
                                     if (!repliedTo.replies) {
                                         repliedTo.replies = [];
                                     }
-                                    angular.extend(comment.data, {
-                                        ownerId: comment.data.author.id,
-                                        ownerUrlId: comment.data.author.url_id,
-                                        ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
-                                        ownerAvatar: comment.data.author.avatar
-                                    });
 
-                                    repliedTo.replies.push(comment.data);
-                                    //scope.comments.data.push(comment.data);
+                                    repliedTo.replies.push(comment.data.data);
+                                    repliedTo.replies_count++;
                                     scope.toggleReplyInput();
                                     // refresh parent data
-                                    scope.parent.commentCount++;
+                                    scope.parent.comments_count++;
                                     if (scope.parent.hasOwnProperty('unlist')) {
-                                        DataService.getItem('Project', scope.parent.id, true, '', 2).then(function (a) {
-                                            scope.parent = a.data;
+                                        DataService.item('projects', scope.parent.id).then(function (a) {
+                                            angular.extend(scope.parent, a.data.data);
                                             if (repliesLoaded) {
                                                 repliedTo.repliesLoaded = true;
-                                                oldReplies.push(comment);
+                                                oldReplies.push(comment.data.data);
                                                 repliedTo.replies = oldReplies;
                                             }
                                         });
                                     } else {
-                                        DataService.getItem('Critique', scope.parent.id, true, '', 2).then(function (a) {
-                                            scope.parent = a.data;
+                                        DataService.item('critiques', scope.parent.id).then(function (a) {
+                                            angular.extend(scope.parent, a.data.data);
                                             if (repliesLoaded) {
                                                 repliedTo.repliesLoaded = true;
-                                                oldReplies.push(comment);
+                                                oldReplies.push(comment.data.data);
                                                 repliedTo.replies = oldReplies;
                                             }
                                         });
                                     }
-
                                     $rootScope.toastMessage('Reply posted!');
                                     scope.myReply = null;
+                                    UtilsService.recordActivity(comment.data.data, 'reply');
 
-                                    // register Action
-                                    UtilsService.recordActivity(comment.data, 'reply');
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
@@ -1115,25 +1087,18 @@
                     function postReply() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                DataService.save('Comment', {
+                                DataService.save('comments', {
                                     body: scope.myReply,
-                                    parentCritique: scope.critique.id,
-                                    author: scope.model.isLoggedIn.id
-                                }, false, true).then(function (comment) {
-                                    scope.critique.commentCount++;
-                                    angular.extend(comment.data, {
-                                        ownerId: comment.data.author.id,
-                                        ownerUrlId: comment.data.author.url_id,
-                                        ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
-                                        ownerAvatar: comment.data.author.avatar
-                                    });
-
+                                    critique_id: scope.critique.id,
+                                    user_id: scope.model.isLoggedIn.id
+                                }).then(function (comment) {
+                                    scope.critique.comments_count++;
                                     scope.myReply = null;
                                     scope.showQuickReply = false;
 
                                     // register Action
                                     $rootScope.toastMessage('Quick Reply posted!');
-                                    UtilsService.recordActivity(comment.data, 'reply');
+                                    UtilsService.recordActivity(comment.data.data, 'reply');
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
@@ -1157,7 +1122,7 @@
                             return scope.editComment;
                         }
                         UserActions.checkAuth().then(function (res) {
-                            DataService.update('Comment', scope.editComment.id, {
+                            DataService.update('comments', scope.editComment.id, {
                                 body: scope.editedBody,
                                 editedAt: moment().toDate()
                             }).then(function (comment) {

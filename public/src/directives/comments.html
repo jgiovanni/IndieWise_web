@@ -60,10 +60,12 @@
                             <span>
                                 <a href="#"><i class="fa fa-thumbs-o-up"></i></a> |
                                 <a href="#"><i class="fa fa-thumbs-o-down"></i></a> |
-                                {{comment.replyCount||0}}&nbsp;<i class="fa fa-comments"></i>
+                                {{comment.replies_count||0}}&nbsp;<i class="fa fa-comments"></i>
                             </span>
                             <span><a ng-click="toggleReplyInput(comment)"><i class="fa fa-share"></i>Reply</a></span>
-                            <span toggle-replies ng-if="comment.replyCount" class='reply float-right'></span>
+                            <span toggle-replies ng-if="comment.replies_count" class='reply float-right'>
+                                Show replies <i class="fa fa-angle-down"></i>
+                            </span>
                         </div>
 
                         <reply-block target-comment="targetComment" parent="commentsParent"
