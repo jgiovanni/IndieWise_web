@@ -1316,9 +1316,9 @@
                                     music: 0,
                                     overall: 0,
                                     private: false,
-                                    author: $rootScope.AppData.User.id,
+                                    user_id: $rootScope.AppData.User.id,
                                     body: '',
-                                    project: self.film.id
+                                    project_id: self.film.id
                                 };
                             }
                         },

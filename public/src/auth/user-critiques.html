@@ -147,10 +147,10 @@
                                             <div class="comment-btns">
                                                 <span>{{::critique.commentCount||0}} comments</span>
                                                 <span><a
-                                                        ui-sref="video_critique({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
+                                                        ui-sref="video_critique({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                                         class="fa fa-comments"></i>View</a></span>
                             <span ng-if="critique.user.id === $rootScope.AppData.User.id">
-                                <a ui-sref="video_critique-edit({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
+                                <a ui-sref="video_critique-edit({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                         class="fa fa-pencil"></i>Edit</a>
                             </span>
                                                 <!--<span ng-if="critique.user.id === $rootScope.AppData.User.id">
@@ -169,10 +169,10 @@
                             <div class="large-12 columns comments">
 
                                 <div class="comment-sort text-right">
-                                    <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}"
-                                                       ng-click="sortOrder='-created_at'">newest</a> | <a
-                                            ng-class="{'active':sortOrder=='created_at'}"
-                                            ng-click="sortOrder='created_at'">oldest</a></span>
+                                    <span>
+                                        Sort By : <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a>
+                                        | <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a>
+                                    </span>
                                 </div>
 
                                 <!-- main comment -->
@@ -298,10 +298,10 @@
                                             <div class="comment-btns">
                                                 <span>{{::critique.commentCount||0}} comments</span>
                                                 <span><a
-                                                        ui-sref="video_critique({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
+                                                        ui-sref="video_critique({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                                         class="fa fa-comments"></i>View</a></span>
                                 <span ng-if="critique.user.id === $rootScope.AppData.User.id">
-                                    <a ui-sref="video_critique-edit({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
+                                    <a ui-sref="video_critique-edit({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                             class="fa fa-pencil"></i>Edit</a>
                                 </span>
                                                 <!--<span ng-if="critique.user.id === $rootScope.AppData.User.id">

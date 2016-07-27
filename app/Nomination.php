@@ -49,11 +49,11 @@ class Nomination extends Model
         parent::boot();
 
         static::created(function($nomination) {
-            Event::fire('nomination.created', $nomination);
+
         });
 
         static::deleted(function($nomination) {
-            Event::fire('nomination.deleted', $nomination);
+
         });
     }
 

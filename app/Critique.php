@@ -71,17 +71,14 @@ class Critique extends Model
 
         static::created(function($critique) {
             $critique->updateIndieWiseAverage($critique->project_id);
-//            Event::fire('critique.created', $critique);
         });
 
         static::updated(function($critique) {
             $critique->updateIndieWiseAverage($critique->project_id);
-//            Event::fire('critique.updated', $critique);
         });
 
         static::deleted(function($critique) {
             $critique->updateIndieWiseAverage($critique->project_id);
-//            Event::fire('critique.deleted', $critique);
         });
     }
 

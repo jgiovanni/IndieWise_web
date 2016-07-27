@@ -38,11 +38,11 @@ class Reaction extends Model
         parent::boot();
 
         static::created(function($reaction) {
-            Event::fire('reaction.created', $reaction);
+
         });
 
         static::deleted(function($reaction) {
-            Event::fire('reaction.deleted', $reaction);
+
         });
     }
 

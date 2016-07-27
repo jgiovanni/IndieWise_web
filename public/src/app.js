@@ -357,13 +357,13 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'UserCritiquesController as UserCritiquesCtrl',
                     resolve: {
                         Critiques: ['User', 'DataService', function (User, DataService) {
-                            return DataService.collection('critiques', {user: User.id})
+                            return DataService.collection('critiques', {user: User.id, include: 'project'})
                                 .then(function (result) {
                                     return result;
                                 });
                         }],
                         Critiqued: ['User', 'DataService', function (User, DataService) {
-                            return DataService.collection('critiques', {notUser: User.id})
+                            return DataService.collection('critiques', {notUser: User.id, include: 'project'})
                                 .then(function (result) {
                                     return result;
                                 });
