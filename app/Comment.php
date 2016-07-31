@@ -44,6 +44,10 @@ class Comment extends Model
         return 'author';
     }
 
+    public function activityLazyLoading()
+    {
+        return array('author');
+    }
 
 
 }

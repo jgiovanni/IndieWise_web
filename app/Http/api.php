@@ -112,6 +112,8 @@ $api->version('v1', [
     $api->resource('nominations', 'NominationsController');
     $api->resource('wins', 'WinsController');
 
+    // Email Routes
     $api->post('contact', 'MailController@contactUs');
+    $api->post('report', 'MailController@report');
 
 });

@@ -77,9 +77,8 @@
                             lastName: _userParams.lastName,
                             fullName: _userParams.firstName + ' ' + _userParams.lastName,
                             country: _userParams.country,
-                            dob: moment(_userParams.dob).startOf('day').toDate(),
+                            dob: _userParams.dob,
                             gender: _userParams.gender,
-                            url_id: moment().valueOf()
                         };
 
                         return $auth.signup(user)
@@ -90,22 +89,6 @@
                                     console.log(res);
                                     service.getCurrentUser().then(function (res) {
                                         console.log(res);
-                                        var g = 0;
-                                        var t = 0;
-                                        if (angular.isArray(_userParams.genres) && _userParams.genres.length) {
-                                            $interval(function () {
-                                                DataService.save('Genres', {user: res.id, genre: _userParams.genres[g++].id});
-                                            }, 500, _userParams.genres.length);
-                                        }
-                                        if (angular.isArray(_userParams.types) && _userParams.types.length) {
-                                            $interval(function () {
-                                                DataService.save('UserTypes', {
-                                                    user: res.id,
-                                                    type_id: _userParams.types[t].id,
-                                                    type_name: _userParams.types[t++].name
-                                                });
-                                            }, 500, _userParams.types.length);
-                                        }
                                         $state.go('profile.about');
                                     });
                                 });
@@ -118,19 +101,9 @@
                      *
                      * @param _userParams
                      */
-                    updateUser: function (_userParams, deep, returnObject, level) {
-                        return Backand.getUserDetails().then(function (response) {
-                            $rootScope.AppData.User = service.currentUser = response;
-                            return $http({
-                                method: 'PUT',
-                                url: Backand.getApiUrl() + '/1/objects/users/' + _userParams.id,
-                                params: {deep: deep||true, returnObject: returnObject||false, level: level||1},
-                                data: _userParams,
-                                headers: {
-                                    Authorization: response.access_token,
-                                    AppName: 'indiewise'
-                                }
-                            });
+                    updateUser: function (_userParams) {
+                        return DataService.update('users', _userParams.id, _userParams).then(function (response) {
+                            return response;
                         });
                     },
                     /**

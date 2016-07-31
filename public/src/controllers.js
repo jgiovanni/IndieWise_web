@@ -73,6 +73,8 @@
     function RegisterCtrl($rootScope, $timeout, $q, $state, AuthService, DataService, anchorSmoothScroll, _) {
         $rootScope.metadata.title = 'Register';
         var self = this;
+        self.creating = false;
+        self.accountCreated = false;
         self.genresArr = [];
         self.typesArr = [];
         self.user = {
@@ -82,10 +84,14 @@
             firstName: '',
             lastName: '',
             gender: false,
-            genres: [],
-            types: []
+            // genres: [],
+            // types: []
             //selected_genres: ''
         };
+
+        self.dobDay = '';
+        self.dobMonth = '';
+        self.dobYear = '';
 
         self.errors = {
             email: false,
@@ -94,12 +100,18 @@
             types: false
         };
 
-        $rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res.data.data;
+        self.thisYear = moment().year();
+        self.yearsList = [];
+        for (var i = self.thisYear; i > (self.thisYear - 100); i--) {
+            self.yearsList.push(i);
+        }
+
+        /*$rootScope.generateGenres().then(function (res) {
+            $rootScope.genresList = self.genresList = res;
         });
         $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res.data.data;
-        });
+            $rootScope.typesList = self.typesList = res;
+        });*/
         $rootScope.generateCountries().then(function (res) {
             $rootScope.countryList = self.countryList = res.data.data;
         });
@@ -113,41 +125,49 @@
         };
 
         self.doRegister = function () {
-            self.errors.gender = !self.user.gender;
+            if(!self.creating){
+                self.creating = true;
+                self.errors.gender = !self.user.gender;
 
-            if (angular.isArray(self.genresArr) && self.genresArr.length) {
-                _.each(self.genresArr, function (a) {
-                    self.user.genres.push(a);
-                });
-                self.user.genres = _.uniq(self.user.genres);
-                self.errors.genres = false;
+                /*if (angular.isArray(self.genresArr) && self.genresArr.length) {
+                    _.each(self.genresArr, function (a) {
+                        self.user.genres.push(a);
+                    });
+                    self.user.genres = _.uniq(self.user.genres);
+                    self.errors.genres = false;
+                } else {
+                    self.errors.genres = true;
+                }
+
+                if (angular.isArray(self.typesArr) && self.typesArr.length) {
+                    _.each(self.typesArr, function (a) {
+                        self.user.types.push(a);
+                    });
+                    self.user.types = _.uniq(self.user.types);
+                    self.errors.types = false;
+                } else {
+                    self.errors.types = true;
+                }*/
+                if (self.errors.gender) {
+                    anchorSmoothScroll.scrollTo('errors');
+                    return false;
+                }
+
+                self.user.dob = moment().set({'year': self.dobYear, 'month': self.dobMonth, 'day': self.dobDay }).startOf('day').toDate();
+                AuthService.createUser(self.user).then(function (res) {
+                    // console.log('Success', res);
+                    //window.location.reload();
+                }, function (res) {
+                    self.error = res.message;
+                    // console.log('Failed', res);
+                }).then(function () {
+                    // window.location.reload();
+                    $rootScope.toastMessage('Account created!');
+                    self.creating = false;
+                })
             } else {
-                self.errors.genres = true;
+                $rootScope.toastMessage('Please wait...');
             }
-
-            if (angular.isArray(self.typesArr) && self.typesArr.length) {
-                _.each(self.typesArr, function (a) {
-                    self.user.types.push(a);
-                });
-                self.user.types = _.uniq(self.user.types);
-                self.errors.types = false;
-            } else {
-                self.errors.types = true;
-            }
-            if (self.errors.gender || self.errors.genres || self.errors.types) {
-                anchorSmoothScroll.scrollTo('errors');
-                return false;
-            }
-
-            AuthService.createUser(self.user).then(function (res) {
-                // console.log('Success', res);
-                //window.location.reload();
-            }, function (res) {
-                self.error = res.message;
-                // console.log('Failed', res);
-            }).then(function () {
-                // window.location.reload();
-            })
         };
 
         self.authenticate = function (provider) {
@@ -158,7 +178,7 @@
             });
         };
 
-        self.syncGenres = function (bool, item) {
+        /*self.syncGenres = function (bool, item) {
             if (bool) {
                 // add item
                 self.genresArr.push(item);
@@ -204,7 +224,7 @@
                 }
             }
             return match;
-        };
+        };*/
 
         $timeout(function () {
             jQuery(document).foundation();
@@ -1212,15 +1232,15 @@
                 $scope.makePrivateHelp = false;
 
                 DataService.collection('awards').then(function (result) {
-                        $scope.awardsList = result.data;
+                        $scope.awardsList = result.data.Awards;
                     });
 
                 $scope.dialogModel = {
-                    awardId: null
+                    award_id: null
                 };
 
                 $scope.nominated = {
-                    award_id: $scope.dialogModel.awardId,
+                    award_id: $scope.dialogModel.award_id,
                     user_id: $rootScope.AppData.User.id,
                     project_id: $scope.critique.project,
                     critique_id: undefined
@@ -1256,7 +1276,7 @@
                 $scope.postCritique = function () {
                     $scope.critique.url_id = moment().valueOf();
                     DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
-                        var obj = res.data;
+                        var obj = res.data.data;
 
                         self.critiques.push(obj);
                         self.calcIwAverage(self.critiques);
@@ -1268,13 +1288,13 @@
                         Analytics.trackEvent('video', 'critique', self.film.name);
 
                         // if an award has been selected, create a nomination
-                        if (!!$scope.dialogModel.awardId && angular.isString($scope.dialogModel.awardId)) {
+                        if (!!$scope.dialogModel.award_id && angular.isString($scope.dialogModel.award_id)) {
                             $scope.nominated.critique_id = obj.id;
-                            $scope.nominated.award_id = $scope.dialogModel.awardId;
+                            $scope.nominated.award_id = $scope.dialogModel.award_id;
                             DataService.save('nominations', $scope.nominated).then(function (nom) {
                                 // Increment film commentCount
                                 self.film.nominationCount++;
-                                // self.updateVideoObj();
+                                self.updateVideoObj();
                                 // register Action
                                 self.qNominations();
                                 nom.critique = obj;
@@ -1283,6 +1303,8 @@
                             }, function (error) {
                                 alert('Failed to create new nomination, with error code: ' + error.message);
                             })
+                        } else {
+
                         }
 
                     }, function (error) {
@@ -1520,7 +1542,7 @@
             });
 
             modalInstance.result.then(function (report) {
-                DataService.action('Flag', 'Send Flag Email', report).then(function () {
+                DataService.mail('report', report).then(function () {
                     $rootScope.toastMessage('Your Report has been Sent');
                 });
             }, function () {
@@ -2080,10 +2102,10 @@
         self.typesArr = [];
         self.saveComplete = false;
         self.updating = false;
-        User.data.dob = moment(User.data.dob).startOf('day').toDate();
-        self.user = User.data;
-        self.genresArr = Genres.data.data;
-        self.typesArr = UserTypes.data.data;
+        User.dob = moment(User.dob).startOf('day').toDate();
+        self.user = User;
+        self.genresArr = User.genres; //Genres.data.data;
+        self.typesArr = User.types;// UserTypes.data.data;
         self.updateUser = _.throttle(updateUser, 1000);
         var pwSetting = $window.localStorage.getItem('pwAllowPushNotifications');
         self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
@@ -2117,8 +2139,12 @@
         function updateUser() {
             if (!self.updating) {
                 self.updating = true;
+                self.user.genres = _.pluck(self.genresArr, 'id');
+                self.user.types = _.pluck(self.typesArr, 'id');
                 AuthService.updateUser(self.user).then(function (res) {
                     // console.log(res);
+                    res.data.data.dob = moment(res.data.data.dob).toDate();
+                    AuthService.currentUser = self.user = res.data.data;
                     self.saveComplete = true;
                     self.updating = false;
                     anchorSmoothScroll.scrollTo('success');
@@ -2130,26 +2156,25 @@
         }
 
         $rootScope.generateCountries().then(function (res) {
-            self.countries = res.data.data;
+            self.countries = res;
         });
 
         $rootScope.generateGenres().then(function (res) {
-            self.genresList = res.data.data;
+            self.genresList = res;
         });
 
         $rootScope.generateTypes().then(function (res) {
-            self.typesList = res.data.data;
+            self.typesList = res;
         });
 
         self.syncGenres = function (bool, item) {
             if (bool) {
                 // add item
                 self.genresArr.push(item);
-                DataService.save('Genres', {user: self.user.id, genre: item.id});
             } else {
                 // remove item
                 for (var i = 0; i < self.genresArr.length; i++) {
-                    if (self.genresArr[i].genre == item.id) {
+                    if (self.genresArr[i].id == item.id) {
                         DataService.delete('Genres', self.genresArr[i].id);
                         self.genresArr.splice(i, 1);
                     }
@@ -2160,7 +2185,7 @@
         self.isCheckedGenre = function (id) {
             var match = false;
             for (var i = 0; i < self.genresArr.length; i++) {
-                if (self.genresArr[i].genre == id) {
+                if (self.genresArr[i].id == id) {
                     match = true;
                 }
             }
@@ -2171,11 +2196,10 @@
             if (bool) {
                 // add item
                 self.typesArr.push(item);
-                DataService.save('UserTypes', {user: self.user.id, type_id: item.id, type_name: item.name});
             } else {
                 // remove item
                 for (var i = 0; i < self.typesArr.length; i++) {
-                    if (self.typesArr[i].type_id == item.id) {
+                    if (self.typesArr[i].id == item.id) {
                         DataService.delete('UserTypes', self.typesArr[i].id);
                         self.typesArr.splice(i, 1);
                     }
@@ -2186,7 +2210,7 @@
         self.isCheckedType = function (id) {
             var match = false;
             for (var i = 0; i < self.typesArr.length; i++) {
-                if (self.typesArr[i].type_id == id) {
+                if (self.typesArr[i].id == id) {
                     match = true;
                 }
             }

@@ -49,6 +49,11 @@ class Critique extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function activityLazyLoading()
+    {
+        return array('user');
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

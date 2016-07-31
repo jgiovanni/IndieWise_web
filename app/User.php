@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, Messagable, UuidForKey;
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey;
+
 
     protected $table = 'users';
 
@@ -74,12 +76,12 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function projects()
     {
-        return $this->hasMany(Project::class, 'id', 'owner_id');
+        return $this->hasMany(Project::class, 'owner_id');
     }
 
     public function wins()
     {
-        return $this->hasMany(Win::class, 'id', 'owner_id');
+        return $this->hasMany(Win::class, 'owner_id');
     }
 
     public function critiques()
@@ -100,6 +102,21 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'Genreables');
+    }
+
+    public function syncGenres($ids)
+    {
+        $this->genres()->sync($ids);
+    }
+
+    public function types()
+    {
+        return $this->belongsToMany(Type::class, 'UserTypes');
+    }
+
+    public function syncTypes($ids)
+    {
+        $this->types()->sync($ids);
     }
 
     public function nominations()

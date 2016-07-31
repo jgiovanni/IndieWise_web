@@ -36,6 +36,13 @@ class UserTransformer extends TransformerAbstract
             return $this->item($country, new CountryTransformer);
     }
 
+    public function includeGenres(User $user)
+    {
+        $genres = $user->genres;
+        if($genres)
+            return $this->item($genres, new GenreTransformer);
+    }
+
 
 
 }

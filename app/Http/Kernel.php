@@ -46,5 +46,8 @@ class Kernel extends HttpKernel
         'guest' => \IndieWise\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'internal' => \IndieWise\Http\Middleware\InjectJwtToken::class,
+//        'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
+//        'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
+//        'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
     ];
 }

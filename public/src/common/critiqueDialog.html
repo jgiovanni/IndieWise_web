@@ -107,9 +107,9 @@
                 <div class="input">
                     <label>
                         <span class="has-tip" tooltip="A project needs 5 or more Nominations, for the exact same Award, by different users in order to secure a win for that particular award.">Award Worthy? Nominate it!</span>
-                        <select ng-model="dialogModel.awardId" style="min-width: 200px;">
+                        <select ng-model="dialogModel.award_id" style="min-width: 200px;">
                             <option value="">No</option>
-                            <option value="{{a.id}}" ng-repeat="a in awardsList.data|orderBy:'name'"
+                            <option value="{{a.id}}" ng-repeat="a in awardsList|orderBy:'name'"
                                     ng-bind="::a.name"></option>
                         </select>
                     </label>

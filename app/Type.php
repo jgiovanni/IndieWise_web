@@ -15,4 +15,13 @@ class Type extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+    /**
+     * Get all of the users that are assigned this tag.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'UserTypes');
+    }
+
 }

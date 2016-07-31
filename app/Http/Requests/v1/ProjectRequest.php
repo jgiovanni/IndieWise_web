@@ -13,6 +13,9 @@ class ProjectRequest extends FormRequest
      */
     public function authorize()
     {
+        if($this->isMethod('post')) {
+            return ($this->user()->projects()->count() <= 3);
+        }
         return true;
     }
 
@@ -42,7 +45,7 @@ class ProjectRequest extends FormRequest
             'tags' => 'string',
             'unlist' => 'required|boolean',
             'nsfw' => 'required|boolean',
-            'disableProject' => 'required|boolean',
+            'disableProject' => 'boolean',
             'disableCritique' => 'required|boolean',
             'disableComments' => 'required|boolean',
             'copyrightOwner' => 'required|boolean',

@@ -23,7 +23,8 @@
         "vinkla/hashids": "^2.3",
         "barryvdh/laravel-debugbar": "^2.2",
         "barryvdh/laravel-cors": "^0.8.0",
-        "get-stream/stream-laravel": "~2.2.6"
+        "get-stream/stream-laravel": "~2.2.6",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

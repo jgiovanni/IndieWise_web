@@ -148,6 +148,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         GetStream\StreamLaravel\StreamLaravelServiceProvider::class,
+        Zizaco\Entrust\EntrustServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -216,6 +217,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
         'FeedManager'   => GetStream\StreamLaravel\Facades\FeedManager::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
     ],
 
 ];

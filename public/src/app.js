@@ -426,10 +426,13 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: BASE + 'src/auth/profile.html',
                     controller: 'ProfileCtrl as Profile',
                     resolve: {
-                        User: ['AuthService', function (AuthService) {
-                            return AuthService.getCurrentUser().then(function (response) {
-                                return response;
+                        User: ['AuthService', 'DataService', function (AuthService, DataService) {
+                            return DataService.item('users', AuthService.currentUser.id, { include: 'genres' }).then(function (response) {
+                                return response.data.data;
                             });
+                            /*return AuthService.getCurrentUser().then(function (response) {
+                                return response;
+                            });*/
                         }],
                         UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('users/countUserStats').then(function (response) {

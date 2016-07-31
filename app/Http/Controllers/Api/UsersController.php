@@ -5,6 +5,7 @@ namespace IndieWise\Http\Controllers\Api;
 use Dingo\Api\Contract\Http\Request;
 use Illuminate\Support\Facades\DB;
 use IndieWise\Http\Requests;
+use IndieWise\Http\Requests\v1\UserRequest;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\UserTransformer;
 use IndieWise\User;
@@ -19,7 +20,7 @@ class UsersController extends Controller
     
     public function __construct(User $user)
     {
-//        $this->middleware('api.auth', ['except' => ['show', 'count']]);
+        $this->middleware('api.auth', ['except' => ['show', 'count']]);
 //        $this->middleware('jwt.refresh', ['except' => ['show', 'count']]);
         $this->user = $user;
     }
@@ -38,16 +39,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param Request|\Illuminate\Http\Request $request
@@ -55,7 +46,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -64,21 +55,10 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $user = $this->user->whereId($id)->orWhere('url_id', $id)->firstOrFail();
+        $user = $this->user->whereId($id)->orWhere('url_id', $id)->with('genres', 'country', 'types')->firstOrFail();
         return $this->response->item($user, new UserTransformer);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -88,9 +68,13 @@ class UsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = $this->user->findOrFail($id);
+        $user->update($request->except('genres', 'types'));
+        $user->syncGenres($request->get('genres'));
+        $user->syncTypes($request->get('types'));
+        return $this->response->item($user->load('genres', 'country', 'types'), new UserTransformer);
     }
 
     /**

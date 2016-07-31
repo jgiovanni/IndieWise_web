@@ -42,7 +42,7 @@ class CritiquesController extends Controller
      */
     public function store(Request $request)
     {
-        $critique = Critique::create($request->all());
+        $critique = Critique::create($request->except('include'));
         return $this->response->item($critique, new CritiqueTransformer);
     }
 

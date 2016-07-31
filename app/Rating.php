@@ -54,6 +54,11 @@ class Rating extends Model
         return 'author';
     }
 
+    public function activityLazyLoading()
+    {
+        return array('author');
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);
