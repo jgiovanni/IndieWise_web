@@ -92,9 +92,8 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         $project = $this->project->where('id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
-        $project->destroy();
+        $project->delete();
         return response()->json(true);
-
     }
 
     public function recentlyWatched()

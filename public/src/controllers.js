@@ -2338,11 +2338,11 @@
                     });
                     modalInstance.result.then(function () {
                         DataService.delete('projects', videoId).then(function () {
-                            self.projects = _.reject(self.projects.data, function (a) {
+                            self.projects.data = _.reject(self.projects.data, function (a) {
+
                                 return a.id === videoId;
                             });
-                        })
-
+                        });
                     }, function () {
                         // console.info('Modal dismissed at: ' + new Date());
                     });

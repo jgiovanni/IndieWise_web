@@ -22,7 +22,7 @@
                             <div class="video-stats">
                                 <span ng-if="::!video.unlist"><i class="fa fa-check-square-o"></i>published</span>
                                 <span ng-if="::video.unlist"><i class="fa fa-square-o" style="color: #000;"></i>un-listed</span>
-                                <span><i class="fa fa-clock-o"></i>{{::video.createdAt|amUtc|amLocal|amDateFormat:'lll'}}</span>
+                                <span><i class="fa fa-clock-o"></i>{{::video.created_at|amUtc|amLocal|amDateFormat:'lll'}}</span>
                                 <!--<span><i class="fa fa-eye"></i>1,862K</span>-->
                             </div>
                             <div class="video-btns">

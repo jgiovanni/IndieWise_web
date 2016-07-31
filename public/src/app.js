@@ -212,8 +212,12 @@ jQuery(document).ready(function (jQuery) {
                 'responseError': function (response) {
                     if (response.status === 401 || response.status === 403) {
                         //$location.path('/sign-in');
-                    }
-                    return $q.reject(response);
+                    } else if (response.status == 500) {
+                        var deferred = $q.defer();
+                        debugger;
+                        retryHttpRequest(response.config, deferred);
+                        return deferred.promise;
+                    } else return $q.reject(response);
                 }
             };
         }])
@@ -897,5 +901,15 @@ jQuery(document).ready(function (jQuery) {
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);
-})
-();
+
+    function retryHttpRequest(config, deferred){
+        function successCallback(response){
+            deferred.resolve(response);
+        }
+        function errorCallback(response){
+            deferred.reject(response);
+        }
+        var $http = $injector.get('$http');
+        $http(config).then(successCallback, errorCallback);
+    }
+})();
