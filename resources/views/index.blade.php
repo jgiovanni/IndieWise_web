@@ -380,11 +380,6 @@
 <!--[if lte IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
 <![endif]-->
-<!-- Backand SDK for Angular -->
-<script src="./app/bower_components/angularbknd-sdk/dist/backand.min.js"></script>
-<!-- Backand Realtime -->
-<script src="https://api.backand.com:4000/socket.io/socket.io.js"></script>
-
 <!-- BeTube script files -->
 <script src="./app/bower_components/what-input/what-input.js"></script>
 <script src="./app/bower_components/foundation-sites/dist/foundation.js"></script>

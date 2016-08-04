@@ -234,11 +234,11 @@
         }, 500);
     }
 
-    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal', 'Backand'];
-    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal, Backand) {
+    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal'];
+    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal) {
         $rootScope.metadata.title = 'Sign In';
         var self = this;
-        self.providers = Backand.getSocialProviders();
+        self.providers = ['google', 'facebook', 'twitter'];
         //// console.log(self.providers);
         self.user = {
             email: '',
@@ -806,8 +806,8 @@
         $timeout(jQuery(document).foundation(), 0);
     }
 
-    VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'UtilsService', 'DataService', '$state', 'Analytics', '$window', '$timeout', 'Backand', '_'];
-    function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, UtilsService, DataService, $state, Analytics, $window, $timeout, Backand, _) {
+    VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'UtilsService', 'DataService', '$state', 'Analytics', '$window', '$timeout', '_'];
+    function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, UtilsService, DataService, $state, Analytics, $window, $timeout, _) {
         var self = this;
         self.loaded = false;
         self.displayShare = false;

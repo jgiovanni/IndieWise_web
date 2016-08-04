@@ -122,7 +122,6 @@ jQuery(document).ready(function (jQuery) {
             'flow',
             'satellizer',
             'angular-filepicker',
-            'backand',
             'pascalprecht.translate',
             '720kb.socialshare',
             'ngAnimate-animate.css',
@@ -189,12 +188,6 @@ jQuery(document).ready(function (jQuery) {
                 // Remove prefix on launch
                 .trackPrefix('alpha');
         })
-        .config(function (BackandProvider) {
-            BackandProvider.setAppName('indiewise');
-            // BackandProvider.setSignUpToken('ed37a6ff-ff08-4d3a-b82c-5f29f9a36c05');
-            // BackandProvider.setAnonymousToken('6ef61886-faa0-4f42-bf4d-d827339accfe');
-            BackandProvider.runSocket(false); //enable the web sockets that makes the database realtime
-        })
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
         }])
@@ -214,7 +207,6 @@ jQuery(document).ready(function (jQuery) {
                         //$location.path('/sign-in');
                     } else if (response.status == 500) {
                         var deferred = $q.defer();
-                        debugger;
                         retryHttpRequest(response.config, deferred);
                         return deferred.promise;
                     } else return $q.reject(response);
@@ -708,8 +700,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Backand', 'Config',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Backand, Config) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config) {
                 FastClick.attach(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
@@ -741,10 +733,6 @@ jQuery(document).ready(function (jQuery) {
 
                 $rootScope.listenNotifications = function (username) {
                     $rootScope.refreshNotifications(username);
-                    Backand.on('notifications', function (data) {
-                        console.log('Notifications: ', data);
-                        $rootScope.refreshNotifications(username);
-                    });
                 };
 
                 $rootScope.refreshNotifications = function (id) {
@@ -897,7 +885,6 @@ jQuery(document).ready(function (jQuery) {
                 'self',
                 'http://getindiewise.com/**',
                 'http://www.getindiewise.com/**',
-                // 'https://api.backand.com/**',
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);

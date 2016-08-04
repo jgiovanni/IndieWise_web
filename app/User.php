@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     protected $guarded = ['url_id', 'public', 'id'];
 
-    protected $hidden = ['bcryptPassword', 'remember_token'];
+    protected $hidden = ['password', 'remember_token'];
 
     protected $appends = ['fullName'];
 
@@ -34,15 +34,15 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
      *
      * @param $password
      */
-    public function setBcryptPasswordAttribute($password)
+    public function setPasswordAttribute($password)
     {
-        $this->attributes['bcryptPassword'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
+        $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
     }
 
     // Mutators
     public function getPasswordAttribute()
     {
-        return $this->attributes['bcryptPassword'];
+        return $this->attributes['password'];
     }
 
     public function getFullNameAttribute()

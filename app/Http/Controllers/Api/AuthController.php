@@ -90,9 +90,8 @@ class AuthController extends Controller
     public function register(Request $request) {
 
         try {
-            $user = new User($request->all());
+            $user = new User($request->except('password_confirmation'));
             $user->save();
-
             $token = JWTAuth::fromUser($user);
         } catch (JWTException $e) {
             return response()->json(['error' => 'User already exists.'], 409);
@@ -144,7 +143,7 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
         $user = User::whereEmail($request->email)->firstOrFail();
-        $user->bcryptPassword = bcrypt($request->password);
+        $user->password = bcrypt($request->password);
         $user->save();
         //delete pending resets
         PasswordReset::whereEmail($request->email)->delete();

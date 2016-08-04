@@ -81,7 +81,7 @@ class CritiquesController extends Controller
     public function destroy($id)
     {
         $critique = $this->critique->where('id', $id)->where('user_id', $this->user()->id)->firstOrFail();
-        $critique->destroy();
+        $critique->delete();
         return response()->json(true);
     }
 
