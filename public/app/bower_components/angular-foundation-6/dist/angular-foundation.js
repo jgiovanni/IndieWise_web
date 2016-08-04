@@ -1127,7 +1127,7 @@ angular.module('mm.foundation.offcanvas', []).directive('offCanvasWrapper', ['$w
 
             var win = angular.element($window);
 
-            win.bind('resize.body', $ctrl.hide);
+            // win.bind('resize.body', $ctrl.hide);
 
             $scope.$on('$destroy', function () {
                 win.unbind('resize.body', $ctrl.hide);
