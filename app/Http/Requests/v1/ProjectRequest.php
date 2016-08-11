@@ -14,7 +14,7 @@ class ProjectRequest extends FormRequest
     public function authorize()
     {
         if($this->isMethod('post')) {
-            return ($this->user()->projects()->count() <= 3);
+            return ($this->user());
         }
         return true;
     }
@@ -34,7 +34,7 @@ class ProjectRequest extends FormRequest
             'filmingCountry_id' => 'required|exists:Country,id',
             'completionDate' => 'required|date|before:now',
             'hosting_type' => 'required|string|max:255',
-            'hosting_id' => 'required|string|max:255',
+            'hosting_id' => 'string|max:255',
             'video_url' => 'required|string|max:255',
             'director' => 'required|string|max:255',
             'writer' => 'required|string|max:255',

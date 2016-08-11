@@ -19,10 +19,10 @@
          flow-init="{query:{upload_preset:'jmy7rdcs',public_id: Profile.generatePublicId('cover')}}"
          flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-files-submitted="$flow.upload()"
          flow-file-success="Profile.updateCoverPhoto($file, $message, $flow)"
-         style="background-image: url({{Profile.user.coverPhoto||'./assets/images/profile-bg_demo.png'}});">
+         style="background-image: url({{Profile.user.coverPhotos||'./assets/images/profile-bg_demo.png'}});">
     <div class="row">
         <div class="large-12 columns">
-            <div class="upload-bg">
+            <!--<div class="upload-bg">
                 <form>
                     <label for="topfileupload" class="btn-upload has-tip no-border"
                            tooltip="Recommended dimensions: 1280x280">
@@ -30,7 +30,7 @@
                     </label>
                     <input type="file" id="topfileupload" class="show-for-sr" flow-btn flow-attrs="{accept:'image/*'}">
                 </form>
-            </div>
+            </div>-->
         </div>
     </div>
     <div class="main-text text-center ng-hide" style="padding-top: 20px;padding-bottom: 30px">

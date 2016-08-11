@@ -83,7 +83,7 @@
             passwordCheck: '',
             firstName: '',
             lastName: '',
-            gender: false,
+            gender: '',
             // genres: [],
             // types: []
             //selected_genres: ''
@@ -127,7 +127,7 @@
         self.doRegister = function () {
             if(!self.creating){
                 self.creating = true;
-                self.errors.gender = !self.user.gender;
+                self.errors.gender = !self.user.gender.length;
 
                 /*if (angular.isArray(self.genresArr) && self.genresArr.length) {
                     _.each(self.genresArr, function (a) {

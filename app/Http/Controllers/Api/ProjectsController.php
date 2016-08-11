@@ -48,6 +48,9 @@ class ProjectsController extends Controller
      */
     public function store(ProjectRequest $request)
     {
+        /*if($this->isMethod('post')) {
+            return ($this->user()->projects()->count() <= 3);
+        }*/
         $project = $this->project->create($request->except('genres'));
 
         $project->syncGenres($request->get('genres'));
