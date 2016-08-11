@@ -113,7 +113,7 @@
             $rootScope.typesList = self.typesList = res;
         });*/
         $rootScope.generateCountries().then(function (res) {
-            $rootScope.countryList = self.countryList = res.data.data;
+            $rootScope.countryList = self.countryList = res;
         });
 
         self.checkEmailUse = function () {

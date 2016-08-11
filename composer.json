@@ -25,7 +25,8 @@
         "barryvdh/laravel-cors": "^0.8.0",
         "get-stream/stream-laravel": "~2.2.6",
         "zizaco/entrust": "5.2.x-dev",
-        "edvinaskrucas/laravel-user-email-verification": "^1.0"
+        "edvinaskrucas/laravel-user-email-verification": "^1.0",
+        "socialiteproviders/twitter": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

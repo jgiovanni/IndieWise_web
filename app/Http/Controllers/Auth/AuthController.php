@@ -81,10 +81,11 @@ class AuthController extends Controller
     {
         //return $this->socialite->with($provider)->stateless()->redirect();
         if ($provider == 'twitter') {
+            $provider = \Laravel\Socialite\Facades\Socialite::driver($provider);
             // Part 1 of 2: Initial request from Satellizer.
             if (!$request->input('oauth_token') || !$request->input('oauth_verifier')) {
                 // Redirect to fill the session (without actually redirecting)
-                $provider->redirect();
+                $provider->stateless()->redirect();
 
                 /** @var TemporaryCredentials $temp */
                 $credentials = $request->getSession()->get('oauth.temp');

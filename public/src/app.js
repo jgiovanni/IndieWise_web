@@ -192,6 +192,17 @@ jQuery(document).ready(function (jQuery) {
             $httpProvider.interceptors.push('authInterceptor');
         }])
         .factory('authInterceptor', ['$q', '$injector', '$location', 'API', function ($q, $injector, $location, API) {
+            function retryHttpRequest(config, deferred){
+                function successCallback(response){
+                    deferred.resolve(response);
+                }
+                function errorCallback(response){
+                    deferred.reject(response);
+                }
+                var $http = $injector.get('$http');
+                $http(config).then(successCallback, errorCallback);
+            }
+
             return {
                 'request': function (config) {
                     config.headers = config.headers || {};
@@ -888,16 +899,4 @@ jQuery(document).ready(function (jQuery) {
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);
-
-    retryHttpRequest.$inject = ['$injector', 'config', 'deferred'];
-    function retryHttpRequest($injector, config, deferred){
-        function successCallback(response){
-            deferred.resolve(response);
-        }
-        function errorCallback(response){
-            deferred.reject(response);
-        }
-        var $http = $injector.get('$http');
-        $http(config).then(successCallback, errorCallback);
-    }
 })();

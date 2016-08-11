@@ -43,7 +43,7 @@ return [
     'twitter' => [
         'client_id' => 'nnSvvHd86gBpxPwJaLGvzM2Mm',
         'client_secret' => 'TbzbhcsQIDzbNLPrDfyirstXTJXI71WANCISNjf4NImzXACHZq',
-        'redirect' => env('SOCIALITE_TWITTER_REDIRECT', 'http://indiewise.dev/auth/twitter/callback'),
+        'redirect' => env('SOCIALITE_TWITTER_REDIRECT', 'http://indiewise.dev'),
     ],
     'google' => [
         'client_id' => '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com',
