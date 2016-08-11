@@ -80,6 +80,7 @@ $api->version('v1', [
     $api->post('resetPassword', 'AuthController@reset');
     $api->get('authenticate', 'AuthController@authenticatedUser');
     $api->get('token', 'AuthController@getToken');
+    $api->get('emailCheck', 'AuthController@checkEmailUse');
 
     // User Routes
     $api->post('users/me', 'UsersController@updateMe');

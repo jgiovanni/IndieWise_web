@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2ba50c84ac211b612d37574d60589673",
-    "content-hash": "b59ff2e1f7e10ad5a24e3e55e6e93baa",
+    "hash": "092ff52589cc37c4f6a95cc19f63e1a7",
+    "content-hash": "583ebbe707a430aa1818f9b0f16c7480",
     "packages": [
         {
             "name": "99designs/http-signatures",
@@ -789,6 +789,59 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
+        },
+        {
+            "name": "edvinaskrucas/laravel-user-email-verification",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/edvinaskrucas/laravel-user-email-verification.git",
+                "reference": "75f7139543c2be5bb3c71f87fa016cc14be9d733"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/edvinaskrucas/laravel-user-email-verification/zipball/75f7139543c2be5bb3c71f87fa016cc14be9d733",
+                "reference": "75f7139543c2be5bb3c71f87fa016cc14be9d733",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.2",
+                "illuminate/database": "^5.2",
+                "illuminate/filesystem": "^5.2",
+                "illuminate/http": "^5.2",
+                "illuminate/mail": "^5.2",
+                "illuminate/support": "^5.2",
+                "php": "^5.5|^7.0"
+            },
+            "require-dev": {
+                "laravel/framework": "^5.2",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Krucas\\LaravelUserEmailVerification": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Edvinas Kručas",
+                    "email": "edv.krucas@gmail.com"
+                }
+            ],
+            "description": "Laravel Package for easier user email verification.",
+            "keywords": [
+                "email verification",
+                "laravel",
+                "user email verification",
+                "user verification"
+            ],
+            "time": "2016-04-14 08:03:48"
         },
         {
             "name": "firebase/php-jwt",

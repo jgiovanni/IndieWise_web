@@ -149,6 +149,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         GetStream\StreamLaravel\StreamLaravelServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Krucas\LaravelUserEmailVerification\UserEmailVerificationServiceProvider::class,
 
         /*
          * Application Service Providers...

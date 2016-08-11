@@ -889,7 +889,8 @@ jQuery(document).ready(function (jQuery) {
             ]);
         }]);
 
-    function retryHttpRequest(config, deferred){
+    retryHttpRequest.$inject = ['$injector', 'config', 'deferred'];
+    function retryHttpRequest($injector, config, deferred){
         function successCallback(response){
             deferred.resolve(response);
         }

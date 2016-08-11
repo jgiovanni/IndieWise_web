@@ -121,6 +121,7 @@ class AuthController extends Controller
 //        return response()->json($token);
         return response()->json(true);
     }
+
     public function verify(Request $request)
     {
         $this->validate($request, [
@@ -135,6 +136,7 @@ class AuthController extends Controller
         }
         return response()->json(true);
     }
+
     public function reset(Request $request)
     {
         $this->validate($request, [
@@ -148,5 +150,10 @@ class AuthController extends Controller
         //delete pending resets
         PasswordReset::whereEmail($request->email)->delete();
         return response()->json(true);
+    }
+
+    public function checkEmailUse(Request $request)
+    {
+
     }
 }

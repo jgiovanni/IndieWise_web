@@ -118,7 +118,7 @@
 
         self.checkEmailUse = function () {
             if (angular.isString(self.user.email) && self.user.email.length) {
-                DataService.query('checkEmailUse', {email: mysql_real_escape_string(self.user.email)}).then(function (res) {
+                DataService.collection('emailCheck', {email: mysql_real_escape_string(self.user.email)}).then(function (res) {
                     self.errors.email = res.data.length && res.data[0].verify === 1 ? 1 : 0;
                 });
             } else self.errors.email = false;
@@ -651,8 +651,8 @@
         }
     }
 
-    HomeCtrl.$inject = ['$rootScope', 'DataService', '$scope', '$q', '$modal', '$interval'];
-    function HomeCtrl($rootScope, DataService, $scope, $q, $modal, $interval) {
+    HomeCtrl.$inject = ['$rootScope', 'DataService', '$scope', '$window', '$modal', '$interval'];
+    function HomeCtrl($rootScope, DataService, $scope, $window, $modal, $interval) {
         var self = this;
         $rootScope.metadata.title = 'Home';
 
@@ -683,6 +683,15 @@
         $scope.$on('$destroy', function () {
             $interval.cancel(self.refInterval);
         });
+
+       $window.onfocus = function() {
+            //do something
+        };
+
+        $window.onblur = function() {
+            // console.log('Refresh Stopped');
+            $interval.cancel(self.refInterval);
+        };
     }
 
     BrowseCtrl.$inject = ['$scope', '$rootScope', '$state', 'DataService', '$q', '$timeout', '$modal', '_'];
