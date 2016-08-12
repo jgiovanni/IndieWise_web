@@ -68,7 +68,7 @@ class CritiquesController extends Controller
     public function update(Request $request, $id)
     {
         $critique = $this->critique->where('id', $id)->where('user_id', $this->user()->id)->firstOrFail();
-        $critique->update($request->except('project', 'user'));
+        $critique->update($request->except('project', 'user', 'comments_count'));
         return $this->response->item($critique, new CritiqueTransformer);
     }
 
