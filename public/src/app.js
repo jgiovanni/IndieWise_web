@@ -275,7 +275,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('home', {
                     url: '/home',
                     authenticate: false,
-                    templateUrl: BASE + '/src/home/view/index.html',
+                    templateUrl: BASE + 'src/home/view/index.html',
                     controller: 'HomeCtrl as Home'
                 })
                 .state('browse', {
