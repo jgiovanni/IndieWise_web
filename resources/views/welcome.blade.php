@@ -195,7 +195,7 @@
                 <p>IndieWise Officially Launches on Sunday August 28th. Click Below to Join the FB Event Page and Keep Up with all the Hype</p>
                 <a href="https://www.facebook.com/events/1104939689565550/">IndieWise Aug 28th Website Official Launch</a></p>
                 <div class="ls-s2">
-                    <iframe width="640" height="360" src="https://cdn.filepicker.io/GYr0iXWiTxat7uVwgPjS" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="640" height="360" src="https://cdn.filepicker.io/api/file/GYr0iXWiTxat7uVwgPjS" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
