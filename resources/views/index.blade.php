@@ -41,7 +41,7 @@
         var BASE = '/';
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
     <link rel="stylesheet" href="/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
@@ -78,7 +78,7 @@
     <link rel="stylesheet" href="/assets/app.css"/>
 
     <script src="//api.filepicker.io/v1/filepicker.js"></script>
-    <script src="http://cdn.broadstreetads.com/init.js"></script>
+    <script src="//cdn.broadstreetads.com/init.js"></script>
 </head>
 
 <body ng-controller="BodyCtrl as Body">
