@@ -28,7 +28,7 @@
         <div class="row secBg">
             <div class="large-12 columns">
                 <div class="profile-author-img">
-                    <img ng-src="{{::UserC.user.avatar || './assets/img/avatar-1.png'}}" alt="profile author img">
+                    <img ng-src="{{::UserC.user.avatar || '/assets/img/avatar-1.png'}}" alt="profile author img">
                 </div>
                 <div class="profile-subscribe" ng-if="::UserC.user.id !== AppData.User.userId ">
                     <span><i class="fa fa-comment"></i></span>

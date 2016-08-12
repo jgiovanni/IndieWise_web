@@ -453,7 +453,7 @@
                             googlePlus: window.location.href, //share link over Google +
                             logoShow: "Yes",                              //"Yes","No"
                             logoClickable: "Yes",                         //"Yes","No"
-                            logoPath: "./assets/img/Logo_alt2_web_87x45.png",             //path to logo image
+                            logoPath: "/assets/img/Logo_alt2_web_87x45.png",             //path to logo image
                             logoGoToLink: "http://getindiewise.com",       //redirect to page when logo clicked
                             logoPosition: "bottom-left",                  //choose logo position: "bottom-right","bottom-left"
                             embedShow: "No",                             //enable/disable embed option: "Yes","No"
@@ -685,7 +685,7 @@
                         googlePlus: window.location.href, //share link over Google +
                         logoShow: "Yes",                              //"Yes","No"
                         logoClickable: "Yes",                         //"Yes","No"
-                        logoPath: "./assets/img/Logo_alt2_web_87x45.png",             //path to logo image
+                        logoPath: "/assets/img/Logo_alt2_web_87x45.png",             //path to logo image
                         logoGoToLink: "http://getindiewise.com",       //redirect to page when logo clicked
                         logoPosition: "bottom-left",                  //choose logo position: "bottom-right","bottom-left"
                         embedShow: "No",                             //enable/disable embed option: "Yes","No"
