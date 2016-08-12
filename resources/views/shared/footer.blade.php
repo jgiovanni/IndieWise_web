@@ -30,7 +30,7 @@
                     <div class="media-object" ng-repeat="video in Body.footerRecentVideos.data|limitTo:3">
                         <div class="media-object-section">
                             <div class="recent-img">
-                                <img ng-src="@{{::video.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="recent">
+                                <img ng-src="@{{::video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="recent">
                                 <a ui-sref="video({url_id: video.url_id})" class="hover-posts">
                                     <span><i class="fa fa-play"></i></span>
                                 </a>
@@ -115,7 +115,7 @@
 </footer>
 <div id="footer-bottom" ng-cloak>
     <div class="logo text-center">
-        <img src="./assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
+        <img src="/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
     </div>
     <div class="btm-footer-text text-center">
         <p>2015 - {{ date('Y') }} &copy; IndieWise</p>

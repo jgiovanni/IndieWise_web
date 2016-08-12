@@ -2,7 +2,7 @@
 <html lang="en" ng-app="IndieWise" class="no-js">
 <head>
     <title>IndieWise</title>
-    <base href="http://52.207.215.154/alpha/">
+    <base href="http://industryboost.com/alpha/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
