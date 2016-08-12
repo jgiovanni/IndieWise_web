@@ -216,11 +216,11 @@ jQuery(document).ready(function (jQuery) {
                 'responseError': function (response) {
                     if (response.status === 401 || response.status === 403) {
                         //$location.path('/sign-in');
-                    } else if (response.status == 500) {
+                    } /*else if (response.status == 500) {
                         var deferred = $q.defer();
-                        retryHttpRequest(response.config, deferred);
+                        //retryHttpRequest(response.config, deferred);
                         return deferred.promise;
-                    } else return $q.reject(response);
+                    }*/ else return $q.reject(response);
                 }
             };
         }])
