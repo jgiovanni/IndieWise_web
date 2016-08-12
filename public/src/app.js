@@ -588,14 +588,14 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'ProfileSettingsController as PSC',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            return DataService.collection('Genres', [],
+                            return DataService.collection('genres', [],
                                 [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
                                 return result;
                             });
                         }],
                         UserTypes: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            return DataService.collection('UserTypes', [],
+                            return DataService.collection('types', [],
                                 [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
                                 20, false, false, 1).then(function (result) {
                                 return result;

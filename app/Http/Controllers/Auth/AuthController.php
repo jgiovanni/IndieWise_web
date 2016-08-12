@@ -85,7 +85,7 @@ class AuthController extends Controller
             // Part 1 of 2: Initial request from Satellizer.
             if (!$request->input('oauth_token') || !$request->input('oauth_verifier')) {
                 // Redirect to fill the session (without actually redirecting)
-                $provider->stateless()->redirect();
+                $provider/*->stateless()*/->redirect();
 
                 /** @var TemporaryCredentials $temp */
                 $credentials = $request->getSession()->get('oauth.temp');
