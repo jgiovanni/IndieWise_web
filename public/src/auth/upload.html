@@ -131,7 +131,7 @@
                     <div flex layout="column" layout-align="center top" ng-if="!!uploadOwnArt">
                         <md-card flow-init="{target: 'utils/upload_artwork.php',}" flow flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
                                  flow-files-submitted="$flow.upload()" flow-complete="UC.uploadArtwork($flow)">
-                            <img ng-hide="$flow.files.length" ng-src="{{UC.newVideo.thumbnailUrl||'./assets/img/default_video_thumbnail.jpg'}}"
+                            <img ng-hide="$flow.files.length" ng-src="{{UC.newVideo.thumbnailUrl||'/assets/img/default_video_thumbnail.jpg'}}"
                                  class="md-card-image" alt="Avatar" style="max-width: 560px"/>
                             <img ng-show="$flow.files.length" flow-img="$flow.files[0]" class="md-card-image" style="max-width: 560px"/>
                             <md-card-actions layout="row" layout-align="end center">

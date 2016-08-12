@@ -31,7 +31,7 @@
                                          ng-repeat="critique in UserCritiquesCtrl.critiques|orderBy:sortOrder">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
-                                                <img ng-src="{{::critique.user.avatar||'./assets/img/avatar-1.png'}}"
+                                                <img ng-src="{{::critique.user.avatar||'/assets/img/avatar-1.png'}}"
                                                      alt="comment">
                                             </div>
                                         </div>
@@ -182,7 +182,7 @@
                                          ng-init="critique.replies=[];critique.showReplies=false;">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
-                                                <img ng-src="{{::critique.user.avatar||'./assets/img/avatar-1.png'}}"
+                                                <img ng-src="{{::critique.user.avatar||'/assets/img/avatar-1.png'}}"
                                                      alt="comment">
                                             </div>
                                         </div>

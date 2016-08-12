@@ -47,7 +47,7 @@
                 <div class="collection-item" ng-repeat="result in Results.results" layout="row" layout-padding>
                     <div flex="25">
                         <img class="title" style="width: 100%;" ng-if="result.className === 'Film'" ng-src="{{::result.attributes.thumbnail_url}}" ui-sref="video({id: result.id})"/>
-                        <img class="title" ng-if="result.className === '_User'" ng-src="{{::result.attributes.avatar||'./assets/img/avatar-1.png'}}" ui-sref="user({id: result.id})"/>
+                        <img class="title" ng-if="result.className === '_User'" ng-src="{{::result.attributes.avatar||'/assets/img/avatar-1.png'}}" ui-sref="user({id: result.id})"/>
                     </div>
                     <div flex="75" ng-if="result.className === 'Film'">
                         <a class="md-subhead" ui-sref="video({id: result.id})" ng-bind="::result.attributes.name"></a><br>

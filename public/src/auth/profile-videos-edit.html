@@ -70,7 +70,7 @@
                                          flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
                                          flow-files-submitted="$flow.upload()" flow-file-success="VEC.uploadArtwork($message)">
                                         <img ng-hide="$flow.files.length"
-                                             ng-src="{{VEC.editedProject.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}"
+                                             ng-src="{{VEC.editedProject.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}"
                                              class="md-card-image" alt="Avatar" style="max-width: 560px"/>
                                         <img ng-show="$flow.files.length" flow-img="$flow.files[0]" class="md-card-image"
                                              style="max-width: 560px"/>

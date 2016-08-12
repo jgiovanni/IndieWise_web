@@ -16,7 +16,7 @@
                 <div class="media-object stack-for-small">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
-                            <img ng-src="{{model.isLoggedIn.avatar || './assets/img/avatar-1.png'}}" alt="comment">
+                            <img ng-src="{{model.isLoggedIn.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
                         </div>
                         <h6><a ui-sref="user.about({id: model.isLoggedIn.id})">{{model.isLoggedIn.fullName}}</a></h6>
                     </div>
@@ -40,7 +40,7 @@
                      ng-init="comment.replies=[];comment.showReplies=false;">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
-                            <img ng-src="{{::comment.author.avatar || './assets/img/avatar-1.png'}}" alt="comment">
+                            <img ng-src="{{::comment.author.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
                         </div>
                     </div>
                     <div class="media-object-section comment-desc">
@@ -75,7 +75,7 @@
                         <div class="media-object stack-for-small reply-comment" ng-repeat-start="reply in comment.replies">
                             <div class="media-object-section comment-img text-center">
                                 <div class="comment-box-img">
-                                    <img ng-src="{{::reply.author.avatar || './assets/img/avatar-1.png'}}"
+                                    <img ng-src="{{::reply.author.avatar || '/assets/img/avatar-1.png'}}"
                                          alt="comment">
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
 <!--<md-content class="md-padding" ng-if="!disable">
     <md-list>
         <md-list-item class="md-3-line secondary-button-padding">
-            <img ng-src="{{::AppData.User.attributes.avatar || './assets/img/avatar-1.png'}}" class="md-avatar">
+            <img ng-src="{{::AppData.User.attributes.avatar || '/assets/img/avatar-1.png'}}" class="md-avatar">
 
             <form name="commentForm" id="commentForm" ng-submit="postComment()" layout="row" layout-lt-md="column"
                   class="md-padding md-list-item-text">
@@ -134,7 +134,7 @@
         <md-list-item class="md-3-line" ng-repeat-start="comment in comments|orderBy:'-created_at'"
                       ng-init="comment.replies=[];"
                       ng-class="{'secondary-button-padding': comment.attributes.author.id === model.model.isLoggedIn.id&&!!editCommentMode&&editComment.id===comment.id}">
-            <img ng-src="{{::comment.attributes.author.attributes.avatar || './assets/img/avatar-1.png'}}"
+            <img ng-src="{{::comment.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
                  class="md-avatar">
 
             <div class="md-list-item-text">

@@ -30,7 +30,7 @@
                                 <div class="media-object stack-for-small" ng-repeat="r in LC.reactions">
                                     <div class="media-object-section">
                                         <div class="recent-img">
-                                            <img ng-src="{{::r.projectThumbnail||'./assets/img/default_video_thumbnail.jpg'}}"
+                                            <img ng-src="{{::r.projectThumbnail||'/assets/img/default_video_thumbnail.jpg'}}"
                                                  alt="recent">
                                             <a ui-sref="video({url_id: r.projectUrlId})" class="hover-posts">
                                                 <span><i class="fa fa-play"></i></span>
@@ -75,7 +75,7 @@
                                 <div class="media-object stack-for-small" ng-repeat="n in LC.nominations">
                                     <div class="media-object-section">
                                         <div class="recent-img">
-                                            <img ng-src="{{::n.projectThumbnail||'./assets/img/default_video_thumbnail.jpg'}}"
+                                            <img ng-src="{{::n.projectThumbnail||'/assets/img/default_video_thumbnail.jpg'}}"
                                                  alt="recent">
                                             <a ui-sref="video({url_id: n.projectUrlId})" class="hover-posts">
                                                 <span><i class="fa fa-play"></i></span>
@@ -118,7 +118,7 @@
                                 <div class="media-object stack-for-small" ng-repeat="c in LC.critiques">
                                     <div class="media-object-section">
                                         <div class="recent-img">
-                                            <img ng-src="{{::c.projectThumbnail||'./assets/img/default_video_thumbnail.jpg'}}"
+                                            <img ng-src="{{::c.projectThumbnail||'/assets/img/default_video_thumbnail.jpg'}}"
                                                  alt="recent">
                                             <a ui-sref="video_critique({video_url_id: c.projectUrlId, url_id:c.url_id})" class="hover-posts">
                                                 <span><i class="fa fa-star"></i></span>

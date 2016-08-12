@@ -17,7 +17,7 @@
     <div id="owl-demo" class="owl-carousel carousel" data-car-length="4" data-items="4" data-loop="true" data-nav="false" data-autoplay="true" data-autoplay-timeout="3000" data-dots="false" data-auto-width="false" data-responsive-small="1" data-responsive-medium="2" data-responsive-xlarge="5">
         <div class="item" ng-repeat="f in featuredFilms.data|limitTo:5">
             <figure class="premium-img">
-                <img src="{{::f.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="carousel">
+                <img src="{{::f.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="carousel">
                 <figcaption>
                     <h5>{{::f.name|truncate:40}}</h5>
                     <p>{{::featuredFilms.relatedObjects.users[f.owner].firstName+' '+featuredFilms.relatedObjects.users[f.owner].lastName}}</p>

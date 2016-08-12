@@ -215,7 +215,7 @@
                             <div class="media-object stack-for-small" ng-repeat="w in Home.latest.watched.data|limitTo:5">
                                 <div class="media-object-section">
                                     <div class="recent-img">
-                                        <img ng-src="{{::Home.latest.watched.relatedObjects.Film[w.film].thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" alt="recent">
+                                        <img ng-src="{{::Home.latest.watched.relatedObjects.Film[w.film].thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="recent">
                                         <a ui-sref="video({id: w.film})" class="hover-posts">
                                             <span><i class="fa fa-play"></i></span>
                                         </a>
@@ -486,7 +486,7 @@
                  <md-list>
                      <md-list-item class="md-2-lines wrap-text" ng-repeat-start="w in Home.latest.watched"
                                    ui-sref="video({id: w.attributes.film.id})">
-                         <img ng-src="{{::w.attributes.film.attributes.thumbnail_url||'./assets/img/default_video_thumbnail.jpg'}}" class="md-avatar"
+                         <img ng-src="{{::w.attributes.film.attributes.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" class="md-avatar"
                               style="border-radius: 0;">
                          <a ui-sref="video({id: w.attributes.film.id})">{{::w.attributes.film.attributes.name}}</a>
                      </md-list-item>
@@ -504,7 +504,7 @@
                                                  class="md-accent"></md-progress-linear>
                              <md-list>
                                  <md-list-item class="md-2-line wrap-text" ng-repeat="c in Home.latest.reactions">
-                                     <img ng-src="{{::c.attributes.author.attributes.avatar || './assets/img/avatar-1.png'}}"
+                                     <img ng-src="{{::c.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
                                           class="md-avatar" ui-sref="user.about({id: c.attributes.author.id})">
 
                                      <div class="md-list-item-text" layout="column">
@@ -525,7 +525,7 @@
                                                  class="md-accent"></md-progress-linear>
                              <md-list>
                                  <md-list-item class="md-2-line wrap-text" ng-repeat="c in Home.latest.comments">
-                                     <img ng-src="{{::c.attributes.author.attributes.avatar || './assets/img/avatar-1.png'}}"
+                                     <img ng-src="{{::c.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
                                           class="md-avatar" ui-sref="user.about({id: c.attributes.author.id})">
 
                                      <div class="md-list-item-text" layout="column">
@@ -568,7 +568,7 @@
                  <md-content>
                      <md-list>
                          <md-list-item class="md-2-line wrap-text" ng-repeat="c in Home.latest.critiques">
-                             <img ng-src="{{::c.attributes.author.attributes.avatar || './assets/img/avatar-1.png'}}"
+                             <img ng-src="{{::c.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
                                   class="md-avatar" ui-sref="user.about({id: c.attributes.author.id})">
 
                              <div class="md-list-item-text" layout="column">

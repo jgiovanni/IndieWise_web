@@ -19,7 +19,7 @@
          flow-init="{query:{upload_preset:'jmy7rdcs',public_id: Profile.generatePublicId('cover')}}"
          flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-files-submitted="$flow.upload()"
          flow-file-success="Profile.updateCoverPhoto($file, $message, $flow)"
-         style="background-image: url({{Profile.user.coverPhotos||'./assets/images/profile-bg_demo.png'}});">
+         style="background-image: url({{Profile.user.coverPhotos||'/assets/images/profile-bg_demo.png'}});">
     <div class="row">
         <div class="large-12 columns">
             <!--<div class="upload-bg">
@@ -55,7 +55,7 @@
                      flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
                      flow-files-submitted="$flow.upload()"
                      flow-file-success="Profile.updateAvatar($file, $message, $flow)">
-                    <img ng-hide="$flow.files.length" ng-src="{{Profile.user.avatar||'./assets/img/avatar-1.png'}}"/>
+                    <img ng-hide="$flow.files.length" ng-src="{{Profile.user.avatar||'/assets/img/avatar-1.png'}}"/>
                     <img ng-show="$flow.files.length" flow-img="$flow.files[0]"/>
 
                     <form>
