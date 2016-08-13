@@ -410,10 +410,12 @@
                     }).finally(function () {
                         window.videoPlayer = scope.videoPlayer = el.Video({                  //ALL PLUGIN OPTIONS
                             instanceName: "player1",                      //name of the player instance
+                            instanceTheme:"dark",                        //choose video player theme: "dark", "light"
                             autohideControls: 2,                          //autohide HTML5 player controls
                             hideControlsOnMouseOut: "No",                 //hide HTML5 player controls on mouse out of the player: "Yes","No"
-                            videoPlayerWidth: '100%',                     //fixed total player width
-                            videoPlayerHeight: Foundation.MediaQuery.atLeast('large') ? 470 : 420,                       //fixed total player height
+                            playerLayout: "fitToContainer",                   //Select player layout: "fitToContainer", "fixedSize", "fitToBrowser"
+                            // videoPlayerWidth: '100%',                     //fixed total player width
+                            // videoPlayerHeight: Foundation.MediaQuery.atLeast('large') ? 470 : 420,                       //fixed total player height
                             responsive: true,  //!Foundation.MediaQuery.atLeast('large'),				             //this option will overwrite above videoPlayerWidth/videoPlayerHeight and set player to fit your div (parent) container: true/false
                             playlist: /*scope.type === 'vimeo' ? "Off" :*/ "Right playlist",                   //choose playlist type: "Right playlist", "Off"
                             playlistScrollType: "light",                  //choose scrollbar type: "light","minimal","light-2","light-3","light-thick","light-thin","inset","inset-2","inset-3","rounded","rounded-dots","3d"
@@ -642,11 +644,13 @@
 
                     scope.videoPlayer = el.Video({                  //ALL PLUGIN OPTIONS
                         instanceName: "player_" + new Date().valueOf().toString(),                      //name of the player instance
+                        instanceTheme:"dark",                        //choose video player theme: "dark", "light"
                         autohideControls: 2,                          //autohide HTML5 player controls
                         hideControlsOnMouseOut: "No",                 //hide HTML5 player controls on mouse out of the player: "Yes","No"
+                        playerLayout: "fixedSize",
                         videoPlayerWidth: '100%',                     //fixed total player width
                         videoPlayerHeight: Foundation.MediaQuery.atLeast('large') ? 470 : 420,                       //fixed total player height
-                        responsive: true,  //!Foundation.MediaQuery.atLeast('large'),				             //this option will overwrite above videoPlayerWidth/videoPlayerHeight and set player to fit your div (parent) container: true/false
+                        // responsive: true,  //!Foundation.MediaQuery.atLeast('large'),				             //this option will overwrite above videoPlayerWidth/videoPlayerHeight and set player to fit your div (parent) container: true/false
                         playlist: "Off",                   //choose playlist type: "Right playlist", "Off"
                         playlistScrollType: "light",                  //choose scrollbar type: "light","minimal","light-2","light-3","light-thick","light-thin","inset","inset-2","inset-3","rounded","rounded-dots","3d"
                         playlistBehaviourOnPageload: "closed",		 //choose playlist behaviour when webpage loads: "closed", "opened" (not apply to Vimeo player)

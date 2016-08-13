@@ -34,7 +34,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <script
-            src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,js-sha1@0.3.0,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>
+            src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>
     <script>
         // Underscore noConflict();
         var ___ = _.noConflict();
@@ -48,12 +48,12 @@
     <link rel="stylesheet" href="/public/app/bower_components/animate.css/animate.min.css"/>
 
     <!-- Elite Video Player Scripts-->
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.min.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/THREEx.FullScreen.min.js"></script>
     <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/videoPlayer.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/Playlist.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/Playlist.min.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.min.js"></script>
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="/public/assets/css/app.css">
