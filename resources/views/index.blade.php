@@ -84,7 +84,7 @@
 <body ng-controller="BodyCtrl as Body">
 
 <div class="off-canvas-wrapper">
-    <div class="off-canvas-wrapper-inner inner-wrapper">
+    <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
         <!--header-->
         @include('shared.offCanvasLeft')
 
