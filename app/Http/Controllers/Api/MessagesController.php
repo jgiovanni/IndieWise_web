@@ -2,7 +2,7 @@
 
 namespace IndieWise\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use Dingo\Api\Contract\Http\Request;
 
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\User;
@@ -12,7 +12,6 @@ use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 
@@ -26,8 +25,16 @@ class MessagesController extends Controller
     public function index()
     {
         $currentUserId = $this->auth()->user()->id;
-        $user = User::find($currentUserId)->with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->first();
-        return view('messenger.index', compact('user', 'currentUserId'));
+
+        $conversations = Thread::with(/*'messages.user', */'participants.user')->forUser($currentUserId)->get();
+        $conversations = $conversations->each(function ($conversation, $key) {
+            $conversation->append('latestMessage');
+        });
+
+//        $user = User::with('threads.participants', 'threads.messages.user')->findOrFail($currentUserId);
+//        $conversations = $user->threads;
+        return response()->json(compact('conversations'/*, 'currentUserId'*/));
+//        return view('messenger.index', compact('user', 'currentUserId'));
     }
 
     /**
@@ -39,7 +46,7 @@ class MessagesController extends Controller
     public function show($id)
     {
         try {
-            $thread = Thread::findOrFail($id);
+            $conversation = Thread::with('messages.user', 'participants.user')->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
 
@@ -50,38 +57,26 @@ class MessagesController extends Controller
         // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
 
         // don't show the current user in list
-        $userId = Auth::user()->id;
-        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
+        $userId = $this->auth()->user()->id;
+//        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
 
-        $thread->markAsRead($userId);
+        $conversation->markAsRead($userId);
 
-        return view('messenger.show', compact('thread', 'users'));
-    }
-
-    /**
-     * Creates a new message thread.
-     *
-     * @return mixed
-     */
-    public function create()
-    {
-        $users = User::where('id', '!=', Auth::id())->get();
-
-        return view('messenger.create', compact('users'));
+        return response()->json(compact('conversation'));
     }
 
     /**
      * Stores a new message thread.
      *
+     * @param Request $request
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        $input = Input::all();
 
         $thread = Thread::create(
             [
-                'subject' => $input['subject'],
+                'subject' => $request->get('subject'),
             ]
         );
 
@@ -89,8 +84,8 @@ class MessagesController extends Controller
         Message::create(
             [
                 'thread_id' => $thread->id,
-                'user_id'   => Auth::user()->id,
-                'body'      => $input['message'],
+                'user_id'   => $this->auth()->user()->id,
+                'body'      => $request->get('message'),
             ]
         );
 
@@ -98,59 +93,58 @@ class MessagesController extends Controller
         Participant::create(
             [
                 'thread_id' => $thread->id,
-                'user_id'   => Auth::user()->id,
+                'user_id'   => $this->auth()->user()->id,
                 'last_read' => new Carbon,
             ]
         );
 
         // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipants($input['recipients']);
+        if ($request->has('recipients')) {
+            $thread->addParticipants($request->get('recipients'));
         }
 
-        return redirect('messages');
+        return response()->json($thread);
     }
 
     /**
      * Adds a new message to a current thread.
      *
+     * @param Request $request
      * @param $id
      * @return mixed
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         try {
-            $thread = Thread::findOrFail($id);
+            $conversation = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-
-            return redirect('messages');
+            return response()->json(['error_message', 'The thread with ID: ' . $id . ' was not found.'], 401);
         }
 
-        $thread->activateAllParticipants();
+        $conversation->activateAllParticipants();
 
         // Message
         Message::create(
             [
-                'thread_id' => $thread->id,
-                'user_id'   => Auth::id(),
-                'body'      => Input::get('message'),
+                'thread_id' => $conversation->id,
+                'user_id'   => $this->auth()->user()->id,
+                'body'      => $request->get('message'),
             ]
         );
 
         // Add replier as a participant
         $participant = Participant::firstOrCreate(
             [
-                'thread_id' => $thread->id,
-                'user_id'   => Auth::user()->id,
+                'thread_id' => $conversation->id,
+                'user_id'   => $this->auth()->user()->id,
             ]
         );
         $participant->last_read = new Carbon;
         $participant->save();
 
         // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipants(Input::get('recipients'));
+        if ($request->has('recipients')) {
+            $conversation->addParticipants($request->get('recipients'));
         }
 
         return redirect('messages/' . $id);

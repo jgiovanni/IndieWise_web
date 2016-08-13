@@ -8,7 +8,6 @@ use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use League\Flysystem\Config;
 
 class Thread extends Model
 {
@@ -28,6 +27,7 @@ class Thread extends Model
      */
     protected $fillable = ['subject'];
 
+//    protected $appends = ['getLatestMessage'];
     /**
      * The attributes that should be mutated to dates.
      *
@@ -52,7 +52,7 @@ class Thread extends Model
      */
     public function messages()
     {
-        return $this->hasMany(Config::get('messenger.message_model'), 'thread_id', 'id')->orderBy('created_at', 'desc');
+        return $this->hasMany(Message::class, 'thread_id', 'id')->orderBy('created_at', 'desc');
     }
 
     /**
@@ -72,7 +72,7 @@ class Thread extends Model
      */
     public function participants()
     {
-        return $this->hasMany(Models::classname(Participant::class), 'thread_id', 'id');
+        return $this->hasMany(Participant::class, 'thread_id', 'id');
     }
 
     /**

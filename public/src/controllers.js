@@ -173,8 +173,10 @@
         self.authenticate = function (provider) {
             self.error = null;
             AuthService.socialLogin(provider, true).then(function (a) {
-                $state.go('profile.about', {reload: true});
-                // console.log(a);
+                if(a) {
+                    $state.go('profile.about', {reload: true});
+                    // console.log(a);
+                }
             });
         };
 
@@ -2242,6 +2244,7 @@
 
                 $scope.recipient = recipient;
                 $scope.model = {
+                    mySubject: $rootScope.AppData.User.fullName + ', ' + $scope.recipient.fullName,
                     myMessage: null
                 };
 
@@ -2249,36 +2252,31 @@
                     UserActions.checkAuth().then(function (res) {
                         if (res) {
                             // create new conversation
-                            DataService.save('Conversation', {
-                                url_id: moment().valueOf(),
-                                subject: $rootScope.AppData.User.fullName + ', ' + $scope.recipient.firstName + ' ' + $scope.recipient.lastName
-                            }, true, true).then(function (convo) {
-                                    // Add Participants
-                                    DataService.save('Participant', {user: $rootScope.AppData.User.id, conversation: convo.data.id});
-                                    DataService.save('Participant', {user: $scope.recipient.id, conversation: convo.data.id});
-                                    //Send Message
-                                    DataService.save('Message', {body: $scope.model.myMessage, from: $rootScope.AppData.User.id, conversation: convo.data.id});
+                            DataService.save('messages', {
+                                subject: $scope.model.mySubject,
+                                message: $scope.model.myMessage,
+                                recipients: new Array($scope.recipient.id)
+                            }).then(function (convo) {
+                                $scope.model.myMessage = null;
+                                $rootScope.toastMessage('Message sent!');
+                                // register Action
+                                //result.participants = $scope.recipient;
+                                UtilsService.recordActivity(convo, 'message');
+                                $scope.closeDialog();
 
-                                    $scope.model.myMessage = null;
-                                    $rootScope.toastMessage('Message sent!');
-                                    // register Action
-                                    //result.participants = $scope.recipient;
-                                    UtilsService.recordActivity(convo, 'message');
-                                    $scope.closeDialog();
+                                // Creates Duplicate entry Error
+                                /*DataService.update('Conversation', convo.data.id, {
+                                    id: convo.data.id,
+                                    participants: [
+                                        {user: $rootScope.AppData.User.id},
+                                        {user: $scope.recipient.id}
+                                    ],
+                                    messages: [
+                                        {body: $scope.model.myMessage, from: $rootScope.AppData.User.id}
+                                    ]
+                                }, true, true).then(function (convo) {
 
-                                    // Creates Duplicate entry Error
-                                    /*DataService.update('Conversation', convo.data.id, {
-                                        id: convo.data.id,
-                                        participants: [
-                                            {user: $rootScope.AppData.User.id},
-                                            {user: $scope.recipient.id}
-                                        ],
-                                        messages: [
-                                            {body: $scope.model.myMessage, from: $rootScope.AppData.User.id}
-                                        ]
-                                    }, true, true).then(function (convo) {
-
-                                    });*/
+                                });*/
                             });
                         }
                     }, function (err) {
@@ -2391,52 +2389,58 @@
         self.nominated = Nominated.data.data;
     }
 
-    MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$modal', 'UserActions', 'UtilsService', '$q', '_'];
-    function MessagesCtrl($rootScope, Conversations, DataService, $modal, UserActions, UtilsService, $q, _) {
+    MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$q', '_'];
+    function MessagesCtrl($rootScope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $q, _) {
         $rootScope.metadata.title = 'Messages';
         var self = this;
-        self.conversations = Conversations.data;
+        self.conversations = Conversations.data.conversations;
         self.newMode = false;
         self.newConversation = newConversation;
         self.fetchConvos = fetchConvos;
         self.querySearch = querySearch;
         self.deleteConvo = deleteConvo;
+        self.doSendOnEnter = doSendOnEnter;
         self.postReply = postReply;
         self.selectConvo = selectConvo;
+        self.getParticipantById = getParticipantById;
         self.myReply = null;
+        self.sendOnEnter = $window.localStorage.sendOnEnter ? JSON.parse($window.localStorage.sendOnEnter) : true;
 
         function selectConvo(convo) {
             self.newMode = false;
             self.selectedConvo = convo;
             self.currentParticipants = convo.participants;
-            DataService.collection('messages', {conversation: convo.id, sort: 'created_at', per_page: 30, page: 1}).then(function (msgs) {
+            DataService.item('messages', convo.id, {sort: 'created_at', per_page: 30, page: 1}).then(function (msgs) {
                 // console.log('Messages: ', msgs.data);
-                self.messages = msgs.data.data;
+                self.messages = msgs.data.conversation.messages;
             });
         }
 
+        function doSendOnEnter() {
+            if (self.sendOnEnter && self.myReply) {
+                self.postReply();
+            }
+        }
         function postReply() {
-            UserActions.checkAuth().then(function (res) {
-                if (res) {
-                    DataService.save('Message', {
-                        body: self.myReply,
-                        conversation: self.selectedConvo.id,
-                        from: $rootScope.AppData.User.id
-                    }, true, true).then(function (result) {
-                        self.myReply = null;
-                        // set relatedObjects users data
-                        self.messages.relatedObjects.users[result.data.from.id] = result.data.from;
-                        result.data.from = result.data.from.id;
+            if (self.myReply) {
+                UserActions.checkAuth().then(function (res) {
+                    if (res) {
+                        DataService.update('messages', self.selectedConvo.id, { message: self.myReply }).then(function (result) {
+                            self.myReply = null;
+                            debugger;
+                            self.messages.relatedObjects.users[result.data.from.id] = result.data.from;
+                            result.data.from = result.data.from.id;
 
-                        self.messages.data.push(result.data);
-                        // TODO: Send email notification
-                        //result.participants
-                        UtilsService.recordActivity(result.data, 'message');
-                    });
-                }
-            }, function (err) {
-                UserActions.loginModal();
-            });
+                            self.messages.data.push(result.data);
+                            // TODO: Send email notification
+                            //result.participants
+                            UtilsService.recordActivity(result.data, 'message');
+                        });
+                    }
+                }, function (err) {
+                    UserActions.loginModal();
+                });
+            }
         }
 
         function newConversation() {
@@ -2497,39 +2501,13 @@
          */
         function querySearch(query) {
             var deferred = $q.defer();
-
-            //Search user
-            var searchUsersFirstName = new Parse.Query('User');
-            searchUsersFirstName.notEqualTo('objectId', $rootScope.AppData.User.id);
-            _.each(query.split(' '), function (a) {
-                searchUsersFirstName.startsWith('first_name', a);
-                //searchUsersFirstName.matches('first_name', a);
-            });
-            var searchUsersLastName = new Parse.Query('User');
-            searchUsersLastName.notEqualTo('objectId', $rootScope.AppData.User.id);
-            _.each(query.split(' '), function (a) {
-                searchUsersLastName.startsWith('last_name', a);
-                //searchUsersLastName.matches('last_name', a);
-            });
-            var searchUsers = new Parse.Query.or(searchUsersFirstName, searchUsersLastName);
-            searchUsers.find().then(function (data) {
-                _.each(data, function (a) {
-                    a.name = a.first_name + ' ' + a.last_name;
-                    a.image = a.avatar || BASE + 'assets/img/avatar-1.png';
-                    a.email = '';
-                });
-                // console.log(data);
-                deferred.resolve(data);
-            });
-
+            deferred.reject(false);
             return deferred.promise;
         }
 
         function fetchConvos() {
-            DataService.query('getConversations', {
-                id: $rootScope.AppData.User.id
-            }).then(function (result) {
-                self.conversations = result.data;
+            DataService.collection('messages').then(function (result) {
+                self.conversations = result.data.conversations;
             });
         }
 
@@ -2572,7 +2550,9 @@
             });
         }
 
-        // Fetch Conversations, Participants, and Messages
+        function getParticipantById(convo, userId) {
+            return _.findWhere(convo.participants, {user_id: userId});
+        }
     }
 
     NotificationsCtrl.$inject = ['$rootScope', 'UserActions', 'UtilsService', '_'];

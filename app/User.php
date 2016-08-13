@@ -16,7 +16,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, UuidForKey;
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable;
 
 
     protected $table = 'users';

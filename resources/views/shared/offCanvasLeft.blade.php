@@ -1,4 +1,4 @@
-<div class="off-canvas position-left light-off-menu" id="offCanvas-responsive" data-off-canvas data-close-on-click="false" data-force-top="false">
+<div class="off-canvas position-left light-off-menu" id="offCanvas-responsive" data-off-canvas data-close-on-click="false" data-force-top="true">
     <div class="off-menu-close">
         <h3>Menu</h3>
         <span data-toggle="offCanvas-responsive"><i class="fa fa-times fa-2x"></i></span>

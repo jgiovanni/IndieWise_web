@@ -108,7 +108,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button class="button" type="submit">Sign up Now</button>
+                            <button class="button" type="submit">Subscribe Now</button>
                         </form>
                     </div>
                 </div>

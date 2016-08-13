@@ -27,10 +27,10 @@
                         </div>
                         <div class="widgetContent">
                             <ul class="menu vertical">
-                                <li ng-class="{'active':Msgs.selectedConvo.id == convo.id}" ng-repeat="convo in Msgs.conversations|orderBy:'-updatedAt'">
+                                <li ng-class="{'active':Msgs.selectedConvo.id == convo.id}" ng-repeat="convo in Msgs.conversations|orderBy:'-updated_at'">
                                     <a ng-click="Msgs.selectConvo(convo)">
                                         <h6>{{::convo.subject}}</h6>
-                                        <span>{{::convo.recentFirstName}}: {{::convo.body}}</span>
+                                        <span>{{::Msgs.getParticipantById(convo, convo.latestMessage.user_id).user.fullName}}: {{::convo.latestMessage.body}}</span>
                                     </a>
                                 </li>
                             </ul>
@@ -60,6 +60,34 @@
                         </div>
                     </div>
 
+                    <!-- main comment -->
+                    <div class="main-comment">
+                        <div class="media-object stack-for-small" ng-repeat="msg in Msgs.messages|orderBy:'-created_at'">
+                            <div class="media-object-section comment-img text-center">
+                                <div class="comment-box-img">
+                                    <img ng-src="{{::msg.user.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
+                                </div>
+                            </div>
+                            <div class="media-object-section comment-desc">
+                                <div class="comment-title">
+                                    <span class="name">
+                                        <a href="#">{{::msg.user.fullName}}</a> Said:
+                                    </span>
+                                    <span class="time float-right">
+                                        <i class="fa fa-clock-o"></i>
+                                        <abbr title="{{::msg.created_at|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::msg.created_at"></abbr>
+                                    </span>
+                                </div>
+                                <div class="comment-text">
+                                    <p ng-bind="::msg.body"></p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- End main comment -->
+
+                    </div>
+
                     <div class="comment-box thumb-border" ng-show="Msgs.selectedConvo">
                         <div class="media-object stack-for-small">
                             <div class="media-object-section comment-img text-center">
@@ -70,39 +98,13 @@
                             </div>
                             <div class="media-object-section comment-textarea">
                                 <form ng-submit="Msgs.postReply()">
-                                    <textarea name="commentText" ng-model="Msgs.myReply" my-enter="Msgs.postReply()" placeholder="Send message..."></textarea>
+                                    <textarea name="commentText" ng-model="Msgs.myReply" my-enter="Msgs.doSendOnEnter()" placeholder="Send message..."></textarea>
                                     <input type="submit" name="submit" value="send">
+                                    <input id="sendOnEnter" type="checkbox" ng-model="Msgs.sendOnEnter"><label class="customLabel pull-right" for="sendOnEnter">Press Enter to send</label>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    <!-- main comment -->
-                    <div class="main-comment showmore_one">
-                        <div class="media-object stack-for-small" ng-repeat="msg in Msgs.messages.data|orderBy:'-createdAt'">
-                            <div class="media-object-section comment-img text-center">
-                                <div class="comment-box-img">
-                                    <img ng-src="{{::Msgs.messages.relatedObjects.users[msg.from].avatar || '/assets/img/avatar-1.png'}}" alt="comment">
-                                </div>
-                            </div>
-                            <div class="media-object-section comment-desc">
-                                <div class="comment-title">
-                                    <span class="name">
-                                        <a href="#">{{::Msgs.messages.relatedObjects.users[msg.from].firstName+' '+Msgs.messages.relatedObjects.users[msg.from].lastName}}</a> Said:
-                                    </span>
-                                    <span class="time float-right">
-                                        <i class="fa fa-clock-o"></i>
-                                        <abbr title="{{::msg.createdAt|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::msg.createdAt"></abbr>
-                                    </span>
-                                </div>
-                                <div class="comment-text">
-                                    <p ng-bind="::msg.body"></p>
-                                </div>
-                        </div>
-
-                    </div>
-                    <!-- End main comment -->
-
                 </div>
             </div>
         </section>

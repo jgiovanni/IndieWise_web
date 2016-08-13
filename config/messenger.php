@@ -4,7 +4,7 @@ return [
 
     'user_model' => IndieWise\User::class,
 
-    'message_model' => Cmgmyr\Messenger\Models\Message::class,
+    'message_model' => IndieWise\Message::class,
 
     'participant_model' => Cmgmyr\Messenger\Models\Participant::class,
 

@@ -84,7 +84,7 @@
 <body ng-controller="BodyCtrl as Body">
 
 <div class="off-canvas-wrapper">
-    <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+    <div class="off-canvas-wrapper-inner inner-wrapper">
         <!--header-->
         @include('shared.offCanvasLeft')
 
@@ -151,8 +151,7 @@
                             <div class="row">
                                 <div class="large-12 columns">
                                     <div class="title-bar" data-responsive-toggle="beNav" data-hide-for="large">
-                                        <button class="menu-icon" type="button"
-                                                data-toggle="offCanvas-responsive"></button>
+                                        <button class="left-off-canvas-toggle menu-icon" type="button"></button>
                                         <div class="title-bar-title">
                                             <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                         </div>

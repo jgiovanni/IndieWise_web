@@ -610,9 +610,7 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            return DataService.query('getUserConversations', {
-                                username: AuthService.currentUser.username
-                            }).then(function (result) {
+                            return DataService.collection('messages').then(function (result) {
                                 return result;
                             });
                         }]
@@ -748,7 +746,7 @@ jQuery(document).ready(function (jQuery) {
 
                 $rootScope.refreshNotifications = function (id) {
                     $rootScope.AppData.Notifications.loaded = 'indeterminate';
-                    DataService.query('getUserNotifications', {
+                    DataService.collection('getUserNotifications', {
                         username: id
                     }).then(function (res) {
                         console.log(res.data);

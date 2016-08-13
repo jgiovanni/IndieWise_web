@@ -64,7 +64,7 @@
                                                                             </span>
                                                                         </div>
                                                                         <div class="comment-text">
-                                                                            <a ui-sref="video({url_id:nom.projectUrlId})">{{::nom.project.data.name}}</a> for:
+                                                                            <a ui-sref="video({url_id:nom.project.data.url_id})">{{::nom.project.data.name}}</a> for:
                                                                             <h3>{{::nom.award.data.name}}</h3>
                                                                         </div>
                                                                     </div>
@@ -93,7 +93,7 @@
                                                                     </div>
                                                                     <div class="media-object-section comment-desc">
                                                                         <div class="comment-title">
-                                                                            <span class="name"><a ui-sref="user.about({url_id: nom.userUrlId})">
+                                                                            <span class="name"><a ui-sref="user.about({url_id: nom.user.data.url_id})">
                                                                                 {{::nom.user.data.fullName}}</a> nominated:
                                                                             </span>
 
@@ -103,7 +103,7 @@
                                                                             </span>
                                                                         </div>
                                                                         <div class="comment-text">
-                                                                            <a ui-sref="video({url_id:nom.projectUrlId})">{{::nom.project.data.name}}</a> for:
+                                                                            <a ui-sref="video({url_id:nom.project.data.url_id})">{{::nom.project.data.name}}</a> for:
                                                                             <h3>{{::nom.award.data.name}}</h3>
                                                                         </div>
                                                                     </div>
@@ -145,7 +145,7 @@
                                             </span>
                                             </div>
                                             <div class="comment-text">
-                                                <a ui-sref="video({url_id:win.projectUrlId})">{{::win.project.data.name}}</a> won:
+                                                <a ui-sref="video({url_id:win.project.data.url_id})">{{::win.project.data.name}}</a> won:
                                                 <h3>{{::win.award.data.name}}</h3>
                                             </div>
                                         </div>
