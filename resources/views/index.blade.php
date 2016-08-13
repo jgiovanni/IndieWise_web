@@ -86,69 +86,10 @@
 <div class="off-canvas-wrapper">
     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
         <!--header-->
-        <div class="off-canvas position-left light-off-menu" id="offCanvas-responsive" data-off-canvas data-close-on-click="false">
-            <div class="off-menu-close">
-                <h3>Menu</h3>
-                <span data-toggle="offCanvas-responsive"><i class="fa fa-times"></i></span>
-            </div>
-            <ul class="vertical menu off-menu" off-canvas-nav>
-                <li><a ui-sref="home" ui-sref-active="active"><i class="fa fa-home"></i>Home</a></li>
-                <li><a ui-sref="browse" ui-sref-active="active"><i class="fa fa-th"></i>Browse</a></li>
-                <li><a ui-sref="latest" ui-sref-active="active"><i class="fa fa-bolt"></i>Latest</a></li>
-                <li ng-if="isAuthenticated()"><a ui-sref="profile.about" ui-sref-active="active"><i class="fa fa-user"></i>Profile</a></li>
-                <li ng-if="isAuthenticated()"><a ui-sref="messages" ui-sref-active="active"><i class="fa fa-envelope"></i>Messages</a></li>
-                <li><a ui-sref="profile.upload" ui-sref-active="active"><i class="fa fa-upload"></i>Upload</a></li>
-            </ul>
-            <div class="responsive-search">
-                <form ng-submit="Body.startSearch(AppData.searchText)">
-                    <div class="input-group">
-                        <input class="input-group-field" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything">
+        @include('shared.offCanvasLeft')
 
-                        <div class="input-group-button">
-                            <button type="submit" name="search"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="off-social">
-                <h6>Get Social</h6>
-                <a class="secondary-button" href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook"></i></a>
-                <a class="secondary-button" href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
-                <a class="secondary-button" href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
-            </div>
-            <div class="top-button">
-                <ul class="menu" off-canvas-nav>
-                    <li class="dropdown-login" ng-if="!isAuthenticated()">
-                        <a ui-sref="sign_in">login/Register</a>
-                    </li>
-                    <li class="dropdown-login" ng-if="isAuthenticated()">
-                        <a ng-click="Body.doSignOut();">logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="off-canvas position-right light-off-menu" id="NotificationsArea" data-off-canvas data-close-on-click="false">
-            <div class="off-menu-close">
-                <h3>Notifications</h3>
-                <span class="right-off-canvas-toggle"><i class="fa fa-times"></i></span>
-            </div>
-            <ul class="vertical menu off-menu notification-list">
-                <li ng-repeat="notice in AppData.Notifications.list" ng-click="Body.markAsRead(notice)">
-                    <a ng-show="::notice.verb === 'react'" ui-sref="video({url_id:notice.projectUrlId})">
-                        <i class="notificon fa fa-smile-o"></i>&nbsp;Your video made <b>@{{::notice.actorFullName}}</b> feel <b>@{{::notice.reactionEmotion}}</b>.
-                    </a>
-                    <a ng-show="::notice.verb === 'react'" ui-sref="video({url_id:notice.projectUrlId})">
-                        <i class="notificon fa fa-smile-o"></i>&nbsp;Your video made <b>@{{::notice.actorFullName}}</b> feel <b>@{{::notice.reactionEmotion}}</b>.
-                    </a>
-                    <a ng-show="::notice.verb === 'comment'" ui-sref="video_critique({video_url_id: notice.projectUrlId, url_id:notice.critiqueUrlId})">
-                        <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> posted a comment on your critique.
-                    </a>
-                    <a ng-show="::notice.verb === 'reply'" ui-sref="video_critique({video_url_id: notice.projectUrlId, url_id:notice.critiqueUrlId})">
-                        <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> replied to your comment.
-                    </a>
-                </li>
-            </ul>
-        </div>
+        @include('shared.offCanvasRight')
+
         <div class="off-canvas-content" data-off-canvas-content>
             <header>
                 <!-- Top -->

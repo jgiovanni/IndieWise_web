@@ -1,5 +1,5 @@
 {
-  "name": "IndieWise",
+  "name": "indiewise",
   "description": "A starter project for AngularJS Material",
   "version": "0.0.1",
   "homepage": "https://github.com/angular/material-start",
@@ -19,8 +19,10 @@
     "angucomplete-alt": "^2.4.1",
     "cloudinary_ng": "^1.0.0",
     "angular-ui-router": "1.0.0-alpha.5",
-    "angular-socialshare": "*",
-    "angular-foundation-6": "*"
+    "angular-socialshare": "angularjs-socialshare#^2.2.5",
+    "angular-foundation-6": "*",
+    "motion-ui": "^1.2.2",
+    "satellizer": "^0.15.4"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0",

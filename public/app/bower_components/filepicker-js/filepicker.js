@@ -1030,7 +1030,7 @@ filepicker.extend("errors", function() {
 "use strict";
 
 filepicker.extend(function() {
-    var fp = this, VERSION = "2.4.14";
+    var fp = this, VERSION = "2.4.16";
     fp.API_VERSION = "v2";
     var setKey = function(key) {
         fp.apikey = key;
@@ -1439,6 +1439,14 @@ filepicker.extend(function() {
     var responsive = function() {
         fp.responsiveImages.update.apply(null, arguments);
     };
+    var logout = function(options) {
+        options = options || {};
+        fp.ajax.get(fp.urls.LOGOUT, {
+            success: options.onSuccess,
+            error: options.onError,
+            withCredentials: true
+        });
+    };
     return {
         setKey: setKey,
         setResponsiveOptions: setResponsiveOptions,
@@ -1462,6 +1470,7 @@ filepicker.extend(function() {
         makeDropPane: makeDropPane,
         FilepickerException: FilepickerException,
         responsive: responsive,
+        logout: logout,
         version: VERSION
     };
 }, true);
@@ -1639,6 +1648,7 @@ filepicker.extend("urls", function() {
         STORE: store_url,
         PICK: pick_url,
         EXPORT: export_url,
+        LOGOUT: base + "/api/clients/unauth",
         constructPickUrl: constructPickUrl,
         constructConvertUrl: constructConvertUrl,
         constructPickFolderUrl: constructPickFolderUrl,
@@ -1803,6 +1813,9 @@ filepicker.extend("ajax", function() {
         if (data && method == "GET") {
             url += (url.indexOf("?") !== -1 ? "&" : "?") + data;
             data = null;
+        }
+        if (options.withCredentials) {
+            xhr.withCredentials = true;
         }
         xhr.open(method, url, async);
         if (options.json) {

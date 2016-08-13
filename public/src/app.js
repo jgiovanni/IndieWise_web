@@ -783,7 +783,7 @@ jQuery(document).ready(function (jQuery) {
 
                 $rootScope.StreamClient = stream.connect(Config.streamApiKey, null, Config.streamApp, {location: 'us-east'});
                 $rootScope.getNewToken = function (type, id) {
-                    return $http.get('api/notifications/token?type=' + type).then(function (res) {
+                    return $http.get('/api/notifications/token?type=' + type).then(function (res) {
                         return res.data.token;
                     });
                 };
@@ -802,7 +802,7 @@ jQuery(document).ready(function (jQuery) {
                 };
 
                 $rootScope.getNotificationsFeed = function (feed) {
-                    $http.get('api/notifications/feed').then(function (res) {
+                    $http.get('/api/notifications/feed').then(function (res) {
                         console.log('Notification: ', res.data.activities);
                         $rootScope.AppData.Notifications = res.data.activities;
                     });

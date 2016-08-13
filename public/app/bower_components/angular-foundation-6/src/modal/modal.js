@@ -71,7 +71,7 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
     };
 })
 
-.directive('modalWindow', () => {
+.directive('modalWindow', ($modalStack) => {
     'ngInject';
     return {
         restrict: 'EA',
@@ -83,13 +83,19 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
         templateUrl: 'template/modal/window.html',
         link: (scope, element, attrs) => {
             scope.windowClass = attrs.windowClass || '';
+            scope.isTop = () => {
+                const top = $modalStack.getTop();
+                return top ? top.value.modalScope && top.value.modalScope === scope.$parent : true;
+            };
         },
     };
 })
 
 .factory('$modalStack', ($window, $timeout, $document, $compile, $rootScope, $$stackedMap, $animate, $q, mediaQueries) => {
     'ngInject';
+    const isMobile = mediaQueries.mobileSniff();
     const OPENED_MODAL_CLASS = 'is-reveal-open';
+    let originalScrollPos = null; // For mobile scroll hack
     let backdropDomEl;
     let backdropScope;
     const openedWindows = $$stackedMap.createNew();
@@ -123,30 +129,15 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
                 fixedPositiong = false;
             }
         }
-
-        // body.addClass(OPENED_MODAL_CLASS);
     }
 
     function removeModalWindow(modalInstance) {
-        const body = $document.find('body').eq(0);
         const modalWindow = openedWindows.get(modalInstance).value;
 
         // clean up the stack
         openedWindows.remove(modalInstance);
 
-        // remove window DOM element
-        $animate.leave(modalWindow.modalDomEl).then(() => {
-            modalWindow.modalScope.$destroy();
-        });
-        checkRemoveBackdrop();
-        if (openedWindows.length() === 0) {
-            body.removeClass(OPENED_MODAL_CLASS);
-            angular.element($window).unbind('resize', resizeHandler);
-        }
-    }
-
-    function checkRemoveBackdrop() {
-        // remove backdrop if no longer needed
+        // Remove backdrop
         if (backdropDomEl && backdropIndex() === -1) {
             let backdropScopeRef = backdropScope;
 
@@ -159,7 +150,29 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
             backdropDomEl = null;
             backdropScope = null;
         }
+
+        // Remove modal
+        if (openedWindows.length() === 0) {
+            const body = $document.find('body').eq(0);
+            body.removeClass(OPENED_MODAL_CLASS);
+
+            if (isMobile) {
+                const html = $document.find('html').eq(0);
+                html.removeClass(OPENED_MODAL_CLASS);
+                if (originalScrollPos) {
+                    body[0].scrollTop = originalScrollPos;
+                    originalScrollPos = null;
+                }
+            }
+            angular.element($window).unbind('resize', resizeHandler);
+        }
+
+        // remove window DOM element
+        $animate.leave(modalWindow.modalDomEl).then(() => {
+            modalWindow.modalScope.$destroy();
+        });
     }
+
 
     function getModalCenter(modalInstance) {
         const options = modalInstance.options;
@@ -282,8 +295,14 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
             const modalParent = backdropDomEl || body;
 
             promises.push($animate.enter(modalDomEl, modalParent, modalParent[0].lastChild));
-            body.addClass(OPENED_MODAL_CLASS);
 
+            if (isMobile) {
+                originalScrollPos = $window.pageYOffset;
+                const html = $document.find('html').eq(0);
+                html.addClass(OPENED_MODAL_CLASS);
+            }
+
+            body.addClass(OPENED_MODAL_CLASS);
 
             // Only for no backdrop modals
             if (!options.backdrop) {

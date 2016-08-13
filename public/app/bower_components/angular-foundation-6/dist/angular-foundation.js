@@ -9,7 +9,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * angular-foundation-6
  * http://circlingthesun.github.io/angular-foundation-6/
 
- * Version: 0.10.0 - 2016-07-15
+ * Version: 0.10.5 - 2016-08-10
  * License: MIT
  * (c) 
  */
@@ -374,41 +374,48 @@ function DropdownToggleController($scope, $attrs, mediaQueries, $element, $posit
         $ctrl.css = {};
 
         if ($ctrl.closeOnClick) {
-            $body.off('click', close);
+            $body.off('click', closeOnClick);
         }
-
-        $scope.$apply();
     }
 
-    $ctrl.$onInit = function init() {
+    function open(e) {
+        $ctrl.active = true;
+        $ctrl.css = {};
+
+        positionPane(2);
+
         if ($ctrl.closeOnClick) {
-            $element.on('click', function (e) {
-                return e.stopPropagation();
-            });
+            $body.on('click', closeOnClick);
         }
-    };
+    }
+
+    function closeOnClick(e) {
+        var elementContents = Array.prototype.slice.apply($element[0].querySelectorAll('*'));
+
+        if (!elementContents.length) {
+            return;
+        }
+
+        var isOuterElement = elementContents.every(function (node) {
+            return node !== e.target;
+        });
+
+        if (isOuterElement) {
+            close();
+            $scope.$apply();
+        }
+    }
 
     $ctrl.$onDestroy = function destroy() {
         if ($ctrl.closeOnClick) {
-            $body.off('click', close);
+            $body.off('click', closeOnClick);
         }
     };
 
     $ctrl.css = {};
 
     $ctrl.toggle = function () {
-        $ctrl.active = !$ctrl.active;
-        $ctrl.css = {};
-
-        if (!$ctrl.active) {
-            return;
-        }
-
-        positionPane(2);
-
-        if ($ctrl.closeOnClick) {
-            $body.on('click', close);
-        }
+        if ($ctrl.active) close();else open();
     };
 
     $ctrl.mouseover = function () {
@@ -605,9 +612,21 @@ angular.module('mm.foundation.mediaQueries', []).factory('matchMedia', ['$docume
         return matched;
     }
 
+    var iPhoneSniff = function iPhoneSniff() {
+        return (/iP(ad|hone|od).*OS/.test(window.navigator.userAgent)
+        );
+    };
+    var androidSniff = function androidSniff() {
+        return (/Android/.test(window.navigator.userAgent)
+        );
+    };
+
     return {
         getCurrentSize: getCurrentSize,
-        atLeast: atLeast
+        atLeast: atLeast,
+        mobileSniff: function mobileSniff() {
+            return iPhoneSniff() || androidSniff();
+        }
     };
 }]);
 
@@ -690,7 +709,7 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
             };
         }
     };
-}]).directive('modalWindow', function () {
+}]).directive('modalWindow', ['$modalStack', function ($modalStack) {
     'ngInject';
 
     return {
@@ -703,12 +722,18 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
         templateUrl: 'template/modal/window.html',
         link: function link(scope, element, attrs) {
             scope.windowClass = attrs.windowClass || '';
+            scope.isTop = function () {
+                var top = $modalStack.getTop();
+                return top ? top.value.modalScope && top.value.modalScope === scope.$parent : true;
+            };
         }
     };
-}).factory('$modalStack', ['$window', '$timeout', '$document', '$compile', '$rootScope', '$$stackedMap', '$animate', '$q', 'mediaQueries', function ($window, $timeout, $document, $compile, $rootScope, $$stackedMap, $animate, $q, mediaQueries) {
+}]).factory('$modalStack', ['$window', '$timeout', '$document', '$compile', '$rootScope', '$$stackedMap', '$animate', '$q', 'mediaQueries', function ($window, $timeout, $document, $compile, $rootScope, $$stackedMap, $animate, $q, mediaQueries) {
     'ngInject';
 
+    var isMobile = mediaQueries.mobileSniff();
     var OPENED_MODAL_CLASS = 'is-reveal-open';
+    var originalScrollPos = null; // For mobile scroll hack
     var backdropDomEl = void 0;
     var backdropScope = void 0;
     var openedWindows = $$stackedMap.createNew();
@@ -742,30 +767,15 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
                 fixedPositiong = false;
             }
         }
-
-        // body.addClass(OPENED_MODAL_CLASS);
     }
 
     function removeModalWindow(modalInstance) {
-        var body = $document.find('body').eq(0);
         var modalWindow = openedWindows.get(modalInstance).value;
 
         // clean up the stack
         openedWindows.remove(modalInstance);
 
-        // remove window DOM element
-        $animate.leave(modalWindow.modalDomEl).then(function () {
-            modalWindow.modalScope.$destroy();
-        });
-        checkRemoveBackdrop();
-        if (openedWindows.length() === 0) {
-            body.removeClass(OPENED_MODAL_CLASS);
-            angular.element($window).unbind('resize', resizeHandler);
-        }
-    }
-
-    function checkRemoveBackdrop() {
-        // remove backdrop if no longer needed
+        // Remove backdrop
         if (backdropDomEl && backdropIndex() === -1) {
             (function () {
                 var backdropScopeRef = backdropScope;
@@ -780,6 +790,27 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
                 backdropScope = null;
             })();
         }
+
+        // Remove modal
+        if (openedWindows.length() === 0) {
+            var body = $document.find('body').eq(0);
+            body.removeClass(OPENED_MODAL_CLASS);
+
+            if (isMobile) {
+                var html = $document.find('html').eq(0);
+                html.removeClass(OPENED_MODAL_CLASS);
+                if (originalScrollPos) {
+                    body[0].scrollTop = originalScrollPos;
+                    originalScrollPos = null;
+                }
+            }
+            angular.element($window).unbind('resize', resizeHandler);
+        }
+
+        // remove window DOM element
+        $animate.leave(modalWindow.modalDomEl).then(function () {
+            modalWindow.modalScope.$destroy();
+        });
     }
 
     function getModalCenter(modalInstance) {
@@ -894,6 +925,13 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
             var modalParent = backdropDomEl || body;
 
             promises.push($animate.enter(modalDomEl, modalParent, modalParent[0].lastChild));
+
+            if (isMobile) {
+                originalScrollPos = $window.pageYOffset;
+                var html = $document.find('html').eq(0);
+                html.addClass(OPENED_MODAL_CLASS);
+            }
+
             body.addClass(OPENED_MODAL_CLASS);
 
             // Only for no backdrop modals
@@ -1074,7 +1112,7 @@ angular.module('mm.foundation.modal', ['mm.foundation.mediaQueries'])
 (function () {
     angular.module("mm.foundation.modal").run(["$templateCache", function ($templateCache) {
         $templateCache.put("template/modal/backdrop.html", "<div ng-animate-children=\"true\" class=\"reveal-overlay ng-animate\" ng-click=\"close($event)\" style=\"display: block;\"></div>\n");
-        $templateCache.put("template/modal/window.html", "<div tabindex=\"-1\" class=\"reveal {{ windowClass }}\" style=\"display: block; visibility: visible;\">\n  <div ng-transclude></div>\n</div>\n");
+        $templateCache.put("template/modal/window.html", "<div ng-show=\"isTop()\" tabindex=\"-1\" class=\"reveal {{ windowClass }}\" style=\"display: block; visibility: visible;\">\n  <div ng-transclude></div>\n</div>\n");
     }]);
 })();
 angular.module('mm.foundation.offcanvas', []).directive('offCanvasWrapper', ['$window', function ($window) {
