@@ -22,7 +22,7 @@ THREEx.FullScreen	= THREEx.FullScreen	|| {};
 */
 THREEx.FullScreen.available	= function()
 {
-	return this._hasWebkitFullScreen || this._hasMozFullScreen;
+	return this._hasWebkitFullScreen || this._hasMozFullScreen || this._hasMsFullScreen;
 }
 
 /**
@@ -36,6 +36,8 @@ THREEx.FullScreen.activated	= function()
 		return document.webkitIsFullScreen;
 	}else if( this._hasMozFullScreen ){
 		return document.mozFullScreen;
+	}else if( this._hasMsFullScreen ){
+		return document.msFullscreenElement;
 	}else{
 		console.assert(false);
 	}
@@ -52,6 +54,8 @@ THREEx.FullScreen.request	= function(element)
 		element.webkitRequestFullScreen();
 	}else if( this._hasMozFullScreen ){
 		element.mozRequestFullScreen();
+	}else if( this._hasMsFullScreen ){
+		element.msRequestFullscreen();
 	}else{
 		console.assert(false);
 	}
@@ -66,6 +70,8 @@ THREEx.FullScreen.cancel	= function()
 		document.webkitCancelFullScreen();
 	}else if( this._hasMozFullScreen ){
 		document.mozCancelFullScreen();
+	}else if( this._hasMsFullScreen ){
+		document.msExitFullscreen();
 	}else{
 		console.assert(false);
 	}
@@ -74,4 +80,5 @@ THREEx.FullScreen.cancel	= function()
 // internal functions to know which fullscreen API implementation is available
 THREEx.FullScreen._hasWebkitFullScreen	= 'webkitCancelFullScreen' in document	? true : false;	
 THREEx.FullScreen._hasMozFullScreen	= 'mozCancelFullScreen' in document	? true : false;	
+THREEx.FullScreen._hasMsFullScreen	= 'msExitFullscreen' in document	? true : false;	
 

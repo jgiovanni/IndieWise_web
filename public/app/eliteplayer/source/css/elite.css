@@ -6,8 +6,11 @@
       width:100%;
 	  z-index:500;
 }
-.elite_vp_bg{
+.elite_vp_bg.dark{
 	background: rgba(0, 0, 0, 0.7);
+}
+.elite_vp_bg.light{
+	background: rgba(251, 251, 251, 1);
 }
 .elite_vp_themeColor{
 	/* background:#00cb96; */
@@ -26,8 +29,11 @@
 .elite_vp_themeColorThumbBorder{
 	border: 1px solid #2D2D2D;
 }
-.elite_vp_controlsColor{
+.elite_vp_controlsColor.dark{
 	color: #767676;
+}
+.elite_vp_controlsColor.light{
+	color: #3c3c3c;
 }
 .elite_vp_shuffleEnabledColor{
 	color: #fff;
@@ -109,12 +115,22 @@
 	top: 50%;
 	margin-top: -3px;
     height: 6px;
+}
+.elite_vp_videoTrack.dark {
     background: #3b3c40;
+}
+.elite_vp_videoTrack.light {
+    background: #d8d8d8;
 }
 .elite_vp_videoTrackDownload{
     position: absolute;
     height: 100%;
+}
+.elite_vp_videoTrackDownload.dark{
     background: #303030;
+}
+.elite_vp_videoTrackDownload.light{
+    background: #c7c7c7;
 }
 .elite_vp_volumeTrack {
 	position: absolute;
@@ -124,6 +140,12 @@
 	width: 62px;
 	height:6px;
 	background: #3b3c40;
+}
+.elite_vp_volumeTrack.dark {
+	background: #3b3c40;
+}
+.elite_vp_volumeTrack.light {
+	background: #c7c7c7;
 }
 .elite_vp_Progress{
 	position: absolute;
@@ -136,7 +158,12 @@
 	width:100%;
 	bottom:0;
 	z-index:2147483647;
+}
+.elite_vp_progressIdleTrack.dark{
     background: #3b3c40;
+}
+.elite_vp_progressIdleTrack.light{
+    background: #d8d8d8;
 }
 .elite_vp_progressIdle{
     position: absolute;
@@ -146,7 +173,12 @@
     position: absolute;
     height: 100%;
 	width:200px;
+}
+.elite_vp_progressIdleDownload.dark{
     background: #303030;
+}
+.elite_vp_progressIdleDownload.light{
+    background: #c7c7c7;
 }
 .elite_vp_toolTip{
     position: absolute;
@@ -219,7 +251,6 @@
 }
 .elite_vp_infoText{
     font-size: 12px !important; 
-    color: #e4e4e4 !important;
     margin:0px !important;
     padding: 5px 0px 10px 10px !important;
     text-align: left !important;
@@ -231,15 +262,26 @@
     user-select: none !important;
     cursor: default !important;
 }
+.elite_vp_infoText.dark{
+	color: #e4e4e4 !important;
+}
+.elite_vp_infoText.light{
+	color: #3c3c3c !important;
+}
 .elite_vp_nowPlayingText {
     left:0px !important;
     top:0px !important;
 	padding:5px !important;
 	margin:0 !important;
     font-size: 12px !important;
-    color: #fff !important;
     text-align: left !important;
     font-family: 'Lato','Open Sans','Helvetica Neue', Arial, sans-serif !important;
+}
+.elite_vp_nowPlayingText.dark{
+	color: #fff !important;
+}
+.elite_vp_nowPlayingText.light{
+	color: #3c3c3c !important;
 }
 .elite_vp_nowPlayingTitle{
 	position:absolute;
@@ -306,7 +348,6 @@
 }
 .elite_vp_embedText{
     font-size: 12px !important;
-    color: #FFFFFF !important;
     margin: 5px 90px 5px 90px !important;
     padding: 15px 15px 15px 8px !important;
 	text-align: left !important;
@@ -315,16 +356,23 @@
     background: #000000 !important;
 	border: 1px solid #3D3D3D !important;
 }
+.elite_vp_embedText.dark{
+	color: #FFFFFF !important;
+    background: #000000 !important;
+	border: 1px solid #3D3D3D !important;
+}
+.elite_vp_embedText.light{
+	color: #696969 !important;
+    background: #f3f3f3 !important;
+	border: 1px solid #e6e6e6 !important;
+}
 .elite_vp_embedText2{
     font-size: 12px !important;
-    color: #FFFFFF !important;
     margin: 5px 90px 5px 90px !important;
     padding: 15px 15px 15px 8px !important;
 	text-align: left !important;
     font-family: 'Lato','Open Sans','Helvetica Neue', Arial, sans-serif !important;
 	-webkit-user-select: text !important;
-    background: #000000 !important;
-	border: 1px solid #3D3D3D !important;
 }
 .elite_vp_embedMessageTxt {
     font-weight: bold !important;
@@ -342,13 +390,23 @@
 	cursor:pointer;
 	background: #000000;  
 	border: 1px solid #3D3D3D;
+	color: #FFFFFF;
+}
+.copyBtn.dark{
+	color: #FFFFFF !important;
+    background: #000000 !important;
+	border: 1px solid #3D3D3D !important;
+}
+.copyBtn.light{
+	color: #696969 !important;
+    background: #f3f3f3 !important;
+	border: 1px solid #e6e6e6 !important;
 }
 #elite_vp_copyInside{
     position: absolute !important;  
-    top: 1px !important;  
+    top: 4px !important;  
     left: 7px !important;  
     font-size: 14px !important;  
-    color: rgb(255, 255, 255) !important;  
 	text-align: left !important;  
 	font-family: 'Lato','Open Sans','Helvetica Neue', Arial, sans-serif !important;  
 	z-index: 100 !important;  
@@ -399,8 +457,11 @@
 .elite-icon-general:hover{
     /* color: #ffffff; */
 }
-.elite-icon-general-hover{
+.elite-icon-general-hover.dark{
 	color: #fff;
+}
+.elite-icon-general-hover.light{
+	color: #9e9e9e;
 }
 .elite-icon-playPause{
 	speak: none;
@@ -431,7 +492,12 @@
     text-align: center;
     color:#fff;
     cursor: pointer;
-
+}
+.elite-icon-overScreen.dark{
+    color:#fff;
+}
+.elite-icon-overScreen.light{
+    color:#3c3c3c;
 }
 .elite-icon-overScreen-hover{
     speak: none;
@@ -527,11 +593,16 @@
 /*=====================================*/
 #elite_vp_playlist{
     position:absolute;
-    background: #131313;
     width:260px;
     height:260px;
     overflow:hidden; 
 	z-index:600;
+}
+.elite_vp_playlist.dark{
+    background: #131313;
+}
+.elite_vp_playlist.light{
+    background: #fbfbfb;
 }
 #elite_vp_playlistContent{
     position:absolute;
@@ -566,7 +637,7 @@
     transition: all .2s ease-out;
    
 }
-.elite_vp_itemSelected{
+.elite_vp_itemSelected.dark{
     width: 245px;
     height: 76px;
     background: #1B1B1B;
@@ -577,13 +648,33 @@
     user-select: none;
 	cursor:default;
 }
-.elite_vp_itemUnselected:hover{
+.elite_vp_itemSelected.light{
+    width: 245px;
+    height: 76px;
+    background: #dedede;
+	-webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+	cursor:default;
+}
+.elite_vp_itemUnselected.dark:hover{
 	background: #2D2D2D;
 }
-.elite_vp_itemUnselected{
+.elite_vp_itemUnselected.light:hover{
+	background: #efefef;
+}
+.elite_vp_itemUnselected.dark{
     width: 245px;
     height: 76px;
     background: rgba(0,0,0,0.7);
+	cursor:pointer;
+}
+.elite_vp_itemUnselected.light{
+    width: 245px;
+    height: 76px;
+    background: rgba(251, 251, 251, 1);
 	cursor:pointer;
 }
 .elite_vp_topArrow{
@@ -1167,8 +1258,11 @@
     height: 24px;
     display: table;
 }
-.elite_vp_qualityListItem_activeColor{
+.elite_vp_qualityListItem_activeColor.dark{
 	color:#fff;
+}
+.elite_vp_qualityListItem_activeColor.light{
+	color:#3c3c3c;
 }
 .elite_vp_qualityCheck{
 	display:block !important;

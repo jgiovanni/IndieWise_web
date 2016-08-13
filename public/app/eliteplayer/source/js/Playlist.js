@@ -33,7 +33,8 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
     this.playlistContent= $("<div />");
 	this.playlistBar= $("<div />");
 	this.playlistBar.addClass("elite_vp_playlistBar")
-		.addClass("elite_vp_bg");
+	this.playlistBar.addClass("elite_vp_bg"+" "+this.options.instanceTheme);
+
 	this.playlist.append(this.playlistBar);
 	
 	this.playlistBarInside= $("<div />");
@@ -44,7 +45,7 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-step-forward")
         .bind(self.CLICK_EV, function(){
 			$(self.playlistContent).mCustomScrollbar("scrollTo","last");
@@ -54,7 +55,7 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-step-backward")
         .bind(self.CLICK_EV, function(){
 			$(self.playlistContent).mCustomScrollbar("scrollTo","first");
@@ -65,14 +66,14 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-forward")
 	
 	this.previousBtnIcon = $("<span />")
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-backward")   
 	
 	this.shuffleBtnIcon = $("<span />")
@@ -80,7 +81,7 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
 		.attr("id", "elite_vp_shuffleBtn")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-random")
 		.addClass("elite_vp_playerElement")
         .bind(self.CLICK_EV, function(){
@@ -120,7 +121,8 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
 		
     switch(this.options.playlist){
         case "Right playlist":
-            this.playlist.attr('id', 'elite_vp_playlist');
+			this.playlist.attr('id', 'elite_vp_playlist');
+			this.playlist.addClass("elite_vp_playlist"+" "+this.options.instanceTheme)
             this.playlistContent.attr('id', self.options.instanceName + 'elite_vp_playlistContent');
             break;
         case "Bottom playlist":
@@ -314,7 +316,7 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
                     }
                     if(options.videos[self.videoid].videoType=="youtube" || options.videoType=="YouTube")
                     {
-                        self.VIDEO.closeAD();
+						self.VIDEO.closeAD();
                         self.videoAdPlayed=false;
                         self.VIDEO.ytWrapper.css({zIndex:501});
                         self.VIDEO.ytWrapper.css({visibility:"visible"});
@@ -324,7 +326,7 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
                                 self.VIDEO.youtubePlayer.cueVideoById(self.videos_array[self.randEnd].youtubeID);
                             else
                                 self.VIDEO.youtubePlayer.cueVideoById(self.videos_array[self.videoid].youtubeID);
-                            self.VIDEO.youtubePlayer.setSize(element.width(), element.height());
+                            // self.VIDEO.youtubePlayer.setSize(element.width(), element.height());
                             if(!this.hasTouch){
                                 (self.VIDEO.youtubePlayer).playVideo();
                             }
@@ -380,9 +382,9 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
                         }
                         self.VIDEO.resizeAll();
                         if(self.VIDEO.shuffleBtnEnabled)
-                            self.VIDEO.load(video_path, self.randEnd);
+                            self.VIDEO.load(self.video_path, self.randEnd);
                         else
-                            self.VIDEO.load(video_path, self.videoid);
+                            self.VIDEO.load(self.video_path, self.videoid);
                         self.VIDEO.play();
                     }
 					else if(options.videos[self.videoid].videoType=="image" || options.videoType=="Image")
@@ -462,7 +464,7 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
 		//console.log("vimeo finished")
 		self.randEnd = Math.floor((Math.random() * (options.videos).length) + 0);
 
-        if(options.playlist=="Right playlist" || options.playlist=="Bottom playlist")
+        if(options.playlist=="Right playlist" || options.playlist=="Bottom playlist" || options.playlist=="Off")
         {
             self.videoid = parseInt(self.videoid)+1;
             if (self.videos_array.length == self.videoid){
@@ -474,6 +476,12 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
 				
                 switch(self.options.playlist){
                     case "Right playlist":
+						if(self.VIDEO.shuffleBtnEnabled)
+								self.VIDEO.setPlaylistItem(self.randEnd);
+							else
+								self.VIDEO.setPlaylistItem(self.videoid)
+                        break;
+					case "Off":
 						if(self.VIDEO.shuffleBtnEnabled)
 								self.VIDEO.setPlaylistItem(self.randEnd);
 							else
@@ -741,14 +749,18 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
 		
 		$(self.i).addClass('elite_vp_thumbnail_image elite_vp_themeColorThumbBorder');
 		
-        var itemRight = '<div class="elite_vp_itemRight"><div class="elite_vp_title elite_vp_themeColorText">' + obj.title + '</div><div class="elite_vp_description elite_vp_controlsColor"> ' + obj.description + '</div></div>';
+        var itemRight = 
+		'<div class="elite_vp_itemRight">'
+			+ '<div class="elite_vp_title elite_vp_themeColorText">' + obj.title + '</div>'
+			+ '<div class="elite_vp_description elite_vp_controlsColor'+" "+self.options.instanceTheme+'"> ' + obj.description + '</div>'
+		+ '</div>';
 
         switch(options.playlist){
             case "Right playlist":
                 self.item = $("<div />");
                 self.item.addClass("elite_vp_item").css("top",String(offsetT)+"px");
                 self.item_array.push(self.item);
-                self.item.addClass("elite_vp_itemUnselected");
+				self.item.addClass("elite_vp_itemUnselected"+" "+self.options.instanceTheme);
                 self.item.append(self.itemLeft);
                 self.item.append(itemRight);
                 offsetT += 80;
@@ -795,12 +807,12 @@ PLAYER.Playlist = function ($, video, options, mainContainer, element, preloader
             case "Right playlist":
 				if(options.loadRandomVideoOnStart=="Yes")
                 {
-					$(self.item_array[self.rand]).removeClass("elite_vp_itemUnselected").addClass("elite_vp_itemSelected");//first selected
+					$(self.item_array[self.rand]).removeClass("elite_vp_itemUnselected"+" "+this.options.instanceTheme).addClass("elite_vp_itemSelected"+" "+this.options.instanceTheme);//first selected
 					self.item_array[self.rand].find(".elite_vp_thumbnail_image").removeClass("elite_vp_thumbnail_image").addClass("elite_vp_thumbnail_imageSelected");// selected
 				}
 				else
                 {
-					$(self.item_array[0]).removeClass("elite_vp_itemUnselected").addClass("elite_vp_itemSelected");//first selected
+					$(self.item_array[0]).removeClass("elite_vp_itemUnselected"+" "+this.options.instanceTheme).addClass("elite_vp_itemSelected"+" "+this.options.instanceTheme);//first selected
 					self.item_array[0].find(".elite_vp_thumbnail_image").removeClass("elite_vp_thumbnail_image").addClass("elite_vp_thumbnail_imageSelected");// selected
                 }
 				break;

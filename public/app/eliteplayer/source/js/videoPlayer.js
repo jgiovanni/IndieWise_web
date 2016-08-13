@@ -9,6 +9,7 @@ var idleEvents = "mousemove keydown DOMMouseScroll mousewheel mousedown reset.id
 
 var defaults = {
 	instanceName:"player1",
+	instanceTheme:"dark",
     autohideControls:3,                        
 	hideControlsOnMouseOut:"No",               
 	videoPlayerWidth:1006,                       
@@ -16,7 +17,7 @@ var defaults = {
 	responsive:false,				             
 	playlist:"Right playlist",                  
 	playlistScrollType:"light",                 
-	playlistBehaviourOnPageload:"opened",		 
+	playlistBehaviourOnPageload:"opened (default)",		 
 	autoplay:false,                              
 	colorAccent:"#cc181e",                    
 	vimeoColor:"00adef",                         
@@ -271,6 +272,27 @@ var Video = function(parent, options)
 		$("#Elite_video_player").bind('contextmenu',function() { return false; });
 		$(".Elite_video_player").bind('contextmenu',function() { return false; });
 	}
+	//////////////////////
+	////jQuery version////
+	//////////////////////
+		if(this.options.playerLayout == "fitToBrowser" || options.playerLayout == "fitToBrowser"){
+			var videoplayers = $("#Elite_video_player");
+			$.each(videoplayers, function(){
+				var fixedCont = $("<div />")
+				.addClass("fixedCont")
+				.css({
+						position: 'fixed',
+						width: '100%',
+						height: '100%',
+						top: 0,
+						left: 0,
+						background: '#000000',
+						zIndex: 2147483647
+					});
+				videoplayers.parent().append(fixedCont);
+				videoplayers.appendTo(fixedCont);
+			})
+		}
 
 	this.setupElement();
     this.setupElementAD();
@@ -574,7 +596,6 @@ Video.fn.init = function init()
                 });
 				this.controls = $("<div />");
 				this.controls.addClass("elite_vp_controls");
-				this.controls.addClass("elite_vp_bg");
 				this.controls.addClass("elite_vp_disabled");
 				if(this.element)
 					this.element.append(this.controls);
@@ -582,7 +603,11 @@ Video.fn.init = function init()
 					this.controls.hide();
 				
 				this.nowPlayingTitle = $("<div />")
-					.addClass("elite_vp_nowPlayingTitle elite_vp_bg");
+					.addClass("elite_vp_nowPlayingTitle");
+
+				this.controls.addClass("elite_vp_bg"+" "+this.options.instanceTheme);
+				this.nowPlayingTitle.addClass("elite_vp_bg"+" "+this.options.instanceTheme);
+
 				if(!this.options.showAllControls)
 					this.nowPlayingTitle.hide();
 			    if(this.element)
@@ -735,12 +760,12 @@ Video.fn.initPlayer = function()
 			
 			self.mainContainer.css("left","");
             self.mainContainer.css("top","");
-			if(self.options.responsive)
+			if(self.options.playerLayout == "fitToContainer"  || self.options.playerLayout == "fitToBrowser")
 			{
 				self.mainContainer.width("100%");
 				self.mainContainer.height("100%");
 			}
-			else{
+			else if (self.options.playerLayout == "fixedSize"){
 				self.mainContainer.width(self.options.videoPlayerWidth);
 				self.mainContainer.height(self.options.videoPlayerHeight);
 			}
@@ -816,7 +841,7 @@ Video.fn.removeColorAccent = function(btn){
 Video.fn.resizeAll = function(){
     var self = this;
 	
-    if(this.options.responsive)
+    if(self.options.playerLayout == "fitToContainer" || self.options.playerLayout == "fitToBrowser")
     {
 		//set responsive player height
 		var height = this.parent.width()/(16/9);
@@ -1010,7 +1035,7 @@ Video.fn.resizeAll = function(){
         self.positionPoster();
     }
 
-    else{//fixed width/height
+    else if(self.options.playerLayout == "fixedSize"){//fixed width/height
 
 	self.newPlayerWidth = $(window).width() - self.mainContainer.position().left ;
 	self.newPlayerHeight = self.newPlayerWidth/(16/9);
@@ -1582,9 +1607,9 @@ Video.fn.createNowPlayingText = function()
 	var self=this;
 	
 	if(self.options.loadRandomVideoOnStart=="Yes")
-        this.nowPlayingTitle.append('<p class="elite_vp_nowPlayingText">' + this._playlist.videos_array[self._playlist.rand].title + '</p>');
+        this.nowPlayingTitle.append('<p class="elite_vp_nowPlayingText elite_vp_nowPlayingText'+" "+this.options.instanceTheme+'">' + this._playlist.videos_array[self._playlist.rand].title + '</p>');
     else
-        this.nowPlayingTitle.append('<p class="elite_vp_nowPlayingText">' + this._playlist.videos_array[0].title + '</p>');
+        this.nowPlayingTitle.append('<p class="elite_vp_nowPlayingText elite_vp_nowPlayingText'+" "+this.options.instanceTheme+'">' + this._playlist.videos_array[0].title + '</p>');
 
 	this.nowPlayingTitleW=this.nowPlayingTitle.width();
 	
@@ -1596,11 +1621,11 @@ Video.fn.createInfoWindowContent = function()
 	var self=this;
 	if(self.options.loadRandomVideoOnStart=="Yes"){
         this.infoWindow.append('<p class="elite_vp_infoTitle elite_vp_themeColorText elite_vp_titles">' + this._playlist.videos_array[self._playlist.rand].title + '</p>');
-        this.infoWindow.append('<p class="elite_vp_infoText">' + this._playlist.videos_array[self._playlist.rand].info_text + '</p>');
+        this.infoWindow.append('<p class="elite_vp_infoText elite_vp_infoText'+" "+this.options.instanceTheme+'">' + this._playlist.videos_array[self._playlist.rand].info_text + '</p>');
     }
     else{
         this.infoWindow.append('<p class="elite_vp_infoTitle elite_vp_themeColorText elite_vp_titles">' + this._playlist.videos_array[0].title + '</p>');
-        this.infoWindow.append('<p class="elite_vp_infoText">' + this._playlist.videos_array[0].info_text + '</p>');
+        this.infoWindow.append('<p class="elite_vp_infoText elite_vp_infoText'+" "+this.options.instanceTheme+'">' + this._playlist.videos_array[0].info_text + '</p>');
     }
 
 	this.infoWindow.css({
@@ -1661,7 +1686,7 @@ Video.fn.createAdTogglePlay = function(){
         .addClass("elite_vp_toggleAdPlayBox")
         .attr("aria-hidden","true")
         .addClass("fa-elite")
-        .addClass("fa-elite-playScreen")
+        .addClass("fa-elite-playScreen"+" "+this.options.instanceTheme)
         .bind(self.CLICK_EV, function(){
             self.togglePlayAD();
 			self.ADTriggered=true;//ad is once enabled
@@ -1718,28 +1743,32 @@ Video.fn.createEmbedWindowContent = function()
     $(this.embedWindow).append('<p class="elite_vp_embedTitle2 elite_vp_themeColorText elite_vp_titles">' + "EMBED THIS VIDEO IN YOUR SITE:" + '</p>');
 
     this.embedTxt = $("<p />")
-        .addClass('elite_vp_embedText');
+        .addClass('elite_vp_embedText')
+        .addClass("elite_vp_embedText"+" "+this.options.instanceTheme);
     this.embedWindow.append(this.embedTxt);
 
     this.copy = $("<div />")
         .attr("title", "Copy to clipboard")
         .attr('id', 'elite_vp_copy')
-        .addClass('copyBtn');
+        .addClass('copyBtn')
+        .addClass(this.options.instanceTheme);
     this.embedWindow.append(this.copy);
-    $(this.embedWindow).find("#elite_vp_copy").append('<p id="elite_vp_copyInside">' + "Copy" + '</p>');
+    $(this.embedWindow).find("#elite_vp_copy").append('<p id="elite_vp_copyInside" class="elite_vp_copyInside'+" "+this.options.instanceTheme+'">' + "Copy" + '</p>');
 
     $(this.embedWindow).append('<p class="elite_vp_embedTitle3 elite_vp_themeColorText elite_vp_titles">' + "SHARE LINK TO THIS PLAYER:" + '</p>');
 
     this.embedTxt2 = $("<p />")
-        .addClass('elite_vp_embedText2');
+        .addClass('elite_vp_embedText2')
+        .addClass('elite_vp_embedText'+" "+this.options.instanceTheme);
     this.embedWindow.append(this.embedTxt2);
 
     this.copy2 = $("<div />")
         .attr("title", "Copy to clipboard")
         .attr('id', 'elite_vp_copy2')
-        .addClass('copyBtn');
+        .addClass('copyBtn')
+		.addClass(this.options.instanceTheme);
     this.embedWindow.append(this.copy2);
-    $(this.embedWindow).find("#elite_vp_copy2").append('<p id="elite_vp_copyInside">' + "Copy" + '</p>');
+    $(this.embedWindow).find("#elite_vp_copy2").append('<p id="elite_vp_copyInside" class="elite_vp_copyInside'+" "+this.options.instanceTheme+'">' + "Copy" + '</p>');
 
 	var s = this.options.embedCodeSrc;
 	var w = this.options.embedCodeW;
@@ -1788,8 +1817,8 @@ Video.fn.closeAD = function()
     self._playlist.videoAdPlayed=true;
 
     self.resetPlayerAD();
-    self.elementAD.width(0);
-    self.elementAD.height(0);
+    // self.elementAD.width(0);
+    // self.elementAD.height(0);
     self.elementAD.css({zIndex:1});
 	self.videoElementAD.empty();
     self.videoAdBoxInside.hide();
@@ -1824,12 +1853,12 @@ Video.fn.closeAD = function()
 			self._playlist.playVimeo(self._playlist.videoid);
 	}    
     
-    self.exitToOriginalSize();
+    //self.exitToOriginalSize();
 };
 Video.fn.openAD = function()
 {
     var self=this;
-	
+
     self.showVideoElements();
     self.progressADBg.show();
     self.elementAD.css({zIndex:555559});
@@ -1923,7 +1952,6 @@ Video.fn.play = function()
                 self.canPlay = true;
                 self.video_pathAD = self._playlist.videos_array[self._playlist.videoid].preroll_mp4;
             }
-
             self.loadAD(self.video_pathAD);
             self.openAD();
         }
@@ -2287,12 +2315,12 @@ Video.fn.fullScreen = function(state)
                     });
             }
         }
-		if(self.options.responsive)
+		if(self.options.playerLayout == "fitToContainer" || self.options.playerLayout == "fitToBrowser")
 		{
 			self.mainContainer.width("100%");
 			self.mainContainer.height("100%");
 		}
-		else{
+		else if(self.options.playerLayout == "fixedSize"){
 			self.mainContainer.width(self.options.videoPlayerWidth);
 			self.mainContainer.height(self.options.videoPlayerHeight);
 		}
@@ -2471,7 +2499,7 @@ Video.fn.setupElement = function()
     var self=this;
     this.mainContainer=$("<div />");
     this.mainContainer.addClass("elite_vp_mainContainer");
-    if(this.options.responsive){
+    if(this.options.playerLayout == "fitToContainer" || this.options.playerLayout == "fitToBrowser"){
         this.mainContainer.css({
             width:"100%",
             height:"100%",
@@ -2480,7 +2508,7 @@ Video.fn.setupElement = function()
 			zIndex:999999
         });
     }
-    else{
+    else if(this.options.playerLayout == "fixedSize"){
         this.mainContainer.css({
             width:this.options.videoPlayerWidth,
             height:this.options.videoPlayerHeight,
@@ -2793,7 +2821,6 @@ Video.fn.setupButtonsOnScreen = function(){
         .addClass("elite_vp_playlistBtn")
 		.addClass("elite_vp_playerElement")
         .addClass("elite_vp_btnOverScreen")
-        .addClass("elite_vp_bg");
     if(this.element)
         this.screenBtnsWindow.append(this.playlistBtn);
     
@@ -2801,7 +2828,7 @@ Video.fn.setupButtonsOnScreen = function(){
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-overScreen") 
-        //.addClass("elite_vp_controlsColor")
+        .addClass("elite-icon-overScreen"+" "+this.options.instanceTheme) 
         .addClass("fa-elite-indent");
     this.playlistBtn.append(this.playlistBtnIcon);
 
@@ -2809,7 +2836,6 @@ Video.fn.setupButtonsOnScreen = function(){
         .addClass("elite_vp_shareBtn")
 		.addClass("elite_vp_playerElement")
         .addClass("elite_vp_btnOverScreen")
-        .addClass("elite_vp_bg");
     if(this.element)
         this.screenBtnsWindow.append(this.shareBtn);
     
@@ -2817,7 +2843,8 @@ Video.fn.setupButtonsOnScreen = function(){
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-overScreen")
-		//.addClass("elite_vp_controlsColor")
+        .addClass("elite-icon-overScreen"+" "+this.options.instanceTheme)
+		.addClass("elite_vp_controlsColor")
 		.addClass("fa-elite-share-square-o")
     this.shareBtn.append(this.shareBtnIcon);
 
@@ -2825,7 +2852,6 @@ Video.fn.setupButtonsOnScreen = function(){
         .addClass("elite_vp_embedBtn")
 		.addClass("elite_vp_playerElement")
         .addClass("elite_vp_btnOverScreen")
-		.addClass("elite_vp_bg");
     if(this.element){
         this.screenBtnsWindow.append(this.embedBtn);
     }
@@ -2833,7 +2859,7 @@ Video.fn.setupButtonsOnScreen = function(){
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-overScreen")
-		//.addClass("elite_vp_controlsColor")
+        .addClass("elite-icon-overScreen"+" "+this.options.instanceTheme)
 		.addClass("fa-elite-chain");
     this.embedBtn.append(this.embedBtnIcon);
 
@@ -2841,7 +2867,13 @@ Video.fn.setupButtonsOnScreen = function(){
         .addClass("elite_vp_infoBtn")
 		.addClass("elite_vp_playerElement")
         .addClass("elite_vp_btnOverScreen")
-		.addClass("elite_vp_bg");
+		
+	this.playlistBtn.addClass("elite_vp_bg"+" "+this.options.instanceTheme)
+	this.shareBtn.addClass("elite_vp_bg"+" "+this.options.instanceTheme)
+	this.embedBtn.addClass("elite_vp_bg"+" "+this.options.instanceTheme)
+	this.infoBtn.addClass("elite_vp_bg"+" "+this.options.instanceTheme)
+
+		
     if(this.element){
         this.screenBtnsWindow.append(this.infoBtn);
     }
@@ -2849,6 +2881,7 @@ Video.fn.setupButtonsOnScreen = function(){
         .attr("aria-hidden","true")
         .addClass("fa-elite")
         .addClass("elite-icon-overScreen")
+        .addClass("elite-icon-overScreen"+" "+this.options.instanceTheme)
         .addClass("fa-elite-info");
     this.infoBtn.append(this.infoBtnIcon);
 	
@@ -3114,7 +3147,7 @@ Video.fn.setupButtons = function(){
 		.attr("id", "elite_vp_rewindBtn")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-repeat")
     this.rewindBtnWrapper.append(this.rewindBtn);//REWIND BTN
 	
@@ -3135,7 +3168,7 @@ Video.fn.setupButtons = function(){
         .attr("id", "elite_vp_qualityBtn")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-cog")
     this.qualityBtnWrapper.append(this.qualityBtn);//Quality BTN
 	
@@ -3159,7 +3192,7 @@ Video.fn.setupButtons = function(){
   this.playButtonScreen.addClass("elite_vp_playButtonScreen")
       .attr("aria-hidden","true")
       .addClass("fa-elite")
-      .addClass("fa-elite-playScreen")
+      .addClass("fa-elite-playScreen"+" "+this.options.instanceTheme)
 	  .hide();
   this.playButtonScreen.bind(this.CLICK_EV,$.proxy(function()
   {
@@ -3185,7 +3218,7 @@ Video.fn.setupButtons = function(){
 		.attr("id", "elite_vp_fsBtn")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-expand")
     this.fsBtnWrapper.append(this.fsEnter);
 
@@ -3230,7 +3263,7 @@ Video.fn.setupButtons = function(){
 Video.fn.createInfoWindow = function(){
     this.infoWindow = $("<div />");
     this.infoWindow.addClass("elite_vp_infoWindow");
-    this.infoWindow.addClass("elite_vp_bg");
+    this.infoWindow.addClass("elite_vp_bg"+" "+this.options.instanceTheme);
     if(this.element){
         this.element.append(this.infoWindow);
     }
@@ -3279,7 +3312,7 @@ Video.fn.createQualityWindow = function(){
 	
 	this.qualityWindow = $("<div />");
     this.qualityWindow.addClass("elite_vp_qualityWindow");
-    this.qualityWindow.addClass("elite_vp_bg");
+    this.qualityWindow.addClass("elite_vp_bg"+" "+this.options.instanceTheme);
     if(this.element){
         this.qualityWindow_mask.append(this.qualityWindow);
     }
@@ -3293,28 +3326,28 @@ Video.fn.createQualityWindow = function(){
 	
 
 	this.qualityWindow.append('<div class="elite_vp_list">'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement hd1080">'
-											+'<p class="elite_vp_qualityNum elite_vp_qualityWindowText">1080p</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement hd1080">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">1080p</p>'
 											+'<p class="elite_vp_qualityHD elite-icon-general elite_vp_qualityWindowText">HD</p>'
 										+'</div>'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement hd720">'
-											+'<p class="elite_vp_qualityNum elite_vp_qualityWindowText">720p</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement hd720">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">720p</p>'
 											+'<p class="elite_vp_qualityHD elite-icon-general elite_vp_qualityWindowText">HD</p>'
 										+'</div>'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement large">'
-											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_qualityWindowText">480p</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement large">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">480p</p>'
 										+'</div>'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement medium">'
-											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_qualityWindowText">360p</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement medium">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">360p</p>'
 										+'</div>'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement small">'
-											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_qualityWindowText">240p</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement small">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">240p</p>'
 										+'</div>'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement tiny">'
-											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_qualityWindowText">144p</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement tiny">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">144p</p>'
 										+'</div>'
-										+'<div class="elite_vp_qualityListItem elite_vp_controlsColor elite_vp_playerElement default">'
-											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_qualityWindowText">auto</p>'
+										+'<div class="elite_vp_qualityListItem elite_vp_playerElement default">'
+											+'<p class="elite_vp_qualityNum elite-icon-general elite_vp_controlsColor elite_vp_qualityWindowText '+this.options.instanceTheme+'">auto</p>'
 										+'</div>'
 								+'</div>');
 								
@@ -3324,12 +3357,12 @@ Video.fn.createQualityWindow = function(){
         .addClass("fa-elite")
         .addClass("fa-elite-check")
         .addClass("elite_vp_qualityCheck")
-        .addClass("elite_vp_qualityListItem_activeColor");
+        .addClass("elite_vp_qualityListItem_activeColor"+" "+this.options.instanceTheme);
 	
 	this.qualityListItem = $(".elite_vp_qualityListItem");
 	$(this.qualityListItem).click(function(){
-		$(".elite_vp_qualityWindow").find(".elite_vp_qualityListItem_activeColor").removeClass("elite_vp_qualityListItem_activeColor")
-		$(this).addClass('elite_vp_qualityListItem_activeColor');
+		$(".elite_vp_qualityWindow").find(".elite_vp_qualityListItem_activeColor"+" "+self.options.instanceTheme).removeClass("elite_vp_qualityListItem_activeColor"+" "+self.options.instanceTheme)
+		$(this).addClass('elite_vp_qualityListItem_activeColor'+" "+self.options.instanceTheme);
 		$(this).append(self.qualityCheck);
 		
 		if($(this).hasClass("hd1080")){
@@ -3412,7 +3445,7 @@ Video.fn.onPlayerPlaybackQualityChange = function(){
 }
 Video.fn.createEmbedWindow = function(){
     this.embedWindow = $("<div />");
-    this.embedWindow.addClass("elite_vp_embedWindow elite_vp_bg");
+    this.embedWindow.addClass("elite_vp_embedWindow elite_vp_bg"+" "+this.options.instanceTheme);
     if(this.element)
         this.element.append(this.embedWindow);
     
@@ -3458,18 +3491,22 @@ Video.fn.setupVideoTrack = function(){
     var self=this;
 
     this.videoTrack = $("<div />");
-    this.videoTrack.addClass("elite_vp_videoTrack elite_vp_playerElement");
+    this.videoTrack.addClass("elite_vp_videoTrack")
+				   .addClass("elite_vp_videoTrack"+" "+this.options.instanceTheme)
+                   .addClass("elite_vp_playerElement");
     this.controls.append(this.videoTrack);
 
 	this.progressIdleTrack = $("<div />");
-    this.progressIdleTrack.addClass("elite_vp_progressIdleTrack");
+    this.progressIdleTrack.addClass("elite_vp_progressIdleTrack")
+	                      .addClass("elite_vp_progressIdleTrack"+" "+this.options.instanceTheme)
 	if(!this.options.showAllControls)
 		this.progressIdleTrack.hide();
 	this.progressIdleTrack.css({bottom:-6});
     this.element.append(this.progressIdleTrack);
 	
 	this.progressIdleDownload = $("<div />");
-    this.progressIdleDownload.addClass("elite_vp_progressIdleDownload");
+    this.progressIdleDownload.addClass("elite_vp_progressIdleDownload")
+                             .addClass("elite_vp_progressIdleDownload"+" "+this.options.instanceTheme);
 	this.progressIdleDownload.css("width",0);
     this.progressIdleTrack.append(this.progressIdleDownload);
 	
@@ -3488,7 +3525,8 @@ Video.fn.setupVideoTrack = function(){
     this.progressADBg.append(this.progressAD);
 
         this.videoTrackDownload = $("<div />");
-        this.videoTrackDownload.addClass("elite_vp_videoTrackDownload");
+        this.videoTrackDownload.addClass("elite_vp_videoTrackDownload")
+							   .addClass("elite_vp_videoTrackDownload"+" "+this.options.instanceTheme);
         this.videoTrackDownload.css("width",0);
         this.videoTrack.append(this.videoTrackDownload);
 
@@ -3498,7 +3536,8 @@ Video.fn.setupVideoTrack = function(){
         this.videoTrack.append(this.videoTrackProgress);
 
         this.toolTip = $("<div />");
-        this.toolTip.addClass("elite_vp_toolTip elite_vp_bg elite_vp_controlsColor");
+        this.toolTip.addClass("elite_vp_toolTip elite_vp_controlsColor"+" "+this.options.instanceTheme);
+        this.toolTip.addClass("elite_vp_bg"+" "+this.options.instanceTheme);
         this.toolTip.hide();
         this.toolTip.css({
             opacity:0 ,
@@ -3514,7 +3553,7 @@ Video.fn.setupVideoTrack = function(){
 			self.toolTip.css("top", "");
 			var x = e.pageX - $(this).offset().left -self.toolTip.outerWidth()/2;
 			
-			if ($(this).hasClass("elite_vp_videoTrack")){
+			if ($(this).hasClass("elite_vp_videoTrack"+" "+self.options.instanceTheme)){
 				var xPos = e.pageX - self.videoTrack.offset().left;
 				var perc = xPos / self.videoTrack.width();
 				if(self._playlist.videos_array[self._playlist.videoid].videoType=="youtube" || self.options.videoType=="YouTube")
@@ -3532,7 +3571,7 @@ Video.fn.setupVideoTrack = function(){
 					self.toolTip.show();
 				}
 			}
-			else if ($(this).hasClass("elite_vp_volumeTrack")){
+			else if ($(this).hasClass("elite_vp_volumeTrack"+" "+self.options.instanceTheme)){
 				var xPos = e.pageX - self.volumeTrack.offset().left;
 				var perc = xPos / self.volumeTrack.width();
 				if(xPos>=0 && xPos<= self.volumeTrack.width())
@@ -3877,7 +3916,9 @@ Video.fn.setupVolumeTrack = function()
     var self = this;
 
     self.volumeTrack = $("<div />");
-    self.volumeTrack.addClass("elite_vp_volumeTrack elite_vp_playerElement");
+    self.volumeTrack.addClass("elite_vp_volumeTrack")
+                    .addClass("elite_vp_volumeTrack"+" "+this.options.instanceTheme)
+                    .addClass("elite_vp_playerElement");
     this.controls.append(self.volumeTrack);
 
     self.volumeTrackProgress = $("<div />");
@@ -3917,7 +3958,7 @@ Video.fn.setupVolumeTrack = function()
 		.attr("id", "elite_vp_unmuteBtn")
         .addClass("fa-elite")
         .addClass("elite-icon-general")
-		.addClass("elite_vp_controlsColor")
+		.addClass("elite_vp_controlsColor"+" "+this.options.instanceTheme)
         .addClass("fa-elite-volume-up");
     this.unmuteBtnWrapper.append(this.unmuteBtn);
 
@@ -3994,8 +4035,8 @@ Video.fn.setupTiming = function(){
   this.timeTotal.text(/*" / "+*/"00:00");
   this.timeLeftInside.text("(00:00)");
 
-  this.timeElapsed.addClass("elite_vp_timeElapsed elite_vp_controlsColor");
-  this.timeTotal.addClass("elite_vp_timeTotal elite_vp_controlsColor");
+  this.timeElapsed.addClass("elite_vp_timeElapsed elite_vp_controlsColor"+" "+this.options.instanceTheme);
+  this.timeTotal.addClass("elite_vp_timeTotal elite_vp_controlsColor"+" "+this.options.instanceTheme);
   this.timeLeftInside.addClass("elite_vp_timeLeftInside");
 
   this.ontimeupdate($.proxy(function(){
@@ -4088,7 +4129,7 @@ Video.fn.createVideoOverlay = function(){
     this.playButtonPoster.addClass("elite_vp_playButtonPoster")
         .attr("aria-hidden","true")
         .addClass("fa-elite")
-        .addClass("fa-elite-playScreen");
+        .addClass("fa-elite-playScreen"+" "+this.options.instanceTheme);
 	if(this._playlist.videos_array[this._playlist.videoid].videoType=="youtube" || self.options.videoType=="YouTube")
 	{
 		var timer = setInterval(function() {
@@ -4197,12 +4238,13 @@ Video.fn.setPlaylistItem = function(ID)
 	
 	self.mainContainer.find(".elite_vp_nowPlayingThumbnail").hide();
 	self.mainContainer.find(".elite_vp_thumbnail_imageSelected").removeClass("elite_vp_thumbnail_imageSelected").addClass("elite_vp_thumbnail_image");//remove selected
-	self.mainContainer.find(".elite_vp_itemSelected").removeClass("elite_vp_itemSelected").addClass("elite_vp_itemUnselected");//remove selected
 	
 	$(self._playlist.item_array[ID]).find(".elite_vp_nowPlayingThumbnail").show();
 	$(self._playlist.item_array[ID]).find(".elite_vp_thumbnail_image").removeClass("elite_vp_thumbnail_image").addClass("elite_vp_thumbnail_imageSelected");// selected
+
+	self.mainContainer.find(".elite_vp_itemSelected").removeClass("elite_vp_itemSelected").addClass("elite_vp_itemUnselected");//remove selected
 	$(self._playlist.item_array[ID]).removeClass("elite_vp_itemUnselected").addClass("elite_vp_itemSelected");// selected
-	
+			
 	//set info content
 	self.mainContainer.find(".elite_vp_infoTitle").html(self._playlist.videos_array[ID].title);
 	self.mainContainer.find(".elite_vp_infoText").html(self._playlist.videos_array[ID].info_text);
