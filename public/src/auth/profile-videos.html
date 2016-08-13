@@ -9,9 +9,9 @@
             <div class="profile-video" ng-repeat="video in ProfileVideosCtrl.projects.data">
                 <div class="media-object stack-for-small">
                     <div class="media-object-section media-img-content">
-                        <a class="video-img" ui-sref="video({id: video.id, url_id: video.url_id})">
+                        <div class="video-img" ui-sref="video({id: video.id, url_id: video.url_id})">
                             <img ng-src="{{::video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="video thumbnail">
-                        </a>
+                        </div>
                     </div>
                     <div class="media-object-section media-video-content">
                         <div class="video-content">
