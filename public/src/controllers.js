@@ -1495,7 +1495,7 @@
         });
 
         self.updateVideoObj = function () {
-            return DataService.collection('projects', {id: self.film.id})
+            return DataService.item('projects', self.film.id)
                 .then(function (a) {
                     console.log('Project Updated: ', a);
                     self.film = a.data.data;
