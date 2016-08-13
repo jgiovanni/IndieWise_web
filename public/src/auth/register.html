@@ -53,11 +53,10 @@
                         <div class="register-form">
                             <h5 class="text-center">Create your Account</h5>
                             <form ng-submit="RC.doRegister()" data-abide>
-                                <div id="errors" class="alert callout" ng-show="RC.errors.gender||RC.errors.genres||RC.errors.types">
+                                <div id="errors" class="alert callout" ng-show="RC.errors.gender||RC.authErrors">
                                     <p><i class="fa fa-exclamation-triangle"></i> There are some errors in your form.</p>
                                     <p ng-show="RC.errors.gender">Please select a gender.</p>
-                                    <p ng-show="RC.errors.genres">Please select at least one genre.</p>
-                                    <p ng-show="RC.errors.types">Please select at least one type.</p>
+                                    <p ng-repeat="(key, value) in RC.authErrors">{{key}}: {{value[0]}}</p>
                                 </div>
                                 <!--<div class="input-group">
                                     <span class="input-group-label"><i class="fa fa-user"></i></span>
@@ -68,7 +67,7 @@
                                     <span class="input-group-label">
                                         <i ng-if="RC.errors.email===false" class="fa fa-envelope"></i>
                                         <i ng-if="RC.errors.email===0" class="fa fa-check" style="color: green;"></i>
-                                        <i ng-if="RC.errors.email===1" class="fa fa-exclamation-triangle" style="color: red;"></i>
+                                        <i ng-if="!!RC.errors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
                                     </span>
                                        <input class="input-group-field" type="email" placeholder="Enter your email"
                                            ng-model="RC.user.email" ng-model-options="{debounce:1000}" ng-change="RC.checkEmailUse()"

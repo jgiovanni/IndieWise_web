@@ -120,6 +120,8 @@ jQuery(document).ready(function (jQuery) {
             'ui.router',
             'angular-google-analytics',
             'flow',
+            'ui.scroll',
+            'ui.scroll.jqlite',
             'satellizer',
             'angular-filepicker',
             'pascalprecht.translate',
@@ -131,7 +133,7 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.filters',
             'IndieWise.utilities'
         ])
-        .constant('API', window.API || 'http://52.207.215.154/api/')
+        .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';

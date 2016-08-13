@@ -13,6 +13,7 @@ use IndieWise\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use IndieWise\Http\Requests\v1\AuthenticationRequest;
+use IndieWise\Http\Requests\v1\UserRequest;
 use Dingo\Api\Routing\Helpers;
 
 class AuthController extends Controller
@@ -87,8 +88,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out!'], 200);
     }
 
-    public function register(Request $request) {
-
+    public function register(UserRequest $request) {
         try {
             $user = new User($request->except('password_confirmation'));
             $user->save();
@@ -104,7 +104,9 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:8|confirmed',
         ]);
+
         //invalidate old tokens
         PasswordReset::whereEmail($request->email)->delete();
         $email = $request->email;
@@ -154,6 +156,7 @@ class AuthController extends Controller
 
     public function checkEmailUse(Request $request)
     {
-
+        $exists = User::where('email', $request->get('email'))->first();
+        return response()->json(['verify' => !!$exists]);
     }
 }

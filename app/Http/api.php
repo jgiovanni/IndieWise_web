@@ -61,8 +61,8 @@ $api->version('v1', [
     $api->get('messages', 'MessagesController@index');
     $api->post('messages', 'MessagesController@store');
     $api->get('messages/{id}', 'MessagesController@show');
+    $api->get('messages/{id}/messages', 'MessagesController@showMessages');
     $api->put('messages/{id}', 'MessagesController@update');
-
 
     /*$api->group(['middleware' => ['api.auth', 'jwt.refresh']], function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.

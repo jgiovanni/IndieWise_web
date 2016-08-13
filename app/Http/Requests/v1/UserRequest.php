@@ -28,9 +28,22 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        if ($this->isMethod('post')) {
+            $rules = [
+                'firstName' => 'required|max:100',
+                'lastName' => 'required|max:100',
+                'email' => 'required|email|unique:users,email',
+                // 'username' => 'required|unique:users,username',
+                'password' => 'required|confirmed|min:6',
+                'gender' => 'required|in:male,female',
+                'country' => 'required|exists:Country,id'
+            ];
+            return $rules;
+        }
         return [
             'genres' => 'array',
             'types' => 'array',
         ];
+
     }
 }

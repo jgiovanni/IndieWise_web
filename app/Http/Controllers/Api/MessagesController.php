@@ -5,6 +5,7 @@ namespace IndieWise\Http\Controllers\Api;
 use Dingo\Api\Contract\Http\Request;
 
 use IndieWise\Http\Controllers\Controller;
+use IndieWise\Http\Transformers\v1\MessageTransformer;
 use IndieWise\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -48,9 +49,7 @@ class MessagesController extends Controller
         try {
             $conversation = Thread::with('messages.user', 'participants.user')->findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-
-            return redirect('messages');
+            return response()->json(['error_message', 'The thread with ID: ' . $id . ' was not found.'], 401);
         }
 
         // show current user in list if not a current participant
@@ -61,8 +60,21 @@ class MessagesController extends Controller
 //        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
 
         $conversation->markAsRead($userId);
+        $conversation->append('latestMessage');
 
         return response()->json(compact('conversation'));
+    }
+
+    public function showMessages(Request $request, $id)
+    {
+        try {
+//            $conversation = Thread::with('messages.user', 'participants.user')->findOrFail($id);
+            $messages = Message::with('user')->where('thread_id', $id)->paginate($request->get('per_page', 10));
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error_message', 'The thread with ID: ' . $id . ' was not found.'], 401);
+        }
+
+        return $this->response->paginator($messages, new MessageTransformer);
     }
 
     /**
@@ -147,5 +159,5 @@ class MessagesController extends Controller
             $conversation->addParticipants($request->get('recipients'));
         }
 
-        return redirect('messages/' . $id);
+        return self::show($id);
     }}

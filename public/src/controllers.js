@@ -27,7 +27,7 @@
     }
 
     angular.module('IndieWise.controllers', [])
-        // Auth Controllers
+    // Auth Controllers
         .controller('SignInCtrl', SignInCtrl)
         .controller('ForgotPasswordCtrl', ForgotPasswordCtrl)
         .controller('RegisterCtrl', RegisterCtrl)
@@ -92,7 +92,7 @@
         self.dobDay = '';
         self.dobMonth = '';
         self.dobYear = '';
-
+        self.authErrors = null;
         self.errors = {
             email: false,
             gender: false,
@@ -107,11 +107,11 @@
         }
 
         /*$rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res;
-        });
-        $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res;
-        });*/
+         $rootScope.genresList = self.genresList = res;
+         });
+         $rootScope.generateTypes().then(function (res) {
+         $rootScope.typesList = self.typesList = res;
+         });*/
         $rootScope.generateCountries().then(function (res) {
             $rootScope.countryList = self.countryList = res;
         });
@@ -119,52 +119,39 @@
         self.checkEmailUse = function () {
             if (angular.isString(self.user.email) && self.user.email.length) {
                 DataService.collection('emailCheck', {email: mysql_real_escape_string(self.user.email)}).then(function (res) {
-                    self.errors.email = res.data.length && res.data[0].verify === 1 ? 1 : 0;
+                    self.errors.email = res.data && res.data.verify === true ? 1 : 0;
                 });
             } else self.errors.email = false;
         };
 
         self.doRegister = function () {
-            if(!self.creating){
+            if (!self.creating) {
                 self.creating = true;
                 self.errors.gender = !self.user.gender.length;
 
-                /*if (angular.isArray(self.genresArr) && self.genresArr.length) {
-                    _.each(self.genresArr, function (a) {
-                        self.user.genres.push(a);
-                    });
-                    self.user.genres = _.uniq(self.user.genres);
-                    self.errors.genres = false;
-                } else {
-                    self.errors.genres = true;
-                }
-
-                if (angular.isArray(self.typesArr) && self.typesArr.length) {
-                    _.each(self.typesArr, function (a) {
-                        self.user.types.push(a);
-                    });
-                    self.user.types = _.uniq(self.user.types);
-                    self.errors.types = false;
-                } else {
-                    self.errors.types = true;
-                }*/
                 if (self.errors.gender) {
                     anchorSmoothScroll.scrollTo('errors');
                     return false;
                 }
 
-                self.user.dob = moment().set({'year': self.dobYear, 'month': self.dobMonth, 'day': self.dobDay }).startOf('day').toDate();
+                self.user.dob = moment().set({
+                    'year': self.dobYear,
+                    'month': self.dobMonth,
+                    'day': self.dobDay
+                }).startOf('day').toDate();
                 AuthService.createUser(self.user).then(function (res) {
-                    // console.log('Success', res);
-                    //window.location.reload();
-                }, function (res) {
-                    self.error = res.message;
-                    // console.log('Failed', res);
-                }).then(function () {
+                    if (!res.status) {
+                        self.authErrors = res.errors;
+                        $rootScope.toastMessage('There is an error, please check your form');
+                        // console.log('Failed', res);
+                    } else {
+                        // console.log('Success', res);
+                        //window.location.reload();
+                        $rootScope.toastMessage('Account created!');
+                    }
                     // window.location.reload();
-                    $rootScope.toastMessage('Account created!');
                     self.creating = false;
-                })
+                });
             } else {
                 $rootScope.toastMessage('Please wait...');
             }
@@ -173,60 +160,12 @@
         self.authenticate = function (provider) {
             self.error = null;
             AuthService.socialLogin(provider, true).then(function (a) {
-                if(a) {
+                if (a) {
                     $state.go('profile.about', {reload: true});
                     // console.log(a);
                 }
             });
         };
-
-        /*self.syncGenres = function (bool, item) {
-            if (bool) {
-                // add item
-                self.genresArr.push(item);
-            } else {
-                // remove item
-                for (var i = 0; i < self.genresArr.length; i++) {
-                    if (self.genresArr[i].id == item.id) {
-                        self.genresArr.splice(i, 1);
-                    }
-                }
-            }
-        };
-
-        self.isCheckedGenre = function (id) {
-            var match = false;
-            for (var i = 0; i < self.genresArr.length; i++) {
-                if (self.genresArr[i].id == id) {
-                    match = true;
-                }
-            }
-            return match;
-        };
-
-        self.syncTypes = function (bool, item) {
-            if (bool) {
-                // add item
-                self.typesArr.push(item);
-            } else {
-                // remove item
-                for (var i = 0; i < self.typesArr.length; i++) {
-                    if (self.typesArr[i].id == item.id) {
-                        self.typesArr.splice(i, 1);
-                    }
-                }
-            }
-        };
-
-        self.isCheckedType = function (id) {
-            var match = false;
-            for (var i = 0; i < self.typesArr.length; i++) {
-                if (self.typesArr[i].id == id) {
-                    match = true;
-                }
-            }
-            return match;
-        };*/
 
         $timeout(function () {
             jQuery(document).foundation();
@@ -287,7 +226,7 @@
             newPassword: null,
             newPasswordCheck: null
         };
-        self.hasToken = $rootScope.$stateParams.token||false;
+        self.hasToken = $rootScope.$stateParams.token || false;
 
         self.doPasswordResetRequest = function () {
             AuthService.requestPasswordReset(self.email).then(function (res) {
@@ -303,7 +242,7 @@
             if (self.reseting.newPassword === self.reseting.newPasswordCheck && angular.isString(self.hasToken)) {
                 AuthService.passwordReset($rootScope.$stateParams.email, self.reseting.newPassword, self.reseting.newPasswordCheck, self.hasToken)
                     .then(function (res) {
-                        
+
                     })
             } else return false;
         };
@@ -326,7 +265,7 @@
 
 
         // Recent Videos Footer Section
-        DataService.collection('projects',{ per_page: 3, sort: 'created_at'}).then(function (result) {
+        DataService.collection('projects', {per_page: 3, sort: 'created_at'}).then(function (result) {
             self.footerRecentVideos = result.data;
         });
 
@@ -566,35 +505,39 @@
             var unseenList = _.where($rootScope.AppData.Notifications.list, {seen: false});
             var i = 0;
 
-            _.each($rootScope.AppData.Notifications.list, function (a) { if(!a.seen) {a.seen = true;} });
+            _.each($rootScope.AppData.Notifications.list, function (a) {
+                if (!a.seen) {
+                    a.seen = true;
+                }
+            });
             $interval(function () {
-                DataService.update('Action', unseenList[i++].id, { seen:true });
+                DataService.update('Action', unseenList[i++].id, {seen: true});
             }, 1000, unseenList.length).then(function (it) {
                 // console.log(it);
             });
 
             /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
-                feed.get({limit: 5, mark_seen: true}, function (a) {
-                    // console.log(a);
-                    _.each($rootScope.AppData.RawNotifications.list, function (n) {
-                        n.is_seen = true;
-                    });
-                    $rootScope.AppData.RawNotifications.unseen = 0;
-                })
-            });*/
+             var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+             feed.get({limit: 5, mark_seen: true}, function (a) {
+             // console.log(a);
+             _.each($rootScope.AppData.RawNotifications.list, function (n) {
+             n.is_seen = true;
+             });
+             $rootScope.AppData.RawNotifications.unseen = 0;
+             })
+             });*/
         };
 
         self.markAllAsRead = function () {
             /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
-                feed.get({limit: 20, mark_read: true}, function (a) {
-                    _.each($rootScope.AppData.RawNotifications.list, function (n) {
-                        n.is_read = true;
-                    });
-                    $rootScope.AppData.RawNotifications.unread = 0;
-                })
-            });*/
+             var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+             feed.get({limit: 20, mark_read: true}, function (a) {
+             _.each($rootScope.AppData.RawNotifications.list, function (n) {
+             n.is_read = true;
+             });
+             $rootScope.AppData.RawNotifications.unread = 0;
+             })
+             });*/
         };
 
         self.markAsRead = function (obj) {
@@ -660,22 +603,22 @@
 
         self.refresh = function () {
             // Trending Videos
-            DataService.collection('projects', { sort:'reactions_count', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'reactions_count', per_page: 6}).then(function (result) {
                 self.trending = result.data;
             });
 
             // Highest Rated Videos
-            DataService.collection('projects', { sort:'iwRating', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'iwRating', per_page: 6}).then(function (result) {
                 self.highestRated = result.data;
             });
 
             // Highest Awarded Videos
-            DataService.collection('projects', { sort:'wins_count', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'wins_count', per_page: 6}).then(function (result) {
                 self.highestAwarded = result.data;
             });
 
             // Recent Videos
-            DataService.collection('projects', { sort:'created_at', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'created_at', per_page: 6}).then(function (result) {
                 self.recentFilms = result.data;
             });
         };
@@ -686,11 +629,11 @@
             $interval.cancel(self.refInterval);
         });
 
-       $window.onfocus = function() {
+        $window.onfocus = function () {
             //do something
         };
 
-        $window.onblur = function() {
+        $window.onblur = function () {
             // console.log('Refresh Stopped');
             $interval.cancel(self.refInterval);
         };
@@ -709,10 +652,10 @@
             types: []
         };
         self.filters = {
-            sort: $rootScope.$stateParams.sort||'created_at',
-            genres: $rootScope.$stateParams.genres||undefined,
-            type: $rootScope.$stateParams.types||undefined,
-            search: $rootScope.$stateParams.q||undefined
+            sort: $rootScope.$stateParams.sort || 'created_at',
+            genres: $rootScope.$stateParams.genres || undefined,
+            type: $rootScope.$stateParams.types || undefined,
+            search: $rootScope.$stateParams.q || undefined
         };
 
         $rootScope.generateTypes().then(function (types) {
@@ -758,7 +701,7 @@
                 order: 'DESC',
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
-                search: self.filters.search||undefined,
+                search: self.filters.search || undefined,
                 per_page: 50,
             }).then(function (res) {
                 return self.films = res.data.data;
@@ -891,13 +834,13 @@
             // Register Listener
             // console.log('Listener registered!');
             //Backand.on('video_updated_' + self.film.url_id, function (data) {
-                //// console.log(self.film);
-                // console.log('Listener Triggered!');
-                // console.log(data);
-                //self.updateVideoObj();
-                /*_.each(data, function (a) {
-                 self.film[a.Key] = a.value;
-                 })*/
+            //// console.log(self.film);
+            // console.log('Listener Triggered!');
+            // console.log(data);
+            //self.updateVideoObj();
+            /*_.each(data, function (a) {
+             self.film[a.Key] = a.value;
+             })*/
             //});
         }
 
@@ -931,21 +874,21 @@
         };
 
         /*self.qComments = function () {
-            // Fetch Comments
-            DataService.collection('comments', [{fieldName: 'created_at', order: 'desc'}],
-                [
-                    {fieldName: 'project', operator: 'in', value: self.film.id},
-                    {fieldName: 'parentComment', operator: 'in', value: ''}
-                ],
-                20, false, false, 1).then(function (result) {
-                    self.comments = result.data;
-                    // console.log('comments: ", result.data);
-                });
-        };*/
+         // Fetch Comments
+         DataService.collection('comments', [{fieldName: 'created_at', order: 'desc'}],
+         [
+         {fieldName: 'project', operator: 'in', value: self.film.id},
+         {fieldName: 'parentComment', operator: 'in', value: ''}
+         ],
+         20, false, false, 1).then(function (result) {
+         self.comments = result.data;
+         // console.log('comments: ", result.data);
+         });
+         };*/
 
         self.qReactions = function () {
             // Fetch Reactions
-            DataService.collection('reactions', { project: self.film.id, sort: 'created_at', per_page: 300 })
+            DataService.collection('reactions', {project: self.film.id, sort: 'created_at', per_page: 300})
                 .then(function (result) {
                     self.reactions = result.data;
                     self.chartedReactions = _.countBy(self.reactions.data, function (r) {
@@ -958,7 +901,7 @@
                     var sortable = [];
                     for (var r in self.chartedReactions)
                         sortable.push([r, self.chartedReactions[r]])
-                        sortable.sort(function (a, b) {
+                    sortable.sort(function (a, b) {
                         return b[1] - a[1]
                     });
 
@@ -988,7 +931,7 @@
                 self.wins = result.data.data;
                 // console.log('AwardWin: ', result.data);
             });
-    };
+        };
 
         self.calcIwAverage = function (critiques) {
             var total = 0;
@@ -1053,7 +996,7 @@
                             }
 
                             self.updateVideoObj();
-                            angular.extend(res.data, { projectOwner: self.film.owner_id});
+                            angular.extend(res.data, {projectOwner: self.film.owner_id});
                             UtilsService.recordActivity(res.data, actionVerb);
                             self.checkUserActions();
                         });
@@ -1079,7 +1022,7 @@
                                     }
                                     angular.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.film.owner_id});
+                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
                                     UtilsService.recordActivity(res.data, actionVerb);
                                     //self.checkUserActions();
                                 });
@@ -1092,7 +1035,7 @@
                                 .then(function (res) {
                                     self.film.up_ratings_count--;
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.film.owner_id});
+                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
                                     UtilsService.updateActivity(res.data, 'like');
                                     //self.checkUserActions();
                                 });
@@ -1105,7 +1048,7 @@
                                 .then(function (res) {
                                     self.film.down_ratings_count--;
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.film.owner_id});
+                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
                                     UtilsService.updateActivity(res.data, 'unlike');
                                     //self.checkUserActions();
                                 });
@@ -1131,7 +1074,7 @@
                             DataService.update('ratings', self.canRate.id, {up: up, down: down}).then(function (res) {
                                 //self.updateVideoObj();
                                 //self.checkUserActions();
-                                angular.extend(res.data, { projectOwner: self.film.owner_id});
+                                angular.extend(res.data, {projectOwner: self.film.owner_id});
                                 UtilsService.updateActivity(res.data, actionVerb);
                             });
                         }
@@ -1243,8 +1186,8 @@
                 $scope.makePrivateHelp = false;
 
                 DataService.collection('awards').then(function (result) {
-                        $scope.awardsList = result.data.Awards;
-                    });
+                    $scope.awardsList = result.data.Awards;
+                });
 
                 $scope.dialogModel = {
                     award_id: null
@@ -1586,7 +1529,12 @@
             $scope.commentsParent = self.critique;
 
             // Fetch Comments
-            DataService.collection('comments', {critique: self.critique.id, per_page: 10, page: self.commentsPage, replies:false}).then(function (result) {
+            DataService.collection('comments', {
+                critique: self.critique.id,
+                per_page: 10,
+                page: self.commentsPage,
+                replies: false
+            }).then(function (result) {
                 self.comments = result.data;
             });
 
@@ -1900,7 +1848,7 @@
 
         self.files = []; //JSON.parse($window.localStorage.getItem('files') || '[]');
 
-        self.pickFile = function (){
+        self.pickFile = function () {
 
             filepickerService.pick({
                     mimetype: 'video/*'
@@ -1909,7 +1857,7 @@
             );
         };
 
-        self.onSuccess = function (Blob){
+        self.onSuccess = function (Blob) {
             self.newVideo.hosting_type = 'HTML5';
             self.newVideo.video_url = Blob.url;
             self.files.push(Blob);
@@ -1964,9 +1912,9 @@
                 // add item
                 self.genresArr.push(item);
                 /*DataService.save('Genres', {project: self.editedProject.id, genre: item.id}, true, true)
-                    .then(function (res) {
-                        self.genresArr.push(res.data);
-                    });*/
+                 .then(function (res) {
+                 self.genresArr.push(res.data);
+                 });*/
             } else {
                 // remove item
                 for (var i = 0; i < self.genresArr.length; i++) {
@@ -2266,17 +2214,17 @@
 
                                 // Creates Duplicate entry Error
                                 /*DataService.update('Conversation', convo.data.id, {
-                                    id: convo.data.id,
-                                    participants: [
-                                        {user: $rootScope.AppData.User.id},
-                                        {user: $scope.recipient.id}
-                                    ],
-                                    messages: [
-                                        {body: $scope.model.myMessage, from: $rootScope.AppData.User.id}
-                                    ]
-                                }, true, true).then(function (convo) {
+                                 id: convo.data.id,
+                                 participants: [
+                                 {user: $rootScope.AppData.User.id},
+                                 {user: $scope.recipient.id}
+                                 ],
+                                 messages: [
+                                 {body: $scope.model.myMessage, from: $rootScope.AppData.User.id}
+                                 ]
+                                 }, true, true).then(function (convo) {
 
-                                });*/
+                                 });*/
                             });
                         }
                     }, function (err) {
@@ -2405,37 +2353,47 @@
         self.getParticipantById = getParticipantById;
         self.myReply = null;
         self.sendOnEnter = $window.localStorage.sendOnEnter ? JSON.parse($window.localStorage.sendOnEnter) : true;
+        self.dataSource = {
+            first: 1,
+        };
+        self.dataSource.get = function (index, count, success) {
+            console.log('index = ' + index + '; count = ' + count);
+
+            var start = index;
+            var end = Math.min(index + count - 1, this.first);
+            DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: 1})
+                .then(success);
+        };
 
         function selectConvo(convo) {
             self.newMode = false;
             self.selectedConvo = convo;
             self.currentParticipants = convo.participants;
-            DataService.item('messages', convo.id, {sort: 'created_at', per_page: 30, page: 1}).then(function (msgs) {
+            DataService.item('messages', convo.id).then(function (msgs) {
                 // console.log('Messages: ', msgs.data);
                 self.messages = msgs.data.conversation.messages;
             });
         }
+
 
         function doSendOnEnter() {
             if (self.sendOnEnter && self.myReply) {
                 self.postReply();
             }
         }
+
         function postReply() {
             if (self.myReply) {
                 UserActions.checkAuth().then(function (res) {
                     if (res) {
-                        DataService.update('messages', self.selectedConvo.id, { message: self.myReply }).then(function (result) {
-                            self.myReply = null;
-                            debugger;
-                            self.messages.relatedObjects.users[result.data.from.id] = result.data.from;
-                            result.data.from = result.data.from.id;
-
-                            self.messages.data.push(result.data);
-                            // TODO: Send email notification
-                            //result.participants
-                            UtilsService.recordActivity(result.data, 'message');
-                        });
+                        DataService.update('messages', self.selectedConvo.id, {message: self.myReply})
+                            .then(function (result) {
+                                self.myReply = null;
+                                // update convos
+                                self.fetchConvos();
+                                self.messages = result.data.conversation.messages;
+                                // UtilsService.recordActivity(result.data, 'message');
+                            });
                     }
                 }, function (err) {
                     UserActions.loginModal();
@@ -2564,26 +2522,26 @@
 
         self.markAllAsRead = function () {
             /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
-                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
-                feed.get({limit: 20, mark_read: true}, function (a) {
-                    _.each($rootScope.AppData.NotificationsFeed.list, function (n) {
-                        n.is_read = true;
-                    });
-                    $rootScope.AppData.NotificationsFeed.unread = 0;
-                })
-            });*/
+             var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
+             feed.get({limit: 20, mark_read: true}, function (a) {
+             _.each($rootScope.AppData.NotificationsFeed.list, function (n) {
+             n.is_read = true;
+             });
+             $rootScope.AppData.NotificationsFeed.unread = 0;
+             })
+             });*/
         };
 
         self.markAsRead = function (n) {
             /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
-                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
-                feed.get({limit: 5, mark_read: [n.id]}, function (a) {
-                    n.is_read = true;
-                    --$rootScope.AppData.NotificationsFeed.unseen;
-                    --$rootScope.AppData.NotificationsFeed.unread;
-                    return n;
-                })
-            });*/
+             var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
+             feed.get({limit: 5, mark_read: [n.id]}, function (a) {
+             n.is_read = true;
+             --$rootScope.AppData.NotificationsFeed.unseen;
+             --$rootScope.AppData.NotificationsFeed.unread;
+             return n;
+             })
+             });*/
         };
 
         self.refresh();
@@ -2605,16 +2563,56 @@
             message: ''
         };
         self.emails = [
-            { title: 'Technical Support', address: 'support@getindiewise.com', description: 'For all your Tech Support Needs and Issues.'},
-            { title: 'SafeGuard', address: 'safeguard@getindiewise.com', description: 'IndieWise cares about the safety and well-being of its users. Contact us immediately, if you come across any inappropriate content on the site. This includes, but is not limited to: content that is Excessively Violent, Pornographic, Racially Offensive, Unlawful, of a Bullying Nature, Directly Harmful to any Individual, Copyright Infringement, Spam, etc.'},
-            { title: 'Marketing', address: 'marketing@getindiewise.com', description: 'Would you like to advertise your company to our vast and diverse audience? Would you like a featured listing of your film at the top of our Homepage for all to see? Reach out today!'},
-            { title: 'Awards', address: 'awards@getindiewise.com', description: 'So you have such an amazing project, that 5 or more Users felt like you deserve an Award for it! Congrats! We can help!'},
-            { title: 'Public Relations', address: 'pr@getindiewise.com', description: 'Reach out for any press and/or media inquiries. Also let us know if you’d like to be featured in our bi-weekly newsletter. Also stay tuned for important announcements and updates!'},
-            { title: 'Career Center', address: 'careers@getindiewise.com', description: 'Interested in joining Team IndieWise? Let us know! There are several internship opportunities available.'},
-            { title: 'Become a Sponsor', address: 'sponsor@getindiewise.com', description: 'We’ve reserved a unique spot on our homepage to showcase our amazing sponsors. If you’re interested in becoming a sponsor of IndieWise, let us know!'},
-            { title: 'Invest in IndieWise', address: 'investors@getindiewise.com', description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'},
-            { title: 'Register for IndieWise Convention (JULY 28-30, 2017)', address: 'convention@getindiewise.com', description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'},
-            { title: 'Feedback Center', address: 'feedback@getindiewise.com', description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'},
+            {
+                title: 'Technical Support',
+                address: 'support@getindiewise.com',
+                description: 'For all your Tech Support Needs and Issues.'
+            },
+            {
+                title: 'SafeGuard',
+                address: 'safeguard@getindiewise.com',
+                description: 'IndieWise cares about the safety and well-being of its users. Contact us immediately, if you come across any inappropriate content on the site. This includes, but is not limited to: content that is Excessively Violent, Pornographic, Racially Offensive, Unlawful, of a Bullying Nature, Directly Harmful to any Individual, Copyright Infringement, Spam, etc.'
+            },
+            {
+                title: 'Marketing',
+                address: 'marketing@getindiewise.com',
+                description: 'Would you like to advertise your company to our vast and diverse audience? Would you like a featured listing of your film at the top of our Homepage for all to see? Reach out today!'
+            },
+            {
+                title: 'Awards',
+                address: 'awards@getindiewise.com',
+                description: 'So you have such an amazing project, that 5 or more Users felt like you deserve an Award for it! Congrats! We can help!'
+            },
+            {
+                title: 'Public Relations',
+                address: 'pr@getindiewise.com',
+                description: 'Reach out for any press and/or media inquiries. Also let us know if you’d like to be featured in our bi-weekly newsletter. Also stay tuned for important announcements and updates!'
+            },
+            {
+                title: 'Career Center',
+                address: 'careers@getindiewise.com',
+                description: 'Interested in joining Team IndieWise? Let us know! There are several internship opportunities available.'
+            },
+            {
+                title: 'Become a Sponsor',
+                address: 'sponsor@getindiewise.com',
+                description: 'We’ve reserved a unique spot on our homepage to showcase our amazing sponsors. If you’re interested in becoming a sponsor of IndieWise, let us know!'
+            },
+            {
+                title: 'Invest in IndieWise',
+                address: 'investors@getindiewise.com',
+                description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'
+            },
+            {
+                title: 'Register for IndieWise Convention (JULY 28-30, 2017)',
+                address: 'convention@getindiewise.com',
+                description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'
+            },
+            {
+                title: 'Feedback Center',
+                address: 'feedback@getindiewise.com',
+                description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'
+            },
         ];
 
         self.submitForm = function () {

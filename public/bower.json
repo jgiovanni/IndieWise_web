@@ -22,7 +22,8 @@
     "angular-socialshare": "angularjs-socialshare#^2.2.5",
     "angular-foundation-6": "*",
     "motion-ui": "^1.2.2",
-    "satellizer": "^0.15.4"
+    "satellizer": "^0.15.4",
+    "angular-ui-scroll": "^1.5.1"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0",

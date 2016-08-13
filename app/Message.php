@@ -6,7 +6,7 @@ use Cmgmyr\Messenger\Models\Models;
 use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class   Message extends Model
 {
     /**
      * The database table used by the model.

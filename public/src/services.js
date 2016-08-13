@@ -1,7 +1,5 @@
 (function () {
     'use strict';
-    var API = window.API || '/api/';
-
     angular
         .module('IndieWise.services', [])
         .factory('FacebookAngularPatch', function ($q, $timeout) {
@@ -215,8 +213,8 @@
         return service;
     }
 
-    AuthService.$inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth'];
-    function AuthService($rootScope, $q, $state, $http, DataService, $auth) {
+    AuthService.$inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth', 'API'];
+    function AuthService($rootScope, $q, $state, $http, DataService, $auth, API) {
         /**
          *
          * @returns {*}
@@ -254,9 +252,13 @@
                                 $state.go('profile.about');
                             });
                         });
-                    }, function (error) {
+                    })
+                    .catch(function (error) {
                         console.log(error);
-                        service.error = error.error_description || 'Unknown error from server';
+                        return {
+                            status: false,
+                            errors: service.error = error.data.errors || 'Unknown error from server'
+                        };
                     });
             },
             /**
@@ -304,6 +306,13 @@
                         $auth.setToken(response.data.token);
                         service.getCurrentUser();
                         deferred.resolve(true);
+                    }, function (response) {
+                        // Handle errors here, such as displaying a notification
+                        // for invalid email and/or password.
+                        console.log(response);
+                        self.error = response && response.error_description || 'Unknown error from server';
+                        deferred.reject(response);
+
                     })
                     .catch(function(response) {
                         // Handle errors here, such as displaying a notification
@@ -393,8 +402,8 @@
         return service;
     }
 
-    DataService.$inject = ['$rootScope', '$http'];
-    function DataService($rootScope, $http) {
+    DataService.$inject = ['$rootScope', '$http', 'API'];
+    function DataService($rootScope, $http, API) {
         var vm = this;
 
         vm.collection = function (name, params) {
