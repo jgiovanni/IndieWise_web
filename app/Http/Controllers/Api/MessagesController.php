@@ -8,7 +8,7 @@ use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\MessageTransformer;
 use IndieWise\User;
 use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Message;
+use IndieWise\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -68,8 +68,7 @@ class MessagesController extends Controller
     public function showMessages(Request $request, $id)
     {
         try {
-//            $conversation = Thread::with('messages.user', 'participants.user')->findOrFail($id);
-            $messages = Message::with('user')->where('thread_id', $id)->paginate($request->get('per_page', 10));
+            $messages = Message::with('user')->where('thread_id', $id)->orderBy('created_at', 'DESC')->paginate($request->get('per_page', 10));
         } catch (ModelNotFoundException $e) {
             return response()->json(['error_message', 'The thread with ID: ' . $id . ' was not found.'], 401);
         }
@@ -136,13 +135,14 @@ class MessagesController extends Controller
         $conversation->activateAllParticipants();
 
         // Message
-        Message::create(
+        $message = Message::create(
             [
                 'thread_id' => $conversation->id,
                 'user_id'   => $this->auth()->user()->id,
                 'body'      => $request->get('message'),
             ]
         );
+        $message->load('user');
 
         // Add replier as a participant
         $participant = Participant::firstOrCreate(
@@ -159,6 +159,7 @@ class MessagesController extends Controller
             $conversation->addParticipants($request->get('recipients'));
         }
 
+        return $message;
         return self::show($id);
     }
 

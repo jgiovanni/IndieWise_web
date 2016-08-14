@@ -54,33 +54,36 @@
                                 <div class="head-title">
                                     <i class="fa fa-comments"></i>
                                     <h4>Messages</h4>
-                                    - {{Msgs.selectedConvo.subject}}
+                                    <a ui-sref="user.about({url_id: p.user.url_id})" class="label" ng-class="{'success hide': p.user_id === AppData.User.id}" ng-repeat="p in Msgs.selectedConvo.participants" style="margin-right: 2px">{{::p.user.fullName}}</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- main comment -->
-                    <div ui-scroll-viewport class="main-comment" style="height: 300px;" ng-if="Msgs.selectedConvo">
-                        <div class="media-object stack-for-small" ui-scroll="msg in Msgs.dataSource" adapter="adapter">
-                            <div class="media-object-section comment-img text-center">
-                                <div class="comment-box-img">
-                                    <img ng-src="{{::msg.user.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
+                    <div ui-scroll-viewport class="main-comment" style="min-height: 300px;max-height: 560px;" ng-style="Msgs.viewportHeight" messages-height>
+                        <div ng-if="Msgs.selectedConvoLoaded">
+                            <div class="media-object stack-for-small" ui-scroll="msg in Msgs.convoMessages" buffer-size="10" adapter="adapter">
+                                <div class="media-object-section comment-img text-center">
+                                    <div class="comment-box-img">
+                                        <img ng-src="{{::msg.user.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="media-object-section comment-desc">
-                                <div class="comment-title">
+                                <div class="media-object-section comment-desc">
+                                    <div class="comment-title">
                                     <span class="name">
-                                        <a href="#">{{::msg.user.fullName}}</a> Said: {{$index}}
+                                        <a ui-sref="user.about({url_id: msg.user.url_id})">{{::msg.user.fullName}}</a> Said:
                                     </span>
-                                    <span class="time float-right">
+                                        <span class="time float-right">
                                         <i class="fa fa-clock-o"></i>
                                         <abbr title="{{::msg.created_at|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::msg.created_at"></abbr>
                                     </span>
+                                    </div>
+                                    <div class="comment-text">
+                                        <p ng-bind="::msg.body"></p>
+                                    </div>
                                 </div>
-                                <div class="comment-text">
-                                    <p ng-bind="::msg.body"></p>
-                                </div>
+
                             </div>
 
                         </div>
@@ -90,7 +93,7 @@
 
                     <div class="comment-box thumb-border">
                         <div class="media-object stack-for-small">
-                            <div class="media-object-section comment-img text-center">
+                            <div class="media-object-section comment-img text-center show-for-medium">
                                 <div class="comment-box-img">
                                     <img ng-src="{{::AppData.User.avatar}}" alt="comment">
                                 </div>

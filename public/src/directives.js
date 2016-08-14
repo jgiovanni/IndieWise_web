@@ -716,6 +716,27 @@
                 }
             }
         }])
+        .directive('messagesHeight', ['$window', function ($window) {
+            return {
+                restrict: 'A',
+                link: function (scope, el, attrs) {
+                    setHeight();
+                    angular.element($window).bind('resize', function(){
+                        setHeight();
+
+                        scope.$digest();
+                    });
+
+                    function setHeight() {
+                        var parentEl = el.parent();
+                        var prevElHeight = el.prev().height();
+                        var nextElHeight = el.next().height();
+                        var newHeight = $window.innerHeight - (parentEl.offset().top + prevElHeight + nextElHeight);
+                        scope.Msgs.viewportHeight = {height: newHeight + 'px'};
+                    }
+                }
+            }
+        }])
         .directive('sideNavNotif', ['$mdSidenav', function ($mdSidenav) {
             return {
                 restrict: 'A',

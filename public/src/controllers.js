@@ -2340,8 +2340,8 @@
         self.nominated = Nominated.data.data;
     }
 
-    MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$filter', '$q', '_'];
-    function MessagesCtrl($rootScope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $filter, $q, _) {
+    MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$filter', '$q', '_'];
+    function MessagesCtrl($rootScope, $scope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $filter, $q, _) {
         $rootScope.metadata.title = 'Messages';
         var orderBy = $filter('orderBy');
         var self = this;
@@ -2351,38 +2351,66 @@
         self.newConversation = newConversation;
         self.fetchConvos = fetchConvos;
         self.querySearch = querySearch;
-        self.deleteConvo = deleteConvo;
+        self.leaveConvo = leaveConvo;
         self.doSendOnEnter = doSendOnEnter;
         self.postReply = postReply;
         self.selectConvo = selectConvo;
         self.getParticipantById = getParticipantById;
         self.myReply = null;
         self.sendOnEnter = $window.localStorage.sendOnEnter ? JSON.parse($window.localStorage.sendOnEnter) : true;
-        self.dataSource = {
-            first: 1,
-            get: function (index, count, success) {
-                console.log('index = ' + index + '; count = ' + count);
-                var start = index;
-                var end = Math.min(index + count - 1, this.first);
-                DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: 1})
-                    .then(function(response) {
-                        angular.extend(self.dataSource, response.data.meta.pagination);
-                        success(orderBy(response.data.data, '-created_at'));
-                    });
-            }
-        };
-
+        self.inboxConvos = {};
+        self.convoMessages = {};
+        self.selectedConvoLoaded = false;
+        self.viewportHeight = {height: 500 + 'px'};
 
         function selectConvo(convo) {
             self.newMode = false;
+            self.selectedConvoLoaded = false;
             self.selectedConvo = convo;
             self.currentParticipants = convo.participants;
             DataService.item('messages', convo.id).then(function (msgs) {
                 // console.log('Messages: ', msgs.data);
                 self.messages = msgs.data.conversation.messages;
+
+                self.convoMessages = {
+                    first: 1,
+                    data: [],
+                    meta: {
+                        pagination: {
+                            current_page: 0
+                        }
+                    },
+                    get: function (index, count, success) {
+                        console.log('index = ' + index + '; count = ' + count);
+                        var start = index;
+                        var end = Math.min(index + count - 1, this.first);
+                        this.meta.pagination.current_page ++;
+                        DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: this.meta.pagination.current_page})
+                            .then(function(response) {
+                                self.convoMessages.data = _.union(self.convoMessages.data, response.data.data);
+                                angular.extend(self.convoMessages.meta, response.data.meta);
+                            })
+                            .then(function() {
+                                console.log(self.convoMessages);
+                                // reverse logic
+                                var result = [];
+                                if (start <= end) {
+                                    for (var i = start; i <= end; i++) {
+                                        var serverDataIndex = /*(self.convoMessages.meta.pagination.current_page > 1) ? 0 :*/ (-1) * i + self.convoMessages.first;
+                                        var item = self.convoMessages.data[serverDataIndex];
+                                        if (item) {
+                                            result.push(item);
+                                        }
+                                    }
+                                }
+
+                                success(result);
+                            });
+                    }
+                };
+                self.selectedConvoLoaded = true;
             });
         }
-
 
         function doSendOnEnter() {
             if (self.sendOnEnter && self.myReply) {
@@ -2394,13 +2422,20 @@
             if (self.myReply) {
                 UserActions.checkAuth().then(function (res) {
                     if (res) {
-                        DataService.update('messages', self.selectedConvo.id, {message: self.myReply})
+                        var reply = self.myReply;
+                        self.myReply = null;
+                        DataService.update('messages', self.selectedConvo.id, {message: reply})
                             .then(function (result) {
-                                self.myReply = null;
+                                // self.adapter.append([result.data.message]);
+                                self.convoMessages.data.push(result.data.message);
+                                $scope.adapter.append([result.data.message]);
                                 // update convos
+                                self.messages.push(result.data.message);
                                 self.fetchConvos();
-                                self.messages = result.data.conversation.messages;
+
                                 // UtilsService.recordActivity(result.data, 'message');
+                            }, function (response) {
+                                self.reply = reply;
                             });
                     }
                 }, function (err) {
@@ -2477,10 +2512,10 @@
             });
         }
 
-        function deleteConvo() {
+        function leaveConvo() {
             // TODO replacve confirm dialog
             var confirm = $modal.confirm()
-                .title('Delete Conversation?')
+                .title('Leave Conversation?')
                 //.textContent('Are you sure you want to delete this conversation?')
                 //.ariaLabel('Lucky day')
                 //.targetEvent(ev)

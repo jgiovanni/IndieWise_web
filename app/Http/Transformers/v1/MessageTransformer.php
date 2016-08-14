@@ -3,7 +3,7 @@
 namespace IndieWise\Http\Transformers\v1;
 
 
-use Cmgmyr\Messenger\Models\Message;
+use IndieWise\Message;
 use League\Fractal\TransformerAbstract;
 
 class MessageTransformer extends TransformerAbstract
