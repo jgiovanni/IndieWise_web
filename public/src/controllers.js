@@ -138,7 +138,7 @@
                     'year': self.dobYear,
                     'month': self.dobMonth,
                     'day': self.dobDay
-                }).startOf('day').toDate();
+                }).startOf('day').format('YYY-MM-DD hh:mm:ss');
                 AuthService.createUser(self.user).then(function (res) {
                     if (!res.status) {
                         self.authErrors = res.errors;

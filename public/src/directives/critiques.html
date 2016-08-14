@@ -1,4 +1,4 @@
-<section class="content comments" ng-if="!disable" ng-init="sortOrder='-createdAt'">
+<section class="content comments" ng-if="!disable" ng-init="sortOrder='-created_at'">
     <div class="row secBg">
         <div class="large-12 columns">
             <div class="main-heading borderBottom">
@@ -13,7 +13,7 @@
             </div>
 
             <div class="comment-sort text-right">
-                <span>Sort By : <a ng-class="{'active':sortOrder=='-createdAt'}" ng-click="sortOrder='-createdAt'">newest</a> | <a ng-class="{'active':sortOrder=='createdAt'}" ng-click="sortOrder='createdAt'">oldest</a></span>
+                <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a> | <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a></span>
             </div>
 
             <!-- main comment -->
@@ -27,14 +27,14 @@
                     </div>
                     <div class="media-object-section comment-desc">
                         <div class="comment-title">
-                            <span class="name"><a ui-sref="user.about({url_id: critique.userUrlId})">
+                            <span class="name"><a ui-sref="user.about({url_id: critique.user.url_id})">
                                 {{::critique.user.fullName}}</a> Said:
                             </span>
                             <span class="time float-right"><i class="fa fa-clock-o"></i>
                                 <abbr title="{{::critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
                                       am-time-ago="::critique.created_at"></abbr>
 
-                                <!--<span ng-if="critique.editedAt && !Body.isSame(critique.createdAt, critique.editedAt)">
+                                <!--<span ng-if="critique.editedAt && !Body.isSame(critique.created_at, critique.editedAt)">
                                     |Edited: <abbr title="{{::critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
                                                    am-time-ago="::critique.editedAt"></abbr>
                                 </span>-->

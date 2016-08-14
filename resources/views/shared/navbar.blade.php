@@ -9,7 +9,7 @@
                         <button class="menu-icon" type="button"
                                 data-toggle="offCanvas-responsive"></button>
                         <div class="title-bar-title">
-                            <img src="/public/assets/img/Logo_alt2_web_87x45.png" alt="logo">
+                            <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                         </div>
                         <div class="title-bar-right">
                             <a ng-if="isAuthenticated()" class="fa fa-bell menu-icon right-off-canvas-toggle"></a>
@@ -21,7 +21,7 @@
                             <ul class="menu">
                                 <li class="menu-text">
                                     <a ui-sref="home">
-                                        <img src="/public/assets/img/Logo_alt2_web_87x45.png" alt="logo">
+                                        <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                     </a>
                                 </li>
                                 <li class="search end">
