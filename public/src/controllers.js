@@ -2074,7 +2074,6 @@
         self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
         self.toggleNotifications = toggleNotifications;
 
-
         function toggleNotifications() {
             $window.localStorage.setItem('pwAllowPushNotifications', self.notificationsActive);
 

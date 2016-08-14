@@ -71,7 +71,7 @@ class UsersController extends Controller
     public function update(UserRequest $request, $id)
     {
         $user = $this->user->findOrFail($id);
-        $user->update($request->except('genres', 'types'));
+        $user->update($request->except('genres', 'country', 'types'));
         $user->syncGenres($request->get('genres'));
         $user->syncTypes($request->get('types'));
         return $this->response->item($user->load('genres', 'country', 'types'), new UserTransformer);

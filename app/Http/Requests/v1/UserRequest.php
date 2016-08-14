@@ -5,7 +5,7 @@ namespace IndieWise\Http\Requests\v1;
 use Dingo\Api\Http\FormRequest;
 use Dingo\Api\Http\Request;
 
-class UserRequest extends FormRequest
+class   UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         if ($this->isMethod('post')) {
-            $rules = [
+            return [
                 'firstName' => 'required|max:100',
                 'lastName' => 'required|max:100',
                 'email' => 'required|email|unique:users,email',
@@ -38,7 +38,6 @@ class UserRequest extends FormRequest
                 'gender' => 'required|in:male,female',
                 'country' => 'required|exists:Country,id'
             ];
-            return $rules;
         }
         return [
             'genres' => 'array',

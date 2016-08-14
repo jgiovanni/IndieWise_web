@@ -71,7 +71,7 @@
                     <div class="profile-author-name float-left">
                         <h4>{{::Profile.user.firstName+' '+Profile.user.lastName}}</h4>
 
-                        <p>Join Date : <span>{{::Profile.user.create_at|amUtc|amLocal|amDateFormat:'LL'}}</span></p>
+                        <p>Join Date : <span>{{::Profile.user.created_at|amUtc|amLocal|amDateFormat:'LL'}}</span></p>
                     </div>
                     <div class="profile-author-stats float-right">
                         <ul class="menu">

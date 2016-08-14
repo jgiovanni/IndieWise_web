@@ -80,9 +80,9 @@
                                     </div>
                                     <div class="medium-6 columns">
                                         <label>Country:
-                                            <select ng-model="PSC.user.country"
-                                                    ng-show="PSC.countries.data.length>0"
-                                                    ng-options="c.id as c.name for c in PSC.countries.data|orderBy:'name'">
+                                            <select ng-model="PSC.user.country_id"
+                                                    ng-show="PSC.countries.length>0"
+                                                    ng-options="c.id as c.name for c in PSC.countries|orderBy:'name'">
                                                 <option value="">Select Country</option>
                                             </select>
                                         </label>
