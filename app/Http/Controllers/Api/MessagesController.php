@@ -160,4 +160,11 @@ class MessagesController extends Controller
         }
 
         return self::show($id);
-    }}
+    }
+
+    public function newMessages() {
+        $threads = Thread::forUserWithNewMessages($this->auth()->user()->id)->get();
+        return response()->json($threads);
+    }
+
+}

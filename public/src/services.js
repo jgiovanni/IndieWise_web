@@ -236,7 +236,7 @@
                     firstName: _userParams.firstName,
                     lastName: _userParams.lastName,
                     fullName: _userParams.firstName + ' ' + _userParams.lastName,
-                    country: _userParams.country,
+                    country_id: _userParams.country,
                     dob: _userParams.dob,
                     gender: _userParams.gender,
                 };

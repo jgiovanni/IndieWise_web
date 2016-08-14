@@ -2340,10 +2340,12 @@
         self.nominated = Nominated.data.data;
     }
 
-    MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$q', '_'];
-    function MessagesCtrl($rootScope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $q, _) {
+    MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$filter', '$q', '_'];
+    function MessagesCtrl($rootScope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $filter, $q, _) {
         $rootScope.metadata.title = 'Messages';
+        var orderBy = $filter('orderBy');
         var self = this;
+        self.selectedConvo = null;
         self.conversations = Conversations.data.conversations;
         self.newMode = false;
         self.newConversation = newConversation;
@@ -2358,15 +2360,18 @@
         self.sendOnEnter = $window.localStorage.sendOnEnter ? JSON.parse($window.localStorage.sendOnEnter) : true;
         self.dataSource = {
             first: 1,
+            get: function (index, count, success) {
+                console.log('index = ' + index + '; count = ' + count);
+                var start = index;
+                var end = Math.min(index + count - 1, this.first);
+                DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: 1})
+                    .then(function(response) {
+                        angular.extend(self.dataSource, response.data.meta.pagination);
+                        success(orderBy(response.data.data, '-created_at'));
+                    });
+            }
         };
-        self.dataSource.get = function (index, count, success) {
-            console.log('index = ' + index + '; count = ' + count);
 
-            var start = index;
-            var end = Math.min(index + count - 1, this.first);
-            DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: 1})
-                .then(success);
-        };
 
         function selectConvo(convo) {
             self.newMode = false;

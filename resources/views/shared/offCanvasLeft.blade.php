@@ -8,7 +8,12 @@
         <li><a ui-sref="browse" ui-sref-active="active"><i class="fa fa-th"></i>Browse</a></li>
         <li><a ui-sref="latest" ui-sref-active="active"><i class="fa fa-bolt"></i>Latest</a></li>
         <li ng-if="isAuthenticated()"><a ui-sref="profile.about" ui-sref-active="active"><i class="fa fa-user"></i>Profile</a></li>
-        <li ng-if="isAuthenticated()"><a ui-sref="messages" ui-sref-active="active"><i class="fa fa-envelope"></i>Messages</a></li>
+        <li ng-if="isAuthenticated()">
+            <a ui-sref="messages" ui-sref-active="active">
+                <i class="fa fa-envelope"></i>Messages
+                <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
+            </a>
+        </li>
         <li><a ui-sref="profile.upload" ui-sref-active="active"><i class="fa fa-upload"></i>Upload</a></li>
     </ul>
     <div class="responsive-search">

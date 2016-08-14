@@ -823,6 +823,13 @@ jQuery(document).ready(function (jQuery) {
                     });*/
                 };
 
+                $rootScope.getNewMessages = function () {
+                    DataService.collection('messages/new').then(function (response) {
+                        $rootScope.AppData.MessageNotifications.loaded = true;
+                        $rootScope.AppData.MessageNotifications.unread = response.data.length;
+                    });
+                };
+
                 var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                     if (newValue && angular.isString(newValue.id)) {
                         console.log('User Logged In');
@@ -830,6 +837,8 @@ jQuery(document).ready(function (jQuery) {
                         // initialize stream
                         $rootScope.subscribeUserFeeds();
                         //$rootScope.listenNotifications(newValue.username);
+
+                        $rootScope.getNewMessages();
                         endWatch();
                     }
                 });

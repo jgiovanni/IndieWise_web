@@ -59,6 +59,7 @@ $api->version('v1', [
     });
 
     $api->get('messages', 'MessagesController@index');
+    $api->get('messages/new', 'MessagesController@newMessages');
     $api->post('messages', 'MessagesController@store');
     $api->get('messages/{id}', 'MessagesController@show');
     $api->get('messages/{id}/messages', 'MessagesController@showMessages');
