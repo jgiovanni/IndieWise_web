@@ -33,6 +33,7 @@ class Project extends Model
         'disableProject' => 'boolean',
         'nsfw' => 'boolean',
         'unlist' => 'boolean',
+        'iwRating' => 'float'
     ];
 
     /*

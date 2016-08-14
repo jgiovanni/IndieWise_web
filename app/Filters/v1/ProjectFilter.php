@@ -66,7 +66,7 @@ class ProjectFilter extends ModelFilter
     public function sort($sort)
     {
         $sortable = [
-            'iwRating', 'critiqueCount', 'awardCount', 'reactionCount', 'created_at', 'name'
+            'iwRating', 'critiques_count', 'wins_count', 'reactions_count', 'created_at', 'name'
         ];
 
         $param = preg_split('/\|+/', $sort);
