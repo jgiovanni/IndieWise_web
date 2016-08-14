@@ -39,7 +39,7 @@ angular.module('IndieWise.utilities', [])
                 console.log('Activity Object: ', object);
                 console.log('Activity Verb: ', verb);
                 return true;
-                switch (verb) {
+                /*switch (verb) {
                     case 'comment':
                     case 'reply':
                         DataService.save('Action', {
@@ -102,16 +102,16 @@ angular.module('IndieWise.utilities', [])
                         break;
                     case 'message':
                         //debugger;
-                        /*DataService.save('Action', {
+                        /!*DataService.save('Action', {
                             actor: $rootScope.AppData.User.userId,
                             verb: verb,
                             critique: object.critique.id,
                             project: object.project.id,
                             nomination: object.id,
                             userIds: object.critique.projectOwner
-                        });*/
+                        });*!/
                         break;
-                }
+                }*/
             },
             updateActivity: function (object, verb) {
                 console.log('Activity Object: ', object);
