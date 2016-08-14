@@ -1200,7 +1200,7 @@
                 $scope.nominated = {
                     award_id: $scope.dialogModel.award_id,
                     user_id: $rootScope.AppData.User.id,
-                    project_id: $scope.critique.project,
+                    project_id: $scope.critique.project_id,
                     critique_id: undefined
                 };
 

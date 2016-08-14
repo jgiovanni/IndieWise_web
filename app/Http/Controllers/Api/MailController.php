@@ -40,7 +40,7 @@ class MailController extends Controller
         $name = $request->name;
         $subject = 'Reporting a video...';
         $project = Project::findOrFail($request->project_id);
-        $bodyMessage = $request->body . ' The video is ' . $project->name . ' at ' .  URL::to('/#/' . $project->url_id);
+        $bodyMessage = $request->body . ' The video is ' . $project->name . ' at ' .  URL::to('/' . $project->url_id);
         Mail::raw($bodyMessage, function ($mail) use ($request, $subject) {
             $mail->to('safeguard@getindiewise.com', 'IndieWise Safeguard')
                 ->replyTo($request->email, $request->name)
