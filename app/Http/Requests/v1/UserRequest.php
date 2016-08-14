@@ -36,7 +36,7 @@ class   UserRequest extends FormRequest
                 // 'username' => 'required|unique:users,username',
                 'password' => 'required|confirmed|min:6',
                 'gender' => 'required|in:male,female',
-                'country' => 'required|exists:Country,id'
+                'country_id' => 'required|exists:Country,id'
             ];
         }
         return [
