@@ -5,6 +5,7 @@ namespace IndieWise\Http\Controllers\Api;
 use Dingo\Api\Contract\Http\Request;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
+use IndieWise\Http\Transformers\v1\PlaylistTransformer;
 use IndieWise\Playlist;
 
 class PlaylistsController extends Controller
@@ -47,7 +48,8 @@ class PlaylistsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $playlist = $this->playlist->create($request->all());
+        return $this->response->item($playlist, new PlaylistTransformer);
     }
 
     /**
@@ -58,7 +60,8 @@ class PlaylistsController extends Controller
      */
     public function show($id)
     {
-        //
+        $playlist = $this->playlist->findOrFail($id);
+        return $this->response->item($playlist, new PlaylistTransformer);
     }
 
     /**

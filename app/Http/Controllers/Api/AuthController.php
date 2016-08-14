@@ -104,7 +104,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required|min:8|confirmed',
+//            'password' => 'required|min:8|confirmed',
         ]);
 
         //invalidate old tokens

@@ -7,6 +7,7 @@ use Dingo\Api\Http\Request;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\PlaylistItemTransformer;
+use IndieWise\Playlist;
 use IndieWise\PlaylistItem;
 
 class PlaylistItemsController extends Controller
@@ -48,7 +49,8 @@ class PlaylistItemsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = $this->item->create($request->all());
+        return response()->json(compact('item'));
     }
 
     /**
