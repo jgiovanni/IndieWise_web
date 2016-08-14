@@ -236,7 +236,7 @@
             AuthService.requestPasswordReset(self.email).then(function (res) {
                 // console.log(res);
                 $rootScope.toastMessage('Check your inbox for our email! Should be there soon.');
-                //$state.go('sign_in');
+                $state.go('sign_in');
             }, function (error) {
                 $rootScope.toastMessage('Error: ' + error.message);
             });
@@ -1981,7 +1981,7 @@
 
         self.updateProject = function () {
             self.editedProject.genres = _.pluck(self.genresArr, 'id');
-            self.editedProject.completionDate = moment({year: self.editedProject.completionDate}).startOf('year').format('YYYY-MM-DD HH:MM:SS');
+            self.editedProject.completionDate = moment({year: self.editedProject.completionDate}).startOf('year').format('YYYY-MM-DD HH:mm:ss');
             DataService.update('projects', self.editedProject.id, self.editedProject)
                 .then(function (res) {
                     // console.log(res);
