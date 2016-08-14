@@ -117,19 +117,19 @@ angular.module('IndieWise.utilities', [])
                 console.log('Activity Object: ', object);
                 console.log('Activity Verb: ', verb);
                 return true;
-                switch (verb) {
+                /*switch (verb) {
                     case 'like':
                     case 'unlike':
-                        /*DataService.query('findActivity', {
+                        /!*DataService.query('findActivity', {
                             actor: $rootScope.AppData.User.userId,
                             verb: verb,
                             project: angular.isObject(object.project) ? object.project.id : object.project
                         }).then(function(result) {
                             console.log(result.data[0]);
                             debugger;
-                        });*/
+                        });*!/
                         break;
-                }
+                }*/
             },
             deleteActivity: function(object) {
                 var objectOwner = object.author || object.owner;
