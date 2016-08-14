@@ -189,7 +189,7 @@
             redirect = redirect || true;
             self.error = false;
             AuthService.login(self.user.email, self.user.password).then(function (res) {
-                if (!res.status) {
+                if (res.status === false) {
                     self.authErrors = res.errors;
                 } else {
                     if (redirect && angular.isDefined(res)) {
