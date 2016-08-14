@@ -52,8 +52,9 @@
                         <div class="register-form">
                             <h5 class="text-center">Login via Email</h5>
                             <form ng-submit="SIC.doLogin()" data-abide>
-                                <div ng-messages="SIC.error" class="alert callout" ng-show="SIC.error">
-                                    <p ng-message="error_description"><i class="fa fa-exclamation-triangle"></i> {{SIC.error.error_description}}</p>
+                                <div class="alert callout" ng-show="SIC.authErrors">
+                                    <p><i class="fa fa-exclamation-triangle"></i> There are some errors.</p>
+                                    <p ng-repeat="(key, value) in SIC.authErrors"><b>{{key}}</b>: {{value[0]}}</p>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-label"><i class="fa fa-user"></i></span>

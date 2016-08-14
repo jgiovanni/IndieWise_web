@@ -56,7 +56,7 @@
                                 <div id="errors" class="alert callout" ng-show="RC.errors.gender||RC.authErrors">
                                     <p><i class="fa fa-exclamation-triangle"></i> There are some errors in your form.</p>
                                     <p ng-show="RC.errors.gender">Please select a gender.</p>
-                                    <p ng-repeat="(key, value) in RC.authErrors">{{key}}: {{value[0]}}</p>
+                                    <p ng-repeat="(key, value) in RC.authErrors"><b>{{key}}</b>: {{value[0]}}</p>
                                 </div>
                                 <!--<div class="input-group">
                                     <span class="input-group-label"><i class="fa fa-user"></i></span>

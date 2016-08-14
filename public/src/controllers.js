@@ -179,8 +179,7 @@
     function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal) {
         $rootScope.metadata.title = 'Sign In';
         var self = this;
-        self.providers = ['google', 'facebook', 'twitter'];
-        //// console.log(self.providers);
+        self.authErrors = null;
         self.user = {
             email: '',
             password: ''
@@ -190,22 +189,27 @@
             redirect = redirect || true;
             self.error = false;
             AuthService.login(self.user.email, self.user.password).then(function (res) {
-                // console.log('Success', res);
-                if (redirect && angular.isDefined(res)) {
-                    $state.go('home');
+                if (!res.status) {
+                    self.authErrors = res.errors;
+                } else {
+                    if (redirect && angular.isDefined(res)) {
+                        $state.go('home');
+                    }
                 }
             }, function (res) {
                 self.error = res;
                 // console.log('Failed', res);
-            }).then(function () {
             });
         };
 
         self.authenticate = function (provider) {
             self.error = null;
-            AuthService.socialLogin(provider, false).then(function (a) {
-                // console.log(a);
-            });
+            AuthService.socialLogin(provider, false).then(function (res) {
+                if (!res.status) {
+                    self.authErrors = res.errors;
+                    $rootScope.toastMessage('There is an error, please check your form');
+                    // console.log('Failed', res);
+                }            });
         };
 
         $timeout(function () {

@@ -254,7 +254,6 @@
                         });
                     })
                     .catch(function (error) {
-                        console.log(error);
                         return {
                             status: false,
                             errors: service.error = error.data.errors || 'Unknown error from server'
@@ -299,29 +298,22 @@
              * @returns {Promise}
              */
             login: function (_user, _password) {
-                var deferred = $q.defer();
-                $auth.login({ email: _user, password: _password })
+                return $auth.login({ email: _user, password: _password })
                     .then(function (response) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                         $auth.setToken(response.data.token);
                         service.getCurrentUser();
-                        deferred.resolve(true);
-                    }, function (response) {
-                        // Handle errors here, such as displaying a notification
-                        // for invalid email and/or password.
-                        console.log(response);
-                        self.error = response && response.error_description || 'Unknown error from server';
-                        deferred.reject(response);
-
+                        return true;
                     })
                     .catch(function(response) {
                         // Handle errors here, such as displaying a notification
                         // for invalid email and/or password.
                         console.log(response);
-                        self.error = response && response.error_description || 'Unknown error from server';
-                        deferred.reject(response);
+                        return {
+                            status: false,
+                            errors: service.error = response.data.errors || 'Unknown error from server'
+                        };
                     });
-                return deferred.promise;
             },
             socialLogin: function (provider) {
                 return $auth.authenticate(provider)
@@ -338,8 +330,10 @@
                         });
                     })
                     .catch(function(response) {
-                        console.log(response);
-                        self.error = response && response.error_description || 'Unknown error from server';
+                        return {
+                            status: false,
+                            errors: service.error = response.data.errors || 'Unknown error from server'
+                        };
                     });
             },
             /**

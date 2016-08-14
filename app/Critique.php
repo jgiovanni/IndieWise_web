@@ -28,6 +28,7 @@ class Critique extends Model
      */
     protected $casts = [
         'private' => 'boolean',
+        'overall' => 'float'
     ];
 
     /*
