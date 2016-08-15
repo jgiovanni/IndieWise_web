@@ -131,6 +131,86 @@ angular.module('IndieWise.utilities', [])
                         break;
                 }*/
             },
+            enrichRawNotifications: function (data) {
+                var unseen = 0,unread = 0;
+                _.each(data, function (n) {
+                    n.test = _.pluck(n.activities, 'object_data');
+                    n.actors = [], n.objects = [], n.summary = {
+                        names: ''
+                    };
+                    var actorIds = [];
+                    _.each(n.activities, function (a, i) {
+                        if (angular.isDefined(a.object_data)) {
+                            n.icon = 'notifications';
+                            var obj = {};
+
+                            switch (n.verb) {
+                                case 'like':
+                                    n.icon = 'thumb_up';
+                                    obj.url = {state: 'video', args: {id: a.object_data.targets.film.id}};
+                                    break;
+                                case 'unlike':
+                                    n.icon = 'thumb_down';
+                                    obj.url = {state: 'video', args: {id: a.object_data.targets.film.id}};
+                                    break;
+                                case 'watch':
+                                    n.icon = 'video_library';
+                                    obj.url = {state: 'video', args: {id: a.object_data.id}};
+                                    break;
+                                case 'react':
+                                    n.icon = 'emotion';
+                                    obj.url = {state: 'video', args: {id: a.object_data.targets.film.id}};
+                                    break;
+                                case 'judge':
+                                    n.icon = 'grade';
+                                    obj.url = {state: 'video_critique', args: {video_id: a.object_data.targets.film.id ,id: a.object_data.id}};
+                                    obj.name = a.object_data.targets.film.name;
+                                    break;
+                                case 'comment':
+                                case 'reply':
+                                    n.icon = 'comment';
+                                    if (angular.isDefined(a.object_data.targets.comment)) {
+                                        n.verb = 'reply';
+                                    }
+                                    if (angular.isDefined(a.object_data.targets.film)) {
+                                        obj.url = {state: 'video', args: {id: a.object_data.targets.film.id}};
+                                        obj.name = a.object_data.targets.film.name;
+                                    }
+                                    if (angular.isDefined(a.object_data.targets.critique)) {
+                                        obj.url = {state: 'video_critique', args: {id: a.object_data.targets.critique.id}};
+                                        obj.name = a.object_data.owner.name.endsWith('s') ? a.object_data.owner.name + '\' critique.' : a.object_data.owner.name + '\'s critique.';
+                                    }
+                                    break;
+                                case 'message':
+                                    n.icon = 'comment';
+                                    //obj.url = {state: 'messages', args: {id: a.object_data.targets.parent.id}};
+                                    break;
+                            }
+                            obj.timestamp = a.time;
+                            obj.data = a.object_data;
+                            n.objects.push(obj);
+                        } else {
+                            //var obj = {id: a.object.split(':')[2].id, name: '', class: a.object.split(':')[1].className};
+                        }
+
+                    });
+                    if (!n.is_seen) {
+                        unseen++;
+                    }
+                    if (!n.is_read) {
+                        unread++;
+                    }
+                    n.main_url = n.objects[0].url;
+                    //n.summary.names = $sce.trustAsHtml(n.summary.names);
+                    //n.objects = _.uniq(n.objects, 'id');
+                });
+
+                return {
+                    data: data,
+                    unseen: unseen,
+                    unread: unread
+                };
+            },
             deleteActivity: function(object) {
                 var objectOwner = object.author || object.owner;
 

@@ -533,24 +533,29 @@
         };
 
         self.markAllAsRead = function () {
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-             var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
-             feed.get({limit: 20, mark_read: true}, function (a) {
-             _.each($rootScope.AppData.RawNotifications.list, function (n) {
-             n.is_read = true;
-             });
-             $rootScope.AppData.RawNotifications.unread = 0;
-             })
-             });*/
+            $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                feed.get({limit: 20, mark_read: true}, function (a) {
+                    _.each($rootScope.AppData.Notifications.list, function (n) {
+                        n.is_read = true;
+                    });
+                    $rootScope.AppData.Notifications.unread = 0;
+                })
+            });
         };
 
         self.markAsRead = function (obj) {
-            if (!obj.seen) {
-                DataService.update('Action', obj.id, {seen: true}, false, true);
-                if ($rootScope.AppData.Notifications.unseen > 0) {
-                    $rootScope.AppData.Notifications.unseen--;
-                }
-                obj.seen = true;
+            if (!obj.is_seen) {
+                $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                    var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                    feed.get({limit:25, mark_read: [obj.id], mark_seen: [obj.id]})
+                        .then(function(data) { /* on success */ })
+                        .catch(function(reason) { /* on failure */ });
+                    if ($rootScope.AppData.Notifications.unseen > 0) {
+                        $rootScope.AppData.Notifications.unseen--;
+                    }
+                    obj.is_seen = true;
+                });
             }
             return obj;
         };
@@ -2340,10 +2345,9 @@
         self.nominated = Nominated.data.data;
     }
 
-    MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$filter', '$q', '_'];
+    MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$timeout', '$q', '_'];
     function MessagesCtrl($rootScope, $scope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $filter, $q, _) {
         $rootScope.metadata.title = 'Messages';
-        var orderBy = $filter('orderBy');
         var self = this;
         self.selectedConvo = null;
         self.conversations = Conversations.data.conversations;
@@ -2361,7 +2365,7 @@
         self.inboxConvos = {};
         self.convoMessages = {};
         self.selectedConvoLoaded = false;
-        self.viewportHeight = {height: 500 + 'px'};
+        self.viewportHeight = { height: 500 + 'px' };
 
         function selectConvo(convo) {
             self.newMode = false;
@@ -2384,7 +2388,9 @@
                         console.log('index = ' + index + '; count = ' + count);
                         var start = index;
                         var end = Math.min(index + count - 1, this.first);
-                        this.meta.pagination.current_page ++;
+                        if (this.meta.pagination.total_pages > this.meta.pagination.current_page) {
+                            this.meta.pagination.current_page++;
+                        }
                         DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: this.meta.pagination.current_page})
                             .then(function(response) {
                                 self.convoMessages.data = _.union(self.convoMessages.data, response.data.data);
@@ -2436,6 +2442,11 @@
                                 // UtilsService.recordActivity(result.data, 'message');
                             }, function (response) {
                                 self.reply = reply;
+                            })
+                            .then(function () {
+                                // scroll to bottom of viewport
+                                var viewport = angular.element('.viewport.main-comment');
+                                viewport.scrollTop(viewport.prop("scrollHeight"));
                             });
                     }
                 }, function (err) {

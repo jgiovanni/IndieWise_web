@@ -4,10 +4,13 @@ namespace IndieWise;
 
 use Cmgmyr\Messenger\Models\Models;
 use Cmgmyr\Messenger\Models\Participant;
+use GetStream\StreamLaravel\Eloquent\ActivityTrait;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 
-class   Message extends Model
+class Message extends Model
 {
+    use ActivityTrait;
     /**
      * The database table used by the model.
      *
@@ -68,6 +71,12 @@ class   Message extends Model
         return $this->belongsTo(Models::classname(User::class), 'user_id');
     }
 
+    public function activityLazyLoading()
+    {
+        return array('user');
+    }
+
+
     /**
      * Participants relationship.
      *
@@ -87,4 +96,40 @@ class   Message extends Model
     {
         return $this->participants()->where('user_id', '!=', $this->user_id);
     }
+
+    public function activityActorMethodName()
+    {
+        return 'user';
+    }
+
+    /**
+     * Stream: Change activity verb to 'created':
+     */
+    public function activityVerb()
+    {
+        return 'message';
+    }
+
+    /**
+     * Stream: Add extra activity data - task name, and user's display name:
+     */
+    public function activityExtraData()
+    {
+        return ['body' => $this->body];
+    }
+
+    public function target()
+    {
+        return $this->recipients();
+    }
+
+    public function activityNotify()
+    {
+        $targetFeeds = [];
+        foreach ($this->target as $target) {
+            $targetFeeds[] = FeedManager::getNotificationFeed($target->user_id);
+        }
+        return $targetFeeds;
+    }
+
 }

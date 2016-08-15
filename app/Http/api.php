@@ -13,8 +13,26 @@
 use Dingo\Api\Contract\Http\Request;
 use GetStream\Stream\Client;
 use GetStream\StreamLaravel\Enrich;
+use GetStream\StreamLaravel\EnrichedActivity;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Vinkla\Hashids\Facades\Hashids;
+
+function collectReferences($activities)
+{
+    $model_references = array();
+    foreach ($activities as $key => $activity) {
+        foreach ($activity as $field=>$value) {
+            if ($value === null) {
+                continue;
+            }
+            if (in_array($field, ['actor', 'object'])) {
+                $reference = explode(':', $value);
+                $model_references[$reference[0]][$reference[1]] = 1;
+            }
+        }
+    }
+    return $model_references;
+}
 
 $api = app('Dingo\Api\Routing\Router');
 
@@ -49,13 +67,63 @@ $api->version('v1', [
 
     $api->get('notifications/feed', function (\Dingo\Api\Http\Request $request) {
         $user_id = app('Dingo\Api\Auth\Auth')->user()->id;
-
+//        $user_id = '00000000-0000-6463-7952-633635765552';
         $enricher = new Enrich();
         $feed = FeedManager::getNotificationFeed($user_id);
         $activities = $feed->getActivities(0,25)['results'];
-        $activities = $enricher->enrichActivities($activities);
+        $unseen = 0;
+        $unread = 0;
 
-        return response()->json(compact('activities'));
+        // get references
+        $references = [];
+        foreach ($activities as $aggregated) {
+            $references = array_replace_recursive($references, collectReferences($aggregated['activities']));
+        }
+
+        // get objects
+        $objects = array();
+        foreach ($references as $content_type => $content_ids) {
+            $content_type_model = new $content_type;
+            $with = array();
+            if (property_exists($content_type_model, 'activityLazyLoading')) {
+                $with = $content_type_model->activityLazyLoading;
+            }
+            $fetched = $enricher->fromDb($content_type_model, array_keys($content_ids), $with);
+            $objects[$content_type] = $fetched;
+        }
+
+        // inject objects
+        foreach ($activities as $key => $aggregated) {
+            $activities[$key]['updated_at'] = new \Carbon\Carbon($activities[$key]['updated_at']);
+            foreach ($activities[$key]['activities'] as $keyA => $activity) {
+                $notEnrichedData = [];
+                foreach (['actor', 'object'] as $field) {
+                    if (!isset($activity[$field]))
+                        continue;
+                    $value = $activity[$field];
+                    $reference = explode(':', $value);
+                    if (!array_key_exists($reference[0], $objects)) {
+                        $notEnrichedData[$reference[0]] = $reference[1];
+                        continue;
+                    }
+                    if (!array_key_exists($reference[1], $objects[$reference[0]])) {
+                        $notEnrichedData[$reference[0]] = $reference[1];
+                        continue;
+                    }
+                    $activities[$key]['activities'][$keyA][$field] = $objects[$reference[0]][$reference[1]];
+//                    dd($activities[$key]['activities']);
+                }
+            }
+
+            if(!$aggregated['is_read']) {
+                $unread++;
+            }
+            if(!$aggregated['is_seen']) {
+                $unseen++;
+            }
+        }
+
+        return response()->json(compact('activities', 'unread', 'unseen'));
     });
 
     $api->get('messages', 'MessagesController@index');

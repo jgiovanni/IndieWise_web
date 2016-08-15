@@ -804,7 +804,12 @@ jQuery(document).ready(function (jQuery) {
                 $rootScope.getNotificationsFeed = function (feed) {
                     $http.get('/api/notifications/feed').then(function (res) {
                         console.log('Notification: ', res.data.activities);
-                        $rootScope.AppData.Notifications = res.data.activities;
+                        $rootScope.AppData.Notifications = {
+                            loaded: '',
+                            list: res.data.activities,
+                            unseen: res.data.unseen,
+                            unread: res.data.unread
+                        };
                     });
                     /*feed.get({limit: 10}, function (error, response, body) {
                         console.log('Notifications: ', body);

@@ -39,6 +39,22 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'comment_id');
     }
 
+    /**
+     * Stream: Change activity verb to 'created':
+     */
+    public function activityVerb()
+    {
+        return 'comment';
+    }
+
+    /**
+     * Stream: Add extra activity data - task name, and user's display name:
+     */
+    public function activityExtraData()
+    {
+        return ['body' => $this->body];
+    }
+
     public function activityActorMethodName()
     {
         return 'author';
@@ -48,6 +64,22 @@ class Comment extends Model
     {
         return array('author');
     }
+
+    public function target()
+    {
+        if ($this->comment_id)
+        return $this->critique();
+    }
+
+    public function activityNotify()
+    {
+        $targetFeeds = [];
+        foreach ($this->target as $target) {
+            $targetFeeds[] = FeedManager::getNotificationFeed($target->user_id);
+        }
+        return $targetFeeds;
+    }
+
 
 
 }
