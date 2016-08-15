@@ -67,8 +67,9 @@ class Comment extends Model
 
     public function target()
     {
-        if ($this->comment_id)
-        return $this->critique();
+        if (!is_null($this->comment_id)) {
+            return $this->comment();
+        } else return $this->critique();
     }
 
     public function activityNotify()

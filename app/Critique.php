@@ -4,6 +4,7 @@ namespace IndieWise;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +69,23 @@ class Critique extends Model
     public function actions()
     {
         return $this->hasMany(Action::class);
+    }
+
+    public function activityVerb()
+    {
+        return 'critique';
+    }
+
+    public function target()
+    {
+        return $this->project();
+    }
+
+    public function activityNotify()
+    {
+        $targetFeeds = [];
+        $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
+        return $targetFeeds;
     }
 
     public static function boot()

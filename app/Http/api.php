@@ -94,7 +94,7 @@ $api->version('v1', [
 
         // inject objects
         foreach ($activities as $key => $aggregated) {
-            $activities[$key]['updated_at'] = new \Carbon\Carbon($activities[$key]['updated_at']);
+//            $activities[$key]['updated_at'] = new \Carbon\Carbon($activities[$key]['updated_at']);
             foreach ($activities[$key]['activities'] as $keyA => $activity) {
                 $notEnrichedData = [];
                 foreach (['actor', 'object'] as $field) {

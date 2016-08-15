@@ -4,6 +4,7 @@ namespace IndieWise;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use IndieWise\Events\Event;
@@ -41,6 +42,18 @@ class Win extends Model
     public function activityActorMethodName()
     {
         return 'owner';
+    }
+
+    public function activityVerb()
+    {
+        return 'win';
+    }
+
+    public function activityNotify()
+    {
+        $targetFeeds = [];
+        $targetFeeds[] = FeedManager::getNotificationFeed($this->owner_id);
+        return $targetFeeds;
     }
 
     public static function boot()

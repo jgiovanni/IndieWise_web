@@ -4,6 +4,7 @@ namespace IndieWise;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use IndieWise\Events\Event;
 
@@ -27,12 +28,28 @@ class Reaction extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function activityLazyLoading()
+    {
+        return array('user');
+    }
+
     public function activityVerb()
     {
         return 'react';
     }
 
-    public static function boot()
+    public function target()
+    {
+        return $this->project();
+    }
+
+    public function activityNotify()
+    {
+        $targetFeeds = [];
+        $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
+        return $targetFeeds;
+    }
+    /*public static function boot()
     {
 
         parent::boot();
@@ -44,6 +61,6 @@ class Reaction extends Model
         static::deleted(function($reaction) {
 
         });
-    }
+    }*/
 
 }

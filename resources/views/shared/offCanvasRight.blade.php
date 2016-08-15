@@ -15,7 +15,8 @@
                 <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> posted a comment on your critique.
             </a>
             <a ng-show="::notice.verb === 'message'" ui-sref="messages">
-                <i class="notificon fa fa-envelope"></i>&nbsp;You have <b>@{{::notice.activity_count}}</b> new messages.
+                <i class="notificon fa fa-envelope"></i>&nbsp;
+                <ng-pluralize count="notice.activity_count" when="{'one': 'You have 1 new message.', 'other': 'You have {} new messages.'}"></ng-pluralize>
             </a>
             <a ng-show="::notice.verb === 'reply'" ui-sref="video_critique({video_url_id: notice.projectUrlId, url_id:notice.critiqueUrlId})">
                 <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> replied to your comment.

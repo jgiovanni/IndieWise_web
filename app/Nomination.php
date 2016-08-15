@@ -4,6 +4,7 @@ namespace IndieWise;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use IndieWise\Events\Event;
 
@@ -42,6 +43,19 @@ class Nomination extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function target()
+    {
+        return $this->project();
+    }
+
+    public function activityNotify()
+    {
+        $targetFeeds = [];
+        $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
+        return $targetFeeds;
+    }
+
 
     public static function boot()
     {
