@@ -175,7 +175,7 @@
                                         <select multiple ng-model="UC.newVideo.genres"
                                                 ng-options="g.id as g.name for g in UC.genresList|orderBy:'name'"></select>
                                 </div>-->
-                                <h6 class="borderBottom" style="margin-bottom: 10px;">Genres:</h6>
+                                <h6 class="borderBottom" style="margin-bottom: 10px;">Genres <sup class="fa fa-asterisk req" aria-hidden="true"></sup>:</h6>
                                 <div class="radio" style="margin-bottom: 20px;">
                                     <input type="checkbox" ng-repeat-start="g in UC.genresList|orderBy:'name'"
                                            ng-model="bool" name="genre{{$index}}" id="genre{{$index}}"

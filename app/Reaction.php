@@ -40,7 +40,7 @@ class Reaction extends Model
 
     public function target()
     {
-        return $this->project();
+        return $this->belongsTo(Project::class);
     }
 
     public function activityNotify()

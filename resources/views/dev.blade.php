@@ -237,7 +237,7 @@
 <script src="/public/app/bower_components/what-input/what-input.js"></script>
 <script src="/public/app/bower_components/foundation-sites/dist/foundation.js"></script>
 <script src="/public/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
-<script src="/public/assets/js/app.js"></script>
+{{--<script src="/public/assets/js/app.js"></script>--}}
 <script src="/public/assets/layerslider/js/greensock.js" type="text/javascript"></script>
 <!-- LayerSlider script files -->
 <script src="/public/assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
