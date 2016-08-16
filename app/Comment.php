@@ -4,6 +4,7 @@ namespace IndieWise;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
+use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -75,12 +76,8 @@ class Comment extends Model
     public function activityNotify()
     {
         $targetFeeds = [];
-        foreach ($this->target as $target) {
-            $targetFeeds[] = FeedManager::getNotificationFeed($target->user_id);
-        }
+        $targetId = !is_null($this->target->user_id) ? $this->target->user_id : $this->target->owner_id;
+        $targetFeeds[] = FeedManager::getNotificationFeed($targetId);
         return $targetFeeds;
     }
-
-
-
 }

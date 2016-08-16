@@ -88,14 +88,10 @@ class Critique extends Model
         return $targetFeeds;
     }
 
-    /**
-     * Stream: Add extra activity data - task name, and user's display name:
-     */
     public function activityExtraData()
     {
         return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id,];
     }
-
 
     public static function boot()
     {

@@ -56,12 +56,15 @@ class Nomination extends Model
         return $targetFeeds;
     }
 
+    public function activityExtraData()
+    {
+        return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id,];
+    }
+
     public function activityLazyLoading()
     {
         return array('user', 'award');
     }
-
-
 
     public static function boot()
     {

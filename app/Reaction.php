@@ -40,7 +40,7 @@ class Reaction extends Model
 
     public function target()
     {
-        return $this->belongsTo(Project::class);
+        return $this->project();
     }
 
     public function activityNotify()
@@ -49,6 +49,12 @@ class Reaction extends Model
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
         return $targetFeeds;
     }
+
+    public function activityExtraData()
+    {
+        return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id,];
+    }
+
     /*public static function boot()
     {
 

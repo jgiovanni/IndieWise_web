@@ -49,11 +49,21 @@ class Win extends Model
         return 'win';
     }
 
+    public function target()
+    {
+        return $this->project();
+    }
+
     public function activityNotify()
     {
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->owner_id);
         return $targetFeeds;
+    }
+
+    public function activityExtraData()
+    {
+        return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id,];
     }
 
     public static function boot()
