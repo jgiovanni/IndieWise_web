@@ -97,6 +97,10 @@ $api->version('v1', [
 
         // inject objects
         foreach ($activities as $key => $aggregated) {
+            $activities[$key]['actors'] = [];
+            $activities[$key]['objects'] = [];
+            $tempActors = [];
+
 //            $activities[$key]['updated_at'] = new \Carbon\Carbon($activities[$key]['updated_at']);
             foreach ($activities[$key]['activities'] as $keyA => $activity) {
                 $notEnrichedData = [];
@@ -114,9 +118,17 @@ $api->version('v1', [
                         continue;
                     }
                     $activities[$key]['activities'][$keyA][$field] = $objects[$reference[0]][$reference[1]];
+                    if ($field === 'actor'){
+                        $tempActors[] = collect([
+                            'fullName' => $objects[$reference[0]][$reference[1]]['fullName'],
+                            'url_id' => $objects[$reference[0]][$reference[1]]['url_id'],
+                            'id' => $objects[$reference[0]][$reference[1]]['id'],
+                        ]);
+                    }
 //                    dd($activities[$key]['activities']);
                 }
             }
+            $activities[$key]['actors'] = collect(array_unique($tempActors));
 
             if(!$aggregated['is_read']) {
                 $unread++;

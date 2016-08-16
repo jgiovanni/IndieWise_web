@@ -48,14 +48,15 @@
                         $timeout(function () {
                             // console.log('run owl');
                             //Premium carousel
-                            jQuery('.owl-carousel').each(function () {
+                            var carouselEl = jQuery('#owl-featured');
+                            carouselEl.each(function () {
                                 var owl = jQuery(this);
                                 jQuery(".prev").on('click', function () {
-                                    jQuery(this).parent().parent().parent().parent().next().trigger('prev.owl.carousel');
+                                    carouselEl.trigger('prev.owl.carousel');
                                 });
 
                                 jQuery(".next").on('click', function () {
-                                    jQuery(this).parent().parent().parent().parent().next().trigger('next.owl.carousel');
+                                    carouselEl.trigger('next.owl.carousel');
                                 });
                                 var loopLength = owl.data('car-length');
                                 var divLength = jQuery(this).find("div.item").length;
@@ -107,7 +108,7 @@
                                     });
                                 }
                             });
-                        }, 1000);
+                        }, 300);
                     });
 
                 }
@@ -795,7 +796,7 @@
                 }
             }
         }])
-        .directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', 'UtilsService', '$modal', '_', function ($rootScope, DataService, UserActions, UtilsService, $modal, _) {
+        .directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
             return {
                 restrict: 'E',
                 templateUrl: BASE + 'src/directives/comments.html',
@@ -835,7 +836,6 @@
                                         scope.model.myComment = null;
                                         clearCommentinput();
                                         scope.parent.comments_count++;
-                                        UtilsService.recordActivity(comment.data, 'comment');
                                     }, function (error) {
                                         console.log('Failed to create new comment, with error code: ' + error.message);
                                     });
@@ -860,7 +860,6 @@
                                         // Decrement film commentCount
                                         scope.parent.commentCount--;
 
-                                        //UtilsService.deleteActivity(c);
 
                                         if (angular.isUndefined(p)) {
                                             // normal comment
@@ -935,7 +934,7 @@
                 }
             }
         }])
-        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', 'UtilsService', '$modal', function ($rootScope, DataService, UserActions, UtilsService, $modal) {
+        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', function ($rootScope, DataService, UserActions, $modal) {
             return {
                 restrict: 'E',
                 templateUrl: BASE + 'src/directives/critiques.html',
@@ -1032,7 +1031,7 @@
                 }
             }
         }])
-        .directive('replyBlock', ['$rootScope', 'UserActions', 'DataService', 'UtilsService', '_', function ($rootScope, UserActions, DataService, UtilsService, _) {
+        .directive('replyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
@@ -1087,7 +1086,6 @@
                                     }
                                     $rootScope.toastMessage('Reply posted!');
                                     scope.myReply = null;
-                                    UtilsService.recordActivity(comment.data.data, 'reply');
 
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
@@ -1098,7 +1096,7 @@
                 }
             }
         }])
-        .directive('quickReplyBlock', ['$rootScope', 'UserActions', 'DataService', 'UtilsService', '_', function ($rootScope, UserActions, DataService, UtilsService, _) {
+        .directive('quickReplyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
@@ -1123,7 +1121,6 @@
 
                                     // register Action
                                     $rootScope.toastMessage('Quick Reply posted!');
-                                    UtilsService.recordActivity(comment.data.data, 'reply');
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
@@ -1133,7 +1130,7 @@
                 }
             }
         }])
-        .directive('editCommentBlock', ['$rootScope', 'UserActions', 'DataService', 'UtilsService', '_', function ($rootScope, UserActions, DataService, UtilsService, _) {
+        .directive('editCommentBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,

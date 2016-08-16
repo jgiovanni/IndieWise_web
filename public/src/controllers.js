@@ -769,8 +769,8 @@
         $timeout(jQuery(document).foundation(), 0);
     }
 
-    VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'UtilsService', 'DataService', '$state', 'Analytics', '$window', '$timeout', '_'];
-    function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, UtilsService, DataService, $state, Analytics, $window, $timeout, _) {
+    VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'DataService', '$state', 'Analytics', '$window', '$timeout', '_'];
+    function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, DataService, $state, Analytics, $window, $timeout, _) {
         var self = this;
         self.loaded = false;
         self.displayShare = false;
@@ -1006,7 +1006,6 @@
 
                             self.updateVideoObj();
                             angular.extend(res.data, {projectOwner: self.film.owner_id});
-                            UtilsService.recordActivity(res.data, actionVerb);
                             self.checkUserActions();
                         });
 
@@ -1032,7 +1031,6 @@
                                     angular.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
                                     //self.updateVideoObj();
                                     angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                    UtilsService.recordActivity(res.data, actionVerb);
                                     //self.checkUserActions();
                                 });
 
@@ -1045,7 +1043,6 @@
                                     self.film.up_ratings_count--;
                                     //self.updateVideoObj();
                                     angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                    UtilsService.updateActivity(res.data, 'like');
                                     //self.checkUserActions();
                                 });
 
@@ -1058,7 +1055,6 @@
                                     self.film.down_ratings_count--;
                                     //self.updateVideoObj();
                                     angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                    UtilsService.updateActivity(res.data, 'unlike');
                                     //self.checkUserActions();
                                 });
 
@@ -1084,7 +1080,6 @@
                                 //self.updateVideoObj();
                                 //self.checkUserActions();
                                 angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                UtilsService.updateActivity(res.data, actionVerb);
                             });
                         }
                     }
@@ -1110,7 +1105,6 @@
                             }).then(function (resA) {
                                 self.film.reactions_count++;
                                 // self.updateVideoObj();
-                                UtilsService.recordActivity(resA.data, actionVerb);
                                 self.checkUserActions();
                                 self.qReactions();
                             });
@@ -1136,7 +1130,7 @@
         self.canReactIcon = function () {
             if (angular.isObject(self.canReact)) {
                 var emoticon = _.findWhere(self.emotions, {'emotion': self.canReact.emotion});
-                return emoticon.icon;
+                return angular.isObject(emoticon) ? emoticon.icon : false;
             } else return false;
         };
 
@@ -1250,7 +1244,6 @@
                         self.film.critiques_count++;
 
                         // register Action
-                        UtilsService.recordActivity(obj, 'judge');
                         Analytics.trackEvent('video', 'critique', self.film.name);
 
                         // if an award has been selected, create a nomination
@@ -1264,7 +1257,6 @@
                                 // register Action
                                 self.qNominations();
                                 nom.critique = obj;
-                                UtilsService.recordActivity(nom, 'nominate');
                                 Analytics.trackEvent('video', 'nominate', self.film.name);
                             }, function (error) {
                                 alert('Failed to create new nomination, with error code: ' + error.message);
@@ -1640,8 +1632,8 @@
 
     }
 
-    ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', 'UtilsService', '$window', 'filepickerService', '_'];
-    function ProfileUploadController($rootScope, $state, User, $http, DataService, UtilsService, $window, filepickerService, _) {
+    ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', '$window', 'filepickerService', '_'];
+    function ProfileUploadController($rootScope, $state, User, $http, DataService, $window, filepickerService, _) {
         var self = this;
         self.user = User.data;
         self.uploadType = 2;
@@ -1841,7 +1833,6 @@
                         console.log(film.data.data);
                         $rootScope.toastMessage('Video Uploaded Successfully');
                         // register Action
-                        UtilsService.recordActivity(film.data.data, 'upload');
                         $state.go('video', {url_id: film.data.data.url_id});
                         //return film;
                     }, function (err) {
@@ -2197,8 +2188,8 @@
         $rootScope.metadata.title = 'Profile: ' + self.user.firstName + ' ' + self.user.lastName;
 
         self.showMessageDialog = function () {
-            ContactUserDialogController.$inject = ['$rootScope', '$scope', '$modalInstance', 'UserActions', 'DataService', 'UtilsService', 'recipient', '$timeout'];
-            function ContactUserDialogController($rootScope, $scope, $modalInstance, UserActions, DataService, UtilsService, recipient, $timeout) {
+            ContactUserDialogController.$inject = ['$rootScope', '$scope', '$modalInstance', 'UserActions', 'DataService', 'recipient', '$timeout'];
+            function ContactUserDialogController($rootScope, $scope, $modalInstance, UserActions, DataService, recipient, $timeout) {
 
 
                 $scope.recipient = recipient;
@@ -2220,7 +2211,6 @@
                                 $rootScope.toastMessage('Message sent!');
                                 // register Action
                                 //result.participants = $scope.recipient;
-                                UtilsService.recordActivity(convo, 'message');
                                 $scope.closeDialog();
 
                                 // Creates Duplicate entry Error
@@ -2348,8 +2338,8 @@
         self.nominated = Nominated.data.data;
     }
 
-    MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', 'UtilsService', '$timeout', '$q', '_'];
-    function MessagesCtrl($rootScope, $scope, Conversations, DataService, $window, $modal, UserActions, UtilsService, $filter, $q, _) {
+    MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', '$timeout', '$q', '_'];
+    function MessagesCtrl($rootScope, $scope, Conversations, DataService, $window, $modal, UserActions, $filter, $q, _) {
         $rootScope.metadata.title = 'Messages';
         var self = this;
         self.selectedConvo = null;
@@ -2442,7 +2432,6 @@
                                 self.messages.push(result.data.message);
                                 self.fetchConvos();
 
-                                // UtilsService.recordActivity(result.data, 'message');
                             }, function (response) {
                                 self.reply = reply;
                             })
@@ -2492,9 +2481,6 @@
                         self.selectedConvo = convo;
                         self.currentParticipants = self.newConvo.participants;
                         self.messages = [result];
-
-                        // TODO: Send email notification
-                        UtilsService.recordActivity(result);
                     }).then(function () {
                         // Update Conversations List
                         var convoDup = angular.copy(convo);
@@ -2570,8 +2556,8 @@
         }
     }
 
-    NotificationsCtrl.$inject = ['$rootScope', 'UserActions', 'UtilsService', '_'];
-    function NotificationsCtrl($rootScope, UserActions, UtilsService, _) {
+    NotificationsCtrl.$inject = ['$rootScope', 'UserActions', '_'];
+    function NotificationsCtrl($rootScope, UserActions, _) {
         var self = this;
         self.refresh = function () {
             //$rootScope.getFlatNotificationsFeed();

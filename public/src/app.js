@@ -797,7 +797,6 @@ jQuery(document).ready(function (jQuery) {
                         }).then(function () {
                             $rootScope.getNotificationsFeed(feed);
                         });
-                        $rootScope.getNotificationsFeed(feed);
                     });
                 };
 

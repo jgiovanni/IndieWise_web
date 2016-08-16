@@ -53,7 +53,7 @@ class Critique extends Model
 
     public function activityLazyLoading()
     {
-        return array('user');
+        return array('user', 'project');
     }
 
     public function comments()
@@ -87,6 +87,15 @@ class Critique extends Model
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
         return $targetFeeds;
     }
+
+    /**
+     * Stream: Add extra activity data - task name, and user's display name:
+     */
+    public function activityExtraData()
+    {
+        return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id,];
+    }
+
 
     public static function boot()
     {

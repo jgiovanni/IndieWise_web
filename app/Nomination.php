@@ -56,6 +56,12 @@ class Nomination extends Model
         return $targetFeeds;
     }
 
+    public function activityLazyLoading()
+    {
+        return array('user', 'award');
+    }
+
+
 
     public static function boot()
     {
