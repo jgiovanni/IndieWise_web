@@ -1134,8 +1134,10 @@
         };
 
         self.canReactIcon = function () {
-            var emoticon = _.findWhere(self.emotions, {'emotion': self.canReact.emotion});
-            return angular.isObject(self.canReact) ? emoticon.icon : false;
+            if (angular.isObject(self.canReact)) {
+                var emoticon = _.findWhere(self.emotions, {'emotion': self.canReact.emotion});
+                return emoticon.icon;
+            } else return false;
         };
 
         self.deleteCritique = function (c, ev) {
