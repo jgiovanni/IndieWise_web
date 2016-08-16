@@ -99,6 +99,7 @@ $api->version('v1', [
         foreach ($activities as $key => $aggregated) {
             $activities[$key]['actors'] = [];
             $activities[$key]['objects'] = [];
+
             $tempActors = [];
 
 //            $activities[$key]['updated_at'] = new \Carbon\Carbon($activities[$key]['updated_at']);
@@ -127,6 +128,14 @@ $api->version('v1', [
                     }
 //                    dd($activities[$key]['activities']);
                 }
+
+                // collect project data
+                if (isset($activity['project_name']) && isset($activity['project_url_id']))
+                $activities[$key]['project'] = collect([
+                    'name' => $activity['project_name'],
+                    'url_id' => $activity['project_url_id']
+                ]);
+
             }
             $activities[$key]['actors'] = collect(array_unique($tempActors));
 

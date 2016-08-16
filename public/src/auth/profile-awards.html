@@ -65,7 +65,7 @@
                                                                         </div>
                                                                         <div class="comment-text">
                                                                             <a ui-sref="video({url_id:nom.project.data.url_id})">{{::nom.project.data.name}}</a> for:
-                                                                            <h3>{{::nom.award.data.name}}</h3>
+                                                                            <h3>{{::nom.award.data.name||nom.award.name}}</h3>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -104,7 +104,7 @@
                                                                         </div>
                                                                         <div class="comment-text">
                                                                             <a ui-sref="video({url_id:nom.project.data.url_id})">{{::nom.project.data.name}}</a> for:
-                                                                            <h3>{{::nom.award.data.name}}</h3>
+                                                                            <h3>{{::nom.award.data.name||nom.award.name}}</h3>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -146,7 +146,7 @@
                                             </div>
                                             <div class="comment-text">
                                                 <a ui-sref="video({url_id:win.project.data.url_id})">{{::win.project.data.name}}</a> won:
-                                                <h3>{{::win.award.data.name}}</h3>
+                                                <h3>{{::win.award.data.name||win.award.name}}</h3>
                                             </div>
                                         </div>
                                     </div>

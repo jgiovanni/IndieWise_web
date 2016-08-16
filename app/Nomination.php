@@ -18,6 +18,8 @@ class Nomination extends Model
 
     public $dates = ['created_at', 'updated_at'];
 
+    protected $with = ['award'];
+    
     public function activityVerb()
     {
         return 'nominate';

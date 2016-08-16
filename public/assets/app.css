@@ -570,9 +570,19 @@ button.double-thumbs i:last-of-type {
     color: #fff;
 }
 
-ul.notification-list {}
+ul.notification-list {
+    padding: 0 !important;
+}
+ul.notification-list li {
+    padding: 0 10px;
+}
+ul.notification-list .unread {
+    background-color: #d1d1ff;
+}
 ul.notification-list a{
     display: table;
+    text-transform: none !important;
+    line-height: normal;
 }
 
 ul.notification-list a .notificon {
