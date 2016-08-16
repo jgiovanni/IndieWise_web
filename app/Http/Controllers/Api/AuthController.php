@@ -9,6 +9,7 @@ use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests;
 use Dingo\Api\Contract\Http\Request;
 use IndieWise\PasswordReset;
+use IndieWise\Playlist;
 use IndieWise\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -92,6 +93,11 @@ class AuthController extends Controller
         try {
             $user = new User($request->except('password_confirmation'));
             $user->save();
+
+            // Add playlists
+            Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
+            Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
+
             $token = JWTAuth::fromUser($user);
         } catch (JWTException $e) {
             return response()->json(['error' => 'User already exists.'], 409);

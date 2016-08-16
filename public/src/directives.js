@@ -244,11 +244,11 @@
                         UserActions.checkAuth().then(function (res) {
                             DataService.save('playlists', {
                                 name: scope.model.newName,
-                                user: $rootScope.AppData.User.id
+                                user_id: $rootScope.AppData.User.id
                             }, false, true).then(function (pl) {
                                 scope.toggleNewPlInput(false);
                                 scope.model.newName = null;
-                                scope.playlists.push(pl.data)
+                                scope.playlists.push(pl.data.data)
                             });
                         }, function (err) {
                             UserActions.loginModal().then(function (res) {
@@ -358,7 +358,7 @@
                         popupAdEndTime: "00:07",                                                           //time to hide popup ad during playback
                         popupAdGoToLink: "http://getindiewise.com/",                                         //re-direct to URL when popup ad clicked
                         description: video.description,                                                      //video description
-                        thumbImg: video.thumbnail_url,                                                      //path to playlist thumbnail image
+                        thumbImg: video.thumbnail_url||'/assets/img/default_avatar.jpg',                //path to playlist thumbnail image
                         info: ""                                                                                    //video info
                     });
 
@@ -404,7 +404,7 @@
                                 popupAdEndTime: "00:07",                                                           //time to hide popup ad during playback
                                 popupAdGoToLink: "http://getindiewise.com/",                                         //re-direct to URL when popup ad clicked
                                 description: vid.url_id,                                                      //video description
-                                thumbImg: vid.thumbnail_url,                                                      //path to playlist thumbnail image
+                                thumbImg: vid.thumbnail_url||'/assets/img/default_avatar.jpg',                //path to playlist thumbnail image
                                 info: ""                                                                                    //video info
                             });
                         });

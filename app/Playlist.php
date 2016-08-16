@@ -9,6 +9,7 @@ class Playlist extends Model
     use UuidForKey;
 
     protected $table = 'Playlist';
+    protected $guarded = ['id'];
     public $timestamps = false;
 
     public function playlistItems()

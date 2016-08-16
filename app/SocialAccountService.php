@@ -34,6 +34,11 @@ class SocialAccountService
                     'firstName' => $name_parts[0],
                     'lastName' => end($name_parts),
                 ]);
+
+                // Add playlists
+                Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
+                Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
+
             }
 
             $account->user()->associate($user);
