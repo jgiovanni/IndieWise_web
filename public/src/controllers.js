@@ -2382,14 +2382,14 @@
                     data: [],
                     meta: {
                         pagination: {
-                            current_page: 0
+                            current_page: 1
                         }
                     },
                     get: function (index, count, success) {
                         console.log('index = ' + index + '; count = ' + count);
                         var start = index;
                         var end = Math.min(index + count - 1, this.first);
-                        if (this.meta.pagination.total_pages > this.meta.pagination.current_page) {
+                        if (this.meta.pagination.total_pages >= this.meta.pagination.current_page) {
                             this.meta.pagination.current_page++;
                         }
                         DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: this.meta.pagination.current_page})

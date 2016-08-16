@@ -17,23 +17,6 @@ use GetStream\StreamLaravel\EnrichedActivity;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Vinkla\Hashids\Facades\Hashids;
 
-function collectReferences($activities)
-{
-    $model_references = array();
-    foreach ($activities as $key => $activity) {
-        foreach ($activity as $field=>$value) {
-            if ($value === null) {
-                continue;
-            }
-            if (in_array($field, ['actor', 'object'])) {
-                $reference = explode(':', $value);
-                $model_references[$reference[0]][$reference[1]] = 1;
-            }
-        }
-    }
-    return $model_references;
-}
-
 $api = app('Dingo\Api\Routing\Router');
 
 // must protext actions instead of routes unless admin routes
@@ -66,7 +49,27 @@ $api->version('v1', [
     });
 
     $api->get('notifications/feed', function (\Dingo\Api\Http\Request $request) {
+
+        function collectReferences($activities, $loadObjectsArray)
+        {
+            $model_references = array();
+            foreach ($activities as $key => $activity) {
+                foreach ($activity as $field=>$value) {
+                    if ($value === null) {
+                        continue;
+                    }
+                    if (in_array($field, $loadObjectsArray)) {
+                        $reference = explode(':', $value);
+                        $model_references[$reference[0]][$reference[1]] = 1;
+                    }
+                }
+            }
+            return $model_references;
+        }
+
         $user_id = app('Dingo\Api\Auth\Auth')->user()->id;
+        $loadObjectsArray = ['actor', 'object'];
+
 //        $user_id = '00000000-0000-6463-7952-633635765552';
         $enricher = new Enrich();
         $feed = FeedManager::getNotificationFeed($user_id);
@@ -77,7 +80,7 @@ $api->version('v1', [
         // get references
         $references = [];
         foreach ($activities as $aggregated) {
-            $references = array_replace_recursive($references, collectReferences($aggregated['activities']));
+            $references = array_replace_recursive($references, collectReferences($aggregated['activities'], $loadObjectsArray));
         }
 
         // get objects
@@ -97,7 +100,7 @@ $api->version('v1', [
 //            $activities[$key]['updated_at'] = new \Carbon\Carbon($activities[$key]['updated_at']);
             foreach ($activities[$key]['activities'] as $keyA => $activity) {
                 $notEnrichedData = [];
-                foreach (['actor', 'object'] as $field) {
+                foreach ($loadObjectsArray as $field) {
                     if (!isset($activity[$field]))
                         continue;
                     $value = $activity[$field];
