@@ -35,8 +35,7 @@
                                     <i class="fa fa-user"></i>
                                 </li>
                                 <li class="search right-off-canvas-toggle">
-                                    <i class="fa fa-bell-o" ng-show="AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen"></i>
-                                    <i class="fa fa-bell" ng-show="AppData.Notifications.unseen"></i>
+                                    <i class="fa" ng-class="{'fa-bell': AppData.Notifications.unseen, 'fa-bell-o': AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen}" ng-show=""></i>
                                     <span ng-show="AppData.Notifications.unseen>0" class="alert badge">@{{AppData.Notifications.unseen}}</span>
                                 </li>
                                 <li class="search" ui-sref="messages">
