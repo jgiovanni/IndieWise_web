@@ -762,6 +762,13 @@ jQuery(document).ready(function (jQuery) {
                     });
                 };
 
+                $rootScope.StreamClient = stream.connect(Config.streamApiKey, null, Config.streamApp, {location: 'us-east'});
+                $rootScope.getNewToken = function (type, id) {
+                    return $http.get('/api/notifications/token?type=' + type).then(function (res) {
+                        return res.data.token;
+                    });
+                };
+
                 $rootScope.getMessagesFeed = function (feed) {
                     feed.get({limit: 10}, function (error, response, body) {
                         console.log('Messages Notifications: ', body);
@@ -781,13 +788,6 @@ jQuery(document).ready(function (jQuery) {
                     });
                 };
 
-                $rootScope.StreamClient = stream.connect(Config.streamApiKey, null, Config.streamApp, {location: 'us-east'});
-                $rootScope.getNewToken = function (type, id) {
-                    return $http.get('/api/notifications/token?type=' + type).then(function (res) {
-                        return res.data.token;
-                    });
-                };
-
                 $rootScope.subscribeUserFeeds = function () {
                     $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
                         var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
@@ -796,6 +796,15 @@ jQuery(document).ready(function (jQuery) {
                             $rootScope.getNotificationsFeed(feed);
                         }).then(function () {
                             $rootScope.getNotificationsFeed(feed);
+                        });
+                    });
+                    $rootScope.getNewToken('message', $rootScope.AppData.User.id).then(function (token) {
+                        var feed = $rootScope.StreamClient.feed('message', $rootScope.AppData.User.id, token);
+                        feed.subscribe(function (obj) {
+                            console.log('Messages: ', obj);
+                            $rootScope.getMessagesFeed(feed);
+                        }).then(function () {
+                            $rootScope.getMessagesFeed(feed);
                         });
                     });
                 };
@@ -828,10 +837,10 @@ jQuery(document).ready(function (jQuery) {
                 };
 
                 $rootScope.getNewMessages = function () {
-                    DataService.collection('messages/new').then(function (response) {
+                    /*DataService.collection('messages/new').then(function (response) {
                         $rootScope.AppData.MessageNotifications.loaded = true;
                         $rootScope.AppData.MessageNotifications.unread = response.data.length;
-                    });
+                    });*/
                 };
 
                 var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {

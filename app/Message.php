@@ -76,7 +76,6 @@ class Message extends Model
         return array('user');
     }
 
-
     /**
      * Participants relationship.
      *
@@ -115,7 +114,7 @@ class Message extends Model
      */
     public function activityExtraData()
     {
-        return ['body' => $this->body];
+        return ['body' => $this->body, 'conversation' => $this->thread_id];
     }
 
     public function target()
@@ -127,7 +126,7 @@ class Message extends Model
     {
         $targetFeeds = [];
         foreach ($this->target as $target) {
-            $targetFeeds[] = FeedManager::getNotificationFeed($target->user_id);
+            $targetFeeds[] = FeedManager::getFeed('message', $target->user_id);
         }
         return $targetFeeds;
     }

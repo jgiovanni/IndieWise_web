@@ -134,6 +134,7 @@ class MessagesController extends Controller
 
         $conversation->activateAllParticipants();
 
+        // TODO restrict messages by current participants
         // Message
         $message = Message::create(
             [
@@ -160,7 +161,7 @@ class MessagesController extends Controller
         }
 
         return $message;
-        return self::show($id);
+        // return self::show($id);
     }
 
     public function newMessages() {
