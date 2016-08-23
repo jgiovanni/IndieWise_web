@@ -37,7 +37,7 @@
     <meta name="theme-color" content="#ffffff">
 
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
-    <script src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
 
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
@@ -72,7 +72,7 @@
     <link rel="stylesheet" href="/assets/app.css"/>
 
     {{--<script src="//api.filepicker.io/v1/filepicker.js"></script>--}}
-    <script src="//cdn.broadstreetads.com/init.js"></script>
+    <script type="text/javascript" src="//cdn.broadstreetads.com/init.js"></script>
 </head>
 
 <body ng-controller="BodyCtrl as Body">
@@ -210,7 +210,7 @@
 </script>
 
 <!-- AngularJs Components -->
-<script src="/js/angular.js"></script>
+<script type="text/javascript" src="/js/angular.js"></script>
 {{--<script src="/app/bower_components/lodash/lodash.js"></script>--}}
 {{--<script src="/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
 {{--<script src="/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>--}}
@@ -219,20 +219,20 @@
 {{--<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>--}}
 {{--<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>--}}
 {{--<script src="/app/bower_components/satellizer/dist/satellizer.min.js"></script>--}}
-<script src="/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
+<script type="text/javascript" src="/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
 {{--<script src="/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>--}}
-<script src="/app/bower_components/ngAnimate-animate.css/animate.js"></script>
+<script type="text/javascript" src="/app/bower_components/ngAnimate-animate.css/animate.js"></script>
 {{--<script src="/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>--}}
 {{--<script src="/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>--}}
 {{--<script src="/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>--}}
 {{--<script src="/app/bower_components/angular-material/angular-material.min.js"></script>--}}
 {{--<script src="/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>--}}
 {{--<script src="/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>--}}
-<script src="/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
+<script type="text/javascript" src="/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
 {{--<script src="/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>--}}
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>--}}
 <!--[if lte IE 9]>
-<script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
 <![endif]-->
 <!-- BeTube script files -->
 {{--<script src="/app/bower_components/what-input/what-input.js"></script>--}}
@@ -247,14 +247,14 @@
 <!--<script src="/assets/js/inewsticker.js" type="text/javascript"></script>-->
 <!--<script src="/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
-<script src="/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
+<script type="text/javascript" src="/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
 {{--<script src="/src/utils.js"></script>--}}
 
 {{--<script src="/src/directives.js"></script>--}}
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script src="/js/all.js"></script>
+<script type="text/javascript" src="/js/all.js"></script>
 
 </body>
 </html>

@@ -42,9 +42,6 @@
     "angular-material": "^1.1.0",
     "angular-ui-scroll": "^1.5.1",
     "foundation-datepicker": "^1.5.3",
-    "ng-flow": "^2.1.4"
-  },
-  "dependencies": {
     "lodash": "^4.15.0",
     "ng-img-crop-full-extended": "^0.5.4"
   }
