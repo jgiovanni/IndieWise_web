@@ -16,3 +16,9 @@ Homestead.json
 
 !.elasticbeanstalk/*.global.yml
 
+/public/js/*
+.idea/dataSources.ids
+.idea/dataSources.local.xml
+.idea/jsLibraryMappings.xml
+.idea/libraries/
+.idea/workspace.xml

@@ -1623,17 +1623,14 @@
             }).then(function (resp) {
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                 self.user.avatar = resp.data.secure_url;
+                AuthService.updateUser(self.user).then(function (res) {
+                    $rootScope.toastMessage('Avatar Updated!');
+                });
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-            });
-
-            // self.user.avatar = JSON.parse(message).secure_url;
-            AuthService.updateUser(self.user).then(function (res) {
-                // console.log(res);
-                $rootScope.toastMessage('Avatar Updated!');
             });
         }
 
@@ -1646,6 +1643,9 @@
             }).then(function (resp) {
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                 self.user.coverPhoto = resp.data.secure_url;
+                AuthService.updateUser(self.user).then(function (res) {
+                    $rootScope.toastMessage('Cover Photo Updated!');
+                });
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
@@ -1653,11 +1653,6 @@
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
 
-            // self.user.coverPhoto = JSON.parse(message).secure_url;
-            AuthService.updateUser(self.user).then(function (res) {
-                // console.log(res);
-                $rootScope.toastMessage('Cover Photo Updated!');
-            });
         }
 
     }
