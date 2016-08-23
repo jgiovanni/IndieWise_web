@@ -111,7 +111,7 @@ jQuery(document).ready(function (jQuery) {
             'mm.foundation',
             'angucomplete-alt',
             'ngMessages',
-            'cloudinary',
+            'angular-cloudinary',
             'underscore',
             'angularMoment',
             'videosharing-embed',
@@ -121,7 +121,7 @@ jQuery(document).ready(function (jQuery) {
             'angular-google-analytics',
             'flow',
             'ui.scroll',
-            'ui.scroll.jqlite',
+            // 'ui.scroll.jqlite',
             'satellizer',
             'angular-filepicker',
             'pascalprecht.translate',
@@ -172,9 +172,15 @@ jQuery(document).ready(function (jQuery) {
             filepickerProvider.setKey('APbjTx44SlSuCI6P58jwvz');
         })
         .config(['cloudinaryProvider', function (cloudinaryProvider) {
-            cloudinaryProvider
+            cloudinaryProvider.config({
+                upload_endpoint: 'https://api.cloudinary.com/v1_1/', // default
+                cloud_name: 'indiewise', // required
+                upload_preset: 'r0kuyqef', // optional
+            });
+
+            /*cloudinaryProvider
                 .set('cloud_name', 'indiewise')
-                .set('upload_preset', 'r0kuyqef');
+                .set('upload_preset', 'r0kuyqef');*/
         }])
         .config(['$compileProvider', function ($compileProvider) {
             // significant performance boost
@@ -218,11 +224,11 @@ jQuery(document).ready(function (jQuery) {
                 'responseError': function (response) {
                     if (response.status === 401 || response.status === 403) {
                         //$location.path('/sign-in');
-                    } /*else if (response.status == 500) {
+                    } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
                         var deferred = $q.defer();
-                        //retryHttpRequest(response.config, deferred);
+                        retryHttpRequest(response.config, deferred);
                         return deferred.promise;
-                    }*/ else return $q.reject(response);
+                    } else return $q.reject(response);
                 }
             };
         }])
@@ -713,7 +719,7 @@ jQuery(document).ready(function (jQuery) {
         })
         .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config',
             function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config) {
-                FastClick.attach(document.body);
+                attachFastClick(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
                     Notifications: {
@@ -882,7 +888,7 @@ jQuery(document).ready(function (jQuery) {
                     to: function (state) {
                         return !!state.authenticate;
                     }
-                }, function ($transition$, $state, AuthService) {
+                }, function ($transition$) {
                     return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
                         return true;
                     }, function () {

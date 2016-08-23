@@ -57,7 +57,7 @@
         .factory('linkify', ['$filter', function ($filter) {
             function _linkifyAsType(type) {
                 return function (str) {
-                    (type, str);
+                    // (type, str);
                     return $filter('linkify')(str, type);
                 };
             }

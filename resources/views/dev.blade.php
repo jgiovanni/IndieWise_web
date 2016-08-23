@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="IndieWise" class="no-js">
+<html lang="en" ng-app="IndieWise" class="no-js" ng-strict-di>
 <head>
     <title>IndieWise</title>
     <base href="http://indiewise.dev/alpha/">
@@ -13,35 +13,31 @@
     <meta property="fb:app_id" content="150687055270744"/>
 
     <!--Favicon - http://realfavicongenerator.net/ -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=dLL8Gal3KG">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=dLL8Gal3KG">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png?v=dLL8Gal3KG" sizes="32x32">
-    <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=dLL8Gal3KG" sizes="192x192">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png?v=dLL8Gal3KG" sizes="96x96">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png?v=dLL8Gal3KG" sizes="16x16">
-    <link rel="manifest" href="/manifest.json?v=dLL8Gal3KG">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=dLL8Gal3KG" color="#5bbad5">
-    <link rel="shortcut icon" href="/favicon.ico?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/apple-touch-icon-57x57.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/apple-touch-icon-60x60.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/apple-touch-icon-72x72.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/apple-touch-icon-76x76.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/apple-touch-icon-114x114.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/apple-touch-icon-120x120.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/apple-touch-icon-144x144.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/apple-touch-icon-152x152.png?v=dLL8Gal3KG">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon-180x180.png?v=dLL8Gal3KG">
+    <link rel="icon" type="image/png" href="/public/favicon-32x32.png?v=dLL8Gal3KG" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/android-chrome-192x192.png?v=dLL8Gal3KG" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/favicon-96x96.png?v=dLL8Gal3KG" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/favicon-16x16.png?v=dLL8Gal3KG" sizes="16x16">
+    <link rel="manifest" href="/public/manifest.json?v=dLL8Gal3KG">
+    <link rel="mask-icon" href="/public/safari-pinned-tab.svg?v=dLL8Gal3KG" color="#5bbad5">
+    <link rel="shortcut icon" href="/public/favicon.ico?v=dLL8Gal3KG">
     <meta name="msapplication-TileColor" content="#00aba9">
-    <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=dLL8Gal3KG">
+    <meta name="msapplication-TileImage" content="/public/mstile-144x144.png?v=dLL8Gal3KG">
     <meta name="theme-color" content="#ffffff">
 
-    <script
-            src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>
-    <script>
-        // Underscore noConflict();
-        var ___ = _.noConflict();
-        var BASE = '/public/';
-    </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
+    <script src="/public/js/main.js"></script>
+    <script>window.BASE = '/public/';</script>
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="/public/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
     <link rel="stylesheet" href="/public/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="/public/app/bower_components/animate.css/animate.min.css"/>
@@ -58,7 +54,7 @@
     <link rel="stylesheet" href="/public/assets/css/app.css">
     <link rel="stylesheet" href="/public/assets/css/theme.css">
     <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     <link rel="stylesheet" href="/public/assets/layerslider/css/layerslider.css" type="text/css">
     <link rel="stylesheet" href="/public/assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/public/assets/css/owl.theme.default.min.css">
@@ -71,8 +67,8 @@
     <!-- Custom Styles  -->
     <link rel="stylesheet" href="/public/assets/app.css"/>
 
-    <script src="//api.filepicker.io/v1/filepicker.js"></script>
-    <script src="http://cdn.broadstreetads.com/init.js"></script>
+    {{--<script src="//api.filepicker.io/v1/filepicker.js"></script>--}}
+    <script src="//cdn.broadstreetads.com/init.js"></script>
 </head>
 
 <body ng-controller="BodyCtrl as Body">
@@ -210,32 +206,33 @@
 </script>
 
 <!-- AngularJs Components -->
-<script src="/public/app/bower_components/lodash/lodash.js"></script>
-<script src="/public/app/bower_components/getstream/dist/js_min/getstream.js"></script>
-<script src="/public/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>
-<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.js+angular-aria.js+angular-messages.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>
-<script src="/public/app/bower_components/angular-loading-bar/build/loading-bar.js"></script>
-<script src="/public/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>
-<script src="/public/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>
-<script src="/public/app/bower_components/satellizer/dist/satellizer.js"></script>
+{{--<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.js+angular-aria.js+angular-messages.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>--}}
+<script src="/public/js/angular.js"></script>
+{{--<script src="/public/app/bower_components/lodash/lodash.js"></script>--}}
+{{--<script src="/public/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
+{{--<script src="/public/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>--}}
+{{--<script src="/public/app/bower_components/angular-loading-bar/build/loading-bar.js"></script>--}}
+{{--<script src="/public/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>--}}
+{{--<script src="/public/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>--}}
+{{--<script src="/public/app/bower_components/satellizer/dist/satellizer.js"></script>--}}
 <script src="/public/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
-<script src="/public/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
+{{--<script src="/public/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>--}}
 <script src="/public/app/bower_components/ngAnimate-animate.css/animate.js"></script>
-<script src="/public/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
-<script src="/public/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
-<script src="/public/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>
-<script src="/public/app/bower_components/angular-material/angular-material.min.js"></script>
-<script src="/public/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>
-<script src="/public/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>
+{{--<script src="/public/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>--}}
+{{--<script src="/public/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>--}}
+{{--<script src="/public/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>--}}
+{{--<script src="/public/app/bower_components/angular-material/angular-material.min.js"></script>--}}
+{{--<script src="/public/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>--}}
+{{--<script src="/public/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>--}}
 <script src="/public/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
-<script src="/public/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>
+{{--<script src="/public/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>--}}
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>--}}
 <!--[if lte IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
 <![endif]-->
 <!-- BeTube script files -->
-<script src="/public/app/bower_components/what-input/what-input.js"></script>
-<script src="/public/app/bower_components/foundation-sites/dist/foundation.js"></script>
+{{--<script src="/public/app/bower_components/what-input/what-input.js"></script>--}}
+{{--<script src="/public/app/bower_components/foundation-sites/dist/foundation.js"></script>--}}
 <script src="/public/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
 {{--<script src="/public/assets/js/app.js"></script>--}}
 <script src="/public/assets/layerslider/js/greensock.js" type="text/javascript"></script>
@@ -246,13 +243,14 @@
 <!--<script src="/public/assets/js/inewsticker.js" type="text/javascript"></script>-->
 <!--<script src="/public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
-<script src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
-<script src="/public/src/utils.js"></script>
+{{--<script src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>--}}
+<script src="/public/js/all.js"></script>
+{{--<script src="/public/src/utils.js"></script>--}}
 
-<script src="/public/src/directives.js"></script>
-<script src="/public/src/services.js"></script>
-<script src="/public/src/controllers.js"></script>
-<script src="/public/src/app.js"></script>
+{{--<script src="/public/src/directives.js"></script>--}}
+{{--<script src="/public/src/services.js"></script>--}}
+{{--<script src="/public/src/controllers.js"></script>--}}
+{{--<script src="/public/src/app.js"></script>--}}
 
 </body>
 </html>

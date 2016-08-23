@@ -66,6 +66,14 @@
                                          alt="Video Thumbnail URL">
                                 </div>
                                 <div class="large-12 columns" ng-if="!!uploadOwnArt">
+                                    <img ngf-thumbnail="VEC.editedProject.thumbnail_url || '/assets/img/default_video_thumbnail.jpg'" class="md-card-image"
+                                         style="max-width: 560px"/>
+                                    <br>
+                                    <button type="button" class="tiny button" ngf-select="VEC.uploadArtwork($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'"
+                                            ngf-max-size="5MB">Upload on file select</button>
+
+                                </div>
+                                <!--<div class="large-12 columns" ng-if="!!uploadOwnArt">
                                     <div flow-init="{upload_preset:'dzachn6p'}"
                                          flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
                                          flow-files-submitted="$flow.upload()" flow-file-success="VEC.uploadArtwork($message)">
@@ -87,7 +95,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="large-12 columns">
                                 <label>Year of Completion <sup class="fa fa-asterisk req" aria-hidden="true"></sup>

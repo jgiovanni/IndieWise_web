@@ -8,7 +8,7 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                templateUrl: './src/directives/layerSlider.html',
+                templateUrl: BASE + 'src/directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     DataService.collection('users/count').then(function (res) {
@@ -21,7 +21,7 @@
                                 layersContainer: 1280,
                                 skin: 'noskin',
                                 hoverPrevNext: false,
-                                skinsPath: './assets/layerslider/skins/'
+                                skinsPath: BASE + 'assets/layerslider/skins/'
                             });
                         }, 0);
                     });
@@ -33,7 +33,7 @@
                 restrict: 'E',
                 replace: true,
                 //transclude: true,
-                templateUrl: './src/directives/featured-area.html',
+                templateUrl: BASE + 'src/directives/featured-area.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     DataService.collection("projects", {}[{
@@ -48,14 +48,15 @@
                         $timeout(function () {
                             // console.log('run owl');
                             //Premium carousel
-                            jQuery('.owl-carousel').each(function () {
+                            var carouselEl = jQuery('#owl-featured');
+                            carouselEl.each(function () {
                                 var owl = jQuery(this);
                                 jQuery(".prev").on('click', function () {
-                                    jQuery(this).parent().parent().parent().parent().next().trigger('prev.owl.carousel');
+                                    carouselEl.trigger('prev.owl.carousel');
                                 });
 
                                 jQuery(".next").on('click', function () {
-                                    jQuery(this).parent().parent().parent().parent().next().trigger('next.owl.carousel');
+                                    carouselEl.trigger('next.owl.carousel');
                                 });
                                 var loopLength = owl.data('car-length');
                                 var divLength = jQuery(this).find("div.item").length;
@@ -107,7 +108,7 @@
                                     });
                                 }
                             });
-                        }, 1000);
+                        }, 300);
                     });
 
                 }
@@ -117,11 +118,11 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './src/directives/people-watching.html',
+                templateUrl: BASE + 'src/directives/people-watching.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     scope.getWatchedList = function () {
-                        DataService.query('getRecentlyWatched').then(function (result) {
+                        DataService.collection('projects/watched').then(function (result) {
                             scope.watched = result.data;
                             // console.log('watched');
                             // console.log(scope.watched);
@@ -201,7 +202,7 @@
         .directive('playlists', ['$rootScope', 'DataService', 'UserActions', '_', function ($rootScope, DataService, UserActions, _) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/playlists.html',
+                templateUrl: BASE + 'src/directives/playlists.html',
                 replace: false,
                 scope: {
                     project: '='
@@ -209,27 +210,23 @@
                 link: function (scope, el, attrs) {
                     scope.model = {
                         newName: null,
-                        playlistArr: []
+                        playlistArr: [],
                     };
                     scope.playlists = [];
                     scope.newPlInput = false;
 
                     // Get playlists
                     if ($rootScope.AppData.User) {
-                        DataService.getList('Playlist', [], [{
-                            fieldName: 'user',
-                            operator: 'in',
-                            value: $rootScope.AppData.User.userId
-                        }], 10, true, false)
+                        DataService.collection('playlists')
                             .then(function (res) {
                                 // Check playlist items for this video
-                                DataService.query('checkInPlaylist', {id: scope.project.id})
+                                DataService.collection('playlistItems', {project: scope.project.id, playlists: _.pluck(res.data.playlists, 'id').toString()})
                                     .then(function (resA) {
                                         // console.log(resA);
-                                        scope.model.playlistArr = resA.data;
+                                        scope.model.playlistArr = resA.data.data;
 
                                         // list playlists
-                                        scope.playlists = res.data;
+                                        scope.playlists = res.data.playlists;
                                         // console.log(scope.playlists);
                                     });
                             });
@@ -245,13 +242,13 @@
 
                     scope.newPlaylist = function () {
                         UserActions.checkAuth().then(function (res) {
-                            DataService.save('Playlist', {
+                            DataService.save('playlists', {
                                 name: scope.model.newName,
-                                user: $rootScope.AppData.User.userId
+                                user_id: $rootScope.AppData.User.id
                             }, false, true).then(function (pl) {
                                 scope.toggleNewPlInput(false);
                                 scope.model.newName = null;
-                                scope.playlists.data.push(pl.data)
+                                scope.playlists.push(pl.data.data)
                             });
                         }, function (err) {
                             UserActions.loginModal().then(function (res) {
@@ -264,7 +261,7 @@
                         if (bool) {
                             // add item
                             scope.model.playlistArr.push(item);
-                            DataService.save('PlaylistItem', {playlist: item.id, project: scope.project.id});
+                            DataService.save('playlistItems', {playlist: item.id, project: scope.project.id});
                             $rootScope.toastMessage('Added to playlist');
                             // console.log('Added to playlist: ', item);
                         } else {
@@ -274,7 +271,7 @@
                                 if (scope.model.playlistArr[i].id == item.id) {
                                     var genreSetting = _.findWhere(scope.model.playlistArr, {
                                         project: scope.project.id,
-                                        playlist: item.id
+                                        playlist_id: item.id
                                     });
                                     // console.log(genreSetting);
                                     if (genreSetting) {
@@ -291,7 +288,7 @@
                     scope.isCheckedPlaylist = function (id) {
                         var match = false;
                         for (var i = 0; i < scope.model.playlistArr.length; i++) {
-                            if (scope.model.playlistArr[i].playlist == id) {
+                            if (scope.model.playlistArr[i].playlist_id == id) {
                                 match = true;
                             }
                         }
@@ -324,7 +321,7 @@
         .directive('elitePlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/videoPlayer.html',
+                templateUrl: BASE + 'src/directives/videoPlayer.html',
                 scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
                 link: function (scope, el, attrs) {
                     var listenerStarted = false;
@@ -361,7 +358,7 @@
                         popupAdEndTime: "00:07",                                                           //time to hide popup ad during playback
                         popupAdGoToLink: "http://getindiewise.com/",                                         //re-direct to URL when popup ad clicked
                         description: video.description,                                                      //video description
-                        thumbImg: video.thumbnail_url,                                                      //path to playlist thumbnail image
+                        thumbImg: video.thumbnail_url||'/assets/img/default_avatar.jpg',                //path to playlist thumbnail image
                         info: ""                                                                                    //video info
                     });
 
@@ -407,17 +404,19 @@
                                 popupAdEndTime: "00:07",                                                           //time to hide popup ad during playback
                                 popupAdGoToLink: "http://getindiewise.com/",                                         //re-direct to URL when popup ad clicked
                                 description: vid.url_id,                                                      //video description
-                                thumbImg: vid.thumbnail_url,                                                      //path to playlist thumbnail image
+                                thumbImg: vid.thumbnail_url||'/assets/img/default_avatar.jpg',                //path to playlist thumbnail image
                                 info: ""                                                                                    //video info
                             });
                         });
                     }).finally(function () {
                         window.videoPlayer = scope.videoPlayer = el.Video({                  //ALL PLUGIN OPTIONS
                             instanceName: "player1",                      //name of the player instance
+                            instanceTheme:"dark",                        //choose video player theme: "dark", "light"
                             autohideControls: 2,                          //autohide HTML5 player controls
                             hideControlsOnMouseOut: "No",                 //hide HTML5 player controls on mouse out of the player: "Yes","No"
-                            videoPlayerWidth: '100%',                     //fixed total player width
-                            videoPlayerHeight: Foundation.MediaQuery.atLeast('large') ? 470 : 420,                       //fixed total player height
+                            playerLayout: "fitToContainer",                   //Select player layout: "fitToContainer", "fixedSize", "fitToBrowser"
+                            // videoPlayerWidth: '100%',                     //fixed total player width
+                            // videoPlayerHeight: Foundation.MediaQuery.atLeast('large') ? 470 : 420,                       //fixed total player height
                             responsive: true,  //!Foundation.MediaQuery.atLeast('large'),				             //this option will overwrite above videoPlayerWidth/videoPlayerHeight and set player to fit your div (parent) container: true/false
                             playlist: /*scope.type === 'vimeo' ? "Off" :*/ "Right playlist",                   //choose playlist type: "Right playlist", "Off"
                             playlistScrollType: "light",                  //choose scrollbar type: "light","minimal","light-2","light-3","light-thick","light-thin","inset","inset-2","inset-3","rounded","rounded-dots","3d"
@@ -456,8 +455,8 @@
                             twitterVia: "IndieWise",				 //fourth parametar of twitter share in twitter feed dialog is via (@)
                             googlePlus: window.location.href, //share link over Google +
                             logoShow: "Yes",                              //"Yes","No"
-                            logoClickable: "Yes",                         //"Yes","No"
-                            logoPath: "./assets/img/Logo_alt2_web_87x45.png",             //path to logo image
+                            logoClickable: "No",                         //"Yes","No"
+                            logoPath: "/assets/img/Logo_alt2_web_87x45.png",             //path to logo image
                             logoGoToLink: "http://getindiewise.com",       //redirect to page when logo clicked
                             logoPosition: "bottom-left",                  //choose logo position: "bottom-right","bottom-left"
                             embedShow: "No",                             //enable/disable embed option: "Yes","No"
@@ -500,46 +499,49 @@
                             $state.go('video', {url_id: urlId});
                         });
 
-                        startedPlaying();
+                        // $timeout(function () {
+                        //     scope.startedPlaying();
+                        // }, 100);
+
+                        scope.startedPlaying = $interval(function () {
+                            // If Vimeo video
+                            if (scope.videoPlayer.state === 'loading' && !!angular.element('#elite_vp_vimeoWrapper iframe')) {
+                                // Listen for messages from the player
+                                if (!listenerStarted) {
+                                    if (window.addEventListener) {
+                                        window.addEventListener('message', vimeoListener, false);
+                                    }
+                                    else {
+                                        window.attachEvent('onmessage', vimeoListener);
+                                    }
+                                    listenerStarted = true;
+                                }
+                            }
+
+                            // if YouTube Video
+                            if (scope.videoPlayer.state === "elite_vp_playing") {
+                                toggleLights();
+                                $rootScope.initWatch();
+
+                                switch (scope.type) {
+                                    case "youtube":
+                                        //console.log('Youtube API is Ready');
+                                        scope.videoPlayer.youtubePlayer.addEventListener("onStateChange", function (a) {
+                                            //console.log(a.target.getPlayerState());
+                                            if (a.target.getPlayerState() == 0) {
+                                                //console.log('Scroll page to content');
+                                                toggleLights();
+                                                anchorSmoothScroll.scrollTo('SinglePostStats');
+                                            }
+                                        });
+                                        break;
+                                }
+
+                                $interval.cancel(scope.startedPlaying)
+                            }
+                        }, 1000);
+
                     });
-
-                    var startedPlaying = $interval(function () {
-                        // If Vimeo video
-                        if (scope.videoPlayer.state === 'loading' && !!angular.element('#elite_vp_vimeoWrapper iframe')) {
-                            // Listen for messages from the player
-                            if (!listenerStarted) {
-                                if (window.addEventListener) {
-                                    window.addEventListener('message', vimeoListener, false);
-                                }
-                                else {
-                                    window.attachEvent('onmessage', vimeoListener);
-                                }
-                                listenerStarted = true;
-                            }
-                        }
-
-                        // if YouTube Video
-                        if (scope.videoPlayer.state === "elite_vp_playing") {
-                            toggleLights();
-                            $rootScope.initWatch();
-
-                            switch (scope.type) {
-                                case "youtube":
-                                    //console.log('Youtube API is Ready');
-                                    scope.videoPlayer.youtubePlayer.addEventListener("onStateChange", function (a) {
-                                        //console.log(a.target.getPlayerState());
-                                        if (a.target.getPlayerState() == 0) {
-                                            //console.log('Scroll page to content');
-                                            toggleLights();
-                                            anchorSmoothScroll.scrollTo('SinglePostStats');
-                                        }
-                                    });
-                                    break;
-                            }
-
-                            $interval.cancel(startedPlaying)
-                        }
-                    }, 1000);
 
                     function vimeoListener(event) {
                         // Handle messages from the vimeo player only
@@ -555,7 +557,7 @@
                                 }
                                 $rootScope.initWatch();
                                 hasWatched = true;
-                                $interval.cancel(startedPlaying)
+                                $interval.cancel(scope.startedPlaying)
                             }
 
                             if (window.addEventListener) {
@@ -606,7 +608,7 @@
         .directive('elitePlayerEmbed', ['$rootScope', '_', function ($rootScope, _) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/videoPlayer.html',
+                templateUrl: BASE + 'src/directives/videoPlayer.html',
                 scope: { name: '=', hosting_id: '=', url: '=', type: '=', thumbnail: '=', description: '=' },
                 link: function (scope, el, attrs) {
                     var playlist = [];
@@ -643,11 +645,13 @@
 
                     scope.videoPlayer = el.Video({                  //ALL PLUGIN OPTIONS
                         instanceName: "player_" + new Date().valueOf().toString(),                      //name of the player instance
+                        instanceTheme:"dark",                        //choose video player theme: "dark", "light"
                         autohideControls: 2,                          //autohide HTML5 player controls
                         hideControlsOnMouseOut: "No",                 //hide HTML5 player controls on mouse out of the player: "Yes","No"
+                        playerLayout: "fixedSize",
                         videoPlayerWidth: '100%',                     //fixed total player width
                         videoPlayerHeight: Foundation.MediaQuery.atLeast('large') ? 470 : 420,                       //fixed total player height
-                        responsive: true,  //!Foundation.MediaQuery.atLeast('large'),				             //this option will overwrite above videoPlayerWidth/videoPlayerHeight and set player to fit your div (parent) container: true/false
+                        // responsive: true,  //!Foundation.MediaQuery.atLeast('large'),				             //this option will overwrite above videoPlayerWidth/videoPlayerHeight and set player to fit your div (parent) container: true/false
                         playlist: "Off",                   //choose playlist type: "Right playlist", "Off"
                         playlistScrollType: "light",                  //choose scrollbar type: "light","minimal","light-2","light-3","light-thick","light-thin","inset","inset-2","inset-3","rounded","rounded-dots","3d"
                         playlistBehaviourOnPageload: "closed",		 //choose playlist behaviour when webpage loads: "closed", "opened" (not apply to Vimeo player)
@@ -685,8 +689,8 @@
                         twitterVia: "IndieWise",				 //fourth parametar of twitter share in twitter feed dialog is via (@)
                         googlePlus: window.location.href, //share link over Google +
                         logoShow: "Yes",                              //"Yes","No"
-                        logoClickable: "Yes",                         //"Yes","No"
-                        logoPath: "./assets/img/Logo_alt2_web_87x45.png",             //path to logo image
+                        logoClickable: "No",                         //"Yes","No"
+                        logoPath: "/assets/img/Logo_alt2_web_87x45.png",             //path to logo image
                         logoGoToLink: "http://getindiewise.com",       //redirect to page when logo clicked
                         logoPosition: "bottom-left",                  //choose logo position: "bottom-right","bottom-left"
                         embedShow: "No",                             //enable/disable embed option: "Yes","No"
@@ -713,6 +717,27 @@
                 }
             }
         }])
+        .directive('messagesHeight', ['$window', function ($window) {
+            return {
+                restrict: 'A',
+                link: function (scope, el, attrs) {
+                    setHeight();
+                    angular.element($window).bind('resize', function(){
+                        setHeight();
+
+                        scope.$digest();
+                    });
+
+                    function setHeight() {
+                        var parentEl = el.parent();
+                        var prevElHeight = el.prev().height();
+                        var nextElHeight = el.next().height();
+                        var newHeight = $window.innerHeight - (parentEl.offset().top + prevElHeight + nextElHeight);
+                        scope.Msgs.viewportHeight = {height: newHeight + 'px'};
+                    }
+                }
+            }
+        }])
         .directive('sideNavNotif', ['$mdSidenav', function ($mdSidenav) {
             return {
                 restrict: 'A',
@@ -727,7 +752,7 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                templateUrl: './src/directives/help-info.html',
+                templateUrl: BASE + 'src/directives/help-info.html',
                 scope: {
                     text: '=text',
                     direction: '=direction'
@@ -739,7 +764,7 @@
                 restrict: 'E',
                 transclude: true,
                 replace: false,
-                templateUrl: './src/directives/project-card.html',
+                templateUrl: BASE + 'src/directives/project-card.html',
                 scope: {
                     video: '=video',
                     type: '=type',
@@ -748,44 +773,12 @@
                 },
                 link: function (scope, el, attrs) {
                     scope.isQueried = scope.queried === 'true';
-                    scope.isOpenFab = false;
                     scope.isLoggedIn = $rootScope.AppData.User;
                     scope.openShareDialog = openShareDialog;
-                    scope.toFavorites = toFavorites;
-                    scope.toWatchLater = toWatchLater;
-                    scope.check = check;
-
-                    function check(obj) {
-                        UserActions.checkAuth().then(function (res) {
-                            // Check Saved and Faved Status
-                            UserActions.checkFavorite(obj).then(function (res) {
-                                scope.isFaved = true;
-                            }, function (res) {
-                                scope.isFaved = res;
-                            });
-                            UserActions.checkWatchLater(obj).then(function (res) {
-                                scope.isSaved = true;
-                            }, function (res) {
-                                scope.isSaved = res;
-                            });
-                        }, function (err) {
-                            UserActions.loginModal().then(function (res) {
-                                debugger;
-                            });
-                        });
-                    }
-
-                    function toFavorites(obj) {
-                        return UserActions.favorite(obj);
-                    }
-
-                    function toWatchLater(obj) {
-                        return UserActions.watchLater(obj);
-                    }
 
                     function openShareDialog(video) {
                         $modal.open({
-                            templateUrl: './src/common/shareDialog.html',
+                            templateUrl: BASE + 'src/common/shareDialog.html',
                             resolve: {
                                 Video: function () {
                                     return video;
@@ -793,48 +786,20 @@
                             },
                             controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
                                 $scope.video = Video;
-                                $scope.shareLink = window.location.origin + '/alpha/' + Video.url_id;
+                                $scope.shareLink = window.location.origin + '/' + Video.url_id;
                                 $scope.cancel = function () {
                                     $modalInstance.close();
                                 };
                             }]
                         })
                     }
-
-                    scope.deleteProject = function (ev) {
-                        if ($rootScope.isLoggedIn && ($rootScope.isLoggedIn.id === scope.video.owner.id)) {
-                            var confirm = $modal.confirm()
-                                .title('Would you like to delete your project?')
-                                //.content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
-                                //.ariaLabel('Lucky day')
-                                .targetEvent(ev)
-                                .ok('Delete it!')
-                                .cancel('Never mind');
-                            $modal.show(confirm).then(function () {
-                                //self.project.set('disableProject', true);
-                                self.project.destroy({
-                                    success: function (myObject) {
-                                        // The object was deleted from the Parse Cloud.
-                                        $state.go('profile');
-                                    },
-                                    error: function (myObject, error) {
-                                        // The delete failed.
-                                        // error is a Parse.Error with an error code and message.
-                                    }
-                                });
-                                $state.go('profile');
-                            }, function () {
-                                //$scope.status = 'You decided to keep your debt.';
-                            });
-                        }
-                    };
                 }
             }
         }])
-        .directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', 'UtilsService', '$modal', '_', function ($rootScope, DataService, UserActions, UtilsService, $modal, _) {
+        .directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/comments.html',
+                templateUrl: BASE + 'src/directives/comments.html',
                 scope: {
                     comments: '=comments',
                     disable: '=disable',
@@ -860,39 +825,17 @@
                     function postComment() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                DataService.save('Comment', {
+                                DataService.save('comments', {
                                     body: scope.model.myComment,
-                                    parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    parentCritique: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    author: scope.model.isLoggedIn.userId
-                                }, true, true)
+                                    critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
+                                    user_id: scope.model.isLoggedIn.id
+                                })
                                     .then(function (comment) {
-                                        angular.extend(comment.data, {
-                                            ownerId: comment.data.author.id,
-                                            ownerUrlId: comment.data.author.url_id,
-                                            ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
-                                            ownerAvatar: comment.data.author.avatar
-                                        });
-
-                                        scope.comments.data.push(comment.data);
+                                        scope.comments.data.push(comment.data.data);
                                         $rootScope.toastMessage('Comment posted!');
                                         scope.model.myComment = null;
                                         clearCommentinput();
-                                        // refresh parent data
-                                        scope.parent.commentCount++;
-                                        /*if (scope.parent.hasOwnProperty('unlist')) {
-                                         DataService.getItem('Project', scope.parent.id, true, '', 2).then(function (a) {
-                                         scope.parent = a.data;
-                                         });
-                                         } else {*/
-                                        DataService.query('getCritiqueByUrlId', {urlId: scope.parent.url_id}).then(function (result) {
-                                            scope.parent = result.data[0];
-                                        });
-                                        //}
-                                        // register Action
-                                        UtilsService.recordActivity(comment.data, 'comment');
-
-
+                                        scope.parent.comments_count++;
                                     }, function (error) {
                                         console.log('Failed to create new comment, with error code: ' + error.message);
                                     });
@@ -913,11 +856,10 @@
                                 $modal.show(confirm).then(function () {
                                     var p = c.parentComment || undefined;
 
-                                    DataService.delete('Comment', c.id).then(function (res) {
+                                    DataService.delete('comments', c.id).then(function (res) {
                                         // Decrement film commentCount
                                         scope.parent.commentCount--;
 
-                                        //UtilsService.deleteActivity(c);
 
                                         if (angular.isUndefined(p)) {
                                             // normal comment
@@ -937,7 +879,7 @@
                                             // Increment film commentCount
                                             var pcQuery = new Parse.Query("Comment");
                                             pcQuery.get(p.id).then(function (res) {
-                                                res.increment('replies_count', -1);
+                                                res.increment('replyCount', -1);
                                                 res.save();
                                             });
 
@@ -956,8 +898,8 @@
                     function loadReplies(comment) {
                         // Fetch Replies
                         if (!comment.repliesLoaded) {
-                            DataService.query('getCommentReplies', {id: comment.id}).then(function (replies) {
-                                comment.replies = replies.data;
+                            DataService.collection('comments', {comment: comment.id}).then(function (replies) {
+                                comment.replies = replies.data.data;
                                 comment.repliesLoaded = true;
                                 comment.showReplies = !comment.showReplies;
                                 return comment;
@@ -992,32 +934,33 @@
                 }
             }
         }])
-        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', 'UtilsService', '$modal', function ($rootScope, DataService, UserActions, UtilsService, $modal) {
+        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', function ($rootScope, DataService, UserActions, $modal) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/critiques.html',
+                templateUrl: BASE + 'src/directives/critiques.html',
                 scope: {
                     critiques: '=critiques',
                     disable: '=disable',
-                    parentUrlId: '='
+                    parentUrlId: '=',
+                    parentOwnerId: '='
                 },
                 link: function (scope, el, attrs) {
                     scope.isLoggedIn = $rootScope.AppData.User;
-                    scope.showQuickReply = !1;
+                    scope.showQuickReply = !0;
 
                     scope.isPrivate = function (critique) {
                         return critique.private;
                     };
 
                     scope.isOwnerOrAuthor = function (critique) {
-                        return scope.isLoggedIn && (scope.isLoggedIn.userId == critique.author || scope.isLoggedIn.userId == critique.projectOwner);
+                        return scope.isLoggedIn && (scope.isLoggedIn.id == critique.user_id || scope.isLoggedIn.id == scope.parentOwnerId);
                     };
 
                     scope.deleteCritique = function (c) {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
                                 var modalInstance = $modal.open({
-                                    templateUrl: './src/common/confirmDialog.html',
+                                    templateUrl: BASE + 'src/common/confirmDialog.html',
                                     controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                                         $scope.ok = function () {
                                             $modalInstance.close(true);
@@ -1034,8 +977,8 @@
                                     if (scope.isOwnerOrAuthor) {
                                         DataService.delete('Critique', c.id).then(function () {
                                             $rootScope.toastMessage('Your critique was deleted.');
-                                            // Decrement film critiqueCount
-                                            self.film.critiqueCount--;
+                                            // Decrement film critiques_count
+                                            self.film.critiques_count--;
                                             scope.updateVideoObj();
                                             self.checkUserActions();
                                             scope.critiques = _.reject(scope.critiques, function (a) {
@@ -1055,8 +998,10 @@
         .directive('toggleReplies', ['$rootScope', function ($rootScope) {
             return {
                 restrict: 'A',
-                // transclude: true,
                 link: function (scope, el, attrs) {
+                    /*if (scope.comment.replies_count) {
+                        el.html('Show replies <i class="fa fa-angle-down"></i>');
+                    }*/
                     //comments reply hide show
                     el.on('click', function () {
                         scope.loadReplies(scope.comment);
@@ -1080,30 +1025,33 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './src/directives/replies.html',
+                templateUrl: BASE + 'src/directives/replies.html',
                 link: function (scope, el, attrs) {
 
                 }
             }
         }])
-        .directive('replyBlock', ['$rootScope', 'UserActions', 'DataService', 'UtilsService', '_', function ($rootScope, UserActions, DataService, UtilsService, _) {
+        .directive('replyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './src/directives/reply-comment.html',
+                templateUrl: BASE + 'src/directives/reply-comment.html',
                 link: function (scope, el, attrs) {
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                var repliedTo = angular.isObject(scope.targetComment.comment_id) ? scope.targetComment.comment_id : scope.targetComment;
-                                DataService.save('Comment', {
+                                var repliedTo = angular.isString(scope.targetComment.comment_id) ? scope.targetComment.comment_id : scope.targetComment;
+                                if (angular.isString(repliedTo)) {
+                                    repliedTo = _.findWhere(scope.comments.data, {id: scope.targetComment.comment_id})
+                                }
+                                DataService.save('comments', {
                                     body: scope.myReply,
-                                    //parentFilm: scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    parentCritique: scope.parent.id,
-                                    parentComment: repliedTo.id,
-                                    author: scope.model.isLoggedIn.userId
-                                }, true, true).then(function (comment) {
+                                    critique_id: scope.parent.id,
+                                    comment_id: repliedTo.id,
+                                    user_id: scope.model.isLoggedIn.id
+                                }).then(function (comment) {
+
                                     if (!!repliedTo.repliesLoaded) {
                                         var repliesLoaded = true;
                                         var oldReplies = repliedTo.replies || [];
@@ -1111,43 +1059,34 @@
                                     if (!repliedTo.replies) {
                                         repliedTo.replies = [];
                                     }
-                                    angular.extend(comment.data, {
-                                        ownerId: comment.data.author.id,
-                                        ownerUrlId: comment.data.author.url_id,
-                                        ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
-                                        ownerAvatar: comment.data.author.avatar
-                                    });
 
-                                    repliedTo.replies.push(comment.data);
-                                    //scope.comments.data.push(comment.data);
+                                    repliedTo.replies.push(comment.data.data);
+                                    repliedTo.replies_count++;
                                     scope.toggleReplyInput();
                                     // refresh parent data
-                                    scope.parent.commentCount++;
+                                    scope.parent.comments_count++;
                                     if (scope.parent.hasOwnProperty('unlist')) {
-                                        DataService.getItem('Project', scope.parent.id, true, '', 2).then(function (a) {
-                                            scope.parent = a.data;
+                                        DataService.item('projects', scope.parent.id).then(function (a) {
+                                            angular.extend(scope.parent, a.data.data);
                                             if (repliesLoaded) {
                                                 repliedTo.repliesLoaded = true;
-                                                oldReplies.push(comment);
+                                                oldReplies.push(comment.data.data);
                                                 repliedTo.replies = oldReplies;
                                             }
                                         });
                                     } else {
-                                        DataService.getItem('Critique', scope.parent.id, true, '', 2).then(function (a) {
-                                            scope.parent = a.data;
+                                        DataService.item('critiques', scope.parent.id).then(function (a) {
+                                            angular.extend(scope.parent, a.data.data);
                                             if (repliesLoaded) {
                                                 repliedTo.repliesLoaded = true;
-                                                oldReplies.push(comment);
+                                                oldReplies.push(comment.data.data);
                                                 repliedTo.replies = oldReplies;
                                             }
                                         });
                                     }
-
                                     $rootScope.toastMessage('Reply posted!');
                                     scope.myReply = null;
 
-                                    // register Action
-                                    UtilsService.recordActivity(comment.data, 'reply');
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
@@ -1157,11 +1096,11 @@
                 }
             }
         }])
-        .directive('quickReplyBlock', ['$rootScope', 'UserActions', 'DataService', 'UtilsService', '_', function ($rootScope, UserActions, DataService, UtilsService, _) {
+        .directive('quickReplyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './src/directives/reply-comment.html',
+                templateUrl: BASE + 'src/directives/reply-comment.html',
                 link: function (scope, el, attrs) {
                     scope.model = {
                         isLoggedIn: $rootScope.AppData.User
@@ -1171,25 +1110,17 @@
                     function postReply() {
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
-                                DataService.save('Comment', {
+                                DataService.save('comments', {
                                     body: scope.myReply,
-                                    parentCritique: scope.critique.id,
-                                    author: scope.model.isLoggedIn.userId
-                                }, false, true).then(function (comment) {
-                                    scope.critique.commentCount++;
-                                    angular.extend(comment.data, {
-                                        ownerId: comment.data.author.id,
-                                        ownerUrlId: comment.data.author.url_id,
-                                        ownerFullName: comment.data.author.firstName + ' ' + comment.data.author.lastName,
-                                        ownerAvatar: comment.data.author.avatar
-                                    });
-
+                                    critique_id: scope.critique.id,
+                                    user_id: scope.model.isLoggedIn.id
+                                }).then(function (comment) {
+                                    scope.critique.comments_count++;
                                     scope.myReply = null;
                                     scope.showQuickReply = false;
 
                                     // register Action
                                     $rootScope.toastMessage('Quick Reply posted!');
-                                    UtilsService.recordActivity(comment.data, 'reply');
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
@@ -1199,11 +1130,11 @@
                 }
             }
         }])
-        .directive('editCommentBlock', ['$rootScope', 'UserActions', 'DataService', 'UtilsService', '_', function ($rootScope, UserActions, DataService, UtilsService, _) {
+        .directive('editCommentBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: './src/directives/edit-comment.html',
+                templateUrl: BASE + 'src/directives/edit-comment.html',
                 link: function (scope, el, attrs) {
                     scope.editedBody = scope.editComment.body;
                     scope.updateComment = _.throttle(updateComment, 1000);
@@ -1213,7 +1144,7 @@
                             return scope.editComment;
                         }
                         UserActions.checkAuth().then(function (res) {
-                            DataService.update('Comment', scope.editComment.id, {
+                            DataService.update('comments', scope.editComment.id, {
                                 body: scope.editedBody,
                                 editedAt: moment().toDate()
                             }).then(function (comment) {
@@ -1302,7 +1233,7 @@
         .directive('broadstreetZone', ['$window', '$sce', function ($window, $sce) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/broadstreet-zone.html',
+                templateUrl: BASE + 'src/directives/broadstreet-zone.html',
                 transclude: true,
                 scope: { 
                     zone: "=",
@@ -1317,7 +1248,7 @@
         .directive('staticSideBar', ['$window', '$sce', function ($window, $sce) {
             return {
                 restrict: 'E',
-                templateUrl: './src/directives/static-sidebar.html',
+                templateUrl: BASE + 'src/directives/static-sidebar.html',
                 transclude: true,
                 replace: true
             }

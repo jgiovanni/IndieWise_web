@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="IndieWise" class="no-js">
+<html lang="en" ng-app="IndieWise" class="no-js" ng-strict-di>
 <head>
     <title>IndieWise</title>
     <base href="//industryboost.com/alpha/">
@@ -33,15 +33,12 @@
     <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=dLL8Gal3KG">
     <meta name="theme-color" content="#ffffff">
 
-    <script
-            src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>
-    <script>
-        // Underscore noConflict();
-        var ___ = _.noConflict();
-        var BASE = '/';
-    </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
+    <script src="/js/main.js"></script>
+
+    <script>window.BASE = '/';</script>
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
     <link rel="stylesheet" href="/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
@@ -53,12 +50,6 @@
     <script type="text/javascript" src="/app/eliteplayer/deploy/js/videoPlayer.js"></script>
     <script type="text/javascript" src="/app/eliteplayer/deploy/js/Playlist.js"></script>
     <script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
-
-    <!--    <link rel="stylesheet" href="/app/bower_components/foundation-apps/dist/css/foundation-apps.min.css">-->
-
-    <!--    <script src="/app/bower_components/foundation-apps/dist/js/foundation-apps.min.js"></script>-->
-
-    <!--    <script src="/app/bower_components/foundation-apps/dist/js/foundation-apps-templates.min.js"></script>-->
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="/assets/css/app.css">
@@ -77,7 +68,7 @@
     <!-- Custom Styles  -->
     <link rel="stylesheet" href="/assets/app.css"/>
 
-    <script src="//api.filepicker.io/v1/filepicker.js"></script>
+    {{--<script src="//api.filepicker.io/v1/filepicker.js"></script>--}}
     <script src="//cdn.broadstreetads.com/init.js"></script>
 </head>
 
@@ -216,32 +207,33 @@
 </script>
 
 <!-- AngularJs Components -->
-<script src="/app/bower_components/lodash/lodash.js"></script>
-<script src="/app/bower_components/getstream/dist/js_min/getstream.js"></script>
-<script src="/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>
-<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.min.js+angular-aria.min.js+angular-messages.min.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>
-<script src="/app/bower_components/angular-loading-bar/build/loading-bar.js"></script>
-<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>
-<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>
-<script src="/app/bower_components/satellizer/dist/satellizer.min.js"></script>
+<script src="/js/angular.js"></script>
+{{--<script src="/app/bower_components/lodash/lodash.js"></script>--}}
+{{--<script src="/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
+{{--<script src="/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>--}}
+{{--<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.min.js+angular-aria.min.js+angular-messages.min.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>--}}
+{{--<script src="/app/bower_components/angular-loading-bar/build/loading-bar.js"></script>--}}
+{{--<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>--}}
+{{--<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>--}}
+{{--<script src="/app/bower_components/satellizer/dist/satellizer.min.js"></script>--}}
 <script src="/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
-<script src="/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
+{{--<script src="/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>--}}
 <script src="/app/bower_components/ngAnimate-animate.css/animate.js"></script>
-<script src="/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
-<script src="/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
-<script src="/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>
-<script src="/app/bower_components/angular-material/angular-material.min.js"></script>
-<script src="/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>
-<script src="/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>
+{{--<script src="/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>--}}
+{{--<script src="/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>--}}
+{{--<script src="/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>--}}
+{{--<script src="/app/bower_components/angular-material/angular-material.min.js"></script>--}}
+{{--<script src="/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>--}}
+{{--<script src="/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>--}}
 <script src="/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
-<script src="/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>
+{{--<script src="/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>--}}
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>--}}
 <!--[if lte IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
 <![endif]-->
 <!-- BeTube script files -->
-<script src="/app/bower_components/what-input/what-input.js"></script>
-<script src="/app/bower_components/foundation-sites/dist/foundation.js"></script>
+{{--<script src="/app/bower_components/what-input/what-input.js"></script>--}}
+{{--<script src="/app/bower_components/foundation-sites/dist/foundation.js"></script>--}}
 <script src="/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
 {{--<script src="/assets/js/app.js"></script>--}}
 <script src="/assets/layerslider/js/greensock.js" type="text/javascript"></script>
@@ -253,12 +245,13 @@
 <!--<script src="/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
 <script src="/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
-<script src="/src/utils.js"></script>
+{{--<script src="/src/utils.js"></script>--}}
 
-<script src="/src/directives.js"></script>
-<script src="/src/services.js"></script>
-<script src="/src/controllers.js"></script>
-<script src="/src/app.js"></script>
+{{--<script src="/src/directives.js"></script>--}}
+{{--<script src="/src/services.js"></script>--}}
+{{--<script src="/src/controllers.js"></script>--}}
+{{--<script src="/src/app.js"></script>--}}
+<script src="/js/all.js"></script>
 
 </body>
 </html>

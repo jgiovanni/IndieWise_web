@@ -27,7 +27,7 @@
     }
 
     angular.module('IndieWise.controllers', [])
-        // Auth Controllers
+    // Auth Controllers
         .controller('SignInCtrl', SignInCtrl)
         .controller('ForgotPasswordCtrl', ForgotPasswordCtrl)
         .controller('RegisterCtrl', RegisterCtrl)
@@ -73,6 +73,8 @@
     function RegisterCtrl($rootScope, $timeout, $q, $state, AuthService, DataService, anchorSmoothScroll, _) {
         $rootScope.metadata.title = 'Register';
         var self = this;
+        self.creating = false;
+        self.accountCreated = false;
         self.genresArr = [];
         self.typesArr = [];
         self.user = {
@@ -81,12 +83,16 @@
             passwordCheck: '',
             firstName: '',
             lastName: '',
-            gender: false,
-            genres: [],
-            types: []
+            gender: '',
+            // genres: [],
+            // types: []
             //selected_genres: ''
         };
 
+        self.dobDay = '';
+        self.dobMonth = '';
+        self.dobYear = '';
+        self.authErrors = null;
         self.errors = {
             email: false,
             gender: false,
@@ -94,116 +100,71 @@
             types: false
         };
 
-        $rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res.data.data;
-        });
-        $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res.data.data;
-        });
+        self.thisYear = moment().year();
+        self.yearsList = [];
+        for (var i = self.thisYear; i > (self.thisYear - 100); i--) {
+            self.yearsList.push(i);
+        }
+
+        /*$rootScope.generateGenres().then(function (res) {
+         $rootScope.genresList = self.genresList = res;
+         });
+         $rootScope.generateTypes().then(function (res) {
+         $rootScope.typesList = self.typesList = res;
+         });*/
         $rootScope.generateCountries().then(function (res) {
-            $rootScope.countryList = self.countryList = res.data.data;
+            $rootScope.countryList = self.countryList = res;
         });
 
         self.checkEmailUse = function () {
             if (angular.isString(self.user.email) && self.user.email.length) {
-                DataService.query('checkEmailUse', {email: mysql_real_escape_string(self.user.email)}).then(function (res) {
-                    self.errors.email = res.data.length && res.data[0].verify === 1 ? 1 : 0;
+                DataService.collection('emailCheck', {email: mysql_real_escape_string(self.user.email)}).then(function (res) {
+                    self.errors.email = res.data && res.data.verify === true ? 1 : 0;
                 });
             } else self.errors.email = false;
         };
 
         self.doRegister = function () {
-            self.errors.gender = !self.user.gender;
+            if (!self.creating) {
+                self.creating = true;
+                self.errors.gender = !self.user.gender.length;
 
-            if (angular.isArray(self.genresArr) && self.genresArr.length) {
-                _.each(self.genresArr, function (a) {
-                    self.user.genres.push(a);
+                if (self.errors.gender) {
+                    anchorSmoothScroll.scrollTo('errors');
+                    return false;
+                }
+
+                self.user.dob = moment().set({
+                    'year': self.dobYear,
+                    'month': self.dobMonth,
+                    'day': self.dobDay
+                }).startOf('day').format('YYY-MM-DD hh:mm:ss');
+                AuthService.createUser(self.user).then(function (res) {
+                    if (!res.status) {
+                        self.authErrors = res.errors;
+                        $rootScope.toastMessage('There is an error, please check your form');
+                        // console.log('Failed', res);
+                    } else {
+                        // console.log('Success', res);
+                        //window.location.reload();
+                        $rootScope.toastMessage('Account created!');
+                    }
+                    // window.location.reload();
+                    self.creating = false;
                 });
-                self.user.genres = _.uniq(self.user.genres);
-                self.errors.genres = false;
             } else {
-                self.errors.genres = true;
+                $rootScope.toastMessage('Please wait...');
             }
-
-            if (angular.isArray(self.typesArr) && self.typesArr.length) {
-                _.each(self.typesArr, function (a) {
-                    self.user.types.push(a);
-                });
-                self.user.types = _.uniq(self.user.types);
-                self.errors.types = false;
-            } else {
-                self.errors.types = true;
-            }
-            if (self.errors.gender || self.errors.genres || self.errors.types) {
-                anchorSmoothScroll.scrollTo('errors');
-                return false;
-            }
-
-            AuthService.createUser(self.user).then(function (res) {
-                // console.log('Success', res);
-                //window.location.reload();
-            }, function (res) {
-                self.error = res.message;
-                // console.log('Failed', res);
-            }).then(function () {
-                // window.location.reload();
-            })
         };
 
         self.authenticate = function (provider) {
             self.error = null;
             AuthService.socialLogin(provider, true).then(function (a) {
-                $state.go('profile.about', {reload: true});
-                // console.log(a);
+                if (a) {
+                    $state.go('profile.about', {reload: true});
+                    // console.log(a);
+                }
             });
-        };
-
-        self.syncGenres = function (bool, item) {
-            if (bool) {
-                // add item
-                self.genresArr.push(item);
-            } else {
-                // remove item
-                for (var i = 0; i < self.genresArr.length; i++) {
-                    if (self.genresArr[i].id == item.id) {
-                        self.genresArr.splice(i, 1);
-                    }
-                }
-            }
-        };
-
-        self.isCheckedGenre = function (id) {
-            var match = false;
-            for (var i = 0; i < self.genresArr.length; i++) {
-                if (self.genresArr[i].id == id) {
-                    match = true;
-                }
-            }
-            return match;
-        };
-
-        self.syncTypes = function (bool, item) {
-            if (bool) {
-                // add item
-                self.typesArr.push(item);
-            } else {
-                // remove item
-                for (var i = 0; i < self.typesArr.length; i++) {
-                    if (self.typesArr[i].id == item.id) {
-                        self.typesArr.splice(i, 1);
-                    }
-                }
-            }
-        };
-
-        self.isCheckedType = function (id) {
-            var match = false;
-            for (var i = 0; i < self.typesArr.length; i++) {
-                if (self.typesArr[i].id == id) {
-                    match = true;
-                }
-            }
-            return match;
         };
 
         $timeout(function () {
@@ -214,12 +175,11 @@
         }, 500);
     }
 
-    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal', 'Backand'];
-    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal, Backand) {
+    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal'];
+    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal) {
         $rootScope.metadata.title = 'Sign In';
         var self = this;
-        self.providers = Backand.getSocialProviders();
-        //// console.log(self.providers);
+        self.authErrors = null;
         self.user = {
             email: '',
             password: ''
@@ -229,22 +189,27 @@
             redirect = redirect || true;
             self.error = false;
             AuthService.login(self.user.email, self.user.password).then(function (res) {
-                // console.log('Success', res);
-                if (redirect && angular.isDefined(res)) {
-                    $state.go('home');
+                if (res.status === false) {
+                    self.authErrors = res.errors;
+                } else {
+                    if (redirect && angular.isDefined(res)) {
+                        $state.go('home');
+                    }
                 }
             }, function (res) {
                 self.error = res;
                 // console.log('Failed', res);
-            }).then(function () {
             });
         };
 
         self.authenticate = function (provider) {
             self.error = null;
-            AuthService.socialLogin(provider, false).then(function (a) {
-                // console.log(a);
-            });
+            AuthService.socialLogin(provider, false).then(function (res) {
+                if (!res.status) {
+                    self.authErrors = res.errors;
+                    $rootScope.toastMessage('There is an error, please check your form');
+                    // console.log('Failed', res);
+                }            });
         };
 
         $timeout(function () {
@@ -265,13 +230,13 @@
             newPassword: null,
             newPasswordCheck: null
         };
-        self.hasToken = $rootScope.$stateParams.token||false;
+        self.hasToken = $rootScope.$stateParams.token || false;
 
         self.doPasswordResetRequest = function () {
             AuthService.requestPasswordReset(self.email).then(function (res) {
                 // console.log(res);
                 $rootScope.toastMessage('Check your inbox for our email! Should be there soon.');
-                //$state.go('sign_in');
+                $state.go('sign_in');
             }, function (error) {
                 $rootScope.toastMessage('Error: ' + error.message);
             });
@@ -281,7 +246,7 @@
             if (self.reseting.newPassword === self.reseting.newPasswordCheck && angular.isString(self.hasToken)) {
                 AuthService.passwordReset($rootScope.$stateParams.email, self.reseting.newPassword, self.reseting.newPasswordCheck, self.hasToken)
                     .then(function (res) {
-                        
+
                     })
             } else return false;
         };
@@ -304,7 +269,7 @@
 
 
         // Recent Videos Footer Section
-        DataService.collection('projects',{ per_page: 3, sort: 'created_at'}).then(function (result) {
+        DataService.collection('projects', {per_page: 3, sort: 'created_at'}).then(function (result) {
             self.footerRecentVideos = result.data;
         });
 
@@ -544,44 +509,53 @@
             var unseenList = _.where($rootScope.AppData.Notifications.list, {seen: false});
             var i = 0;
 
-            _.each($rootScope.AppData.Notifications.list, function (a) { if(!a.seen) {a.seen = true;} });
+            _.each($rootScope.AppData.Notifications.list, function (a) {
+                if (!a.seen) {
+                    a.seen = true;
+                }
+            });
             $interval(function () {
-                DataService.update('Action', unseenList[i++].id, { seen:true });
+                DataService.update('Action', unseenList[i++].id, {seen: true});
             }, 1000, unseenList.length).then(function (it) {
                 // console.log(it);
             });
 
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.userId, token);
-                feed.get({limit: 5, mark_seen: true}, function (a) {
-                    // console.log(a);
-                    _.each($rootScope.AppData.RawNotifications.list, function (n) {
-                        n.is_seen = true;
-                    });
-                    $rootScope.AppData.RawNotifications.unseen = 0;
-                })
-            });*/
+            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+             var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+             feed.get({limit: 5, mark_seen: true}, function (a) {
+             // console.log(a);
+             _.each($rootScope.AppData.RawNotifications.list, function (n) {
+             n.is_seen = true;
+             });
+             $rootScope.AppData.RawNotifications.unseen = 0;
+             })
+             });*/
         };
 
         self.markAllAsRead = function () {
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.userId, token);
+            $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                 feed.get({limit: 20, mark_read: true}, function (a) {
-                    _.each($rootScope.AppData.RawNotifications.list, function (n) {
+                    _.each($rootScope.AppData.Notifications.list, function (n) {
                         n.is_read = true;
                     });
-                    $rootScope.AppData.RawNotifications.unread = 0;
+                    $rootScope.AppData.Notifications.unread = 0;
                 })
-            });*/
+            });
         };
 
         self.markAsRead = function (obj) {
-            if (!obj.seen) {
-                DataService.update('Action', obj.id, {seen: true}, false, true);
-                if ($rootScope.AppData.Notifications.unseen > 0) {
-                    $rootScope.AppData.Notifications.unseen--;
-                }
-                obj.seen = true;
+            if (!obj.is_seen) {
+                $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                    var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                    feed.get({limit:25, mark_read: [obj.id], mark_seen: [obj.id]})
+                        .then(function(data) { /* on success */ })
+                        .catch(function(reason) { /* on failure */ });
+                    if ($rootScope.AppData.Notifications.unseen > 0) {
+                        $rootScope.AppData.Notifications.unseen--;
+                    }
+                    obj.is_seen = true;
+                });
             }
             return obj;
         };
@@ -631,29 +605,29 @@
         }
     }
 
-    HomeCtrl.$inject = ['$rootScope', 'DataService', '$scope', '$q', '$modal', '$interval'];
-    function HomeCtrl($rootScope, DataService, $scope, $q, $modal, $interval) {
+    HomeCtrl.$inject = ['$rootScope', 'DataService', '$scope', '$window', '$modal', '$interval'];
+    function HomeCtrl($rootScope, DataService, $scope, $window, $modal, $interval) {
         var self = this;
         $rootScope.metadata.title = 'Home';
 
         self.refresh = function () {
             // Trending Videos
-            DataService.collection('projects', { sort:'reactionCount', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'reactions_count', per_page: 6}).then(function (result) {
                 self.trending = result.data;
             });
 
             // Highest Rated Videos
-            DataService.collection('projects', { sort:'iwRating', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'iwRating', per_page: 6}).then(function (result) {
                 self.highestRated = result.data;
             });
 
             // Highest Awarded Videos
-            DataService.collection('projects', { sort:'awardCount', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'wins_count', per_page: 6}).then(function (result) {
                 self.highestAwarded = result.data;
             });
 
             // Recent Videos
-            DataService.collection('projects', { sort:'createdAt', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'created_at', per_page: 6}).then(function (result) {
                 self.recentFilms = result.data;
             });
         };
@@ -663,6 +637,15 @@
         $scope.$on('$destroy', function () {
             $interval.cancel(self.refInterval);
         });
+
+        $window.onfocus = function () {
+            //do something
+        };
+
+        $window.onblur = function () {
+            // console.log('Refresh Stopped');
+            $interval.cancel(self.refInterval);
+        };
     }
 
     BrowseCtrl.$inject = ['$scope', '$rootScope', '$state', 'DataService', '$q', '$timeout', '$modal', '_'];
@@ -678,10 +661,10 @@
             types: []
         };
         self.filters = {
-            sort: $rootScope.$stateParams.sort||'createdAt',
-            genres: $rootScope.$stateParams.genres||undefined,
-            type: $rootScope.$stateParams.types||undefined,
-            search: $rootScope.$stateParams.q||undefined
+            sort: $rootScope.$stateParams.sort || 'created_at',
+            genres: $rootScope.$stateParams.genres || undefined,
+            type: $rootScope.$stateParams.types || undefined,
+            search: $rootScope.$stateParams.q || undefined
         };
 
         $rootScope.generateTypes().then(function (types) {
@@ -708,17 +691,17 @@
             var filterField = '';
             switch (self.filters.sort) {
                 case 'trending':
-                    filterField = "reactionCount";
+                    filterField = 'reactions_count';
                     break;
                 case 'rating':
-                    filterField = "iwRating";
+                    filterField = 'iwRating';
                     break;
                 case 'awards':
-                    filterField = "awardCount";
+                    filterField = 'wins_count';
                     break;
                 case 'recent':
                 default:
-                    filterField = "createdAt";
+                    filterField = 'created_at';
                     break;
             }
 
@@ -727,9 +710,10 @@
                 order: 'DESC',
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
-                search: self.filters.search||undefined
+                search: self.filters.search || undefined,
+                per_page: 50,
             }).then(function (res) {
-                return self.films = res.data;
+                return self.films = res.data.data;
             });
 
             $scope.$broadcast('scroll.refreshComplete');
@@ -764,13 +748,13 @@
         var self = this;
 
         self.init = function () {
-            DataService.query('getLatestReactions').then(function (res) {
+            DataService.collection('reactions/latest').then(function (res) {
                 self.reactions = res.data;
             });
-            DataService.query('getLatestNominations').then(function (res) {
+            DataService.collection('nominations/latest').then(function (res) {
                 self.nominations = res.data;
             });
-            DataService.query('getLatestCritiques').then(function (res) {
+            DataService.collection('critiques/latest').then(function (res) {
                 self.critiques = res.data;
             });
         };
@@ -785,8 +769,8 @@
         $timeout(jQuery(document).foundation(), 0);
     }
 
-    VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'UtilsService', 'DataService', '$state', 'Analytics', '$window', '$timeout', 'Backand', '_'];
-    function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, UtilsService, DataService, $state, Analytics, $window, $timeout, Backand, _) {
+    VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'DataService', '$state', 'Analytics', '$window', '$timeout', '_'];
+    function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, DataService, $state, Analytics, $window, $timeout, _) {
         var self = this;
         self.loaded = false;
         self.displayShare = false;
@@ -803,18 +787,6 @@
         self.film = Project;
         function init(result) {
             $rootScope.currentTitle = result.name;
-            //self.film = result;
-            //$scope.commentsParent = self.film;
-
-            if (self.film.video_url.indexOf('youtu') != -1) {
-                self.type = 'youtube';
-            } else if (self.film.video_url.indexOf('vimeo') != -1) {
-                self.type = 'vimeo';
-            } else if (self.film.hosting_type === 'cdn') {
-                self.type = 'HTML5';
-            } else {
-                self.type = 'other';
-            }
             self.loaded = true;
 
             $rootScope.metadata = {
@@ -828,11 +800,11 @@
 
             self.qCritiques();
 
-            // self.qNominations();
+            self.qNominations();
 
-            // self.qWins();
+            self.qWins();
 
-            // self.checkUserActions();
+            self.checkUserActions();
 
             $rootScope.initWatch = function () {
                 Analytics.trackEvent('video', 'play', self.film.name);
@@ -859,7 +831,7 @@
             // Get related video
             DataService.collection('projects', {
                 notVideo: self.film.id,
-                notOwner: $rootScope.AppData.User ? $rootScope.AppData.User.userId : undefined,
+                notOwner: $rootScope.AppData.User ? $rootScope.AppData.User.id : undefined,
                 per_page: 1
             })
                 .then(function (res) {
@@ -870,29 +842,26 @@
 
             // Register Listener
             // console.log('Listener registered!');
-            Backand.on('video_updated_' + self.film.url_id, function (data) {
-                //// console.log(self.film);
-                // console.log('Listener Triggered!');
-                // console.log(data);
-                self.updateVideoObj();
-                /*_.each(data, function (a) {
-                 self.film[a.Key] = a.value;
-                 })*/
-            });
+            //Backand.on('video_updated_' + self.film.url_id, function (data) {
+            //// console.log(self.film);
+            // console.log('Listener Triggered!');
+            // console.log(data);
+            //self.updateVideoObj();
+            /*_.each(data, function (a) {
+             self.film[a.Key] = a.value;
+             })*/
+            //});
         }
-        self.videoOwner = self.film.owner;
 
         self.checkUserActions = function () {
-            var loggedIn = $rootScope.AppData.User;
-            if (loggedIn) {
-                var videoOwnerIsYou = self.videoOwner.id === $rootScope.AppData.User.userId;
+            if ($rootScope.isAuthenticated()) {
                 UserActions.canReact(self.film.id).then(function (res) {
                     self.canReact = res;
                 }, function (error) {
                     self.canReact = error;
                 });
 
-                if (self.film.disableCritique || (videoOwnerIsYou)) {
+                if (self.film.disableCritique || (self.film.owner_id === $rootScope.AppData.User.id)) {
                     console.log('owner');
                     self.canCritique = false;
                 } else {
@@ -913,22 +882,22 @@
             }
         };
 
-        self.qComments = function () {
-            // Fetch Comments
-            DataService.getList("Comment", [{fieldName: "createdAt", order: "desc"}],
-                [
-                    {fieldName: "project", operator: "in", value: self.film.id},
-                    {fieldName: "parentComment", operator: "in", value: ''}
-                ],
-                20, false, false, 1).then(function (result) {
-                    self.comments = result.data;
-                    // console.log("comments: ", result.data);
-                });
-        };
+        /*self.qComments = function () {
+         // Fetch Comments
+         DataService.collection('comments', [{fieldName: 'created_at', order: 'desc'}],
+         [
+         {fieldName: 'project', operator: 'in', value: self.film.id},
+         {fieldName: 'parentComment', operator: 'in', value: ''}
+         ],
+         20, false, false, 1).then(function (result) {
+         self.comments = result.data;
+         // console.log('comments: ", result.data);
+         });
+         };*/
 
         self.qReactions = function () {
             // Fetch Reactions
-            DataService.collection('reactions', { project: self.film.id, sort: 'created_at', per_page: 300 })
+            DataService.collection('reactions', {project: self.film.id, sort: 'created_at', per_page: 300})
                 .then(function (result) {
                     self.reactions = result.data;
                     self.chartedReactions = _.countBy(self.reactions.data, function (r) {
@@ -941,7 +910,7 @@
                     var sortable = [];
                     for (var r in self.chartedReactions)
                         sortable.push([r, self.chartedReactions[r]])
-                        sortable.sort(function (a, b) {
+                    sortable.sort(function (a, b) {
                         return b[1] - a[1]
                     });
 
@@ -951,7 +920,7 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', { project: self.film.id, per_page: 300})
+            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 50})
                 .then(function (result) {
                     self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);
@@ -959,21 +928,18 @@
         };
 
         self.qNominations = function () {
-            DataService.getList('Nomination', [{fieldName: "createdAt", order: "desc"}],
-                [{fieldName: "project", operator: "in", value: self.film.id}],
-                20, true, true, 1).then(function (result) {
-                    self.nominations = result.data;
+            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at'})
+                .then(function (result) {
+                    self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);
                 });
         };
 
         self.qWins = function () {
-            DataService.getList('AwardWin', [{fieldName: "createdAt", order: "desc"}],
-                [{fieldName: "project", operator: "in", value: self.film.id}],
-                20, true, true, 1).then(function (result) {
-                    self.wins = result.data;
-                    // console.log('AwardWin: ', result.data);
-                });
+            DataService.collection('wins', {project: self.film.id, sort: 'created_at'}).then(function (result) {
+                self.wins = result.data.data;
+                // console.log('AwardWin: ', result.data);
+            });
         };
 
         self.calcIwAverage = function (critiques) {
@@ -989,16 +955,11 @@
             return _.findWhere(reactions, {emotion: emotion});
         };
 
-        self.openMenu = function ($mdOpenMenu, ev) {
-            var originatorEv = ev;
-            $mdOpenMenu(ev);
-        };
-
         self.showMessageDialog = function () {
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var params = {
-                        templateUrl: './src/common/contactUserDialog.html',
+                        templateUrl: BASE + 'src/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.videoOwner.id;
@@ -1014,10 +975,6 @@
         };
 
         self.rateThrottled = false;
-        /*self.throttledRate = function (direction) {
-            _.throttle(self.rate(direction), 2000);
-        };*/
-
         self.rate = function (direction) {
             if (!!self.rateThrottled) {
                 return false;
@@ -1028,55 +985,52 @@
                     self.rateThrottled = true;
                     var actionVerb = 'like';
                     if (self.canRate === true) {
-                        DataService.save('Rating', {
-                            author: $rootScope.AppData.User.userId,
-                            project: self.film.id,
+                        DataService.save('ratings', {
+                            author_id: $rootScope.AppData.User.id,
+                            project_id: self.film.id,
                             up: direction === 'up',
                             down: direction === 'down'
-                        }, false, true).then(function (res) {
+                        }).then(function (res) {
                             // console.log(res);
                             switch (direction) {
                                 case 'up':
-                                    // Increment film rateUpCount
-                                    self.film.rateUpCount++;
+                                    // Increment film up_ratings_count
+                                    self.film.up_ratings_count++;
                                     break;
                                 case 'down':
-                                    // Increment film rateDownCount
-                                    self.film.rateDownCount++;
+                                    // Increment film down_ratings_count
+                                    self.film.down_ratings_count++;
                                     actionVerb = 'unlike';
                                     break;
                             }
 
                             self.updateVideoObj();
-                            angular.extend(res.data, { projectOwner: self.videoOwner.id});
-                            UtilsService.recordActivity(res.data, actionVerb);
+                            angular.extend(res.data, {projectOwner: self.film.owner_id});
                             self.checkUserActions();
                         });
 
                     } else if (angular.isObject(self.canRate)) {
                         //up is false && down is false
                         if (!self.canRate.up && !self.canRate.down) {
-                            DataService.update('Rating', self.canRate.id, {
-                                up: direction === 'up' ? true : undefined,
-                                down: direction === 'down' ? true : undefined,
-                                direction: direction
-                            }, false, true, direction)
+                            DataService.update('ratings', self.canRate.id, {
+                                up: direction === 'up',
+                                down: direction === 'down',
+                            })
                                 .then(function (res) {
                                     switch (direction) {
                                         case 'up':
-                                            // Increment film rateUpCount
-                                            self.film.rateUpCount++;
+                                            // Increment film up_ratings_count
+                                            self.film.up_ratings_count++;
                                             break;
                                         case 'down':
-                                            // Increment film rateDownCount
-                                            self.film.rateDownCount++;
+                                            // Increment film down_ratings_count
+                                            self.film.down_ratings_count++;
                                             actionVerb = 'unlike';
                                             break;
                                     }
                                     angular.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.videoOwner.id});
-                                    UtilsService.recordActivity(res.data, actionVerb);
+                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
                                     //self.checkUserActions();
                                 });
 
@@ -1084,15 +1038,11 @@
                         } else if (!!self.canRate.up && direction === 'up') {
                             //DataService.delete('Rating', self.canRate.id)
                             angular.extend(self.canRate, {up: false});
-                            DataService.update('Rating', self.canRate.id, {
-                                up: false,
-                                direction: direction
-                            }, false, true, direction)
+                            DataService.update('ratings', self.canRate.id, {up: false, down: false})
                                 .then(function (res) {
-                                    self.film.rateUpCount--;
+                                    self.film.up_ratings_count--;
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.videoOwner.id});
-                                    UtilsService.updateActivity(res.data, 'like');
+                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
                                     //self.checkUserActions();
                                 });
 
@@ -1100,15 +1050,11 @@
                         } else if (!!self.canRate.down && direction === 'down') {
                             //DataService.delete('Rating', self.canRate.id)
                             angular.extend(self.canRate, {down: false});
-                            DataService.update('Rating', self.canRate.id, {
-                                down: false,
-                                direction: direction
-                            }, false, true, direction)
+                            DataService.update('ratings', self.canRate.id, {up: false, down: false})
                                 .then(function (res) {
-                                    self.film.rateDownCount--;
+                                    self.film.down_ratings_count--;
                                     //self.updateVideoObj();
-                                    angular.extend(res.data, { projectOwner: self.videoOwner.id});
-                                    UtilsService.updateActivity(res.data, 'unlike');
+                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
                                     //self.checkUserActions();
                                 });
 
@@ -1118,27 +1064,22 @@
                             switch (direction) {
                                 case 'up':
                                     up = true;
-                                    self.film.rateUpCount++;
-                                    self.film.rateDownCount--;
+                                    self.film.up_ratings_count++;
+                                    self.film.down_ratings_count--;
                                     angular.extend(self.canRate, {up: up, down: down});
                                     break;
                                 case 'down':
                                     down = true;
-                                    self.film.rateUpCount--;
-                                    self.film.rateDownCount++;
+                                    self.film.up_ratings_count--;
+                                    self.film.down_ratings_count++;
                                     angular.extend(self.canRate, {up: up, down: down});
                                     actionVerb = 'unlike';
                                     break;
                             }
-                            DataService.update('Rating', self.canRate.id, {
-                                up: up,
-                                down: down,
-                                direction: direction
-                            }, false, true, direction).then(function (res) {
+                            DataService.update('ratings', self.canRate.id, {up: up, down: down}).then(function (res) {
                                 //self.updateVideoObj();
                                 //self.checkUserActions();
-                                angular.extend(res.data, { projectOwner: self.videoOwner.id});
-                                UtilsService.updateActivity(res.data, actionVerb);
+                                angular.extend(res.data, {projectOwner: self.film.owner_id});
                             });
                         }
                     }
@@ -1157,25 +1098,23 @@
                     if (res) {
                         var actionVerb = 'react';
                         if (self.canReact === true) {
-                            DataService.save('Reaction', {
-                                user: $rootScope.AppData.User.userId,
-                                project: self.film.id,
+                            DataService.save('reactions', {
+                                user_id: $rootScope.AppData.User.id,
+                                project_id: self.film.id,
                                 emotion: emotion.emotion
-                            }, true, true).then(function (resA) {
-                                self.film.reactionCount++;
-                                self.updateVideoObj();
-                                angular.extend(resA.data, { projectOwner: self.videoOwner.id});
-                                UtilsService.recordActivity(resA.data, actionVerb);
+                            }).then(function (resA) {
+                                self.film.reactions_count++;
+                                // self.updateVideoObj();
                                 self.checkUserActions();
                                 self.qReactions();
                             });
                         } else if (angular.isObject(self.canReact)) {
                             if (self.canReact.emotion !== emotion.emotion) {
-                                DataService.update('Reaction', self.canReact.id, {
+                                DataService.update('reactions', self.canReact.id, {
                                     emotion: emotion.emotion
-                                }, false, true).then(function (resA) {
+                                }).then(function (resA) {
                                     self.canReact = resA.data;
-                                    self.updateVideoObj();
+                                    // self.updateVideoObj();
                                     self.checkUserActions();
                                     self.qReactions();
                                 });
@@ -1189,14 +1128,17 @@
         };
 
         self.canReactIcon = function () {
-            return angular.isObject(self.canReact) ? _.findWhere(self.emotions, {'emotion': self.canReact.emotion}).icon : false;
+            if (angular.isObject(self.canReact)) {
+                var emoticon = _.findWhere(self.emotions, {'emotion': self.canReact.emotion});
+                return angular.isObject(emoticon) ? emoticon.icon : false;
+            } else return false;
         };
 
         self.deleteCritique = function (c, ev) {
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: './src/common/confirmDialog.html',
+                        templateUrl: BASE + 'src/common/confirmDialog.html',
                         controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                             $scope.ok = function () {
                                 $modalInstance.close(true);
@@ -1210,19 +1152,19 @@
                         keyboard: true
                     });
                     modalInstance.result.then(function () {
-                        DataService.getList('Nomination', [], [{
+                        DataService.collection('nominations', [], [{
                             critique: c.id
                         }]).then(function (noms) {
                             var nom = noms.data.data[0];
-                            DataService.delete('Nomination', nom.id).then(function () {
+                            DataService.delete('Nominations', nom.id).then(function () {
                                 // Decrement film nominationCount
                                 self.film.nominationCount--;
                             });
 
                             DataService.delete('Critique', c.id).then(function () {
                                 $rootScope.toastMessage('Your critique was deleted.');
-                                // Decrement film critiqueCount
-                                self.film.critiqueCount--;
+                                // Decrement film critiques_count
+                                self.film.critiques_count--;
                                 self.updateVideoObj();
                                 self.checkUserActions();
                                 self.critiques = _.reject(self.critiques, function (a) {
@@ -1239,7 +1181,7 @@
 
         self.openCritiqueDialog = function ($event) {
             if (self.canCritique !== true && self.canCritique !== false) {
-                return $state.go('video_critique-edit', {video_id: self.film.id, id: self.canCritique.id});
+                return $state.go('video_critique', {video_url_id: self.film.url_id, url_id: self.canCritique.url_id});
             }
 
             CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', '$q', 'Analytics'];
@@ -1249,20 +1191,19 @@
                 $scope.ratingMax = 10;
                 $scope.makePrivateHelp = false;
 
-                DataService.getList('Award', [], [], 50)
-                    .then(function (result) {
-                        $scope.awardsList = result.data;
-                    });
+                DataService.collection('awards').then(function (result) {
+                    $scope.awardsList = result.data.Awards;
+                });
 
                 $scope.dialogModel = {
-                    awardId: null
+                    award_id: null
                 };
 
                 $scope.nominated = {
-                    awardPntr: $scope.dialogModel.awardId,
-                    nominator: $rootScope.AppData.User.userId,
-                    project: $scope.critique.project,
-                    critique: undefined
+                    award_id: $scope.dialogModel.award_id,
+                    user_id: $rootScope.AppData.User.id,
+                    project_id: $scope.critique.project_id,
+                    critique_id: undefined
                 };
 
                 $scope.starArray = angular.copy([{"num": 0}, {"num": 1}, {"num": 2}, {"num": 3}, {"num": 4}, {"num": 5}, {"num": 6}, {"num": 7}, {"num": 8}, {"num": 9}, {"num": 10}].reverse());
@@ -1294,44 +1235,34 @@
 
                 $scope.postCritique = function () {
                     $scope.critique.url_id = moment().valueOf();
-                    DataService.save('Critique', $scope.critique, true, true).then(function (res) {
-                        var obj = res.data;
-                        angular.extend(obj, {
-                            userFullName: obj.author.firstName + ' ' + obj.author.lastName,
-                            userUrlId: obj.author.url_id,
-                            userAvatar: obj.author.avatar,
-                            projectName: self.film.name,
-                            projectId: self.film.url_id,
-                            projectUrlId: self.film.url_id,
-                            projectThumbnail: self.film.thumbnail_url,
-                            projectOwner: self.videoOwner.id
-                        });
+                    DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
+                        var obj = res.data.data;
 
                         self.critiques.push(obj);
                         self.calcIwAverage(self.critiques);
-                        // Increment film critiqueCount
-                        self.film.critiqueCount++;
+                        // Increment film critiques_count
+                        self.film.critiques_count++;
 
                         // register Action
-                        UtilsService.recordActivity(obj, 'judge');
                         Analytics.trackEvent('video', 'critique', self.film.name);
 
                         // if an award has been selected, create a nomination
-                        if (!!$scope.dialogModel.awardId && angular.isString($scope.dialogModel.awardId)) {
-                            $scope.nominated.critique = obj.id;
-                            $scope.nominated.awardPntr = $scope.dialogModel.awardId;
-                            DataService.save('Nomination', $scope.nominated, true, true).then(function (nom) {
+                        if (!!$scope.dialogModel.award_id && angular.isString($scope.dialogModel.award_id)) {
+                            $scope.nominated.critique_id = obj.id;
+                            $scope.nominated.award_id = $scope.dialogModel.award_id;
+                            DataService.save('nominations', $scope.nominated).then(function (nom) {
                                 // Increment film commentCount
                                 self.film.nominationCount++;
                                 self.updateVideoObj();
                                 // register Action
                                 self.qNominations();
                                 nom.critique = obj;
-                                UtilsService.recordActivity(nom, 'nominate');
                                 Analytics.trackEvent('video', 'nominate', self.film.name);
                             }, function (error) {
                                 alert('Failed to create new nomination, with error code: ' + error.message);
                             })
+                        } else {
+
                         }
 
                     }, function (error) {
@@ -1349,7 +1280,7 @@
                 // is logged in
                 if (res) {
                     $modal.open({
-                        templateUrl: './src/common/critiqueDialog.html',
+                        templateUrl: BASE + 'src/common/critiqueDialog.html',
                         resolve: {
                             critique: function () {
                                 return {
@@ -1365,9 +1296,9 @@
                                     music: 0,
                                     overall: 0,
                                     private: false,
-                                    author: $rootScope.AppData.User.userId,
+                                    user_id: $rootScope.AppData.User.id,
                                     body: '',
-                                    project: self.film.id
+                                    project_id: self.film.id
                                 };
                             }
                         },
@@ -1384,17 +1315,17 @@
 
         self.openShareDialog = function () {
             $modal.open({
-                templateUrl: './src/common/shareDialog.html',
+                templateUrl: BASE + 'src/common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
                     }
                 },
                 size: Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
-                controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
+                controller: ['$rootScope', '$scope', '$modalInstance', 'Video', function ($rootScope, $scope, $modalInstance, Video) {
                     zIndexPlayer();
                     $scope.video = Video;
-                    $scope.shareLink = window.location.origin + '/alpha/' + Video.url_id;
+                    $scope.shareLink = window.location.origin + '/' + Video.url_id;
                     $scope.cancel = function () {
                         zIndexPlayer(true);
                         $modalInstance.close();
@@ -1408,7 +1339,7 @@
                 // is logged in
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: './src/common/reactionDialog.html',
+                        templateUrl: BASE + 'src/common/reactionDialog.html',
                         resolve: {
                             Video: function () {
                                 return self.film;
@@ -1470,7 +1401,7 @@
 
         self.openAddToDialog = function () {
             $modal.open({
-                templateUrl: './src/common/shareDialog.html',
+                templateUrl: BASE + 'src/common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1480,7 +1411,7 @@
                 controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
                     zIndexPlayer();
                     $scope.video = Video;
-                    $scope.shareLink = window.location.origin + '/alpha/' + Video.url_id;
+                    $scope.shareLink = window.location.origin + '/' + Video.url_id;
                     $scope.cancel = function () {
                         zIndexPlayer(true);
                         $modalInstance.close();
@@ -1513,10 +1444,10 @@
         });
 
         self.updateVideoObj = function () {
-            return DataService.query('getProjectById', {id: self.film.id})
+            return DataService.item('projects', self.film.id)
                 .then(function (a) {
                     console.log('Project Updated: ', a);
-                    self.film = a.data[0];
+                    self.film = a.data.data;
                 });
         };
 
@@ -1537,7 +1468,7 @@
 
         self.reportDialog = function () {
             var modalInstance = $modal.open({
-                templateUrl: './src/common/reportVideoDialog.html',
+                templateUrl: BASE + 'src/common/reportVideoDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1569,7 +1500,7 @@
             });
 
             modalInstance.result.then(function (report) {
-                DataService.action('Flag', 'Send Flag Email', report).then(function () {
+                DataService.mail('report', report).then(function () {
                     $rootScope.toastMessage('Your Report has been Sent');
                 });
             }, function () {
@@ -1591,52 +1522,48 @@
         init(self.film);
     }
 
-    VideoCritiqueCtrl.$inject = ['$rootScope', '$scope', 'Critique', 'UserActions', 'DataService'];
-    function VideoCritiqueCtrl($rootScope, $scope, Critique, UserActions, DataService) {
+    VideoCritiqueCtrl.$inject = ['$rootScope', '$scope', 'Critique', 'UserActions', 'DataService', '_'];
+    function VideoCritiqueCtrl($rootScope, $scope, Critique, UserActions, DataService, _) {
         var self = this;
+        self.commentsPage = 1;
+
         // Fetch Critique
         var init = function (critique) {
             self.critique = critique;
-            //get project w/ owner
-            DataService.query('getProjectById', {id: critique.project}, false).then(function (res) {
-                // console.log(res);
-                self.project = res.data[0];
-            });
-
             $scope.commentsParent = self.critique;
-            // console.log('Critique: ', critique);
-            //self.loaded = true;
-            //$scope.$broadcast('scroll.refreshComplete');
 
             // Fetch Comments
-            DataService.query('getCritiqueComments', {id: self.critique.id}).then(function (result) {
-                // console.log("Comments: ", result.data);
-                self.comments = result;
+            DataService.collection('comments', {
+                critique: self.critique.id,
+                per_page: 10,
+                page: self.commentsPage,
+                replies: false
+            }).then(function (result) {
+                self.comments = result.data;
             });
 
         };
-        init(Critique.data[0]);
+        init(Critique.data.data);
     }
 
     VideoCritiqueEditCtrl.$inject = ['$rootScope', '$scope', 'DataService', '$state', 'Critique'];
     function VideoCritiqueEditCtrl($rootScope, $scope, DataService, $state, Critique) {
-        $scope.critique = Critique.data[0];
+        $scope.critique = Critique.data.data;
         $scope.ratingMax = 10;
         $scope.makePrivateHelp = false;
 
         $scope.editedCritique = angular.copy($scope.critique);
-        $scope.editedCritique.private = $scope.editedCritique.private === 1 || $scope.editedCritique.private === true ;
 
-        DataService.getList('Award', '', '', 50)
+        DataService.collection('awards')
             .then(function (result) {
-                $scope.awardsList = result.data;
+                $scope.awardsList = result.data.awards;
             });
 
 
         $scope.update = function () {
-            $scope.editedCritique.editedAt = moment().toDate();
-            $scope.editedCritique.private = !!$scope.editedCritique.private;
-            DataService.update('Critique', $scope.critique.id, $scope.editedCritique).then(function (res) {
+            $scope.editedCritique.edited_at = moment().toDate();
+            // $scope.editedCritique.private = !!$scope.editedCritique.private;
+            DataService.update('critiques', $scope.critique.id, $scope.editedCritique).then(function (res) {
                     $rootScope.toastMessage('Critique Updated');
                     /*if ($state.is('profile_critique-edit'))
                      $state.go('profile_critiqueselfid: self.critique.id});*/
@@ -1705,8 +1632,8 @@
 
     }
 
-    ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', 'UtilsService', '$window', 'filepickerService', '_'];
-    function ProfileUploadController($rootScope, $state, User, $http, DataService, UtilsService, $window, filepickerService, _) {
+    ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', '$window', 'filepickerService', '_'];
+    function ProfileUploadController($rootScope, $state, User, $http, DataService, $window, filepickerService, _) {
         var self = this;
         self.user = User.data;
         self.uploadType = 2;
@@ -1721,7 +1648,7 @@
             completionDate: '',
             filmingCountry: undefined,
             originCountry: undefined,
-            owner: $rootScope.AppData.User.userId,
+            owner: $rootScope.AppData.User.id,
             genres: [],
             type: undefined,
             runTime: 0,
@@ -1748,16 +1675,16 @@
         self.selectedGenre = null;
 
         $rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res.data.data;
+            $rootScope.genresList = self.genresList = res;
         });
         $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res.data.data;
+            $rootScope.typesList = self.typesList = res;
         });
         $rootScope.generateCountries().then(function (res) {
-            $rootScope.countryList = self.countryList = res.data.data;
+            $rootScope.countryList = self.countryList = res;
         });
         $rootScope.generateLanguages().then(function (res) {
-            $rootScope.languageList = self.languageList = res.data.data;
+            $rootScope.languageList = self.languageList = res;
         });
 
         self.runtimeToSeconds = function () {
@@ -1802,7 +1729,7 @@
                 } else if (url.indexOf('vine') != -1) {
                     self.newVideo.hosting_type = 'vine';
                     self.newVideo.hosting_id = undefined;
-                    $http.get('/alpha/utils/get-vine-data.php?url=' + url).then(function (res) {
+                    $http.get('/utils/get-vine-data.php?url=' + url).then(function (res) {
                         return self.newVideo.thumbnail_url = res.data;
                     });
                 }
@@ -1870,22 +1797,19 @@
 
         self.submitNewVideo = function () {
             if (!!self.validateNewVideoForm()) {
-                    if (angular.isArray(self.genresArr) && self.genresArr.length) {
-                        _.each(self.genresArr, function (a) {
-                            self.newVideo.genres.push({genre: a.id});
-                        });
-                    }
+                if (angular.isArray(self.genresArr) && self.genresArr.length) {
+                    self.newVideo.genres = _.pluck(self.genresArr, 'id');
+                }
 
                 var filmParams = {
-                    urlId: moment().valueOf(),
                     name: self.newVideo.name,
                     description: self.newVideo.description,
                     director: self.newVideo.director,
                     writer: self.newVideo.writer,
                     producers: self.newVideo.producers,
                     keyCast: self.newVideo.keyCast,
-                    completionDate: moment(self.newVideo.completionDate).toDate(),
-                    owner: self.newVideo.owner,
+                    completionDate: moment({year: self.newVideo.completionDate}).startOf('year').format('YYYY-MM-DD HH:MM:SS'),
+                    owner_id: self.newVideo.owner,
                     runTime: self.newVideo.runTime,
                     video_url: self.newVideo.video_url,
                     thumbnail_url: self.newVideo.thumbnail_url,
@@ -1894,23 +1818,23 @@
                     tags: self.newVideo.tags,
                     disableComments: self.newVideo.disableComments || false,
                     disableCritique: self.newVideo.disableCritique || false,
-                    language: self.newVideo.language,
-                    filmingCountry: self.newVideo.filmingCountry,
-                    originCountry: self.newVideo.originCountry,
-                    type: self.newVideo.type,
+                    language_id: self.newVideo.language,
+                    filmingCountry_id: self.newVideo.filmingCountry,
+                    // originCountry: self.newVideo.originCountry,
+                    type_id: self.newVideo.type,
                     unlist: self.newVideo.unlist,
                     nsfw: self.newVideo.nsfw,
-                    copyrightOwner: self.newVideo.copyrightOwner
+                    copyrightOwner: self.newVideo.copyrightOwner,
+                    genres: self.newVideo.genres
                 };
-                DataService.save('Project', filmParams, true, true)
+
+                DataService.save('projects', filmParams)
                     .then(function (film) {
-                        // add genres after create
-                        DataService.update('Project', film.data.id, {genres: self.newVideo.genres}, true);
+                        console.log(film.data.data);
                         $rootScope.toastMessage('Video Uploaded Successfully');
                         // register Action
-                        UtilsService.recordActivity(film, 'upload');
-                        $state.go('video', {url_id: film.data.url_id});
-                        return film;
+                        $state.go('video', {url_id: film.data.data.url_id});
+                        //return film;
                     }, function (err) {
                         // console.log(err);
                         alert('Failed to create new video, with error: ' + err.message);
@@ -1927,36 +1851,35 @@
 
         self.files = []; //JSON.parse($window.localStorage.getItem('files') || '[]');
 
-        self.pickFile = function (){
+        self.pickFile = function () {
 
-            filepickerService.pick(
-                {
+            filepickerService.pick({
                     mimetype: 'video/*'
                 },
                 self.onSuccess
             );
         };
 
-        self.onSuccess = function (Blob){
-            self.newVideo.hosting_type = 'cdn';
+        self.onSuccess = function (Blob) {
+            self.newVideo.hosting_type = 'HTML5';
             self.newVideo.video_url = Blob.url;
             self.files.push(Blob);
             $window.localStorage.setItem('files', JSON.stringify(self.files));
         };
     }
 
-    ProfileVideoEditCtrl.$inject = ['$rootScope', '$state', '$modal', 'UserActions', 'Project', 'DataService', 'anchorSmoothScroll', '_'];
-    function ProfileVideoEditCtrl($rootScope, $state, $modal, UserActions, Project, DataService, anchorSmoothScroll, _) {
+    ProfileVideoEditCtrl.$inject = ['$rootScope', '$state', '$modal', 'UserActions', 'Project', 'DataService', 'anchorSmoothScroll', 'Upload', '_'];
+    function ProfileVideoEditCtrl($rootScope, $state, $modal, UserActions, Project, DataService, anchorSmoothScroll, Upload, _) {
         var self = this;
-        self.project = Project.data;
+        self.project = Project.data.data;
         self.uploadType = 2;
         self.genresArr = self.project.genres;
         self.saveComplete = false;
         self.editedProject = angular.copy(self.project);
         angular.extend(self.editedProject, {
-            type: self.project.type.id,
-            language: self.project.language.id,
-            filmingCountry: self.project.filmingCountry.id,
+            type_id: self.project.type_id,
+            language_id: self.project.language_id,
+            filmingCountry_id: self.project.filmingCountry_id,
             completionDate: moment(self.project.completionDate).year()
         });
         // console.log(self.editedProject);
@@ -1975,29 +1898,30 @@
         }
 
         $rootScope.generateGenres().then(function (res) {
-            $rootScope.genresList = self.genresList = res.data.data;
+            $rootScope.genresList = self.genresList = res;
         });
         $rootScope.generateTypes().then(function (res) {
-            $rootScope.typesList = self.typesList = res.data.data;
+            $rootScope.typesList = self.typesList = res;
         });
         $rootScope.generateCountries().then(function (res) {
-            $rootScope.countryList = self.countryList = res.data.data;
+            $rootScope.countryList = self.countryList = res;
         });
         $rootScope.generateLanguages().then(function (res) {
-            $rootScope.languageList = self.languageList = res.data.data;
+            $rootScope.languageList = self.languageList = res;
         });
 
         self.syncGenres = function (bool, item) {
             if (bool) {
                 // add item
-                DataService.save('Genres', {project: self.editedProject.id, genre: item.id}, true, true)
-                    .then(function (res) {
-                        self.genresArr.push(res.data);
-                    });
+                self.genresArr.push(item);
+                /*DataService.save('Genres', {project: self.editedProject.id, genre: item.id}, true, true)
+                 .then(function (res) {
+                 self.genresArr.push(res.data);
+                 });*/
             } else {
                 // remove item
                 for (var i = 0; i < self.genresArr.length; i++) {
-                    if (self.genresArr[i].genre.id == item.id) {
+                    if (self.genresArr[i].id == item.id) {
                         DataService.delete('Genres', self.genresArr[i].id);
                         self.genresArr.splice(i, 1);
                     }
@@ -2008,7 +1932,7 @@
         self.isCheckedGenre = function (id) {
             var match = false;
             for (var i = 0; i < self.genresArr.length; i++) {
-                if (self.genresArr[i].genre.id == id) {
+                if (self.genresArr[i].id == id) {
                     match = true;
                 }
             }
@@ -2043,20 +1967,35 @@
                 } else if (url.indexOf('youku') != -1) {
 
                 } else if (url.indexOf('vine') != -1) {
-                    $http.get('/alpha/utils/get-vine-data.php?url=' + url).then(function (res) {
+                    $http.get('api/utils/get-vine-data?url=' + url).then(function (res) {
                         return self.editedProject.thumbnail_url = self.project.thumbnail_url = res.data;
                     });
                 }
             }
         };
 
-        self.uploadArtwork = function (message) {
-            self.editedProject.thumbnail_url = JSON.parse(message).secure_url;
+        self.uploadArtwork = function (file) {
+            Upload.upload({
+                url: 'https://api.cloudinary.com/v1_1/indiewise/upload',
+                params: {upload_preset: 'dzachn6p'},
+                data: {file: file},
+                skipAuthorization: true  // `Authorization: Bearer <token>` will not be sent on this request.
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                self.editedProject.thumbnail_url = resp.data.secure_url;
+                DataService.update('projects', self.editedProject.id, self.editedProject);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
         };
 
         self.updateProject = function () {
-            self.editedProject.completionDate = moment().year(self.editedProject.completionDate).toDate();
-            DataService.update('Project', self.editedProject.id, self.editedProject, false, true)
+            self.editedProject.genres = _.pluck(self.genresArr, 'id');
+            self.editedProject.completionDate = moment({year: self.editedProject.completionDate}).startOf('year').format('YYYY-MM-DD HH:mm:ss');
+            DataService.update('projects', self.editedProject.id, self.editedProject)
                 .then(function (res) {
                     // console.log(res);
                     self.saveComplete = true;
@@ -2067,7 +2006,7 @@
         };
 
         /*self.deleteProject = function (ev) {
-         if ($rootScope.AppData.User && ($rootScope.AppData.User.userId === self.project.owner.id)) {
+         if ($rootScope.AppData.User && ($rootScope.AppData.User.id === self.project.owner.id)) {
          var confirm = $modal.confirm()
          .title('Would you like to delete your project?')
          //.content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
@@ -2100,16 +2039,16 @@
     function ProfilePlaylistsController($rootScope, DataService, User, Playlists, UserActions, _, $interval, $http) {
         var self = this;
         self.user = User.data;
-        self.playlists = Playlists.data;
+        self.playlists = Playlists.data.playlists;
         self.playlistItems = [];
         var hasFave = _.findWhere(self.playlists, {name: 'Favorites', private: true});
-        self.selectedPlaylist = !!hasFave ? hasFave.id : self.playlists.data.length ? self.playlists.data[0].id : null;
+        self.selectedPlaylist = !!hasFave ? hasFave.id : self.playlists.length ? self.playlists[0].id : null;
 
         self.loadPlaylistItems = function () {
-            DataService.query('getUserPlaylistItems', {id: self.selectedPlaylist, userId: self.user.id})
+            DataService.collection('playlistItems', {playlist: self.selectedPlaylist, include: 'project.owner'})
                 .then(function (res) {
                     // console.log(res);
-                    self.playlistItems = res.data;
+                    self.playlistItems = res.data.data;
                 })
         };
 
@@ -2117,7 +2056,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     DataService.delete('PlaylistItem', id).then(function () {
-                        return self.playlists = _.reject(self.playlists.data, function (a) {
+                        return self.playlists = _.reject(self.playlists, function (a) {
                             return a.id === id;
                         });
                     })
@@ -2129,21 +2068,6 @@
         if (angular.isString(self.selectedPlaylist)) {
             self.loadPlaylistItems();
         }
-
-        if (self.user.id = "00000000-0000-6463-7952-633635765552") {
-            /*// console.log('Executing function');
-
-             $http.get('utils/allLeft.json').then(function (res) {
-             var jsonData = res.data;
-             var i = 0;
-             $interval(function () {
-             if (jsonData[i]) {
-             DataService.save('Country', jsonData[i++],false);
-             }
-             }, 1000, jsonData.length)
-             })*/
-        }
-
     }
 
     ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window'];
@@ -2154,15 +2078,14 @@
         self.typesArr = [];
         self.saveComplete = false;
         self.updating = false;
-        User.data.dob = moment(User.data.dob).startOf('day').toDate();
-        self.user = User.data;
-        self.genresArr = Genres.data.data;
-        self.typesArr = UserTypes.data.data;
+        User.dob = moment(User.dob).startOf('day').toDate();
+        self.user = User;
+        self.genresArr = User.genres; //Genres.data.data;
+        self.typesArr = User.types;// UserTypes.data.data;
         self.updateUser = _.throttle(updateUser, 1000);
         var pwSetting = $window.localStorage.getItem('pwAllowPushNotifications');
         self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
         self.toggleNotifications = toggleNotifications;
-
 
         function toggleNotifications() {
             $window.localStorage.setItem('pwAllowPushNotifications', self.notificationsActive);
@@ -2176,7 +2099,7 @@
                         $window.pushwooshSubscribe();
 
                         $window.pushwooshSetTags({
-                            userId: self.user.id,
+                            id: self.user.id,
                             urlId: self.user.url_id,
                             username: self.user.email,
                             firstName: self.user.firstName,
@@ -2191,8 +2114,12 @@
         function updateUser() {
             if (!self.updating) {
                 self.updating = true;
+                self.user.genres = _.pluck(self.genresArr, 'id');
+                self.user.types = _.pluck(self.typesArr, 'id');
                 AuthService.updateUser(self.user).then(function (res) {
                     // console.log(res);
+                    res.data.data.dob = moment(res.data.data.dob).toDate();
+                    AuthService.currentUser = self.user = res.data.data;
                     self.saveComplete = true;
                     self.updating = false;
                     anchorSmoothScroll.scrollTo('success');
@@ -2204,26 +2131,25 @@
         }
 
         $rootScope.generateCountries().then(function (res) {
-            self.countries = res.data.data;
+            self.countries = res;
         });
 
         $rootScope.generateGenres().then(function (res) {
-            self.genresList = res.data.data;
+            self.genresList = res;
         });
 
         $rootScope.generateTypes().then(function (res) {
-            self.typesList = res.data.data;
+            self.typesList = res;
         });
 
         self.syncGenres = function (bool, item) {
             if (bool) {
                 // add item
                 self.genresArr.push(item);
-                DataService.save('Genres', {user: self.user.id, genre: item.id});
             } else {
                 // remove item
                 for (var i = 0; i < self.genresArr.length; i++) {
-                    if (self.genresArr[i].genre == item.id) {
+                    if (self.genresArr[i].id == item.id) {
                         DataService.delete('Genres', self.genresArr[i].id);
                         self.genresArr.splice(i, 1);
                     }
@@ -2234,7 +2160,7 @@
         self.isCheckedGenre = function (id) {
             var match = false;
             for (var i = 0; i < self.genresArr.length; i++) {
-                if (self.genresArr[i].genre == id) {
+                if (self.genresArr[i].id == id) {
                     match = true;
                 }
             }
@@ -2245,11 +2171,10 @@
             if (bool) {
                 // add item
                 self.typesArr.push(item);
-                DataService.save('UserTypes', {user: self.user.id, type_id: item.id, type_name: item.name});
             } else {
                 // remove item
                 for (var i = 0; i < self.typesArr.length; i++) {
-                    if (self.typesArr[i].type_id == item.id) {
+                    if (self.typesArr[i].id == item.id) {
                         DataService.delete('UserTypes', self.typesArr[i].id);
                         self.typesArr.splice(i, 1);
                     }
@@ -2260,7 +2185,7 @@
         self.isCheckedType = function (id) {
             var match = false;
             for (var i = 0; i < self.typesArr.length; i++) {
-                if (self.typesArr[i].type_id == id) {
+                if (self.typesArr[i].id == id) {
                     match = true;
                 }
             }
@@ -2273,16 +2198,17 @@
     function UserCtrl($rootScope, DataService, User, UserStats, $state, UserActions, $modal, _) {
         var self = this;
         self.user = User;
-        self.userStats = UserStats.data[0];
+        self.userStats = UserStats;
         $rootScope.metadata.title = 'Profile: ' + self.user.firstName + ' ' + self.user.lastName;
 
         self.showMessageDialog = function () {
-            ContactUserDialogController.$inject = ['$rootScope', '$scope', '$modalInstance', 'UserActions', 'DataService', 'UtilsService', 'recipient', '$timeout'];
-            function ContactUserDialogController($rootScope, $scope, $modalInstance, UserActions, DataService, UtilsService, recipient, $timeout) {
+            ContactUserDialogController.$inject = ['$rootScope', '$scope', '$modalInstance', 'UserActions', 'DataService', 'recipient', '$timeout'];
+            function ContactUserDialogController($rootScope, $scope, $modalInstance, UserActions, DataService, recipient, $timeout) {
 
 
                 $scope.recipient = recipient;
                 $scope.model = {
+                    mySubject: $rootScope.AppData.User.fullName + ', ' + $scope.recipient.fullName,
                     myMessage: null
                 };
 
@@ -2290,36 +2216,30 @@
                     UserActions.checkAuth().then(function (res) {
                         if (res) {
                             // create new conversation
-                            DataService.save('Conversation', {
-                                url_id: moment().valueOf(),
-                                subject: $rootScope.AppData.User.fullName + ', ' + $scope.recipient.firstName + ' ' + $scope.recipient.lastName
-                            }, true, true).then(function (convo) {
-                                    // Add Participants
-                                    DataService.save('Participant', {user: $rootScope.AppData.User.userId, conversation: convo.data.id});
-                                    DataService.save('Participant', {user: $scope.recipient.id, conversation: convo.data.id});
-                                    //Send Message
-                                    DataService.save('Message', {body: $scope.model.myMessage, from: $rootScope.AppData.User.userId, conversation: convo.data.id});
+                            DataService.save('messages', {
+                                subject: $scope.model.mySubject,
+                                message: $scope.model.myMessage,
+                                recipients: new Array($scope.recipient.id)
+                            }).then(function (convo) {
+                                $scope.model.myMessage = null;
+                                $rootScope.toastMessage('Message sent!');
+                                // register Action
+                                //result.participants = $scope.recipient;
+                                $scope.closeDialog();
 
-                                    $scope.model.myMessage = null;
-                                    $rootScope.toastMessage('Message sent!');
-                                    // register Action
-                                    //result.participants = $scope.recipient;
-                                    UtilsService.recordActivity(convo, 'message');
-                                    $scope.closeDialog();
+                                // Creates Duplicate entry Error
+                                /*DataService.update('Conversation', convo.data.id, {
+                                 id: convo.data.id,
+                                 participants: [
+                                 {user: $rootScope.AppData.User.id},
+                                 {user: $scope.recipient.id}
+                                 ],
+                                 messages: [
+                                 {body: $scope.model.myMessage, from: $rootScope.AppData.User.id}
+                                 ]
+                                 }, true, true).then(function (convo) {
 
-                                    // Creates Duplicate entry Error
-                                    /*DataService.update('Conversation', convo.data.id, {
-                                        id: convo.data.id,
-                                        participants: [
-                                            {user: $rootScope.AppData.User.userId},
-                                            {user: $scope.recipient.id}
-                                        ],
-                                        messages: [
-                                            {body: $scope.model.myMessage, from: $rootScope.AppData.User.userId}
-                                        ]
-                                    }, true, true).then(function (convo) {
-
-                                    });*/
+                                 });*/
                             });
                         }
                     }, function (err) {
@@ -2341,7 +2261,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     $modal.open({
-                        templateUrl: './src/common/contactUserDialog.html',
+                        templateUrl: BASE + 'src/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.user;
@@ -2373,7 +2293,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: './src/common/confirmDialog.html',
+                        templateUrl: BASE + 'src/common/confirmDialog.html',
                         controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                             $scope.ok = function () {
                                 $modalInstance.close(true);
@@ -2387,12 +2307,12 @@
                         keyboard: true
                     });
                     modalInstance.result.then(function () {
-                        DataService.delete('Project', videoId).then(function () {
-                            self.projects = _.reject(self.projects.data, function (a) {
+                        DataService.delete('projects', videoId).then(function () {
+                            self.projects.data = _.reject(self.projects.data, function (a) {
+
                                 return a.id === videoId;
                             });
-                        })
-
+                        });
                     }, function () {
                         // console.info('Modal dismissed at: ' + new Date());
                     });
@@ -2432,54 +2352,113 @@
         self.nominated = Nominated.data.data;
     }
 
-    MessagesCtrl.$inject = ['$rootScope', 'Conversations', 'DataService', '$modal', 'UserActions', 'UtilsService', '$q', '_'];
-    function MessagesCtrl($rootScope, Conversations, DataService, $modal, UserActions, UtilsService, $q, _) {
+    MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', '$timeout', '$q', '_'];
+    function MessagesCtrl($rootScope, $scope, Conversations, DataService, $window, $modal, UserActions, $filter, $q, _) {
         $rootScope.metadata.title = 'Messages';
         var self = this;
-        self.conversations = Conversations.data;
+        self.selectedConvo = null;
+        self.conversations = Conversations.data.conversations;
         self.newMode = false;
         self.newConversation = newConversation;
         self.fetchConvos = fetchConvos;
         self.querySearch = querySearch;
-        self.deleteConvo = deleteConvo;
+        self.leaveConvo = leaveConvo;
+        self.doSendOnEnter = doSendOnEnter;
         self.postReply = postReply;
         self.selectConvo = selectConvo;
+        self.getParticipantById = getParticipantById;
         self.myReply = null;
+        self.sendOnEnter = $window.localStorage.sendOnEnter ? JSON.parse($window.localStorage.sendOnEnter) : true;
+        self.inboxConvos = {};
+        self.convoMessages = {};
+        self.selectedConvoLoaded = false;
+        self.viewportHeight = { height: 500 + 'px' };
 
         function selectConvo(convo) {
             self.newMode = false;
+            self.selectedConvoLoaded = false;
             self.selectedConvo = convo;
             self.currentParticipants = convo.participants;
-            DataService.getList('Message', [{fieldName: 'createdAt', order: 'desc'}], [{
-                fieldName: 'conversation', operator: 'in', value: convo.id
-            }], 30, false, true).then(function (msgs) {
+            DataService.item('messages', convo.id).then(function (msgs) {
                 // console.log('Messages: ', msgs.data);
-                self.messages = msgs.data;
+                self.messages = msgs.data.conversation.messages;
+
+                self.convoMessages = {
+                    first: 1,
+                    data: [],
+                    meta: {
+                        pagination: {
+                            current_page: 1
+                        }
+                    },
+                    get: function (index, count, success) {
+                        console.log('index = ' + index + '; count = ' + count);
+                        var start = index;
+                        var end = Math.min(index + count - 1, this.first);
+                        if (this.meta.pagination.total_pages >= this.meta.pagination.current_page) {
+                            this.meta.pagination.current_page++;
+                        }
+                        DataService.collection('messages/' + self.selectedConvo.id + '/messages', {per_page: count, page: this.meta.pagination.current_page})
+                            .then(function(response) {
+                                self.convoMessages.data = _.union(self.convoMessages.data, response.data.data);
+                                angular.extend(self.convoMessages.meta, response.data.meta);
+                            })
+                            .then(function() {
+                                console.log(self.convoMessages);
+                                // reverse logic
+                                var result = [];
+                                if (start <= end) {
+                                    for (var i = start; i <= end; i++) {
+                                        var serverDataIndex = /*(self.convoMessages.meta.pagination.current_page > 1) ? 0 :*/ (-1) * i + self.convoMessages.first;
+                                        var item = self.convoMessages.data[serverDataIndex];
+                                        if (item) {
+                                            result.push(item);
+                                        }
+                                    }
+                                }
+
+                                success(result);
+                            });
+                    }
+                };
+                self.selectedConvoLoaded = true;
             });
         }
 
-        function postReply() {
-            UserActions.checkAuth().then(function (res) {
-                if (res) {
-                    DataService.save('Message', {
-                        body: self.myReply,
-                        conversation: self.selectedConvo.id,
-                        from: $rootScope.AppData.User.userId
-                    }, true, true).then(function (result) {
-                        self.myReply = null;
-                        // set relatedObjects users data
-                        self.messages.relatedObjects.users[result.data.from.id] = result.data.from;
-                        result.data.from = result.data.from.id;
+        function doSendOnEnter() {
+            if (self.sendOnEnter && self.myReply) {
+                self.postReply();
+            }
+        }
 
-                        self.messages.data.push(result.data);
-                        // TODO: Send email notification
-                        //result.participants
-                        UtilsService.recordActivity(result.data, 'message');
-                    });
-                }
-            }, function (err) {
-                UserActions.loginModal();
-            });
+        function postReply() {
+            if (self.myReply) {
+                UserActions.checkAuth().then(function (res) {
+                    if (res) {
+                        var reply = self.myReply;
+                        self.myReply = null;
+                        DataService.update('messages', self.selectedConvo.id, {message: reply})
+                            .then(function (result) {
+                                // self.adapter.append([result.data.message]);
+                                self.convoMessages.data.push(result.data.message);
+                                $scope.adapter.append([result.data.message]);
+                                // update convos
+                                self.messages.push(result.data.message);
+                                self.fetchConvos();
+
+                            }, function (response) {
+                                self.reply = reply;
+                            })
+                            .then(function () {
+                                // scroll to bottom of viewport
+                                var viewport = angular.element('.viewport.main-comment');
+                                viewport.scrollTop(viewport.prop("scrollHeight"));
+                            });
+                    }
+                }, function (err) {
+                    UserActions.loginModal();
+                });
+            }
         }
 
         function newConversation() {
@@ -2492,21 +2471,21 @@
             self.postNewMsg = postNewMsg;
 
             function postNewMsg() {
-                var newConvoObj = new Parse.Object("Conversation");
+                var newConvoObj = new Parse.Object('Conversation');
                 // Create Conversation
                 newConvoObj.save().then(function (convo) {
 
                     // Set Participants
-                    self.newConvo.participants.push($rootScope.AppData.User.userId);
-                    var relParticipants = convo.relation("participants");
+                    self.newConvo.participants.push($rootScope.AppData.User.id);
+                    var relParticipants = convo.relation('participants');
                     relParticipants.add(self.newConvo.participants);
                     newConvoObj.save();
 
                     // Create Message
-                    var message = new Parse.Object("Message");
+                    var message = new Parse.Object('Message');
                     message.set('body', self.newConvo.body);
                     message.set('parent', convo);
-                    message.set('from', $rootScope.AppData.User.userId);
+                    message.set('from', $rootScope.AppData.User.id);
                     message.save().then(function (result) {
                         // Clear forms
                         self.myReply = null;
@@ -2516,9 +2495,6 @@
                         self.selectedConvo = convo;
                         self.currentParticipants = self.newConvo.participants;
                         self.messages = [result];
-
-                        // TODO: Send email notification
-                        UtilsService.recordActivity(result);
                     }).then(function () {
                         // Update Conversations List
                         var convoDup = angular.copy(convo);
@@ -2540,63 +2516,37 @@
          */
         function querySearch(query) {
             var deferred = $q.defer();
-
-            //Search user
-            var searchUsersFirstName = new Parse.Query('User');
-            searchUsersFirstName.notEqualTo("objectId", $rootScope.AppData.User.userId);
-            _.each(query.split(' '), function (a) {
-                searchUsersFirstName.startsWith('first_name', a);
-                //searchUsersFirstName.matches('first_name', a);
-            });
-            var searchUsersLastName = new Parse.Query('User');
-            searchUsersLastName.notEqualTo("objectId", $rootScope.AppData.User.userId);
-            _.each(query.split(' '), function (a) {
-                searchUsersLastName.startsWith('last_name', a);
-                //searchUsersLastName.matches('last_name', a);
-            });
-            var searchUsers = new Parse.Query.or(searchUsersFirstName, searchUsersLastName);
-            searchUsers.find().then(function (data) {
-                _.each(data, function (a) {
-                    a.name = a.first_name + ' ' + a.last_name;
-                    a.image = a.avatar || './assets/img/avatar-1.png';
-                    a.email = '     ';
-                });
-                // console.log(data);
-                deferred.resolve(data);
-            });
-
+            deferred.reject(false);
             return deferred.promise;
         }
 
         function fetchConvos() {
-            DataService.query('getConversations', {
-                userId: $rootScope.AppData.User.userId
-            }).then(function (result) {
-                self.conversations = result.data;
+            DataService.collection('messages').then(function (result) {
+                self.conversations = result.data.conversations;
             });
         }
 
-        function deleteConvo() {
+        function leaveConvo() {
             // TODO replacve confirm dialog
             var confirm = $modal.confirm()
-                .title('Delete Conversation?')
+                .title('Leave Conversation?')
                 //.textContent('Are you sure you want to delete this conversation?')
                 //.ariaLabel('Lucky day')
                 //.targetEvent(ev)
                 .ok('Yes')
                 .cancel('No');
             $modal.show(confirm).then(function () {
-                var me = $rootScope.AppData.User.userId;
-                var message = new Parse.Object("Message");
-                message.set('body', me.first_name + ' ' + me.last_name + " left the conversation...");
+                var me = $rootScope.AppData.User.id;
+                var message = new Parse.Object('Message');
+                message.set('body', me.first_name + ' ' + me.last_name + ' left the conversation...');
                 message.set('parent', {
-                    __type: "Pointer",
-                    className: "Conversation",
+                    __type: 'Pointer',
+                    className: 'Conversation',
                     objectId: self.selectedConvo.id
                 });
-                message.set('from', $rootScope.AppData.User.userId);
+                message.set('from', $rootScope.AppData.User.id);
                 message.save().then(function (result) {
-                    var relParticipants = self.selectedConvo.relation("participants");
+                    var relParticipants = self.selectedConvo.relation('participants');
                     relParticipants.remove(me);
 
                     self.selectedConvo.set('updatedAt', moment().toDate());
@@ -2615,38 +2565,40 @@
             });
         }
 
-        // Fetch Conversations, Participants, and Messages
+        function getParticipantById(convo, userId) {
+            return _.findWhere(convo.participants, {user_id: userId});
+        }
     }
 
-    NotificationsCtrl.$inject = ['$rootScope', 'UserActions', 'UtilsService', '_'];
-    function NotificationsCtrl($rootScope, UserActions, UtilsService, _) {
+    NotificationsCtrl.$inject = ['$rootScope', 'UserActions', '_'];
+    function NotificationsCtrl($rootScope, UserActions, _) {
         var self = this;
         self.refresh = function () {
             //$rootScope.getFlatNotificationsFeed();
         };
 
         self.markAllAsRead = function () {
-            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.userId, token);
-                feed.get({limit: 20, mark_read: true}, function (a) {
-                    _.each($rootScope.AppData.NotificationsFeed.list, function (n) {
-                        n.is_read = true;
-                    });
-                    $rootScope.AppData.NotificationsFeed.unread = 0;
-                })
-            });*/
+            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
+             var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
+             feed.get({limit: 20, mark_read: true}, function (a) {
+             _.each($rootScope.AppData.NotificationsFeed.list, function (n) {
+             n.is_read = true;
+             });
+             $rootScope.AppData.NotificationsFeed.unread = 0;
+             })
+             });*/
         };
 
         self.markAsRead = function (n) {
-            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.userId).then(function (token) {
-                var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.userId, token);
-                feed.get({limit: 5, mark_read: [n.id]}, function (a) {
-                    n.is_read = true;
-                    --$rootScope.AppData.NotificationsFeed.unseen;
-                    --$rootScope.AppData.NotificationsFeed.unread;
-                    return n;
-                })
-            });*/
+            /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
+             var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
+             feed.get({limit: 5, mark_read: [n.id]}, function (a) {
+             n.is_read = true;
+             --$rootScope.AppData.NotificationsFeed.unseen;
+             --$rootScope.AppData.NotificationsFeed.unread;
+             return n;
+             })
+             });*/
         };
 
         self.refresh();
@@ -2668,21 +2620,61 @@
             message: ''
         };
         self.emails = [
-            { title: 'Technical Support', address: 'support@getindiewise.com', description: 'For all your Tech Support Needs and Issues.'},
-            { title: 'SafeGuard', address: 'safeguard@getindiewise.com', description: 'IndieWise cares about the safety and well-being of its users. Contact us immediately, if you come across any inappropriate content on the site. This includes, but is not limited to: content that is Excessively Violent, Pornographic, Racially Offensive, Unlawful, of a Bullying Nature, Directly Harmful to any Individual, Copyright Infringement, Spam, etc.'},
-            { title: 'Marketing', address: 'marketing@getindiewise.com', description: 'Would you like to advertise your company to our vast and diverse audience? Would you like a featured listing of your film at the top of our Homepage for all to see? Reach out today!'},
-            { title: 'Awards', address: 'awards@getindiewise.com', description: 'So you have such an amazing project, that 5 or more Users felt like you deserve an Award for it! Congrats! We can help!'},
-            { title: 'Public Relations', address: 'pr@getindiewise.com', description: 'Reach out for any press and/or media inquiries. Also let us know if you’d like to be featured in our bi-weekly newsletter. Also stay tuned for important announcements and updates!'},
-            { title: 'Career Center', address: 'careers@getindiewise.com', description: 'Interested in joining Team IndieWise? Let us know! There are several internship opportunities available.'},
-            { title: 'Become a Sponsor', address: 'sponsor@getindiewise.com', description: 'We’ve reserved a unique spot on our homepage to showcase our amazing sponsors. If you’re interested in becoming a sponsor of IndieWise, let us know!'},
-            { title: 'Invest in IndieWise', address: 'investors@getindiewise.com', description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'},
-            { title: 'Register for IndieWise Convention (JULY 28-30, 2017)', address: 'convention@getindiewise.com', description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'},
-            { title: 'Feedback Center', address: 'feedback@getindiewise.com', description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'},
+            {
+                title: 'Technical Support',
+                address: 'support@getindiewise.com',
+                description: 'For all your Tech Support Needs and Issues.'
+            },
+            {
+                title: 'SafeGuard',
+                address: 'safeguard@getindiewise.com',
+                description: 'IndieWise cares about the safety and well-being of its users. Contact us immediately, if you come across any inappropriate content on the site. This includes, but is not limited to: content that is Excessively Violent, Pornographic, Racially Offensive, Unlawful, of a Bullying Nature, Directly Harmful to any Individual, Copyright Infringement, Spam, etc.'
+            },
+            {
+                title: 'Marketing',
+                address: 'marketing@getindiewise.com',
+                description: 'Would you like to advertise your company to our vast and diverse audience? Would you like a featured listing of your film at the top of our Homepage for all to see? Reach out today!'
+            },
+            {
+                title: 'Awards',
+                address: 'awards@getindiewise.com',
+                description: 'So you have such an amazing project, that 5 or more Users felt like you deserve an Award for it! Congrats! We can help!'
+            },
+            {
+                title: 'Public Relations',
+                address: 'pr@getindiewise.com',
+                description: 'Reach out for any press and/or media inquiries. Also let us know if you’d like to be featured in our bi-weekly newsletter. Also stay tuned for important announcements and updates!'
+            },
+            {
+                title: 'Career Center',
+                address: 'careers@getindiewise.com',
+                description: 'Interested in joining Team IndieWise? Let us know! There are several internship opportunities available.'
+            },
+            {
+                title: 'Become a Sponsor',
+                address: 'sponsor@getindiewise.com',
+                description: 'We’ve reserved a unique spot on our homepage to showcase our amazing sponsors. If you’re interested in becoming a sponsor of IndieWise, let us know!'
+            },
+            {
+                title: 'Invest in IndieWise',
+                address: 'investors@getindiewise.com',
+                description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'
+            },
+            {
+                title: 'Register for IndieWise Convention (JULY 28-30, 2017)',
+                address: 'convention@getindiewise.com',
+                description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'
+            },
+            {
+                title: 'Feedback Center',
+                address: 'feedback@getindiewise.com',
+                description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'
+            },
         ];
 
         self.submitForm = function () {
-            self.form.to = self.selectedEmail.address
-            DataService.action('users', 'Contact Us', self.form).then(function (res) {
+            self.form.to = self.selectedEmail.address;
+            DataService.mail('contact', self.form).then(function (res) {
                 $rootScope.toastMessage('Message Sent, Thank you!');
                 self.form = {
                     to: '',
@@ -2694,7 +2686,5 @@
             });
         }
     }
-
-
 })
 ();

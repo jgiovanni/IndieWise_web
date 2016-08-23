@@ -1,0 +1,23 @@
+// AngularJs Dependencies
+require('angular');
+require('angular-aria');
+require('angular-messages');
+require('angular-animate');
+require('angucomplete-alt');
+require('angular-google-analytics');
+require('angular-loading-bar');
+require('angular-localforage');
+require('angular-material');
+require('angular-moment');
+require('angular-foundation');
+require('angular-foundation-6');
+require('angular-socialshare');
+require('angular-translate');
+require('angular-translate-loader-partial');
+require('angular-ui-router');
+require('angular-ui-scroll');
+require('angular-ui-scroll/dist/ui-scroll-jqlite.min.js');
+require('angular-cloudinary');
+require('ng-file-upload');
+// require('ng-webworker');
+require('satellizer');

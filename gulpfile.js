@@ -12,8 +12,17 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.styles([]);
+    // mix.styles([]);
 
     // complie js
-    mix.browserify('app.js')
+    mix.browserify('main.js');
+    mix.browserify('angular.js');
+
+    mix.scripts([
+        'app.js',
+        'controllers.js',
+        'directives.js',
+        'services.js',
+        'utils.js'
+    ]);
 });
