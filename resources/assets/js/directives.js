@@ -1241,7 +1241,7 @@
                     height: "=",
                 },
                 link: function (scope, el, attrs) {
-                    scope.link = $sce.trustAsResourceUrl('http://ad.broadstreetads.com/zdisplay/' + scope.zone + '.html');
+                    scope.link = $sce.trustAsResourceUrl('https://ad.broadstreetads.com/zdisplay/' + scope.zone + '.html');
                 }
             }
         }])
