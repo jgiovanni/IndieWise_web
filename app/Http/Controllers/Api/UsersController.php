@@ -52,7 +52,8 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
@@ -72,8 +73,12 @@ class UsersController extends Controller
     {
         $user = $this->user->findOrFail($id);
         $user->update($request->except('genres', 'country', 'types'));
-        $user->syncGenres($request->get('genres'));
-        $user->syncTypes($request->get('types'));
+        if( $request->has('genres') && count($request->get('genres')) > 0 && !is_array($request->get('genres')[0]) ) {
+            $user->syncGenres($request->get('genres'));
+        }
+        if( $request->has('types') && count($request->get('types')) > 0 && !is_array($request->get('types')[0]) ) {
+            $user->syncTypes($request->get('types'));
+        }
         return $this->response->item($user->load('genres', 'country', 'types'), new UserTransformer);
     }
 

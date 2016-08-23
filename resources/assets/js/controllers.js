@@ -1596,8 +1596,8 @@
         });
     }
 
-    ProfileCtrl.$inject = ['$rootScope', 'DataService', 'User', 'UserStats', 'AuthService', '$modal', '_'];
-    function ProfileCtrl($rootScope, DataService, User, UserStats, AuthService, $modal, _) {
+    ProfileCtrl.$inject = ['$rootScope', 'DataService', 'User', 'UserStats', 'AuthService', 'Upload', '_'];
+    function ProfileCtrl($rootScope, DataService, User, UserStats, AuthService, Upload, _) {
         $rootScope.metadata.title = 'Profile';
         var self = this;
         self.user = User;
@@ -1614,16 +1614,46 @@
             return self.user.url_id + '_' + type + '_' + moment().valueOf();
         };
 
-        function updateAvatar(file, message, flow) {
-            self.user.avatar = JSON.parse(message).secure_url;
+        function updateAvatar(file) {
+            Upload.upload({
+                url: 'https://api.cloudinary.com/v1_1/indiewise/upload',
+                params: {upload_preset: 'r0kuyqef'},
+                data: {file: file, public_id: self.generatePublicId('avatar')},
+                skipAuthorization: true  // `Authorization: Bearer <token>` will not be sent on this request.
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                self.user.avatar = resp.data.secure_url;
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+
+            // self.user.avatar = JSON.parse(message).secure_url;
             AuthService.updateUser(self.user).then(function (res) {
                 // console.log(res);
                 $rootScope.toastMessage('Avatar Updated!');
             });
         }
 
-        function updateCoverPhoto(file, message, flow) {
-            self.user.coverPhoto = JSON.parse(message).secure_url;
+        function updateCoverPhoto(file) {
+            Upload.upload({
+                url: 'https://api.cloudinary.com/v1_1/indiewise/upload',
+                params: {upload_preset: 'jmy7rdcs'},
+                data: {file: file, public_id: Profile.generatePublicId('cover')},
+                skipAuthorization: true  // `Authorization: Bearer <token>` will not be sent on this request.
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                self.user.coverPhoto = resp.data.secure_url;
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+
+            // self.user.coverPhoto = JSON.parse(message).secure_url;
             AuthService.updateUser(self.user).then(function (res) {
                 // console.log(res);
                 $rootScope.toastMessage('Cover Photo Updated!');
@@ -1632,8 +1662,8 @@
 
     }
 
-    ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', '$window', 'filepickerService', '_'];
-    function ProfileUploadController($rootScope, $state, User, $http, DataService, $window, filepickerService, _) {
+    ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', '$window', 'Upload', 'filepickerService', '_'];
+    function ProfileUploadController($rootScope, $state, User, $http, DataService, $window, Upload, filepickerService, _) {
         var self = this;
         self.user = User.data;
         self.uploadType = 2;
@@ -1845,9 +1875,25 @@
             }
         };
 
-        self.uploadArtwork = function (message) {
-            self.newVideo.thumbnail_url = JSON.parse(message).secure_url;
+
+
+        self.uploadArtwork = function (file) {
+            Upload.upload({
+                url: 'https://api.cloudinary.com/v1_1/indiewise/upload',
+                params: {upload_preset: 'dzachn6p'},
+                data: {file: file},
+                skipAuthorization: true  // `Authorization: Bearer <token>` will not be sent on this request.
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                self.newVideo.thumbnail_url = resp.data.secure_url;
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
         };
+
 
         self.files = []; //JSON.parse($window.localStorage.getItem('files') || '[]');
 

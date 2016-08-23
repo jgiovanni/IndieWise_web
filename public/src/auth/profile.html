@@ -16,9 +16,6 @@
 
 <!-- profile top section -->
 <section class="topProfile topProfile-inner"
-         flow-init="{query:{upload_preset:'jmy7rdcs',public_id: Profile.generatePublicId('cover')}}"
-         flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-files-submitted="$flow.upload()"
-         flow-file-success="Profile.updateCoverPhoto($file, $message, $flow)"
          style="background-image: url({{Profile.user.coverPhotos||'/assets/images/profile-bg_demo.png'}});">
     <div class="row">
         <div class="large-12 columns">
@@ -28,7 +25,7 @@
                            tooltip="Recommended dimensions: 1280x280">
                         <i class="fa fa-camera"></i><span>update cover image</span>
                     </label>
-                    <input type="file" id="topfileupload" class="show-for-sr" flow-btn flow-attrs="{accept:'image/*'}">
+                    <input type="file" id="topfileupload" class="show-for-sr" ngf-select="Profile.updateCoverPhoto($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'">
                 </form>
             </div>-->
         </div>
@@ -50,13 +47,8 @@
     <div class="profile-stats">
         <div class="row secBg">
             <div class="large-12 columns">
-                <div class="profile-author-img"
-                     flow-init="{query:{upload_preset:'r0kuyqef',public_id: Profile.generatePublicId('avatar')}}"
-                     flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
-                     flow-files-submitted="$flow.upload()"
-                     flow-file-success="Profile.updateAvatar($file, $message, $flow)">
-                    <img ng-hide="$flow.files.length" ng-src="{{Profile.user.avatar||'/assets/img/avatar-1.png'}}"/>
-                    <img ng-show="$flow.files.length" flow-img="$flow.files[0]"/>
+                <div class="profile-author-img">
+                    <img ngf-thumbnail="Profile.user.avatar || '/assets/img/avatar-1.png'" />
 
                     <form>
                         <label for="imgfileupload" class="btn-upload has-tip no-border"
@@ -64,7 +56,7 @@
                             <i class="fa fa-camera"></i><span>update Avatar</span>
                         </label>
                         <input type="file" id="imgfileupload" class="show-for-sr"
-                               flow-btn flow-attrs="{accept:'image/*'}">
+                               ngf-select="Profile.updateAvatar($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'">
                     </form>
                 </div>
                 <div class="clearfix">
