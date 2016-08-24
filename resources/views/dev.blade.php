@@ -74,7 +74,7 @@
     <script src="//cdn.broadstreetads.com/init.js"></script>
 </head>
 
-<body ng-controller="BodyCtrl as Body">
+<body id="body" ng-controller="BodyCtrl as Body">
 
 <div class="off-canvas-wrapper">
     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>

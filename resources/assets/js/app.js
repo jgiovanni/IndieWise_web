@@ -719,8 +719,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll) {
                 attachFastClick(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
@@ -903,6 +903,8 @@ jQuery(document).ready(function (jQuery) {
                     $rootScope.unsetLoading();
                     $timeout(function () {
                         jQuery(document).foundation();
+                        // angular.element('body').scrollTop(0);
+                        // anchorSmoothScroll.scrollTo('body');
                     }, 100);
                     //Analytics.trackPage($location.path());
                 });
