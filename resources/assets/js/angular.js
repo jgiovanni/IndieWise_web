@@ -10,7 +10,7 @@ require('angular-localforage');
 require('angular-material');
 require('angular-moment');
 require('angular-foundation');
-require('angular-foundation-6');
+// require('angular-foundation-6');
 require('angular-socialshare');
 require('angular-translate');
 require('angular-translate-loader-partial');

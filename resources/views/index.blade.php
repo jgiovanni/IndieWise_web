@@ -222,7 +222,7 @@
 <script type="text/javascript" src="/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
 {{--<script src="/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>--}}
 <script type="text/javascript" src="/app/bower_components/ngAnimate-animate.css/animate.js"></script>
-{{--<script src="/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>--}}
+<script src="/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
 {{--<script src="/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>--}}
 {{--<script src="/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>--}}
 {{--<script src="/app/bower_components/angular-material/angular-material.min.js"></script>--}}
