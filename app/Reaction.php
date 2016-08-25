@@ -6,6 +6,7 @@ use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use IndieWise\Events\Event;
 
 class Reaction extends Model
@@ -45,6 +46,18 @@ class Reaction extends Model
 
     public function activityNotify()
     {
+        $data = [
+            'ownerEmail' => $this->target->owner->email,
+            'ownerName' => $this->target->owner->fullName,
+            'subject' => $this->user->fullName . ' reacted to your video.',
+            'message' => $this->user->fullName . ' reacted to your video, ' . $this->target->name,
+        ];
+        Mail::raw($data['message'], function ($mail) use ($data) {
+            $mail->to($data['ownerEmail'], $data['ownerName'])
+                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                ->subject($data['subject']);
+        });
+
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
         return $targetFeeds;

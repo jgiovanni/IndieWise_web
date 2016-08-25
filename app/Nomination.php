@@ -6,6 +6,7 @@ use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use IndieWise\Events\Event;
 
 class Nomination extends Model
@@ -53,6 +54,18 @@ class Nomination extends Model
 
     public function activityNotify()
     {
+        $data = [
+            'ownerEmail' => $this->target->owner->email,
+            'ownerName' => $this->target->owner->fullName,
+            'subject' => $this->user->fullName . ' nominated your video, ' . $this->target->name,
+            'message' => $this->user->fullName . ' nominated your video, ' . $this->target->name . ' for ' . $this->award->name,
+        ];
+        Mail::raw($data['message'], function ($mail) use ($data) {
+            $mail->to($data['ownerEmail'], $data['ownerName'])
+                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                ->subject($data['subject']);
+        });
+
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
         return $targetFeeds;

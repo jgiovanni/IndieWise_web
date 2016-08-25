@@ -136,9 +136,9 @@
 
                 self.user.dob = moment().set({
                     'year': self.dobYear,
-                    'month': self.dobMonth,
-                    'day': self.dobDay
-                }).startOf('day').format('YYY-MM-DD hh:mm:ss');
+                    'month': parseInt(self.dobMonth) - 1,
+                    'date': self.dobDay
+                }).startOf('day').format('YYYY-MM-DD HH:mm:ss');
                 AuthService.createUser(self.user).then(function (res) {
                     if (!res.status) {
                         self.authErrors = res.errors;

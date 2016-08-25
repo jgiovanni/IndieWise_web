@@ -88,7 +88,7 @@ class Critique extends Model
             'ownerEmail' => $this->target->owner->email,
             'ownerName' => $this->target->owner->fullName,
             'subject' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
-            'message' => $this->user->fullName . ' critiqued your video',
+            'message' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
         ];
         Mail::raw($data['message'], function ($mail) use ($data) {
             $mail->to($data['ownerEmail'], $data['ownerName'])

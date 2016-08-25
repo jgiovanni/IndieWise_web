@@ -7,6 +7,7 @@ use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 
 class Comment extends Model
 {
@@ -80,6 +81,18 @@ class Comment extends Model
 
     public function activityNotify()
     {
+        $data = [
+            'ownerEmail' => $this->target->author->email,
+            'ownerName' => $this->target->author->fullName,
+            'subject' => !is_null($this->comment_id) ? $this->author->fullName . ' replied to your' : '',
+            'message' => $this->author->fullName . ' commented on your video, ' . $this->target->name,
+        ];
+        Mail::raw($data['message'], function ($mail) use ($data) {
+            $mail->to($data['ownerEmail'], $data['ownerName'])
+                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                ->subject($data['subject']);
+        });
+
         $targetFeeds = [];
         $targetId = !is_null($this->target->user_id) ? $this->target->user_id : $this->target->owner_id;
         $targetFeeds[] = FeedManager::getNotificationFeed($targetId);

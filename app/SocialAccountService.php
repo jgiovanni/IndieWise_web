@@ -15,7 +15,6 @@ class SocialAccountService
         if ($account) {
             return $account->user;
         } else {
-
             $account = new SocialAccount([
                 'provider_user_id' => $providerUser->getId(),
                 'provider' => 'facebook'
@@ -26,6 +25,14 @@ class SocialAccountService
             if (!$user) {
 
                 $name_parts = preg_split('/\s+/', $providerUser->getName());
+
+                $data = collect([
+                    'email' => $providerUser->getEmail(),
+                ]);
+                $this->validate($data, [
+                    'email' => 'bail|required',
+                ]);
+
                 $user = User::create([
                     'email' => $providerUser->getEmail(),
                     'username' => $providerUser->getEmail(),
