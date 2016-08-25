@@ -69,7 +69,7 @@
                                         <i ng-if="RC.errors.email===0" class="fa fa-check" style="color: green;"></i>
                                         <i ng-if="!!RC.errors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
                                     </span>
-                                       <input class="input-group-field" type="email" placeholder="Enter your email"
+                                       <input class="input-group-field" type="email" placeholder="Enter a valid email"
                                            ng-model="RC.user.email" ng-model-options="{debounce:250}" ng-change="RC.checkEmailUse()"
                                            validate-email required>
                                 </div>

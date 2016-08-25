@@ -906,7 +906,7 @@ jQuery(document).ready(function (jQuery) {
                         // angular.element('body').scrollTop(0);
                         anchorSmoothScroll.scrollTo('body');
                     }, 100);
-                    //Analytics.trackPage($location.path());
+                    // Analytics.trackPage($location.path());
                 });
 
                 $transitions.onError({}, function ($state) {
