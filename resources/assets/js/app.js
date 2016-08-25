@@ -763,7 +763,7 @@ jQuery(document).ready(function (jQuery) {
                         $rootScope.AppData.Notifications = {
                             loaded: '',
                             list: res.data,
-                            unseen: _.where(res.data, {seen: false}).length,
+                            unseen: _.where(res.data, { seen: false }).length,
                             unread: 0
                         };
                         console.log($rootScope.AppData.Notifications);
@@ -877,13 +877,13 @@ jQuery(document).ready(function (jQuery) {
                     $rootScope.setLoading();
                 });
 
-                $transitions.onStart({to: 'register', from: '*'}, function ($transition$, $state, AuthService) {
+                $transitions.onStart({to: 'register', from: '*'}, function ($transition$) {
                     return AuthService.isAuthenticated() ? $state.target('home') : true;
                 });
-                $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$, $state, AuthService) {
+                $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$) {
                     return AuthService.isAuthenticated() ? $state.target('home') : true;
                 });
-                $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$, $state, AuthService) {
+                $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$) {
                     return AuthService.isAuthenticated() ? $state.target('home') : true;
                 });
                 $transitions.onStart({
@@ -916,7 +916,7 @@ jQuery(document).ready(function (jQuery) {
         ])
         .config(['$localForageProvider', function ($localForageProvider) {
             $localForageProvider.config({
-                //driver      : 'localStorageWrapper', // if you want to force a driver
+                //driver: 'localStorageWrapper', // if you want to force a driver
                 name: 'iw', // name of the database and prefix for your data, it is 'lf' by default
                 version: 1.0, // version of the database, you shouldn't have to use this
                 storeName: 'keyvaluepairs', // name of the table

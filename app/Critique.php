@@ -8,6 +8,7 @@ use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use IndieWise\Events\Event;
 
 class Critique extends Model
@@ -83,6 +84,18 @@ class Critique extends Model
 
     public function activityNotify()
     {
+        $data = [
+            'ownerEmail' => $this->target->owner->email,
+            'ownerName' => $this->target->owner->fullName,
+            'subject' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
+            'message' => $this->user->fullName . ' critiqued your video',
+        ];
+        Mail::raw($data['message'], function ($mail) use ($data) {
+            $mail->to($data['ownerEmail'], $data['ownerName'])
+                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                ->subject($data['subject']);
+        });
+
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
         return $targetFeeds;
@@ -95,7 +108,6 @@ class Critique extends Model
 
     public static function boot()
     {
-
         parent::boot();
 
         static::created(function($critique) {

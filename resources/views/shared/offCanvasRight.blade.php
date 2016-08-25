@@ -18,7 +18,7 @@
                 <i class="notificon fa fa-smile-o"></i>&nbsp;Your video made <b>@{{::notice.activities[0].actor.fullName}}</b> feel <b>@{{::notice.activities[0].object.emotion}}</b>.
             </a>
             <a ng-if="::notice.verb === 'comment'" ui-sref="video_critique({video_url_id: notice.project.url_id, url_id:notice.object})">
-                <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> posted a comment on your critique.
+                <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actors[0].fullName}}</b> posted a comment on your critique.
             </a>
             {{--<a ng-if="::notice.verb === 'message'" ui-sref="messages">
                 <i class="notificon fa fa-envelope"></i>&nbsp;

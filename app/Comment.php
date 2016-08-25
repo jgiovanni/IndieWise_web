@@ -53,7 +53,12 @@ class Comment extends Model
      */
     public function activityExtraData()
     {
-        return ['body' => $this->body];
+        if (isset($this->target->user_id)){
+            $data = ['body' => $this->body, 'critique_url_id' => $this->target->critique->url_id];
+        } else {
+            $data = ['body' => $this->body, 'critique_url_id' => $this->target->url_id];
+        }
+        return $data;
     }
 
     public function activityActorMethodName()

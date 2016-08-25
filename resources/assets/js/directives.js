@@ -934,7 +934,7 @@
                 }
             }
         }])
-        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', function ($rootScope, DataService, UserActions, $modal) {
+        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
             return {
                 restrict: 'E',
                 templateUrl: BASE + 'src/directives/critiques.html',
@@ -946,7 +946,7 @@
                 },
                 link: function (scope, el, attrs) {
                     scope.isLoggedIn = $rootScope.AppData.User;
-                    scope.showQuickReply = !0;
+                    scope.showQuickReply = Foundation.MediaQuery.atLeast('large');
 
                     scope.isPrivate = function (critique) {
                         return critique.private;
