@@ -904,7 +904,7 @@ jQuery(document).ready(function (jQuery) {
                     $timeout(function () {
                         jQuery(document).foundation();
                         // angular.element('body').scrollTop(0);
-                        // anchorSmoothScroll.scrollTo('body');
+                        anchorSmoothScroll.scrollTo('body');
                     }, 100);
                     //Analytics.trackPage($location.path());
                 });
