@@ -68,5 +68,3 @@ Route::get('/logout', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');*/
-
-

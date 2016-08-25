@@ -12,6 +12,7 @@ use IndieWise\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Laravel\Socialite\Contracts\Factory as Socialite;
+use Krucas\LaravelUserEmailVerification\AuthenticatesAndRegistersUsers as VerificationAuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
@@ -26,7 +27,11 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins, VerificationAuthenticatesAndRegistersUsers {
+        AuthenticatesAndRegistersUsers::redirectPath insteadof VerificationAuthenticatesAndRegistersUsers;
+        AuthenticatesAndRegistersUsers::getGuard insteadof VerificationAuthenticatesAndRegistersUsers;
+        VerificationAuthenticatesAndRegistersUsers::register insteadof AuthenticatesAndRegistersUsers;
+    }
 
     /**
      * Create a new authentication controller instance.

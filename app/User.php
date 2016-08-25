@@ -13,10 +13,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Krucas\LaravelUserEmailVerification\Contracts\RequiresEmailVerification as RequiresEmailVerificationContract;
+use Krucas\LaravelUserEmailVerification\RequiresEmailVerification;
 
-class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract, RequiresEmailVerificationContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable;
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable, RequiresEmailVerification;
 
 
     protected $table = 'users';
