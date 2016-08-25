@@ -188,9 +188,6 @@ jQuery(document).ready(function (jQuery) {
             // significant performance boost
             $compileProvider.debugInfoEnabled(false);
         }])
-        .constant('angularMomentConfig', {
-            timezone: 'UTC'
-        })
         .config(['AnalyticsProvider', function (AnalyticsProvider) {
             // Add configuration code as desired - see below
             AnalyticsProvider
@@ -665,7 +662,7 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: BASE + 'src/static/about.html'
                 })
                 .state('contact', {
-                    url: '/contact',
+                    url: '/contact?email',
                     authenticate: false,
                     templateUrl: BASE + 'src/static/contact.html',
                     controller: 'ContactPageCtrl as CC'
@@ -719,9 +716,12 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll', 'amMoment',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll, amMoment) {
                 attachFastClick(document.body);
+                // set server timezone to UTC
+                amMoment.changeTimezone('UTC');
+
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
                     Notifications: {

@@ -2645,21 +2645,9 @@
         self.refresh();
     }
 
-    ContactPageCtrl.$inject = ['$rootScope', 'DataService', '$sce'];
-    function ContactPageCtrl($rootScope, DataService, $sce) {
+    ContactPageCtrl.$inject = ['$rootScope', 'DataService', '$sce', '_'];
+    function ContactPageCtrl($rootScope, DataService, $sce, _) {
         var self = this;
-        self.selectedEmail = null;
-        self.description = '';
-        self.getDescription = function () {
-            self.description = angular.isObject(self.selectedEmail) ? $sce.trustAsHtml(self.selectedEmail.description) : $sce.trustAsHtml('');
-        };
-        self.form = {
-            to: '',
-            name: '',
-            email: '',
-            subject: '',
-            message: ''
-        };
         self.emails = [
             {
                 title: 'Technical Support',
@@ -2712,6 +2700,20 @@
                 description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'
             },
         ];
+        self.selectedEmail = _.contains(_.pluck(self.emails, 'address'), $rootScope.$stateParams.email) ? _.findWhere(self.emails, { address: $rootScope.$stateParams.email}) : null;
+        self.description = '';
+        self.getDescription = function () {
+            self.description = angular.isObject(self.selectedEmail) ? $sce.trustAsHtml(self.selectedEmail.description) : $sce.trustAsHtml('');
+        };
+        self.getDescription();
+
+        self.form = {
+            to: '',
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+        };
 
         self.submitForm = function () {
             self.form.to = self.selectedEmail.address;
