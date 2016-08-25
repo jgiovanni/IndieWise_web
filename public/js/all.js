@@ -1214,6 +1214,17 @@ jQuery(document).ready(function (jQuery) {
             }
         };
 
+        var isIOS = function() {
+            return !!(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
+        };
+        var isAndroid = function() {
+            return !!navigator.userAgent.match(/Android/i);
+        };
+
+        self.isMobile = function () {
+            return isIOS() || isAndroid() || Foundation.MediaQuery.current === 'small';
+        };
+
         $rootScope.generateGenres = function () {
             var deferred = $q.defer();
             // $localForage.removeItem('genres');
