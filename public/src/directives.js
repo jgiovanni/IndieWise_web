@@ -11,9 +11,9 @@
                 templateUrl: BASE + 'src/directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
-                    DataService.collection('users/count').then(function (res) {
-                        scope.users = res.data;
-                    }).then(function () {
+                    // DataService.collection('users/count').then(function (res) {
+                    //     scope.users = res.data;
+                    // }).then(function () {
                         $timeout(function () {
                             jQuery("#layerslider").layerSlider({
                                 responsive: false,
@@ -24,7 +24,7 @@
                                 skinsPath: BASE + 'assets/layerslider/skins/'
                             });
                         }, 0);
-                    });
+                    //});
                 }
             }
         }])

@@ -110,6 +110,8 @@ class AuthController extends Controller
         // Step 1 + 2
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
         if($user) {
+//            UserVerification::generate($user);
+//            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
             $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');

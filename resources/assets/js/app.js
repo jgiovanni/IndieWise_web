@@ -875,7 +875,7 @@ jQuery(document).ready(function (jQuery) {
                         console.log('User Logged In');
 
                         $intercom.boot(newValue);
-                        $intercom.show();
+                        // $intercom.show();
                         // initialize stream
                         $rootScope.subscribeUserFeeds();
                         //$rootScope.listenNotifications(newValue.username);

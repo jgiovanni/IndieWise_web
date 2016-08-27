@@ -10,6 +10,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Support\Facades\Hash;
+use Jrean\UserVerification\Facades\UserVerification;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -27,7 +28,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $appends = ['fullName'];
+    protected $appends = ['fullName', 'user_hash'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -58,6 +59,11 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     public function getFullNameAttribute()
     {
         return $this->attributes['firstName'] . ' ' . $this->attributes['lastName'];
+    }
+
+    public function getUserHashAttribute()
+    {
+        return hash_hmac("sha256", $this->attributes['id'], "IyW66SD_5ohnI6zok0zWtPoZRf7QS32jNv9wfkg8");
     }
 
     /**
@@ -172,6 +178,9 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         parent::boot();
 
         static::created(function($user) {
+            UserVerification::generate($user);
+            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+
 //            Event::fire('win.created', $win);
         });
 

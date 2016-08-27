@@ -16,7 +16,6 @@ use IndieWise\Http\Requests\v1\AuthenticationRequest;
 use IndieWise\Http\Requests\v1\UserRequest;
 use Dingo\Api\Routing\Helpers;
 use Jrean\UserVerification\Traits\VerifiesUsers;
-use Jrean\UserVerification\Facades\UserVerification;
 
 
 class AuthController extends Controller
