@@ -146,12 +146,12 @@
                 @include('shared.navbar')
             </header>
             <!-- End Header -->
-            <!--<div class="callout alert-box warning" data-closable>
-                <strong>Yo!</strong> We are experiencing technical difficulties, check back later!
+            <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
+                <strong>Yo!</strong> <a ng-click="requestVerificationEmail()" data-close>Verify your account</a> and join the conversation! <small>Check your spam folder too.</small>
                 <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>-->
+            </div>
 
             <div class="ui-view-container">
                 <ui-view class="" ng-cloak></ui-view>

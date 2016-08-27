@@ -286,8 +286,14 @@
             return !!navigator.userAgent.match(/Android/i);
         };
 
-        self.isMobile = function () {
+        $rootScope.isMobile = self.isMobile = function () {
             return isIOS() || isAndroid() || Foundation.MediaQuery.current === 'small';
+        };
+
+        $rootScope.requestVerificationEmail = function () {
+            AuthService.requestVerification().then(function () {
+                self.verificationEmailSentMessage = true;
+            });
         };
 
         $rootScope.generateGenres = function () {
@@ -494,6 +500,7 @@
             var toast = $mdToast.simple()
                 .textContent(msg)
                 .action(action)
+                .hideDelay(0)
                 .highlightAction(false)
                 .position('bottom right')
                 .parent(jQuery('#alerts'));
@@ -991,18 +998,46 @@
                 return false;
             }
 
-            UserActions.checkAuth().then(function (res) {
-                if (res) {
-                    self.rateThrottled = true;
-                    var actionVerb = 'like';
-                    if (self.canRate === true) {
-                        DataService.save('ratings', {
-                            author_id: $rootScope.AppData.User.id,
-                            project_id: self.film.id,
-                            up: direction === 'up',
-                            down: direction === 'down'
-                        }).then(function (res) {
-                            // console.log(res);
+            if (!$rootScope.isAuthenticated()) {
+                UserActions.loginModal();
+                return false;
+            }
+
+            self.rateThrottled = true;
+            var actionVerb = 'like';
+            if (self.canRate === true) {
+                DataService.save('ratings', {
+                    author_id: $rootScope.AppData.User.id,
+                    project_id: self.film.id,
+                    up: direction === 'up',
+                    down: direction === 'down'
+                }).then(function (res) {
+                    // console.log(res);
+                    switch (direction) {
+                        case 'up':
+                            // Increment film up_ratings_count
+                            self.film.up_ratings_count++;
+                            break;
+                        case 'down':
+                            // Increment film down_ratings_count
+                            self.film.down_ratings_count++;
+                            actionVerb = 'unlike';
+                            break;
+                    }
+
+                    self.updateVideoObj();
+                    angular.extend(res.data, {projectOwner: self.film.owner_id});
+                    self.checkUserActions();
+                });
+
+            } else if (angular.isObject(self.canRate)) {
+                //up is false && down is false
+                if (!self.canRate.up && !self.canRate.down) {
+                    DataService.update('ratings', self.canRate.id, {
+                        up: direction === 'up',
+                        down: direction === 'down',
+                    })
+                        .then(function (res) {
                             switch (direction) {
                                 case 'up':
                                     // Increment film up_ratings_count
@@ -1014,127 +1049,102 @@
                                     actionVerb = 'unlike';
                                     break;
                             }
-
-                            self.updateVideoObj();
+                            angular.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
+                            //self.updateVideoObj();
                             angular.extend(res.data, {projectOwner: self.film.owner_id});
-                            self.checkUserActions();
+                            //self.checkUserActions();
                         });
 
-                    } else if (angular.isObject(self.canRate)) {
-                        //up is false && down is false
-                        if (!self.canRate.up && !self.canRate.down) {
-                            DataService.update('ratings', self.canRate.id, {
-                                up: direction === 'up',
-                                down: direction === 'down',
-                            })
-                                .then(function (res) {
-                                    switch (direction) {
-                                        case 'up':
-                                            // Increment film up_ratings_count
-                                            self.film.up_ratings_count++;
-                                            break;
-                                        case 'down':
-                                            // Increment film down_ratings_count
-                                            self.film.down_ratings_count++;
-                                            actionVerb = 'unlike';
-                                            break;
-                                    }
-                                    angular.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
-                                    //self.updateVideoObj();
-                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                    //self.checkUserActions();
-                                });
+                    // up is already true && direction is up
+                } else if (!!self.canRate.up && direction === 'up') {
+                    //DataService.delete('Rating', self.canRate.id)
+                    angular.extend(self.canRate, {up: false});
+                    DataService.update('ratings', self.canRate.id, {up: false, down: false})
+                        .then(function (res) {
+                            self.film.up_ratings_count--;
+                            //self.updateVideoObj();
+                            angular.extend(res.data, {projectOwner: self.film.owner_id});
+                            //self.checkUserActions();
+                        });
 
-                            // up is already true && direction is up
-                        } else if (!!self.canRate.up && direction === 'up') {
-                            //DataService.delete('Rating', self.canRate.id)
-                            angular.extend(self.canRate, {up: false});
-                            DataService.update('ratings', self.canRate.id, {up: false, down: false})
-                                .then(function (res) {
-                                    self.film.up_ratings_count--;
-                                    //self.updateVideoObj();
-                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                    //self.checkUserActions();
-                                });
+                    // down is already true && direction is down
+                } else if (!!self.canRate.down && direction === 'down') {
+                    //DataService.delete('Rating', self.canRate.id)
+                    angular.extend(self.canRate, {down: false});
+                    DataService.update('ratings', self.canRate.id, {up: false, down: false})
+                        .then(function (res) {
+                            self.film.down_ratings_count--;
+                            //self.updateVideoObj();
+                            angular.extend(res.data, {projectOwner: self.film.owner_id});
+                            //self.checkUserActions();
+                        });
 
-                            // down is already true && direction is down
-                        } else if (!!self.canRate.down && direction === 'down') {
-                            //DataService.delete('Rating', self.canRate.id)
-                            angular.extend(self.canRate, {down: false});
-                            DataService.update('ratings', self.canRate.id, {up: false, down: false})
-                                .then(function (res) {
-                                    self.film.down_ratings_count--;
-                                    //self.updateVideoObj();
-                                    angular.extend(res.data, {projectOwner: self.film.owner_id});
-                                    //self.checkUserActions();
-                                });
-
-                            // down is true && direction is up || up is true && direction is down -> reversal
-                        } else if ((!!self.canRate.down && direction === 'up') || (!!self.canRate.up && direction === 'down')) {
-                            var up = false, down = false;
-                            switch (direction) {
-                                case 'up':
-                                    up = true;
-                                    self.film.up_ratings_count++;
-                                    self.film.down_ratings_count--;
-                                    angular.extend(self.canRate, {up: up, down: down});
-                                    break;
-                                case 'down':
-                                    down = true;
-                                    self.film.up_ratings_count--;
-                                    self.film.down_ratings_count++;
-                                    angular.extend(self.canRate, {up: up, down: down});
-                                    actionVerb = 'unlike';
-                                    break;
-                            }
-                            DataService.update('ratings', self.canRate.id, {up: up, down: down}).then(function (res) {
-                                //self.updateVideoObj();
-                                //self.checkUserActions();
-                                angular.extend(res.data, {projectOwner: self.film.owner_id});
-                            });
-                        }
+                    // down is true && direction is up || up is true && direction is down -> reversal
+                } else if ((!!self.canRate.down && direction === 'up') || (!!self.canRate.up && direction === 'down')) {
+                    var up = false, down = false;
+                    switch (direction) {
+                        case 'up':
+                            up = true;
+                            self.film.up_ratings_count++;
+                            self.film.down_ratings_count--;
+                            angular.extend(self.canRate, {up: up, down: down});
+                            break;
+                        case 'down':
+                            down = true;
+                            self.film.up_ratings_count--;
+                            self.film.down_ratings_count++;
+                            angular.extend(self.canRate, {up: up, down: down});
+                            actionVerb = 'unlike';
+                            break;
                     }
-                    $timeout(function () {
-                        self.rateThrottled = false;
-                    }, 1000);
+                    DataService.update('ratings', self.canRate.id, {up: up, down: down}).then(function (res) {
+                        //self.updateVideoObj();
+                        //self.checkUserActions();
+                        angular.extend(res.data, {projectOwner: self.film.owner_id});
+                    });
                 }
-            }, function (err) {
-                UserActions.loginModal();
-            });
+            }
+            $timeout(function () {
+                            self.rateThrottled = false;
+                        }, 1000);
         };
 
         self.react = function (emotion) {
             if (angular.isDefined(emotion)) {
-                UserActions.checkAuth().then(function (res) {
-                    if (res) {
-                        var actionVerb = 'react';
-                        if (self.canReact === true) {
-                            DataService.save('reactions', {
-                                user_id: $rootScope.AppData.User.id,
-                                project_id: self.film.id,
-                                emotion: emotion.emotion
-                            }).then(function (resA) {
-                                self.film.reactions_count++;
-                                // self.updateVideoObj();
-                                self.checkUserActions();
-                                self.qReactions();
-                            });
-                        } else if (angular.isObject(self.canReact)) {
-                            if (self.canReact.emotion !== emotion.emotion) {
-                                DataService.update('reactions', self.canReact.id, {
-                                    emotion: emotion.emotion
-                                }).then(function (resA) {
-                                    self.canReact = resA.data;
-                                    // self.updateVideoObj();
-                                    self.checkUserActions();
-                                    self.qReactions();
-                                });
-                            }
-                        }
-                    }
-                }, function (err) {
+                if (!$rootScope.isAuthenticated()) {
                     UserActions.loginModal();
-                });
+                    return false;
+                }
+
+                if ($rootScope.isNotVerified()) {
+                    $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                    return false;
+                }
+
+                var actionVerb = 'react';
+                if (self.canReact === true) {
+                    DataService.save('reactions', {
+                        user_id: $rootScope.AppData.User.id,
+                        project_id: self.film.id,
+                        emotion: emotion.emotion
+                    }).then(function (resA) {
+                        self.film.reactions_count++;
+                        // self.updateVideoObj();
+                        self.checkUserActions();
+                        self.qReactions();
+                    });
+                } else if (angular.isObject(self.canReact)) {
+                    if (self.canReact.emotion !== emotion.emotion) {
+                        DataService.update('reactions', self.canReact.id, {
+                            emotion: emotion.emotion
+                        }).then(function (resA) {
+                            self.canReact = resA.data;
+                            // self.updateVideoObj();
+                            self.checkUserActions();
+                            self.qReactions();
+                        });
+                    }
+                }
             }
         };
 
@@ -1146,48 +1156,54 @@
         };
 
         self.deleteCritique = function (c, ev) {
-            UserActions.checkAuth().then(function (res) {
-                if (res) {
-                    var modalInstance = $modal.open({
-                        templateUrl: BASE + 'src/common/confirmDialog.html',
-                        controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
-                            $scope.ok = function () {
-                                $modalInstance.close(true);
-                            };
+            if (!$rootScope.isAuthenticated()) {
+                UserActions.loginModal();
+                return false;
+            }
 
-                            $scope.cancel = function () {
-                                $modalInstance.dismiss('cancel');
-                            };
-                        }],
-                        size: Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
-                        keyboard: true
-                    });
-                    modalInstance.result.then(function () {
-                        DataService.collection('nominations', [], [{
-                            critique: c.id
-                        }]).then(function (noms) {
-                            var nom = noms.data.data[0];
-                            DataService.delete('Nominations', nom.id).then(function () {
-                                // Decrement film nominationCount
-                                self.film.nominationCount--;
-                            });
+            if ($rootScope.isNotVerified()) {
+                $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                return false;
+            }
 
-                            DataService.delete('Critique', c.id).then(function () {
-                                $rootScope.toastMessage('Your critique was deleted.');
-                                // Decrement film critiques_count
-                                self.film.critiques_count--;
-                                self.updateVideoObj();
-                                self.checkUserActions();
-                                self.critiques = _.reject(self.critiques, function (a) {
-                                    return a.id === c.id;
-                                });
-                            });
-                        })
-                    }, function () {
-                        // console.info('Modal dismissed at: ' + new Date());
+            var modalInstance = $modal.open({
+                templateUrl: BASE + 'src/common/confirmDialog.html',
+                controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                    $scope.ok = function () {
+                        $modalInstance.close(true);
+                    };
+
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }],
+                size: Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
+                keyboard: true
+            });
+            modalInstance.result.then(function () {
+                DataService.collection('nominations', [], [{
+                    critique: c.id
+                }]).then(function (noms) {
+                    var nom = noms.data.data[0];
+                    DataService.delete('Nominations', nom.id).then(function () {
+                        // Decrement film nominationCount
+                        self.film.nominationCount--;
                     });
-                }
-            })
+
+                    DataService.delete('Critique', c.id).then(function () {
+                        $rootScope.toastMessage('Your critique was deleted.');
+                        // Decrement film critiques_count
+                        self.film.critiques_count--;
+                        self.updateVideoObj();
+                        self.checkUserActions();
+                        self.critiques = _.reject(self.critiques, function (a) {
+                            return a.id === c.id;
+                        });
+                    });
+                })
+            }, function () {
+                // console.info('Modal dismissed at: ' + new Date());
+            });
         };
 
         self.openCritiqueDialog = function ($event) {
@@ -1290,6 +1306,12 @@
             UserActions.canCritique(self.film.id).then(function (res) {
                 // is logged in
                 if (res) {
+
+                    if ($rootScope.isNotVerified()) {
+                        $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                        return false;
+                    }
+
                     $modal.open({
                         templateUrl: BASE + 'src/common/critiqueDialog.html',
                         resolve: {
@@ -1349,6 +1371,12 @@
             UserActions.checkAuth(self.film.id).then(function (res) {
                 // is logged in
                 if (res) {
+
+                    if ($rootScope.isNotVerified()) {
+                        $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                        return false;
+                    }
+
                     var modalInstance = $modal.open({
                         templateUrl: BASE + 'src/common/reactionDialog.html',
                         resolve: {

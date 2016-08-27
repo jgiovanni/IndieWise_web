@@ -12,7 +12,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="robots" content="NONE">
-    <meta property="fb:app_id" content="150687055270744"/>
 
     <!--Favicon - http://realfavicongenerator.net/ -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=dLL8Gal3KG">

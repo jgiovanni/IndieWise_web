@@ -111,6 +111,8 @@
                         }, 300);
                     });
 
+                    scope.isMobile = $rootScope.isMobile;
+
                 }
             }
         }])

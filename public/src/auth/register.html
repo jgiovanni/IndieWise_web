@@ -67,11 +67,14 @@
                                     <span class="input-group-label">
                                         <i ng-if="RC.errors.email===false" class="fa fa-envelope"></i>
                                         <i ng-if="RC.errors.email===0" class="fa fa-check" style="color: green;"></i>
-                                        <i ng-if="!!RC.errors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
+                                        <i ng-if="RC.errors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
                                     </span>
-                                       <input class="input-group-field" type="email" placeholder="Enter a valid email"
-                                           ng-model="RC.user.email" ng-model-options="{debounce:250}" ng-change="RC.checkEmailUse()"
-                                           validate-email required>
+                                   <input class="input-group-field" type="email" placeholder="Enter a valid email"
+                                       ng-model="RC.user.email" ng-model-options="{debounce:250}" ng-change="RC.checkEmailUse()"
+                                       validate-email required ng-class="{'is-invalid-input': !!RC.errors.email}">
+                                </div>
+                                <div class="alert callout" ng-show="RC.errors.email">
+                                    <p><i class="fa fa-exclamation-triangle"></i> Email address is already in use. Please try another valid email.</p>
                                 </div>
 
                                 <div class="input-group">

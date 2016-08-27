@@ -772,6 +772,14 @@ jQuery(document).ready(function (jQuery) {
                     return AuthService.isAuthenticated();
                 };
 
+                $rootScope.isVerified = function () {
+                    return AuthService.isAuthenticated() && angular.isObject($rootScope.AppData.User) && $rootScope.AppData.User.verified === 1;
+                };
+
+                $rootScope.isNotVerified = function () {
+                    return AuthService.isAuthenticated() && angular.isObject($rootScope.AppData.User) && $rootScope.AppData.User.verified === 0;
+                };
+
                 $rootScope.listenNotifications = function (username) {
                     $rootScope.refreshNotifications(username);
                 };

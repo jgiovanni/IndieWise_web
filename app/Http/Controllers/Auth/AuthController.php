@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 use Jrean\UserVerification\Traits\VerifiesUsers;
-use Jrean\UserVerification\Facades\UserVerification;
 
 class AuthController extends Controller
 {
@@ -110,8 +109,6 @@ class AuthController extends Controller
         // Step 1 + 2
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
         if($user) {
-//            UserVerification::generate($user);
-//            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
             $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');
