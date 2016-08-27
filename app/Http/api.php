@@ -174,6 +174,7 @@ $api->version('v1', [
     $api->get('authenticate', 'AuthController@authenticatedUser');
     $api->get('token', 'AuthController@getToken');
     $api->get('emailCheck', 'AuthController@checkEmailUse');
+    $api->get('request_verification', 'AuthController@requestVerification');
 
     // User Routes
     $api->post('users/me', 'UsersController@updateMe');

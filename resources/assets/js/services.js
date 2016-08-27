@@ -271,6 +271,15 @@
             },
             /**
              *
+             * @param _userParams
+             */
+            requestVerification: function () {
+                return DataService.collection('request_verification').then(function (response) {
+                    return response;
+                });
+            },
+            /**
+             *
              * @param Back&
              * @returns {Promise}
              */

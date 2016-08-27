@@ -10,6 +10,7 @@ use Dingo\Api\Contract\Http\Request;
 use IndieWise\PasswordReset;
 use IndieWise\Playlist;
 use IndieWise\User;
+use Jrean\UserVerification\Facades\UserVerification;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use IndieWise\Http\Requests\v1\AuthenticationRequest;
@@ -176,5 +177,24 @@ class AuthController extends Controller
     {
         $exists = User::where('email', $request->get('email'))->first();
         return response()->json(['verify' => !!$exists]);
+    }
+
+    public function requestVerification(Request $request)
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_absent'], 401);
+        }
+
+        UserVerification::generate($user);
+        $complete =  UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+        return response()->json(['sent' => !!$complete]);
     }
 }

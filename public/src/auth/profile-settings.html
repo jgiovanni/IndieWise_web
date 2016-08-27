@@ -35,6 +35,18 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="medium-6 columns">
+                                        <button class="button expanded" type="button" ng-if="!PSC.user.verified" ng-click="PSC.requestVerificationEmail()">
+                                           <i class="fa fa-envelope"></i> Resend Verification Email
+                                        </button>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <div class="callout alert-box info" ng-if="PSC.verificationEmailSentMessage">
+                                            <strong>Okay!</strong> The verification email has been sent. Please also check your spam folder!
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!--<div class="setting-form-inner">
                                 <div class="row">

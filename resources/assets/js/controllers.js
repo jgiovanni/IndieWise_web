@@ -2139,6 +2139,8 @@
         var pwSetting = $window.localStorage.getItem('pwAllowPushNotifications');
         self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
         self.toggleNotifications = toggleNotifications;
+        self.requestVerificationEmail = requestVerificationEmail;
+        self.verificationEmailSentMessage = false;
 
         function toggleNotifications() {
             $window.localStorage.setItem('pwAllowPushNotifications', self.notificationsActive);
@@ -2183,6 +2185,12 @@
             } else {
                 $rootScope.toastMessage('Please wait...');
             }
+        }
+
+        function requestVerificationEmail() {
+            AuthService.requestVerification().then(function () {
+                self.verificationEmailSentMessage = true;
+            });
         }
 
         $rootScope.generateCountries().then(function (res) {
