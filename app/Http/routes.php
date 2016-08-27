@@ -13,7 +13,6 @@
 
 use GetStream\Stream\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\App;
 use IndieWise\Country;
 use IndieWise\Project;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
