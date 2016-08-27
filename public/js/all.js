@@ -108,6 +108,7 @@ jQuery(document).ready(function (jQuery) {
 
     angular
         .module('IndieWise', [
+            'ngIntercom',
             'ngMaterial',
             'mm.foundation',
             'angucomplete-alt',
@@ -137,6 +138,7 @@ jQuery(document).ready(function (jQuery) {
         ])
         .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
+        .constant('INTERCOM_APPID', 'ppp65byn')
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
@@ -152,6 +154,15 @@ jQuery(document).ready(function (jQuery) {
             $authProvider.twitter({
                 clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm'
             });
+        }])
+        .config(['$intercomProvider', 'INTERCOM_APPID', function($intercomProvider, INTERCOM_APPID) {
+            // Either include your app_id here or later on boot
+            $intercomProvider
+                .appID(INTERCOM_APPID);
+
+            // you can include the Intercom's script yourself or use the built in async loading feature
+            $intercomProvider
+                .asyncLoading(true)
         }])
         /*.config(['flowFactoryProvider', function (flowFactoryProvider) {
             flowFactoryProvider.defaults = {
@@ -225,7 +236,7 @@ jQuery(document).ready(function (jQuery) {
                         //$location.path('/sign-in');
                     } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
                         var deferred = $q.defer();
-                        retryHttpRequest(response.config, deferred);
+                        //retryHttpRequest(response.config, deferred);
                         return deferred.promise;
                     } else return $q.reject(response);
                 }
@@ -716,8 +727,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll', 'amMoment',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll, amMoment) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll', 'amMoment', '$intercom',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll, amMoment, $intercom) {
                 attachFastClick(document.body);
                 // set server timezone to UTC
                 amMoment.changeTimezone('UTC');
@@ -851,10 +862,20 @@ jQuery(document).ready(function (jQuery) {
                     });*/
                 };
 
+                // Register listeners to $intercom using '.$on()' rather than '.on()' to trigger a safe $apply on $rootScope
+                $intercom.$on('show', function() {
+                    $rootScope.intercomShowing = true; // currently Intercom onShow callback isn't working
+                });
+                $intercom.$on('hide', function() {
+                    $rootScope.intercomShowing = false;
+                });
+
                 var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                     if (newValue && angular.isString(newValue.id)) {
                         console.log('User Logged In');
 
+                        $intercom.boot(newValue);
+                        $intercom.show();
                         // initialize stream
                         $rootScope.subscribeUserFeeds();
                         //$rootScope.listenNotifications(newValue.username);
@@ -1558,22 +1579,22 @@ jQuery(document).ready(function (jQuery) {
 
         self.refresh = function () {
             // Trending Videos
-            DataService.collection('projects', {sort: 'reactions_count', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'reactions_count', per_page: 8}).then(function (result) {
                 self.trending = result.data;
             });
 
             // Highest Rated Videos
-            DataService.collection('projects', {sort: 'iwRating', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'iwRating', per_page: 8}).then(function (result) {
                 self.highestRated = result.data;
             });
 
             // Highest Awarded Videos
-            DataService.collection('projects', {sort: 'wins_count', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'wins_count', per_page: 8}).then(function (result) {
                 self.highestAwarded = result.data;
             });
 
             // Recent Videos
-            DataService.collection('projects', {sort: 'created_at', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'created_at', per_page: 8}).then(function (result) {
                 self.recentFilms = result.data;
             });
         };
@@ -3066,6 +3087,7 @@ jQuery(document).ready(function (jQuery) {
         self.saveComplete = false;
         self.updating = false;
         User.dob = moment(User.dob).startOf('day').toDate();
+        User.settings = JSON.parse(User.settings||'{}');
         self.user = User;
         self.genresArr = User.genres; //Genres.data.data;
         self.typesArr = User.types;// UserTypes.data.data;
@@ -3103,9 +3125,11 @@ jQuery(document).ready(function (jQuery) {
                 self.updating = true;
                 self.user.genres = _.pluck(self.genresArr, 'id');
                 self.user.types = _.pluck(self.typesArr, 'id');
+                self.user.settings = JSON.stringify(self.user.settings);
                 AuthService.updateUser(self.user).then(function (res) {
                     // console.log(res);
                     res.data.data.dob = moment(res.data.data.dob).toDate();
+                    res.data.data.settings = JSON.parse(res.data.data.settings);
                     AuthService.currentUser = self.user = res.data.data;
                     self.saveComplete = true;
                     self.updating = false;

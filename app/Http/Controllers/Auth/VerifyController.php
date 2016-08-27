@@ -2,7 +2,7 @@
 
 namespace IndieWise\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use IndieWise\Http\Controllers\Controller;
 use Krucas\LaravelUserEmailVerification\VerifiesUsers;
 
 class VerifyController extends Controller

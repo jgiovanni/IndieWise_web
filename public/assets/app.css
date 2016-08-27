@@ -9,6 +9,10 @@
     -webkit-overflow-scrolling : touch;
 }*/
 
+.content .head-text {
+    margin-bottom: 0;
+}
+
 footer #back-to-top{
     display: none;
 }

@@ -3,6 +3,7 @@
 namespace IndieWise;
 
 use EloquentFilter\Filterable;
+use Grimthorr\LaravelUserSettings\Setting;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -13,12 +14,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Krucas\LaravelUserEmailVerification\Contracts\RequiresEmailVerification as RequiresEmailVerificationContract;
-use Krucas\LaravelUserEmailVerification\RequiresEmailVerification;
+use Illuminate\Support\Facades\Auth;
 
-class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract, RequiresEmailVerificationContract
+class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable, RequiresEmailVerification;
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable;
 
 
     protected $table = 'users';
@@ -30,6 +30,14 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     protected $appends = ['fullName'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [ 'settings' => 'json' ];
+
 
     /**
      * Passwords must always be hashed
@@ -111,6 +119,15 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         $this->genres()->sync($ids);
     }
 
+    public function syncSettings($settings)
+    {
+        setting('test', true, "'$this->id'");
+        /*foreach ($settings as $key => $setting) {
+            setting()->set($key, $setting, "'$this->id'");
+        }*/
+        setting()->save("'$this->id'");
+    }
+
     public function types()
     {
         return $this->belongsToMany(Type::class, 'UserTypes');
@@ -149,4 +166,18 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
             ->groupBy('thread_id')
             ->latest('updated_at');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user) {
+//            Event::fire('win.created', $win);
+        });
+
+        static::deleted(function($user) {
+//            Event::fire('win.deleted', $win);
+        });
+    }
+
 }

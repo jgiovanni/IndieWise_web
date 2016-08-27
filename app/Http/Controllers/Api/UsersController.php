@@ -58,6 +58,7 @@ class UsersController extends Controller
      */
     public function show(Request $request, $id)
     {
+
         $user = $this->user->whereId($id)->orWhere('url_id', $id)->with('genres', 'country', 'types')->firstOrFail();
         return $this->response->item($user, new UserTransformer);
     }
@@ -72,6 +73,7 @@ class UsersController extends Controller
     public function update(UserRequest $request, $id)
     {
         $user = $this->user->findOrFail($id);
+
         $user->update($request->except('genres', 'country', 'types'));
         if( $request->has('genres') && count($request->get('genres')) > 0 && !is_array($request->get('genres')[0]) ) {
             $user->syncGenres($request->get('genres'));
@@ -79,6 +81,9 @@ class UsersController extends Controller
         if( $request->has('types') && count($request->get('types')) > 0 && !is_array($request->get('types')[0]) ) {
             $user->syncTypes($request->get('types'));
         }
+        /*if( $request->has('settings')) {
+            $user->syncSettings($request->get('settings'));
+        }*/
         return $this->response->item($user->load('genres', 'country', 'types'), new UserTransformer);
     }
 

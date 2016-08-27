@@ -19,5 +19,6 @@ require('angular-ui-scroll');
 require('angular-ui-scroll/dist/ui-scroll-jqlite.min.js');
 require('angular-cloudinary');
 require('ng-file-upload');
+// require('angular-intercom/');
 // require('ng-webworker');
 require('satellizer');

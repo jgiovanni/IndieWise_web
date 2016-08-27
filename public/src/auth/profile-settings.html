@@ -154,11 +154,49 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="setting-form-inner">
+                            <div class="setting-form-inner">
                                 <div class="row">
                                     <div class="large-12 columns">
                                         <h6 class="borderBottom">Notification Settings:</h6>
                                     </div>
+                                    <div class="medium-12 columns">
+                                        <p>
+                                            <b>Email Notifications:</b><br>
+                                            When checked, you will receive email notifications for the following events.
+                                        </p>
+                                        <div class="row">
+                                            <div class="medium-6 columns">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifA" ng-model="PSC.user.settings.email_critique"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifA">Critiques on your videos.</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifB" ng-model="PSC.user.settings.email_nomination"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifB">Nominations of your videos.</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifC" ng-model="PSC.user.settings.email_win"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifC">Awards for your videos.</label>
+                                                </div>
+                                            </div>
+                                            <div class="medium-6 columns end">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifY" ng-model="PSC.user.settings.email_comment"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifY">Comments to your critiques, .</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifZ" ng-model="PSC.user.settings.email_message"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifZ">Messages you receive.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+<!--
                                     <div class="medium-12 columns">
                                         <div class="checkbox">
                                             <input type="checkbox" id="notifA" ng-model="PSC.notificationsActive"
@@ -166,8 +204,9 @@
                                             <label class="customLabel" for="notifA">Allow Notifications</label>
                                         </div>
                                     </div>
+-->
                                 </div>
-                            </div>-->
+                            </div>
                             <div class="setting-form-inner">
                                 <button class="button expanded" type="submit">
                                     <span ng-if="!PSC.updating">update now</span>

@@ -43,6 +43,7 @@
     "angular-ui-scroll": "^1.5.1",
     "foundation-datepicker": "^1.5.3",
     "lodash": "^4.15.0",
-    "ng-img-crop-full-extended": "^0.5.4"
+    "ng-img-crop-full-extended": "^0.5.4",
+    "angular-intercom": "^2.1.0"
   }
 }

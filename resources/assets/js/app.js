@@ -108,6 +108,7 @@ jQuery(document).ready(function (jQuery) {
 
     angular
         .module('IndieWise', [
+            'ngIntercom',
             'ngMaterial',
             'mm.foundation',
             'angucomplete-alt',
@@ -137,6 +138,7 @@ jQuery(document).ready(function (jQuery) {
         ])
         .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
+        .constant('INTERCOM_APPID', 'ppp65byn')
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
@@ -152,6 +154,15 @@ jQuery(document).ready(function (jQuery) {
             $authProvider.twitter({
                 clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm'
             });
+        }])
+        .config(['$intercomProvider', 'INTERCOM_APPID', function($intercomProvider, INTERCOM_APPID) {
+            // Either include your app_id here or later on boot
+            $intercomProvider
+                .appID(INTERCOM_APPID);
+
+            // you can include the Intercom's script yourself or use the built in async loading feature
+            $intercomProvider
+                .asyncLoading(true)
         }])
         /*.config(['flowFactoryProvider', function (flowFactoryProvider) {
             flowFactoryProvider.defaults = {
@@ -225,7 +236,7 @@ jQuery(document).ready(function (jQuery) {
                         //$location.path('/sign-in');
                     } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
                         var deferred = $q.defer();
-                        retryHttpRequest(response.config, deferred);
+                        //retryHttpRequest(response.config, deferred);
                         return deferred.promise;
                     } else return $q.reject(response);
                 }
@@ -716,8 +727,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll', 'amMoment',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll, amMoment) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll', 'amMoment', '$intercom',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll, amMoment, $intercom) {
                 attachFastClick(document.body);
                 // set server timezone to UTC
                 amMoment.changeTimezone('UTC');
@@ -851,10 +862,20 @@ jQuery(document).ready(function (jQuery) {
                     });*/
                 };
 
+                // Register listeners to $intercom using '.$on()' rather than '.on()' to trigger a safe $apply on $rootScope
+                $intercom.$on('show', function() {
+                    $rootScope.intercomShowing = true; // currently Intercom onShow callback isn't working
+                });
+                $intercom.$on('hide', function() {
+                    $rootScope.intercomShowing = false;
+                });
+
                 var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                     if (newValue && angular.isString(newValue.id)) {
                         console.log('User Logged In');
 
+                        $intercom.boot(newValue);
+                        $intercom.show();
                         // initialize stream
                         $rootScope.subscribeUserFeeds();
                         //$rootScope.listenNotifications(newValue.username);

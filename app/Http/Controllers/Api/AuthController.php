@@ -4,7 +4,6 @@ namespace IndieWise\Http\Controllers\Api;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests;
 use Dingo\Api\Contract\Http\Request;
@@ -16,15 +15,20 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use IndieWise\Http\Requests\v1\AuthenticationRequest;
 use IndieWise\Http\Requests\v1\UserRequest;
 use Dingo\Api\Routing\Helpers;
+use Jrean\UserVerification\Traits\VerifiesUsers;
+use Jrean\UserVerification\Facades\UserVerification;
+
 
 class AuthController extends Controller
 {
-    use Helpers, ResetsPasswords;
+    use Helpers, ResetsPasswords, VerifiesUsers;
+
+
     //
 
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getToken']);
+        $this->middleware('guest', ['except' => ['getToken', 'getVerification', 'getVerificationError']]);
     }
 
     /**
@@ -97,6 +101,15 @@ class AuthController extends Controller
             // Add playlists
             Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
             Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
+
+            // Set default settings
+            setting()->set('email_critique', true, "'$user->id'");
+            setting()->set('email_nomination', true, "'$user->id'");
+            setting()->set('email_win', true, "'$user->id'");
+            setting()->set('email_comment', true, "'$user->id'");
+            setting()->set('email_message', true, "'$user->id'");
+            setting()->save("'$user->id'");
+
 
             $token = JWTAuth::fromUser($user);
         } catch (JWTException $e) {

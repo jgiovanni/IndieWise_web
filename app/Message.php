@@ -7,6 +7,7 @@ use Cmgmyr\Messenger\Models\Participant;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Message extends Model
 {
@@ -126,6 +127,20 @@ class Message extends Model
     {
         $targetFeeds = [];
         foreach ($this->target as $target) {
+            if ( setting('email_message', true, "'$target->user_id'") ) {
+                $data = [
+                    'ownerEmail' => $target->email,
+                    'ownerName' => $target->fullName,
+                    'subject' => $this->user->fullName . " sent you a message",
+                    'body' => $this->user->fullName . " sent you a message" . "!\r\n Login to view it!",
+                ];
+                Mail::queue('emails.blank', $data, function ($mail) use ($data) {
+                    $mail->to($data['ownerEmail'], $data['ownerName'])
+                        ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                        ->subject($data['subject']);
+                });
+            }
+
             $targetFeeds[] = FeedManager::getFeed('message', $target->user_id);
         }
         return $targetFeeds;

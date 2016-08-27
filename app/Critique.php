@@ -84,17 +84,19 @@ class Critique extends Model
 
     public function activityNotify()
     {
-        $data = [
-            'ownerEmail' => $this->target->owner->email,
-            'ownerName' => $this->target->owner->fullName,
-            'subject' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
-            'message' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
-        ];
-        Mail::raw($data['message'], function ($mail) use ($data) {
-            $mail->to($data['ownerEmail'], $data['ownerName'])
-                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
-                ->subject($data['subject']);
-        });
+        if ( setting('email_critique', true, "'".$this->target->owner->id."'") ) {
+            $data = [
+                'ownerEmail' => $this->target->owner->email,
+                'ownerName' => $this->target->owner->fullName,
+                'subject' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
+                'message' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
+            ];
+            Mail::raw($data['message'], function ($mail) use ($data) {
+                $mail->to($data['ownerEmail'], $data['ownerName'])
+                    ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                    ->subject($data['subject']);
+            });
+        }
 
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);

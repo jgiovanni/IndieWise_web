@@ -7,6 +7,7 @@ use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 use IndieWise\Events\Event;
 
 class Win extends Model
@@ -56,17 +57,19 @@ class Win extends Model
 
     public function activityNotify()
     {
-        /*$data = [
-            'ownerEmail' => $this->target->owner->email,
-            'ownerName' => $this->target->owner->fullName,
-            'subject' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
-            'message' => $this->user->fullName . ' critiqued your video',
-        ];
-        Mail::raw($data['message'], function ($mail) use ($data) {
-            $mail->to($data['ownerEmail'], $data['ownerName'])
-                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
-                ->subject($data['subject']);
-        });*/
+        if ( setting('email_win', true, "'".$this->target->owner->id."'") ) {
+            $data = [
+                'ownerEmail' => $this->target->owner->email,
+                'ownerName' => $this->target->owner->fullName,
+                'subject' => "You've won an IndieWise Award! (Unofficial)",
+                'body' => "Congratulations, " . $this->target->owner->fullName . "!\r\n Your video, " . $this->target->name . " has just won, The " . $this->award->name . "Award! \r\n Kindly confirm receipt of this e-mail, with a simple reply. Please bear in mind that this notification email serves only as a Pending Win. However, an IndieWise Representative needs to verify, and will respond within 48 hours to confirm whether your Win is Official [please see our Terms to understand our Award Policy]. Once confirmed, we will respond with your Official Gold IndieWise Laurel, as evidence of your Award.",
+            ];
+            Mail::queue('emails.blank', $data, function ($mail) use ($data) {
+                $mail->to($data['ownerEmail'], $data['ownerName'])
+                    ->from('awards@getindiewise.com', 'IndieWise Awards')
+                    ->subject($data['subject']);
+            });
+        }
 
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->owner_id);
@@ -75,7 +78,7 @@ class Win extends Model
 
     public function activityExtraData()
     {
-        return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id,];
+        return ['project_name' => $this->target->name, 'project_url_id' => $this->target->url_id, 'award' => $this->award->name];
     }
 
     public static function boot()
@@ -84,11 +87,11 @@ class Win extends Model
         parent::boot();
 
         static::created(function($win) {
-            Event::fire('win.created', $win);
+//            Event::fire('win.created', $win);
         });
 
         static::deleted(function($win) {
-            Event::fire('win.deleted', $win);
+//            Event::fire('win.deleted', $win);
         });
     }
 

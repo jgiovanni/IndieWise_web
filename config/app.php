@@ -150,7 +150,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         GetStream\StreamLaravel\StreamLaravelServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
-        Krucas\LaravelUserEmailVerification\UserEmailVerificationServiceProvider::class,
+        Grimthorr\LaravelUserSettings\ServiceProvider::class,
+        Jrean\UserVerification\UserVerificationServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -220,6 +221,8 @@ return [
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
         'FeedManager'   => GetStream\StreamLaravel\Facades\FeedManager::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Setting' => Grimthorr\LaravelUserSettings\Facade::class,
+        'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
     ],
 
 ];

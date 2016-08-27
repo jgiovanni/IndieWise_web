@@ -623,22 +623,22 @@
 
         self.refresh = function () {
             // Trending Videos
-            DataService.collection('projects', {sort: 'reactions_count', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'reactions_count', per_page: 8}).then(function (result) {
                 self.trending = result.data;
             });
 
             // Highest Rated Videos
-            DataService.collection('projects', {sort: 'iwRating', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'iwRating', per_page: 8}).then(function (result) {
                 self.highestRated = result.data;
             });
 
             // Highest Awarded Videos
-            DataService.collection('projects', {sort: 'wins_count', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'wins_count', per_page: 8}).then(function (result) {
                 self.highestAwarded = result.data;
             });
 
             // Recent Videos
-            DataService.collection('projects', {sort: 'created_at', per_page: 6}).then(function (result) {
+            DataService.collection('projects', {sort: 'created_at', per_page: 8}).then(function (result) {
                 self.recentFilms = result.data;
             });
         };
@@ -2131,6 +2131,7 @@
         self.saveComplete = false;
         self.updating = false;
         User.dob = moment(User.dob).startOf('day').toDate();
+        User.settings = JSON.parse(User.settings||'{}');
         self.user = User;
         self.genresArr = User.genres; //Genres.data.data;
         self.typesArr = User.types;// UserTypes.data.data;
@@ -2168,9 +2169,11 @@
                 self.updating = true;
                 self.user.genres = _.pluck(self.genresArr, 'id');
                 self.user.types = _.pluck(self.typesArr, 'id');
+                self.user.settings = JSON.stringify(self.user.settings);
                 AuthService.updateUser(self.user).then(function (res) {
                     // console.log(res);
                     res.data.data.dob = moment(res.data.data.dob).toDate();
+                    res.data.data.settings = JSON.parse(res.data.data.settings);
                     AuthService.currentUser = self.user = res.data.data;
                     self.saveComplete = true;
                     self.updating = false;

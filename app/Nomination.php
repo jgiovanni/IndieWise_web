@@ -54,17 +54,19 @@ class Nomination extends Model
 
     public function activityNotify()
     {
-        $data = [
-            'ownerEmail' => $this->target->owner->email,
-            'ownerName' => $this->target->owner->fullName,
-            'subject' => $this->user->fullName . ' nominated your video, ' . $this->target->name,
-            'message' => $this->user->fullName . ' nominated your video, ' . $this->target->name . ' for ' . $this->award->name,
-        ];
-        Mail::raw($data['message'], function ($mail) use ($data) {
-            $mail->to($data['ownerEmail'], $data['ownerName'])
-                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
-                ->subject($data['subject']);
-        });
+        if ( setting('email_nomination', true, "'".$this->target->owner->id."'") ) {
+            $data = [
+                'ownerEmail' => $this->target->owner->email,
+                'ownerName' => $this->target->owner->fullName,
+                'subject' => $this->user->fullName . ' nominated your video, ' . $this->target->name,
+                'message' => $this->user->fullName . ' nominated your video, ' . $this->target->name . ' for ' . $this->award->name,
+            ];
+            Mail::raw($data['message'], function ($mail) use ($data) {
+                $mail->to($data['ownerEmail'], $data['ownerName'])
+                    ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                    ->subject($data['subject']);
+            });
+        }
 
         $targetFeeds = [];
         $targetFeeds[] = FeedManager::getNotificationFeed($this->target->owner_id);
@@ -87,7 +89,20 @@ class Nomination extends Model
         parent::boot();
 
         static::created(function($nomination) {
+            // Find Project that has not been awarded a win
+            $project = Project::whereHas('wins', function ($query) use ($nomination) {
+                $query->where('award_id', $nomination->award_id);
+            }, '=', 0)->whereHas('nominations', function ($query) use ($nomination) {
+                $query->where('award_id', $nomination->award_id);
+            }, '>=', 5)->find($nomination->project_id);
 
+            if (!is_null($project)) {
+                //Award win to project
+                $project->wins()->create([
+                    'award_id' => $nomination->award_id,
+                    'owner_id' => $project->owner_id,
+                ]);
+            }
         });
 
         static::deleted(function($nomination) {

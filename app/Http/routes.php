@@ -11,9 +11,9 @@
 |
 */
 
-
 use GetStream\Stream\Client;
 use IndieWise\Country;
+use IndieWise\Project;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
@@ -21,29 +21,33 @@ Route::get('', function (){
     return view('welcome');
 });
 
+Route::get('test', function () {
+    //Find project
+    $project = Project::with('wins.award')->whereHas('wins', function ($query) {
+        $query->where('award_id', '6950ef19-1cce-11e6-b1e1-e12b04098a26');
+    }, '=', 0)->whereHas('nominations', function ($query) {
+        $query->where('award_id', '6950ef19-1cce-11e6-b1e1-e12b04098a26');
+    }, '>=', 5)->find('1108b3f2-2cd5-11e6-9f2e-df967fc712f1');
+
+    if (!is_null($project)) {
+        //Award win to project
+        $project->wins()->create([
+            'award_id' => '6950ef19-1cce-11e6-b1e1-e12b04098a26',
+            'owner_id' => $project->owner_id,
+        ]);
+    }
+    return $project;
+});
+
+
 //Route::group(['middleware' => 'web'], function () {
 //    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-    Route::post('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-    Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+Route::post('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 //});
 
-// verification token resend form
-Route::get('verify/resend', [
-    'uses' => 'Auth\VerifyController@showResendForm',
-    'as' => 'verification.resend',
-]);
-
-// verification token resend action
-Route::post('verify/resend', [
-    'uses' => 'Auth\VerifyController@sendVerificationLinkEmail',
-    'as' => 'verification.resend.post',
-]);
-
-// verification message / user verification
-Route::get('verify/{token?}', [
-    'uses' => 'Auth\VerifyController@verify',
-    'as' => 'verification.verify',
-]);
+Route::get('verification/error', 'Auth\AuthController@getVerificationError');
+Route::get('verification/{token}', 'Auth\AuthController@getVerification');
 
 Route::any('alpha/{path?}', function() use ($dispatcher) {
 
