@@ -193,8 +193,11 @@ class AuthController extends Controller
             return response()->json(['token_absent'], 401);
         }
 
-        UserVerification::generate($user);
-        $complete =  UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
-        return response()->json(['sent' => !!$complete]);
+        if ( !$user->verified ) {
+            UserVerification::generate($user);
+            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+            return response()->json(['sent' => true]);
+        } else return response()->json(['sent' => false]);
+
     }
 }

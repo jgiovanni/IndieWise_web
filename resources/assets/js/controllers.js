@@ -2168,11 +2168,12 @@
 
         function updateUser() {
             if (!self.updating) {
+                var user = self.user;
                 self.updating = true;
-                self.user.genres = _.pluck(self.genresArr, 'id');
-                self.user.types = _.pluck(self.typesArr, 'id');
-                self.user.settings = JSON.stringify(self.user.settings);
-                AuthService.updateUser(self.user).then(function (res) {
+                user.genres = _.pluck(self.genresArr, 'id');
+                user.types = _.pluck(self.typesArr, 'id');
+                user.settings = JSON.stringify(user.settings);
+                AuthService.updateUser(user).then(function (res) {
                     // console.log(res);
                     res.data.data.dob = moment(res.data.data.dob).toDate();
                     res.data.data.settings = JSON.parse(res.data.data.settings);
