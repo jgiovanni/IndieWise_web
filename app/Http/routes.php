@@ -59,7 +59,7 @@ Route::any('alpha/{path?}', function() use ($dispatcher) {
     } else {
         $ua = request()->server('HTTP_USER_AGENT');
 
-        if (preg_match('/facebookexternalhit/[0-9]|Facebot|Twitterbot|Pinterest|Google.*snippet/i', $ua)) {
+        if (preg_match('/facebookexternalhit|Facebot|Twitterbot|Pinterest|Google.*snippet/i', $ua)) {
             $segments = request()->segments();
             try {
                 $project = $dispatcher->get('projects/' . end($segments));
