@@ -151,7 +151,7 @@ return [
         GetStream\StreamLaravel\StreamLaravelServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Grimthorr\LaravelUserSettings\ServiceProvider::class,
-//        Jrean\UserVerification\UserVerificationServiceProvider::class,
+        Jrean\UserVerification\UserVerificationServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -222,7 +222,7 @@ return [
         'FeedManager'   => GetStream\StreamLaravel\Facades\FeedManager::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Setting' => Grimthorr\LaravelUserSettings\Facade::class,
-//        'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
+        'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
     ],
 
 ];
