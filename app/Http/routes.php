@@ -12,8 +12,11 @@
 */
 
 use GetStream\Stream\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\App;
 use IndieWise\Country;
 use IndieWise\Project;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
@@ -50,12 +53,29 @@ Route::get('verification/error', 'Auth\AuthController@getVerificationError');
 Route::get('verification/{token}', 'Auth\AuthController@getVerification');
 
 Route::any('alpha/{path?}', function() use ($dispatcher) {
-
     $countries = Country::orderBy('name', 'desc')->get();
+
     if (App::environment('local')) {
         return view("dev", compact('countries'));
     } else {
-        return view("index", compact('countries'));
+        $ua = request()->server('HTTP_USER_AGENT');
+
+        if (preg_match('/facebookexternalhit/[0-9]|Facebot|Twitterbot|Pinterest|Google.*snippet/i', $ua)) {
+            $segments = request()->segments();
+            try {
+                $project = $dispatcher->get('projects/' . end($segments));
+            } catch (Dingo\Api\Exception\InternalHttpException $e) {
+                $response = $e->getResponse();
+            } catch (NotFoundHttpException $e) {
+                return redirect('alpha/404');
+                $response = $e->getResponse();
+            } catch (ModelNotFoundException $e) {
+                return redirect('alpha/404');
+                $response = $e;
+            }
+            return view("hard-video", compact('project', 'countries'));
+        } else
+            return view("index", compact('countries'));
     }
 })->where("path", ".+");
 

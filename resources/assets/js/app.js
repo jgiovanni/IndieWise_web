@@ -113,6 +113,7 @@ jQuery(document).ready(function (jQuery) {
             'mm.foundation',
             'angucomplete-alt',
             'ngMessages',
+            'ngResource',
             'angular-cloudinary',
             'underscore',
             'angularMoment',
@@ -706,13 +707,14 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: BASE + 'src/common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
-                        Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
-                            var deferred = $q.defer();
-                            DataService.item('projects', $stateParams.url_id, '').then(function (result) {
-                                deferred.resolve(result.data.data);
-                            });
-
-                            return deferred.promise;
+                        Project: ['$stateParams', 'DataService', function ($stateParams, DataService) {
+                            return DataService.item('projects', $stateParams.url_id, '')
+                                .then(function (result) {
+                                    return result.data.data;
+                                })
+                                .catch(function (response) {
+                                    debugger;
+                                });
                         }]
                     }
                 })
@@ -722,13 +724,22 @@ jQuery(document).ready(function (jQuery) {
             $locationProvider.html5Mode(true);
 
         }])
-        .constant('Config', {
+        .config(['$transitionsProvider', function($transitionsProvider) {
+            $transitionsProvider.onError({}, function(transition) {
+                debugger;
+                transition.promise.catch(function(error) {
+                    debugger;
+                    console.error(error);
+                });
+            });
+        }])
+        .constant('StreamConfig', {
             streamApiKey: '97wfnrargt9f',
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'Config', 'anchorSmoothScroll', 'amMoment', '$intercom',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, Config, anchorSmoothScroll, amMoment, $intercom) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom) {
                 attachFastClick(document.body);
                 // set server timezone to UTC
                 amMoment.changeTimezone('UTC');
@@ -781,7 +792,7 @@ jQuery(document).ready(function (jQuery) {
                     });
                 };
 
-                $rootScope.StreamClient = stream.connect(Config.streamApiKey, null, Config.streamApp, {location: 'us-east'});
+                $rootScope.StreamClient = stream.connect(StreamConfig.streamApiKey, null, StreamConfig.streamApp, {location: 'us-east'});
                 $rootScope.getNewToken = function (type, id) {
                     return $http.get('/api/notifications/token?type=' + type).then(function (res) {
                         return res.data.token;
@@ -930,8 +941,14 @@ jQuery(document).ready(function (jQuery) {
                     // Analytics.trackPage($location.path());
                 });
 
-                $transitions.onError({}, function ($state) {
+                $transitions.onError({}, function ($transition$) {
+                    debugger;
                     console.log($state);
+                });
+
+                $state.defaultErrorHandler(function(err) {
+                    debugger;
+                    // handle err
                 });
             }
         ])

@@ -405,8 +405,8 @@
         return service;
     }
 
-    DataService.$inject = ['$rootScope', '$http', 'API'];
-    function DataService($rootScope, $http, API) {
+    DataService.$inject = ['$http', 'API'];
+    function DataService($http, API) {
         var vm = this;
 
         vm.collection = function (name, params) {

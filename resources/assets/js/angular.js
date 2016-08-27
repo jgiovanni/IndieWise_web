@@ -1,6 +1,7 @@
 // AngularJs Dependencies
 require('angular');
 require('angular-aria');
+require('angular-resource');
 require('angular-messages');
 require('angular-animate');
 require('angucomplete-alt');

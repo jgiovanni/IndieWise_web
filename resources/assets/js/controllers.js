@@ -2122,8 +2122,8 @@
         }
     }
 
-    ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window'];
-    function ProfileSettingsController($rootScope, AuthService, User, Genres, UserTypes, DataService, anchorSmoothScroll, _, $window) {
+    ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window', '$intercom'];
+    function ProfileSettingsController($rootScope, AuthService, User, Genres, UserTypes, DataService, anchorSmoothScroll, _, $window, $intercom) {
         var self = this;
         self.countries = [];
         self.genresArr = [];
@@ -2178,6 +2178,7 @@
                     res.data.data.dob = moment(res.data.data.dob).toDate();
                     res.data.data.settings = JSON.parse(res.data.data.settings);
                     AuthService.currentUser = self.user = res.data.data;
+                    $intercom.update(self.user );
                     self.saveComplete = true;
                     self.updating = false;
                     anchorSmoothScroll.scrollTo('success');
