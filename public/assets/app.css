@@ -347,7 +347,7 @@ md-toast .md-action.md-button {
 
 /* Project card styles */
 .content .post .post-des {
-    min-height: 85px;
+    min-height: 100px;
 }
 
 .content .grid-medium .post .post-des {
