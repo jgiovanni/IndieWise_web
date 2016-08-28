@@ -218,6 +218,8 @@
 
 <!-- AngularJs Components -->
 <script type="text/javascript" src="/js/angular.js"></script>
+<script src="/js/templates.js"></script>
+
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 {{--<script src="/app/bower_components/lodash/lodash.js"></script>--}}
 {{--<script src="/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
