@@ -29,9 +29,6 @@ class SocialAccountService
                 $data = collect([
                     'email' => $providerUser->getEmail(),
                 ]);
-                $this->validate($data, [
-                    'email' => 'bail|required',
-                ]);
 
                 $user = User::create([
                     'email' => $providerUser->getEmail(),
