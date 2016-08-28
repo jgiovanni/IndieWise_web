@@ -206,7 +206,8 @@ jQuery(document).ready(function (jQuery) {
             AnalyticsProvider
                 .setAccount('UA-27155404-17')
                 // Remove prefix on launch
-                // .trackPrefix('alpha');
+                // .trackPrefix('alpha')
+                ;
         }])
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
