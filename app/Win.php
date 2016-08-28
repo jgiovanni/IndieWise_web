@@ -62,9 +62,11 @@ class Win extends Model
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,
                 'subject' => "You've won an IndieWise Award! (Unofficial)",
-                'body' => "Congratulations, " . $this->target->owner->fullName . "!\r\n Your video, " . $this->target->name . " has just won, The " . $this->award->name . "Award! \r\n Kindly confirm receipt of this e-mail, with a simple reply. Please bear in mind that this notification email serves only as a Pending Win. However, an IndieWise Representative needs to verify, and will respond within 48 hours to confirm whether your Win is Official [please see our Terms to understand our Award Policy]. Once confirmed, we will respond with your Official Gold IndieWise Laurel, as evidence of your Award.",
+                'targetName' => $this->target->name,
+                'targetUrlId' => $this->target->url_id,
+                'awardName' => $this->award->name,
             ];
-            Mail::queue('emails.blank', $data, function ($mail) use ($data) {
+            Mail::queue('emails.notifications.win', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
                     ->from('awards@getindiewise.com', 'IndieWise Awards')
                     ->subject($data['subject']);

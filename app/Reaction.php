@@ -49,10 +49,13 @@ class Reaction extends Model
         $data = [
             'ownerEmail' => $this->target->owner->email,
             'ownerName' => $this->target->owner->fullName,
-            'subject' => $this->user->fullName . ' reacted to your video.',
-            'message' => $this->user->fullName . ' reacted to your video, ' . $this->target->name,
+            'subject' => $this->user->fullName . ' reacted to your video, ' . $this->target->name,
+            'targetName' => $this->target->name,
+            'targetUrlId' => $this->target->url_id,
+            'actorName' => $this->user->fullName,
+            'actorUrlId' => $this->user->url_id,
         ];
-        Mail::raw($data['message'], function ($mail) use ($data) {
+        Mail::queue('emails.notifications.reaction', $data, function ($mail) use ($data) {
             $mail->to($data['ownerEmail'], $data['ownerName'])
                 ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
                 ->subject($data['subject']);

@@ -82,13 +82,32 @@ class Comment extends Model
     public function activityNotify()
     {
         if ( setting('email_comment', true, "'".$this->target->author->id."'") ) {
-            $data = [
-                'ownerEmail' => $this->target->author->email,
-                'ownerName' => $this->target->author->fullName,
-                'subject' => !is_null($this->comment_id) ? $this->author->fullName . ' replied to your' : '',
-                'message' => $this->author->fullName . ' commented on your video, ' . $this->target->name,
-            ];
-            Mail::raw($data['message'], function ($mail) use ($data) {
+            if (isset($this->target->user_id)) {
+                // is reply to comment
+                $data = [
+                    'targetText' => 'replied to your comment',
+                    'actorName' => $this->author->fullName,
+                    'actorUrlId' => $this->author->url_id,
+                    'ownerEmail' => $this->target->author->email,
+                    'ownerName' => $this->target->author->fullName,
+                    'subject' => $this->author->fullName . 'replied to your comment.',
+                    'critique' => $this->target->critique->url_id,
+                    'video' => $this->target->critique->project->url_id,
+                ];
+            } else {
+                // is comment to critique
+                $data = [
+                    'targetText' => 'commented on your critique',
+                    'actorName' => $this->author->fullName,
+                    'actorUrlId' => $this->author->url_id,
+                    'ownerEmail' => $this->target->user->email,
+                    'ownerName' => $this->target->user->fullName,
+                    'subject' => $this->author->fullName . 'commented on your critique.',
+                    'critique' => $this->target->url_id,
+                    'video' => $this->target->project->url_id,
+                ];
+            }
+            Mail::queue('emails.notifications.comment', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
                     ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
                     ->subject($data['subject']);

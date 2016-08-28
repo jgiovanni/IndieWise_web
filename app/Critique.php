@@ -89,9 +89,13 @@ class Critique extends Model
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,
                 'subject' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
-                'message' => $this->user->fullName . ' critiqued your video, ' . $this->target->name,
+                'targetName' => $this->target->name,
+                'targetUrlId' => $this->target->url_id,
+                'actorName' => $this->user->fullName,
+                'actorUrlId' => $this->user->url_id,
+                'urlId' => $this->url_id,
             ];
-            Mail::raw($data['message'], function ($mail) use ($data) {
+            Mail::queue('emails.notifications.critique', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
                     ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
                     ->subject($data['subject']);

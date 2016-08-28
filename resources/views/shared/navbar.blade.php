@@ -28,7 +28,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="top-bar-right search-btn">
+                        <div class="top-bar-right search-btn" ng-cloak>
                             <ul ng-if="isAuthenticated()" class="menu dropdown" dropdown-menu>
                                 <li class="search" ui-sref="profile.about">
                                     <i class="fa fa-user"></i>

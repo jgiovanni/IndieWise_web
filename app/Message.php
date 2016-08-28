@@ -132,9 +132,10 @@ class Message extends Model
                     'ownerEmail' => $target->email,
                     'ownerName' => $target->fullName,
                     'subject' => $this->user->fullName . " sent you a message",
-                    'body' => $this->user->fullName . " sent you a message" . "!\r\n Login to view it!",
+                    'actorName' => $this->user->fullName,
+                    'actorUrlId' => $this->user->url_id,
                 ];
-                Mail::queue('emails.blank', $data, function ($mail) use ($data) {
+                Mail::queue('emails.notifications.message', $data, function ($mail) use ($data) {
                     $mail->to($data['ownerEmail'], $data['ownerName'])
                         ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
                         ->subject($data['subject']);

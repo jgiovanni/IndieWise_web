@@ -59,9 +59,13 @@ class Nomination extends Model
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,
                 'subject' => $this->user->fullName . ' nominated your video, ' . $this->target->name,
-                'message' => $this->user->fullName . ' nominated your video, ' . $this->target->name . ' for ' . $this->award->name,
+                'targetName' => $this->target->name,
+                'targetUrlId' => $this->target->url_id,
+                'actorName' => $this->user->fullName,
+                'actorUrlId' => $this->user->url_id,
+                'awardName' => $this->award->name,
             ];
-            Mail::raw($data['message'], function ($mail) use ($data) {
+            Mail::queue('emails.notifications.nomination', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
                     ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
                     ->subject($data['subject']);
