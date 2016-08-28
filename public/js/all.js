@@ -3996,7 +3996,7 @@ jQuery(document).ready(function (jQuery) {
                         $timeout(function () {
                                 //console.log('run owl');
                                 //Premium carousel
-                                jQuery('.owl-carousel').each(function () {
+                                el.each(function () {
                                     var owl = jQuery(this);
                                     jQuery(".prev").on('click', function () {
                                         jQuery(this).parent().parent().parent().parent().next().trigger('prev.owl.carousel');
