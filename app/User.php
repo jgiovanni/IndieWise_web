@@ -28,7 +28,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $appends = ['fullName', 'user_hash'];
+    protected $appends = ['fullName', 'user_id', 'user_hash'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -59,6 +59,11 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     public function getFullNameAttribute()
     {
         return $this->attributes['firstName'] . ' ' . $this->attributes['lastName'];
+    }
+
+    public function getUserIdAttribute()
+    {
+        return $this->attributes['id'];
     }
 
     public function getUserHashAttribute()

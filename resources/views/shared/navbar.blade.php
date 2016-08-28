@@ -6,8 +6,7 @@
             <div class="row">
                 <div class="large-12 columns">
                     <div class="title-bar" data-responsive-toggle="beNav" data-hide-for="large">
-                        <button class="menu-icon" type="button"
-                                data-toggle="offCanvas-responsive"></button>
+                        <button class="menu-icon" type="button" data-toggle="offCanvas-responsive"></button>
                         <div class="title-bar-title">
                             <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                         </div>
@@ -35,7 +34,7 @@
                                     <i class="fa fa-user"></i>
                                 </li>
                                 <li class="search right-off-canvas-toggle">
-                                    <i class="fa" ng-class="{'fa-bell': AppData.Notifications.unseen, 'fa-bell-o': AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen}"></i>
+                                    <i class="fa" ng-click="Body.markAllAsRead();Body.markAllAsSeen()" ng-class="{'fa-bell': AppData.Notifications.unseen, 'fa-bell-o': AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen}"></i>
                                     <span ng-show="AppData.Notifications.unseen>0" class="alert badge">@{{AppData.Notifications.unseen}}</span>
                                 </li>
                                 <li class="search" ui-sref="messages">
