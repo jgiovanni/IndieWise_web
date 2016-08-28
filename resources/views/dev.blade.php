@@ -147,7 +147,7 @@
             </header>
             <!-- End Header -->
             <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
-                <strong>Yo!</strong> <a ng-click="requestVerificationEmail()" data-close>Verify your account</a> and join the conversation! <small>Check your spam folder too.</small>
+                Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
                 <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
                     <span aria-hidden="true">&times;</span>
                 </button>

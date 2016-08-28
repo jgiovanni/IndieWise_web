@@ -481,12 +481,12 @@ jQuery(document).ready(function (jQuery) {
                     resolve: {
                         Verified: ['$rootScope', '$q', function ($rootScope, $q) {
                             var deferred = $q.defer();
-
                             if ($rootScope.isNotVerified()) {
                                 $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
                                 deferred.reject(false);
+                            } else {
+                                deferred.resolve(true);
                             }
-
                             return deferred.promise;
                         }]
                     }
@@ -3987,6 +3987,84 @@ jQuery(document).ready(function (jQuery) {
                 }
             }
         }])
+        .directive('owlCarousel', ['$rootScope', '$timeout', '$interval', 'DataService', function ($rootScope, $timeout, $interval, DataService) {
+            return {
+                restrict: 'A',
+                //scope: {},
+                link: function (scope, el, attrs) {
+                    scope.getWatchedList = function () {
+                        $timeout(function () {
+                                //console.log('run owl');
+                                //Premium carousel
+                                jQuery('.owl-carousel').each(function () {
+                                    var owl = jQuery(this);
+                                    jQuery(".prev").on('click', function () {
+                                        jQuery(this).parent().parent().parent().parent().next().trigger('prev.owl.carousel');
+                                    });
+
+                                    jQuery(".next").on('click', function () {
+                                        jQuery(this).parent().parent().parent().parent().next().trigger('next.owl.carousel');
+                                    });
+                                    var loopLength = owl.data('car-length');
+                                    var divLength = jQuery(this).find("div.item").length;
+                                    if (divLength > loopLength) {
+                                        owl.owlCarousel({
+                                            dots: owl.data("dots"),
+                                            items: owl.data("items"),
+                                            slideBy: owl.data("slideby"),
+                                            center: owl.data("center"),
+                                            loop: owl.data("loop"),
+                                            margin: owl.data("margin"),
+                                            nav: owl.data("nav"),
+                                            autoplay: owl.data("autoplay"),
+                                            autoplayTimeout: owl.data("autoplay-timeout"),
+                                            autoWidth: owl.data("auto-width"),
+                                            autoHeight: owl.data("auto-Height"),
+                                            merge: owl.data("merge"),
+                                            responsive: {
+                                                0: {
+                                                    items: owl.data("responsive-small"),
+                                                    nav: false
+                                                },
+                                                600: {
+                                                    items: owl.data("responsive-medium"),
+                                                    nav: false
+                                                },
+                                                1000: {
+                                                    items: owl.data("responsive-large"),
+                                                    nav: false
+                                                },
+                                                1900: {
+                                                    items: owl.data("responsive-xlarge"),
+                                                    nav: false
+                                                }
+                                            }
+                                        });
+
+                                    } else {
+                                        owl.owlCarousel({
+                                            dots: false,
+                                            items: owl.data("items"),
+                                            loop: false,
+                                            margin: owl.data("margin"),
+                                            autoplay: false,
+                                            autoplayHoverPause: true,
+                                            responsiveClass: true,
+                                            autoWidth: owl.data("auto-width"),
+                                            autoHeight: owl.data("auto-Height"),
+                                        });
+                                    }
+                                });
+                            }, 0);
+                    };
+                    /*$interval(function () {
+                     scope.getWatchedList()
+                     }, 60000);*/
+
+                    scope.getWatchedList();
+                }
+            }
+        }])
         .directive('playlists', ['$rootScope', 'DataService', 'UserActions', '_', function ($rootScope, DataService, UserActions, _) {
             return {
                 restrict: 'E',
@@ -5125,7 +5203,7 @@ jQuery(document).ready(function (jQuery) {
             return function (text, type) {
                 return linkify(text, type);
             };
-        })
+        });
         /*.filter('moment', function () {
             return function (input, momentFn /!*, param1, param2, ...param n *!/) {
                 var args = Array.prototype.slice.call(arguments, 2),

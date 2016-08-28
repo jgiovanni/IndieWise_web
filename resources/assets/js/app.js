@@ -481,12 +481,12 @@ jQuery(document).ready(function (jQuery) {
                     resolve: {
                         Verified: ['$rootScope', '$q', function ($rootScope, $q) {
                             var deferred = $q.defer();
-
                             if ($rootScope.isNotVerified()) {
                                 $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
                                 deferred.reject(false);
+                            } else {
+                                deferred.resolve(true);
                             }
-
                             return deferred.promise;
                         }]
                     }
