@@ -38,6 +38,7 @@
 
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
     <script type="text/javascript" src="/public/js/main.js"></script>
+    {{--<script src="https://cdn.jsdelivr.net/g/momentjs.timezone@0.5.4(moment-timezone-with-data.min.js)"></script>--}}
     <script>window.BASE = '/public/';</script>
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>

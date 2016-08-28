@@ -140,6 +140,20 @@ jQuery(document).ready(function (jQuery) {
         ])
         .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
+        .config(['angularMomentConfig', function (angularMomentConfig) {
+
+            angularMomentConfig.timezone = 'UTC';
+            /*angularMomentConfig.preprocess = function(value) {
+             return moment.unix(value);
+             }*/
+        }])
+        .constant('angularMomentConfig', {
+            // preprocess: ['utc', 'local'],
+            timezone: 'UTC'
+        })
+        .constant('amTimeAgoConfig', {
+            // serverTime: -2
+        })
         .constant('INTERCOM_APPID', 'ppp65byn')
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
@@ -755,13 +769,12 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .config(['angularMomentConfig', function (angularMomentConfig) {}])
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'moment', 'amMoment', '$intercom',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, moment, amMoment, $intercom) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom) {
                 attachFastClick(document.body);
                 // set server timezone to UTC
-                moment.tz.setDefault("utc");
-                amMoment.changeTimezone('UTC');
+                // moment.tz.setDefault("utc");
+                // amMoment.changeTimezone('UTC');
 
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
