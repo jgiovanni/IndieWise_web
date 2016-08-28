@@ -194,7 +194,7 @@
                     var modalInstance = $modal.open({
                         controller: SignInModalCtrl,
                         controllerAs: 'SIC',
-                        templateUrl: BASE + 'src/auth/sign-in-dialog.html',
+                        templateUrl: '/auth/sign-in-dialog.html',
                         size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
                     });
                     modalInstance.result.then(function (answer) {
