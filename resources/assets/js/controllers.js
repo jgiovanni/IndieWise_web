@@ -256,8 +256,8 @@
         }
     }
 
-    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval'];
-    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval) {
+    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$filter'];
+    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $filter) {
         var self = this;
 
         self.selected = null;
@@ -270,6 +270,9 @@
 
         // Recent Videos Footer Section
         DataService.collection('projects', {per_page: 3, sort: 'created_at'}).then(function (result) {
+            _.each(result.data.data, function (i) {
+                // i.created_at = $filter('amUTC')(i.created_at);
+            });
             self.footerRecentVideos = result.data;
         });
 

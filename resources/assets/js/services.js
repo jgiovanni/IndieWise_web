@@ -191,12 +191,14 @@
             },
             loginModal: function () {
                 if (!$rootScope.authModalOpen) {
-                    var modalInstance = $modal.open({
+                    var options = {
                         controller: SignInModalCtrl,
                         controllerAs: 'SIC',
-                        templateUrl: '/auth/sign-in-dialog.html',
+                        templateUrl: 'auth/sign-in-dialog.html',
                         size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
-                    });
+                    };
+
+                    var modalInstance = $modal.open(options);
                     modalInstance.result.then(function (answer) {
                         console.log(answer);
                         $rootScope.authModalOpen = false;
