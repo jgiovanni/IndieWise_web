@@ -108,6 +108,7 @@ jQuery(document).ready(function (jQuery) {
 
     angular
         .module('IndieWise', [
+            'templates',
             'ngIntercom',
             'ngMaterial',
             'mm.foundation',
@@ -123,7 +124,6 @@ jQuery(document).ready(function (jQuery) {
             'ui.router',
             'angular-google-analytics',
             // 'flow',
-            'templates',
             'ui.scroll',
             'ui.scroll.jqlite',
             'ngFileUpload',
