@@ -2164,7 +2164,7 @@
         self.saveComplete = false;
         self.updating = false;
         User.dob = moment(User.dob).startOf('day').toDate();
-        User.settings = JSON.parse(User.settings||'{}');
+        User.settings = angular.isObject(User.settings) ? User.settings : JSON.parse(User.settings||'{}');
         self.user = User;
         self.genresArr = User.genres; //Genres.data.data;
         self.typesArr = User.types;// UserTypes.data.data;
