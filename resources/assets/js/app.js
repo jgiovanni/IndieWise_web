@@ -205,7 +205,7 @@ jQuery(document).ready(function (jQuery) {
             AnalyticsProvider
                 .setAccount('UA-27155404-17')
                 // Remove prefix on launch
-                .trackPrefix('alpha');
+                // .trackPrefix('alpha');
         }])
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
@@ -477,7 +477,19 @@ jQuery(document).ready(function (jQuery) {
                     url: '/upload',
                     authenticate: true,
                     templateUrl: BASE + 'src/auth/profile-upload.html',
-                    controller: 'ProfileUploadController as UC'
+                    controller: 'ProfileUploadController as UC',
+                    resolve: {
+                        Verified: ['$rootScope', '$q', function ($rootScope, $q) {
+                            var deferred = $q.defer();
+
+                            if ($rootScope.isNotVerified()) {
+                                $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                                deferred.reject(false);
+                            }
+
+                            return deferred.promise;
+                        }]
+                    }
                 })
                 .state('profile.videos', {
                     url: '/videos',
@@ -707,14 +719,17 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: BASE + 'src/common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
-                        Project: ['$stateParams', 'DataService', function ($stateParams, DataService) {
-                            return DataService.item('projects', $stateParams.url_id, '')
+                        Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
+                            var deferred = $q.defer();
+                            DataService.item('projects', $stateParams.url_id, '')
                                 .then(function (result) {
-                                    return result.data.data;
+                                    deferred.resolve(result.data.data);
                                 })
                                 .catch(function (response) {
-                                    debugger;
+                                    deferred.reject(response);
                                 });
+
+                            return deferred.promise;
                         }]
                     }
                 })

@@ -825,24 +825,30 @@
                     scope.toggleReplyInput = toggleReplyInput;
 
                     function postComment() {
-                        UserActions.checkAuth().then(function (res) {
-                            if (res) {
-                                DataService.save('comments', {
-                                    body: scope.model.myComment,
-                                    critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    user_id: scope.model.isLoggedIn.id
-                                })
-                                    .then(function (comment) {
-                                        scope.comments.data.push(comment.data.data);
-                                        $rootScope.toastMessage('Comment posted!');
-                                        scope.model.myComment = null;
-                                        clearCommentinput();
-                                        scope.parent.comments_count++;
-                                    }, function (error) {
-                                        console.log('Failed to create new comment, with error code: ' + error.message);
-                                    });
-                            }
+                        if (!$rootScope.isAuthenticated()) {
+                            UserActions.loginModal();
+                            return false;
+                        }
+
+                        if ($rootScope.isNotVerified()) {
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            return false;
+                        }
+
+                        DataService.save('comments', {
+                            body: scope.model.myComment,
+                            critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
+                            user_id: scope.model.isLoggedIn.id
                         })
+                            .then(function (comment) {
+                                scope.comments.data.push(comment.data.data);
+                                $rootScope.toastMessage('Comment posted!');
+                                scope.model.myComment = null;
+                                clearCommentinput();
+                                scope.parent.comments_count++;
+                            }, function (error) {
+                                console.log('Failed to create new comment, with error code: ' + error.message);
+                            });
                     }
 
                     function deleteComment(c, ev) {
@@ -1041,8 +1047,16 @@
                 link: function (scope, el, attrs) {
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
-                        UserActions.checkAuth().then(function (res) {
-                            if (res) {
+                        if (!$rootScope.isAuthenticated()) {
+                            UserActions.loginModal();
+                            return false;
+                        }
+
+                        if ($rootScope.isNotVerified()) {
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            return false;
+                        }
+
                                 var repliedTo = angular.isString(scope.targetComment.comment_id) ? scope.targetComment.comment_id : scope.targetComment;
                                 if (angular.isString(repliedTo)) {
                                     repliedTo = _.findWhere(scope.comments.data, {id: scope.targetComment.comment_id})
@@ -1092,8 +1106,6 @@
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
-                            }
-                        })
                     }
                 }
             }
@@ -1110,24 +1122,30 @@
 
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
-                        UserActions.checkAuth().then(function (res) {
-                            if (res) {
-                                DataService.save('comments', {
-                                    body: scope.myReply,
-                                    critique_id: scope.critique.id,
-                                    user_id: scope.model.isLoggedIn.id
-                                }).then(function (comment) {
-                                    scope.critique.comments_count++;
-                                    scope.myReply = null;
-                                    scope.showQuickReply = false;
+                        if (!$rootScope.isAuthenticated()) {
+                            UserActions.loginModal();
+                            return false;
+                        }
 
-                                    // register Action
-                                    $rootScope.toastMessage('Quick Reply posted!');
-                                }, function (error) {
-                                    console.log('Failed to create new reply, with error code: ' + error.message);
-                                });
-                            }
-                        })
+                        if ($rootScope.isNotVerified()) {
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            return false;
+                        }
+
+                        DataService.save('comments', {
+                            body: scope.myReply,
+                            critique_id: scope.critique.id,
+                            user_id: scope.model.isLoggedIn.id
+                        }).then(function (comment) {
+                            scope.critique.comments_count++;
+                            scope.myReply = null;
+                            scope.showQuickReply = false;
+
+                            // register Action
+                            $rootScope.toastMessage('Quick Reply posted!');
+                        }, function (error) {
+                            console.log('Failed to create new reply, with error code: ' + error.message);
+                        });
                     }
                 }
             }

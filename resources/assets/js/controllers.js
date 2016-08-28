@@ -1003,6 +1003,11 @@
                 return false;
             }
 
+            if ($rootScope.isNotVerified()) {
+                $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                return false;
+            }
+
             self.rateThrottled = true;
             var actionVerb = 'like';
             if (self.canRate === true) {

@@ -205,7 +205,7 @@ jQuery(document).ready(function (jQuery) {
             AnalyticsProvider
                 .setAccount('UA-27155404-17')
                 // Remove prefix on launch
-                .trackPrefix('alpha');
+                // .trackPrefix('alpha');
         }])
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
@@ -477,7 +477,19 @@ jQuery(document).ready(function (jQuery) {
                     url: '/upload',
                     authenticate: true,
                     templateUrl: BASE + 'src/auth/profile-upload.html',
-                    controller: 'ProfileUploadController as UC'
+                    controller: 'ProfileUploadController as UC',
+                    resolve: {
+                        Verified: ['$rootScope', '$q', function ($rootScope, $q) {
+                            var deferred = $q.defer();
+
+                            if ($rootScope.isNotVerified()) {
+                                $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                                deferred.reject(false);
+                            }
+
+                            return deferred.promise;
+                        }]
+                    }
                 })
                 .state('profile.videos', {
                     url: '/videos',
@@ -707,14 +719,17 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: BASE + 'src/common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
-                        Project: ['$stateParams', 'DataService', function ($stateParams, DataService) {
-                            return DataService.item('projects', $stateParams.url_id, '')
+                        Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
+                            var deferred = $q.defer();
+                            DataService.item('projects', $stateParams.url_id, '')
                                 .then(function (result) {
-                                    return result.data.data;
+                                    deferred.resolve(result.data.data);
                                 })
                                 .catch(function (response) {
-                                    debugger;
+                                    deferred.reject(response);
                                 });
+
+                            return deferred.promise;
                         }]
                     }
                 })
@@ -1981,6 +1996,11 @@ jQuery(document).ready(function (jQuery) {
 
             if (!$rootScope.isAuthenticated()) {
                 UserActions.loginModal();
+                return false;
+            }
+
+            if ($rootScope.isNotVerified()) {
+                $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
                 return false;
             }
 
@@ -4591,24 +4611,30 @@ jQuery(document).ready(function (jQuery) {
                     scope.toggleReplyInput = toggleReplyInput;
 
                     function postComment() {
-                        UserActions.checkAuth().then(function (res) {
-                            if (res) {
-                                DataService.save('comments', {
-                                    body: scope.model.myComment,
-                                    critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
-                                    user_id: scope.model.isLoggedIn.id
-                                })
-                                    .then(function (comment) {
-                                        scope.comments.data.push(comment.data.data);
-                                        $rootScope.toastMessage('Comment posted!');
-                                        scope.model.myComment = null;
-                                        clearCommentinput();
-                                        scope.parent.comments_count++;
-                                    }, function (error) {
-                                        console.log('Failed to create new comment, with error code: ' + error.message);
-                                    });
-                            }
+                        if (!$rootScope.isAuthenticated()) {
+                            UserActions.loginModal();
+                            return false;
+                        }
+
+                        if ($rootScope.isNotVerified()) {
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            return false;
+                        }
+
+                        DataService.save('comments', {
+                            body: scope.model.myComment,
+                            critique_id: !scope.parent.hasOwnProperty('unlist') ? scope.parent.id : undefined,
+                            user_id: scope.model.isLoggedIn.id
                         })
+                            .then(function (comment) {
+                                scope.comments.data.push(comment.data.data);
+                                $rootScope.toastMessage('Comment posted!');
+                                scope.model.myComment = null;
+                                clearCommentinput();
+                                scope.parent.comments_count++;
+                            }, function (error) {
+                                console.log('Failed to create new comment, with error code: ' + error.message);
+                            });
                     }
 
                     function deleteComment(c, ev) {
@@ -4807,8 +4833,16 @@ jQuery(document).ready(function (jQuery) {
                 link: function (scope, el, attrs) {
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
-                        UserActions.checkAuth().then(function (res) {
-                            if (res) {
+                        if (!$rootScope.isAuthenticated()) {
+                            UserActions.loginModal();
+                            return false;
+                        }
+
+                        if ($rootScope.isNotVerified()) {
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            return false;
+                        }
+
                                 var repliedTo = angular.isString(scope.targetComment.comment_id) ? scope.targetComment.comment_id : scope.targetComment;
                                 if (angular.isString(repliedTo)) {
                                     repliedTo = _.findWhere(scope.comments.data, {id: scope.targetComment.comment_id})
@@ -4858,8 +4892,6 @@ jQuery(document).ready(function (jQuery) {
                                 }, function (error) {
                                     console.log('Failed to create new reply, with error code: ' + error.message);
                                 });
-                            }
-                        })
                     }
                 }
             }
@@ -4876,24 +4908,30 @@ jQuery(document).ready(function (jQuery) {
 
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
-                        UserActions.checkAuth().then(function (res) {
-                            if (res) {
-                                DataService.save('comments', {
-                                    body: scope.myReply,
-                                    critique_id: scope.critique.id,
-                                    user_id: scope.model.isLoggedIn.id
-                                }).then(function (comment) {
-                                    scope.critique.comments_count++;
-                                    scope.myReply = null;
-                                    scope.showQuickReply = false;
+                        if (!$rootScope.isAuthenticated()) {
+                            UserActions.loginModal();
+                            return false;
+                        }
 
-                                    // register Action
-                                    $rootScope.toastMessage('Quick Reply posted!');
-                                }, function (error) {
-                                    console.log('Failed to create new reply, with error code: ' + error.message);
-                                });
-                            }
-                        })
+                        if ($rootScope.isNotVerified()) {
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            return false;
+                        }
+
+                        DataService.save('comments', {
+                            body: scope.myReply,
+                            critique_id: scope.critique.id,
+                            user_id: scope.model.isLoggedIn.id
+                        }).then(function (comment) {
+                            scope.critique.comments_count++;
+                            scope.myReply = null;
+                            scope.showQuickReply = false;
+
+                            // register Action
+                            $rootScope.toastMessage('Quick Reply posted!');
+                        }, function (error) {
+                            console.log('Failed to create new reply, with error code: ' + error.message);
+                        });
                     }
                 }
             }

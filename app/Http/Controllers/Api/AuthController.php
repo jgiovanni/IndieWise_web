@@ -108,6 +108,7 @@ class AuthController extends Controller
             setting()->set('email_win', true, "'$user->id'");
             setting()->set('email_comment', true, "'$user->id'");
             setting()->set('email_message', true, "'$user->id'");
+            setting()->set('email_like', true, "'$user->id'");
             setting()->save("'$user->id'");
 
 

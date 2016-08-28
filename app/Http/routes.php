@@ -19,10 +19,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
-Route::get('', function (){
-    return view('welcome');
-});
-
 Route::get('test', function () {
     //Find project
     $project = Project::with('wins.award')->whereHas('wins', function ($query) {
@@ -51,7 +47,7 @@ Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('
 Route::get('verification/error', 'Auth\AuthController@getVerificationError');
 Route::get('verification/{token}', 'Auth\AuthController@getVerification');
 
-Route::any('alpha/{path?}', function() use ($dispatcher) {
+Route::any('{path?}', function() use ($dispatcher) {
     $countries = Country::orderBy('name', 'desc')->get();
 
     if (App::environment('local')) {

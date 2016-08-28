@@ -2,7 +2,7 @@
 <html lang="en" ng-app="IndieWise" class="no-js" ng-strict-di>
 <head>
     <title>IndieWise</title>
-    <base href="http://indiewise.dev/alpha/">
+    <base href="http://indiewise.dev/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:title" content="IndieWise" />

@@ -46,6 +46,14 @@ class SocialAccountService
                 Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
                 Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
 
+                // Set default settings
+                setting()->set('email_critique', true, "'$user->id'");
+                setting()->set('email_nomination', true, "'$user->id'");
+                setting()->set('email_win', true, "'$user->id'");
+                setting()->set('email_comment', true, "'$user->id'");
+                setting()->set('email_message', true, "'$user->id'");
+                setting()->set('email_like', true, "'$user->id'");
+                setting()->save("'$user->id'");
             }
 
             $account->user()->associate($user);
