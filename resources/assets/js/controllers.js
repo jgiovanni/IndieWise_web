@@ -977,7 +977,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var params = {
-                        templateUrl: BASE + 'src/common/contactUserDialog.html',
+                        templateUrl: 'common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.videoOwner.id;
@@ -1172,7 +1172,7 @@
             }
 
             var modalInstance = $modal.open({
-                templateUrl: BASE + 'src/common/confirmDialog.html',
+                templateUrl: 'common/confirmDialog.html',
                 controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                     $scope.ok = function () {
                         $modalInstance.close(true);
@@ -1318,7 +1318,7 @@
                     }
 
                     $modal.open({
-                        templateUrl: BASE + 'src/common/critiqueDialog.html',
+                        templateUrl: 'common/critiqueDialog.html',
                         resolve: {
                             critique: function () {
                                 return {
@@ -1353,7 +1353,7 @@
 
         self.openShareDialog = function () {
             $modal.open({
-                templateUrl: BASE + 'src/common/shareDialog.html',
+                templateUrl: 'common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1383,7 +1383,7 @@
                     }
 
                     var modalInstance = $modal.open({
-                        templateUrl: BASE + 'src/common/reactionDialog.html',
+                        templateUrl: 'common/reactionDialog.html',
                         resolve: {
                             Video: function () {
                                 return self.film;
@@ -1445,7 +1445,7 @@
 
         self.openAddToDialog = function () {
             $modal.open({
-                templateUrl: BASE + 'src/common/shareDialog.html',
+                templateUrl: 'common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1512,7 +1512,7 @@
 
         self.reportDialog = function () {
             var modalInstance = $modal.open({
-                templateUrl: BASE + 'src/common/reportVideoDialog.html',
+                templateUrl: 'common/reportVideoDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -2359,7 +2359,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     $modal.open({
-                        templateUrl: BASE + 'src/common/contactUserDialog.html',
+                        templateUrl: 'common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.user;
@@ -2391,7 +2391,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     var modalInstance = $modal.open({
-                        templateUrl: BASE + 'src/common/confirmDialog.html',
+                        templateUrl: 'common/confirmDialog.html',
                         controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                             $scope.ok = function () {
                                 $modalInstance.close(true);

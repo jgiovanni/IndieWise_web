@@ -1,4 +1,17 @@
+var gulp = require('gulp');
+// var glob = require('glob');
 var elixir = require('laravel-elixir');
+// var templateCache = require('gulp-angular-templatecache');
+
+// require("laravel-elixir-ng-templates");
+require('laravel-elixir-ngtemplatecache');
+/*elixir.extend('ngTemplates', function(source, output, options) {
+    new elixir.Task('ngTemplates', function() {
+        return gulp.src(source)
+            .pipe(templateCache(options))
+            .pipe(gulp.dest(output));
+    }).watch(source).ignore(output);
+});*/
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +25,18 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
+
+    mix.ngTemplateCache('/**/**/*.html', 'public/js', 'resources/assets/templates', {
+        templateCache: {
+            standalone: true
+        },
+        htmlmin: {
+            caseSensitive: true,
+            // collapseInlineTagWhitespace: true,
+            collapseWhitespace: true,
+            removeComments: true
+        }
+    });
     // mix.styles([]);
 
     // complie js

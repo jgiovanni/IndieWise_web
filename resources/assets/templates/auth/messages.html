@@ -1,0 +1,117 @@
+<!--breadcrumbs-->
+<section id="breadcrumb">
+    <div class="row">
+        <div class="large-12 columns">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs">
+                    <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
+                    <li>
+                        <span class="show-for-sr">Current: </span> messages
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section><!--end breadcrumbs-->
+
+<div class="row">
+    <!-- left sidebar -->
+    <div class="large-4 columns">
+        <aside class="secBg sidebar">
+            <div class="row">
+                <!-- profile overview -->
+                <div class="large-12 columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>Inbox</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <ul class="menu vertical">
+                                <li ng-class="{'active':Msgs.selectedConvo.id == convo.id}" ng-repeat="convo in Msgs.conversations|orderBy:'-updated_at'">
+                                    <a ng-click="Msgs.selectConvo(convo)">
+                                        <h6>{{::convo.subject}}</h6>
+                                        <span>{{::Msgs.getParticipantById(convo, convo.latestMessage.user_id).user.fullName}}: {{::convo.latestMessage.body}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End profile overview -->
+            </div>
+        </aside>
+    </div>
+    <!-- end sidebar -->
+    <!-- right side content area -->
+    <div class="large-8 columns profile-inner">
+        <!-- Comments -->
+        <section class="content comments">
+            <div class="row secBg">
+                <div class="large-12 columns">
+                    <div class="main-heading borderBottom">
+                        <div class="row padding-14">
+                            <div class="medium-12 small-12 columns">
+                                <div class="head-title">
+                                    <i class="fa fa-comments"></i>
+                                    <h4>Messages</h4>
+                                    <a ui-sref="user.about({url_id: p.user.url_id})" class="label" ng-class="{'success hide': p.user_id === AppData.User.id}" ng-repeat="p in Msgs.selectedConvo.participants" style="margin-right: 2px">{{::p.user.fullName}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- main comment -->
+                    <div ui-scroll-viewport class="viewport main-comment" style="min-height: 300px;max-height: 560px;" ng-style="Msgs.viewportHeight" messages-height>
+                        <div ng-if="Msgs.selectedConvoLoaded">
+                            <div class="media-object stack-for-small" ui-scroll="msg in Msgs.convoMessages" buffer-size="10" adapter="adapter">
+                                <div class="media-object-section comment-img text-center">
+                                    <div class="comment-box-img">
+                                        <img ng-src="{{::msg.user.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
+                                    </div>
+                                </div>
+                                <div class="media-object-section comment-desc">
+                                    <div class="comment-title">
+                                    <span class="name">
+                                        <a ui-sref="user.about({url_id: msg.user.url_id})">{{::msg.user.fullName}}</a> Said:
+                                    </span>
+                                        <span class="time float-right">
+                                        <i class="fa fa-clock-o"></i>
+                                        <abbr title="{{::msg.created_at|amUtc|amLocal|amDateFormat:'lll'}}" am-time-ago="::msg.created_at"></abbr>
+                                    </span>
+                                    </div>
+                                    <div class="comment-text">
+                                        <p ng-bind="::msg.body"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- End main comment -->
+
+                    </div>
+
+                    <div class="comment-box thumb-border">
+                        <div class="media-object stack-for-small">
+                            <div class="media-object-section comment-img text-center show-for-medium">
+                                <div class="comment-box-img">
+                                    <img ng-src="{{::AppData.User.avatar}}" alt="comment">
+                                </div>
+                                <h6><a href="#">{{::AppData.User.fullName}}</a></h6>
+                            </div>
+                            <div class="media-object-section comment-textarea">
+                                <form ng-submit="Msgs.postReply()">
+                                    <textarea name="commentText" ng-model="Msgs.myReply" my-enter="Msgs.doSendOnEnter()" ng-disabled="!Msgs.selectedConvo" placeholder="Send message..."></textarea>
+                                    <input type="submit" name="submit" value="send" ng-disabled="!Msgs.selectedConvo">
+                                    <input id="sendOnEnter" type="checkbox" ng-model="Msgs.sendOnEnter" ng-disabled="!Msgs.selectedConvo"><label ng-disabled="!Msgs.selectedConvo" class="customLabel pull-right" for="sendOnEnter">Press Enter to send</label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Comments -->
+    </div>
+    <!-- end left side content area -->
+</div>

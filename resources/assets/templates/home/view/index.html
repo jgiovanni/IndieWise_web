@@ -1,0 +1,683 @@
+<!-- layerslider -->
+<layer-slider></layer-slider>
+<!--end slider-->
+
+<!-- Premium Videos -->
+<premium-carousel></premium-carousel>
+<!-- End Premium Videos -->
+
+<!-- Trending Videos -->
+<section class="content">
+    <!-- trending videos -->
+    <div class="main-heading">
+        <div class="row secBg padding-14 head-text">
+            <div class="medium-8 small-8 columns">
+                <div class="head-title">
+                    <i class="fa fa-line-chart"></i>
+                    <h4 class="has-tip" tooltip="Top videos ranked according to number of Reactions received" tooltip-placement="right">
+                        Trending
+                    </h4>
+                </div>
+            </div>
+            <div class="medium-4 small-4 columns">
+                <div class="grid-system pull-right show-for-large" ng-init="typeA='grid-default'">
+                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
+                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
+                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
+                       ng-class="{'current':typeA == 'grid-medium'}"><i class="fa fa-th-large"></i></a>
+                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
+                            class="fa fa-th-list"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row secBg">
+        <div class="large-12 columns">
+            <div>
+                <div class="tabs-panel is-active" id="new-all">
+                    <div class="row list-group">
+                        <project-card ng-repeat="video in Home.trending.data" video="video" type="typeA"
+                                      queried="'true'"></project-card>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center row-btn">
+                <a class="button radius" ui-sref="browse({sort: 'trending'})">View More Videos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ad Section -->
+<div class="googleAdv text-center">
+    <broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>
+    <!--<script>window.broadstreet.zone(51348);</script>-->
+    <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
+</div><!-- End ad Section -->
+
+<!-- Highest Rated  video -->
+<section class="content">
+    <!-- Highest Rated Videos -->
+    <div class="main-heading">
+        <div class="row secBg padding-14 head-text">
+            <div class="medium-8 small-8 columns">
+                <div class="head-title">
+                    <i class="fa fa-star"></i>
+                    <h4 class="has-tip" tooltip="Top videos ranked according to IndieWise Average" tooltip-placement="right">
+                        Highest Rated
+                    </h4>
+                </div>
+            </div>
+            <div class="medium-4 small-4 columns">
+                <div class="grid-system pull-right show-for-large">
+                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
+                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
+                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
+                       ng-class="{'current':typeA == ('grid-medium')}"><i class="fa fa-th-large"></i></a>
+                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
+                            class="fa fa-th-list"></i></a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="row secBg">
+        <div class="large-12 columns">
+            <div>
+                <div class="tabs-panel is-active" id="popular-all">
+                    <div class="row list-group">
+                        <project-card ng-repeat="video in Home.highestRated.data" video="video" type="typeA"
+                                      queried="'true'"></project-card>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center row-btn">
+                <a class="button radius" ui-sref="browse({sort: 'rating'})">View More Videos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ad Section -->
+<div class="googleAdv text-center">
+    <broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>
+    <!--<script>window.broadstreet.zone(51348);</script>-->
+    <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
+</div><!-- End ad Section -->
+
+<!-- Highest Awarded  video -->
+<section class="content">
+    <!-- Highest Rated Videos -->
+    <div class="main-heading">
+        <div class="row secBg padding-14 head-text">
+            <div class="medium-8 small-8 columns">
+                <div class="head-title">
+                    <i class="fa fa-trophy"></i>
+                    <h4 class="has-tip" tooltip="Top videos ranked according to number of Award Wins" tooltip-placement="right">
+                        Award-Winning
+                    </h4>
+                </div>
+            </div>
+            <div class="medium-4 small-4 columns">
+                <div class="grid-system pull-right show-for-large">
+                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
+                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
+                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
+                       ng-class="{'current':typeA == ('grid-medium')}"><i class="fa fa-th-large"></i></a>
+                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
+                            class="fa fa-th-list"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row secBg">
+        <div class="large-12 columns">
+            <div>
+                <div class="tabs-panel is-active" id="highestAwarded-all">
+                    <div class="row list-group">
+                        <project-card ng-repeat="video in Home.highestAwarded.data" video="video" type="typeA"
+                                      queried="'true'"></project-card>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center row-btn">
+                <a class="button radius" ui-sref="browse({sort: 'awards'})">View More Videos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ad Section -->
+<div class="googleAdv text-center">
+    <broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>
+    <!--<script>window.broadstreet.zone(51348);</script>-->
+    <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
+</div><!-- End ad Section -->
+
+<!-- Recently Added video -->
+<section class="content">
+    <!-- Highest Rated Videos -->
+    <div class="main-heading">
+        <div class="row secBg padding-14 head-text">
+            <div class="medium-8 small-8 columns">
+                <div class="head-title">
+                    <i class="fa fa-plus"></i>
+                    <h4>
+                        Recently Added
+                    </h4>
+                </div>
+            </div>
+            <div class="medium-4 small-4 columns">
+                <div class="grid-system pull-right show-for-large">
+                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
+                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
+                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
+                       ng-class="{'current':typeA == ('grid-medium')}"><i class="fa fa-th-large"></i></a>
+                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
+                            class="fa fa-th-list"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row secBg">
+        <div class="large-12 columns">
+            <div>
+                <div class="tabs-panel is-active" id="recentlyAdded-all">
+                    <div class="row list-group">
+                        <project-card ng-repeat="video in Home.recentFilms.data" video="video" type="typeA"
+                                      queried="'true'"></project-card>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center row-btn">
+                <a class="button radius" ui-sref="browse({sort: 'recent'})">View More Videos</a>
+            </div>
+        </div>
+    </div>
+    <!-- ad Section -->
+    <div class="googleAdv text-center">
+        <broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>
+        <!--<script>window.broadstreet.zone(51348);</script>-->
+        <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
+    </div><!-- End ad Section -->
+</section>
+
+<!-- End main content -->
+
+<!--</div>&lt;!&ndash; end left side content area &ndash;&gt;-->
+<!-- sidebar -->
+<!--
+    <div class="large-4 columns padding-right-remove">
+        <aside class="secBg sidebar">
+            <div class="row">
+                &lt;!&ndash; most view Widget &ndash;&gt;
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>People Are Watching</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <div class="media-object stack-for-small" ng-repeat="w in Home.latest.watched.data|limitTo:5">
+                                <div class="media-object-section">
+                                    <div class="recent-img">
+                                        <img ng-src="{{::Home.latest.watched.relatedObjects.Film[w.film].thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="recent">
+                                        <a ui-sref="video({id: w.film})" class="hover-posts">
+                                            <span><i class="fa fa-play"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="media-object-section">
+                                    <div class="media-content">
+                                        <h6><a ui-sref="video({id: w.film})">{{::Home.latest.watched.relatedObjects.Film[w.film].name|truncate:50}}</a></h6>
+                                        <p><i class="fa fa-user"></i><span>admin</span><i class="fa fa-clock-o"></i><span>5 january 16</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>&lt;!&ndash; end most view Widget &ndash;&gt;
+
+                &lt;!&ndash; social Fans Widget &ndash;&gt;
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>social fans</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <div class="social-links">
+                                <a class="socialButton" href="https://www.facebook.com/getindiewise">
+                                    <i class="fa fa-facebook"></i>
+                                    <span>528</span>
+                                    <span>fans</span>
+                                </a>
+                                <a class="socialButton" href="https://twitter.com/getindiewise">
+                                    <i class="fa fa-twitter"></i>
+                                    <span>526</span>
+                                    <span>followers</span>
+                                </a>
+                                <a class="socialButton" href="https://www.instagram.com/getindiewise/">
+                                    <i class="fa fa-instagram"></i>
+                                    <span>422</span>
+                                    <span>followers</span>
+                                </a>
+                                &lt;!&ndash;<a class="socialButton" href="#">
+                                    <i class="fa fa-youtube"></i>
+                                    <span>168k</span>
+                                    <span>followers</span>
+                                </a>&ndash;&gt;
+                                &lt;!&ndash;<a class="socialButton" href="#">
+                                    <i class="fa fa-vimeo"></i>
+                                    <span>498</span>
+                                    <span>followers</span>
+                                </a>&ndash;&gt;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                &lt;!&ndash; End social Fans Widget &ndash;&gt;
+
+                &lt;!&ndash; ad banner widget &ndash;&gt;
+                <div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>Recent post videos</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <div class="advBanner text-center">
+                                <a href="#"><img src="/assets/images/sideradv.png" alt="sidebar adv"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                &lt;!&ndash; end ad banner widget &ndash;&gt;
+
+                &lt;!&ndash; Recent post videos &ndash;&gt;
+                &lt;!&ndash;<div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>Recently Watched Videos</h5>
+                        </div>
+                        <div class="widgetContent">
+                            <div class="media-object stack-for-small">
+                                <div class="media-object-section">
+                                    <div class="recent-img">
+                                        <img src= "http://placehold.it/120x80" alt="recent">
+                                        <a href="#" class="hover-posts">
+                                            <span><i class="fa fa-play"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="media-object-section">
+                                    <div class="media-content">
+                                        <h6><a href="#">The lorem Ipsumbeen the industry's standard.</a></h6>
+                                        <p><i class="fa fa-user"></i><span>admin</span><i class="fa fa-clock-o"></i><span>5 january 16</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>&ndash;&gt;
+                &lt;!&ndash; End Recent post videos &ndash;&gt;
+
+                &lt;!&ndash; tags &ndash;&gt;
+                &lt;!&ndash;<div class="large-12 medium-7 medium-centered columns">
+                    <div class="widgetBox">
+                        <div class="widgetTitle">
+                            <h5>Tags</h5>
+                        </div>
+                        <div class="tagcloud">
+                            <a href="#">3D Videos</a>
+                            <a href="#">Videos</a>
+                            <a href="#">HD</a>
+                            <a href="#">Movies</a>
+                            <a href="#">Sports</a>
+                            <a href="#">3D</a>
+                            <a href="#">Movies</a>
+                            <a href="#">Animation</a>
+                            <a href="#">HD</a>
+                            <a href="#">Music</a>
+                            <a href="#">Recreation</a>
+                        </div>
+                    </div>
+                </div>&ndash;&gt;
+                &lt;!&ndash; End tags &ndash;&gt;
+            </div>
+        </aside>
+    </div>&lt;!&ndash; end sidebar &ndash;&gt;
+-->
+<!--</div>-->
+
+<!-- Category -->
+<section id="category">
+    <div class="row secBg">
+        <div class="large-12 columns">
+            <div class="column row">
+                <div class="heading category-heading clearfix">
+                    <div class="cat-head pull-left">
+                        <i class="fa fa-folder-open"></i>
+                        <h4 class="has-tip" tooltip="Click here to find out how you may appear on this list" tooltip-placement="right">
+                            <a ng-href="{{Body.isMobile()?'mailto:sponsor@getindiewise.com':'/alpha/contact?email=sponsor@getindiewise.com'}}">Sponsors</a>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="navText pull-right show-for-large">
+                            <a class="prev secondary-button"><i class="fa fa-angle-left"></i></a>
+                            <a class="next secondary-button"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- category carousel -->
+            <div id="owl-demo-cat" owl-carousel class="owl-carousel carousel" data-car-length="6" data-items="6" data-loop="true"
+                 data-nav="false" data-autoplay="true" data-autoplay-timeout="3000" data-auto-width="true"
+                 data-margin="10" data-dots="false">
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="https://www.filestackapi.com/api/file/0LVOS06iQ2e8tnZWyuM9" alt="WideScreen Film Festival">
+                        <a href="https://filmfreeway.com/festival/widescreenfestival" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a href="https://filmfreeway.com/festival/widescreenfestival">WideScreen Film Festival</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="https://www.filestackapi.com/api/file/XOHsWQKQ6OPwkTtmPqFP" alt="Poprouser">
+                        <a ui-sref="home" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a ui-sref="home">Poprouser</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="https://www.filestackapi.com/api/file/DESwwGUBQiSQy8lRUWku" alt="Tabletops">
+                        <a href="https://tabletops.io" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a href="https://tabletops.io">Tabletops</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="http://placehold.it/185x130" alt="carousel">
+                        <a ui-sref="home" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a ui-sref="home">Your Logo Here</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="http://placehold.it/185x130" alt="carousel">
+                        <a ui-sref="home" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a ui-sref="home">Your Logo Here</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="http://placehold.it/185x130" alt="carousel">
+                        <a ui-sref="home" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a ui-sref="home">Your Logo Here</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="http://placehold.it/185x130" alt="carousel">
+                        <a ui-sref="home" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a ui-sref="home">Your Logo Here</a></h6>
+                </div>
+                <div class="item-cat item thumb-border">
+                    <figure class="premium-img">
+                        <img src="http://placehold.it/185x130" alt="carousel">
+                        <a ui-sref="home" class="hover-posts">
+                            <span><i class="fa fa-search"></i></span>
+                        </a>
+                    </figure>
+                    <h6><a ui-sref="home">Your Logo Here</a></h6>
+                </div>
+            </div>
+            <!-- end carousel -->
+            <div class="row collapse">
+                <div class="large-12 columns text-center row-btn">
+                    <!--<a ui-sref="home" class="button radius">View All Categories</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Category -->
+
+<!-- ad Section -->
+<!--<div class="googleAdv text-center">
+    <a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>
+</div>-->
+<!-- End ad Section -->
+
+<!--<md-content id="content" class="" layout-wrap>-->
+<!--<md-grid-list md-cols="5" md-row-height="16:9" md-gutter-gt-md="16px" md-gutter-gt-sm="8px" md-gutter="4px">
+  <md-grid-tile ng-repeat="tile in Home.featuredProjects" ng-style="{'background': tile.color}"
+                md-colspan-gt-sm="1" md-rowspan-gt-sm="1">
+      <md-icon md-svg-icon="{{tile.icon}}"></md-icon>
+      <md-grid-tile-footer><h3>{{tile.title}}</h3></md-grid-tile-footer>
+  </md-grid-tile>
+</md-grid-list>-->
+<!-- Featured Area -->
+<!--<section flex="100" class="hero-bg stretch md-padding" style="">
+    <mighty-slider class="mightySlider mightyslider_windows8_skins"></mighty-slider>
+</section>-->
+
+<!-- <section flex="100" class="hero-bg stretch" style="">
+     <grid-folio></grid-folio>
+ </section>
+
+ <section flex="100" class="white">
+     <div class="container">
+         <div class="" layout="row" layout-sm="column" layout-wrap layout-align="space-around flex-start">
+
+             &lt;!&ndash; Latest Watched &ndash;&gt;
+             <div class="md-padding" flex="33" flex-sm="100">
+                 <h3 class="md-display-1 card-title grey-text text-darken-4">
+                     People Are Watching
+                     <md-progress-linear md-mode="{{Home.latest.watchedLoaded}}" class="md-accent"></md-progress-linear>
+                 </h3>
+                 <md-list>
+                     <md-list-item class="md-2-lines wrap-text" ng-repeat-start="w in Home.latest.watched"
+                                   ui-sref="video({id: w.attributes.film.id})">
+                         <img ng-src="{{::w.attributes.film.attributes.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" class="md-avatar"
+                              style="border-radius: 0;">
+                         <a ui-sref="video({id: w.attributes.film.id})">{{::w.attributes.film.attributes.name}}</a>
+                     </md-list-item>
+                     <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+                 </md-list>
+             </div>
+
+             &lt;!&ndash; Latest Comments and Reactions &ndash;&gt;
+             <div class="md-padding" flex="33" flex-sm="100">
+                 <h3 class="md-display-1 grey-text text-darken-4">Latest</h3>
+                 <md-tabs md-dynamic-height md-border-bottom>
+                     <md-tab label="Reactions">
+                         <md-content>
+                             <md-progress-linear md-mode="{{Home.latest.reactionsLoaded}}"
+                                                 class="md-accent"></md-progress-linear>
+                             <md-list>
+                                 <md-list-item class="md-2-line wrap-text" ng-repeat="c in Home.latest.reactions">
+                                     <img ng-src="{{::c.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
+                                          class="md-avatar" ui-sref="user.about({id: c.attributes.author.id})">
+
+                                     <div class="md-list-item-text" layout="column">
+                                         <h3><a ui-sref="video({id: c.attributes.parent.id})">{{::c.attributes.parent.attributes.name}}</a>
+                                         </h3>
+                                         <h4>made <a ui-sref="user.about({id: c.attributes.user.id})">{{::c.attributes.user.attributes.first_name}}
+                                             {{::c.attributes.user.attributes.last_name}}</a> feel
+                                             {{::c.attributes.emotion}}.</h4>
+                                     </div>
+                                     <md-divider ng-if="!$last"></md-divider>
+                                 </md-list-item>
+                             </md-list>
+                         </md-content>
+                     </md-tab>
+                     <md-tab label="Comments">
+                         <md-content>
+                             <md-progress-linear md-mode="{{Home.latest.commentsLoaded}}"
+                                                 class="md-accent"></md-progress-linear>
+                             <md-list>
+                                 <md-list-item class="md-2-line wrap-text" ng-repeat="c in Home.latest.comments">
+                                     <img ng-src="{{::c.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
+                                          class="md-avatar" ui-sref="user.about({id: c.attributes.author.id})">
+
+                                     <div class="md-list-item-text" layout="column">
+                                         <h3 ng-if="c.attributes.parentFilm">
+                                             <a ui-sref="user.about({id: c.attributes.author.id})">{{::c.attributes.author.attributes.first_name}}
+                                                 {{::c.attributes.author.attributes.last_name}}</a>
+                                             <span ng-if="c.attributes.parentComment">replied to <a
+                                                     ui-sref="user.about({id: c.attributes.parentComment.attributes.author.id})">{{::c.attributes.parentComment.attributes.author.attributes.first_name}}</a> on</span>
+                                             <span ng-if="!c.attributes.parentComment">commented on</span>
+                                             <a ui-sref="video({id: c.attributes.parentFilm.id})">{{::c.attributes.parentFilm.attributes.name}}</a>
+                                         </h3>
+
+                                         <h3 ng-if="c.attributes.parentCritique">
+                                             <a ui-sref="user.about({id: c.attributes.author.id})">{{::c.attributes.author.attributes.first_name}}
+                                                 {{::c.attributes.author.attributes.last_name}}</a>
+                                             <span ng-if="c.attributes.parentComment">replied to <a
+                                                     ui-sref="video_critique({video_id:c.attributes.parentCritique.attributes.parent.id, id: c.attributes.parentCritique.id})">{{::c.attributes.parentCritique.attributes.author.attributes.first_name}}'s</a></span>
+                                             <span ng-if="!c.attributes.parentComment">commented on <a
+                                                     ui-sref="video_critique({video_id:c.attributes.parentCritique.attributes.parent.id, id: c.attributes.parentCritique.id})">{{::c.attributes.parentCritique.attributes.author.attributes.first_name}}'s</a></span>
+                                             <a ui-sref="video_critique({video_id:c.attributes.parentCritique.attributes.parent.id, id: c.attributes.parentCritique.id})">critique</a>
+                                         </h3>
+                                         <h4 ng-bind="::c.attributes.body"></h4>
+                                     </div>
+                                     <md-divider ng-if="!$last"></md-divider>
+                                 </md-list-item>
+                             </md-list>
+                         </md-content>
+                     </md-tab>
+                 </md-tabs>
+
+             </div>
+
+             &lt;!&ndash; Latest Critiques &ndash;&gt;
+             <div class="md-padding" flex="33" flex-sm="100">
+                 <h3 class="md-display-1 grey-text text-darken-4">
+                     Latest Critiques
+                     <md-progress-linear md-mode="{{Home.latest.critiquesLoaded}}"
+                                         class="md-accent"></md-progress-linear>
+                 </h3>
+                 <md-content>
+                     <md-list>
+                         <md-list-item class="md-2-line wrap-text" ng-repeat="c in Home.latest.critiques">
+                             <img ng-src="{{::c.attributes.author.attributes.avatar || '/assets/img/avatar-1.png'}}"
+                                  class="md-avatar" ui-sref="user.about({id: c.attributes.author.id})">
+
+                             <div class="md-list-item-text" layout="column">
+                                 <h3><a ui-sref="user.about({id: c.attributes.author.id})">{{::c.attributes.author.attributes.first_name}}
+                                     {{::c.attributes.author.attributes.last_name}}</a></h3>
+                                 <h4>Gave <a ui-sref="video({id: c.attributes.parent.id})">{{::c.attributes.parent.attributes.name}}</a>
+                                     a {{::c.attributes.overall|number:1}}</h4>
+                             </div>
+                             <md-divider ng-if="!$last"></md-divider>
+                         </md-list-item>
+                     </md-list>
+                 </md-content>
+             </div>
+         </div>
+     </div>
+ </section>
+ <md-divider></md-divider>
+ <section flex="100" class="white">
+     <div class="container">
+         <div class="" layout="row" layout-wrap layout-align="space-around flex-start">
+             <section flex="100" class="container">
+                 <div class="" layout="row" layout-wrap layout-padding layout-align="space-around flex-start">
+                     <div flex="100" class="md-toolbar-tools">
+                         <h6 class="md-display-1">Trending</h6>
+                         <span flex></span>
+                         <md-button class="md-primary" ui-sref="browse({sort:'trending'})" aria-label="Browse Trending">
+                             Browse Trending
+                             <md-icon class="md-secondary" md-svg-icon="chevron-right"></md-icon>
+                         </md-button>
+                     </div>
+                     <project-card class="no-shadow" flex-sm="50" flex-md="25" flex-lg="25" flex-gt-lg="25"
+                                   ng-repeat="video in Home.trending" video="video"></project-card>
+                 </div>
+             </section>
+         </div>
+     </div>
+ </section>
+ <md-divider></md-divider>
+ <section flex="100" class="white">
+     <div class="container">
+         <div class="" layout="row" layout-wrap layout-align="space-around flex-start">
+             <section flex="100" class="container">
+                 <div layout="row" layout-wrap layout-padding layout-align="space-around flex-start">
+                     <div flex="100" class="md-toolbar-tools">
+                         <h6 class="md-display-1">Highest Rated</h6>
+                         <span flex></span>
+                         <md-button class="md-primary" ui-sref="browse({sort:'rating'})" aria-label="Browse Highest Rated">
+                             Browse Highest Rated
+                             <md-icon class="md-secondary" md-svg-icon="chevron-right"></md-icon>
+                         </md-button>
+                     </div>
+
+                     <project-card class="no-shadow" flex-sm="50" flex-md="25" flex-lg="25" flex-gt-lg="25"
+                                   ng-repeat="video in Home.highestRated|limitTo:4" video="video"></project-card>
+
+                 </div>
+             </section>
+         </div>
+     </div>
+ </section>
+ <md-divider></md-divider>
+ <section flex="100" class="white">
+     <div class="container">
+         <div class="" layout="row" layout-wrap layout-align="space-around flex-start">
+             <section flex="100" class="container">
+                 <div layout="row" layout-wrap layout-padding layout-align="space-around flex-start">
+                     <div flex="100" class="md-toolbar-tools">
+                         <h6 class="md-display-1">Award Winning</h6>
+                         <span flex></span>
+                         <md-button class="md-primary" ui-sref="browse({sort:'awards'})" aria-label="Browse Award Winning">
+                             Browse Award Winning
+                             <md-icon class="md-secondary" md-svg-icon="chevron-right"></md-icon>
+                         </md-button>
+                     </div>
+
+                     <project-card class="no-shadow" flex-sm="50" flex-md="25" flex-lg="25" flex-gt-lg="25"
+                                   ng-repeat="video in Home.highestAwarded|limitTo:4" video="video"></project-card>
+
+                 </div>
+             </section>
+         </div>
+     </div>
+ </section>
+ <md-divider></md-divider>
+ <section flex="100" class="white">
+     <div class="container">
+         <div class="" layout="row" layout-wrap layout-align="space-around flex-start">
+             <section flex="100" class="container">
+                 <div layout="row" layout-wrap layout-padding layout-align="space-around flex-start">
+                     <div flex="100" class="md-toolbar-tools">
+                         <h6 class="md-display-1">Recently Added</h6>
+                         <span flex></span>
+                         <md-button class="md-primary" ui-sref="browse({sort:'trending'})" aria-label="Browse Recently Added">
+                             Browse Recently Added
+                             <md-icon class="md-secondary" md-svg-icon="chevron-right"></md-icon>
+                         </md-button>
+                     </div>
+                     <project-card class="no-shadow fadeIn" flex-sm="50" flex-md="25" flex-lg="25" flex-gt-lg="25"
+                                   ng-repeat="video in Home.recentFilms|limitTo:4" video="video"></project-card>
+
+                 </div>
+             </section>
+         </div>
+     </div>
+ </section>-->
+
+<!--</md-content>-->

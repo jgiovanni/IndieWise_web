@@ -1,0 +1,129 @@
+<div aria-label="Critique">
+    <form ng-submit="postCritique()">
+        <div class="row">
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Acting</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.performances" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="hyphenate">Cinematography</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.cinematography" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Direction</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.direction" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Editing</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.structure" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Music</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.music" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Originality</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.originality" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Pacing</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.pacing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Production Value</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.production" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Sound Quality</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.audio" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <div class="columns row">
+                <div class="columns small-4 text-right">
+                    <span class="">Writing</span>
+                </div>
+                <div class="columns small-8">
+                    <rating value="critique.writing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
+            </div>
+            <hr class="thin">
+            <div class="columns row">
+                <div class="columns small-8 text-right">
+                    <span class="">Overall Rating</span>
+                </div>
+                <div class="columns small-4">
+                    <span class="">{{critique.overall|number:1}}/10</span>
+                </div>
+            </div>
+            <hr class="thin">
+            <br>
+            <div class="columns">
+                <div class="input">
+                        <label for="desc">Care to elaborate?</label>
+                        <textarea id="desc" ng-model="critique.body" columns="1" ng-maxlength="5000"></textarea>
+                </div>
+                <div class="checkbox">
+                    <input id="checkbox" type="checkbox" ng-model="critique.private">
+
+                    <label class="customLabel" for="checkbox" style="margin-left: 0;margin-right: 0;font-size: 0.875rem;">Make Private?</label>
+                    <span class="warning badge" ng-init="helpToggle=false" ng-click="helpToggle=!helpToggle"><i class="fa fa-question"></i></span>
+                </div>
+                <p ng-show="helpToggle" class="help-text">By choosing this "Make private" Option, individual rating categories, such as "Production Value", "Originality", etc. will not be publicly visible to users other than you and the project author. However, the overall rating generated from these individual results will always be publicly visible.</p>
+                <div class="input">
+                    <label>
+                        <span class="has-tip" tooltip="A project needs 5 or more Nominations, for the exact same Award, by different users in order to secure a win for that particular award.">Award Worthy? Nominate it!</span>
+                        <select ng-model="dialogModel.award_id" style="min-width: 200px;">
+                            <option value="">No</option>
+                            <option value="{{a.id}}" ng-repeat="a in awardsList|orderBy:'name'"
+                                    ng-bind="::a.name"></option>
+                        </select>
+                    </label>
+
+                </div>
+            </div>
+            <button class="button tiny" ng-click="cancel()">Cancel</button>
+            <button class="button tiny primary pull-right" type="submit">Submit</button>
+            <button ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <br class="hide-for-medium">
+            <br class="hide-for-medium">
+            <br class="hide-for-medium">
+        </div>
+    </form>
+</div>

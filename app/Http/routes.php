@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 $dispatcher = app('Dingo\Api\Dispatcher');
 
 Route::get('test', function () {
-    echo url('user', 'lol' ) . '/about';
+//    echo url('user', 'lol' ) . '/about';
     //Find project
     /*$project = Project::with('wins.award')->whereHas('wins', function ($query) {
         $query->where('award_id', '6950ef19-1cce-11e6-b1e1-e12b04098a26');

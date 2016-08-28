@@ -123,6 +123,7 @@ jQuery(document).ready(function (jQuery) {
             'ui.router',
             'angular-google-analytics',
             // 'flow',
+            'templates',
             'ui.scroll',
             'ui.scroll.jqlite',
             'ngFileUpload',
@@ -294,25 +295,25 @@ jQuery(document).ready(function (jQuery) {
                 .state('home', {
                     url: '/home',
                     authenticate: false,
-                    templateUrl: BASE + 'src/home/view/index.html',
+                    templateUrl: 'home/view/index.html',
                     controller: 'HomeCtrl as Home'
                 })
                 .state('browse', {
                     url: '/browse?q&sort&types&genres',
                     authenticate: false,
-                    templateUrl: BASE + 'src/browse/view/index.html',
+                    templateUrl: 'browse/view/index.html',
                     controller: 'BrowseCtrl as Browse'
                 })
                 .state('latest', {
                     url: '/latest',
                     authenticate: false,
-                    templateUrl: BASE + 'src/latest/view/index.html',
+                    templateUrl: 'latest/view/index.html',
                     controller: 'LatestCtrl as LC'
                 })
                 .state('video_critique', {
                     url: '/{video_url_id}/critique/{url_id}',
                     authenticate: false,
-                    templateUrl: BASE + 'src/common/critique.html',
+                    templateUrl: 'common/critique.html',
                     controller: 'VideoCritiqueCtrl as VCC',
                     resolve: {
                         Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
@@ -325,7 +326,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('video_critique-edit', {
                     url: '/{video_url_id}/critique/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: BASE + 'src/common/critique-edit.html',
+                    templateUrl: 'common/critique-edit.html',
                     controller: 'VideoCritiqueEditCtrl',
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
@@ -340,7 +341,7 @@ jQuery(document).ready(function (jQuery) {
                     url: '/user/{url_id}',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: BASE + 'src/auth/user.html',
+                    templateUrl: 'auth/user.html',
                     controller: 'UserCtrl as UserC',
                     resolve: {
                         User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
@@ -357,12 +358,12 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.about', {
                     url: '/about',
-                    templateUrl: BASE + 'src/auth/user-about.html',
+                    templateUrl: 'auth/user-about.html',
                     controller: 'UserAboutController as UserAboutCtrl'
                 })
                 .state('user.videos', {
                     url: '/videos',
-                    templateUrl: BASE + 'src/auth/user-videos.html',
+                    templateUrl: 'auth/user-videos.html',
                     controller: 'UserVideosController as UserVideosCtrl',
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -379,7 +380,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.critiques', {
                     url: '/critiques',
-                    templateUrl: BASE + 'src/auth/user-critiques.html',
+                    templateUrl: 'auth/user-critiques.html',
                     controller: 'UserCritiquesController as UserCritiquesCtrl',
                     resolve: {
                         Critiques: ['User', 'DataService', function (User, DataService) {
@@ -398,7 +399,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.reactions', {
                     url: '/reactions',
-                    templateUrl: BASE + 'src/auth/user-reactions.html',
+                    templateUrl: 'auth/user-reactions.html',
                     controller: 'UserReactionsController as UserReactionsCtrl',
                     resolve: {
                         Reactions: ['User', 'DataService', function (User, DataService) {
@@ -417,7 +418,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.awards', {
                     url: '/awards',
-                    templateUrl: BASE + 'src/auth/user-awards.html',
+                    templateUrl: 'auth/user-awards.html',
                     controller: 'UserAwardsController as UserAwardsCtrl',
                     resolve: {
                         Awards: ['User', 'DataService', function (User, DataService) {
@@ -449,7 +450,7 @@ jQuery(document).ready(function (jQuery) {
                     url: '/profile',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: BASE + 'src/auth/profile.html',
+                    templateUrl: 'auth/profile.html',
                     controller: 'ProfileCtrl as Profile',
                     resolve: {
                         User: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -470,13 +471,13 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.about', {
                     url: '/about',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-about.html',
+                    templateUrl: 'auth/profile-about.html',
                     controller: 'ProfileAboutController as ProfileAboutCtrl'
                 })
                 .state('profile.upload', {
                     url: '/upload',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-upload.html',
+                    templateUrl: 'auth/profile-upload.html',
                     controller: 'ProfileUploadController as UC',
                     resolve: {
                         Verified: ['$rootScope', '$q', function ($rootScope, $q) {
@@ -494,7 +495,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.videos', {
                     url: '/videos',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-videos.html',
+                    templateUrl: 'auth/profile-videos.html',
                     controller: 'ProfileVideosController as ProfileVideosCtrl',
                     resolve: {
                         Videos: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -512,7 +513,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.videos-edit', {
                     url: '/videos/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-videos-edit.html',
+                    templateUrl: 'auth/profile-videos-edit.html',
                     controller: 'ProfileVideoEditCtrl as VEC',
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
@@ -525,7 +526,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.critiques', {
                     url: '/critiques',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-critiques.html',
+                    templateUrl: 'auth/profile-critiques.html',
                     controller: 'ProfileCritiquesController as ProfileCritiquesCtrl',
                     resolve: {
                         Critiques: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -545,7 +546,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.reactions', {
                     url: '/reactions',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-reactions.html',
+                    templateUrl: 'auth/profile-reactions.html',
                     controller: 'ProfileReactionsController as ProfileReactionsCtrl',
                     resolve: {
                         Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -571,7 +572,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.awards', {
                     url: '/awards',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-awards.html',
+                    templateUrl: 'auth/profile-awards.html',
                     controller: 'ProfileAwardsController as ProfileAwardsCtrl',
                     resolve: {
                         Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -602,7 +603,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-playlists.html',
+                    templateUrl: 'auth/profile-playlists.html',
                     controller: 'ProfilePlaylistsController as ProfilePlaylistsCtrl',
                     resolve: {
                         Playlists: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -615,7 +616,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.settings', {
                     url: '/settings',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/profile-settings.html',
+                    templateUrl: 'auth/profile-settings.html',
                     controller: 'ProfileSettingsController as PSC',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -637,7 +638,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('messages', {
                     url: '/messages',
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/messages.html',
+                    templateUrl: 'auth/messages.html',
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -649,13 +650,13 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('messages.message', {
                     authenticate: true,
-                    templateUrl: BASE + 'src/auth/messages.html',
+                    templateUrl: 'auth/messages.html',
                     controller: 'MessagesCtrl as Msgs'
                 })
                 /*.state('notifications', {
                  url: '/notifications',
                  authenticate: true,
-                 templateUrl: BASE + 'src/auth/notifications.html',
+                 templateUrl: 'auth/notifications.html',
                  controller: 'NotificationsCtrl as NC'
                  })*/
 
@@ -663,19 +664,19 @@ jQuery(document).ready(function (jQuery) {
                 .state('register', {
                     url: '/register',
                     authenticate: false,
-                    templateUrl: BASE + 'src/auth/register.html',
+                    templateUrl: 'auth/register.html',
                     controller: 'RegisterCtrl as RC'
                 })
                 .state('sign_in', {
                     url: '/sign-in',
                     authenticate: false,
-                    templateUrl: BASE + 'src/auth/sign-in.html',
+                    templateUrl: 'auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'
                 })
                 .state('reset_password', {
                     url: '/reset-password?email&token',
                     authenticate: false,
-                    templateUrl: BASE + 'src/auth/reset-password.html',
+                    templateUrl: 'auth/reset-password.html',
                     controller: 'ForgotPasswordCtrl as FPC'
                 })
 
@@ -683,40 +684,40 @@ jQuery(document).ready(function (jQuery) {
                 .state('about', {
                     url: '/about',
                     authenticate: false,
-                    templateUrl: BASE + 'src/static/about.html'
+                    templateUrl: 'static/about.html'
                 })
                 .state('contact', {
                     url: '/contact?email',
                     authenticate: false,
-                    templateUrl: BASE + 'src/static/contact.html',
+                    templateUrl: 'static/contact.html',
                     controller: 'ContactPageCtrl as CC'
                 })
                 .state('tos', {
                     url: '/terms-of-service',
                     authenticate: false,
-                    templateUrl: BASE + 'src/static/tos.html'
+                    templateUrl: 'static/tos.html'
                 })
                 .state('advertise', {
                     url: '/advertise',
                     authenticate: false,
-                    templateUrl: BASE + 'src/static/advertise.html'
+                    templateUrl: 'static/advertise.html'
                 })
                 .state('privacy', {
                     url: '/privacy-policy',
                     authenticate: false,
-                    templateUrl: BASE + 'src/static/privacy.html'
+                    templateUrl: 'static/privacy.html'
                 })
                 .state('404', {
                     url: '/404',
                     authenticate: false,
-                    templateUrl: BASE + 'src/static/404.html'
+                    templateUrl: 'static/404.html'
                 })
 
                 // Video Pages
                 .state('video', {
                     url: '/{url_id:[0-9a-zA-Z]{1,13}}',
                     authenticate: false,
-                    templateUrl: BASE + 'src/common/video.html',
+                    templateUrl: 'common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {

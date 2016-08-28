@@ -218,6 +218,7 @@
 <!-- AngularJs Components -->
 {{--<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.js+angular-aria.js+angular-messages.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>--}}
 <script type="text/javascript" src="/public/js/angular.js"></script>
+<script src="/public/js/templates.js"></script>
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 {{--<script src="/public/app/bower_components/lodash/lodash.js"></script>--}}
 {{--<script src="/public/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
