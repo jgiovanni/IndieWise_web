@@ -50,6 +50,10 @@
     <meta property="og:type" content="video.other"/>
     <meta property="og:description" content="{{ $project->description }}"/>
     <meta property="og:image" content="{{ $project->thumbnail_url }}"/>
+    <meta property="og:image:secure_url" content="{{ $project->thumbnail_url }}" />
+    <meta property="og:image:width" content="1170" />
+    <meta property="og:image:height" content="500" />
+
     <meta property="og:url" content="{{ url()->current() }}"/>
 
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}

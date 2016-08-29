@@ -1810,7 +1810,7 @@
                     var video_id = url.indexOf('v=') != -1 ? url.split('v=')[1].split('&')[0] : url.split('be/')[1];
                     self.newVideo.hosting_type = 'youtube';
                     self.newVideo.hosting_id = video_id;
-                    return self.newVideo.thumbnail_url = 'http://img.youtube.com/vi/' + video_id + '/hqdefault.jpg';
+                    return self.newVideo.thumbnail_url = 'https://img.youtube.com/vi/' + video_id + '/hqdefault.jpg';
                 } else if (url.indexOf('vimeo') != -1) {
                     var video_id = url.split('.com/')[1];
                     self.newVideo.hosting_type = 'vimeo';
