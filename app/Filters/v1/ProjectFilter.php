@@ -41,6 +41,11 @@ class ProjectFilter extends ModelFilter
         });
     }
 
+    public function random()
+    {
+        return $this->orderByRaw("RAND()");
+    }
+
     public function search($search)
     {
         return $this->where(function ($q) use ($search) {

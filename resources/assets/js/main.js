@@ -5,7 +5,7 @@ window.attachFastClick = require('fastclick');
 window.stream = require('getstream');
 window.moment = require('moment');
 window.cloudinary = require('cloudinary-core');
-require('moment-timezone/builds/moment-timezone-with-data.js');
+window.momentTimeZone = require('moment-timezone/builds/moment-timezone-with-data.js');
 require('hammerjs');
 require('foundation-sites');
 require('localforage');

@@ -853,7 +853,8 @@
             DataService.collection('projects', {
                 notVideo: self.film.id,
                 notOwner: $rootScope.AppData.User ? $rootScope.AppData.User.id : undefined,
-                per_page: 1
+                per_page: 1,
+                random: true,
             })
                 .then(function (res) {
                     if (res) {

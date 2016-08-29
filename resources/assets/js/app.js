@@ -138,22 +138,10 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.filters',
             'IndieWise.utilities'
         ])
+        .constant('moment', window.momentTimeZone)
+        .constant('angularMomentConfig', { timezone: 'UTC' })
         .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
-        .config(['angularMomentConfig', function (angularMomentConfig) {
-
-            angularMomentConfig.timezone = 'UTC';
-            /*angularMomentConfig.preprocess = function(value) {
-             return moment.unix(value);
-             }*/
-        }])
-        .constant('angularMomentConfig', {
-            // preprocess: ['utc', 'local'],
-            timezone: 'UTC'
-        })
-        .constant('amTimeAgoConfig', {
-            // serverTime: -2
-        })
         .constant('INTERCOM_APPID', 'ppp65byn')
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
