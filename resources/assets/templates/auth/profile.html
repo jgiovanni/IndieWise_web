@@ -16,18 +16,17 @@
 
 <!-- profile top section -->
 <section class="topProfile topProfile-inner"
-         style="background-image: url({{Profile.user.coverPhotos||'/assets/images/profile-bg_demo.png'}});">
+         style="background-image: url({{Profile.user.coverPhoto||'/assets/images/profile-bg_demo.png'}});">
     <div class="row">
         <div class="large-12 columns">
-            <!--<div class="upload-bg">
+            <div class="upload-bg">
                 <form>
-                    <label for="topfileupload" class="btn-upload has-tip no-border"
-                           tooltip="Recommended dimensions: 1280x280">
+                    <label class="btn-upload has-tip no-border" ng-click="Profile.pickBanner()">
                         <i class="fa fa-camera"></i><span>update cover image</span>
                     </label>
-                    <input type="file" id="topfileupload" class="show-for-sr" ngf-select="Profile.updateCoverPhoto($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'">
+                    <!--<input type="file" id="topfileupload" class="show-for-sr" ngf-select="Profile.updateCoverPhoto($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'">-->
                 </form>
-            </div>-->
+            </div>
         </div>
     </div>
     <div class="main-text text-center ng-hide" style="padding-top: 20px;padding-bottom: 30px">
@@ -51,12 +50,11 @@
                     <img ngf-thumbnail="Profile.user.avatar || '/assets/img/avatar-1.png'" />
 
                     <form>
-                        <label for="imgfileupload" class="btn-upload has-tip no-border"
-                               tooltip="Recommended dimensions: 120x120">
+                        <label class="btn-upload has-tip no-border" ng-click="Profile.pickAvatar()">
                             <i class="fa fa-camera"></i><span>update Avatar</span>
                         </label>
-                        <input type="file" id="imgfileupload" class="show-for-sr"
-                               ngf-select="Profile.updateAvatar($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'">
+                        <!--<input type="file" id="imgfileupload" class="show-for-sr"
+                               ngf-select="Profile.updateAvatar($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'">-->
                     </form>
                 </div>
                 <div class="clearfix">

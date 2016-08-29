@@ -1644,14 +1644,16 @@
         });
     }
 
-    ProfileCtrl.$inject = ['$rootScope', 'DataService', 'User', 'UserStats', 'AuthService', 'Upload', '_'];
-    function ProfileCtrl($rootScope, DataService, User, UserStats, AuthService, Upload, _) {
+    ProfileCtrl.$inject = ['$rootScope', 'filepickerService', 'User', 'UserStats', 'AuthService', 'Upload', '_'];
+    function ProfileCtrl($rootScope, filepickerService, User, UserStats, AuthService, Upload, _) {
         $rootScope.metadata.title = 'Profile';
         var self = this;
         self.user = User;
         self.userStats = UserStats;
-        self.updateAvatar = _.throttle(updateAvatar, 1000);
-        self.updateCoverPhoto = _.throttle(updateCoverPhoto, 1000);
+        // self.updateAvatar = _.throttle(updateAvatar, 1000);
+        // self.updateCoverPhoto = _.throttle(updateCoverPhoto, 1000);
+        self.pickAvatar = pickAvatar;
+        self.pickBanner = pickBanner;
 
         self.getEmoticonByEmotion = function (emotion) {
             var reactions = $rootScope.generateReactions();
@@ -1662,7 +1664,39 @@
             return self.user.url_id + '_' + type + '_' + moment().valueOf();
         };
 
-        function updateAvatar(file) {
+        function pickBanner(){
+            filepickerService.pick(
+                {
+                    cropRatio: 32/7,
+                    mimetype: 'image/*',
+                    services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
+                    conversions: ['crop', 'rotate', 'filter']
+                },
+                function (Blob){
+                    self.user.coverPhoto = Blob.url;
+                    AuthService.updateUser(self.user).then(function (res) {
+                        $rootScope.toastMessage('Cover Photo Updated!');
+                    });                }
+            );
+        }
+        function pickAvatar(){
+            filepickerService.pick(
+                {
+                    cropRatio: 1/1,
+                    mimetype: 'image/*',
+                    services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
+                    conversions: ['crop', 'rotate', 'filter']
+                },
+                function (Blob){
+                    self.user.avatar = Blob.url;
+                    AuthService.updateUser(self.user).then(function (res) {
+                        $rootScope.toastMessage('Avatar Updated!');
+                    });
+                }
+            );
+        }
+
+        /*function updateAvatar(file) {
             Upload.upload({
                 url: 'https://api.cloudinary.com/v1_1/indiewise/upload',
                 params: {upload_preset: 'r0kuyqef'},
@@ -1680,9 +1714,9 @@
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
-        }
+        }*/
 
-        function updateCoverPhoto(file) {
+        /*function updateCoverPhoto(file) {
             Upload.upload({
                 url: 'https://api.cloudinary.com/v1_1/indiewise/upload',
                 params: {upload_preset: 'jmy7rdcs'},
@@ -1701,7 +1735,7 @@
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
 
-        }
+        }*/
 
     }
 
@@ -1952,8 +1986,8 @@
         self.onSuccess = function (Blob) {
             self.newVideo.hosting_type = 'HTML5';
             self.newVideo.video_url = Blob.url;
-            self.files.push(Blob);
-            $window.localStorage.setItem('files', JSON.stringify(self.files));
+            // self.files.push(Blob);
+            // $window.localStorage.setItem('files', JSON.stringify(self.files));
         };
     }
 
