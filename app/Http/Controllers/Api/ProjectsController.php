@@ -51,7 +51,7 @@ class ProjectsController extends Controller
         /*if($this->isMethod('post')) {
             return ($this->user()->projects()->count() <= 3);
         }*/
-        if ($this->user()->projects->count() > 3) {
+        if ($this->user()->projects->count() >= 3) {
             return response()->json(['status' => 'failed', 'reason' => 'Upload limit reached'], 403);
         }
 
@@ -108,6 +108,11 @@ class ProjectsController extends Controller
     {
         $watched = DB::select('SELECT * FROM `Watched` w LEFT JOIN (SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail FROM Project p ) as project ON project.id = w.project_id WHERE (w.project_id IN ( SELECT Project.id FROM Project WHERE Project.unlist = false ) AND w.count > 0 ) ORDER BY w.updated_at DESC LIMIT 7');
         return response()->json($watched);
+    }
+
+    public function canUpload()
+    {
+        return response()->json(['status' => $this->user()->projects->count() < 3]);
     }
 
 

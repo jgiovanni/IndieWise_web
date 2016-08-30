@@ -495,6 +495,19 @@ jQuery(document).ready(function (jQuery) {
                                 deferred.resolve(true);
                             }
                             return deferred.promise;
+                        }],
+                        Max: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
+                            var deferred = $q.defer();
+                            DataService.collection('projects/limit').then(function (response) {
+                                if (response.data.status) {
+
+                                    deferred.resolve(true);
+                                } else {
+                                    $rootScope.toastMessage('The upload limit has been reached');
+                                    deferred.reject(false);
+                                }
+                            });
+                            return deferred.promise;
                         }]
                     }
                 })
