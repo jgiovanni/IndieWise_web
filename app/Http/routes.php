@@ -11,6 +11,7 @@
 |
 */
 
+use IndieWise\User;
 use GetStream\Stream\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use IndieWise\Country;
@@ -20,6 +21,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 $dispatcher = app('Dingo\Api\Dispatcher');
 
 Route::get('test', function () {
+    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
+    return response()->json(['test' => $user->projects->count()]);
 //    echo url('user', 'lol' ) . '/about';
     //Find project
     /*$project = Project::with('wins.award')->whereHas('wins', function ($query) {

@@ -51,15 +51,16 @@ class ProjectsController extends Controller
         /*if($this->isMethod('post')) {
             return ($this->user()->projects()->count() <= 3);
         }*/
-        if ($this->user()->has('projects', '<', 3)) {
-            $project = $this->project->create($request->except('genres'));
-
-            $project->syncGenres($request->get('genres'));
-
-            return $this->response->item($project, new ProjectTransformer);
-        } else {
-            return response()->json(['status' => 'failed', 'reason' => 'upload limit reached'], 200);
+        if ($this->user()->projects->count() > 3) {
+            return response()->json(['status' => 'failed', 'reason' => 'Upload limit reached'], 403);
         }
+
+        $project = $this->project->create($request->except('genres'));
+
+        $project->syncGenres($request->get('genres'));
+
+        return $this->response->item($project, new ProjectTransformer);
+
     }
 
     /**

@@ -237,13 +237,16 @@ jQuery(document).ready(function (jQuery) {
                     return response;
                 },
                 'responseError': function (response) {
+
                     if (response.status === 401 || response.status === 403) {
                         //$location.path('/sign-in');
                     } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
                         var deferred = $q.defer();
                         //retryHttpRequest(response.config, deferred);
                         return deferred.promise;
-                    } else return $q.reject(response);
+                    }
+
+                    return response;
                 }
             };
         }])

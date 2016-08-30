@@ -175,8 +175,8 @@
         }, 500);
     }
 
-    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal'];
-    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal) {
+    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal', 'cfpLoadingBar'];
+    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal, cfpLoadingBar) {
         $rootScope.metadata.title = 'Sign In';
         var self = this;
         self.authErrors = null;
@@ -191,11 +191,13 @@
             AuthService.login(self.user.email, self.user.password).then(function (res) {
                 if (res.status === false) {
                     self.authErrors = res.errors;
+                    return false;
                 } else {
                     if (redirect && angular.isDefined(res)) {
                         $state.go('home');
                     }
                 }
+                cfpLoadingBar.complete();
             }, function (res) {
                 self.error = res;
                 // console.log('Failed', res);
@@ -1977,7 +1979,7 @@
         self.pickFile = function () {
 
             filepickerService.pick({
-                    mimetype: 'video/*'
+                    mimetype: 'video/mp4'
                 },
                 self.onSuccess
             );

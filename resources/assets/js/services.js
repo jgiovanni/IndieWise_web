@@ -311,10 +311,17 @@
             login: function (_user, _password) {
                 return $auth.login({ email: _user, password: _password })
                     .then(function (response) {
-                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                        $auth.setToken(response.data.token);
-                        service.getCurrentUser();
-                        return true;
+                        if (response.status === 200) {
+                            $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                            $auth.setToken(response.data.token);
+                            service.getCurrentUser();
+                            return true;
+                        } else {
+                            return {
+                                status: false,
+                                errors: service.error = { credentials: ['Invalid email or password']}
+                            };
+                        }
                     })
                     .catch(function(response) {
                         // Handle errors here, such as displaying a notification
