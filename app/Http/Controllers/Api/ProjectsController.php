@@ -114,7 +114,7 @@ class ProjectsController extends Controller
     public function recordWatched(Request $request)
     {
         $watch = Watch::firstOrCreate(['project_id' => $request->get('project_id')]);
-        DB::table('Watched')->where('project_id', $watch->id)->increment('count');
+        DB::table('Watched')->where('project_id', $watch->project_id)->increment('count');
     }
 
     public function canUpload()
