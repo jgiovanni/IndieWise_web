@@ -8,7 +8,7 @@ class Watch extends Model
 {
     protected $table = 'Watched';
 
-    protected $guarded = ['id', 'count'];
+    protected $guarded = [];
 
     public function project()
     {
