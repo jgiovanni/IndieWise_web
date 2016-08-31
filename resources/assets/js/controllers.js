@@ -831,7 +831,7 @@
 
             $rootScope.initWatch = function () {
                 Analytics.trackEvent('video', 'play', self.film.name);
-                // UserActions.markAsWatched(self.film)
+                UserActions.markAsWatched(self.film)
             };
             //self.activeWatch = UserActions.markAsWatched(self.film);
 

@@ -135,7 +135,9 @@
                 var time = 0;// (video.attributes.runTime * 200) || 6000;
                 return $timeout(function () {
                     //console.log('Marked as Watched');
-                    UtilsService.recordActivity(video, 'watch');
+                    DataService.save('projects/watched', {
+                        project_id: video.id
+                    });
                 }, time);
             },
             cancelWatched: function (promise) {
@@ -340,7 +342,7 @@
                         service.getCurrentUser().then(function (user) {
                             self.error = '';
                             if (moment(user.created_at).isSame(moment(), 'hour')) {
-                                console.log('User ' + user.username + ' created successfully!');
+                                console.log('User ' + user.fullName + ' created successfully!');
                                 $state.go('profile.about');
                             } else {
                                 $state.go('home');

@@ -9,6 +9,7 @@ use IndieWise\Http\Transformers\v1\ProjectTransformer;
 use IndieWise\Project;
 use Dingo\Api\Contract\Http\Request;
 use IndieWise\Http\Requests\v1\ProjectRequest;
+use IndieWise\Watch;
 
 
 class ProjectsController extends Controller
@@ -108,6 +109,12 @@ class ProjectsController extends Controller
     {
         $watched = DB::select('SELECT * FROM `Watched` w LEFT JOIN (SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail FROM Project p ) as project ON project.id = w.project_id WHERE (w.project_id IN ( SELECT Project.id FROM Project WHERE Project.unlist = false ) AND w.count > 0 ) ORDER BY w.updated_at DESC LIMIT 7');
         return response()->json($watched);
+    }
+
+    public function recordWatched(Request $request)
+    {
+        $watch = Watch::firstOrCreate(['project_id' => $request->get('project_id')]);
+        DB::table('Watched')->where('project_id', $watch->id)->increment('count');
     }
 
     public function canUpload()

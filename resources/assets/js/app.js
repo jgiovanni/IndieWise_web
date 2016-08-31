@@ -503,7 +503,7 @@ jQuery(document).ready(function (jQuery) {
 
                                     deferred.resolve(true);
                                 } else {
-                                    $rootScope.toastMessage('The upload limit has been reached');
+                                    $rootScope.toastMessage('The upload limit of 3 has been reached');
                                     deferred.reject(false);
                                 }
                             });

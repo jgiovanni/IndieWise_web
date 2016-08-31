@@ -183,6 +183,7 @@ $api->version('v1', [
     $api->get('users/count', 'UsersController@count');
     $api->get('users/countUserStats/{id?}', 'UsersController@countUserStats');
     $api->get('projects/watched', 'ProjectsController@recentlyWatched');
+    $api->post('projects/watched', 'ProjectsController@recordWatched');
     $api->get('projects/limit', 'ProjectsController@canUpload');
     $api->get('reactions/latest', 'ReactionsController@latest');
     $api->get('nominations/latest', 'NominationsController@latest');
