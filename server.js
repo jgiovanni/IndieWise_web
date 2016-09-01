@@ -7,14 +7,14 @@ var options = {
 var express = require('express')();
 var app = require('https').createServer(options, express);
 var io = require('socket.io')(app);
-var nsp = io.of('/socket/:6001');
+var nsp = io.of('/socket/:6000');
 
 // Redis
 var Redis = require('ioredis');
 // var redis = new Redis('6379', 'Redis');
 var redis = new Redis();
 
-app.listen(6001, function() {
+app.listen(6000, function() {
     console.log('Server is running!');
 });
 
