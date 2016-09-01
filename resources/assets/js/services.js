@@ -55,7 +55,7 @@
         .factory('UserActions', UserActions)
         .factory('DataService', DataService)
         .factory('socket', function ($rootScope) {
-            var socket = io.connect('https://127.0.0.1/socket');
+            var socket = io.connect('/socket');
             return {
                 on: function (eventName, callback) {
                     socket.on(eventName, function () {
