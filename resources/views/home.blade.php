@@ -19,7 +19,7 @@
 {{--<script src="{{ asset('/socket.io/socket.io.js') }}"></script>--}}
 <script>
 //    var url = window.location.protocol + '//' + window.location.hostname + '/socket';
-    var url = window.location.origin + '/socket';
+    var url = /*window.location.origin + */'/socket';
     var socket = io(url, {
         'secure': true,
         'reconnect': true,
