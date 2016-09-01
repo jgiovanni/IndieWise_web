@@ -20,7 +20,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
+Route::get('fire', function () {
+    // this fires the event
+    event(new App\Events\EventName());
+    return "event fired";
+});
+
 Route::get('test', function () {
+    // this checks for the event
+    return view('test');
+});
+
+Route::get('testy', function () {
     $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
     return response()->json(['test' => $user->projects->count()]);
 //    echo url('user', 'lol' ) . '/about';
