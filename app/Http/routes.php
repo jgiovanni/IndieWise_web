@@ -87,7 +87,7 @@ Route::any('{path?}', function() use ($dispatcher) {
         } else
             return view("index", compact('countries'));
     }
-})->where("path", ".+");
+})->where("path", "[^socket.io].+");
 
 /*
 Route::get('/', function () {
