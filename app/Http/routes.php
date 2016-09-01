@@ -32,8 +32,8 @@ Route::get('test', function () {
 });
 
 Route::get('testy', function () {
-    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
-    return response()->json(['test' => $user->projects->count()]);
+//    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
+//    return response()->json(['test' => $user->projects->count()]);
 //    echo url('user', 'lol' ) . '/about';
     //Find project
     /*$project = Project::with('wins.award')->whereHas('wins', function ($query) {
