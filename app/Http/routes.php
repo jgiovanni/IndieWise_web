@@ -22,7 +22,7 @@ $dispatcher = app('Dingo\Api\Dispatcher');
 
 Route::get('fire', function () {
     // this fires the event
-    event(new App\Events\EventName());
+    event(new IndieWise\Events\EventName());
     return "event fired";
 });
 
