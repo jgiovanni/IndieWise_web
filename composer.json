@@ -27,7 +27,8 @@
         "zizaco/entrust": "5.2.x-dev",
         "socialiteproviders/twitter": "^1.0",
         "grimthorr/laravel-user-settings": "^2.1",
-        "jrean/laravel-user-verification": "^2.2"
+        "jrean/laravel-user-verification": "^2.2",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
