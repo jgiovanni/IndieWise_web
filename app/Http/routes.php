@@ -28,7 +28,7 @@ Route::get('fire', function () {
 
 Route::get('test', function () {
     // this checks for the event
-    return view('test');
+    return view('home');
 });
 
 Route::get('testy', function () {
