@@ -19,13 +19,14 @@
 {{--<script src="{{ asset('/socket/socket.io.js') }}"></script>--}}
 <script>
     var url = window.location.origin + ':6001';
-    /*var socket = io(url, {
-        'secure': true,
-        'reconnect': true,
+    var socket = io(url, {
+        resource: '/socket',
+        secure: true,
+        reconnect: true,
         'reconnection delay': 500,
         'max reconnection attempts': 10
-    });*/
-    var socket = io.connect(url, { resource: '/socket' });
+    });
+//    var socket = io.connect(url);
     var chosenEvent = "test-channel:IndieWise\\Events\\EventName";
 //    var chosenEvent = 'room_' + room.id;
     socket.on(chosenEvent, function (data) {
