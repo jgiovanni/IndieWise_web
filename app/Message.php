@@ -127,7 +127,7 @@ class Message extends Model
     {
         $targetFeeds = [];
         foreach ($this->target as $target) {
-            if ( setting('email_message', true, "'$target->user_id'") ) {
+            /*if ( setting('email_message', true, "'$target->user_id'") ) {
                 $data = [
                     'ownerEmail' => $target->email,
                     'ownerName' => $target->fullName,
@@ -140,7 +140,7 @@ class Message extends Model
                         ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
                         ->subject($data['subject']);
                 });
-            }
+            }*/
 
             $targetFeeds[] = FeedManager::getFeed('message', $target->user_id);
         }

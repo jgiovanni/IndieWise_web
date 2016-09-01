@@ -208,6 +208,7 @@ class Thread extends Model
     {
         try {
             $participant = $this->getParticipantFromUser($userId);
+            dd($participant);
             $participant->last_read = new Carbon();
             $participant->save();
         } catch (ModelNotFoundException $e) {

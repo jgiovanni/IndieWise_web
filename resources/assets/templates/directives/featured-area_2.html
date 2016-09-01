@@ -41,7 +41,7 @@
     <!-- image playlist category  -->
     <ul data-cat="Featured">
         <ul ng-repeat="f in featuredFilms|limitTo:6">
-            <li data-type="link" data-url="/alpha/screen/{{::f.id}}" data-target="_self"></li>
+            <li data-type="link" data-url="/{{::f.id}}" data-target="_self"></li>
             <li data-thumbnail-path="{{::f.attributes.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}"></li>
             <li data-thumbnail-text class="">
                 <p class="largeLabel black-text" style="text-transform: uppercase;" ng-bind="::f.attributes.name"></p>

@@ -6,6 +6,8 @@ use Dingo\Api\Contract\Http\Request;
 
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\MessageTransformer;
+//use IndieWise\Thread;
+//use IndieWise\Participant;
 use IndieWise\User;
 use Carbon\Carbon;
 use IndieWise\Message;
