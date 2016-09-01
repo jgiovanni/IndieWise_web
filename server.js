@@ -7,14 +7,14 @@ var options = {
 var express = require('express')();
 var app = require('https').createServer(options, express);
 var io = require('socket.io')(app);
-var nsp = io.of('/socket/:6000');
+// var nsp = io.of('/socket/:3000');
 
 // Redis
 var Redis = require('ioredis');
  // var redis = new Redis('6001', 'Redis');
 var redis = new Redis();
 
-app.listen(6000, function() {
+app.listen(3000, function() {
     console.log('Server is running!');
 });
 
@@ -24,8 +24,9 @@ function handler(req, res) {
     res.end('');
 }
 
-nsp.on('connection', function(socket) {
+io.on('connection', function(socket) {
     //
+    console.log(socket);
 });
 
 //Subscribe to all Redis Channels
@@ -39,5 +40,5 @@ redis.psubscribe('*', function(err, count) {
 redis.on('pmessage', function(subscribed,channel, message) {
     console.log('Message Recieved at channel(' + channel + '): ' + message);
     message = JSON.parse(message);
-    nsp.emit(channel + ':' + message.event, message.data);
+    io.emit(channel + ':' + message.event, message.data);
 });
