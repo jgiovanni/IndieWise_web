@@ -18,7 +18,7 @@
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script>
     //var socket = io('http://localhost:3000');
-    var socket = io('redis://getindiewise.com:6001');
+    var socket = io(window.location.origin + ':6001');
     socket.on("test-channel:IndieWise\\Events\\EventName", function(message){
         // increase the power everytime we load test route
         $('#power').text(parseInt($('#power').text()) + parseInt(message.data.power));
