@@ -55,7 +55,12 @@
         .factory('UserActions', UserActions)
         .factory('DataService', DataService)
         .factory('socket', ['$rootScope',function ($rootScope) {
-            var socket = io.connect('/socket');
+            var socket = io('/socket:6001', {
+                'secure': true,
+                'reconnect': true,
+                'reconnection delay': 500,
+                'max reconnection attempts': 10
+            });
             return {
                 on: function (eventName, callback) {
                     socket.on(eventName, function () {
