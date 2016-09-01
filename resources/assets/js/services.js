@@ -54,8 +54,8 @@
         .factory('AuthService', AuthService)
         .factory('UserActions', UserActions)
         .factory('DataService', DataService)
-        .factory('socket', ['$rootScope',function ($rootScope) {
-            var socket = io('/socket:6001', {
+        .factory('socket', ['$rootScope', '$window',function ($rootScope, $window) {
+            var socket = io($window.location.origin, {
                 'secure': true,
                 'reconnect': true,
                 'reconnection delay': 500,

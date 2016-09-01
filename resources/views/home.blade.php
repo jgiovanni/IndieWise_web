@@ -18,9 +18,9 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 {{--<script src="{{ asset('/socket/socket.io.js') }}"></script>--}}
 <script>
-    var url = window.location.origin + ':6000';
+    var url = window.location.origin;
     var socket = io(url, {
-        resource: '/socket',
+//        resource: '/socket',
         secure: true,
         reconnect: true,
         'reconnection delay': 500,
