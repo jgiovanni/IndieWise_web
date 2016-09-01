@@ -17,11 +17,25 @@
 </div>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script>
+    var url = window.location.protocol + '//' + window.location.hostname + ':6001';
+    var socket = io(url, {
+        'secure': true,
+        'reconnect': true,
+        'reconnection delay': 500,
+        'max reconnection attempts': 10
+    });
+    var chosenEvent = "test-channel:IndieWise\\Events\\EventName";
+//    var chosenEvent = 'room_' + room.id;
+    socket.on(chosenEvent, function (data) {
+        console.log(data);
+        $('#power').text(parseInt($('#power').text()) + parseInt(message.data.power));
+    });
+
     //var socket = io('http://localhost:3000');
-    var socket = io(window.location.origin + ':6001');
+    /*var socket = io(window.location.origin + ':6001');
     socket.on("test-channel:IndieWise\\Events\\EventName", function(message){
         // increase the power everytime we load test route
         $('#power').text(parseInt($('#power').text()) + parseInt(message.data.power));
-    });
+    });*/
 </script>
 @endsection
