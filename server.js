@@ -9,7 +9,7 @@ var app = require('https').createServer(options, handler);
 var io = require('socket.io')(app);
 var nsp = io.of('/socket/:6001');
 var Redis = require('ioredis');
-var redis = new Redis();
+var redis = new Redis('6379', 'Redis');
 
 app.listen(6001, function() {
     console.log('Server is running!');
