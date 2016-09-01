@@ -4,12 +4,15 @@ var options = {
     key: fs.readFileSync('/etc/nginx/ssl/getindiewise.com/121731/server.key'),
     cert: fs.readFileSync('/etc/nginx/ssl/getindiewise.com/121731/server.crt')
 };
-
-var app = require('https').createServer(options, handler);
+var express = require('express')();
+var app = require('https').createServer(options, express);
 var io = require('socket.io')(app);
 var nsp = io.of('/socket/:6001');
+
+// Redis
 var Redis = require('ioredis');
-var redis = new Redis('6379', 'Redis');
+// var redis = new Redis('6379', 'Redis');
+var redis = new Redis();
 
 app.listen(6001, function() {
     console.log('Server is running!');
