@@ -18,14 +18,14 @@
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 {{--<script src="{{ asset('/socket/socket.io.js') }}"></script>--}}
 <script>
-//    var url = window.location.protocol + '//' + window.location.hostname + '/socket';
-    var url = /*window.location.origin + */'/socket';
+    var url = window.location.origin + ':6001';
     var socket = io(url, {
         'secure': true,
         'reconnect': true,
         'reconnection delay': 500,
         'max reconnection attempts': 10
     });
+    var socket = io.connect(url);
     var chosenEvent = "test-channel:IndieWise\\Events\\EventName";
 //    var chosenEvent = 'room_' + room.id;
     socket.on(chosenEvent, function (data) {
