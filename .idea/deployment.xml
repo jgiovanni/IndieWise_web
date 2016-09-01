@@ -33,7 +33,7 @@
       <paths name="IndieWise AWS">
         <serverdata>
           <mappings>
-            <mapping deploy="/getindiewise.com" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/forge/getindiewise.com" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
