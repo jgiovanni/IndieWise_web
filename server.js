@@ -21,7 +21,7 @@ function handler(req, res) {
     res.end('');
 }
 
-io.on('connection', function(socket) {
+nsp.on('connection', function(socket) {
     //
 });
 
@@ -35,5 +35,5 @@ redis.psubscribe('*', function(err, count) {
 redis.on('pmessage', function(subscribed,channel, message) {
     console.log('Message Recieved at channel(' + channel + '): ' + message);
     message = JSON.parse(message);
-    io.emit(channel + ':' + message.event, message.data);
+    nsp.emit(channel + ':' + message.event, message.data);
 });
