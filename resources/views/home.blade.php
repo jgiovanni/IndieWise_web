@@ -15,7 +15,8 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+{{--<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>--}}
+<script src="{{ asset('/socket.io/socket.io.js') }}"></script>
 <script>
     var url = window.location.protocol + '//' + window.location.hostname + ':6001';
     var socket = io(url, {
