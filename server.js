@@ -31,7 +31,8 @@ nsp.on('connection', function(socket) {
 //Subscribe to all Redis Channels
 redis.psubscribe('*', function(err, count) {
     //Nothing to do here?
-    console.log('Errors subscribing to channel');
+    console.log(err);
+    console.log(count);
 });
 
 //Broadcast message when recieved from Redis on all channels

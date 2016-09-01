@@ -18,7 +18,7 @@
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 {{--<script src="{{ asset('/socket/socket.io.js') }}"></script>--}}
 <script>
-    var url = window.location.origin + ':6001';
+    var url = window.location.origin + ':6000';
     var socket = io(url, {
         resource: '/socket',
         secure: true,
