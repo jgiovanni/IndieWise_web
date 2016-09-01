@@ -54,7 +54,7 @@
         .factory('AuthService', AuthService)
         .factory('UserActions', UserActions)
         .factory('DataService', DataService)
-        .factory('socket', function ($rootScope) {
+        .factory('socket', ['$rootScope',function ($rootScope) {
             var socket = io.connect('/socket');
             return {
                 on: function (eventName, callback) {
@@ -76,7 +76,7 @@
                     })
                 }
             };
-        })
+        }])
         .factory('linkify', ['$filter', function ($filter) {
             function _linkifyAsType(type) {
                 return function (str) {
