@@ -24,11 +24,15 @@ io.on('connection', function(socket) {
     //
 });
 
+//Subscribe to all Redis Channels
 redis.psubscribe('*', function(err, count) {
-    //
+    //Nothing to do here?
+    console.log('Errors subscribing to channel');
 });
 
-redis.on('pmessage', function(subscribed, channel, message) {
+//Broadcast message when recieved from Redis on all channels
+redis.on('pmessage', function(subscribed,channel, message) {
+    console.log('Message Recieved at channel(' + channel + '): ' + message);
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
 });
