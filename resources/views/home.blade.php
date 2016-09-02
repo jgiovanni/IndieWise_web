@@ -25,8 +25,7 @@
 //        resource: '/socket',
         secure: true,
         reconnect: true,
-        'reconnection delay': 500,
-        'max reconnection attempts': 10
+        reconnectionDelay: 500,
     });
 //    var socket = io.connect(url);
     var chosenEvent = "test-channel:IndieWise\\Events\\EventName";
