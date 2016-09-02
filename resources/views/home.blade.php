@@ -19,8 +19,8 @@
 {{--<script src="{{ asset('assets/js/socket.js') }}"></script>--}}
 <script>
 //    var url = window.location.origin;
-//    var url = 'https://getindiewise.com:3000';
-    var url = 'https://54.167.167.156:3000';
+    var url = 'https://getindiewise.com:3000';
+//    var url = 'https://54.167.167.156:3000';
     var socket = io(url, {
 //        resource: '/socket',
         secure: true,
