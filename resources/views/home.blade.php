@@ -16,7 +16,7 @@
     </div>
 </div>
 {{--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--}}
-<script src="{{ asset('assets/js/socket.io.js') }}"></script>
+<script src="{{ asset('assets/js/socket.js') }}"></script>
 <script>
 //    var url = window.location.origin;
 //    var url = 'https://getindiewise.com:3000';
