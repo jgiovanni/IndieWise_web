@@ -15,10 +15,12 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-{{--<script src="{{ asset('/socket/socket.io.js') }}"></script>--}}
+{{--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--}}
+<script src="{{ asset('js/socket.io.js') }}"></script>
 <script>
-    var url = window.location.origin;
+//    var url = window.location.origin;
+//    var url = 'https://getindiewise.com:3000';
+    var url = 'https://54.167.167.156:3000';
     var socket = io(url, {
 //        resource: '/socket',
         secure: true,
