@@ -610,8 +610,10 @@
                                             //console.log(a.target.getPlayerState());
                                             if (a.target.getPlayerState() == 0) {
                                                 //console.log('Scroll page to content');
-                                                toggleLights();
-                                                anchorSmoothScroll.scrollTo('SinglePostStats');
+                                                if (!!scope.lightsOff) {
+                                                    toggleLights();
+                                                }
+                                                //anchorSmoothScroll.scrollTo('SinglePostStats');
                                             }
                                         });
                                         break;
