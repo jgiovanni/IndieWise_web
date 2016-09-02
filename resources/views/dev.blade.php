@@ -40,6 +40,9 @@
     <script type="text/javascript" src="/public/js/main.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/momentjs.timezone@0.5.4(moment-timezone-with-data.min.js)"></script>--}}
     <script>window.BASE = '/public/';</script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="/public/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
@@ -83,9 +86,154 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 
-<body id="body" ng-controller="BodyCtrl as Body">
+<body id="body" layout="column" ng-controller="BodyCtrl as Body" ng-cloak>
+<section layout="row" flex>
+    <md-sidenav md-component-id="left" class="md-sidenav-left">
+        <ul class="vertical menu" >
+            <li><a ui-sref="home" ui-sref-active="active"><i class="fa fa-home"></i>Home</a></li>
+            <li><a ui-sref="browse" ui-sref-active="active"><i class="fa fa-th"></i>Browse</a></li>
+            <li><a ui-sref="latest" ui-sref-active="active"><i class="fa fa-bolt"></i>Latest</a></li>
+            <li ng-if="isAuthenticated()"><a ui-sref="profile.about" ui-sref-active="active"><i class="fa fa-user"></i>Profile</a></li>
+            <li ng-if="isAuthenticated()">
+                <a ui-sref="messages" ui-sref-active="active">
+                    <i class="fa fa-envelope"></i>Messages
+                    <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
+                </a>
+            </li>
+            <li><a ui-sref="profile.upload" ui-sref-active="active"><i class="fa fa-upload"></i>Upload</a></li>
+        </ul>
+        <div class="responsive-search">
+            <form ng-submit="Body.startSearch(AppData.searchText)">
+                <div class="input-group">
+                    <input class="input-group-field" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything">
 
-<div class="off-canvas-wrapper">
+                    <div class="input-group-button">
+                        <button type="submit" name="search"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="off-social">
+            <h6>Get Social</h6>
+            <a class="secondary-button" href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook"></i></a>
+            <a class="secondary-button" href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
+            <a class="secondary-button" href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
+        </div>
+        <div class="top-button">
+            <ul class="menu" >
+                <li class="dropdown-login" ng-if="!isAuthenticated()">
+                    <a ui-sref="sign_in">login/Register</a>
+                </li>
+                <li class="dropdown-login" ng-if="isAuthenticated()">
+                    <a ng-click="Body.doSignOut();">logout</a>
+                </li>
+            </ul>
+        </div>
+    </md-sidenav>
+
+    <md-content>
+        <header>
+            <!-- Top -->
+            <section id="top" class="topBar show-for-large" ng-cloak>
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <div class="socialLinks">
+                            <a href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="medium-6 columns">
+                        <div class="top-button">
+                            <ul class="menu float-right">
+                                <!--<li ui-sref-active="active">
+                                    <a ui-sref="upload">upload Video</a>
+                                </li>-->
+                                <li class="dropdown-login">
+                                    <a ng-if="!isAuthenticated()" ui-sref="sign_in">login/Register</a>
+                                    <a ng-if="isAuthenticated()" ng-click="Body.doSignOut();">logout</a>
+
+                                    <div class="login-form">
+                                        <h6 class="text-center">Great to have you back!</h6>
+
+                                        <form method="post">
+                                            <div class="input-group">
+                                                <span class="input-group-label"><i class="fa fa-user"></i></span>
+                                                <input class="input-group-field" type="text"
+                                                       placeholder="Enter username">
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-label"><i class="fa fa-lock"></i></span>
+                                                <input class="input-group-field" type="text"
+                                                       placeholder="Enter password">
+                                            </div>
+                                            <div class="checkbox">
+                                                <input id="check1" type="checkbox" name="check" value="check">
+                                                <label class="customLabel" for="check1">Remember me</label>
+                                            </div>
+                                            <input type="submit" name="submit" value="Login Now">
+                                        </form>
+                                        <p class="text-center">New here? <a class="newaccount" ui-sref="register">Create
+                                                a new Account</a></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Top -->
+            <!--Navber-->
+            @include('shared.navbar')
+        </header>
+        <!-- End Header -->
+        <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
+            Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="ui-view-container">
+            <ui-view class="" ng-cloak></ui-view>
+        </div>
+
+        @include('shared.footer')
+    </md-content>
+</section>
+    {{--<md-sidenav md-component-id="right" class="md-sidenav-right">
+        <ul class="vertical menu notification-list" >
+            <li ng-repeat="notice in AppData.Notifications.list" ng-click="Body.markAsRead(notice)" ng-class="{'unread': !notice.is_read}">
+                <a ng-if="::notice.verb === 'win'" ui-sref="video({url_id: notice.project.url_id})">
+                    <i class="notificon fa fa-trophy"></i>&nbsp;Your video <b>@{{::notice.project.name}}</b> won an award!.
+                </a>
+                <a ng-if="::notice.verb === 'nominate'" ui-sref="video({url_id: notice.project.url_id})">
+                    <i class="notificon fa fa-trophy"></i>&nbsp;@{{::notice.actors[0].fullName}} nominated <b>@{{::notice.project.name}}</b> for <b>@{{::notice.activities[0].object.award.name}}</b>.
+                </a>
+                <a ng-if="::notice.verb === 'critique'" ui-sref="video({url_id: notice.project.url_id})">
+                    <i class="notificon fa fa-star"></i>&nbsp;@{{::notice.actors[0].fullName}} gave <b>@{{::notice.project.name}}</b> a <b>@{{::notice.activities[0].object.overall}}</b>.
+                </a>
+                <a ng-if="::notice.verb === 'react'" ui-sref="video({url_id: notice.project.url_id})">
+                    <i class="notificon fa fa-smile-o"></i>&nbsp;Your video made <b>@{{::notice.activities[0].actor.fullName}}</b> feel <b>@{{::notice.activities[0].object.emotion}}</b>.
+                </a>
+                <a ng-if="::notice.verb === 'rate'" ui-sref="video({url_id: notice.project.url_id})">
+                    <i class="notificon fa fa-thumbs-o-up"></i>&nbsp;@{{::notice.actors[0].fullName}} gave <b>@{{::notice.project.name}}</b> a <b>@{{::notice.activities[0].object.overall}}</b>.
+                </a>
+                <a ng-if="::notice.verb === 'comment'" ui-sref="video_critique({video_url_id: notice.project.url_id, url_id:notice.object})">
+                    <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actors[0].fullName}}</b> posted a comment on your critique.
+                </a>
+                --}}{{--<a ng-if="::notice.verb === 'message'" ui-sref="messages">
+                    <i class="notificon fa fa-envelope"></i>&nbsp;
+                    <ng-pluralize count="notice.activity_count" when="{'one': 'You have 1 new message.', 'other': 'You have {} new messages.'}"></ng-pluralize>
+                </a>--}}{{--
+                <a ng-if="::notice.verb === 'reply'" ui-sref="video_critique({video_url_id: notice.projectUrlId, url_id:notice.critiqueUrlId})">
+                    <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> replied to your comment.
+                </a>
+            </li>
+        </ul>
+    </md-sidenav>--}}
+
+{{--<div class="off-canvas-wrapper">
     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
         <!--header-->
         @include('shared.offCanvasLeft')
@@ -164,7 +312,7 @@
         <!--end off canvas content-->
     </div>
     <!--end off canvas wrapper inner-->
-</div>
+</div>--}}
 <!--end off canvas wrapper-->
 
 <div id="alerts" ng-cloak>

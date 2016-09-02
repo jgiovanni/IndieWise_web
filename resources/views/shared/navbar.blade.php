@@ -11,7 +11,7 @@
                             <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                         </div>
                         <div class="title-bar-right">
-                            <a ng-if="isAuthenticated()" class="fa fa-bell menu-icon right-off-canvas-toggle"></a>
+                            <a ng-if="isAuthenticated()" class="fa fa-bell menu-icon"></a>
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@
                                 <li class="search" ui-sref="profile.about">
                                     <i class="fa fa-user"></i>
                                 </li>
-                                <li class="search right-off-canvas-toggle">
+                                <li class="search ">
                                     <i class="fa" ng-click="Body.markAllAsRead();Body.markAllAsSeen()" ng-class="{'fa-bell': AppData.Notifications.unseen, 'fa-bell-o': AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen}"></i>
                                     <span ng-show="AppData.Notifications.unseen>0" class="alert badge">@{{AppData.Notifications.unseen}}</span>
                                 </li>
