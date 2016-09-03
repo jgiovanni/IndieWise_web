@@ -54,7 +54,7 @@ class Nomination extends Model
 
     public function activityNotify()
     {
-        if ( setting('email_nomination', true, "'".$this->target->owner->id."'") ) {
+        if ( setting()->get('email_nomination', true, "'".$this->target->owner->id."'") ) {
             $data = [
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,

@@ -23,3 +23,4 @@ require('ng-file-upload');
 // require('angular-intercom/');
 // require('ng-webworker');
 require('satellizer');
+require('angular-websocket');

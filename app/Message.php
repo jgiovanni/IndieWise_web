@@ -127,7 +127,7 @@ class Message extends Model
     {
         $targetFeeds = [];
         foreach ($this->target as $target) {
-            /*if ( setting('email_message', true, "'$target->user_id'") ) {
+            /*if ( setting()->get('email_message', true, "'$target->user_id'") ) {
                 $data = [
                     'ownerEmail' => $target->email,
                     'ownerName' => $target->fullName,

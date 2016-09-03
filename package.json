@@ -25,6 +25,7 @@
     "angular-translate-loader-partial": "^2.11.0",
     "angular-ui-router": "^1.0.0-alpha.5",
     "angular-ui-scroll": "^1.5.1",
+    "angular-websocket": "^2.0.1",
     "animate.css": "^3.5.1",
     "cloudinary-core": "^2.1.2",
     "express": "^4.14.0",

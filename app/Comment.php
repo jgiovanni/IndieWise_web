@@ -8,6 +8,7 @@ use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
+use IndieWise\Jobs\SendCommentNotificationEmail;
 
 class Comment extends Model
 {
@@ -54,7 +55,7 @@ class Comment extends Model
      */
     public function activityExtraData()
     {
-        if (isset($this->target->user_id)){
+        if (isset($this->target->comment_id)){
             $data = ['body' => $this->body, 'critique_url_id' => $this->target->critique->url_id];
         } else {
             $data = ['body' => $this->body, 'critique_url_id' => $this->target->url_id];
@@ -81,37 +82,8 @@ class Comment extends Model
 
     public function activityNotify()
     {
-        if ( setting('email_comment', true, "'".$this->target->author->id."'") ) {
-            if (isset($this->target->user_id)) {
-                // is reply to comment
-                $data = [
-                    'targetText' => 'replied to your comment',
-                    'actorName' => $this->author->fullName,
-                    'actorUrlId' => $this->author->url_id,
-                    'ownerEmail' => $this->target->author->email,
-                    'ownerName' => $this->target->author->fullName,
-                    'subject' => $this->author->fullName . 'replied to your comment.',
-                    'critique' => $this->target->critique->url_id,
-                    'video' => $this->target->critique->project->url_id,
-                ];
-            } else {
-                // is comment to critique
-                $data = [
-                    'targetText' => 'commented on your critique',
-                    'actorName' => $this->author->fullName,
-                    'actorUrlId' => $this->author->url_id,
-                    'ownerEmail' => $this->target->user->email,
-                    'ownerName' => $this->target->user->fullName,
-                    'subject' => $this->author->fullName . 'commented on your critique.',
-                    'critique' => $this->target->url_id,
-                    'video' => $this->target->project->url_id,
-                ];
-            }
-            Mail::queue('emails.notifications.comment', $data, function ($mail) use ($data) {
-                $mail->to($data['ownerEmail'], $data['ownerName'])
-                    ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
-                    ->subject($data['subject']);
-            });
+        if ( setting()->get('email_comment', true, "'".$this->target->user_id."'") ) {
+            dispatch(new SendCommentNotificationEmail($this));
         }
 
         $targetFeeds = [];
