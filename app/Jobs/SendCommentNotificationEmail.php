@@ -32,7 +32,9 @@ class SendCommentNotificationEmail extends Job implements ShouldQueue
      */
     public function handle()
     {
-        if ( !is_null($this->comment->target->comment_id) ) {
+        $this->comment->load('target', 'author');
+        if ( setting()->get('email_comment', true, "'".$this->comment->target->user_id."'") ) {
+            if ( !is_null($this->comment->target->comment_id) ) {
             // is reply to comment
             $data = [
                 'targetText' => 'replied to your comment',
@@ -44,23 +46,24 @@ class SendCommentNotificationEmail extends Job implements ShouldQueue
                 'critique' => $this->comment->target->critique->url_id,
                 'video' => $this->comment->target->critique->project->url_id,
             ];
-        } else {
-            // is comment to critique
-            $data = [
-                'targetText' => 'commented on your critique',
-                'actorName' => $this->comment->author->fullName,
-                'actorUrlId' => $this->comment->author->url_id,
-                'ownerEmail' => $this->comment->target->user->email,
-                'ownerName' => $this->comment->target->user->fullName,
-                'subject' => $this->comment->author->fullName . 'commented on your critique.',
-                'critique' => $this->comment->target->url_id,
-                'video' => $this->comment->target->project->url_id,
-            ];
+            } else {
+                // is comment to critique
+                $data = [
+                    'targetText' => 'commented on your critique',
+                    'actorName' => $this->comment->author->fullName,
+                    'actorUrlId' => $this->comment->author->url_id,
+                    'ownerEmail' => $this->comment->target->user->email,
+                    'ownerName' => $this->comment->target->user->fullName,
+                    'subject' => $this->comment->author->fullName . 'commented on your critique.',
+                    'critique' => $this->comment->target->url_id,
+                    'video' => $this->comment->target->project->url_id,
+                ];
+            }
+            Mail::queue('emails.notifications.comment', $data, function ($mail) use ($data) {
+                $mail->to($data['ownerEmail'], $data['ownerName'])
+                    ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                    ->subject($data['subject']);
+            });
         }
-        Mail::queue('emails.notifications.comment', $data, function ($mail) use ($data) {
-            $mail->to($data['ownerEmail'], $data['ownerName'])
-                ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
-                ->subject($data['subject']);
-        });
     }
 }

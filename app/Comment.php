@@ -82,9 +82,7 @@ class Comment extends Model
 
     public function activityNotify()
     {
-        if ( setting()->get('email_comment', true, "'".$this->target->user_id."'") ) {
-            dispatch(new SendCommentNotificationEmail($this));
-        }
+        dispatch(new SendCommentNotificationEmail($this));
 
         $targetFeeds = [];
         $targetId = !is_null($this->target->user_id) ? $this->target->user_id : $this->target->owner_id;
