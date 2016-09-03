@@ -57,7 +57,7 @@ class Win extends Model
 
     public function activityNotify()
     {
-        if ( setting('email_win', true, "'".$this->target->owner->id."'") ) {
+        if ( setting()->get('email_win', true, "'".$this->target->owner->id."'") ) {
             $data = [
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,

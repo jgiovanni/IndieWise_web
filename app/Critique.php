@@ -84,7 +84,7 @@ class Critique extends Model
 
     public function activityNotify()
     {
-        if ( setting('email_critique', true, "'".$this->target->owner->id."'") ) {
+        if ( setting()->get('email_critique', true, "'".$this->target->owner->id."'") ) {
             $data = [
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,

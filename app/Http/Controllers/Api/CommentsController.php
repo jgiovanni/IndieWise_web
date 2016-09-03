@@ -39,7 +39,7 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = Comment::create($request->all());
+        $comment = $this->comment->create($request->all());
         return $this->response->item($comment, new CommentTransformer);
     }
 
