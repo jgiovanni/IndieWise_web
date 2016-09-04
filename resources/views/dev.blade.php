@@ -85,7 +85,7 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 
-<body id="body" layout="row" ng-controller="BodyCtrl as Body" ng-cloak>
+<body id="body" ng-controller="BodyCtrl as Body" ng-cloak>
     @include('shared.offCanvasLeft')
 
     <md-content flex layout="column">

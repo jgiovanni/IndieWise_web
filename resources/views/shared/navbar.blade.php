@@ -34,7 +34,8 @@
                             </md-autocomplete>--}}
                             <span flex></span>
                             <md-button class="md-icon-button" aria-label="Profile" ui-sref="profile.about">
-                                <md-icon>account_circle</md-icon>
+                                <md-icon ng-if="!isAuthenticated() || (isAuthenticated() && !AppData.User.avatar)">account_circle</md-icon>
+                                <img ng-if="isAuthenticated() && AppData.User.avatar" ng-src="@{{AppData.User.avatar}}" class="md-avatar md-contact-avatar" alt="@{{AppData.User.fullName}}" />
                             </md-button>
                             <md-button class="md-icon-button" aria-label="Notifications" ng-click="Body.toggleSideNav('right')" ng-if="isAuthenticated()">
                                 <md-icon>notifications</md-icon>
@@ -44,16 +45,16 @@
                                 <md-icon ng-show="showMobileSearch">close</md-icon>
                             </md-button>
                         </div>
-                        <form flex="100" ng-show="showMobileSearch" ng-submit="Body.startSearch(AppData.searchText)">
+                        <form flex="100" ng-show="showMobileSearch" ng-submit="Body.startSearch(AppData.searchText)" id="NavSearch" name="NavSearch">
                             {{--<md-input-container class="md-block">
                                 <input ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything" md-autofocus="showMobileSearch">
                             </md-input-container>--}}
                             <div class="input-group" style="margin: 10px 0 0">
                                 <input class="input-group-field" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything">
 
-                                {{--<div class="input-group-button">
+                                <div class="input-group-button hide">
                                     <button type="submit" name="search"><i class="fa fa-search"></i></button>
-                                </div>--}}
+                                </div>
                             </div>
                         </form>
                     </div>
