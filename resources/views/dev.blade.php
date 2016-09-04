@@ -71,7 +71,7 @@
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/public/assets/app.css"/>
+    <link rel="stylesheet" href="/public/assets/app.css?v=942016"/>
 
     <script>
         /* Replace 'APP_ID' with your app ID */

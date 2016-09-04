@@ -70,7 +70,7 @@
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/assets/app.css"/>
+    <link rel="stylesheet" href="/assets/app.css?v=942016"/>
 
     <script>
         /* Replace 'APP_ID' with your app ID */
@@ -155,7 +155,7 @@
             <ui-view class="" ng-cloak></ui-view>
         </div>
 
-{{--        @include('shared.footer')--}}
+        @include('shared.footer')
 </md-content>
 
 @include('shared.offCanvasRight')

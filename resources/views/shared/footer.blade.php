@@ -1,6 +1,6 @@
 <!-- footer -->
-<footer ng-cloak>
-    <div class="row">
+<footer style="padding: 0;" ng-cloak>
+    <div class="row" style="margin: 80px auto;">
         <div class="large-6 columns">
             <div class="large-6 medium-6 columns">
                 <div class="widgetBox">
@@ -117,12 +117,14 @@
     </div>
     <a href="#" id="back-to-top" title="Back to top"><i class="fa fa-angle-double-up"></i></a>
 </footer>
-<div id="footer-bottom" ng-cloak>
-    <div class="logo text-center">
-        <img src="/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
-    </div>
-    <div class="btm-footer-text text-center">
-        <p>2015 - {{ date('Y') }} &copy; IndieWise</p>
+<div id="footer-bottom" style="padding: 0;" ng-cloak>
+    <div style="margin: 25px auto;">
+        <div class="logo text-center">
+            <img src="/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
+        </div>
+        <div class="btm-footer-text text-center">
+            <p>2015 - {{ date('Y') }} &copy; IndieWise</p>
+        </div>
     </div>
 </div>
 
