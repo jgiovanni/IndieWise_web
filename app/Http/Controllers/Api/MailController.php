@@ -25,7 +25,7 @@ class MailController extends Controller
         $name = $request->name;
         $subject = $request->subject;
         $bodyMessage = $request->message;
-        Mail::send('emails.contact', compact('bodyMessage', 'subject', 'name', 'from'), function ($mail) use ($request) {
+        Mail::queue('emails.blank', compact('bodyMessage', 'subject', 'name', 'from'), function ($mail) use ($request) {
             $mail->to($request->to)
                 ->replyTo($request->email, $request->name)
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')

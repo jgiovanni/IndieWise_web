@@ -258,8 +258,8 @@
         }
     }
 
-    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$filter'];
-    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $filter) {
+    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$mdSidenav'];
+    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $mdSidenav) {
         var self = this;
 
         self.selected = null;
@@ -516,6 +516,25 @@
             });
         };
 
+        self.toggleSideNav = toggleSideNav;
+        self.closeSideNav = closeSideNav;
+
+        function toggleSideNav(navID) {
+            $mdSidenav(navID)
+                .toggle()
+                .then(function () {
+
+                });
+        }
+
+        function closeSideNav(navID) {
+            $mdSidenav(navID)
+                .close()
+                .then(function () {
+
+                });
+        }
+
         self.toPage = function (state, args) {
             $state.go(state, args);
         };
@@ -537,22 +556,16 @@
                     a.seen = true;
                 }
             });
-            $interval(function () {
-                DataService.update('Action', unseenList[i++].id, {seen: true});
-            }, 1000, unseenList.length).then(function (it) {
-                // console.log(it);
-            });
 
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-             var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
-             feed.get({limit: 5, mark_seen: true}, function (a) {
-             // console.log(a);
-             _.each($rootScope.AppData.RawNotifications.list, function (n) {
-             n.is_seen = true;
-             });
-             $rootScope.AppData.RawNotifications.unseen = 0;
-             })
-             });*/
+            $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                feed.get({limit: 20, mark_seen: true}, function (a) {
+                    _.each($rootScope.AppData.Notifications.list, function (n) {
+                        n.is_seen = true;
+                    });
+                    $rootScope.AppData.Notifications.unseen = 0;
+                })
+            });
         };
 
         self.markAllAsRead = function () {
@@ -689,6 +702,7 @@
             type: $rootScope.$stateParams.types || undefined,
             search: $rootScope.$stateParams.q || undefined
         };
+        $rootScope.AppData.searchText = $rootScope.$stateParams.q;
 
         $rootScope.generateTypes().then(function (types) {
             var d = $q.defer();
@@ -728,13 +742,14 @@
                     break;
             }
 
+            $rootScope.AppData.searchText = $rootScope.$stateParams.q = self.filters.search || undefined;
             DataService.collection('projects', {
                 sort: filterField,
                 order: 'DESC',
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
                 search: self.filters.search || undefined,
-                per_page: 50,
+                per_page: 50
             }).then(function (res) {
                 return self.films = res.data.data;
             });
@@ -758,9 +773,9 @@
             self.search();
         };
 
-        $scope.$watch('', function (newValue, oldValue) {
-
-        });
+        /*$scope.$watch('filters.search', function (newValue, oldValue) {
+            debugger;
+        });*/
 
         self.refresh();
     }

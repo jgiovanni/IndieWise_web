@@ -252,6 +252,10 @@ jQuery(document).ready(function (jQuery) {
         }])
 
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
+            $mdThemingProvider.theme('default')
+                .primaryPalette('grey')
+                .accentPalette('indigo');
+
             // Emoticons
             $mdIconProvider
                 .icon('emotion', BASE + 'assets/svg/emotion.svg', 120)
@@ -290,7 +294,11 @@ jQuery(document).ready(function (jQuery) {
                 .icon('sympathetic', BASE + 'assets/svg/emoticons/sympathetic.svg', 120)
                 .icon('wink', BASE + 'assets/svg/emoticons/wink.svg', 120)
                 .icon('woah', BASE + 'assets/svg/emoticons/woah.svg', 120)
+
+                // Other
                 .icon('matureSmall', BASE + 'assets/svg/OFLC_small_M.svg', 120)
+                .icon('matureSmall', BASE + 'assets/svg/OFLC_small_M.svg', 120)
+                .icon('trophy', BASE + 'assets/svg/trophy.svg', 120)
                 .icon('matureLarge', BASE + 'assets/svg/OFLC_large_M.svg', 120);
         }])
         .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'BASE', function ($stateProvider, $urlRouterProvider, $locationProvider, BASE) {
@@ -486,27 +494,21 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: 'auth/profile-upload.html',
                     controller: 'ProfileUploadController as UC',
                     resolve: {
-                        Verified: ['$rootScope', '$q', function ($rootScope, $q) {
+                        Access: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
                             var deferred = $q.defer();
                             if ($rootScope.isNotVerified()) {
                                 $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
                                 deferred.reject(false);
                             } else {
-                                deferred.resolve(true);
+                                DataService.collection('projects/limit').then(function (response) {
+                                    if (response.data.status) {
+                                        deferred.resolve(true);
+                                    } else {
+                                        $rootScope.toastMessage('Your upload limit of 3 has been reached');
+                                        deferred.reject(false);
+                                    }
+                                });
                             }
-                            return deferred.promise;
-                        }],
-                        Max: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('projects/limit').then(function (response) {
-                                if (response.data.status) {
-
-                                    deferred.resolve(true);
-                                } else {
-                                    $rootScope.toastMessage('The upload limit of 3 has been reached');
-                                    deferred.reject(false);
-                                }
-                            });
                             return deferred.promise;
                         }]
                     }
