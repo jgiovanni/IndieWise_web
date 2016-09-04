@@ -763,9 +763,9 @@ jQuery(document).ready(function (jQuery) {
         }])
         .config(['$transitionsProvider', function($transitionsProvider) {
             $transitionsProvider.onError({}, function(transition) {
-                debugger;
+                // debugger;
                 transition.promise.catch(function(error) {
-                    debugger;
+                    // debugger;
                     console.error(error);
                 });
             });
@@ -988,12 +988,12 @@ jQuery(document).ready(function (jQuery) {
                 });
 
                 $transitions.onError({}, function ($transition$) {
-                    debugger;
+                    // debugger;
                     console.log($state);
                 });
 
                 $state.defaultErrorHandler(function(err) {
-                    debugger;
+                    // debugger;
                     // handle err
                 });
             }
