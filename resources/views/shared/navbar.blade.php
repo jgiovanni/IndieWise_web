@@ -10,7 +10,7 @@
                             <md-button class="md-icon-button" aria-label="Menu" ng-click="Body.toggleSideNav('left')">
                                 <md-icon>menu</md-icon>
                             </md-button>
-                            <h2>
+                            <h2 ui-sref="home">
                                 <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                             </h2>
                             {{--<md-autocomplete flex="80"
