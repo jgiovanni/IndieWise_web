@@ -84,7 +84,7 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 
-<body id="body" layout="row" ng-controller="BodyCtrl as Body">
+<body id="body" layout="row" ng-controller="BodyCtrl as Body" ng-cloak>
 
     <md-sidenav md-component-id="left" class="md-sidenav-left" md-whiteframe="4">
         <md-toolbar class="md-accent">

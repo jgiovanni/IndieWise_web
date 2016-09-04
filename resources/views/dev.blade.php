@@ -86,7 +86,7 @@
 </head>
 
 <body id="body" layout="row" ng-controller="BodyCtrl as Body" ng-cloak>
-    <md-sidenav md-component-id="left" class="md-sidenav-left" md-whiteframe="4">
+    <md-sidenav md-component-id="left" class="md-sidenav-left" ng-cloak md-whiteframe="4">
         <md-toolbar class="md-accent">
             <div class="md-toolbar-tools">
                 <h1 class="md-toolbar-tools text-white">Menu</h1>
@@ -228,7 +228,7 @@
 
         @include('shared.footer')
     </md-content>
-    <md-sidenav md-component-id="right" class="md-sidenav-right">
+    <md-sidenav md-component-id="right" ng-cloak class="md-sidenav-right">
         <md-toolbar class="md-accent">
             <div class="md-toolbar-tools">
                 <h1 class="md-toolbar-tools text-white">Notifications</h1>
