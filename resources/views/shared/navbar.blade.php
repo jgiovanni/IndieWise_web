@@ -11,7 +11,7 @@
                                 <md-icon>menu</md-icon>
                             </md-button>
                             <h2>
-                                <img src="/public/assets/img/Logo_alt2_web_87x45.png" alt="logo">
+                                <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                             </h2>
                             {{--<md-autocomplete flex="80"
                                     ng-disabled="isDisabled"
@@ -44,7 +44,7 @@
                                 <md-icon ng-show="showMobileSearch">close</md-icon>
                             </md-button>
                         </div>
-                        <form flex="100" ng-show="showMobileSearch"ng-submit="Body.startSearch(AppData.searchText)">
+                        <form flex="100" ng-show="showMobileSearch" ng-submit="Body.startSearch(AppData.searchText)">
                             {{--<md-input-container class="md-block">
                                 <input ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything" md-autofocus="showMobileSearch">
                             </md-input-container>--}}
