@@ -36,7 +36,7 @@
                             <md-button class="md-icon-button" aria-label="Profile" ui-sref="profile.about">
                                 <md-icon>account_circle</md-icon>
                             </md-button>
-                            <md-button class="md-icon-button" aria-label="Notifications" ng-click="Body.toggleSideNav('right')">
+                            <md-button class="md-icon-button" aria-label="Notifications" ng-click="Body.toggleSideNav('right')" ng-if="isAuthenticated()">
                                 <md-icon>notifications</md-icon>
                             </md-button>
                             <md-button class="md-icon-button" aria-label="Search" ng-click="showMobileSearch=!showMobileSearch">
