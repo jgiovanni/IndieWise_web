@@ -42,7 +42,6 @@
     <script>window.BASE = '/public/';</script>
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="/public/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
@@ -86,52 +85,81 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 
-<body id="body" layout="column" ng-controller="BodyCtrl as Body" ng-cloak>
-<section layout="row" flex>
-    <md-sidenav md-component-id="left" class="md-sidenav-left">
-        <ul class="vertical menu" >
-            <li><a ui-sref="home" ui-sref-active="active"><i class="fa fa-home"></i>Home</a></li>
-            <li><a ui-sref="browse" ui-sref-active="active"><i class="fa fa-th"></i>Browse</a></li>
-            <li><a ui-sref="latest" ui-sref-active="active"><i class="fa fa-bolt"></i>Latest</a></li>
-            <li ng-if="isAuthenticated()"><a ui-sref="profile.about" ui-sref-active="active"><i class="fa fa-user"></i>Profile</a></li>
-            <li ng-if="isAuthenticated()">
-                <a ui-sref="messages" ui-sref-active="active">
-                    <i class="fa fa-envelope"></i>Messages
-                    <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
-                </a>
-            </li>
-            <li><a ui-sref="profile.upload" ui-sref-active="active"><i class="fa fa-upload"></i>Upload</a></li>
-        </ul>
-        <div class="responsive-search">
-            <form ng-submit="Body.startSearch(AppData.searchText)">
-                <div class="input-group">
-                    <input class="input-group-field" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything">
+<body id="body" layout="row" ng-controller="BodyCtrl as Body" ng-cloak>
+    <md-sidenav md-component-id="left" class="md-sidenav-left" md-whiteframe="4">
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <h1 class="md-toolbar-tools text-white">Menu</h1>
+                <span flex></span>
+                <md-button class="md-icon-button" aria-label="Close menu" ng-click="Body.closeSideNav('left')">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content>
+            {{--<md-subheader>
+                <md-input-container>
+                    <label for="leftMenuSearch">Search Anything</label>
+                    <input id="leftMenuSearch" type="text" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" placeholder="Search Anything">
+                </md-input-container>
+            </md-subheader>--}}
+            <md-list class="" >
+                <md-list-item ui-sref="home" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+                    <md-icon>home</md-icon>
+                    <p>Home</p>
+                </md-list-item>
+                <md-list-item ui-sref="browse" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+                    <md-icon>view_list</md-icon>
+                    <p>Browse</p>
+                </md-list-item>
+                <md-list-item ui-sref="latest" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+                    <md-icon>new_releases</md-icon>
+                    <p>Latest</p>
+                </md-list-item>
+                <md-list-item ng-if="!isAuthenticated()" ui-sref="sign_in">
+                    <p>Login/Register</p>
+                </md-list-item>
+                <md-list-item ui-sref="profile.about" ui-sref-active="active" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
+                    <md-icon>account_circle</md-icon>
+                    <p>Profile</p>
+                </md-list-item>
+                <md-list-item ui-sref="messages" ui-sref-active="active" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
+                    <md-icon>email</md-icon>
+                    <p>
+                        Messages
+                        <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
+                    </p>
+                </md-list-item>
+                <md-list-item ui-sref="profile.upload" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+                    <md-icon>cloud_upload</md-icon>
+                    <p>Upload</p>
+                </md-list-item>
+                <md-list-item ng-if="isAuthenticated()" ng-click="Body.doSignOut();">
+                    <md-icon>exit_to_app</md-icon>
+                    <p>Logout</p>
+                </md-list-item>
+            </md-list>
+            {{--<div class="responsive-search">
+                <form ng-submit="Body.startSearch(AppData.searchText)">
+                    <div class="input-group">
+                        <input class="input-group-field" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" type="text" placeholder="Search Anything">
 
-                    <div class="input-group-button">
-                        <button type="submit" name="search"><i class="fa fa-search"></i></button>
+                        <div class="input-group-button">
+                            <button type="submit" name="search"><i class="fa fa-search"></i></button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-        <div class="off-social">
-            <h6>Get Social</h6>
-            <a class="secondary-button" href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook"></i></a>
-            <a class="secondary-button" href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
-            <a class="secondary-button" href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
-        </div>
-        <div class="top-button">
-            <ul class="menu" >
-                <li class="dropdown-login" ng-if="!isAuthenticated()">
-                    <a ui-sref="sign_in">login/Register</a>
-                </li>
-                <li class="dropdown-login" ng-if="isAuthenticated()">
-                    <a ng-click="Body.doSignOut();">logout</a>
-                </li>
-            </ul>
-        </div>
+                </form>
+            </div>--}}
+            <div class="off-social" layout-padding>
+                <h6>Get Social</h6>
+                <a class="secondary-button" href="https://facebook.com/getindiewise"><i class="fa fa-facebook"></i></a>
+                <a class="secondary-button" href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
+                <a class="secondary-button" href="https://instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
+            </div>
+        </md-content>
     </md-sidenav>
 
-    <md-content>
+    <md-content flex layout="column">
         <header>
             <!-- Top -->
             <section id="top" class="topBar show-for-large" ng-cloak>
@@ -150,7 +178,7 @@
                                     <a ui-sref="upload">upload Video</a>
                                 </li>-->
                                 <li class="dropdown-login">
-                                    <a ng-if="!isAuthenticated()" ui-sref="sign_in">login/Register</a>
+                                    <a ng-if="!isAuthenticated()" ui-sref="sign_in">Login/Register</a>
                                     <a ng-if="isAuthenticated()" ng-click="Body.doSignOut();">logout</a>
 
                                     <div class="login-form">
@@ -200,38 +228,51 @@
 
         @include('shared.footer')
     </md-content>
-</section>
-    {{--<md-sidenav md-component-id="right" class="md-sidenav-right">
-        <ul class="vertical menu notification-list" >
-            <li ng-repeat="notice in AppData.Notifications.list" ng-click="Body.markAsRead(notice)" ng-class="{'unread': !notice.is_read}">
-                <a ng-if="::notice.verb === 'win'" ui-sref="video({url_id: notice.project.url_id})">
-                    <i class="notificon fa fa-trophy"></i>&nbsp;Your video <b>@{{::notice.project.name}}</b> won an award!.
-                </a>
-                <a ng-if="::notice.verb === 'nominate'" ui-sref="video({url_id: notice.project.url_id})">
-                    <i class="notificon fa fa-trophy"></i>&nbsp;@{{::notice.actors[0].fullName}} nominated <b>@{{::notice.project.name}}</b> for <b>@{{::notice.activities[0].object.award.name}}</b>.
-                </a>
-                <a ng-if="::notice.verb === 'critique'" ui-sref="video({url_id: notice.project.url_id})">
-                    <i class="notificon fa fa-star"></i>&nbsp;@{{::notice.actors[0].fullName}} gave <b>@{{::notice.project.name}}</b> a <b>@{{::notice.activities[0].object.overall}}</b>.
-                </a>
-                <a ng-if="::notice.verb === 'react'" ui-sref="video({url_id: notice.project.url_id})">
-                    <i class="notificon fa fa-smile-o"></i>&nbsp;Your video made <b>@{{::notice.activities[0].actor.fullName}}</b> feel <b>@{{::notice.activities[0].object.emotion}}</b>.
-                </a>
-                <a ng-if="::notice.verb === 'rate'" ui-sref="video({url_id: notice.project.url_id})">
-                    <i class="notificon fa fa-thumbs-o-up"></i>&nbsp;@{{::notice.actors[0].fullName}} gave <b>@{{::notice.project.name}}</b> a <b>@{{::notice.activities[0].object.overall}}</b>.
-                </a>
-                <a ng-if="::notice.verb === 'comment'" ui-sref="video_critique({video_url_id: notice.project.url_id, url_id:notice.object})">
-                    <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actors[0].fullName}}</b> posted a comment on your critique.
-                </a>
-                --}}{{--<a ng-if="::notice.verb === 'message'" ui-sref="messages">
-                    <i class="notificon fa fa-envelope"></i>&nbsp;
-                    <ng-pluralize count="notice.activity_count" when="{'one': 'You have 1 new message.', 'other': 'You have {} new messages.'}"></ng-pluralize>
-                </a>--}}{{--
-                <a ng-if="::notice.verb === 'reply'" ui-sref="video_critique({video_url_id: notice.projectUrlId, url_id:notice.critiqueUrlId})">
-                    <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> replied to your comment.
-                </a>
-            </li>
-        </ul>
-    </md-sidenav>--}}
+    <md-sidenav md-component-id="right" class="md-sidenav-right">
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <h1 class="md-toolbar-tools text-white">Notifications</h1>
+                <span flex></span>
+                <md-button class="md-icon-button" aria-label="Close menu" ng-click="Body.closeSideNav('right')">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content>
+            <md-list class=" notification-list" >
+                <md-list-item ng-repeat-start="notice in AppData.Notifications.list" ng-click="Body.markAsRead(notice);Body.closeSideNav('right')" ng-class="{'unread': !notice.is_read}">
+                    <a ng-if="::notice.verb === 'win'" ui-sref="video({url_id: notice.project.url_id})">
+                        <i class="notificon fa fa-trophy"></i>&nbsp;Your video <b>@{{::notice.project.name}}</b> won an award!.
+                    </a>
+                    <a ng-if="::notice.verb === 'nominate'" ui-sref="video({url_id: notice.project.url_id})">
+                        <i class="notificon fa fa-trophy"></i>&nbsp;@{{::notice.actors[0].fullName}} nominated <b>@{{::notice.project.name}}</b> for <b>@{{::notice.activities[0].object.award.name}}</b>.
+                    </a>
+                    <a ng-if="::notice.verb === 'critique'" ui-sref="video({url_id: notice.project.url_id})">
+                        <i class="notificon fa fa-star"></i>&nbsp;@{{::notice.actors[0].fullName}} gave <b>@{{::notice.project.name}}</b> a <b>@{{::notice.activities[0].object.overall}}</b>.
+                    </a>
+                    <a ng-if="::notice.verb === 'react'" ui-sref="video({url_id: notice.project.url_id})">
+                        <i class="notificon fa fa-smile-o"></i>&nbsp;Your video made <b>@{{::notice.activities[0].actor.fullName}}</b> feel <b>@{{::notice.activities[0].object.emotion}}</b>.
+                    </a>
+                    <a ng-if="::notice.verb === 'rate'" ui-sref="video({url_id: notice.project.url_id})">
+                        <i class="notificon fa fa-thumbs-o-up"></i>&nbsp;@{{::notice.actors[0].fullName}} gave <b>@{{::notice.project.name}}</b> a <b>@{{::notice.activities[0].object.overall}}</b>.
+                    </a>
+                    <a ng-if="::notice.verb === 'comment'" ui-sref="video_critique({video_url_id: notice.project.url_id, url_id:notice.object})">
+                        <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actors[0].fullName}}</b> posted a comment on your critique.
+                    </a>
+                    <a ng-if="::notice.verb === 'message'" ui-sref="messages">
+                        <i class="notificon fa fa-envelope"></i>&nbsp;
+                        <ng-pluralize count="notice.activity_count" when="{'one': 'You have 1 new message.', 'other': 'You have {} new messages.'}"></ng-pluralize>
+                    </a>
+                    <a ng-if="::notice.verb === 'reply'" ui-sref="video_critique({video_url_id: notice.projectUrlId, url_id:notice.critiqueUrlId})">
+                        <i class="notificon fa fa-comment"></i>&nbsp;<b>@{{::notice.actorFullName}}</b> replied to your comment.
+                    </a>
+                </md-list-item>
+                <md-list-item ng-repeat-end ng-click="Body.markAsRead(notice);Body.closeSideNav('right')" ng-class="{'unread': !notice.is_read}" >
+
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
 
 {{--<div class="off-canvas-wrapper">
     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>

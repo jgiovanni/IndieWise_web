@@ -106627,6 +106627,7 @@ require('ng-file-upload');
 // require('angular-intercom/');
 // require('ng-webworker');
 require('satellizer');
+// require('angular-websocket');
 
 },{"angucomplete-alt":1,"angular":30,"angular-animate":3,"angular-aria":5,"angular-cloudinary":6,"angular-foundation":9,"angular-google-analytics":10,"angular-loading-bar":12,"angular-localforage":13,"angular-material":16,"angular-messages":18,"angular-moment":19,"angular-resource":21,"angular-socialshare":23,"angular-translate":25,"angular-translate-loader-partial":24,"angular-ui-router":26,"angular-ui-scroll":28,"angular-ui-scroll/dist/ui-scroll-jqlite.min.js":27,"ng-file-upload":37,"satellizer":38}]},{},[39]);
 

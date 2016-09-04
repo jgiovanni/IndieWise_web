@@ -529,7 +529,7 @@ button.double-thumbs i:last-of-type {
 }
 
 /* Emoticon SVG Styles */
-.emoticon, .material-icons {
+.emoticon {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;

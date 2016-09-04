@@ -252,6 +252,9 @@ jQuery(document).ready(function (jQuery) {
         }])
 
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
+                $mdThemingProvider.theme('default')
+                    .primaryPalette('grey')
+                    .accentPalette('indigo');
             // Emoticons
             $mdIconProvider
                 .icon('emotion', BASE + 'assets/svg/emotion.svg', 120)
@@ -486,27 +489,21 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: 'auth/profile-upload.html',
                     controller: 'ProfileUploadController as UC',
                     resolve: {
-                        Verified: ['$rootScope', '$q', function ($rootScope, $q) {
+                        Access: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
                             var deferred = $q.defer();
                             if ($rootScope.isNotVerified()) {
                                 $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
                                 deferred.reject(false);
                             } else {
-                                deferred.resolve(true);
+                                DataService.collection('projects/limit').then(function (response) {
+                                    if (response.data.status) {
+                                        deferred.resolve(true);
+                                    } else {
+                                        $rootScope.toastMessage('Your upload limit of 3 has been reached');
+                                        deferred.reject(false);
+                                    }
+                                });
                             }
-                            return deferred.promise;
-                        }],
-                        Max: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
-                            var deferred = $q.defer();
-                            DataService.collection('projects/limit').then(function (response) {
-                                if (response.data.status) {
-
-                                    deferred.resolve(true);
-                                } else {
-                                    $rootScope.toastMessage('The upload limit of 3 has been reached');
-                                    deferred.reject(false);
-                                }
-                            });
                             return deferred.promise;
                         }]
                     }
@@ -1275,8 +1272,8 @@ jQuery(document).ready(function (jQuery) {
         }
     }
 
-    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$filter'];
-    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $filter) {
+    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$mdSidenav'];
+    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $mdSidenav) {
         var self = this;
 
         self.selected = null;
@@ -1533,6 +1530,25 @@ jQuery(document).ready(function (jQuery) {
             });
         };
 
+        self.toggleSideNav = toggleSideNav;
+        self.closeSideNav = closeSideNav;
+
+        function toggleSideNav(navID) {
+            $mdSidenav(navID)
+                .toggle()
+                .then(function () {
+
+                });
+        }
+
+        function closeSideNav(navID) {
+            $mdSidenav(navID)
+                .close()
+                .then(function () {
+
+                });
+        }
+
         self.toPage = function (state, args) {
             $state.go(state, args);
         };
@@ -1706,6 +1722,7 @@ jQuery(document).ready(function (jQuery) {
             type: $rootScope.$stateParams.types || undefined,
             search: $rootScope.$stateParams.q || undefined
         };
+        $rootScope.AppData.searchText = $rootScope.$stateParams.q;
 
         $rootScope.generateTypes().then(function (types) {
             var d = $q.defer();
@@ -1745,13 +1762,14 @@ jQuery(document).ready(function (jQuery) {
                     break;
             }
 
+            $rootScope.AppData.searchText = $rootScope.$stateParams.q = self.filters.search || undefined;
             DataService.collection('projects', {
                 sort: filterField,
                 order: 'DESC',
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
                 search: self.filters.search || undefined,
-                per_page: 50,
+                per_page: 50
             }).then(function (res) {
                 return self.films = res.data.data;
             });
@@ -1775,9 +1793,9 @@ jQuery(document).ready(function (jQuery) {
             self.search();
         };
 
-        $scope.$watch('', function (newValue, oldValue) {
-
-        });
+        /*$scope.$watch('filters.search', function (newValue, oldValue) {
+            debugger;
+        });*/
 
         self.refresh();
     }

@@ -258,8 +258,8 @@
         }
     }
 
-    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$filter'];
-    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $filter) {
+    BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$mdSidenav'];
+    function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $mdSidenav) {
         var self = this;
 
         self.selected = null;
@@ -516,6 +516,25 @@
             });
         };
 
+        self.toggleSideNav = toggleSideNav;
+        self.closeSideNav = closeSideNav;
+
+        function toggleSideNav(navID) {
+            $mdSidenav(navID)
+                .toggle()
+                .then(function () {
+
+                });
+        }
+
+        function closeSideNav(navID) {
+            $mdSidenav(navID)
+                .close()
+                .then(function () {
+
+                });
+        }
+
         self.toPage = function (state, args) {
             $state.go(state, args);
         };
@@ -689,6 +708,7 @@
             type: $rootScope.$stateParams.types || undefined,
             search: $rootScope.$stateParams.q || undefined
         };
+        $rootScope.AppData.searchText = $rootScope.$stateParams.q;
 
         $rootScope.generateTypes().then(function (types) {
             var d = $q.defer();
@@ -728,13 +748,14 @@
                     break;
             }
 
+            $rootScope.AppData.searchText = $rootScope.$stateParams.q = self.filters.search || undefined;
             DataService.collection('projects', {
                 sort: filterField,
                 order: 'DESC',
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
                 search: self.filters.search || undefined,
-                per_page: 50,
+                per_page: 50
             }).then(function (res) {
                 return self.films = res.data.data;
             });
@@ -758,9 +779,9 @@
             self.search();
         };
 
-        $scope.$watch('', function (newValue, oldValue) {
-
-        });
+        /*$scope.$watch('filters.search', function (newValue, oldValue) {
+            debugger;
+        });*/
 
         self.refresh();
     }
