@@ -252,9 +252,10 @@ jQuery(document).ready(function (jQuery) {
         }])
 
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
-                $mdThemingProvider.theme('default')
-                    .primaryPalette('grey')
-                    .accentPalette('indigo');
+            $mdThemingProvider.theme('default')
+                .primaryPalette('grey')
+                .accentPalette('indigo');
+
             // Emoticons
             $mdIconProvider
                 .icon('emotion', BASE + 'assets/svg/emotion.svg', 120)
@@ -293,7 +294,11 @@ jQuery(document).ready(function (jQuery) {
                 .icon('sympathetic', BASE + 'assets/svg/emoticons/sympathetic.svg', 120)
                 .icon('wink', BASE + 'assets/svg/emoticons/wink.svg', 120)
                 .icon('woah', BASE + 'assets/svg/emoticons/woah.svg', 120)
+
+                // Other
                 .icon('matureSmall', BASE + 'assets/svg/OFLC_small_M.svg', 120)
+                .icon('matureSmall', BASE + 'assets/svg/OFLC_small_M.svg', 120)
+                .icon('trophy', BASE + 'assets/svg/trophy.svg', 120)
                 .icon('matureLarge', BASE + 'assets/svg/OFLC_large_M.svg', 120);
         }])
         .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'BASE', function ($stateProvider, $urlRouterProvider, $locationProvider, BASE) {

@@ -556,22 +556,16 @@
                     a.seen = true;
                 }
             });
-            $interval(function () {
-                DataService.update('Action', unseenList[i++].id, {seen: true});
-            }, 1000, unseenList.length).then(function (it) {
-                // console.log(it);
-            });
 
-            /*$rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-             var feed = window.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
-             feed.get({limit: 5, mark_seen: true}, function (a) {
-             // console.log(a);
-             _.each($rootScope.AppData.RawNotifications.list, function (n) {
-             n.is_seen = true;
-             });
-             $rootScope.AppData.RawNotifications.unseen = 0;
-             })
-             });*/
+            $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                feed.get({limit: 20, mark_seen: true}, function (a) {
+                    _.each($rootScope.AppData.Notifications.list, function (n) {
+                        n.is_seen = true;
+                    });
+                    $rootScope.AppData.Notifications.unseen = 0;
+                })
+            });
         };
 
         self.markAllAsRead = function () {

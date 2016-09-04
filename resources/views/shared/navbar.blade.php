@@ -4,7 +4,7 @@
              data-btm-anchor="footer-bottom:bottom" data-margin-top="0" data-margin-bottom="0" data-top-anchor="1"
              style="width: 100%; background: #fff;" data-sticky-on="small">
             <div class="row">
-                <md-toolbar class="md-primary md-hue-3" ng-class="{'md-tall': showMobileSearch}" data-hide-for="large" md-whiteframe="1" ng-init="showMobileSearch = true">
+                <md-toolbar class="md-primary md-hue-3 hide-for-large" ng-class="{'md-tall': showMobileSearch}" md-whiteframe="1" ng-init="showMobileSearch = false">
                     <div class="md-toolbar-tools" layout-wrap layout="row">
                         <div flex="100" layout="row">
                             <md-button class="md-icon-button" aria-label="Menu" ng-click="Body.toggleSideNav('left')">
