@@ -29,11 +29,11 @@ class MailController extends Controller
             'body' => $request->message
         ];
 
-        Mail::queue('emails.blank', $data, function ($mail) use ($request) {
+        Mail::send('emails.blank', $data, function ($mail) use ($request) {
             $mail->to($request->to)
                 ->replyTo($request->email, $request->name)
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')
-                ->bcc('admin@getindiewise.com', 'IndieWise Admin')
+//                ->bcc('admin@getindiewise.com', 'IndieWise Admin')
                 ->subject($request->subject);
         });
     }
