@@ -24,7 +24,6 @@ class MailController extends Controller
 
         $data = [
             'from' => $request->email,
-            'email' => $request->name,
             'name' => $request->name,
             'subject' => $request->subject,
             'body' => $request->message,
