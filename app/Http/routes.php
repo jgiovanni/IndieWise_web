@@ -20,6 +20,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
+Route::group(['domain' => 'console.indiewise.dev'], function () use ($dispatcher) {
+    Route::any('{path?}', function() use ($dispatcher) {
+        //
+        return 'Dashboard';
+    })->where("path", ".+");
+});
+
+Route::group(['domain' => 'console.getindiewise.com'], function () use ($dispatcher) {
+    Route::any('{path?}', function() use ($dispatcher) {
+        //
+        return 'Dashboard';
+    })->where("path", ".+");
+});
+
 Route::get('fire', function () {
     // this fires the event
     event(new IndieWise\Events\EventName());

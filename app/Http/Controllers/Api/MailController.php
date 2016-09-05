@@ -21,11 +21,15 @@ class MailController extends Controller
 
     public function contactUs(ContactRequest $request)
     {
-        $from = $request->email;
-        $name = $request->name;
-        $subject = $request->subject;
-        $bodyMessage = $request->message;
-        Mail::queue('emails.blank', compact('bodyMessage', 'subject', 'name', 'from'), function ($mail) use ($request) {
+
+        $data = [
+            'from' => $request->email,
+            'name' => $request->name,
+            'subject' => $request->subject,
+            'body' => $request->message
+        ];
+
+        Mail::queue('emails.blank', $data, function ($mail) use ($request) {
             $mail->to($request->to)
                 ->replyTo($request->email, $request->name)
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')

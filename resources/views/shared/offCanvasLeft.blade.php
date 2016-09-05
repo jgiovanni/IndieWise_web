@@ -28,7 +28,7 @@
                 <md-icon>new_releases</md-icon>
                 <p>Latest</p>
             </md-list-item>
-            <md-list-item ng-if="!isAuthenticated()" ui-sref="sign_in">
+            <md-list-item ng-if="!isAuthenticated()" ui-sref="sign_in" ng-click="Body.closeSideNav('left')">
                 <p>Login/Register</p>
             </md-list-item>
             <md-list-item ui-sref="profile.about" ui-sref-active="active" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
@@ -46,7 +46,7 @@
                 <md-icon>cloud_upload</md-icon>
                 <p>Upload</p>
             </md-list-item>
-            <md-list-item ng-if="isAuthenticated()" ng-click="Body.doSignOut();">
+            <md-list-item ng-if="isAuthenticated()" ng-click="Body.doSignOut();Body.closeSideNav('left')">
                 <md-icon>exit_to_app</md-icon>
                 <p>Logout</p>
             </md-list-item>
