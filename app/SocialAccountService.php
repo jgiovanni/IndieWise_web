@@ -37,6 +37,7 @@ class SocialAccountService
                     'fullName' => $providerUser->getName(),
                     'firstName' => $name_parts[0],
                     'lastName' => end($name_parts),
+                    'verified' => true
                 ]);
 
                 // Add playlists
