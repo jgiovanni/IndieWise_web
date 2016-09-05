@@ -26,15 +26,16 @@ class MailController extends Controller
             'from' => $request->email,
             'name' => $request->name,
             'subject' => $request->subject,
-            'body' => $request->message
+            'body' => $request->message,
+            'to' => $request->to
         ];
 
-        Mail::send('emails.blank', $data, function ($mail) use ($request) {
-            $mail->to($request->to)
-                ->replyTo($request->email, $request->name)
+        Mail::queue('emails.blank', $data, function ($mail) use ($data) {
+            $mail->to($data['to'])
+                ->replyTo($data['email'], $data['name'])
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')
-//                ->bcc('admin@getindiewise.com', 'IndieWise Admin')
-                ->subject($request->subject);
+                ->bcc('admin@getindiewise.com', 'IndieWise Admin')
+                ->subject($data['subject']);
         });
     }
 
