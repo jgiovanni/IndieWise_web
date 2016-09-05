@@ -24,6 +24,7 @@ class MailController extends Controller
 
         $data = [
             'from' => $request->email,
+            'email' => $request->name,
             'name' => $request->name,
             'subject' => $request->subject,
             'body' => $request->message,
@@ -32,7 +33,7 @@ class MailController extends Controller
 
         Mail::queue('emails.contact', $data, function ($mail) use ($data) {
             $mail->to($data['to'])
-                ->replyTo($data['email'], $data['name'])
+                ->replyTo($data['from'], $data['name'])
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')
                 ->bcc('admin@getindiewise.com', 'IndieWise Admin')
                 ->subject($data['subject']);
