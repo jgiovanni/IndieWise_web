@@ -30,7 +30,7 @@ class MailController extends Controller
             'to' => $request->to
         ];
 
-        Mail::queue('emails.blank', $data, function ($mail) use ($data) {
+        Mail::queue('emails.contact', $data, function ($mail) use ($data) {
             $mail->to($data['to'])
                 ->replyTo($data['email'], $data['name'])
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')
