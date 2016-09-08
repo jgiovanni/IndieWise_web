@@ -12,7 +12,7 @@
     <meta property="og:image" content="https://www.filestackapi.com/api/file/BhrXLYZCQ4YQtCPAB8cf" />
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="robots" content="NONE">
+    <meta name="robots" content="ALL">
     <meta property="fb:app_id" content="150687055270744"/>
 
     <!--Favicon - http://realfavicongenerator.net/ -->
@@ -42,7 +42,7 @@
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
     <link rel="stylesheet" href="/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
     <link rel="stylesheet" href="/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
