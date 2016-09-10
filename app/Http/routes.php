@@ -90,10 +90,10 @@ Route::any('{path?}', function() use ($dispatcher) {
             } catch (Dingo\Api\Exception\InternalHttpException $e) {
                 $response = $e->getResponse();
             } catch (NotFoundHttpException $e) {
-                return redirect('alpha/404');
+                return redirect('404');
                 $response = $e->getResponse();
             } catch (ModelNotFoundException $e) {
-                return redirect('alpha/404');
+                return redirect('404');
                 $response = $e;
             }
             return view("hard-video", compact('project', 'countries'));

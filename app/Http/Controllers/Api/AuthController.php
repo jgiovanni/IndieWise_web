@@ -2,6 +2,7 @@
 
 namespace IndieWise\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Mail;
 use IndieWise\Http\Controllers\Controller;
@@ -96,6 +97,8 @@ class AuthController extends Controller
     public function register(UserRequest $request) {
         try {
             $user = new User($request->except('password_confirmation'));
+            $user->verified = 1;
+            $user->verified_at = Carbon::now()->toDateTimeString();
             $user->save();
 
             // Add playlists
