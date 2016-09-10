@@ -113,7 +113,7 @@ class MessagesController extends Controller
 
         // Recipients
         if ($request->has('recipients')) {
-            $thread->addParticipants($request->get('recipients'));
+            $thread->addParticipant($request->get('recipients'));
         }
 
         return response()->json($thread);
@@ -159,7 +159,7 @@ class MessagesController extends Controller
 
         // Recipients
         if ($request->has('recipients')) {
-            $conversation->addParticipants($request->get('recipients'));
+            $conversation->addParticipant($request->get('recipients'));
         }
 
         return $message;

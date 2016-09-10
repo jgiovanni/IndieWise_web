@@ -23,7 +23,10 @@
                 <div class="large-12 columns">
                     <div class="widgetBox">
                         <div class="widgetTitle">
-                            <h5>Inbox</h5>
+                            <h4>
+                                Inbox
+                                <button ng-click="Msgs.newConversation()" class="button tiny pull-right">Compose</button>
+                            </h4>
                         </div>
                         <div class="widgetContent">
                             <ul class="menu vertical">
@@ -51,10 +54,22 @@
                     <div class="main-heading borderBottom">
                         <div class="row padding-14">
                             <div class="medium-12 small-12 columns">
-                                <div class="head-title">
+                                <div class="head-title" ng-if="!Msgs.newMode">
                                     <i class="fa fa-comments"></i>
                                     <h4>Messages</h4>
                                     <a ui-sref="user.about({url_id: p.user.url_id})" class="label" ng-class="{'success hide': p.user_id === AppData.User.id}" ng-repeat="p in Msgs.selectedConvo.participants" style="margin-right: 2px">{{::p.user.fullName}}</a>
+                                </div>
+                                <div class="head-title" ng-if="Msgs.newMode">
+                                    <md-contact-chips layout="row"
+                                        ng-model="Msgs.selectedConvo.participants"
+                                        md-contacts="Msgs.querySearch($query)"
+                                        md-contact-name="fullName"
+                                        md-contact-image="avatar"
+                                        md-require-match="true"
+                                        md-highlight-flags="i"
+                                        filter-selected="filterSelected"
+                                        placeholder="To">
+                                    </md-contact-chips>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +77,7 @@
 
                     <!-- main comment -->
                     <div ui-scroll-viewport class="viewport main-comment" style="min-height: 300px;max-height: 560px;" ng-style="Msgs.viewportHeight" messages-height>
-                        <div ng-if="Msgs.selectedConvoLoaded">
+                        <div ng-if="Msgs.selectedConvoLoaded && !Msgs.newMode">
                             <div class="media-object stack-for-small" ui-scroll="msg in Msgs.convoMessages" buffer-size="10" adapter="adapter">
                                 <div class="media-object-section comment-img text-center">
                                     <div class="comment-box-img">
@@ -103,7 +118,8 @@
                                 <form ng-submit="Msgs.postReply()">
                                     <textarea name="commentText" ng-model="Msgs.myReply" my-enter="Msgs.doSendOnEnter()" ng-disabled="!Msgs.selectedConvo" placeholder="Send message..."></textarea>
                                     <input type="submit" name="submit" value="send" ng-disabled="!Msgs.selectedConvo">
-                                    <input id="sendOnEnter" type="checkbox" ng-model="Msgs.sendOnEnter" ng-disabled="!Msgs.selectedConvo"><label ng-disabled="!Msgs.selectedConvo" class="customLabel pull-right" for="sendOnEnter">Press Enter to send</label>
+                                    <input id="sendOnEnter" type="checkbox" ng-model="Msgs.sendOnEnter" ng-disabled="!Msgs.selectedConvo || !Msgs.newConvo">
+                                    <label ng-disabled="!Msgs.selectedConvo || !Msgs.newConvo" class="customLabel pull-right" for="sendOnEnter">Press Enter to send</label>
                                 </form>
                             </div>
                         </div>

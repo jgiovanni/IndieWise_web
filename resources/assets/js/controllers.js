@@ -2510,6 +2510,7 @@
         $rootScope.metadata.title = 'Messages';
         var self = this;
         self.selectedConvo = null;
+        self.newConvo = null;
         self.conversations = Conversations.data.conversations;
         self.newMode = false;
         self.newConversation = newConversation;
@@ -2580,12 +2581,16 @@
 
         function doSendOnEnter() {
             if (self.sendOnEnter && self.myReply) {
-                self.postReply();
+                self.newMode ? self.postNewMsg() : self.postReply();
             }
         }
 
         function postReply() {
             if (self.myReply) {
+                if (self.newMode) {
+                    return self.postNewMsg();
+                }
+
                 UserActions.checkAuth().then(function (res) {
                     if (res) {
                         var reply = self.myReply;
@@ -2616,7 +2621,7 @@
 
         function newConversation() {
             self.newMode = true;
-            self.newConvo = {
+            self.selectedConvo = {
                 participants: [],
                 body: ''
             };
@@ -2624,42 +2629,16 @@
             self.postNewMsg = postNewMsg;
 
             function postNewMsg() {
-                var newConvoObj = new Parse.Object('Conversation');
-                // Create Conversation
-                newConvoObj.save().then(function (convo) {
-
-                    // Set Participants
-                    self.newConvo.participants.push($rootScope.AppData.User.id);
-                    var relParticipants = convo.relation('participants');
-                    relParticipants.add(self.newConvo.participants);
-                    newConvoObj.save();
-
-                    // Create Message
-                    var message = new Parse.Object('Message');
-                    message.set('body', self.newConvo.body);
-                    message.set('parent', convo);
-                    message.set('from', $rootScope.AppData.User.id);
-                    message.save().then(function (result) {
-                        // Clear forms
-                        self.myReply = null;
-                        self.newConvo.body = null;
-
-                        // Clear Conversation
-                        self.selectedConvo = convo;
-                        self.currentParticipants = self.newConvo.participants;
-                        self.messages = [result];
-                    }).then(function () {
-                        // Update Conversations List
-                        var convoDup = angular.copy(convo);
-                        convoDup.participants = self.newConvo.participants;
-                        convoDup.latest = self.messages;
-                        self.convos.push(convoDup);
-
-                        // Switch view to conversation
-                        self.newMode = false;
-
+                DataService.save('messages', {
+                    subject: _.pluck(self.selectedConvo.participants, 'fullName').toString() + ', ' + $rootScope.AppData.User.fullName,
+                    message: self.myReply,
+                    recipients: _.pluck(self.selectedConvo.participants, 'id')
+                }).then(function (response) {
+                    self.myReply = null;
+                    $rootScope.toastMessage('Message sent!');
+                    fetchConvos().then(function (conversations) {
+                        selectConvo(_.findWhere(conversations, {id: response.data.id}));
                     });
-
                 });
             }
         }
@@ -2668,14 +2647,14 @@
          * Search for contacts.
          */
         function querySearch(query) {
-            var deferred = $q.defer();
-            deferred.reject(false);
-            return deferred.promise;
+            return DataService.collection('users', { search: query, notUsers: $rootScope.AppData.User.id }).then(function (response) {
+                return response.data.data;
+            });
         }
 
         function fetchConvos() {
-            DataService.collection('messages').then(function (result) {
-                self.conversations = result.data.conversations;
+            return DataService.collection('messages').then(function (result) {
+                return self.conversations = result.data.conversations;
             });
         }
 
