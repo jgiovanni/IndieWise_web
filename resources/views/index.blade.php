@@ -70,7 +70,7 @@
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/assets/app.css?v=942016"/>
+    <link rel="stylesheet" href="/assets/app.css?v=942016131"/>
 
     <script>
         /* Replace 'APP_ID' with your app ID */
@@ -293,8 +293,8 @@
 </script>
 
 <!-- AngularJs Components -->
-<script type="text/javascript" src="/js/angular.js"></script>
-<script src="/js/templates.js"></script>
+<script type="text/javascript" src="/js/angular.js?v=942016131"></script>
+<script src="/js/templates.js?v=942016131"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 {{--<script src="/app/bower_components/lodash/lodash.js"></script>--}}
