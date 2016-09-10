@@ -13,6 +13,7 @@
                 link: function (scope, el, attrs) {
                     DataService.collection('users/count').then(function (res) {
                         scope.users = res.data;
+                        scope.BASE = BASE || '/'
                     }).then(function () {
                         $timeout(function () {
                             jQuery("#layerslider").layerSlider({
