@@ -152,6 +152,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Grimthorr\LaravelUserSettings\ServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
+        Nutsweb\LaravelPrerender\LaravelPrerenderServiceProvider::class,
 
         /*
          * Application Service Providers...
