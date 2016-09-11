@@ -40,19 +40,16 @@
                                     <input type="radio" ng-model="UC.uploadType" value="2" name="videolink2" id="videolink2" checked>
                                     <label class="customLabel" for="videolink2">Video URL From YouTube / Vimeo / DailyMotion / Youku / Vine</label>
                                 </div>
-                            </div>
-                            <div layout="large-12 columns row" ng-if="UC.uploadType == 1">
-                                <div class="large-12 columns">
+                                <div layout="large-12 columns" ng-if="UC.uploadType == 1">
                                     <label>
                                         <input filepicker type="filepicker-dragdrop" on-success="UC.onSuccess(event.fpfile)"
                                                data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
-                                                data-fp-mimetype="video/*"/>
+                                               data-fp-mimetype="video/*"/>
                                     </label>
+                                    <!--<hr>-->
                                 </div>
-                                <hr>
-                            </div>
-                            <div layout="large-12 columns row" ng-if="UC.uploadType == 2">
-                                <div class="large-12 columns">
+                                <div layout="large-12 columns" ng-if="UC.uploadType == 2">
+                                    <!--<div class="large-12 columns">-->
                                     <label>Video URL <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <input type="url" ng-model="UC.newVideo.video_url" ng-required="UC.uploadType == 2"
                                                ng-change="UC.getThumbnailUrl(UC.newVideo.video_url)">
@@ -60,8 +57,10 @@
                                     <hr>
                                     <embed-video ng-if="UC.newVideo.video_url != ''" ng-href="{{UC.newVideo.video_url}}"
                                                  width="100%" height="200"></embed-video>
+                                    <!--</div>-->
                                 </div>
                             </div>
+
                             <div class="large-12 columns row">
                                 <div class="large-12 columns">
                                     <div class="checkbox">
