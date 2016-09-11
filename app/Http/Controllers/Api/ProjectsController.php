@@ -122,5 +122,12 @@ class ProjectsController extends Controller
         return response()->json(['status' => $this->user()->projects->count() < 3]);
     }
 
+    public function count()
+    {
+        //
+        $projects = $this->project->all('id')->count();
+        return response()->json($projects);
+    }
+
 
 }

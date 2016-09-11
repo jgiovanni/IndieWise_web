@@ -185,6 +185,7 @@ $api->version('v1', [
     $api->get('projects/watched', 'ProjectsController@recentlyWatched');
     $api->post('projects/watched', 'ProjectsController@recordWatched');
     $api->get('projects/limit', 'ProjectsController@canUpload');
+    $api->get('projects/count', 'ProjectsController@count');
     $api->get('reactions/latest', 'ReactionsController@latest');
     $api->get('nominations/latest', 'NominationsController@latest');
     $api->get('critiques/latest', 'CritiquesController@latest');

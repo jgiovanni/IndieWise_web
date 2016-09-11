@@ -4,17 +4,23 @@
 (function () {
     'use strict';
     angular.module('IndieWise.directives', [])
-        .directive('layerSlider', ['$rootScope', '$timeout', 'DataService', function ($rootScope, $timeout, DataService) {
+        .directive('layerSlider', ['$rootScope', '$timeout', 'DataService', '$q', function ($rootScope, $timeout, DataService, $q) {
             return {
                 restrict: 'E',
                 transclude: true,
                 templateUrl: 'directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
-                    DataService.collection('users/count').then(function (res) {
+                    scope.BASE = BASE || '/';
+                    var a = DataService.collection('users/count').then(function (res) {
                         scope.users = res.data;
-                        scope.BASE = BASE || '/'
-                    }).then(function () {
+                    });
+
+                    var b = DataService.collection('projects/count').then(function (res) {
+                        scope.projects = res.data;
+                    });
+
+                    $q.all([a, b]).then(function () {
                         $timeout(function () {
                             jQuery("#layerslider").layerSlider({
                                 responsive: false,
@@ -25,7 +31,7 @@
                                 skinsPath: BASE + 'assets/layerslider/skins/'
                             });
                         }, 0);
-                    });
+                    })
                 }
             }
         }])

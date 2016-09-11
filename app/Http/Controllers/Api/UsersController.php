@@ -101,7 +101,7 @@ class UsersController extends Controller
     public function count()
     {
         //
-        $users = User::all()->count();
+        $users = User::all('id')->count();
         return response()->json($users);
     }
 
