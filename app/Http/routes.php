@@ -41,7 +41,8 @@ Route::get('fire', function () {
 
 Route::get('test', function () {
     // this checks for the event
-    return view('home');
+    return request()->ip();
+//    return view('home');
 });
 
 Route::get('testy', function () {
