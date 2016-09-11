@@ -47,9 +47,12 @@ class CritiquesController extends Controller
             $query->where('id', $request->get('project_id'));
         });
 
-        if ( !is_null($test) ) {
+        /*dd($test);
+        return response()->json(['is' => empty($test)]);
+
+        if ( !empty($test) ) {
             return response()->json(['status' => 'failed', 'reason' => 'You cannot critique your own project'], 403);
-        }
+        }*/
 
         $critique = Critique::create($request->except('include'));
         return $this->response->item($critique, new CritiqueTransformer);
