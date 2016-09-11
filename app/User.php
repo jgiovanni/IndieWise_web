@@ -183,8 +183,8 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         parent::boot();
 
         static::created(function($user) {
-            UserVerification::generate($user);
-            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+//            UserVerification::generate($user);
+//            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
 
 //            Event::fire('win.created', $win);
         });
