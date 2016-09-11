@@ -40,6 +40,7 @@ class   UserRequest extends FormRequest
             ];
         }
         return [
+            'password' => 'sometimes|required|confirmed|min:6',
             'genres' => 'array',
             'types' => 'array',
         ];

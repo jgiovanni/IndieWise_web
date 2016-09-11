@@ -74,7 +74,7 @@ class UsersController extends Controller
     {
         $user = $this->user->findOrFail($id);
 
-        $user->update($request->except('genres', 'country', 'types', 'user_id', 'user_hash', 'app_id'));
+        $user->update($request->except('genres', 'country', 'types', 'user_id', 'user_hash', 'app_id', 'password_confirmation'));
         if( $request->has('genres') && count($request->get('genres')) > 0 && !is_array($request->get('genres')[0]) ) {
             $user->syncGenres($request->get('genres'));
         }
