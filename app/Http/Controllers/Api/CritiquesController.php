@@ -42,6 +42,15 @@ class CritiquesController extends Controller
      */
     public function store(Request $request)
     {
+        // Check if user is owner of same project
+        $test = $this->user()->whereHas('projects', function ($query) use ($request) {
+            $query->where('id', $request->get('project_id'));
+        });
+
+        if ( !is_null($test) ) {
+            return response()->json(['status' => 'failed', 'reason' => 'You cannot critique your own project'], 403);
+        }
+
         $critique = Critique::create($request->except('include'));
         return $this->response->item($critique, new CritiqueTransformer);
     }

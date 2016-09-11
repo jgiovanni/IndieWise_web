@@ -959,7 +959,7 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 50})
+            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 100})
                 .then(function (result) {
                     self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);
@@ -967,7 +967,7 @@
         };
 
         self.qNominations = function () {
-            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at', per_page: 50})
+            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at', per_page: 100})
                 .then(function (result) {
                     self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);
@@ -1243,6 +1243,7 @@
                 $scope.critique = critique;
                 $scope.ratingMax = 10;
                 $scope.makePrivateHelp = false;
+                $scope.processing = false;
 
                 DataService.collection('awards').then(function (result) {
                     $scope.awardsList = result.data.Awards;
@@ -1287,6 +1288,11 @@
                 };
 
                 $scope.postCritique = function () {
+                    if ($scope.processing) {
+                        return false;
+                    }
+
+                    $scope.processing = true;
                     $scope.critique.url_id = moment().valueOf();
                     DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
                         var obj = res.data.data;
@@ -1320,7 +1326,7 @@
 
                     }, function (error) {
                         alert('Failed to create new critique, with error code: ' + error.message);
-
+                        $scope.processing = false;
                     }).then(function () {
                         self.qCritiques();
                         self.checkUserActions();
@@ -1335,6 +1341,11 @@
 
                     if ($rootScope.isNotVerified()) {
                         $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                        return false;
+                    }
+
+                    if (self.film.owner_id === $rootScope.AppData.User.id) {
+                        $rootScope.toastMessage('You cannot critique your own content.');
                         return false;
                     }
 
