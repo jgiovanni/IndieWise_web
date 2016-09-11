@@ -967,7 +967,7 @@
         };
 
         self.qNominations = function () {
-            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at'})
+            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at', per_page: 50})
                 .then(function (result) {
                     self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);

@@ -34,7 +34,7 @@ class MailController extends Controller
             $mail->to($data['to'])
                 ->replyTo($data['from'], $data['name'])
                 ->from('noreply@getindiewise.com', 'IndieWise Contact Form')
-                ->bcc('admin@getindiewise.com', 'IndieWise Admin')
+                // ->bcc('admin@getindiewise.com', 'IndieWise Admin')
                 ->subject($data['subject']);
         });
     }
@@ -50,7 +50,7 @@ class MailController extends Controller
             $mail->to('safeguard@getindiewise.com', 'IndieWise Safeguard')
                 ->replyTo($request->email, $request->name)
                 ->from('noreply@getindiewise.com', 'IndieWise Report Form')
-                ->bcc('admin@getindiewise.com', 'IndieWise Admin')
+                // ->bcc('admin@getindiewise.com', 'IndieWise Admin')
                 ->subject($subject);
         });
     }
