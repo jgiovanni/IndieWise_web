@@ -61,7 +61,7 @@ class SendCommentNotificationEmail extends Job implements ShouldQueue
             }
             Mail::queue('emails.notifications.comment', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
-                    ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                    ->from('notifications@mail.getindiewise.com', 'Notifications on IndieWise')
                     ->subject($data['subject']);
             });
         }

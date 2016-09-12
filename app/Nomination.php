@@ -67,7 +67,7 @@ class Nomination extends Model
             ];
             Mail::queue('emails.notifications.nomination', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
-                    ->from('notifications@getindiewise.com', 'Notifications on IndieWise')
+                    ->from('notifications@mail.getindiewise.com', 'Notifications on IndieWise')
                     ->subject($data['subject']);
             });
         }

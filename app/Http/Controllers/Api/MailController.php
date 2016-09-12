@@ -33,7 +33,7 @@ class MailController extends Controller
         Mail::queue('emails.contact', $data, function ($mail) use ($data) {
             $mail->to($data['to'])
                 ->replyTo($data['from'], $data['name'])
-                ->from('noreply@getindiewise.com', 'IndieWise Contact Form')
+                ->from('noreply@mail.getindiewise.com', 'IndieWise Contact Form')
                 // ->bcc('admin@getindiewise.com', 'IndieWise Admin')
                 ->subject($data['subject']);
         });
@@ -47,9 +47,9 @@ class MailController extends Controller
         $project = Project::findOrFail($request->project_id);
         $bodyMessage = $request->body . ' The video is ' . $project->name . ' at ' .  URL::to('/' . $project->url_id);
         Mail::raw($bodyMessage, function ($mail) use ($request, $subject) {
-            $mail->to('safeguard@getindiewise.com', 'IndieWise Safeguard')
+            $mail->to('safeguard@mail.getindiewise.com', 'IndieWise Safeguard')
                 ->replyTo($request->email, $request->name)
-                ->from('noreply@getindiewise.com', 'IndieWise Report Form')
+                ->from('noreply@mail.getindiewise.com', 'IndieWise Report Form')
                 // ->bcc('admin@getindiewise.com', 'IndieWise Admin')
                 ->subject($subject);
         });

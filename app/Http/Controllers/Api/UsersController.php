@@ -116,7 +116,7 @@ class UsersController extends Controller
             'COALESCE(project.projectCount,0) AS projectCount, COALESCE(critiqueA.critiqueCount+critiqueB.critiqueCount,0) AS critiqueCount, ' .
             'COALESCE(reactionA.reactionCount+reactionB.reactionCount,0) AS reactionCount, COALESCE(award.winCount,0) AS winCount ' .
             'FROM users AS u '.
-            'LEFT JOIN ( SELECT COUNT(id) AS projectCount, owner_id AS uId FROM Project GROUP BY owner_id) AS project ON project.uId = u.id '.
+            'LEFT JOIN ( SELECT COUNT(id) AS projectCount, owner_id AS uId FROM Project WHERE deleted_at IS NULL GROUP BY owner_id) AS project ON project.uId = u.id '.
             'LEFT JOIN ( SELECT COUNT(id) AS critiqueCount, project_id, user_id AS uId FROM Critique WHERE user_id = \''.$id.'\' ) AS critiqueA ON critiqueA.uId = u.id ' .
             'LEFT JOIN ( SELECT COUNT(id) AS critiqueCount, project_id, user_id AS uId FROM Critique WHERE project_id IN (SELECT p.id FROM Project p WHERE p.owner_id = \''.$id.'\') ) AS critiqueB ON critiqueB.project_id IN (SELECT p.id FROM Project p WHERE p.owner_id = u.id) ' .
             'LEFT JOIN ( SELECT COUNT(id) AS reactionCount, project_id , user_id AS uId FROM Reaction WHERE user_id = \''.$id.'\' ) AS reactionA ON reactionA.uId = u.id ' .
