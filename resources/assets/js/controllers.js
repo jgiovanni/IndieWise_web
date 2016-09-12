@@ -2277,7 +2277,8 @@
                     res.data.data.dob = moment(res.data.data.dob).toDate();
                     res.data.data.settings = JSON.parse(res.data.data.settings);
                     AuthService.currentUser = self.user = res.data.data;
-                    $intercom.update(self.user );
+                    res.data.data.name = res.data.data.fullName;
+                    $intercom.update(res.data.data);
                     self.saveComplete = true;
                     self.updating = false;
                     anchorSmoothScroll.scrollTo('success');

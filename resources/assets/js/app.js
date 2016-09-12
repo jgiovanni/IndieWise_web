@@ -931,6 +931,7 @@ jQuery(document).ready(function (jQuery) {
                     if (newValue && angular.isString(newValue.id)) {
                         console.log('User Logged In');
 
+                        newValue.name = newValue.fullName;
                         $intercom.boot(newValue);
                         // $intercom.show();
                         // initialize stream
