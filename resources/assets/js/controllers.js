@@ -798,7 +798,7 @@
         };
 
         self.init();
-        self.refInterval = $interval(self.init, 300000);
+        self.refInterval = $interval(self.init, 10000);
 
         $scope.$on('$destroy', function () {
             $interval.cancel(self.refInterval);
