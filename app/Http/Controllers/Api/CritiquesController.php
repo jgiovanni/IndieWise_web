@@ -10,6 +10,7 @@ use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\CritiqueTransformer;
 use IndieWise\Critique;
 use IndieWise\Nomination;
+use IndieWise\Project;
 
 class CritiquesController extends Controller
 {
@@ -43,16 +44,12 @@ class CritiquesController extends Controller
     public function store(Request $request)
     {
         // Check if user is owner of same project
-        $test = $this->user()->whereHas('projects', function ($query) use ($request) {
-            $query->where('id', $request->get('project_id'));
-        });
+        $me = $this->auth()->user();
+        $projectOwnerId = DB::table('Project')->where('id', $request->get('project_id'))->value('owner_id');
 
-        /*dd($test);
-        return response()->json(['is' => empty($test)]);
-
-        if ( !empty($test) ) {
+        if ($me->id === $projectOwnerId ) {
             return response()->json(['status' => 'failed', 'reason' => 'You cannot critique your own project'], 403);
-        }*/
+        }
 
         $critique = Critique::create($request->except('include'));
         return $this->response->item($critique, new CritiqueTransformer);
