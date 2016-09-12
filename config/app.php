@@ -153,6 +153,7 @@ return [
         Grimthorr\LaravelUserSettings\ServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
         Nutsweb\LaravelPrerender\LaravelPrerenderServiceProvider::class,
+        Webup\LaravelSendinBlue\SendinBlueServiceProvider::class,
 
         /*
          * Application Service Providers...

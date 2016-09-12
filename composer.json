@@ -29,7 +29,8 @@
         "grimthorr/laravel-user-settings": "^2.1",
         "jrean/laravel-user-verification": "^2.2",
         "predis/predis": "^1.1",
-        "nutsweb/laravel-prerender": "^2.0"
+        "nutsweb/laravel-prerender": "^2.0",
+        "webup/laravel-sendinblue": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
