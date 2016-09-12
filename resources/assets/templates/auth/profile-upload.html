@@ -25,7 +25,7 @@
                                 </label>
                             </div>
                             <div class="large-12 columns">
-                                <h6 class="borderBottom">Choose Video Method:</h6>
+                                <h6 class="borderBottom">Choose Video Method</h6>
 
                                 <!--<p><strong>Note:</strong> Please choose one of the following ways to embed the video
                                     into your post, the video is determined in the order: Video Code > Video URL > Video
@@ -61,6 +61,9 @@
                                 </div>
                             </div>
 
+                            <div class="large-12 columns">
+                                <h6 class="borderBottom">Upload Thumbnail/Artwork</h6>
+                            </div>
                             <div class="large-12 columns row">
                                 <div class="large-12 columns">
                                     <div class="checkbox">
@@ -82,34 +85,11 @@
                                     <br>
                                     <div class="row">
                                         <div class="large-12 columns">
-                                            <button type="button" class="tiny button" ngf-select="UC.uploadArtwork($file)" ngf-accept="'image/png,image/gif,image/jpg,image/jpeg'"
-                                                    ngf-max-size="5MB">Upload on file select</button>
+                                            <button type="button" class="tiny button" ng-click="UC.pickArtwork()">Select Thumbnail/Artwork</button>
+
                                         </div>
                                     </div>
                                 </div>
-                                <!--<div class="large-12 columns" ng-if="!!uploadOwnArt">
-                                    <div flow-init="{upload_preset:'dzachn6p'}" flow
-                                         flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
-                                         flow-files-submitted="$flow.upload()" flow-file-success="UC.uploadArtwork($message)">
-                                        <img ng-hide="$flow.files.length"
-                                             ng-src="{{UC.newVideo.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}"
-                                             class="md-card-image" alt="Avatar" style="max-width: 560px"/>
-                                        <img ng-show="$flow.files.length" flow-img="$flow.files[0]" class="md-card-image"
-                                             style="max-width: 560px"/>
-                                        <br>
-                                        <div class="row">
-                                            <div class="large-12 columns">
-                                                <button type="button" class="tiny button" ng-hide="$flow.files.length" flow-btn
-                                                        flow-attrs="{accept:'image/*'}">Select image
-                                                </button>
-                                                <button type="button" class="tiny button" ng-show="$flow.files.length" flow-btn
-                                                        flow-attrs="{accept:'image/*'}">Change
-                                                </button>
-                                                <button type="button" class="tiny button" ng-show="$flow.files.length" ng-click="$flow.cancel()">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
                             </div>
                             <hr>
 

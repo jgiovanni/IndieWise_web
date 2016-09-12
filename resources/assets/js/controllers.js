@@ -684,11 +684,12 @@
         };
     }
 
-    BrowseCtrl.$inject = ['$scope', '$rootScope', '$state', 'DataService', '$q', '$timeout', '$modal', '_'];
-    function BrowseCtrl($scope, $rootScope, $state, DataService, $q, $timeout, $modal, _) {
+    BrowseCtrl.$inject = ['$scope', '$rootScope', '$state', 'DataService', '$q', '$timeout', '$modal', '$mdSidenav', '_'];
+    function BrowseCtrl($scope, $rootScope, $state, DataService, $q, $timeout, $modal, $mdSidenav, _) {
         $rootScope.metadata.title = 'Browse';
         var self = this;
         self.isOpen = false;
+        self.loading = false;
         self.selectedGenres = [];
         self.selectedTypes = [];
         self.films = [];
@@ -700,7 +701,8 @@
             sort: $rootScope.$stateParams.sort || 'created_at',
             genres: $rootScope.$stateParams.genres || undefined,
             type: $rootScope.$stateParams.types || undefined,
-            search: $rootScope.$stateParams.q || undefined
+            search: $rootScope.$stateParams.q || undefined,
+            page: 1
         };
         $rootScope.AppData.searchText = $rootScope.$stateParams.q;
 
@@ -725,6 +727,7 @@
         };
 
         self.search = function () {
+            self.loading = true;
             var filterField = '';
             switch (self.filters.sort) {
                 case 'trending':
@@ -749,12 +752,55 @@
                 types: _.pluck(self.selectedTypes, 'id').toString(),
                 genres: _.pluck(self.selectedGenres, 'id').toString(),
                 search: self.filters.search || undefined,
-                per_page: 50
+                per_page: 50,
+                page: self.filters.page
             }).then(function (res) {
+                self.pagination = res.data.meta.pagination;
                 return self.films = res.data.data;
+            }).then(function () {
+                self.loading = false;
             });
 
+
             $scope.$broadcast('scroll.refreshComplete');
+        };
+
+        self.loadMore = function () {
+            if (self.loading) {
+                $rootScope.toastMessage('Please wait...');
+            }
+
+            self.loading = true;
+            var filterField = '';
+            switch (self.filters.sort) {
+                case 'trending':
+                    filterField = 'reactions_count';
+                    break;
+                case 'rating':
+                    filterField = 'iwRating';
+                    break;
+                case 'awards':
+                    filterField = 'wins_count';
+                    break;
+                case 'recent':
+                default:
+                    filterField = 'created_at';
+                    break;
+            }
+
+            DataService.collection('projects', {
+                sort: filterField,
+                order: 'DESC',
+                types: _.pluck(self.selectedTypes, 'id').toString(),
+                genres: _.pluck(self.selectedGenres, 'id').toString(),
+                search: self.filters.search || undefined,
+                per_page: 50,
+                page: ++self.filters.page
+            }).then(function (res) {
+                return self.films = _.union(self.films, res.data.data);
+            }).then(function () {
+                self.loading = false;
+            });
         };
 
         self.selectGenres = function (genre) {
@@ -771,6 +817,15 @@
 
         self.filterBy = function (filter) {
             self.search();
+        };
+
+        self.toggleFilterNav = function () {
+            $mdSidenav('filterNav')
+                .toggle()
+                .then(function () {
+
+                });
+
         };
 
         /*$scope.$watch('filters.search', function (newValue, oldValue) {
@@ -1980,6 +2035,21 @@
             }
         };
 
+
+        self.pickArtwork = function (){
+            filepickerService.pick(
+                {
+                    cropRatio: 4/3,
+                    mimetype: 'image/*',
+                    services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'INSTAGRAM', 'URL'],
+                    conversions: ['crop', 'rotate', 'filter']
+                },
+                function (Blob){
+                    self.newVideo.thumbnail_url = Blob.url;
+                    $rootScope.$digest();
+                }
+            );
+        };
 
 
         self.uploadArtwork = function (file) {

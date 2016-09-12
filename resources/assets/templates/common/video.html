@@ -400,7 +400,10 @@
                                           <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
                                           <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
                                         </span>
-                                        {{::win.award.data.name}}</h5>
+                                        {{::win.award.data.name}}
+                                        <span class="flex"></span>
+                                        <small ng-if="::win.rewarded===0" class="has-tip no-border " tooltip="Awards are reviewed before being given. Once verified this label will disappear.">pending</small>
+                                    </h5>
                                 </li>
                             </ul>
 
