@@ -48,7 +48,7 @@
                                                 </span>
                                             </div>
                                             <div class="comment-text">
-                                                <a ui-sref="video({url_id:reaction.projectUrlId})">{{::reaction.project.data.name}}</a> made {{::UserReactionsCtrl.user.data.fullName}} feel <b>{{::reaction.emotion}}</b>
+                                                <a ui-sref="video({url_id:reaction.project.data.url_id})">{{::reaction.project.data.name}}</a> made you,{{::reaction.user.data.fullName}} feel <b>{{::reaction.emotion}}</b>
                                             </div>
 
                                         </div>
@@ -73,13 +73,13 @@
                                          ng-repeat="reaction in UserReactionsCtrl.reacted|orderBy:sortOrder">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
-                                                <img ng-src="{{::reaction.user.data.avatar||'/assets/img/avatar-1.png'}}"
-                                                     alt="comment">
+                                                <a ui-sref="user.about({url_id: reaction.user.data.url_id})"><img ng-src="{{::reaction.user.data.avatar||'/assets/img/avatar-1.png'}}"
+                                                     alt="comment"></a>
                                             </div>
                                         </div>
                                         <div class="media-object-section comment-desc">
                                             <div class="comment-title">
-                                                <span class="name"><a ui-sref="user.data.about({url_id: reaction.user.data.url_id})">
+                                                <span class="name"><a ui-sref="user.about({url_id: reaction.user.data.url_id})">
                                                     {{::reaction.user.data.fullName}}</a> Said:
                                                 </span>
                                                 <span class="time float-right"><i class="fa fa-clock-o"></i>
@@ -93,7 +93,7 @@
                                                 </span>
                                             </div>
                                             <div class="comment-text">
-                                                <a ui-sref="video({url_id:reaction.projectUrlId})">{{::reaction.project.data.name}}</a> made them feel <b>{{::reaction.emotion}}</b>
+                                                <a ui-sref="video({url_id:reaction.project.data.url_id})">{{::reaction.project.data.name}}</a> made them feel <b>{{::reaction.emotion}}</b>
                                             </div>
                                         </div>
                                     </div>

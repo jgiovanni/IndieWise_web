@@ -40,7 +40,7 @@
                      ng-init="comment.replies=[];comment.showReplies=false;">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
-                            <img ng-src="{{::comment.author.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
+                            <a ui-sref="user.about({url_id: comment.author.url_id})"><img ng-src="{{::comment.author.avatar || '/assets/img/avatar-1.png'}}" alt="comment"></a>
                         </div>
                     </div>
                     <div class="media-object-section comment-desc">

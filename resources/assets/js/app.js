@@ -115,6 +115,7 @@ jQuery(document).ready(function (jQuery) {
             'angucomplete-alt',
             'ngMessages',
             'ngResource',
+            'ngWebSocket',
             'angular-cloudinary',
             'underscore',
             'angularMoment',

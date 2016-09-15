@@ -215,6 +215,7 @@
 <script type="text/javascript" src="/public/js/angular.js"></script>
 <script src="/public/js/templates.js"></script>
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
+<script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
 {{--<script src="/public/app/bower_components/lodash/lodash.js"></script>--}}
 {{--<script src="/public/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
 {{--<script src="/public/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>--}}

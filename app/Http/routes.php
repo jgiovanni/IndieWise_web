@@ -11,12 +11,14 @@
 |
 */
 
+use Illuminate\Support\Facades\DB;
 use IndieWise\User;
 use GetStream\Stream\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use IndieWise\Country;
 use IndieWise\Project;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Vinkla\Hashids\Facades\Hashids;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
@@ -27,25 +29,27 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
     })->where("path", ".+");
 });
 
-Route::get('fire', function () {
+/*Route::get('fire', function () {
     // this fires the event
     event(new IndieWise\Events\EventName());
     return "event fired";
-});
+});*/
 
-Route::get('fire', function () {
-    // this fires the event
-    event(new IndieWise\Events\EventName());
-    return "event fired";
-});
-
-Route::get('test', function () {
+/*Route::get('test', function () {
     // this checks for the event
     return request()->ip();
 //    return view('home');
-});
+});*/
 
 Route::get('testy', function () {
+    /*$users = Project::groupBy('url_id')->havingRaw('COUNT(*) > 1')->get();
+    $users->each(function ($user, $key) {
+        sleep(2);
+        $user->url_id = (string) Hashids::encode((int)microtime(true));
+        $user->save();
+        sleep(2);
+    });*/
+
 //    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
 //    return response()->json(['test' => $user->projects->count()]);
 //    echo url('user', 'lol' ) . '/about';
