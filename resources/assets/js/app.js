@@ -950,6 +950,7 @@ jQuery(document).ready(function (jQuery) {
                         var OneSignal = window.OneSignal || [];
                         OneSignal.push(["init", {
                             appId: "9972c4b2-7bd1-47c0-a2f8-213b8c767cd8",
+                            safari_web_id: 'web.onesignal.auto.3f58661c-f8ad-4946-a9b6-84125eec4421',
                             autoRegister: true,
                             notifyButton: {
                                 enable: false /* Set to false to hide */
