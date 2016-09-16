@@ -1299,6 +1299,8 @@
                 $scope.ratingMax = 10;
                 $scope.makePrivateHelp = false;
                 $scope.processing = false;
+                $scope.canNominate = false;
+                $scope.errors = [];
 
                 DataService.collection('awards').then(function (result) {
                     $scope.awardsList = result.data.Awards;
@@ -1326,6 +1328,31 @@
                 $scope.$watchCollection('critique', function () {
                     $scope.calcOverall();
                 });
+
+                $scope.$watch('critique.overall', function (newValue) {
+                    $scope.canNominate = newValue >= 6;
+                });
+
+                $scope.validateCritique = function () {
+                    $scope.errors = [];
+
+                    var failA = true;
+                    var failB = true;
+                    failA = $scope.critique.body.length < 1;
+                    if (failA) {
+                        $scope.errors.push('Tell us why you gave this critique an overall rating of ' + $scope.critique.overall);
+                    }
+                    failB = $scope.critique.originality < 1 || $scope.critique.direction < 1 || $scope.critique.writing < 1 ||
+                        $scope.critique.cinematography < 1 || $scope.critique.performances < 1 || $scope.critique.production < 1 ||
+                        $scope.critique.pacing < 1 || $scope.critique.structure < 1 || $scope.critique.audio < 1 || $scope.critique.music < 1;
+                    if (failB) {
+                        $scope.errors.push('Be sure to put a minimum of 1-star in every category.')
+                    }
+
+                    if(!failA && !failB) {
+                        $scope.postCritique();
+                    };
+                };
 
                 $scope.closeDialog = function () {
                     zIndexPlayer(true);

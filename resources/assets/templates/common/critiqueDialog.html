@@ -1,5 +1,5 @@
 <div aria-label="Critique">
-    <form ng-submit="postCritique()">
+    <form ng-submit="validateCritique()">
         <div class="row">
             <div class="columns row">
                 <div class="columns small-4 text-right">
@@ -94,8 +94,8 @@
             <br>
             <div class="columns">
                 <div class="input">
-                        <label for="desc">Care to elaborate?</label>
-                        <textarea id="desc" ng-model="critique.body" columns="1" ng-maxlength="5000"></textarea>
+                        <label for="desc">Tell us why...</label>
+                        <textarea id="desc" ng-model="critique.body" ng-trim="true" columns="1" ng-minlength="1" required></textarea>
                 </div>
                 <div class="checkbox">
                     <input id="checkbox" type="checkbox" ng-model="critique.private">
@@ -107,13 +107,17 @@
                 <div class="input">
                     <label>
                         <span class="has-tip" tooltip="A project needs 5 or more Nominations, for the exact same Award, by different users in order to secure a win for that particular award.">Award Worthy? Nominate it!</span>
-                        <select ng-model="dialogModel.award_id" style="min-width: 200px;">
+                        <br><span class="help-text">In order to Nominate this project, an overall score of at least 6 is required.</span>
+                        <select ng-model="dialogModel.award_id" style="min-width: 200px;" ng-disabled="!canNominate">
                             <option value="">No</option>
-                            <option value="{{a.id}}" ng-repeat="a in awardsList|orderBy:'name'"
-                                    ng-bind="::a.name"></option>
+                            <option value="{{a.id}}" ng-repeat="a in awardsList|orderBy:'name'" ng-bind="::a.name"></option>
                         </select>
                     </label>
-
+                </div>
+            </div>
+            <div class="columns">
+                <div id="errors" class="alert callout" ng-show="errors.length">
+                    <span ng-repeat-start="e in errors">{{::e}}</span><br ng-repeat-end>
                 </div>
             </div>
             <button class="button tiny" ng-click="cancel()">Cancel</button>

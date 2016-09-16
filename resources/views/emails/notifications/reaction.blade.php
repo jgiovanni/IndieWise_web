@@ -1,4 +1,4 @@
-<a href="{{ url('user', $actorUrlId) . '/about' }}">{{ $actorName }}</a> reacted to your video, <a href="{{ $targetUrlId }}">{{ $targetName }}</a>
+<a href="{{ url('user', $actorUrlId) . '/about' }}">{{ $actorName }}</a> reacted to your video, <a href="{{ url('', $targetUrlId) }}">{{ $targetName }}</a>
 <br>
 <br>
 Sincerely,
