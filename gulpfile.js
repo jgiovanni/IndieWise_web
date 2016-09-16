@@ -46,6 +46,9 @@ elixir(function(mix) {
     mix.scripts([
         'app.js',
         'controllers.js',
+        // Modules
+        '../templates/winners/winners.js',
+
         'directives.js',
         'services.js',
         'utils.js'

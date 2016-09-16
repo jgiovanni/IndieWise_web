@@ -15,7 +15,7 @@
                 <input id="leftMenuSearch" type="text" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" placeholder="Search Anything">
             </md-input-container>
         </md-subheader>--}}
-        <md-list class="" >
+        <md-list>
             <md-list-item ui-sref="home" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
                 <md-icon>home</md-icon>
                 <p>Home</p>
@@ -27,6 +27,10 @@
             <md-list-item ui-sref="latest" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
                 <md-icon>new_releases</md-icon>
                 <p>Latest</p>
+            </md-list-item>
+            <md-list-item ui-sref="winners" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+                <md-icon>grade</md-icon>
+                <p>Winners</p>
             </md-list-item>
             <md-list-item ng-if="!isAuthenticated()" ui-sref="sign_in" ng-click="Body.closeSideNav('left')">
                 <p>Login/Register</p>

@@ -33,7 +33,8 @@
         "webup/laravel-sendinblue": "^1.0",
         "payum/payum-laravel-package": "^1.0",
         "payum/stripe": "^1.3",
-        "payum/paypal-pro-checkout-nvp": "^1.3"
+        "payum/paypal-pro-checkout-nvp": "^1.3",
+        "berkayk/onesignal-laravel": "^0.9.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

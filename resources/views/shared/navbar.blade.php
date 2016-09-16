@@ -113,10 +113,16 @@
                                 <li ui-sref-active="active">
                                     <a ui-sref="home"><i class="fa fa-home"></i>Home</a>
                                 </li>
-                                <li ui-sref-active="active"><a ui-sref="browse"><i class="fa fa-th"></i>Browse</a>
+                                <li ui-sref-active="active">
+                                    <a ui-sref="browse"><i class="fa fa-th"></i>Browse
+                                    </a>
                                 </li>
-                                <li ui-sref-active="active"><a ui-sref="latest"><i
-                                                class="fa fa-bolt"></i>Latest</a></li>
+                                <li ui-sref-active="active">
+                                    <a ui-sref="latest"><i class="fa fa-bolt"></i>Latest</a>
+                                </li>
+                                <li ui-sref-active="active">
+                                    <a ui-sref="winners"><i class="fa fa-star"></i>Winners</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

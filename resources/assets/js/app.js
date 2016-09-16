@@ -137,7 +137,10 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.services',
             'IndieWise.directives',
             'IndieWise.filters',
-            'IndieWise.utilities'
+            'IndieWise.utilities',
+
+            // Modularity
+            'IndieWise.winners'
         ])
         .constant('moment', window.momentTimeZone)
         .constant('angularMomentConfig', { timezone: 'UTC' })
@@ -324,6 +327,12 @@ jQuery(document).ready(function (jQuery) {
                     authenticate: false,
                     templateUrl: 'latest/view/index.html',
                     controller: 'LatestCtrl as LC'
+                })
+                .state('winners', {
+                    url: '/winners',
+                    authenticate: false,
+                    templateUrl: 'winners/index.html',
+                    controller: 'WinnersCtrl as WC'
                 })
                 .state('video_critique', {
                     url: '/{video_url_id}/critique/{url_id}',
@@ -932,9 +941,21 @@ jQuery(document).ready(function (jQuery) {
                     if (newValue && angular.isString(newValue.id)) {
                         console.log('User Logged In');
 
+                        // Intercom
                         newValue.name = newValue.fullName;
                         $intercom.boot(newValue);
                         // $intercom.show();
+
+                        // Push Notifications
+                        var OneSignal = window.OneSignal || [];
+                        OneSignal.push(["init", {
+                            appId: "9972c4b2-7bd1-47c0-a2f8-213b8c767cd8",
+                            autoRegister: true,
+                            notifyButton: {
+                                enable: false /* Set to false to hide */
+                            }
+                        }]);
+
                         // initialize stream
                         $rootScope.subscribeUserFeeds();
                         //$rootScope.listenNotifications(newValue.username);

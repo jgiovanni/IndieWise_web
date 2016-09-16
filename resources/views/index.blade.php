@@ -36,6 +36,7 @@
     <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=dLL8Gal3KG">
     <meta name="theme-color" content="#ffffff">
 
+    <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
     <script type="text/javascript" src="/js/main.js"></script>
 

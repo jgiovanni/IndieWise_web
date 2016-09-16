@@ -39,7 +39,7 @@
       "density": 4
     }
   ],
-  "start_url": "http:\/\/getindiewise.com",
+  "start_url": "https:\/\/getindiewise.com/",
   "display": "standalone",
   "gcm_sender_id": "322274582930",
   "gcm_user_visible_only": true

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bbacf190dfee597f5a794715d5156e5e",
-    "content-hash": "e13caa3540818b84bc457ee9d3c2ab6b",
+    "hash": "399781e51b337fa9c89ea89ef8772777",
+    "content-hash": "8ecb58eaca3cfb9f665d0569a7297601",
     "packages": [
         {
             "name": "99designs/http-signatures",
@@ -161,6 +161,56 @@
                 "webprofiler"
             ],
             "time": "2016-07-29 15:00:36"
+        },
+        {
+            "name": "berkayk/onesignal-laravel",
+            "version": "v0.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/berkayk/laravel-onesignal.git",
+                "reference": "07806bdea46f1d693aa2711cccdea3fa7580d29b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/berkayk/laravel-onesignal/zipball/07806bdea46f1d693aa2711cccdea3fa7580d29b",
+                "reference": "07806bdea46f1d693aa2711cccdea3fa7580d29b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "illuminate/support": "4.*|5.*",
+                "php": ">=5.4.0",
+                "symfony/psr-http-message-bridge": "^0.2.0"
+            },
+            "require-dev": {
+                "vlucas/phpdotenv": "^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Berkayk\\OneSignal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Berkay Kaya",
+                    "email": "berkayk@gmail.com",
+                    "homepage": "http://berkaykaya.com"
+                }
+            ],
+            "description": "OneSignal Push Wrapper Laravel",
+            "keywords": [
+                "WebPush",
+                "laravel",
+                "laravel 5",
+                "onesignal",
+                "push"
+            ],
+            "time": "2016-06-01 10:12:21"
         },
         {
             "name": "classpreloader/classpreloader",
