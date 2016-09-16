@@ -30,7 +30,10 @@
         "jrean/laravel-user-verification": "^2.2",
         "predis/predis": "^1.1",
         "nutsweb/laravel-prerender": "^2.0",
-        "webup/laravel-sendinblue": "^1.0"
+        "webup/laravel-sendinblue": "^1.0",
+        "payum/payum-laravel-package": "^1.0",
+        "payum/stripe": "^1.3",
+        "payum/paypal-pro-checkout-nvp": "^1.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
