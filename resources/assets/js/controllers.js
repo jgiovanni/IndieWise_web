@@ -1292,19 +1292,26 @@
                 return $state.go('video_critique', {video_url_id: self.film.url_id, url_id: self.canCritique.url_id});
             }
 
-            CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', '$q', 'Analytics'];
-            function CritiqueDialogController($scope, $modalInstance, critique, $q, Analytics) {
+            CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', 'film', '$q', 'Analytics'];
+            function CritiqueDialogController($scope, $modalInstance, critique, film, $q, Analytics) {
                 zIndexPlayer();
                 $scope.critique = critique;
+                $scope.film = film;
                 $scope.ratingMax = 10;
                 $scope.makePrivateHelp = false;
                 $scope.processing = false;
                 $scope.canNominate = false;
                 $scope.errors = [];
 
-                DataService.collection('awards').then(function (result) {
-                    $scope.awardsList = result.data.Awards;
-                });
+                if ($scope.film.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
+                    DataService.collection('awards', { trailer:true }).then(function (result) {
+                        $scope.awardsList = result.data.Awards;
+                    });
+                } else {
+                    DataService.collection('awards').then(function (result) {
+                        $scope.awardsList = result.data.Awards;
+                    });
+                }
 
                 $scope.dialogModel = {
                     award_id: null
@@ -1338,6 +1345,7 @@
 
                     var failA = true;
                     var failB = true;
+                    $scope.critique.body.trim();
                     failA = $scope.critique.body.length < 1;
                     if (failA) {
                         $scope.errors.push('Tell us why you gave this critique an overall rating of ' + $scope.critique.overall);
@@ -1452,6 +1460,9 @@
                                     body: '',
                                     project_id: self.film.id
                                 };
+                            },
+                            film: function () {
+                                return self.film;
                             }
                         },
                         controller: CritiqueDialogController,

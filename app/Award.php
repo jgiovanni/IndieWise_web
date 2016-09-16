@@ -2,11 +2,12 @@
 
 namespace IndieWise;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class Award extends Model
 {
-    use UuidForKey;
+    use UuidForKey, Filterable;
     //
     protected $table = 'Award';
     public $timestamps = false;

@@ -41,6 +41,33 @@ class AwardFilter extends ModelFilter
         return $this->where('award_id', $award);
     }
 
+    public function trailer($trailer)
+    {
+        if ($trailer){
+            return $this->whereIn('id', [
+                'dd3eaddf-1cce-11e6-b1e1-e12b04098a26',
+                '7e42d9bd-1cce-11e6-b1e1-e12b04098a26',
+                '75322f6b-1cce-11e6-a2ae-ad4c5d3797ab',
+                'f327193f-28e6-11e6-b8db-86ac961c55b2',
+                '3458107f-28e7-11e6-b8db-86ac961c55b2',
+                '41395363-28e7-11e6-b8db-86ac961c55b2',
+                '883c607e-28e7-11e6-b8db-86ac961c55b2',
+                '9dc945b9-28e7-11e6-b8db-86ac961c55b2',
+                'a4e45e82-28e7-11e6-b8db-86ac961c55b2',
+                'ac128a32-28e7-11e6-b8db-86ac961c55b2',
+                'af87e84b-28e7-11e6-8d88-f97eb8a09b17',
+                'b46c2345-28ee-11e6-b8db-86ac961c55b2',
+                'be953a15-28ee-11e6-b8db-86ac961c55b2',
+                'ca1f2e22-28ee-11e6-b8db-86ac961c55b2',
+                '15462612-28ef-11e6-8d88-f97eb8a09b17',
+                '0f5adc74-28ef-11e6-b8db-86ac961c55b2',
+                'd38fd1a9-28ee-11e6-8d88-f97eb8a09b17',
+                'ed4d84dc-28ee-11e6-8d88-f97eb8a09b17',
+                'f92bd818-28ee-11e6-b8db-86ac961c55b2',
+                'ffdaae27-28ee-11e6-8d88-f97eb8a09b17',
+            ]);
+        }
+    }
 
     /*public function notVideo($notVideo)
     {

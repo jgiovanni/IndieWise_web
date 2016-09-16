@@ -13,12 +13,13 @@ class AwardsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Award::orderBy('name', 'desc')->get();
+        return Award::orderBy('name', 'desc')->filter($request->all())->get();
     }
 
     /**
