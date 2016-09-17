@@ -957,6 +957,15 @@ jQuery(document).ready(function (jQuery) {
                             }
                         }]);
 
+                        if (!newValue.push_id) {
+                            OneSignal.getUserId().then(function(userId) {
+                                // console.log("OneSignal User ID:", userId);
+                                AuthService.updateUser({id: newValue.id, push_id: userId});
+                                // DataService.update('users', newValue.id, { push_id: userId});
+                                // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
+                            });
+                        }
+
                         // initialize stream
                         $rootScope.subscribeUserFeeds();
                         //$rootScope.listenNotifications(newValue.username);

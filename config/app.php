@@ -154,6 +154,8 @@ return [
         Jrean\UserVerification\UserVerificationServiceProvider::class,
         Nutsweb\LaravelPrerender\LaravelPrerenderServiceProvider::class,
         Webup\LaravelSendinBlue\SendinBlueServiceProvider::class,
+        Payum\LaravelPackage\PayumServiceProvider::class,
+        Berkayk\OneSignal\OneSignalServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -226,6 +228,7 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Setting' => Grimthorr\LaravelUserSettings\Facade::class,
         'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
+        'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
     ],
 
 ];
