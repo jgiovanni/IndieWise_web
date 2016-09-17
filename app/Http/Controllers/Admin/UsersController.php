@@ -34,9 +34,10 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        return Datatables::collection($this->user->filter($request->all())->all())->make(true);
+
         if ($request->only('datatable') === true) {
             dd('here');
-            return Datatables::collection($this->user->filter($request->all())->all())->make(true);
         }
 
         $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
