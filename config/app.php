@@ -156,6 +156,7 @@ return [
         Webup\LaravelSendinBlue\SendinBlueServiceProvider::class,
         Payum\LaravelPackage\PayumServiceProvider::class,
         Berkayk\OneSignal\OneSignalServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -229,6 +230,7 @@ return [
         'Setting' => Grimthorr\LaravelUserSettings\Facade::class,
         'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
         'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];
