@@ -214,8 +214,14 @@ $api->version('v1', [
     $api->post('contact', 'MailController@contactUs');
     $api->post('report', 'MailController@report');
 
+});
+
+$api->version('v1', [
+    'middleware' => 'api.throttle', 'limit' => 100, 'expires' => 1,
+    'namespace' => 'IndieWise\Http\Controllers\Admin'
+], function ($api) {
     // Admin Routes
-    $api->group(['namespace' => '..\Admin', 'prefix' => 'admin'], function ($api) {
+    $api->group(['prefix' => 'admin'], function ($api) {
         // Static Data Routes
         $api->resource('countries', 'CountriesController');
         $api->resource('languages', 'LanguagesController');
