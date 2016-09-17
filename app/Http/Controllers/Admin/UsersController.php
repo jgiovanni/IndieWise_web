@@ -9,6 +9,7 @@ use IndieWise\Http\Requests\v1\UserRequest;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\UserTransformer;
 use IndieWise\User;
+use League\Fractal\Serializer\DataArraySerializer;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Yajra\Datatables\Facades\Datatables;
@@ -35,11 +36,13 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         if ($request->has('datatable')) {
-            return Datatables::collection($this->user->filter($request->all())->get())->make(true);
+            $users = $this->user->filter($request->all())->get();
+            return Datatables::of($users)->setTransformer(UserTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
+            // return Datatables::collection($users)->make(true);
         }
 
-        $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
-        return $this->response->paginator($users, new UserTransformer);
+        // $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
+        // return $this->response->paginator($users, new UserTransformer);
     }
 
     /**
