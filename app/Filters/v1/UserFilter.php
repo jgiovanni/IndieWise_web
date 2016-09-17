@@ -20,6 +20,9 @@ class UserFilter extends ModelFilter
 
     public function search($search)
     {
+        if (is_array($search)) {
+            $search = $search['value'];
+        }
         return $this->where(function ($q) use ($search) {
             return $q
                 ->where('firstName', 'LIKE', strtolower("%$search%"))
@@ -33,7 +36,7 @@ class UserFilter extends ModelFilter
     public function counts($counts)
     {
         if ($counts) {
-            return $this->withCount('projects', 'wins', 'critiques');
+            return $this->withCount('projects', 'wins', 'critiques', 'nominations' ,'reactions');
         }
     }
 
