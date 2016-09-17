@@ -34,10 +34,12 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        return Datatables::collection($this->user->filter($request->all())->get())->make(true);
+        if ($request->has('datatable')) {
+            return Datatables::collection($this->user->filter($request->all())->get())->make(true);
+        }
 
-//        $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
-//        return $this->response->paginator($users, new UserTransformer);
+        $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
+        return $this->response->paginator($users, new UserTransformer);
     }
 
     /**
