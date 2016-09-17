@@ -11,6 +11,7 @@ use IndieWise\Http\Transformers\v1\UserTransformer;
 use IndieWise\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Yajra\Datatables\Facades\Datatables;
 
 
 class UsersController extends Controller
@@ -33,7 +34,10 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        if ($request->get('datatable') === true) {
+            return Datatables::collection($this->user->filter($request->all())->all())->make(true);
+        }
+
         $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
         return $this->response->paginator($users, new UserTransformer);
     }
