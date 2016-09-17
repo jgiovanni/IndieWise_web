@@ -11,6 +11,7 @@
 |
 */
 
+//use Dingo\Api\Auth\Auth;
 use Illuminate\Support\Facades\DB;
 use IndieWise\User;
 use GetStream\Stream\Client;
@@ -22,16 +23,12 @@ use Vinkla\Hashids\Facades\Hashids;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
-Route::group(['domain' => 'console.getindiewise.com'], function () use ($dispatcher) {
-    Route::any('{path?}', function() use ($dispatcher) {
-        //
-        return 'Dashboard';
-    })->where("path", ".+");
-});
 Route::group(['prefix' => 'console'], function () use ($dispatcher) {
+//    dd(Auth::user());
     Route::any('{path?}', function() use ($dispatcher) {
-        //
-        return 'Dashboard';
+        if (App::environment('local')) {
+            return view("admin_dev", compact('countries'));
+        } else return view("admin", compact('countries'));
     })->where("path", ".+");
 });
 

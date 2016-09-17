@@ -8,11 +8,13 @@ class UserFilter extends ModelFilter
 {
     public $relations = [];
 
-    public function notUsers($users) {
+    public function notUsers($users)
+    {
         return $this->whereNotIn('id', explode(',', $users));
     }
 
-    public function users($users) {
+    public function users($users)
+    {
         return $this->whereIn('id', explode(',', $users));
     }
 
@@ -26,6 +28,13 @@ class UserFilter extends ModelFilter
 //                ->orWhere('email', 'LIKE', strtolower("%$search%"))
 //                ->orWhere('username', 'LIKE', strtolower("%$search%"));
         });
+    }
+
+    public function counts($counts)
+    {
+        if ($counts) {
+            return $this->withCount('projects', 'wins', 'critiques');
+        }
     }
 
 }
