@@ -10,13 +10,13 @@ function loadScript(url, callback) {
     document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-if (window.chrome && window.chrome.cookies) {
+/*if (window.chrome && window.chrome.cookies) {
     loadScript('/pushwoosh-web-pushes-http-sdk.js?pw_application_code=73409-786EB', function () {
     })
 } else {
     loadScript('/pushwoosh-web-notifications.js', function () {
     })
-}
+}*/
 
 
 jQuery.noConflict();
@@ -1043,8 +1043,8 @@ jQuery(document).ready(function (jQuery) {
         .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
             $sceDelegateProvider.resourceUrlWhitelist([
                 'self',
-                'http://getindiewise.com/**',
-                'http://www.getindiewise.com/**',
+                'https://getindiewise.com/**',
+                'https://www.getindiewise.com/**',
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }]);

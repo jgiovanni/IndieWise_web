@@ -214,4 +214,26 @@ $api->version('v1', [
     $api->post('contact', 'MailController@contactUs');
     $api->post('report', 'MailController@report');
 
+    // Admin Routes
+    $api->group(['namespace' => 'IndieWise\Http\Controllers\Admin', 'prefix' => 'admin'], function ($api) {
+        // Static Data Routes
+        $api->resource('countries', 'CountriesController');
+        $api->resource('languages', 'LanguagesController');
+        $api->resource('awards', 'AwardsController');
+        $api->resource('genres', 'GenresController');
+        $api->resource('types', 'TypesController');
+
+        // Resource Routes
+        $api->resource('users', 'UsersController');
+        $api->resource('playlists', 'PlaylistsController');
+        $api->resource('playlistItems', 'PlaylistItemsController');
+        $api->resource('projects', 'ProjectsController');
+        $api->resource('reactions', 'ReactionsController');
+        $api->resource('ratings', 'RatingsController');
+        $api->resource('critiques', 'CritiquesController');
+        $api->resource('comments', 'CommentsController');
+        $api->resource('nominations', 'NominationsController');
+        $api->resource('wins', 'WinsController');
+
+    });
 });
