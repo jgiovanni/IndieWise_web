@@ -34,7 +34,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->get('datatable') === true) {
+        if ($request->only('datatable') === true) {
             dd('here');
             return Datatables::collection($this->user->filter($request->all())->all())->make(true);
         }
