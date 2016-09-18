@@ -64,7 +64,7 @@
             DTColumnBuilder.newColumn('award.data.name').withTitle('Award'),
             DTColumnBuilder.newColumn(null).withTitle('Project').renderWith(renderProject),
             DTColumnBuilder.newColumn('owner.data.fullName').withTitle('Owner'),
-            DTColumnBuilder.newColumn('nominations_count').withTitle('Nominations'),
+            DTColumnBuilder.newColumn(null).withTitle('Nominations').renderWith(renderNoms),
             DTColumnBuilder.newColumn('rewarded').withTitle('Awarded'),
             DTColumnBuilder.newColumn('rewarded_at').withTitle('Awarded At'),
             DTColumnBuilder.newColumn(null).withTitle('Actions').notSortable().renderWith(actionsHtml)
@@ -77,6 +77,10 @@
 
         function renderProject(data, type, full, meta) {
             return data.project ? data.project.data.name : data.project_id;
+        }
+
+        function renderNoms(data, type, full, meta) {
+            return data.nominations.data.length;
         }
 
         function actionsHtml(data, type, full, meta) {
