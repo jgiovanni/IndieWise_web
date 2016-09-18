@@ -68,7 +68,8 @@ class WinsController extends Controller
      */
     public function show($id)
     {
-        //
+        $win = $this->win->findOrFail($id);
+        return $this->response->item($win, new WinTransformer);
     }
 
     /**
@@ -91,7 +92,9 @@ class WinsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $win = $this->win->findOrFail($id);
+        $win->update($request->except('nominations', 'nominations_count', 'project', 'owner', 'award'));
+        return $this->response->item($win, new WinTransformer);
     }
 
     /**
