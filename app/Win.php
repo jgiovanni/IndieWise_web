@@ -30,6 +30,11 @@ class Win extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function nominations()
+    {
+        return $this->hasManyThrough(Nomination::class, Project::class);
+    }
+
     public function actions()
     {
         return $this->hasMany(Action::class);

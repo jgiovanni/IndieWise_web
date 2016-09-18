@@ -788,10 +788,6 @@ jQuery(document).ready(function (jQuery) {
         .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'socket',
             function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, socket) {
                 attachFastClick(document.body);
-                // set server timezone to UTC
-                // moment.tz.setDefault("utc");
-                // amMoment.changeTimezone('UTC');
-
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
                     Notifications: {

@@ -7,7 +7,9 @@ use EloquentFilter\ModelFilter;
 class WinFilter extends ModelFilter
 {
 
-    public $relations = [];
+    public $relations = [
+        'nominations' => ['award']
+    ];
 
     public function user($user)
     {
@@ -52,4 +54,12 @@ class WinFilter extends ModelFilter
             return $this->orderBy($field, $direction);
         return $this;
     }
+
+    public function counts($counts)
+    {
+        if ($counts) {
+            return $this->withCount('projects', 'wins', 'critiques', 'nominations' ,'reactions');
+        }
+    }
+
 }
