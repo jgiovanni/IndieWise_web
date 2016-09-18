@@ -84,7 +84,7 @@ class WinTransformer extends TransformerAbstract
      */
     public function includeNominations(Win $win)
     {
-        $nominations = $win->nominations;
+        $nominations = $win->nominations->where('project_id', $win->project_id);
         if($nominations)
             return $this->item($nominations, new NominationTransformer);
 
