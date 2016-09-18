@@ -13,7 +13,7 @@ class WinTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = ['project', 'owner', 'award', 'actions'];
+    protected $availableIncludes = ['project', 'owner', 'nominations', 'award', 'actions'];
 
     /**
      * List of resources to automatically include
