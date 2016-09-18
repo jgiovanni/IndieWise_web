@@ -38,11 +38,10 @@ class UsersController extends Controller
         if ($request->has('datatable')) {
             $users = $this->user->filter($request->all())->get();
             return Datatables::of($users)->setTransformer(UserTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
-            // return Datatables::collection($users)->make(true);
         }
 
-        // $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
-        // return $this->response->paginator($users, new UserTransformer);
+        $users = $this->user->filter($request->all())->paginate($request->get('per_page', 8));
+        return $this->response->paginator($users, new UserTransformer);
     }
 
     /**

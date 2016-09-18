@@ -2,12 +2,12 @@
 
 namespace IndieWise\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
+use Dingo\Api\Contract\Http\Request;
 use IndieWise\Country;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests\v1\CountryRequest;
+use Yajra\Datatables\Facades\Datatables;
 
 class CountriesController extends Controller
 {
@@ -18,9 +18,13 @@ class CountriesController extends Controller
      * @param CountryRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index(CountryRequest $request)
+    public function index(Request $request)
     {
         //
+        if ($request->has('datatable')) {
+             return Datatables::collection(Country::orderBy('name', 'desc')->get())->make(true);
+        }
+
         return Country::orderBy('name', 'desc')->get();
     }
 

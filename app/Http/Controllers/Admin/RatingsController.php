@@ -9,6 +9,7 @@ use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\RatingTransformer;
 use IndieWise\Rating;
 use IndieWise\Http\Requests\v1\RatingRequest;
+use Yajra\Datatables\Facades\Datatables;
 
 class RatingsController extends Controller
 {
@@ -29,6 +30,11 @@ class RatingsController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->has('datatable')) {
+            $ratings = $this->rating->filter($request->all())->get();
+            return Datatables::collection($ratings)->make(true);
+        }
+
         $ratings = $this->rating->filter($request->all())->get();
         return response()->json(compact('ratings'));
     }

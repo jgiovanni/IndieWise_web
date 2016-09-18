@@ -2,22 +2,25 @@
 
 namespace IndieWise\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
+use Dingo\Api\Contract\Http\Request;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Language;
+use Yajra\Datatables\Facades\Datatables;
 
 class LanguagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('datatable')) {
+            return Datatables::collection(Language::orderBy('English', 'desc')->get())->make(true);
+        }
         return Language::orderBy('English', 'desc')->get();
     }
 

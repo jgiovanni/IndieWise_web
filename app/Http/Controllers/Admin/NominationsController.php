@@ -9,6 +9,8 @@ use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\NominationTransformer;
 use IndieWise\Nomination;
+use League\Fractal\Serializer\DataArraySerializer;
+use Yajra\Datatables\Facades\Datatables;
 
 class NominationsController extends Controller
 {
@@ -29,7 +31,10 @@ class NominationsController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        if ($request->has('datatable')) {
+            $nominations = $this->nomination->filter($request->all())->get();
+            return Datatables::of($nominations)->setTransformer(NominationTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
+        }
         $nominations = $this->nomination->filter($request->all())->paginate($request->get('per_page', 50));
         return $this->response->paginator($nominations, new NominationTransformer);
     }

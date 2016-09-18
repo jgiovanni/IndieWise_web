@@ -11,6 +11,8 @@ use IndieWise\Http\Transformers\v1\CritiqueTransformer;
 use IndieWise\Critique;
 use IndieWise\Nomination;
 use IndieWise\Project;
+use League\Fractal\Serializer\DataArraySerializer;
+use Yajra\Datatables\Facades\Datatables;
 
 class CritiquesController extends Controller
 {
@@ -31,6 +33,11 @@ class CritiquesController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->has('datatable')) {
+            $critiques = $this->critique->filter($request->all())->withCount('comments')->get();
+            return Datatables::of($critiques)->setTransformer(CritiqueTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
+        }
+
         $critiques = $this->critique->filter($request->all())->withCount('comments')->paginate($request->get('per_page', 50));
         return $this->response->paginator($critiques, new CritiqueTransformer);
     }

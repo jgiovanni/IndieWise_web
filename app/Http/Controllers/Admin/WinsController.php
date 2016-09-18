@@ -9,6 +9,8 @@ use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\NominationTransformer;
 use IndieWise\Http\Transformers\v1\WinTransformer;
 use IndieWise\Win;
+use League\Fractal\Serializer\DataArraySerializer;
+use Yajra\Datatables\Facades\Datatables;
 
 class WinsController extends Controller
 {
@@ -24,11 +26,15 @@ class WinsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        //
+        if ($request->has('datatable')) {
+            $wins = $this->win->filter($request->all())->get();
+            return Datatables::of($wins)->setTransformer(WinTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
+        }
         $wins = $this->win->filter($request->all())->paginate($request->get('per_page', 50));
         return $this->response->paginator($wins, new WinTransformer);
     }

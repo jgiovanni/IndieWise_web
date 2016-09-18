@@ -9,6 +9,8 @@ use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\ReactionTransformer;
 use IndieWise\Reaction;
+use League\Fractal\Serializer\DataArraySerializer;
+use Yajra\Datatables\Facades\Datatables;
 
 class ReactionsController extends Controller
 {
@@ -29,7 +31,10 @@ class ReactionsController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        if ($request->has('datatable')) {
+            $reactions = $this->reaction->filter($request->all())->get();
+            return Datatables::of($reactions)->setTransformer(ReactionTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
+        }
         $reactions = $this->reaction->filter($request->all())->paginate($request->get('per_page', 300));
         return $this->response->paginator($reactions, new ReactionTransformer);
     }

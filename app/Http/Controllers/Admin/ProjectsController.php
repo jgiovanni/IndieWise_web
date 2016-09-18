@@ -10,6 +10,7 @@ use IndieWise\Project;
 use Dingo\Api\Contract\Http\Request;
 use IndieWise\Http\Requests\v1\ProjectRequest;
 use IndieWise\Watch;
+use League\Fractal\Serializer\DataArraySerializer;
 
 
 class ProjectsController extends Controller
@@ -31,7 +32,11 @@ class ProjectsController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        if ($request->has('datatable')) {
+            $projects = $this->project->filter($request->all())->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->get();
+            return Datatables::of($projects)->setTransformer(ProjectTransformer::class)->setSerializer(DataArraySerializer::class)->make(true);
+        }
+
         $user = $this->auth->user();
         if ($request->has('owner') && !is_null($user) && ($request->get('owner') == $user->id)) {
             $projects = $this->project->filter($request->all())->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->paginate($request->get('per_page', 10));

@@ -2,22 +2,26 @@
 
 namespace IndieWise\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
+use Dingo\Api\Contract\Http\Request;
 use IndieWise\Genre;
 use IndieWise\Http\Requests;
 use IndieWise\Http\Controllers\Controller;
+use Yajra\Datatables\Facades\Datatables;
 
 class GenresController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        if ($request->has('datatable')) {
+            return Datatables::collection(Genre::orderBy('name', 'desc')->get())->make(true);
+        }
         return Genre::orderBy('name', 'desc')->get();
     }
 
