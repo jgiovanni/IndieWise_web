@@ -58,7 +58,7 @@ class WinFilter extends ModelFilter
     public function counts($counts)
     {
         if ($counts) {
-            return $this->withCount('projects', 'wins', 'critiques', 'nominations' ,'reactions');
+            return $this->withCount('nominations');
         }
     }
 
