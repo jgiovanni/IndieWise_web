@@ -54,11 +54,11 @@ class WinTransformer extends TransformerAbstract
      * @param Win $win
      * @return \League\Fractal\Resource\Item
      */
-    public function includeUser(Win $win)
+    public function includeOwner(Win $win)
     {
-        $user = $win->user;
-        if($user)
-            return $this->item($user, new UserTransformer);
+        $owner = $win->owner;
+        if($owner)
+            return $this->item($owner, new UserTransformer);
 
     }
 
