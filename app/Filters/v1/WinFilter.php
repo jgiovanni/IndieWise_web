@@ -42,6 +42,10 @@ class WinFilter extends ModelFilter
 
     public function search($search)
     {
+        if (is_array($search)) {
+            $search = $search['value'];
+        }
+
         return $this->where(function ($q) use ($search) {
             return $q
                 ->where('rewarded', $search)
