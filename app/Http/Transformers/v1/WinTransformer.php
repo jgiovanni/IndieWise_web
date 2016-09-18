@@ -13,7 +13,7 @@ class WinTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = ['project', 'award', 'actions'];
+    protected $availableIncludes = ['project', 'owner', 'award', 'actions'];
 
     /**
      * List of resources to automatically include
@@ -82,11 +82,11 @@ class WinTransformer extends TransformerAbstract
      * @param Win $win
      * @return \League\Fractal\Resource\Item
      */
-    public function includeCritique(Win $win)
+    public function includeNominations(Win $win)
     {
-        $critique = $win->critique;
-        if($critique)
-            return $this->item($critique, new CritiqueTransformer);
+        $nominations = $win->nominations;
+        if($nominations)
+            return $this->item($nominations, new NominationTransformer);
 
     }
 
