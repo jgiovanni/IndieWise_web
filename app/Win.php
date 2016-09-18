@@ -16,7 +16,7 @@ class Win extends Model
     //
     protected $table = 'AwardWin';
 
-    protected $fillable = ['award_id', 'project_id', 'owner_id'];
+    protected $fillable = ['award_id', 'project_id', 'owner_id', 'rewarded', 'rewarded_at'];
 
     public $dates = ['created_at', 'updated_at', 'rewarded_at', 'deleted_at'];
 
