@@ -46,10 +46,10 @@ class WinFilter extends ModelFilter
             return $q
                 ->where('rewarded', $search)
                 ->orWhereHas('award', function ($a) use ($search) {
-                    $a->where('name', 'LIKE',strtolower("%$search%"));
+                    return $a->where('name', 'LIKE',strtolower("%$search%"));
                 })
                 ->orWhereHas('project', function ($p) use ($search) {
-                    $p->where('name', 'LIKE',strtolower("%$search%"));
+                    return $p->where('name', 'LIKE',strtolower("%$search%"));
                 })
                 ->orWhereHas('owner', function ($u) use ($search) {
                     return $u
