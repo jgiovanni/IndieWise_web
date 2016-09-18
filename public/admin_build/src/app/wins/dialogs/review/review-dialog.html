@@ -1,0 +1,43 @@
+<!-- DIALOG -->
+<md-dialog class="review-dialog" aria-label="Review Critiques">
+    <md-dialog-content>
+        <md-content class="" layout-xs="column" layout="row">
+            <div flex layout="column">
+                <md-card ng-repeat="nomination in vm.win.nominations.data">
+                    <md-card-header>
+                        <md-card-avatar>
+                            <img ng-src="{{::nomination.critique.data.user.avatar}}"/>
+                        </md-card-avatar>
+                        <md-card-header-text>
+                            <span class="md-title">{{::nomination.critique.data.user.fullName}}</span>
+                            <span class="md-subhead">{{::nomination.critique.data.created_at|date:'medium'}}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <!--<img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">-->
+                    <!--<md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">Card header</span>
+                        </md-card-title-text>
+                    </md-card-title>-->
+                    <md-card-content>
+                        <p>{{::nomination.critique.data.body}}</p>
+                        <table>
+                            <tr><td>Acting</td><td>{{::nomination.critique.data.performances}}</td></tr>
+                            <tr><td>Cinematography</td><td>{{::nomination.critique.data.cinematography}}</td></tr>
+                            <tr><td>Direction</td><td>{{::nomination.critique.data.direction}}</td></tr>
+                            <tr><td>Editing</td><td>{{::nomination.critique.data.structure}}</td></tr>
+                            <tr><td>Music</td><td>{{::nomination.critique.data.music}}</td></tr>
+                            <tr><td>Originality</td><td>{{::nomination.critique.data.originality}}</td></tr>
+                            <tr><td>Pacing</td><td>{{::nomination.critique.data.pacing}}</td></tr>
+                            <tr><td>Production Value</td><td>{{::nomination.critique.data.production}}</td></tr>
+                            <tr><td>Sound Quality</td><td>{{::nomination.critique.data.audio}}</td></tr>
+                            <tr><td>Writing</td><td>{{::nomination.critique.data.writing}}</td></tr>
+                            <tr><td>Overall Rating</td><td>{{::nomination.critique.data.overall}}/10</td></tr>
+                        </table>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </md-content>
+    </md-dialog-content>
+</md-dialog>
+<!-- / DIALOG -->

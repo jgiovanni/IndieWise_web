@@ -1,0 +1,98 @@
+<div id="simple-table" class="page-layout simple fullwidth doc-page element-doc-page">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="center start">
+            <div class="title">Award Wins</div>
+        </div>
+
+        <!--<div layout="row" layout-align="start center">
+            <md-button class="md-raised reference-button"
+                       href="https://l-lin.github.io/angular-datatables"
+                       target="_blank">
+                <md-icon md-font-icon="icon-link"></md-icon>
+                <span>Reference</span>
+            </md-button>
+        </div>-->
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="white-bg md-whiteframe-4dp">
+            <table class="dataTable row-border hover" datatable="" dt-options="vm.dtOptions"  dt-columns="vm.dtColumns">
+                <!--<thead>
+                <tr>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Name</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Email</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Projects</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Critiques</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Nominations</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Country</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Join Date</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Last Seen</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Verified</span>
+                        </div>
+                    </th>
+                    <th class="secondary-text">
+                        <div class="table-header">
+                            <span class="column-title">Actions</span>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in vm.users">
+                    <td>{{ user.fullName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.projects_count }}</td>
+                    <td>{{ user.critiques_count }}</td>
+                    <td>{{ user.nominations_count }}</td>
+                    <td>{{ user.country.data.name || 'None Selected' }}</td>
+                    <td>{{ user.created_at | date:'medium' }}</td>
+                    <td>{{ user.updated_at | date:'medium' }}</td>
+                    <td>{{ user.verified ? 'Yes' : 'No' }}</td>
+                    <td></td>
+                </tr>
+                </tbody>-->
+            </table>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

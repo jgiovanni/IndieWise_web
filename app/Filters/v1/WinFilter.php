@@ -39,7 +39,28 @@ class WinFilter extends ModelFilter
     {
         return $this->where('award_id', $award);
     }
-    
+
+    public function search($search)
+    {
+        return $this->where(function ($q) use ($search) {
+            return $q
+                ->where('rewarded', $search)
+                ->orWhereHas('award', function ($a) use ($search) {
+                    $a->where('name', 'LIKE',strtolower("%$search%"));
+                })
+                ->orWhereHas('project', function ($p) use ($search) {
+                    $p->where('name', 'LIKE',strtolower("%$search%"));
+                })
+                ->orWhereHas('owner', function ($u) use ($search) {
+                    return $u
+                        ->where('firstName', 'LIKE',strtolower("%$search%"))
+                        ->orWhere('lastName', 'LIKE', strtolower("%$search%"))
+                        ->orWhere('fullName', 'LIKE', strtolower("%$search%"));
+                });
+        });
+    }
+
+
     public function sort($sort)
     {
         $sortable = [
