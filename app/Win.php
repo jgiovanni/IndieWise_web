@@ -32,7 +32,7 @@ class Win extends Model
 
     public function nominations()
     {
-        return $this->hasMany(Nomination::class, 'award_id', 'award_id');
+        return $this->hasMany(Nomination::class, 'award_id', 'award_id')->where('project_id', $this->project_id);
 //        return $this->hasManyThrough(Nomination::class, Project::class);
     }
 
