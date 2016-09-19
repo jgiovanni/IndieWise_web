@@ -10,6 +10,7 @@
         $stateProvider
             .state('app.users', {
                 url: '/users',
+                authenticate: true,
                 views: {
                     'content@app': {
                         templateUrl: 'app/users/layouts/list.html',

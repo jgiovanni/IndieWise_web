@@ -10,6 +10,7 @@
         $stateProvider
             .state('app.wins', {
                 url: '/wins',
+                authenticate: true,
                 views: {
                     'content@app': {
                         templateUrl: 'app/wins/layouts/list.html',

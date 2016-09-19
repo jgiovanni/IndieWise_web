@@ -16,7 +16,7 @@
     function config($stateProvider, msApiProvider)
     {
         // State
-        $stateProvider.state('app.dashboards_project', {
+        $stateProvider.state('app.dashboard', {
             url      : '/dashboard-project',
             views    : {
                 'content@app': {
