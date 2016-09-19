@@ -222,6 +222,9 @@ $api->version('v1', [
 ], function ($api) {
     // Admin Routes
     $api->group(['prefix' => 'admin'], function ($api) {
+        // Auth Routes
+        $api->post('login', 'AuthController@login');
+        $api->post('logout', 'AuthController@logout');
         // Static Data Routes
         $api->resource('countries', 'CountriesController');
         $api->resource('languages', 'LanguagesController');
