@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app.users', [
-        'datatables'
+        'datatables', 'datatables.light-columnfilter'
     ])
         .config(config);
 
@@ -45,7 +45,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('fuse', {
-            title : 'Users',
+            title : 'Console',
             group : true,
             weight: 1
         });

@@ -6,16 +6,17 @@
         .controller('WinsController', WinsController);
 
 
-    function WinsController($scope, $auth, $compile, $mdDialog, $document, DTOptionsBuilder, DTColumnBuilder, apiResolver) {
+    function WinsController($scope, $auth, $compile, $mdDialog, $document, $timeout, DTOptionsBuilder, DTColumnBuilder, apiResolver) {
         var vm = this;
 
         // Methods
         vm.grant = grant;
         vm.review = review;
         vm.remove = remove;
+        vm.dtInstanceCallback = dtInstanceCallback;
 
         vm.dtOptions = DTOptionsBuilder.newOptions()
-            .withOption('dom', '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>')
+            .withOption('dom', '<"top"<"info"i>f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>')
             .withOption('ajax', {
                 headers: { Authorization: 'Bearer ' + $auth.getToken() },
                 data: {counts:true, include: 'owner,nominations', datatable:true},
@@ -30,34 +31,42 @@
             .withOption('serverSide', true)
             .withOption('createdRow', createdRow)
             .withPaginationType('simple_numbers')
-            /*.withLightColumnFilter({
-                0: {
+            .withLightColumnFilter({
+                '0': {
+                    html: 'input',
                     type: 'text',
                     bRegex: false,
                     bSmart: true,
                 },
-                1: {
+                '1': {
+                    html: 'input',
                     type: 'text',
                     bRegex: false,
                     bSmart: true
                 },
-                2: {
+                '2': {
+                    html: 'input',
                     type: 'text',
-                    bRegex: false,
                     bSmart: true
                 },
-                3: {
+                '3': {
                     type: 'number',
                 },
-                4: {
-                    type: 'number',
+                '4': {
+                    html: 'select',
+                    values: [{
+                        value: null,  label: 'All'
+                    }, {
+                        value: 1,  label: 'Yes'
+                    }, {
+                        value: 0,  label: 'No'
+                    }]
                 },
-                5: {
-                    type: 'test',
-                    bRegex: false,
+                '5': {
+                    type: 'datetime',
                     // values: ['Yoda', 'Titi', 'Kyle', 'Bar', 'Whateveryournameis']
                 }
-            })*/;
+            });
 
         vm.dtColumns = [
             // DTColumnBuilder.newColumn('id').withTitle('ID')/*.notVisible()*/,
@@ -84,19 +93,21 @@
         }
 
         function actionsHtml(data, type, full, meta) {
+            var canGrant = data.rewarded === 0;
+            var projectURL = 'https://getindiewise.com/' + (angular.isObject(data.project) ? data.project.data.url_id : data.project_id);
             return  '<md-menu>' +
                         '<md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Win Actions Menu"><md-icon md-menu-origin md-font-icon="icon-dots-horizontal"></md-icon></md-button>' +
                         '<md-menu-content>' +
-                            '<md-menu-item><md-button ng-click="vm.review(\'' + data.id + '\', $event)" aria-label="Review"><md-icon md-menu-align-target md-font-icon="icon-pencil"></md-icon>Review Critiques</md-button></md-menu-item>' +
-                            '<md-menu-item><md-button ng-click="vm.grant(\'' + data.id + '\', $event)" aria-label="Grant Award"><md-icon md-menu-align-target md-font-icon="icon-pencil"></md-icon>Grant Award</md-button></md-menu-item>' +
-                            '<md-menu-item><md-button ng-href="https://getindiewise.com/' + data.project.data.url_id + '/about" target="_blank" aria-label="View Project"><md-icon md-menu-align-target md-font-icon="icon-open-in-new"></md-icon>View Project</md-button></md-menu-item>' +
-                            '<md-menu-item><md-button ng-click="vm.remove(\'' + data.id + '\', \'' + data.award.data.name + '\', $event)" aria-label="Delete"><md-icon md-menu-align-target md-font-icon="icon-delete"></md-icon>Delete</md-button></md-menu-item>' +
+                            '<md-menu-item><md-button ng-click="vm.review(\'' + data.id + '\', $event)" aria-label="Review"><md-icon md-menu-align-target md-font-icon="icon-eye"></md-icon>Review Critiques</md-button></md-menu-item>' +
+                            '<md-menu-item ng-if="'+ canGrant +'"><md-button ng-click="vm.grant(\'' + data.id + '\', $event)" aria-label="Grant Award"><md-icon md-menu-align-target md-font-icon="icon-star"></md-icon>Grant Award</md-button></md-menu-item>' +
+                            '<md-menu-item><md-button ng-href="' + projectURL + '/about" target="_blank" aria-label="View Project"><md-icon md-menu-align-target md-font-icon="icon-open-in-new"></md-icon>View Project</md-button></md-menu-item>' +
+                            // '<md-menu-item><md-button ng-click="vm.remove(\'' + data.id + '\', \'' + data.award.data.name + '\', $event)" aria-label="Delete"><md-icon md-menu-align-target md-font-icon="icon-delete"></md-icon>Delete</md-button></md-menu-item>' +
                         '</md-menu-content>' +
                     '</md-menu>';
         }
 
         function grant(id, ev) {
-            apiResolver.resolve('wins@update', {id: id, rewarded: true, rewarded_at: moment().toDateString()}).then(function (response) {
+            apiResolver.resolve('wins@update', {id: id, rewarded: true, rewarded_at: moment().format('YYYY-MM-DD HH:MM:SS')}).then(function (response) {
                 debugger;
             })
 
@@ -150,6 +161,12 @@
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
+
+        function dtInstanceCallback(instance) {}
+        $timeout(function () {
+            angular.element('thead tr[role=row]').next().addClass('dataTables_filter')
+        }, 1000);
+
     }
 
 

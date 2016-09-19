@@ -45,7 +45,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('fuse', {
-            title : 'Wins',
+            title : 'Console',
             group : true,
             weight: 1
         });

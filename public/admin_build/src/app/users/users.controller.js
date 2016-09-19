@@ -16,7 +16,7 @@
         vm.openContactDialog = openContactDialog;
 
         vm.dtOptions = DTOptionsBuilder.newOptions()
-            .withDOM('<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>')
+            .withOption('dom', '<"top"<"info"i>f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>')
             .withOption('ajax', {
                 headers: { Authorization: 'Bearer ' + $auth.getToken() },
                 data: {counts:true, include: 'country', datatable:true},

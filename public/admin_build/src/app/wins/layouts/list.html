@@ -18,29 +18,29 @@
     <!-- / HEADER -->
 
     <!-- CONTENT -->
+    <style>
+        .dataTables_wrapper thead tr.dataTables_filter {
+            float: none;
+        }
+    </style>
     <div class="content">
         <div class="white-bg md-whiteframe-4dp">
-            <table class="dataTable row-border hover" datatable="" dt-options="vm.dtOptions"  dt-columns="vm.dtColumns">
-                <!--<thead>
+            <table class="dataTable row-border hover" datatable="" dt-options="vm.dtOptions"  dt-columns="vm.dtColumns" dt-instance="wm.dtInstanceCallback">
+                <thead>
                 <tr>
                     <th class="secondary-text">
                         <div class="table-header">
-                            <span class="column-title">Name</span>
+                            <span class="column-title">Award</span>
                         </div>
                     </th>
                     <th class="secondary-text">
                         <div class="table-header">
-                            <span class="column-title">Email</span>
+                            <span class="column-title">Project</span>
                         </div>
                     </th>
                     <th class="secondary-text">
                         <div class="table-header">
-                            <span class="column-title">Projects</span>
-                        </div>
-                    </th>
-                    <th class="secondary-text">
-                        <div class="table-header">
-                            <span class="column-title">Critiques</span>
+                            <span class="column-title">Owner</span>
                         </div>
                     </th>
                     <th class="secondary-text">
@@ -50,22 +50,12 @@
                     </th>
                     <th class="secondary-text">
                         <div class="table-header">
-                            <span class="column-title">Country</span>
+                            <span class="column-title">Awarded</span>
                         </div>
                     </th>
                     <th class="secondary-text">
                         <div class="table-header">
-                            <span class="column-title">Join Date</span>
-                        </div>
-                    </th>
-                    <th class="secondary-text">
-                        <div class="table-header">
-                            <span class="column-title">Last Seen</span>
-                        </div>
-                    </th>
-                    <th class="secondary-text">
-                        <div class="table-header">
-                            <span class="column-title">Verified</span>
+                            <span class="column-title">Awarded At</span>
                         </div>
                     </th>
                     <th class="secondary-text">
@@ -75,7 +65,7 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <!--<tbody>
                 <tr ng-repeat="user in vm.users">
                     <td>{{ user.fullName }}</td>
                     <td>{{ user.email }}</td>
