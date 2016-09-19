@@ -3,16 +3,13 @@
 <head>
     <base href="/console/">
     <meta charset="utf-8">
-    <meta name="robots" content="">
+    <meta name="robots" content="NONE">
     <meta name="description" content="">
-    <meta
-            name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>IndieWise: Admin</title>
-    <link
-            rel="stylesheet" href="/admin/styles/vendor-2ca8db2d81.css">
+    <link rel="stylesheet" href="/admin/styles/vendor-2ca8db2d81.css">
     <link rel="stylesheet" href="/admin/styles/app-61334f8c0f.css">
-    <link
-            href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic"
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic"
             rel="stylesheet" type="text/css">
 </head>
 <!--[if lt IE 10]>
@@ -24,13 +21,12 @@
 <ms-splash-screen id="splash-screen">
     <div class="center">
         <div class="logo">
-            <span>F</span></div>
+            <span>IW</span></div>
         <div class="spinner-wrapper">
             <div class="spinner">
                 <div class="inner">
                     <div class="gap"></div>
-                    <div
-                            class="left">
+                    <div class="left">
                         <div class="half-circle"></div>
                     </div>
                     <div class="right">
