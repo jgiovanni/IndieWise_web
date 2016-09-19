@@ -43,7 +43,6 @@
 <div id="main" class="animate-slide-up" ui-view="main" layout="column"></div>
 <ms-theme-options></ms-theme-options>
 <script src="/public/admin/scripts/vendor-3df4a11a62.js"></script>
-<script
-        src="/public/admin/scripts/app-8088fdde0a.js"></script>
+<script src="/public/admin/scripts/app-392b0e6676.js"></script>
 </body>
 </html>
