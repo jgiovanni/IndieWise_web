@@ -225,6 +225,7 @@ $api->version('v1', [
         // Auth Routes
         $api->post('login', 'AuthController@login');
         $api->post('logout', 'AuthController@logout');
+        $api->get('authenticate', 'AuthController@authenticatedUser');
         // Static Data Routes
         $api->resource('countries', 'CountriesController');
         $api->resource('languages', 'LanguagesController');
