@@ -4,6 +4,7 @@ namespace IndieWise\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests;
@@ -85,7 +86,8 @@ class AuthController extends Controller
             }
 
             $user = JWTAuth::user();
-            if (!$user->hasRole('admin')) {
+            $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
+            if (empty($test)) {
                 return response()->json(['user_not_authorized'], 401);
             }
 
