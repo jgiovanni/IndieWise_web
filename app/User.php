@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable, EntrustUserTrait;
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable/*, EntrustUserTrait*/;
 
 
     protected $table = 'users';
