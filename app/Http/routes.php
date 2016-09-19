@@ -25,10 +25,10 @@ $dispatcher = app('Dingo\Api\Dispatcher');
 
 Route::group(['prefix' => 'console'], function () use ($dispatcher) {
 //    dd(Auth::user());
-    Route::any('{path?}', function() use ($dispatcher) {
+    Route::any('{path?}', function() {
         if (App::environment('local')) {
-            return view("admin_dev", compact('countries'));
-        } else return view("admin", compact('countries'));
+            return view("admin_dev");
+        } else return view("admin");
     })->where("path", ".+");
 });
 
@@ -99,10 +99,10 @@ Route::any('{path?}', function() use ($dispatcher) {
                 $response = $e->getResponse();
             } catch (NotFoundHttpException $e) {
                 return redirect('404');
-                $response = $e->getResponse();
+//                $response = $e->getResponse();
             } catch (ModelNotFoundException $e) {
                 return redirect('404');
-                $response = $e;
+//                $response = $e;
             }
             return view("hard-video", compact('project', 'countries'));
         } else
