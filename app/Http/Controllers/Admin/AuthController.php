@@ -86,7 +86,7 @@ class AuthController extends Controller
             }
 
             $user = JWTAuth::user();
-            dd($user);
+            dd($test);
             $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
             if (empty($test)) {
                 return response()->json(['user_not_authorized'], 401);
