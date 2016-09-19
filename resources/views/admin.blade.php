@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>IndieWise: Admin</title>
     <link rel="stylesheet" href="/admin/styles/vendor-2ca8db2d81.css">
-    <link rel="stylesheet" href="/admin/styles/app-62ddbd88a7.css">
+    <link rel="stylesheet" href="/admin/styles/app-61334f8c0f.css">
     <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic"
             rel="stylesheet" type="text/css">
 </head>
@@ -40,6 +40,6 @@
 <div id="main" class="animate-slide-up" ui-view="main" layout="column"></div>
 <ms-theme-options></ms-theme-options>
 <script src="/admin/scripts/vendor-3df4a11a62.js"></script>
-<script src="/admin/scripts/app-10ef547eb4.js"></script>
+<script src="/admin/scripts/app-5c3474b76c.js"></script>
 </body>
 </html>
