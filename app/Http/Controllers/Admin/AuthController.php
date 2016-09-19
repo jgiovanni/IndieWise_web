@@ -64,9 +64,13 @@ class AuthController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            if (!$user->hasRole('admin')) {
+            $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
+            if (empty($test)) {
                 return response()->json(['user_not_authorized'], 401);
             }
+            /*if (!$user->hasRole('admin')) {
+                return response()->json(['user_not_authorized'], 401);
+            }*/
         } catch (JWTException $e) {
             return response()->json(['token_expired'], 401);
         } catch (JWTException $e) {
