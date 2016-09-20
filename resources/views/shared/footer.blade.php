@@ -15,6 +15,7 @@
                     <hr>
                     <div class="">
                         <a class="tiny expanded button" ui-sref="privacy">Privacy Policy</a>
+                        <a class="tiny expanded button" ui-sref="faq">FAQ</a>
                         <a class="tiny expanded button" ui-sref="advertise">Advertise</a>
                         <a class="tiny expanded button" ui-sref="tos">Terms of Service</a>
                         <a class="tiny expanded button" ui-sref="contact">Contact</a>

@@ -717,6 +717,11 @@ jQuery(document).ready(function (jQuery) {
                     authenticate: false,
                     templateUrl: 'static/about.html'
                 })
+                .state('faq', {
+                    url: '/faq',
+                    authenticate: false,
+                    templateUrl: 'static/faq.html'
+                })
                 .state('contact', {
                     url: '/contact?email',
                     authenticate: false,
