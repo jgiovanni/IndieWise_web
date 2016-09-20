@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.dashboards', ['app.dashboards.project'])
+        .module('app.dashboard', ['app.dashboards.project'])
         .config(config);
 
     /** @ngInject */
@@ -16,10 +16,10 @@
             weight: 1
         });
 
-        msNavigationServiceProvider.saveItem('fuse.dashboards', {
+        msNavigationServiceProvider.saveItem('fuse.dashboard', {
             title : 'Dashboard',
             icon  : 'icon-tile-four',
-            state: 'app.dashboards_project',
+            state: 'app.dashboard',
             weight: 1
         });
 

@@ -17,7 +17,7 @@
     {
         // State
         $stateProvider.state('app.dashboard', {
-            url      : '/dashboard-project',
+            url      : '/dashboard',
             views    : {
                 'content@app': {
                     templateUrl: 'app/dashboard/dashboard-project.html',
@@ -34,7 +34,7 @@
         });
 
         // Api
-        msApiProvider.register('dashboard.project', ['app/data/dashboard/project/data.json']);
+        msApiProvider.register('dashboard.project', ['/app/data/dashboard/project/data.json']);
     }
 
 })();

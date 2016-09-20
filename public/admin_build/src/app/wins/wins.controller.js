@@ -100,7 +100,7 @@
                         '<md-menu-content>' +
                             '<md-menu-item><md-button ng-click="vm.review(\'' + data.id + '\', $event)" aria-label="Review"><md-icon md-menu-align-target md-font-icon="icon-eye"></md-icon>Review Critiques</md-button></md-menu-item>' +
                             '<md-menu-item ng-if="'+ canGrant +'"><md-button ng-click="vm.grant(\'' + data.id + '\', $event)" aria-label="Grant Award"><md-icon md-menu-align-target md-font-icon="icon-star"></md-icon>Grant Award</md-button></md-menu-item>' +
-                            '<md-menu-item><md-button ng-href="' + projectURL + '/about" target="_blank" aria-label="View Project"><md-icon md-menu-align-target md-font-icon="icon-open-in-new"></md-icon>View Project</md-button></md-menu-item>' +
+                            '<md-menu-item><md-button ng-href="' + projectURL + '" target="_blank" aria-label="View Project"><md-icon md-menu-align-target md-font-icon="icon-open-in-new"></md-icon>View Project</md-button></md-menu-item>' +
                             // '<md-menu-item><md-button ng-click="vm.remove(\'' + data.id + '\', \'' + data.award.data.name + '\', $event)" aria-label="Delete"><md-icon md-menu-align-target md-font-icon="icon-delete"></md-icon>Delete</md-button></md-menu-item>' +
                         '</md-menu-content>' +
                     '</md-menu>';

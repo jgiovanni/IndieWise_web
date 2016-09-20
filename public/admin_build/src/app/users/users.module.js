@@ -41,7 +41,7 @@
         ;
 
         // Translation
-        $translatePartialLoaderProvider.addPart('app/users');
+        $translatePartialLoaderProvider.addPart('/app/users');
 
 
         // Navigation
