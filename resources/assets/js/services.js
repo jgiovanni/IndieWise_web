@@ -375,17 +375,22 @@
                         };
                     });
             },
-            socialLogin: function (provider) {
+            socialLogin: function (provider, isModal) {
+                isModal = isModal || false;
                 return $auth.authenticate(provider)
                     .then(function(response) {
                         // console.log(response.data);
                         service.getCurrentUser().then(function (user) {
                             self.error = '';
-                            if (moment(user.created_at).isSame(moment(), 'hour')) {
-                                console.log('User ' + user.fullName + ' created successfully!');
-                                $state.go('profile.about');
+                            if (!isModal) {
+                                if (moment(user.created_at).isSame(moment(), 'hour')) {
+                                    console.log('User ' + user.fullName + ' created successfully!');
+                                    $state.go('profile.about');
+                                } else {
+                                    $state.go('home');
+                                }
                             } else {
-                                $state.go('home');
+                                return user;
                             }
                         });
                     })
@@ -543,8 +548,9 @@
 
         self.authenticate = function (provider) {
             self.error = null;
-            AuthService.socialLogin(provider, false).then(function (a) {
+            AuthService.socialLogin(provider, true).then(function (a) {
                 console.log(a);
+                self.ok();
             });
         };
 
