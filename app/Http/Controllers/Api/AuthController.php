@@ -26,12 +26,11 @@ class AuthController extends Controller
     use Helpers, ResetsPasswords, VerifiesUsers;
 
 
-    private $user;
+    //
 
-    public function __construct(User $user)
+    public function __construct()
     {
         $this->middleware('guest', ['except' => ['getToken', 'getVerification', 'getVerificationError']]);
-        $this->user = $user;
     }
 
     /**
@@ -219,7 +218,7 @@ class AuthController extends Controller
     public function updateMe(UserRequest $request, $id)
     {
         try {
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
+            if (!$user = JWTAuth::parseToken()->toUser()) {
                 return response()->json(['user_not_found'], 404);
             }
         } catch (JWTException $e) {

@@ -95,7 +95,23 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            if (!$user = JWTAuth::parseToken()->toUser()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_absent'], 401);
+        }
+
+        if ($user->id !== $id) {
+            return response()->json(['access_denied'], 401);
+        }
+//        $user = $this->user->findOrFail($id);
+        return $user->delete();
     }
 
     public function count()

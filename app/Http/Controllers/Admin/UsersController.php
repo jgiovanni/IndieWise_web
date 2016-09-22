@@ -101,8 +101,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->user->findOrFail($id);
-        return $user->destroy();
+//        $user = $this->user->findOrFail($id);
+        return $this->user->destroy($id);
     }
 
     public function count()

@@ -206,9 +206,9 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
             $user->types()->delete();
         });
 
-        static::deleted(function ($user) {
+        /*static::deleted(function ($user) {
 //            Event::fire('win.deleted', $win);
-        });
+        });*/
     }
 
 }

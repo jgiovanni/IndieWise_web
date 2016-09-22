@@ -3,6 +3,7 @@
 namespace IndieWise\Http\Requests\v1;
 
 use Dingo\Api\Http\FormRequest;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class   UserRequest extends FormRequest
 {
@@ -15,7 +16,8 @@ class   UserRequest extends FormRequest
     public function authorize()
     {
         if ($this->isMethod('put')) {
-            return $this->user()->id === $this->get('id');
+            $user = JWTAuth::parseToken()->toUser();
+            return $user->id === $this->get('id');
         }
         return true;
     }
