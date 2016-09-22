@@ -2329,8 +2329,8 @@
         }
     }
 
-    ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window', '$intercom'];
-    function ProfileSettingsController($rootScope, AuthService, User, Genres, UserTypes, DataService, anchorSmoothScroll, _, $window, $intercom) {
+    ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window', '$intercom', '$mdDialog'];
+    function ProfileSettingsController($rootScope, AuthService, User, Genres, UserTypes, DataService, anchorSmoothScroll, _, $window, $intercom, $mdDialog) {
         var self = this;
         self.countries = [];
         self.genresArr = [];
@@ -2347,6 +2347,7 @@
         self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
         self.toggleNotifications = toggleNotifications;
         self.requestVerificationEmail = requestVerificationEmail;
+        self.confirmTerminate = confirmTerminate;
         self.verificationEmailSentMessage = false;
 
         function toggleNotifications() {
@@ -2464,6 +2465,23 @@
             }
             return match;
         };
+        function confirmTerminate(ev) {
+            var confirm = $mdDialog.confirm()
+                .title('Terminate Account')
+                .textContent('Are you sure you want to terminate your account?')
+                .ariaLabel('Terminate Account')
+                .targetEvent(ev)
+                .ok('Yes')
+                .cancel('No');
+
+            $mdDialog.show(confirm).then(function() {
+                AuthService.deleteUser().then(function (res) {
+
+                });
+            }, function() {
+
+            });
+        }
 
     }
 

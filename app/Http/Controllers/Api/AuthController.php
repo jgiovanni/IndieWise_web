@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests;
 use Dingo\Api\Contract\Http\Request;
+use IndieWise\Http\Transformers\v1\UserTransformer;
 use IndieWise\PasswordReset;
 use IndieWise\Playlist;
 use IndieWise\User;
@@ -25,11 +26,12 @@ class AuthController extends Controller
     use Helpers, ResetsPasswords, VerifiesUsers;
 
 
-    //
+    private $user;
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->middleware('guest', ['except' => ['getToken', 'getVerification', 'getVerificationError']]);
+        $this->user = $user;
     }
 
     /**
@@ -99,6 +101,8 @@ class AuthController extends Controller
             $user = new User($request->except('password_confirmation'));
 //            $user->verified = 1;
 //            $user->verified_at = Carbon::now()->toDateTimeString();
+            $user->ip_used = request()->ip();
+
             $user->save();
 
             // Add playlists
@@ -204,4 +208,60 @@ class AuthController extends Controller
         } else return response()->json(['sent' => false]);
 
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request|\Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateMe(UserRequest $request, $id)
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_absent'], 401);
+        }
+
+        $user->update($request->except('genres', 'country', 'types', 'user_id', 'name', 'user_hash', 'app_id', 'password_confirmation'));
+        if( $request->has('genres') && count($request->get('genres')) > 0 && !is_array($request->get('genres')[0]) ) {
+            $user->syncGenres($request->get('genres'));
+        }
+        if( $request->has('types') && count($request->get('types')) > 0 && !is_array($request->get('types')[0]) ) {
+            $user->syncTypes($request->get('types'));
+        }
+        if( $request->has('settings')) {
+            $user->syncSettings($request->get('settings'));
+        }
+        return $this->response->item($user->load('genres', 'country', 'types'), new UserTransformer);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function terminate()
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_absent'], 401);
+        }
+    }
+
 }

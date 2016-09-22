@@ -74,6 +74,7 @@ class Win extends Model
             ];
             Mail::queue('emails.notifications.win', $data, function ($mail) use ($data) {
                 $mail->to($data['ownerEmail'], $data['ownerName'])
+                    ->replyTo('awards@getindiewise.com', 'IndieWise Awards')
                     ->from('awards@mail.getindiewise.com', 'IndieWise Awards')
                     ->subject($data['subject']);
             });

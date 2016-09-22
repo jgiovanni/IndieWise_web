@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable/*, EntrustUserTrait*/;
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable/*, EntrustUserTrait*/
+        ;
 
 
     protected $table = 'users';
@@ -37,7 +38,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
      *
      * @var array
      */
-    protected $casts = [ 'settings' => 'json' ];
+    protected $casts = ['settings' => 'json'];
 
 
     /**
@@ -76,7 +77,8 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
      *
      * @return mixed
      */
-    public function getJWTIdentifier(){
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -85,7 +87,8 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
      *
      * @return array
      */
-    public function getJWTCustomClaims(){
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 
@@ -182,14 +185,28 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
     {
         parent::boot();
 
-        static::created(function($user) {
+        static::created(function ($user) {
             UserVerification::generate($user);
             UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
 
 //            Event::fire('win.created', $win);
         });
 
-        static::deleted(function($user) {
+        static::deleting(function ($user) {
+            $user->comments()->delete();
+            $user->projects()->delete();
+            $user->critiques()->delete();
+            $user->nominations()->delete();
+            $user->ratings()->delete();
+            $user->threads()->delete();
+            $user->playlists()->delete();
+            $user->wins()->delete();
+            $user->reactions()->delete();
+            $user->genres()->delete();
+            $user->types()->delete();
+        });
+
+        static::deleted(function ($user) {
 //            Event::fire('win.deleted', $win);
         });
     }

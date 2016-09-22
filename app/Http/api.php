@@ -178,7 +178,8 @@ $api->version('v1', [
         $api->get('request_verification', 'AuthController@requestVerification');
 
         // User Routes
-        $api->post('users/me', 'UsersController@updateMe');
+        $api->put('users/me/{id?}', 'AuthController@updateMe');
+        $api->delete('users/me', 'AuthController@terminate');
 
         // Query Routes
         $api->get('users/count', 'UsersController@count');

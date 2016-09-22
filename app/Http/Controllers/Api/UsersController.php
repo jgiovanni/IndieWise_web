@@ -81,9 +81,9 @@ class UsersController extends Controller
         if( $request->has('types') && count($request->get('types')) > 0 && !is_array($request->get('types')[0]) ) {
             $user->syncTypes($request->get('types'));
         }
-        /*if( $request->has('settings')) {
+        if( $request->has('settings')) {
             $user->syncSettings($request->get('settings'));
-        }*/
+        }
         return $this->response->item($user->load('genres', 'country', 'types'), new UserTransformer);
     }
 

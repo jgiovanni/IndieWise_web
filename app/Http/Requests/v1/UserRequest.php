@@ -3,7 +3,6 @@
 namespace IndieWise\Http\Requests\v1;
 
 use Dingo\Api\Http\FormRequest;
-use Dingo\Api\Http\Request;
 
 class   UserRequest extends FormRequest
 {
@@ -13,7 +12,7 @@ class   UserRequest extends FormRequest
      * @param Request $request
      * @return bool
      */
-    public function authorize(Request $request)
+    public function authorize()
     {
         if ($this->isMethod('put')) {
             return $this->user()->id === $this->get('id');

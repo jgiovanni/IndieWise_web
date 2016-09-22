@@ -38,6 +38,7 @@ class SocialAccountService
                     'fullName' => $providerUser->getName(),
                     'firstName' => $name_parts[0],
                     'lastName' => end($name_parts),
+                    'ip_used' => request()->ip()
 //                    'verified' => true,
 //                    'verified_at' => Carbon::now()->toDateTimeString()
                 ]);

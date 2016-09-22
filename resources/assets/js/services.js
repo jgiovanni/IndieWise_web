@@ -297,7 +297,19 @@
              * @param _userParams
              */
             updateUser: function (_userParams) {
-                return DataService.update('users', _userParams.id, _userParams).then(function (response) {
+                return DataService.update('users/me', _userParams.id, _userParams).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    console.log(error);
+                    return error;
+                });
+            },
+            /**
+             *
+             * @param _userParams
+             */
+            deleteUser: function () {
+                return DataService.delete('users/me').then(function (response) {
                     return response;
                 });
             },
