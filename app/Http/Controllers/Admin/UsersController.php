@@ -102,7 +102,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
 //        $user = $this->user->findOrFail($id);
-        return response()->json(['success' => $this->user->destroy($id)], 401);
+        return response()->json(['success' => $this->user->destroy($id)], 200);
     }
 
     public function count()
