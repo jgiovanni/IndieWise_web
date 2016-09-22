@@ -67,7 +67,7 @@ class Win extends Model
             $data = [
                 'ownerEmail' => $this->target->owner->email,
                 'ownerName' => $this->target->owner->fullName,
-                'subject' => "You've won an IndieWise Award! (Unofficial)",
+                'subject' => $this->target->owner->fullName . ", you've won an IndieWise Award! (Unofficial)",
                 'targetName' => $this->target->name,
                 'targetUrlId' => $this->target->url_id,
                 'awardName' => $this->award->name,
