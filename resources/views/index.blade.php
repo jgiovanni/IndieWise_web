@@ -71,7 +71,7 @@
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/assets/app.css?v=092220160222"/>
+    <link rel="stylesheet" href="/assets/app.css?v=092220160522"/>
 
     <script>
         /* Replace 'APP_ID' with your app ID */
@@ -104,9 +104,9 @@
                     <div class="medium-6 columns">
                         <div class="top-button">
                             <ul class="menu float-right">
-                                {{--<!--<li ui-sref-active="active">
+                                <!--<li ui-sref-active="active">
                                     <a ui-sref="upload">upload Video</a>
-                                </li>-->--}}
+                                </li>-->
                                 <li class="dropdown-login">
                                     <a ng-if="!isAuthenticated()" ui-sref="sign_in">Login/Register</a>
                                     <a ng-if="isAuthenticated()" ng-click="Body.doSignOut();">logout</a>
@@ -161,6 +161,86 @@
 
 @include('shared.offCanvasRight')
 
+{{--<div class="off-canvas-wrapper">
+    <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+        <!--header-->
+        @include('shared.offCanvasLeft')
+
+        @include('shared.offCanvasRight')
+
+        <div class="off-canvas-content" data-off-canvas-content>
+            <header>
+                <!-- Top -->
+                <section id="top" class="topBar show-for-large" ng-cloak>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <div class="socialLinks">
+                                <a href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook-f"></i></a>
+                                <a href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns">
+                            <div class="top-button">
+                                <ul class="menu float-right">
+                                    <!--<li ui-sref-active="active">
+                                        <a ui-sref="upload">upload Video</a>
+                                    </li>-->
+                                    <li class="dropdown-login">
+                                        <a ng-if="!isAuthenticated()" ui-sref="sign_in">login/Register</a>
+                                        <a ng-if="isAuthenticated()" ng-click="Body.doSignOut();">logout</a>
+
+                                        <div class="login-form">
+                                            <h6 class="text-center">Great to have you back!</h6>
+
+                                            <form method="post">
+                                                <div class="input-group">
+                                                    <span class="input-group-label"><i class="fa fa-user"></i></span>
+                                                    <input class="input-group-field" type="text"
+                                                           placeholder="Enter username">
+                                                </div>
+                                                <div class="input-group">
+                                                    <span class="input-group-label"><i class="fa fa-lock"></i></span>
+                                                    <input class="input-group-field" type="text"
+                                                           placeholder="Enter password">
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input id="check1" type="checkbox" name="check" value="check">
+                                                    <label class="customLabel" for="check1">Remember me</label>
+                                                </div>
+                                                <input type="submit" name="submit" value="Login Now">
+                                            </form>
+                                            <p class="text-center">New here? <a class="newaccount" ui-sref="register">Create
+                                                    a new Account</a></p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- End Top -->
+                <!--Navber-->
+                @include('shared.navbar')
+            </header>
+            <!-- End Header -->
+            <div ng-if="isNotVerified()" class="callout alert-box warning" ng-cloak data-closable>
+                Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
+                <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="ui-view-container">
+                <ui-view class="" ng-cloak></ui-view>
+            </div>
+
+            @include('shared.footer')
+        </div>
+        <!--end off canvas content-->
+    </div>
+    <!--end off canvas wrapper inner-->
+</div>--}}
 <!--end off canvas wrapper-->
 
 <div id="alerts" ng-cloak>
@@ -214,8 +294,8 @@
 </script>
 
 {{--<!-- AngularJs Components -->--}}
-<script type="text/javascript" src="/js/angular.js?v=092220160222"></script>
-<script src="/js/templates.js?v=092220160222"></script>
+<script type="text/javascript" src="/js/angular.js?v=092220160522"></script>
+<script src="/js/templates.js?v=092220160522"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
@@ -262,7 +342,7 @@
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script type="text/javascript" src="/js/all.js?v=092220160222"></script>
+<script type="text/javascript" src="/js/all.js?v=092220160522"></script>
 
 </body>
 </html>
