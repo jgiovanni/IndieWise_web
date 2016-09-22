@@ -140,8 +140,6 @@ class UsersController extends Controller
             'LEFT JOIN ( SELECT COUNT(id) AS winCount, project_id FROM AwardWin GROUP BY project_id ) AS award ON award.project_id IN ( SELECT p.id FROM Project p WHERE p.owner_id = u.id GROUP BY p.id ) ' .
             'WHERE (u.id = \''.$id.'\') GROUP BY u.id ORDER BY u.id DESC');
         return response()->json($user[0]);
-
-
     }
 
     public function me()
