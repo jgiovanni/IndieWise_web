@@ -947,6 +947,17 @@
             //});
         }
 
+        if (!$rootScope.isAuthenticated()) {
+            var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
+                if (newValue && angular.isString(newValue.id)) {
+                    console.log('User Logged In');
+                    self.checkUserActions();
+
+                    endWatch();
+                }
+            });
+        }
+
         self.checkUserActions = function () {
             if ($rootScope.isAuthenticated()) {
                 UserActions.canReact(self.film.id).then(function (res) {
