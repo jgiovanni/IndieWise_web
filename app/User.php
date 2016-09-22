@@ -198,7 +198,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
             $user->critiques()->delete();
             $user->nominations()->delete();
             $user->ratings()->delete();
-            $user->threads()->delete();
+//            $user->threads()->delete();
             $user->playlists()->delete();
             $user->wins()->delete();
             $user->reactions()->delete();
