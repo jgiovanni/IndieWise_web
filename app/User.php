@@ -135,10 +135,10 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function syncSettings($settings)
     {
-        setting('test', true, "'$this->id'");
-        /*foreach ($settings as $key => $setting) {
+//        setting('test', true, "'$this->id'");
+        foreach ($settings as $key => $setting) {
             setting()->set($key, $setting, "'$this->id'");
-        }*/
+        }
         setting()->save("'$this->id'");
     }
 
