@@ -159,7 +159,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class, 'author_id');
     }
 
     public function playlists()
