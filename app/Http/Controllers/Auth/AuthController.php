@@ -144,7 +144,7 @@ class AuthController extends Controller
         $user = User::with('country')->where('email', $request->input('email'))->first();
         $data = [
             "email" => $user->email,
-            "attributes" => ["NAME" => $user->firstName, "SURNAME" => $user->lastName, "COUNTRY" => $user->country->name, "SIGNUP_DATE" => $user->created_at],
+            "attributes" => ["NAME" => $user->firstName, "SURNAME" => $user->lastName, "COUNTRY" => isset($user->country_id) ? $user->country->name : '', "SIGNUP_DATE" => $user->created_at],
             "listid" => [2]
         ];
         $mailin->create_update_user($data);

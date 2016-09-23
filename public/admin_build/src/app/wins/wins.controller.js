@@ -33,10 +33,96 @@
             .withPaginationType('simple_numbers')
             .withLightColumnFilter({
                 '0': {
-                    html: 'input',
-                    type: 'text',
-                    bRegex: false,
-                    bSmart: true,
+                    html: 'select',
+                    values: [{
+                        value: null,  label: 'All'
+                    }, {
+                        value: 'Best Actor',  label: 'Best Actor'
+                    }, {
+                        value: 'Best Actress',  label: 'Best Actress'
+                    }, {
+                        value: 'Best Animation',  label: 'Best Animation'
+                    }, {
+                        value: 'Best Cinematography',  label: 'Best Cinematography'
+                    }, {
+                        value: 'Best Costume Design',  label: 'Best Costume Design'
+                    }, {
+                        value: 'Best Director',  label: 'Best Director'
+                    }, {
+                        value: 'Best Documentary',  label: 'Best Documentary'
+                    }, {
+                        value: 'Best Editing',  label: 'Best Editing'
+                    }, {
+                        value: 'Best Feature',  label: 'Best Feature'
+                    }, {
+                        value: 'Best Foreign Language Film',  label: 'Best Foreign Language Film'
+                    }, {
+                        value: 'Best Makeup and Hairstyling',  label: 'Best Makeup and Hairstyling'
+                    }, {
+                        value: 'Best Music Score',  label: 'Best Music Score'
+                    }, {
+                        value: 'Best Music Video',  label: 'Best Music Video'
+                    }, {
+                        value: 'Best Narrative Short',  label: 'Best Narrative Short'
+                    }, {
+                        value: 'Best Original Song',  label: 'Best Original Song'
+                    }, {
+                        value: 'Best Production Design',  label: 'Best Production Design'
+                    }, {
+                        value: 'Best Recording Artist',  label: 'Best Recording Artist'
+                    }, {
+                        value: 'Best Screenplay',  label: 'Best Screenplay'
+                    }, {
+                        value: 'Best Sound Design',  label: 'Best Sound Design'
+                    }, {
+                        value: 'Best Special Effects',  label: 'Best Special Effects'
+                    }, {
+                        value: 'Best Stuntperson',  label: 'Best Stuntperson'
+                    }, {
+                        value: 'Best Trailer',  label: 'Best Trailer'
+                    }, {
+                        value: 'Best Visual Effects',  label: 'Best Visual Effects'
+                    }, {
+                        value: 'Best Web Series',  label: 'Best Web Series'
+                    }, {
+                        value: 'Best Youth In Arts (For Filmmakers/Artists Under 16)',  label: 'Best Youth In Arts (For Filmmakers/Artists Under 16)'
+                    }, {
+                        value: 'Most Action-Packed',  label: 'Most Action-Packed'
+                    }, {
+                        value: 'Most Adventurous',  label: 'Most Adventurous'
+                    }, {
+                        value: 'Most Bizarre',  label: 'Most Bizarre'
+                    }, {
+                        value: 'Most Controversial',  label: 'Most Controversial'
+                    }, {
+                        value: 'Most Daring',  label: 'Most Daring'
+                    }, {
+                        value: 'Most Dramatic',  label: 'Most Dramatic'
+                    }, {
+                        value: 'Most Entertaining',  label: 'Most Entertaining'
+                    }, {
+                        value: 'Most Epic',  label: 'Most Epic'
+                    }, {
+                        value: 'Most Humorous',  label: 'Most Humorous'
+                    }, {
+                        value: 'Most Influential',  label: 'Most Influential'
+                    }, {
+                        value: 'Most Informative',  label: 'Most Informative'
+                    }, {
+                        value: 'Most Inspiring',  label: 'Most Inspiring'
+                    }, {
+                        value: 'Most Motivational',  label: 'Most Motivational'
+                    }, {
+                        value: 'Most Revolutionary',  label: 'Most Revolutionary'
+                    }, {
+                        value: 'Most Romantic',  label: 'Most Romantic'
+                    }, {
+                        value: 'Most Suspenseful',  label: 'Most Suspenseful'
+                    }, {
+                        value: 'Most Terrifying',  label: 'Most Terrifying'
+                    }],
+                    // bRegex: false,
+                    // bSmart: true,
                 },
                 '1': {
                     html: 'input',
