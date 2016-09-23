@@ -2,6 +2,7 @@
 
 namespace IndieWise\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Requests;
@@ -114,7 +115,7 @@ class ProjectsController extends Controller
     public function recordWatched(Request $request)
     {
         $watch = Watch::firstOrCreate(['project_id' => $request->get('project_id')]);
-        DB::table('Watched')->where('project_id', $watch->project_id)->increment('count');
+        DB::table('Watched')->where('project_id', $watch->project_id)->increment('count')->touch();
     }
 
     public function canUpload()

@@ -948,12 +948,10 @@
         }
 
         if (!$rootScope.isAuthenticated()) {
-            console.log('start watcher');
             var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                 if (newValue && angular.isString(newValue.id)) {
                     console.log('User Logged In');
                     self.checkUserActions();
-
                     endWatch();
                 }
             });
