@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use IndieWise\SocialAccountService;
 use IndieWise\User;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
+use Sendinblue\Mailin;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use IndieWise\Http\Controllers\Controller;
@@ -134,6 +135,23 @@ class AuthController extends Controller
         }
 
         return response()->json(compact('token'), 200, ['Token' => $token]);
+    }
+
+    public function doVerificationProcess(Request $request, $token) {
+
+        $mailin = new Mailin(config('services.sendinblue.url'), config('services.sendinblue.key'));
+
+        $user = User::with('country')->where('email', $request->input('email'))->first();
+        $data = [
+            "email" => $user->email,
+            "attributes" => ["NAME" => $user->firstName, "SURNAME" => $user->lastName, "COUNTRY" => $user->country->name, "SIGNUP_DATE" => $user->created_at],
+            "listid" => [2]
+        ];
+        $mailin->create_update_user($data);
+
+        return $this->getVerification($request, $token);
+
+
     }
 
 }

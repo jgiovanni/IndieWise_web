@@ -29,8 +29,22 @@ class AppServiceProvider extends ServiceProvider
                 // sophisticated, like eloquent storage
                 ->addDefaultStorages()
 
-                ->addGateway('paypal_ec', [
+                ->addGateway('paypal_pro_checkout', [
                     'factory' => 'paypal_express_checkout',
+                    'username' => 'EDIT ME',
+                    'password' => 'EDIT ME',
+                    'signature' => 'EDIT ME',
+                    'sandbox' => true
+                ])
+                ->addGateway('stripe_checkout', [
+                    'factory' => 'stripe_checkout',
+                    'username' => 'EDIT ME',
+                    'password' => 'EDIT ME',
+                    'signature' => 'EDIT ME',
+                    'sandbox' => true
+                ])
+                ->addGateway('stripe_js', [
+                    'factory' => 'stripe_js',
                     'username' => 'EDIT ME',
                     'password' => 'EDIT ME',
                     'signature' => 'EDIT ME',

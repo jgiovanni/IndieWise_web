@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Support\Facades\Hash;
 use Jrean\UserVerification\Facades\UserVerification;
+use Sendinblue\Mailin;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -188,7 +189,6 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         static::created(function ($user) {
             UserVerification::generate($user);
             UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
-
 //            Event::fire('win.created', $win);
         });
 

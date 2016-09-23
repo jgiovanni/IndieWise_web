@@ -81,7 +81,8 @@ Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('
 //});
 
 Route::get('verification/error', 'Auth\AuthController@getVerificationError');
-Route::get('verification/{token}', 'Auth\AuthController@getVerification');
+Route::get('verification/{token}', 'Auth\AuthController@doVerificationProcess');
+//Route::get('verification/{token}', 'Auth\AuthController@getVerification');
 
 Route::any('{path?}', function() use ($dispatcher) {
     $countries = Country::orderBy('name', 'desc')->get();
