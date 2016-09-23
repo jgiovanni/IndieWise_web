@@ -1801,10 +1801,11 @@
                     cropRatio: 32/7,
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
-                    conversions: ['crop', 'rotate', 'filter']
+                    conversions: ['crop', 'rotate', 'filter'],
+                    customSourcePath: $rootScope.AppData.user.url_id + '/banners'
                 },
                 function (Blob){
-                    self.user.coverPhoto = Blob.url;
+                    self.user.coverPhoto = Blob.url + '?cache=true';
                     AuthService.updateUser(self.user).then(function (res) {
                         $rootScope.toastMessage('Cover Photo Updated!');
                     });                }
@@ -1816,10 +1817,11 @@
                     cropRatio: 1/1,
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
-                    conversions: ['crop', 'rotate', 'filter']
+                    conversions: ['crop', 'rotate', 'filter'],
+                    customSourcePath: $rootScope.AppData.user.url_id + '/avatars'
                 },
                 function (Blob){
-                    self.user.avatar = Blob.url;
+                    self.user.avatar = Blob.url + '?cache=true';
                     AuthService.updateUser(self.user).then(function (res) {
                         $rootScope.toastMessage('Avatar Updated!');
                     });
@@ -2090,10 +2092,11 @@
                     cropRatio: 4/3,
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'INSTAGRAM', 'URL'],
-                    conversions: ['crop', 'rotate', 'filter']
+                    conversions: ['crop', 'rotate', 'filter'],
+                    customSourcePath: $rootScope.AppData.user.url_id + '/films'
                 },
                 function (Blob){
-                    self.newVideo.thumbnail_url = Blob.url;
+                    self.newVideo.thumbnail_url = Blob.url + '?cache=true';
                     $rootScope.$digest();
                 }
             );
@@ -2123,7 +2126,8 @@
         self.pickFile = function () {
 
             filepickerService.pick({
-                    mimetype: 'video/mp4'
+                    mimetype: 'video/mp4',
+                    customSourcePath: $rootScope.AppData.user.url_id + '/films'
                 },
                 self.onSuccess
             );
@@ -2131,7 +2135,7 @@
 
         self.onSuccess = function (Blob) {
             self.newVideo.hosting_type = 'HTML5';
-            self.newVideo.video_url = Blob.url;
+            self.newVideo.video_url = Blob.url + '?cache=true';
             // self.files.push(Blob);
             // $window.localStorage.setItem('files', JSON.stringify(self.files));
         };
