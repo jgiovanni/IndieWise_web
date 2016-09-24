@@ -1931,6 +1931,10 @@
             self.newVideo.runTime = (self.runtime.hours * 3600) + (self.runtime.mins * 60) + self.runtime.secs;
         };
 
+        self.getUserFilmPath = function () {
+            return self.user.url_id + '/films/';
+        };
+
         self.isURL = function (str) {
             var urlRegex = '[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
             var url = new RegExp(urlRegex, 'i');
