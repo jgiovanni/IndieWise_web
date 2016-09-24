@@ -1875,7 +1875,7 @@
     ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', '$window', 'Upload', 'filepickerService', '_'];
     function ProfileUploadController($rootScope, $state, User, $http, DataService, $window, Upload, filepickerService, _) {
         var self = this;
-        self.user = User.data;
+        self.user = User;
         self.uploadType = 2;
         self.newVideo = {
             name: '',
