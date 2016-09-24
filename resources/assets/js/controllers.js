@@ -1802,7 +1802,7 @@
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
                     conversions: ['crop', 'rotate', 'filter'],
-                    customSourcePath: self.user.url_id + '/banners'
+                    customSourcePath: self.user.url_id + '/banners/'
                 },
                 function (Blob){
                     self.user.coverPhoto = Blob.url + '?cache=true';
@@ -1818,7 +1818,7 @@
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
                     conversions: ['crop', 'rotate', 'filter'],
-                    customSourcePath: self.user.url_id + '/avatars'
+                    customSourcePath: self.user.url_id + '/avatars/'
                 },
                 function (Blob){
                     self.user.avatar = Blob.url + '?cache=true';
@@ -2097,7 +2097,7 @@
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'INSTAGRAM', 'URL'],
                     conversions: ['crop', 'rotate', 'filter'],
-                    customSourcePath: self.user.url_id + '/films'
+                    customSourcePath: self.user.url_id + '/films/'
                 },
                 function (Blob){
                     self.newVideo.thumbnail_url = Blob.url + '?cache=true';
@@ -2131,7 +2131,7 @@
 
             filepickerService.pick({
                     mimetype: 'video/mp4',
-                    customSourcePath: self.user.url_id + '/films'
+                    customSourcePath: self.user.url_id + '/films/'
                 },
                 self.onSuccess
             );

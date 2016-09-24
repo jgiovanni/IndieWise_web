@@ -48,6 +48,7 @@ class AwardFilter extends ModelFilter
                 'dd3eaddf-1cce-11e6-b1e1-e12b04098a26',
                 '7e42d9bd-1cce-11e6-b1e1-e12b04098a26',
                 '75322f6b-1cce-11e6-a2ae-ad4c5d3797ab',
+                '6950ef19-1cce-11e6-b1e1-e12b04098a26',
                 'f327193f-28e6-11e6-b8db-86ac961c55b2',
                 '3458107f-28e7-11e6-b8db-86ac961c55b2',
                 '41395363-28e7-11e6-b8db-86ac961c55b2',
