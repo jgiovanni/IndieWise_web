@@ -776,8 +776,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, FacebookAngularPatch, socket) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom'/*, 'FacebookAngularPatch'*/, 'socket',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom/*, FacebookAngularPatch*/, socket) {
                 attachFastClick(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
