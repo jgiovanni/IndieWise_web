@@ -36,20 +36,21 @@
 
             // using the fbPromise we set up in index.html, we extend the FB SDK with FB.apiAngular
             // now we use FB.apiAngular instead of FB.api, which gives us an angular wrapped promise
+            if (angular.isObject(window.FB)) {
+                window.FB.init({
+                    appId: '150687055270744',
+                    status: true,
+                    cookie: true,
+                    xfbml: true,
+                    version: 'v2.7'
+                });
 
-            window.FB.init({
-                appId: '150687055270744',
-                status: true,
-                cookie: true,
-                xfbml: true,
-                version: 'v2.7'
-            });
+                window.FB.AppEvents.activateApp();
 
-            window.FB.AppEvents.activateApp();
-
-            window.fbPromise.then(function () {
-                FB.apiAngular = fbApiAngular;
-            });
+                window.fbPromise.then(function () {
+                    FB.apiAngular = fbApiAngular;
+                });
+            }
 
 
         }])
