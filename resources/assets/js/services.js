@@ -2,7 +2,7 @@
     'use strict';
     angular
         .module('IndieWise.services', [])
-        .factory('FacebookAngularPatch', function ($q, $timeout) {
+        .factory('FacebookAngularPatch', ['$q', '$timeout', function ($q, $timeout) {
 
             var fbApiAngular = function () {
 
@@ -52,7 +52,7 @@
             });
 
 
-        })
+        }])
         .factory('AuthService', AuthService)
         .factory('UserActions', UserActions)
         .factory('DataService', DataService)
