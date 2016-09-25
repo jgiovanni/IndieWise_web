@@ -2,6 +2,7 @@
 
 namespace IndieWise;
 
+use Berkayk\OneSignal\OneSignalFacade;
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
@@ -63,6 +64,9 @@ class Win extends Model
 
     public function activityNotify()
     {
+        if ( setting()->get('push_win', true, "'".$this->target->owner->id."'") && isset($this->target->owner->push_id) ) {
+            OneSignalFacade::sendNotificationToUser("You've won an IndieWise Award! (Unofficial)", $this->target->owner->push_id, url('', $this->target->url_id));
+        }
         if ( setting()->get('email_win', true, "'".$this->target->owner->id."'") ) {
             $data = [
                 'ownerEmail' => $this->target->owner->email,
