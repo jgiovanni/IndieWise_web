@@ -30,20 +30,6 @@ jQuery(document).ready(function (jQuery) {
         jQuery(this).toggleClass('active');
     });
 
-    //search bar
-    jQuery('.search.end').on('click', function () {
-        if (jQuery(this).children().hasClass('fa-search')) {
-            jQuery(this).children().removeClass('fa-search');
-            jQuery(this).children().addClass('fa-times');
-        } else {
-            jQuery(this).children().removeClass('fa-times');
-            jQuery(this).children().addClass('fa-search');
-        }
-        jQuery(this).toggleClass('search-active');
-        jQuery('#search-bar').slideToggle();
-
-    });
-
     //back to top
     var backtotop = '#back-to-top';
     if (jQuery(backtotop).length) {
@@ -790,8 +776,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'socket',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, socket) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, FacebookAngularPatch, socket) {
                 attachFastClick(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
@@ -1030,6 +1016,24 @@ jQuery(document).ready(function (jQuery) {
                     // debugger;
                     // handle err
                 });
+
+                //search bar
+                jQuery('.search.end').on('click', function () {
+                    if (jQuery(this).children().hasClass('fa-search')) {
+                        jQuery(this).children().removeClass('fa-search');
+                        jQuery(this).children().addClass('fa-times');
+                        $rootScope.$broadcast('overVideoPlayer', false);
+
+                    } else {
+                        jQuery(this).children().removeClass('fa-times');
+                        jQuery(this).children().addClass('fa-search');
+                        $rootScope.$broadcast('overVideoPlayer', true);
+                    }
+                    jQuery(this).toggleClass('search-active');
+                    jQuery('#search-bar').slideToggle();
+
+                });
+
             }
         ])
         .config(['$localForageProvider', function ($localForageProvider) {

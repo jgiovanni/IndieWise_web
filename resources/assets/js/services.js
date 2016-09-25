@@ -42,8 +42,10 @@
                 status: true,
                 cookie: true,
                 xfbml: true,
-                version: 'v2.4'
+                version: 'v2.7'
             });
+
+            window.FB.AppEvents.activateApp();
 
             window.fbPromise.then(function () {
                 FB.apiAngular = fbApiAngular;

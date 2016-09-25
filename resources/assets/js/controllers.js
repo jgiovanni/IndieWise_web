@@ -523,7 +523,7 @@
             $mdSidenav(navID)
                 .toggle()
                 .then(function () {
-
+                    $rootScope.$broadcast('overVideoPlayer', false);
                 });
         }
 
@@ -531,7 +531,7 @@
             $mdSidenav(navID)
                 .close()
                 .then(function () {
-
+                    $rootScope.$broadcast('overVideoPlayer', true);
                 });
         }
 
@@ -870,6 +870,8 @@
         self.toggleReactionsList = false;
         self.emotions = $rootScope.generateReactions();
         self.critiqueAverage = 0;
+        self.critiquesPage = 1;
+        self.nominationsPage = 1;
         self.activeTab = 'critiques';
         self.isFaved = false;
         self.isSaved = false;
@@ -907,6 +909,10 @@
 
             $scope.$on('$destroy', function () {
                 $rootScope.initWatch = undefined;
+            });
+
+            $scope.$on('overVideoPlayer', function (state) {
+                zIndexPlayer(state);
             });
             //UserActions.cancelWatched(self.activeWatch);
 
@@ -1001,7 +1007,7 @@
 
         self.qReactions = function () {
             // Fetch Reactions
-            DataService.collection('reactions', {project: self.film.id, sort: 'created_at', per_page: 300})
+            DataService.collection('reactions', {project: self.film.id, sort: 'created_at', per_page: 500})
                 .then(function (result) {
                     self.reactions = result.data;
                     self.chartedReactions = _.countBy(self.reactions.data, function (r) {
@@ -1024,7 +1030,7 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 100})
+            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 200, page: self.critiquesPage})
                 .then(function (result) {
                     self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);
@@ -1032,7 +1038,7 @@
         };
 
         self.qNominations = function () {
-            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at', per_page: 100})
+            DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at', per_page: 200, page: self.nominationsPage})
                 .then(function (result) {
                     self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);
