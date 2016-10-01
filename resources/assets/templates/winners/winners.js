@@ -9,9 +9,9 @@
         var self = this;
         self.awards = [];
         self.date = '';
-        DataService.collection('winners').then(function (response) {
+        /*DataService.collection('winners').then(function (response) {
             self.awards = response.data.Awards;
-        });
+        });*/
 
     }
 })();

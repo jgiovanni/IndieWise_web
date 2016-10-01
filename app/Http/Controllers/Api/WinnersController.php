@@ -45,10 +45,10 @@ class WinnersController extends Controller
 
     }
 
-    public function assignWins()
+    public function assignWinners()
     {
-        $wins = Win::where('created_at', '>=', '2016-09-01 00:00:00')->where('created_at', '<', '2016-10-01 00:00:00')->get();
-
+        $wins = Win::where('created_at', '>=', '2016-09-01 00:00:00')->where('created_at', '<', '2016-10-01 00:00:00')->doesntHave('winner')->get();
+        return $wins;
         $wins->each(function ($win) {
             Winner::create([
                 'project_id' => $win->project_id,
