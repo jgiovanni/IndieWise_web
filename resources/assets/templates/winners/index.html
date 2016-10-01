@@ -51,7 +51,7 @@
                 <tr ng-if="award.winners.length === 0">
                     <td colspan="5">No winners this month</td>
                 </tr>
-                <tr ng-if="award.winners.length" ng-repeat="winner in award.winners">
+                <tr ng-if="award.winners.length" ng-repeat="winner in award.winners|orderBy:'project.name'">
                     <!--<td></td>-->
                     <td><a ui-sref="video({url_id: winner.project.url_id})" ng-bind="winner.project.name"></a></td>
                     <td ng-bind="winner.project.director"></td>

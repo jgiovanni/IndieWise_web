@@ -38,7 +38,7 @@ class WinnersController extends Controller
                 ->where('AwardWin.created_at', '>=', '2016-09-01 00:00:00')
                 ->where('AwardWin.created_at', '<', '2016-10-01 00:00:00');
 
-        }])*/->get();
+        }])*/->orderBy('name', 'asc')->get();
 
         return $awards;
 //        return $this->response($awards);

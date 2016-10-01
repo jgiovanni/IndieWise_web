@@ -157,6 +157,7 @@ return [
         Payum\LaravelPackage\PayumServiceProvider::class,
         Berkayk\OneSignal\OneSignalServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Darkin1\Intercom\IntercomServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -231,6 +232,7 @@ return [
         'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
         'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
     ],
 
 ];
