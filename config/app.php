@@ -157,7 +157,7 @@ return [
         Payum\LaravelPackage\PayumServiceProvider::class,
         Berkayk\OneSignal\OneSignalServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Darkin1\Intercom\IntercomServiceProvider::class,
+//        Darkin1\Intercom\IntercomServiceProvider::class,
 
         /*
          * Application Service Providers...
