@@ -17,6 +17,11 @@ class Award extends Model
         return $this->hasMany(Win::class);
     }
 
+    public function winners()
+    {
+        return $this->hasMany(Winner::class);
+    }
+
     public function nominations()
     {
         return $this->hasMany(Nomination::class);

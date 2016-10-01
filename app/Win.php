@@ -26,6 +26,11 @@ class Win extends Model
         return $this->belongsTo(Award::class);
     }
 
+    public function winner()
+    {
+        return $this->hasOne(Winner::class);
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);

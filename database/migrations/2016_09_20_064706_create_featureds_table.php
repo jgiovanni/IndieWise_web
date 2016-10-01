@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateFeaturedsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('featured_listings', function (Blueprint $table) {
+            $table->increments('id');
+            $table->uuid('project_id');
+            $table->unsignedTinyInteger('active', false);
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('featured_listings');
+    }
+}

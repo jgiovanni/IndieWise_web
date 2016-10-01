@@ -210,6 +210,7 @@ $api->version('v1', [
         $api->resource('critiques', 'CritiquesController');
         $api->resource('comments', 'CommentsController');
         $api->resource('nominations', 'NominationsController');
+        $api->resource('winners', 'WinnersController');
         $api->resource('wins', 'WinsController');
 
         // Email Routes
