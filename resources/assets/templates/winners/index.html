@@ -30,37 +30,48 @@
     <div class="row secBg">
         <div class="large-12 columns">
             <h3>September 2016</h3>
-            <table class="stack" ng-repeat="award in WC.awards">
-                <caption>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Audience Awards">
+                    <md-content class="">
+                        <table class="stack" ng-repeat="award in WC.awards">
+                            <caption>
                     <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
                           <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
                         </span>
-                    {{::award.name}}
-                </caption>
-                <thead>
-                <tr>
-                    <th width="350">Title</th>
-                    <th width="150">Director</th>
-                    <th width="150">Type</th>
-                    <th width="150">Genres</th>
-                    <th width="200">Country</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-if="award.winners.length === 0">
-                    <td colspan="5">No winners this month</td>
-                </tr>
-                <tr ng-if="award.winners.length" ng-repeat="winner in award.winners|orderBy:'project.name'">
-                    <!--<td></td>-->
-                    <td><a ui-sref="video({url_id: winner.project.url_id})" ng-bind="winner.project.name"></a></td>
-                    <td ng-bind="winner.project.director"></td>
-                    <td ng-bind="winner.project.type.name"></td>
-                    <td><span ng-repeat="genre in winner.project.genres">{{::genre.name}}<span ng-if="!$last">,</span> </span></td>
-                    <td ng-bind="winner.project.filming_country.name"></td>
-                </tr>
-                </tbody>
-            </table>
+                                {{::award.name}}
+                            </caption>
+                            <thead>
+                            <tr>
+                                <th width="350">Title</th>
+                                <th width="150">Director</th>
+                                <th width="150">Type</th>
+                                <th width="150">Genres</th>
+                                <th width="200">Country</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="award.winners.length === 0">
+                                <td colspan="5">No winners this month</td>
+                            </tr>
+                            <tr ng-if="award.winners.length" ng-repeat="winner in award.winners|orderBy:'project.name'">
+                                <!--<td></td>-->
+                                <td><a ui-sref="video({url_id: winner.project.url_id})" ng-bind="winner.project.name"></a></td>
+                                <td ng-bind="winner.project.director"></td>
+                                <td ng-bind="winner.project.type.name"></td>
+                                <td><span ng-repeat="genre in winner.project.genres">{{::genre.name}}<span ng-if="!$last">,</span> </span></td>
+                                <td ng-bind="winner.project.filming_country.name"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Top Performers">
+                    <md-content class="">
+                        <p></p>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
 
         </div>
     </div>
