@@ -79,8 +79,12 @@ class ProjectFilter extends ModelFilter
         $direction = isset($param[1]) ? $param[1] : 'desc';
 
         if (in_array($field, $sortable)) {
-            if ($field === 'iwRating')
-                return $this->orderBy($field, $direction)->orderBy('critiques_count', $direction);
+            if ($field === 'iwRating') {
+                return $this->withCount(['critiques' => function ($query) {
+                    $query->where('overall', '>=', 9);
+                }])/*->orderBy($field, $direction)*/->orderBy('critiques_count', $direction);
+//                return $this->orderBy($field, $direction)->orderBy('critiques_count', $direction);
+            }
             return $this->orderBy($field, $direction);
         }
         return $this;
