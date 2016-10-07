@@ -653,7 +653,7 @@
             });
 
             // Highest Rated Videos
-            DataService.collection('projects', {sort: 'iwRating', per_page: 8}).then(function (result) {
+            DataService.collection('projects', {sort: 'topRating', per_page: 8}).then(function (result) {
                 self.highestRated = result.data;
             });
 

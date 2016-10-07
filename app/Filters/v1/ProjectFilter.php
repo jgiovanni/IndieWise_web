@@ -71,7 +71,7 @@ class ProjectFilter extends ModelFilter
     public function sort($sort)
     {
         $sortable = [
-            'iwRating', 'critiques_count', 'wins_count', 'reactions_count', 'created_at', 'name'
+            'topRating', 'iwRating', 'critiques_count', 'wins_count', 'reactions_count', 'created_at', 'name'
         ];
 
         $param = preg_split('/\|+/', $sort);
@@ -79,11 +79,13 @@ class ProjectFilter extends ModelFilter
         $direction = isset($param[1]) ? $param[1] : 'desc';
 
         if (in_array($field, $sortable)) {
-            if ($field === 'iwRating') {
+            if ($field === 'topRating') {
                 return $this->withCount(['critiques' => function ($query) {
                     $query->where('overall', '>=', 9);
-                }])/*->orderBy($field, $direction)*/->orderBy('critiques_count', $direction);
-//                return $this->orderBy($field, $direction)->orderBy('critiques_count', $direction);
+                }])->orderBy('critiques_count', $direction)->limit(8);
+            }
+            if ($field === 'iwRating') {
+                return $this->orderBy($field, $direction)->orderBy('critiques_count', $direction);
             }
             return $this->orderBy($field, $direction);
         }
