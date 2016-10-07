@@ -85,7 +85,7 @@
             <div>
                 <div class="tabs-panel is-active" id="popular-all">
                     <div class="row list-group">
-                        <project-card ng-repeat="video in Home.highestRated.data|orderBy:'iwRating'" video="video" type="typeA"
+                        <project-card ng-repeat="video in Home.highestRated.data|orderBy:'-iwRating'" video="video" type="typeA"
                                       queried="'true'"></project-card>
                     </div>
                 </div>
