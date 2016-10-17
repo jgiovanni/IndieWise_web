@@ -58,7 +58,6 @@
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
-    <link rel="stylesheet" href="/assets/css/theme.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     <link rel="stylesheet" href="/assets/layerslider/css/layerslider.css" type="text/css">
