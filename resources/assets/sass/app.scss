@@ -1,0 +1,45 @@
+// Theme Styles
+@import "resources/assets/scss/app.scss";
+@import "resources/assets/scss/theme.scss";
+// Video.js and plugin styles
+@import "node_modules/video.js/src/css/video-js.scss";
+@import "node_modules/videojs-playlist-thumbs/src/plugin.scss";
+@import "node_modules/videojs-panorama/src/styles/plugin.scss";
+@import "../../../../node_modules/videojs-sublime-skin/dist/videojs-sublime-skin.css";
+@import "../../../../node_modules/videojs-airplay/dist/videojs.airplay.css";
+@import "../../../../node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.css";
+@import "../../../../node_modules/videojs-chromecast/dist/videojs-chromecast.css";
+//@import "../../../../node_modules/videojs-airplay/dist/videojs.airplay.css";
+@import "../../../../node_modules/videojs-socialshare/videojs.socialShare.css";
+//@import "../../../../node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.vertical.css";
+
+// Dark Theme
+.content .post .post-thumb .video-stats .thumb-stats span, label, .help-text {
+  color: #e0e0e0 !important; // #222
+}
+
+.content .post .post-des h6 a, .content .head-text h4, #category #owl-demo-cat .item-cat h6 a,  {
+  color: #bdbdbd; // #444
+}
+
+.customLabel:before {
+  color: #222222 !important; border: 1px solid #151515 !important;
+}
+
+input[type=checkbox]:checked + .customLabel:before {
+  color: #6969e9 !important;
+}
+
+.tabs, .tabs-content {
+  background: transparent !important;
+}
+
+#randomMedia .random-media-head {
+  background: #222 !important;
+  border: 1px solid #151515 !important;
+  border-bottom: none !important;
+}
+
+.secBg {
+  border-top: none;
+}

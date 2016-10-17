@@ -2,7 +2,7 @@
     'use strict';
     angular
         .module('IndieWise.services', [])
-        .factory('FacebookAngularPatch', ['$q', '$timeout', function ($q, $timeout) {
+        .factory('FacebookAngularPatch', ['$q', '$timeout', '$window', function ($q, $timeout, $window) {
 
             var fbApiAngular = function () {
 
@@ -10,7 +10,7 @@
                 var defer = $q.defer();
                 var angularWrap = $timeout;
 
-                window.fbPromise.then(function () {
+                $window.fbPromise.then(function () {
 
                     // Pushing callback function that will resolve to the params array
                     params.push(function (response) {
@@ -36,8 +36,8 @@
 
             // using the fbPromise we set up in index.html, we extend the FB SDK with FB.apiAngular
             // now we use FB.apiAngular instead of FB.api, which gives us an angular wrapped promise
-            if (angular.isObject(window.FB)) {
-                window.FB.init({
+            if (angular.isObject($window.FB)) {
+                $window.FB.init({
                     appId: '150687055270744',
                     status: true,
                     cookie: true,
@@ -45,14 +45,14 @@
                     version: 'v2.7'
                 });
 
-                window.FB.AppEvents.activateApp();
+                $window.FB.AppEvents.activateApp();
 
-                window.fbPromise.then(function () {
+                /*$window.fbPromise.then(function () {
                     FB.apiAngular = fbApiAngular;
-                });
+                });*/
             }
 
-
+            return fbApiAngular;
         }])
         .factory('AuthService', AuthService)
         .factory('UserActions', UserActions)
@@ -311,8 +311,8 @@
              *
              * @param _userParams
              */
-            deleteUser: function () {
-                return DataService.delete('users/me').then(function (response) {
+            deleteUser: function (_userParams) {
+                return DataService.delete('users/me/' + _userParams.id).then(function (response) {
                     return response;
                 });
             },

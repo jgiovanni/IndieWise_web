@@ -58,8 +58,8 @@
     <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
 
     <!-- BeTube Styles-->
-    <link rel="stylesheet" href="/public/assets/css/app.css">
-    <link rel="stylesheet" href="/public/assets/css/theme.css">
+    <link rel="stylesheet" href="/public/{{ elixir('css/app.css') }}">
+    {{--<link rel="stylesheet" href="/public/assets/css/theme.css">--}}
     <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     <link rel="stylesheet" href="/public/assets/layerslider/css/layerslider.css" type="text/css">
@@ -72,7 +72,7 @@
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/public/assets/app.css?v=942016"/>
+    <link rel="stylesheet" href="/public/css/all.css?v=942016"/>
 
     <script>
         /* Replace 'APP_ID' with your app ID */
@@ -90,61 +90,9 @@
     @include('shared.offCanvasLeft')
 
     <md-content flex layout="column">
-        <header>
-            <!-- Top -->
-            <section id="top" class="topBar show-for-large" ng-cloak>
-                <div class="row">
-                    <div class="medium-6 columns">
-                        <div class="socialLinks">
-                            <a href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook-f"></i></a>
-                            <a href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
-                            <a href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="medium-6 columns">
-                        <div class="top-button">
-                            <ul class="menu float-right">
-                                <!--<li ui-sref-active="active">
-                                    <a ui-sref="upload">upload Video</a>
-                                </li>-->
-                                <li class="dropdown-login">
-                                    <a ng-if="!isAuthenticated()" ui-sref="sign_in">Login/Register</a>
-                                    <a ng-if="isAuthenticated()" ng-click="Body.doSignOut();">logout</a>
-
-                                    <div class="login-form">
-                                        <h6 class="text-center">Great to have you back!</h6>
-
-                                        <form method="post">
-                                            <div class="input-group">
-                                                <span class="input-group-label"><i class="fa fa-user"></i></span>
-                                                <input class="input-group-field" type="text"
-                                                       placeholder="Enter username">
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-label"><i class="fa fa-lock"></i></span>
-                                                <input class="input-group-field" type="text"
-                                                       placeholder="Enter password">
-                                            </div>
-                                            <div class="checkbox">
-                                                <input id="check1" type="checkbox" name="check" value="check">
-                                                <label class="customLabel" for="check1">Remember me</label>
-                                            </div>
-                                            <input type="submit" name="submit" value="Login Now">
-                                        </form>
-                                        <p class="text-center">New here? <a class="newaccount" ui-sref="register">Create
-                                                a new Account</a></p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- End Top -->
-            <!--Navber-->
-            @include('shared.navbar')
-        </header>
+        @include('shared.navbar')
         <!-- End Header -->
+
         <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
             Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
             <button class="close-button" aria-label="Dismiss alert" type="button" data-close>

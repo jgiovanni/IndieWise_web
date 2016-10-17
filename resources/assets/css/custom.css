@@ -9,6 +9,14 @@
     -webkit-overflow-scrolling : touch;
 }*/
 
+.vjs-playlist-items {
+    top: 0;
+}
+.vjs-playlist .vjs-playlist-items li {
+    background-position: center center;
+    background-size: cover;
+}
+
 #elite_vp_shuffleBtn {
     display: none;
 }

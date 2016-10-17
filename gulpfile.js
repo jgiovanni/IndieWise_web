@@ -37,8 +37,10 @@ elixir(function(mix) {
             removeComments: true
         }
     });
-    // mix.styles([]);
-
+    mix.styles([
+        'custom.css'
+    ]);
+    mix.sass('app.scss');
     // complie js
     mix.browserify('main.js');
     mix.browserify('angular.js');
@@ -52,5 +54,5 @@ elixir(function(mix) {
         'directives.js',
         'services.js',
         'utils.js'
-    ]).version(["css/app.css", "js/app.js"]);
+    ]).version(["css/app.css", "custom.css", "js/app.js"]);
 });

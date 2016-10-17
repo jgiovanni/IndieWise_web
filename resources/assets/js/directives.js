@@ -400,6 +400,199 @@
                 }
             }
         }])
+        .directive('videoPlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
+            return {
+                restrict: 'E',
+                templateUrl: 'directives/video-player.html',
+                transclude: true,
+                // replace: true,
+                scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
+                link: function (scope, el, attrs) {
+                    var sources = [];
+                    var tracks = [];
+                    // var otherSources = [];
+                    scope.hideSidebar = false;
+                    scope.loaded = false;
+                    scope.setupOptions = {
+                        controls: true,
+                        preload: 'auto',
+                        autoplay: false,
+                        techOrder: ['youtube', 'vimeo', 'Html5'],
+                        plugins: {
+                            airplayButton: {},
+                            /*chromecast: {
+                                appId: "AppID of your Chromecast App",
+                                metadata: {
+                                    title: 'IndieWise',
+                                    subtitle: scope.film.name
+                                }
+                            },*/
+                            videoJsResolutionSwitcher: {
+                                default: 'high',
+                                dynamicLabel: true
+                            }
+                        }
+                    };
+
+                    // Setup Source
+                    setupSource(scope.film, sources);
+
+                    // Setup Playlist
+                    // Generate playlist
+                    DataService.collection('projects', {owner: scope.film.owner.id, notVideo: scope.film.id, per_page: 20})
+                        .then(function (response) {
+                            scope.otherSources = response.data.data;
+                            _.each(response.data.data, function (vid) {
+                                setupSource(vid, sources);
+                            });
+
+                            // build media object
+                            scope.media = {
+                                sources: sources,
+                                tracks: tracks,
+                            };
+                            console.log(scope.media);
+                        }).finally(function (res) {
+                            scope.loaded = true;
+                        });
+
+                    scope.$on('vjsVideoReady', function (e, data) {
+                        //data contains `id`, `vid`, `player` and `controlBar`
+                        //NOTE: vid is depricated, use player instead
+                        console.log('video id:' + data.id);
+                        console.log('video.js player instance: ', data.player);
+                        scope.player = data.player;
+                        console.log('video.js controlBar instance: ', data.controlBar);
+                        scope.controlBar = data.controlBar;
+
+                        // Add Playlist toggle button
+                        var Button = videojs.getComponent('Button');
+                        var MyButton = videojs.extend(Button, {
+                            constructor: function() {
+                                Button.apply(this, arguments);
+                                /* initialize your button */
+                            },
+                            handleClick: function() {
+                                /* do something on click */
+                            }
+                        });
+                        videojs.registerComponent('MyButton', MyButton);
+                        scope.player.getChild('controlBar').addChild('myButton', {});
+
+
+
+                        // Setup watcher
+                        scope.player.on('sourcechanged', function(e, data) {
+                            videojs.log('SOURCE CHANGED!', e, data);
+
+                            // Find which source it changed to
+                            if (angular.isDefined(data.from)) {
+                                var videoObj = _.findWhere(scope.otherSources, {id: _.findWhere(scope.media.sources, {src: data.to}).id});
+                                if (videoObj && videoObj.hasOwnProperty('id')) {
+                                    // Send video object to rest of page or reload
+                                    scope.$emit('VideoPlayer:sourceChanged', videoObj);
+                                }
+                            }
+                        });
+
+                        // Init behaviours
+                        scope.player.perSourceBehaviors();
+
+                        // Init Sharing
+                        scope.player.socialShare({
+                            facebook: { // optional, includes a Facebook share button (See the [Facebook documentation](https://developers.facebook.com/docs/sharing/reference/share-dialog) for more information)
+                                // shareUrl: '', // optional, defaults to window.location.href
+                                shareImage: scope.film.thumbnail_url, // optional, defaults to the Facebook-scraped image
+                                shareText: 'I\'m watching ' + scope.film.name + ' on IndieWise - Check it out!'
+                            },
+                            twitter: { // optional, includes a Twitter share button (See the [Twitter documentation](https://dev.twitter.com/web/tweet-button/web-intent) for more information)
+                                handle: 'indiewise', // optional, appends `via @handle` to the end of the tweet
+                                shareUrl: '', // optional, defaults to window.location.href
+                                shareText: 'I\'m watching ' + scope.film.name + ' on IndieWise - Check it out!'
+                            }
+                        });
+
+                        // init Playlist
+                        scope.player.playlist({ videos: sources, playlist: { hideSidebar: scope.hideSidebar, upNext: true, hideIcons: true, thumbnailSize: 300, items: 5 } })
+
+                        $timeout(function () {
+                            console.log('hiding sidebar');
+                            scope.hideSidebar = true;
+
+                            updateElementWidth(scope.player);
+                        }, 5000)
+                    });
+
+                    scope.$on('vjsVideoMediaChanged', function (e, data) {
+                        console.log('vjsVideoMediaChanged event was fired');
+                    });
+
+                    function setupSource(video, dest) {
+                        var source = {
+                            id: video.id,
+                            src: video.video_url,
+                            title: video.name,
+                            thumbnail: video.thumbnail_url
+                        };
+                        switch (video.hosting_type) {
+                            case 'HTML5':
+                                source.type = 'video/mp4';
+                                break;
+                            case 'youtube':
+                                source.type = 'video/youtube';
+                                source.src = 'https://www.youtube.com/watch?v=' + video.hosting_id;
+                                // source.youtube = { 'ytControls': 2, 'cc_load_policy': 1, 'iv_load_policy': 1, 'modestbranding': 1, 'cc': 1};
+                                break;
+                            case 'vimeo':
+                                source.type = 'video/vimeo';
+                                source.src = 'https://vimeo.com/' + video.hosting_id;
+                                break;
+                        }
+                        dest.push(source);
+                    }
+
+                    function updateElementWidth(player) {
+                        var resize = function resize(p) {
+                            var itemWidth = scope.hideSidebar ? 0 : 300;
+
+                            var playerWidth = p.el().offsetWidth;
+                            var playerHeight = p.el().offsetHeight;
+                            var itemHeight = Math.round(playerHeight / 5);
+
+                            var youtube = p.$(".vjs-tech");
+                            var newSize = playerWidth - itemWidth;
+
+                            if (newSize >= 0) {
+
+                                var style = document.createElement('style');
+                                var def = ' ' + '.vjs-playlist .vjs-poster { width: ' + newSize + 'px !important; }' + '.vjs-playlist .vjs-playlist-items { width: ' + itemWidth + 'px !important; }' + '.vjs-playlist .vjs-playlist-items li { width: ' + itemWidth + 'px !important; height: ' + itemHeight + 'px !important; }' + '.vjs-playlist .vjs-modal-dialog { width: ' + newSize + 'px !important; } ' + '.vjs-playlist .vjs-control-bar, .vjs-playlist .vjs-tech { width: ' + newSize + 'px !important; } ' + '.vjs-playlist .vjs-big-play-button, .vjs-playlist .vjs-loading-spinner { left: ' + Math.round(newSize / 2) + 'px !important; } ';
+
+                                style.setAttribute('type', 'text/css');
+                                style.setAttribute('id', 'videoplayer-playlist-stylesheet');
+                                document.getElementsByTagName('head')[0].appendChild(style);
+
+                                if (style.styleSheet) {
+                                    style.styleSheet.cssText = def;
+                                } else {
+                                    style.appendChild(document.createTextNode(def));
+                                }
+                            }
+                        };
+
+                        if (player) {
+                            resize(player);
+                        }
+
+                        if (!scope.hideSidebar) {
+                            window.onresize = function () {
+                                resize(player);
+                            };
+
+                        }
+                    };
+                }
+            }
+        }])
         .directive('elitePlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
             return {
                 restrict: 'E',

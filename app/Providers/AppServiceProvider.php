@@ -38,10 +38,8 @@ class AppServiceProvider extends ServiceProvider
                 ])
                 ->addGateway('stripe_checkout', [
                     'factory' => 'stripe_checkout',
-                    'username' => 'EDIT ME',
-                    'password' => 'EDIT ME',
-                    'signature' => 'EDIT ME',
-                    'sandbox' => true
+                    'publishable_key' => 'EDIT ME',
+                    'secret_key' => 'EDIT ME',
                 ])
                 ->addGateway('stripe_js', [
                     'factory' => 'stripe_js',

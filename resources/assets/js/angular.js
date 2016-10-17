@@ -24,3 +24,5 @@ require('ng-file-upload');
 // require('ng-webworker');
 require('satellizer');
 // require('angular-websocket');
+require('vjs-video');
+require('angular-iscroll');

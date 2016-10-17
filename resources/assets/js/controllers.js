@@ -882,6 +882,7 @@
         self.film = Project;
         function init(result) {
             $rootScope.currentTitle = result.name;
+
             self.loaded = true;
 
             $rootScope.metadata = {
@@ -952,6 +953,22 @@
              })*/
             //});
         }
+
+        // Listen for events from the videoplayer
+        $scope.$on('VideoPlayer:sourceChanged', function (event, video) {
+            self.film = video;
+            init(video);
+
+            // Update browser history
+            /*$state.transitionTo('video', {url_id: video.url_id}, {
+                location: true,
+                inherit: true,
+                // relative: $state.$current,
+                notify: false
+            });*/
+
+            $state.go('video', {url_id: video.url_id}, {notify: false, location: "replace"})
+        });
 
         if (!$rootScope.isAuthenticated()) {
             var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
@@ -2499,8 +2516,8 @@
                 .cancel('No');
 
             $mdDialog.show(confirm).then(function() {
-                AuthService.deleteUser().then(function (res) {
-
+                AuthService.deleteUser(self.user).then(function (res) {
+                    AuthService.logout();
                 });
             }, function() {
 
