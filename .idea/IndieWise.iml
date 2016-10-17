@@ -7,10 +7,20 @@
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/vendor/firebase/php-jwt/composer.phar/" />
+          <root url="phar://C:/wamp64/bin/php/php7.0.8/pharcommand.phar/" />
         </CLASSES>
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/vendor/firebase/php-jwt/composer.phar/" />
+          <root url="phar://C:/wamp64/bin/php/php7.0.8/pharcommand.phar/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHP">
+        <CLASSES>
+          <root url="file://C:/wamp64/bin/php/php7.0.8" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://C:/wamp64/bin/php/php7.0.8" />
         </SOURCES>
       </library>
     </orderEntry>
