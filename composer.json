@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.3.*",
         "dingo/api": "dev-master",
         "tymon/jwt-auth": "1.0.*@dev",
         "ramsey/uuid": "^3.4",
@@ -27,7 +27,7 @@
         "zizaco/entrust": "5.2.x-dev",
         "socialiteproviders/twitter": "^1.0",
         "grimthorr/laravel-user-settings": "^2.1",
-        "jrean/laravel-user-verification": "^2.2",
+        "jrean/laravel-user-verification": "^3.0",
         "predis/predis": "^1.1",
         "nutsweb/laravel-prerender": "^2.0",
         "webup/laravel-sendinblue": "^1.0",

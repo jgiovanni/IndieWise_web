@@ -24,6 +24,7 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             \IndieWise\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
@@ -32,6 +33,7 @@ class Kernel extends HttpKernel
         ],
         'api' => [
 //             'throttle:60,1',
+            'bindings',
         ],
     ];
 
@@ -42,10 +44,12 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \IndieWise\Http\Middleware\Authenticate::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \IndieWise\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'internal' => \IndieWise\Http\Middleware\InjectJwtToken::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
 //        'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
 //        'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
 //        'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
