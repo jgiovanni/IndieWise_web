@@ -110,7 +110,7 @@ jQuery(document).ready(function (jQuery) {
             'LocalForageModule',
             'ui.router',
             'angular-google-analytics',
-            // 'flow',
+            'angular-iscroll',
             'ui.scroll',
             'ui.scroll.jqlite',
             'ngFileUpload',
@@ -119,6 +119,8 @@ jQuery(document).ready(function (jQuery) {
             'pascalprecht.translate',
             '720kb.socialshare',
             'ngAnimate-animate.css',
+            'vjs.video',
+
             'IndieWise.controllers',
             'IndieWise.services',
             'IndieWise.directives',
@@ -244,7 +246,7 @@ jQuery(document).ready(function (jQuery) {
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('grey')
-                .accentPalette('indigo');
+                .accentPalette('indigo').dark();;
 
             // Emoticons
             $mdIconProvider
@@ -776,8 +778,8 @@ jQuery(document).ready(function (jQuery) {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom'/*, 'FacebookAngularPatch'*/, 'socket',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom/*, FacebookAngularPatch*/, socket) {
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
+            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, FacebookAngularPatch, socket) {
                 attachFastClick(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
