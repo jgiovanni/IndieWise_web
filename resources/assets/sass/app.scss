@@ -43,3 +43,9 @@ input[type=checkbox]:checked + .customLabel:before {
 .secBg {
   border-top: none;
 }
+
+
+
+table tbody, table tfoot, table thead, table tbody tr:nth-child(even) {
+  background: #444444;
+}
