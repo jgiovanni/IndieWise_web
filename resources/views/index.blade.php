@@ -56,6 +56,7 @@
     <script type="text/javascript" src="/app/eliteplayer/deploy/js/Playlist.js"></script>
     <script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
 
+
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
     <link rel="stylesheet" href="/assets/css/theme.css">
