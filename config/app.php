@@ -165,7 +165,7 @@ return [
          */
         IndieWise\Providers\AppServiceProvider::class,
         IndieWise\Providers\AuthServiceProvider::class,
-        IndieWise\Providers\BroadcastServiceProvider::class,
+//        IndieWise\Providers\BroadcastServiceProvider::class,
         IndieWise\Providers\EventServiceProvider::class,
         IndieWise\Providers\RouteServiceProvider::class,
 
