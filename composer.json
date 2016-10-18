@@ -36,7 +36,8 @@
         "payum/paypal-pro-checkout-nvp": "^1.3",
         "berkayk/onesignal-laravel": "^0.9.3",
         "yajra/laravel-datatables-oracle": "~6.0",
-        "intercom/intercom-php": "^2.0"
+        "intercom/intercom-php": "^2.0",
+        "devdojo/chatter": "0.1.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

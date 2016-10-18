@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5dac7e78dc97144594d7307c8bd5d58a",
-    "content-hash": "442e4737edbe445de68791dcede68c0a",
+    "hash": "2917bb19cab255789af2e3a1f65e8832",
+    "content-hash": "e1a453dd88f7c1e5e6145daf6a6070a4",
     "packages": [
         {
             "name": "99designs/http-signatures",
@@ -487,6 +487,42 @@
                 "slug"
             ],
             "time": "2016-06-17 22:05:30"
+        },
+        {
+            "name": "devdojo/chatter",
+            "version": "0.1.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thedevdojo/chatter.git",
+                "reference": "e5ab675c23a948a6ca91436cec05f80dded911b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thedevdojo/chatter/zipball/e5ab675c23a948a6ca91436cec05f80dded911b1",
+                "reference": "e5ab675c23a948a6ca91436cec05f80dded911b1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "illuminate/cache": "~5.1.20|5.2.*|5.3.*",
+                "illuminate/console": "~5.1.20|5.2.*|5.3.*",
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DevDojo\\Chatter\\": "/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Tony Lea",
+                    "email": "tony@devdojo.com"
+                }
+            ],
+            "description": "A simple forum package for your laravel app",
+            "time": "2016-09-06 15:48:13"
         },
         {
             "name": "dingo/api",
