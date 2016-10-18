@@ -9,6 +9,7 @@ use IndieWise\Http\Requests\v1\UserRequest;
 use IndieWise\Http\Controllers\Controller;
 use IndieWise\Http\Transformers\v1\UserTransformer;
 use IndieWise\User;
+use Jrean\UserVerification\Facades\UserVerification;
 use League\Fractal\Serializer\DataArraySerializer;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -143,5 +144,16 @@ class UsersController extends Controller
         } catch (JWTException $e) {
             //return response()->json($e);
         }
+    }
+
+    public function requestVerification(Request $request)
+    {
+        $user = User::where('email', $request->get('email'))->first();
+        if ( !$user->verified ) {
+            UserVerification::generate($user);
+            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+            return response()->json(['sent' => true]);
+        } else return response()->json(['sent' => false]);
+
     }
 }
