@@ -2,13 +2,13 @@
 
 return [
 
-    'user_model' => IndieWise\User::class,
+    'user_model' => App\User::class,
 
-    'message_model' => IndieWise\Message::class,
+    'message_model' => App\Message::class,
 
     'participant_model' => Cmgmyr\Messenger\Models\Participant::class,
 
-    'thread_model' => IndieWise\Thread::class, //Cmgmyr\Messenger\Models\Thread::class,
+    'thread_model' => App\Thread::class, //Cmgmyr\Messenger\Models\Thread::class,
 
     /**
      * Define custom database table names.

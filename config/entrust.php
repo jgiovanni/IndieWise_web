@@ -19,7 +19,7 @@ return [
     | the role if it is in a different namespace.
     |
     */
-    'role' => 'IndieWise\Role',
+    'role' => 'App\Role',
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     | Update the permission if it is in a different namespace.
     |
     */
-    'permission' => 'IndieWise\Permission',
+    'permission' => 'App\Permission',
 
     /*
     |--------------------------------------------------------------------------

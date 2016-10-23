@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2917bb19cab255789af2e3a1f65e8832",
+    "hash": "4c233ec282e56675bb467e050bb2aedb",
     "content-hash": "e1a453dd88f7c1e5e6145daf6a6070a4",
     "packages": [
         {
@@ -164,16 +164,16 @@
         },
         {
             "name": "berkayk/onesignal-laravel",
-            "version": "v0.9.3",
+            "version": "v0.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/berkayk/laravel-onesignal.git",
-                "reference": "07806bdea46f1d693aa2711cccdea3fa7580d29b"
+                "reference": "e228f4501dff5674cffc162fbbcbe1de0f2e8592"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/berkayk/laravel-onesignal/zipball/07806bdea46f1d693aa2711cccdea3fa7580d29b",
-                "reference": "07806bdea46f1d693aa2711cccdea3fa7580d29b",
+                "url": "https://api.github.com/repos/berkayk/laravel-onesignal/zipball/e228f4501dff5674cffc162fbbcbe1de0f2e8592",
+                "reference": "e228f4501dff5674cffc162fbbcbe1de0f2e8592",
                 "shasum": ""
             },
             "require": {
@@ -210,7 +210,7 @@
                 "onesignal",
                 "push"
             ],
-            "time": "2016-06-01 10:12:21"
+            "time": "2016-10-19 08:44:29"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -530,12 +530,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dingo/api.git",
-                "reference": "950b37f1e1cd1c99366b096436c2ab4dd7bff7b1"
+                "reference": "dc312a566ff8fe16098f95360d3778789727f63f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dingo/api/zipball/950b37f1e1cd1c99366b096436c2ab4dd7bff7b1",
-                "reference": "950b37f1e1cd1c99366b096436c2ab4dd7bff7b1",
+                "url": "https://api.github.com/repos/dingo/api/zipball/dc312a566ff8fe16098f95360d3778789727f63f",
+                "reference": "dc312a566ff8fe16098f95360d3778789727f63f",
                 "shasum": ""
             },
             "require": {
@@ -597,7 +597,7 @@
                 "laravel",
                 "restful"
             ],
-            "time": "2016-10-13 00:21:28"
+            "time": "2016-10-18 16:20:39"
         },
         {
             "name": "dingo/blueprint",
@@ -1087,16 +1087,16 @@
         },
         {
             "name": "gomoob/php-pushwoosh",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gomoob/php-pushwoosh.git",
-                "reference": "4f627a1da470d00b4bd444bc03f41231dccc47c6"
+                "reference": "a004b257328b1fb8b3316b866d36eb6c0faac205"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gomoob/php-pushwoosh/zipball/4f627a1da470d00b4bd444bc03f41231dccc47c6",
-                "reference": "4f627a1da470d00b4bd444bc03f41231dccc47c6",
+                "url": "https://api.github.com/repos/gomoob/php-pushwoosh/zipball/a004b257328b1fb8b3316b866d36eb6c0faac205",
+                "reference": "a004b257328b1fb8b3316b866d36eb6c0faac205",
                 "shasum": ""
             },
             "require": {
@@ -1146,7 +1146,7 @@
                 "push",
                 "pushwoosh"
             ],
-            "time": "2016-09-15 20:42:27"
+            "time": "2016-10-20 15:43:31"
         },
         {
             "name": "graham-campbell/manager",
@@ -1730,16 +1730,16 @@
         },
         {
             "name": "jrean/laravel-user-verification",
-            "version": "v3.0.14",
+            "version": "v3.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jrean/laravel-user-verification.git",
-                "reference": "629973d27bdffcd4d0bc11756d0b85ebdf63277f"
+                "reference": "4baee2f436cfbd62ee1a89e183ecc675e6c4630c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jrean/laravel-user-verification/zipball/629973d27bdffcd4d0bc11756d0b85ebdf63277f",
-                "reference": "629973d27bdffcd4d0bc11756d0b85ebdf63277f",
+                "url": "https://api.github.com/repos/jrean/laravel-user-verification/zipball/4baee2f436cfbd62ee1a89e183ecc675e6c4630c",
+                "reference": "4baee2f436cfbd62ee1a89e183ecc675e6c4630c",
                 "shasum": ""
             },
             "require": {
@@ -1779,7 +1779,7 @@
                 "user activation",
                 "user verification"
             ],
-            "time": "2016-10-07 16:10:03"
+            "time": "2016-10-22 08:54:14"
         },
         {
             "name": "laracasts/utilities",
@@ -1827,16 +1827,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.3.18",
+            "version": "v5.3.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9bee167d173857c25966c19afdaa66f127ca6784"
+                "reference": "f1a5bb417b3e0d1949fe84617eacd1a14d75d7f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9bee167d173857c25966c19afdaa66f127ca6784",
-                "reference": "9bee167d173857c25966c19afdaa66f127ca6784",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f1a5bb417b3e0d1949fe84617eacd1a14d75d7f1",
+                "reference": "f1a5bb417b3e0d1949fe84617eacd1a14d75d7f1",
                 "shasum": ""
             },
             "require": {
@@ -1918,7 +1918,7 @@
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (~2.0).",
                 "symfony/css-selector": "Required to use some of the crawler integration testing tools (3.1.*).",
                 "symfony/dom-crawler": "Required to use most of the crawler integration testing tools (3.1.*).",
-                "symfony/psr-http-message-bridge": "Required to psr7 bridging features (0.2.*)."
+                "symfony/psr-http-message-bridge": "Required to use psr7 bridging features (0.2.*)."
             },
             "type": "library",
             "extra": {
@@ -1951,7 +1951,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-10-08 01:51:20"
+            "time": "2016-10-17 19:35:14"
         },
         {
             "name": "laravel/socialite",
@@ -2063,20 +2063,20 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.28",
+            "version": "1.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a9663643ff2d16d7f66ed1e0d3212c5491bc9044"
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a9663643ff2d16d7f66ed1e0d3212c5491bc9044",
-                "reference": "a9663643ff2d16d7f66ed1e0d3212c5491bc9044",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
@@ -2142,7 +2142,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-10-07 12:20:37"
+            "time": "2016-10-19 20:38:46"
         },
         {
             "name": "league/fractal",
@@ -2873,16 +2873,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf"
+                "reference": "c0125896dbb151380ab47e96c621741e79623beb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/088c04e2f261c33bed6ca5245491cfca69195ccf",
-                "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c0125896dbb151380ab47e96c621741e79623beb",
+                "reference": "c0125896dbb151380ab47e96c621741e79623beb",
                 "shasum": ""
             },
             "require": {
@@ -2917,7 +2917,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-04-03 06:00:07"
+            "time": "2016-10-17 15:23:22"
         },
         {
             "name": "payum/core",

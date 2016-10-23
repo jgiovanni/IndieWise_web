@@ -23,7 +23,7 @@ $api = app('Dingo\Api\Routing\Router');
 // 'middleware' => ['api.auth', 'jwt.refresh','api.throttle']
 
 $api->version('v1', [
-    'middleware' => 'api.throttle', 'limit' => 100, 'expires' => 1, 'namespace' => 'IndieWise\Http\Controllers'
+    'middleware' => 'api.throttle', 'limit' => 100, 'expires' => 1, 'namespace' => 'App\Http\Controllers'
 ], function ($api) {
 
     // Standard Routes

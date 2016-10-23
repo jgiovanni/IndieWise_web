@@ -13,11 +13,11 @@
 
 //use Dingo\Api\Auth\Auth;
 use Illuminate\Support\Facades\DB;
-use IndieWise\User;
+use App\User;
 use GetStream\Stream\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use IndieWise\Country;
-use IndieWise\Project;
+use App\Country;
+use App\Project;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -80,8 +80,8 @@ Route::post('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider
 Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 //});
 
-Route::get('verification/error', 'Auth\AuthController@getVerificationError');
-Route::get('verification/{token}', 'Auth\AuthController@doVerificationProcess');
+Route::get('verification/error', 'Auth\VerifyController@getVerificationError');
+Route::get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
 //Route::get('verification/{token}', 'Auth\AuthController@getVerification');
 
 Route::any('{path?}', function() use ($dispatcher) {

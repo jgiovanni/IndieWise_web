@@ -164,16 +164,16 @@ return [
         /*
          * Application Service Providers...
          */
-        IndieWise\Providers\AppServiceProvider::class,
-        IndieWise\Providers\AuthServiceProvider::class,
-        IndieWise\Providers\BroadcastServiceProvider::class,
-        IndieWise\Providers\EventServiceProvider::class,
-        IndieWise\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
         /*
          * My Service Providers
          */
-        IndieWise\Providers\v1\ProjectServiceProvider::class,
+        App\Providers\v1\ProjectServiceProvider::class,
     ],
 
     /*

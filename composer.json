@@ -54,7 +54,7 @@
             "database"
         ],
         "psr-4": {
-            "IndieWise\\": "app/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {

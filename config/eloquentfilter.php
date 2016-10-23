@@ -11,6 +11,6 @@ return [
      |
      */
 
-    'namespace' => 'IndieWise\\Filters\\v1\\',
+    'namespace' => 'App\\Filters\\v1\\',
 
 ];
