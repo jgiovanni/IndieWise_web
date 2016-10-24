@@ -170,7 +170,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function actions()
     {
-        return $this->hasMany(Action::class);
+        return $this->hasMany(Action::class, 'actor_id');
     }
 
     public function threads()

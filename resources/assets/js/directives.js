@@ -492,13 +492,15 @@
                             header: 'Other videos from ' + scope.film.owner.fullName + '...',
                             suggestions: otherSources
                         });
-                        // hande odd vimeo behaviour
-                        /*if (scope.type !== 'vimeo') {
-                            var timeForPlayButton = scope.$watch('player.time', function (newValue, oldValue) {
-                                debugger;
-                                timeForPlayButton();
+                        // handle watched
+                        //if (scope.type !== 'vimeo') {
+                            var timeForPlayButton = scope.$watch('player.currentTime()', function (newValue, oldValue) {
+                                if (newValue > 5) {
+                                    $rootScope.initWatch();
+                                    timeForPlayButton();
+                                }
                             });
-                        }*/
+                        //}
 
                         // Setup watcher
                         scope.player.on('sourcechanged', function(e, data) {
@@ -610,6 +612,28 @@
 
                         }
                     };
+
+                    function toggleLights() {
+                        scope.lightsOff = !scope.lightsOff;
+                        var overlay = jQuery('#overlay');
+                        var body = jQuery('body');
+                        overlay.fadeToggle(1000);
+                        /* Choose desired delay */
+                        if (!scope.lightsOff) {
+                            $timeout(function () {
+                                overlay.removeClass('highlight');
+                                body.removeClass('cinema-mode');
+                            }, 1000);
+                            /* Same delay */
+                        } else {
+                            overlay.addClass('highlight');
+                            body.addClass('cinema-mode');
+                        }
+                    }
+
+                    jQuery('#overlay').on('click', function () {
+                        toggleLights();
+                    });
                 }
             }
         }])

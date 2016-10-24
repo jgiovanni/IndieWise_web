@@ -31,6 +31,9 @@
 .light-on {
     color: #FFAE00;
 }
+body.cinema-mode .flex-video {
+    z-index: 11;
+}
 
 .elite_vp_timeTotal, #elite_vp_unmuteBtn, #elite_vp_rewindBtn, .elite_vp_videoTrack /*, .elite_vp_itemRight*/
 {
@@ -527,10 +530,7 @@ button.double-thumbs i:last-of-type {
     background-color: rgba(0, 0, 0, 1); /* Semi-transparent */
 }
 
-.highlight {
-    position: relative;
-    z-index: 11;
-}
+.highlight {}
 
 /* Emoticon SVG Styles */
 .emoticon {

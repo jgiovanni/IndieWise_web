@@ -1656,15 +1656,18 @@
         self.toggleLights = function () {
             self.lightsOff = !self.lightsOff;
             var overlay = jQuery('#overlay');
+            var body = jQuery('body');
             overlay.fadeToggle(1000);
             /* Choose desired delay */
             if (!self.lightsOff) {
                 $timeout(function () {
                     overlay.removeClass('highlight');
+                    body.removeClass('cinema-mode');
                 }, 1000);
                 /* Same delay */
             } else {
                 overlay.addClass('highlight');
+                body.addClass('cinema-mode');
             }
         };
 

@@ -10,4 +10,13 @@ class Action extends Model
     //
     protected $table = 'Action';
 
+    protected $guarded = ['id'];
+
+    public $dates = ['created_at', 'updated_at'];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+
 }

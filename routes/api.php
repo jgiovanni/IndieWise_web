@@ -242,6 +242,7 @@ $api->version('v1', [
         $api->resource('comments', 'CommentsController');
         $api->resource('nominations', 'NominationsController');
         $api->resource('wins', 'WinsController');
+//        $api->resource('actions', 'ActionsController');
 
     });
 });

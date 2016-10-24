@@ -51,12 +51,12 @@
     {{--<link rel="stylesheet" href="/public/app/bower_components/videogular-themes-default/videogular.css"/>--}}
 
     <!-- Elite Video Player Scripts-->
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/videoPlayer.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/Playlist.js"></script>
-    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
+    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.js"></script>--}}
+    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>--}}
+    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>--}}
+    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/videoPlayer.js"></script>--}}
+    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/Playlist.js"></script>--}}
+    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="/public/{{ elixir('css/app.css') }}">
@@ -69,9 +69,9 @@
     <link rel="stylesheet" href="/public/assets/css/jquery.kyco.easyshare.css">
     <link rel="stylesheet" href="/public/assets/css/responsive.css">
     <!-- Elite Video Player Styles-->
-    <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
-    <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
+    {{--<link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>--}}
+    {{--<link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">--}}
+    {{--<link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">--}}
     <!-- Custom Styles  -->
     <link rel="stylesheet" href="/public/css/all.css?v=942016"/>
 

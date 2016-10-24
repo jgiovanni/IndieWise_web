@@ -118,6 +118,12 @@ class ProjectsController extends Controller
         $watch->touch();
         $watch->increment('count');
 //        DB::table('Watched')->where('project_id', $watch->project_id)->increment('count');
+
+        // Record possible user watch action
+        if ($user = $this->auth->user()) {
+            $user->actions()->create(['project_id' => $request->get('project_id'), 'verb' => 'watch']);
+        }
+
     }
 
     public function canUpload()
