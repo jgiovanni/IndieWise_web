@@ -1047,7 +1047,7 @@
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', {include: '', project: self.film.id, per_page: 200, page: self.critiquesPage})
+            DataService.collection('critiques', {include: 'comments', project: self.film.id, per_page: 200, page: self.critiquesPage})
                 .then(function (result) {
                     self.critiques = result.data.data;
                     self.calcIwAverage(self.critiques);

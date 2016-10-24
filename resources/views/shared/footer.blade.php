@@ -104,7 +104,7 @@
                             <div class="input">
                                 <select name="country" ng-model="Body.notifyMe.country" required>
                                     <option value="" selected>Select Country</option>
-                                    @foreach($countries as $country)
+                                    @foreach(App\Country::orderBy('name', 'desc')->get() as $country)
                                         <option value="{{ $country->cca2 }}">{{ $country->name }}</option>
                                     @endforeach
                                 </select>

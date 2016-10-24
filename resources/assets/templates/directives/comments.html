@@ -1,7 +1,7 @@
 <section class="content comments" ng-if="!disable" ng-init="sortOrder='-created_at'">
     <div class="row secBg">
         <div class="large-12 columns">
-            <div class="main-heading borderBottom">
+            <div class="main-heading borderBottom" ng-if="!child">
                 <div class="row padding-14">
                     <div class="medium-12 small-12 columns">
                         <div class="head-title">
@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <div class="comment-box thumb-border">
+            <div class="comment-box thumb-border" ng-if="!child">
                 <div class="media-object stack-for-small">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="comment-sort text-right">
+            <div class="comment-sort text-right" ng-if="!child">
                 <span>Sort By : <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a> | <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a></span>
             </div>
 

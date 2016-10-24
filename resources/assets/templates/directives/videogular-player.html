@@ -1,0 +1,54 @@
+<style>
+    .videogular-container {
+        width: 100%;
+        height: 320px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    @media (min-width: 1200px) {
+        .videogular-container {
+            width: 1170px;
+            height: 658.125px;
+        }
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+        .videogular-container {
+            width: 940px;
+            height: 528.75px;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px) {
+        .videogular-container {
+            width: 728px;
+            height: 409.5px;
+        }
+    }
+</style>
+<div class="videogular-container">
+    <videogular vg-player-ready="loaded" vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
+        <vg-media ng-if="type === 'youtube'" vg-src="config.sources" vg-youtube="rel=1;showinfo=1"></vg-media>
+        <vg-media ng-if="type === 'vimeo'" vg-vimeo vg-src="config.sources"></vg-media>
+        <vg-media ng-if="type === 'HTML5'" vg-src="config.sources"></vg-media>
+
+        <vg-controls vg-autohide="config.plugins.controls.autoHide" vg-autohide-time="config.plugins.controls.autoHideTime">
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'HH:mm:ss':'UTC' }}</vg-time-display>
+            <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ totalTime | date:'HH:mm:ss':'UTC'}}</vg-time-display>
+            <vg-volume>
+                <vg-mute-button></vg-mute-button>
+                <vg-volume-bar></vg-volume-bar>
+            </vg-volume>
+            <vg-fullscreen-button></vg-fullscreen-button>
+        </vg-controls>
+
+        <vg-poster-image vg-url='config.plugins.poster'></vg-poster-image>
+        <vg-buffering></vg-buffering>
+        <vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
+    </videogular>
+</div>

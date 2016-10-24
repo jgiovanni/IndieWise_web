@@ -97,6 +97,7 @@ jQuery(document).ready(function (jQuery) {
             'templates',
             'ngIntercom',
             'ngMaterial',
+            'ngSanitize',
             'mm.foundation',
             'angucomplete-alt',
             'ngMessages',
@@ -120,6 +121,18 @@ jQuery(document).ready(function (jQuery) {
             '720kb.socialshare',
             'ngAnimate-animate.css',
             'vjs.video',
+
+            // Videogular
+            // 'com.2fdevs.videogular',
+            // 'com.2fdevs.videogular.plugins.controls',
+            // 'com.2fdevs.videogular.plugins.overlayplay',
+            // 'com.2fdevs.videogular.plugins.poster',
+            // 'com.2fdevs.videogular.plugins.buffering',
+            // 'info.vietnamcode.nampnq.videogular.plugins.youtube',
+            // 'videogular.plugins.texttrack',
+            // 'videogular.plugins.vimeo',
+            // 'th.co.softever.videogular.plugins.quality',
+
 
             'IndieWise.controllers',
             'IndieWise.services',

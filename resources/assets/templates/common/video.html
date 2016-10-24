@@ -38,11 +38,12 @@
 <section class="fullwidth-single-video" ng-class="{'no-padding': VC.playerResponsiveMode}">
     <div class="row" ng-class="{'no-max-width': VC.playerResponsiveMode}">
         <div class="large-12" ng-class="{'columns': !VC.playerResponsiveMode}">
-            <div class="flex-video widescreen" style="">
+            <div class="flex-video widescreen" style="padding-bottom:0;height:auto;">
                 <!--<div class="switch"></div>-->
                 <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4" allowfullscreen></iframe>-->
-                <elite-player ng-if="VC.film" film="VC.film" type="VC.film.hosting_type" lights-off="VC.lightsOff"></elite-player>
-                <!--<video-player ng-if="VC.film" film="VC.film" type="VC.film.hosting_type" lights-off="VC.lightsOff"></video-player>-->
+                <!--<elite-player ng-if="VC.film" film="VC.film" type="VC.film.hosting_type" lights-off="VC.lightsOff"></elite-player>-->
+                <video-player ng-if="VC.film" film="VC.film" type="VC.film.hosting_type" lights-off="VC.lightsOff"></video-player>
+                <!--<videogular-player ng-if="VC.film" film="VC.film" type="VC.film.hosting_type" lights-off="VC.lightsOff"></videogular-player>-->
             </div>
         </div>
     </div>

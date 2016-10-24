@@ -48,7 +48,6 @@
     <link rel="stylesheet" href="/public/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
     <link rel="stylesheet" href="/public/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="/public/app/bower_components/animate.css/animate.min.css"/>
-    {{--<link rel="stylesheet" href="/public/app/bower_components/videogular-themes-default/videogular.css"/>--}}
 
     <!-- Elite Video Player Scripts-->
     <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.js"></script>
@@ -75,6 +74,8 @@
     <!-- Custom Styles  -->
     <link rel="stylesheet" href="/public/css/all.css?v=942016"/>
 
+    @yield('css')
+
     <script>
         /* Replace 'APP_ID' with your app ID */
         window.intercomSettings = {
@@ -88,27 +89,27 @@
 </head>
 
 <body id="body" ng-controller="BodyCtrl as Body" ng-cloak>
-    @include('shared.offCanvasLeft')
+@include('shared.offCanvasLeft')
 
-    <md-content flex layout="column">
-        @include('shared.navbar')
-        <!-- End Header -->
+<md-content flex layout="column">
+@include('shared.navbar')
+<!-- End Header -->
 
-        <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
-            Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
-            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
+        Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
-        <div class="ui-view-container">
-            <ui-view class="" ng-cloak></ui-view>
-        </div>
+    <div class="ui-view-container">
+        @yield('content')
+    </div>
 
-        @include('shared.footer')
-    </md-content>
+    @include('shared.footer')
+</md-content>
 
-    @include('shared.offCanvasRight')
+@include('shared.offCanvasRight')
 
 <div id="alerts" ng-cloak>
     <!--<div class="callout alert-box success">
@@ -160,6 +161,7 @@
     }(document, 'script'));
 </script>
 
+@yield('js')
 <!-- AngularJs Components -->
 {{--<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.js+angular-aria.js+angular-messages.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>--}}
 <script type="text/javascript" src="/public/js/angular.js"></script>

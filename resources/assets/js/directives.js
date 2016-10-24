@@ -410,7 +410,7 @@
                 link: function (scope, el, attrs) {
                     var sources = [];
                     var tracks = [];
-                    // var otherSources = [];
+                    var otherSources = [];
                     scope.hideSidebar = false;
                     scope.loaded = false;
                     scope.setupOptions = {
@@ -419,7 +419,7 @@
                         autoplay: false,
                         techOrder: ['youtube', 'vimeo', 'Html5'],
                         plugins: {
-                            airplayButton: {},
+                            // airplayButton: {},
                             /*chromecast: {
                                 appId: "AppID of your Chromecast App",
                                 metadata: {
@@ -437,20 +437,28 @@
                     // Setup Source
                     setupSource(scope.film, sources);
 
+                    // build media object
+                    scope.media = {
+                        sources: sources,
+                        tracks: tracks,
+                    };
+
                     // Setup Playlist
                     // Generate playlist
                     DataService.collection('projects', {owner: scope.film.owner.id, notVideo: scope.film.id, per_page: 20})
                         .then(function (response) {
                             scope.otherSources = response.data.data;
                             _.each(response.data.data, function (vid) {
-                                setupSource(vid, sources);
+                                // setupSource(vid, otherSources);
+                                otherSources.push({
+                                    title: vid.name,
+                                    url: '/' + vid.url_id,
+                                    image: vid.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg', // could be an animated GIF
+                                    alt: vid.description, // optional photo description, defaults to the title
+                                    target: '_self' // can be any anchor target type
+                                })
                             });
 
-                            // build media object
-                            scope.media = {
-                                sources: sources,
-                                tracks: tracks,
-                            };
                             console.log(scope.media);
                         }).finally(function (res) {
                             scope.loaded = true;
@@ -461,42 +469,53 @@
                         //NOTE: vid is depricated, use player instead
                         console.log('video id:' + data.id);
                         console.log('video.js player instance: ', data.player);
-                        scope.player = data.player;
+                        window.player = scope.player = data.player;
                         console.log('video.js controlBar instance: ', data.controlBar);
                         scope.controlBar = data.controlBar;
 
                         // Add Playlist toggle button
-                        var Button = videojs.getComponent('Button');
+                        /*var Button = videojs.getComponent('Button');
                         var MyButton = videojs.extend(Button, {
                             constructor: function() {
                                 Button.apply(this, arguments);
-                                /* initialize your button */
+                                /!* initialize your button *!/
                             },
                             handleClick: function() {
-                                /* do something on click */
+                                /!* do something on click *!/
                             }
                         });
                         videojs.registerComponent('MyButton', MyButton);
-                        scope.player.getChild('controlBar').addChild('myButton', {});
+                        scope.player.getChild('controlBar').addChild('myButton', {});*/
 
-
+                        // Use playlist as suggested others
+                        scope.player.suggestedVideoEndcap({
+                            header: 'Other videos from ' + scope.film.owner.fullName + '...',
+                            suggestions: otherSources
+                        });
+                        // hande odd vimeo behaviour
+                        /*if (scope.type !== 'vimeo') {
+                            var timeForPlayButton = scope.$watch('player.time', function (newValue, oldValue) {
+                                debugger;
+                                timeForPlayButton();
+                            });
+                        }*/
 
                         // Setup watcher
                         scope.player.on('sourcechanged', function(e, data) {
                             videojs.log('SOURCE CHANGED!', e, data);
 
                             // Find which source it changed to
-                            if (angular.isDefined(data.from)) {
+                            /*if (angular.isDefined(data.from)) {
                                 var videoObj = _.findWhere(scope.otherSources, {id: _.findWhere(scope.media.sources, {src: data.to}).id});
                                 if (videoObj && videoObj.hasOwnProperty('id')) {
                                     // Send video object to rest of page or reload
                                     scope.$emit('VideoPlayer:sourceChanged', videoObj);
                                 }
-                            }
+                            }*/
                         });
 
                         // Init behaviours
-                        scope.player.perSourceBehaviors();
+                        // scope.player.perSourceBehaviors();
 
                         // Init Sharing
                         scope.player.socialShare({
@@ -513,14 +532,14 @@
                         });
 
                         // init Playlist
-                        scope.player.playlist({ videos: sources, playlist: { hideSidebar: scope.hideSidebar, upNext: true, hideIcons: true, thumbnailSize: 300, items: 5 } })
+                        // scope.player.playlist({ videos: sources, playlist: { hideSidebar: scope.hideSidebar, upNext: true, hideIcons: true, thumbnailSize: 300, items: 5 } })
 
-                        $timeout(function () {
+                        /*$timeout(function () {
                             console.log('hiding sidebar');
                             scope.hideSidebar = true;
 
                             updateElementWidth(scope.player);
-                        }, 5000)
+                        }, 5000)*/
                     });
 
                     scope.$on('vjsVideoMediaChanged', function (e, data) {
@@ -532,7 +551,7 @@
                             id: video.id,
                             src: video.video_url,
                             title: video.name,
-                            thumbnail: video.thumbnail_url
+                            thumbnail: video.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'
                         };
                         switch (video.hosting_type) {
                             case 'HTML5':
@@ -546,6 +565,7 @@
                             case 'vimeo':
                                 source.type = 'video/vimeo';
                                 source.src = 'https://vimeo.com/' + video.hosting_id;
+                                // source.vimeo = { "ytControls": 2 };
                                 break;
                         }
                         dest.push(source);
@@ -590,6 +610,58 @@
 
                         }
                     };
+                }
+            }
+        }])
+        .directive('videogularPlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '$sce', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, $sce, _) {
+            return {
+                restrict: 'E',
+                templateUrl: 'directives/videogular-player.html',
+                transclude: true,
+                // replace: true,
+                scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
+                link: function (scope, el, attrs) {
+
+                    scope.onPlayerReady = false;
+                    scope.config = {
+                        sources: [
+                            {src: $sce.trustAsResourceUrl(scope.film.video_url), type: (scope.type === 'HTML5' ? 'video/mp4': undefined) }
+                        ],
+                        tracks: [],
+                        theme: 'http://www.videogular.com/styles/themes/default/latest/videogular.css',
+                        plugins: {
+                            poster: scope.film.thumbnail_url,
+                            controls: {
+                                autoHide: false,
+                                autoHideTime: 3000,
+                            },
+                        },
+                    };
+                    var sources = [];
+                    var tracks = [];
+                        // var otherSources = [];
+                    scope.hideSidebar = false;
+                    scope.loaded = false;
+
+
+                    // Setup Playlist
+                    // Generate playlist
+                    DataService.collection('projects', {owner: scope.film.owner.id, notVideo: scope.film.id, per_page: 20})
+                        .then(function (response) {
+                            /*scope.otherSources = response.data.data;
+                            _.each(response.data.data, function (vid) {
+                                setupSource(vid, sources);
+                            });*/
+
+                            // build media object
+                            scope.media = {
+                                sources: sources,
+                                tracks: tracks,
+                            };
+                            console.log(scope.media);
+                        }).finally(function (res) {
+                            scope.loaded = true;
+                        });
                 }
             }
         }])
@@ -1080,7 +1152,8 @@
                 scope: {
                     comments: '=comments',
                     disable: '=disable',
-                    parent: '=parent'
+                    parent: '=parent',
+                    child: '=child',
                 },
                 link: function (scope, el, attrs) {
                     scope.model = {

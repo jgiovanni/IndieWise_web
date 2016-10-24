@@ -17,6 +17,13 @@
     background-size: cover;
 }
 
+.vjs-resolution-button .vjs-menu {
+    left: 0 !important;
+}
+
+.vjs-controls-disabled .vjs-big-play-button, .vjs-has-started .vjs-big-play-button, .vjs-error .vjs-big-play-button {
+    display: none !important;
+}
 #elite_vp_shuffleBtn {
     display: none;
 }
