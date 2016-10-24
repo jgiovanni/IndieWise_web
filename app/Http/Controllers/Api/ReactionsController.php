@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\ReactionTransformer;
-use IndieWise\Reaction;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\ReactionTransformer;
+use App\Reaction;
 
 class ReactionsController extends Controller
 {

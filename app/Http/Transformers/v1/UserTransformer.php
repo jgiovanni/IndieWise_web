@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\User;
+use App\User;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract

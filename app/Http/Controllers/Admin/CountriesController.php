@@ -1,12 +1,12 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Dingo\Api\Contract\Http\Request;
-use IndieWise\Country;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Requests\v1\CountryRequest;
+use App\Country;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\v1\CountryRequest;
 use Yajra\Datatables\Facades\Datatables;
 
 class CountriesController extends Controller

@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\URL;
-use IndieWise\Http\Requests\v1\ContactRequest;
+use App\Http\Requests\v1\ContactRequest;
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Project;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Project;
 
 class MailController extends Controller
 {

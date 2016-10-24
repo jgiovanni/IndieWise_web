@@ -1,4 +1,4 @@
-<?php namespace IndieWise\Filters\v1;
+<?php namespace App\Filters\v1;
 
 use EloquentFilter\ModelFilter;
 

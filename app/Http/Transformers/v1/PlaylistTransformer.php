@@ -1,10 +1,10 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Genre;
-use IndieWise\Playlist;
+use App\Genre;
+use App\Playlist;
 use League\Fractal\TransformerAbstract;
 
 class PlaylistTransformer extends TransformerAbstract

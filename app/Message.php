@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use Cmgmyr\Messenger\Models\Models;
 use Cmgmyr\Messenger\Models\Participant;

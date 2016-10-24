@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
@@ -8,7 +8,7 @@ use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Jobs\SendCommentNotificationEmail;
+use App\Jobs\SendCommentNotificationEmail;
 
 class Comment extends Model
 {

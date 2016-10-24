@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use Carbon\Carbon;
 use Laravel\Socialite\Contracts\User as ProviderUser;

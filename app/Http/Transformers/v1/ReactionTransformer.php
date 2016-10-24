@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Reaction;
+use App\Reaction;
 use League\Fractal\TransformerAbstract;
 
 class ReactionTransformer extends TransformerAbstract

@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,38 +17,38 @@ class EventServiceProvider extends ServiceProvider
             // add your listeners (aka providers) here
             'SocialiteProviders\Twitter\TwitterExtendSocialite@handle',
         ],
-//        'IndieWise\Events\SomeEvent' => [
-//            'IndieWise\Listeners\EventListener',
+//        'App\Events\SomeEvent' => [
+//            'App\Listeners\EventListener',
 //        ],
         /*'RatingCreated' => [
-            'IndieWise\Listeners\ProjectListener@RatingCreated',
+            'App\Listeners\ProjectListener@RatingCreated',
         ],
         'RatingDeleted' => [
-            'IndieWise\Listeners\ProjectListener@RatingDeleted',
+            'App\Listeners\ProjectListener@RatingDeleted',
         ],
         'ReactionCreated' => [
-            'IndieWise\Listeners\ProjectListener@ReactionCreated',
+            'App\Listeners\ProjectListener@ReactionCreated',
         ],
         'ReactionDeleted' => [
-            'IndieWise\Listeners\ProjectListener@ReactionDeleted',
+            'App\Listeners\ProjectListener@ReactionDeleted',
         ],
         'CritiqueCreated' => [
-            'IndieWise\Listeners\ProjectListener@CritiqueCreated',
+            'App\Listeners\ProjectListener@CritiqueCreated',
         ],
         'CritiqueDeleted' => [
-            'IndieWise\Listeners\ProjectListener@CritiqueDeleted',
+            'App\Listeners\ProjectListener@CritiqueDeleted',
         ],
         'NominationCreated' => [
-            'IndieWise\Listeners\ProjectListener@NominationCreated',
+            'App\Listeners\ProjectListener@NominationCreated',
         ],
         'NominationDeleted' => [
-            'IndieWise\Listeners\ProjectListener@NominationDeleted',
+            'App\Listeners\ProjectListener@NominationDeleted',
         ],
         'WinCreated' => [
-            'IndieWise\Listeners\ProjectListener@WinCreated',
+            'App\Listeners\ProjectListener@WinCreated',
         ],
         'WinDeleted' => [
-            'IndieWise\Listeners\ProjectListener@WinDeleted',
+            'App\Listeners\ProjectListener@WinDeleted',
         ],*/
     ];
 

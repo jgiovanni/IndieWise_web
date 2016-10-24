@@ -1,8 +1,8 @@
 <?php
 
-namespace IndieWise\Jobs;
+namespace App\Jobs;
 
-use IndieWise\Jobs\Job;
+use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;

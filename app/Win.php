@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use Berkayk\OneSignal\OneSignalFacade;
 use EloquentFilter\Filterable;
@@ -9,7 +9,7 @@ use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Events\Event;
+use App\Events\Event;
 
 class Win extends Model
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Dingo\Api\Contract\Http\Request;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Language;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Language;
 use Yajra\Datatables\Facades\Datatables;
 
 class LanguagesController extends Controller

@@ -1,10 +1,10 @@
 <?php
 
-namespace IndieWise\Jobs;
+namespace App\Jobs;
 
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Comment;
-use IndieWise\Jobs\Job;
+use App\Comment;
+use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;

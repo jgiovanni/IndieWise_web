@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Requests\v1\UserRequest;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\UserTransformer;
-use IndieWise\User;
+use App\Http\Requests;
+use App\Http\Requests\v1\UserRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\UserTransformer;
+use App\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 

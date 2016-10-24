@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Message;
+use App\Message;
 use League\Fractal\TransformerAbstract;
 
 class MessageTransformer extends TransformerAbstract

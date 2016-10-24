@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Dingo\Api\Contract\Http\Request;
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Requests\v1\UserRequest;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\UserTransformer;
-use IndieWise\User;
+use App\Http\Requests;
+use App\Http\Requests\v1\UserRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\UserTransformer;
+use App\User;
 use Jrean\UserVerification\Facades\UserVerification;
 use League\Fractal\Serializer\DataArraySerializer;
 use Tymon\JWTAuth\Exceptions\JWTException;

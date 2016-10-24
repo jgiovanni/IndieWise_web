@@ -1,13 +1,13 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Events\Event;
+use App\Events\Event;
 
 class Reaction extends Model
 {

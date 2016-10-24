@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 
 use Dingo\Api\Contract\Http\Request;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\RatingTransformer;
-use IndieWise\Rating;
-use IndieWise\Http\Requests\v1\RatingRequest;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\RatingTransformer;
+use App\Rating;
+use App\Http\Requests\v1\RatingRequest;
 
 class RatingsController extends Controller
 {
@@ -36,7 +36,7 @@ class RatingsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \IndieWise\Http\Requests\v1\RatingRequest  $request
+     * @param  \App\Http\Requests\v1\RatingRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(RatingRequest $request)

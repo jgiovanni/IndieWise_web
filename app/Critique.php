@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Events\Event;
+use App\Events\Event;
 
 class Critique extends Model
 {

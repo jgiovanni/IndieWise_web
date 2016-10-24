@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Country;
+use App\Country;
 use League\Fractal\TransformerAbstract;
 
 class CountryTransformer extends TransformerAbstract

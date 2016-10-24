@@ -1,5 +1,5 @@
 <?php
- namespace IndieWise;
+ namespace App;
 
  use Illuminate\Support\Facades\Schema;
  use Ramsey\Uuid\Uuid;

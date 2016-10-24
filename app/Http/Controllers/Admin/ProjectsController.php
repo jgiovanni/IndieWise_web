@@ -1,15 +1,15 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Transformers\v1\ProjectTransformer;
-use IndieWise\Project;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Http\Transformers\v1\ProjectTransformer;
+use App\Project;
 use Dingo\Api\Contract\Http\Request;
-use IndieWise\Http\Requests\v1\ProjectRequest;
-use IndieWise\Watch;
+use App\Http\Requests\v1\ProjectRequest;
+use App\Watch;
 use League\Fractal\Serializer\DataArraySerializer;
 
 

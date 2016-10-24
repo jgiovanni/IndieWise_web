@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise\Http\Requests\v1;
+namespace App\Http\Requests\v1;
 
 use Dingo\Api\Http\FormRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;

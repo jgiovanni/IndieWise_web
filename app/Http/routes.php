@@ -13,11 +13,11 @@
 
 //use Dingo\Api\Auth\Auth;
 use Illuminate\Support\Facades\DB;
-use IndieWise\User;
+use App\User;
 use GetStream\Stream\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use IndieWise\Country;
-use IndieWise\Project;
+use App\Country;
+use App\Project;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -34,7 +34,7 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
 
 /*Route::get('fire', function () {
     // this fires the event
-    event(new IndieWise\Events\EventName());
+    event(new App\Events\EventName());
     return "event fired";
 });*/
 

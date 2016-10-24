@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Language;
+use App\Language;
 use League\Fractal\TransformerAbstract;
 
 class LanguageTransformer extends TransformerAbstract

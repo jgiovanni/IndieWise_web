@@ -1,22 +1,22 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
 use Dingo\Api\Contract\Http\Request;
-use IndieWise\PasswordReset;
-use IndieWise\Playlist;
-use IndieWise\User;
+use App\PasswordReset;
+use App\Playlist;
+use App\User;
 use Jrean\UserVerification\Facades\UserVerification;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use IndieWise\Http\Requests\v1\AuthenticationRequest;
-use IndieWise\Http\Requests\v1\UserRequest;
+use App\Http\Requests\v1\AuthenticationRequest;
+use App\Http\Requests\v1\UserRequest;
 use Dingo\Api\Routing\Helpers;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 

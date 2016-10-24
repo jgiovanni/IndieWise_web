@@ -1,16 +1,16 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Dingo\Api\Contract\Http\Request;
 
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\CritiqueTransformer;
-use IndieWise\Critique;
-use IndieWise\Nomination;
-use IndieWise\Project;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\CritiqueTransformer;
+use App\Critique;
+use App\Nomination;
+use App\Project;
 use League\Fractal\Serializer\DataArraySerializer;
 use Yajra\Datatables\Facades\Datatables;
 

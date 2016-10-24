@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\ReactionTransformer;
-use IndieWise\Reaction;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\ReactionTransformer;
+use App\Reaction;
 use League\Fractal\Serializer\DataArraySerializer;
 use Yajra\Datatables\Facades\Datatables;
 

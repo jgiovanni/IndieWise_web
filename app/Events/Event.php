@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise\Events;
+namespace App\Events;
 
 abstract class Event
 {

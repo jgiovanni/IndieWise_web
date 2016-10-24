@@ -1,8 +1,8 @@
 <?php
 
-namespace IndieWise\Events;
+namespace App\Events;
 
-use IndieWise\Events\Event;
+use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 

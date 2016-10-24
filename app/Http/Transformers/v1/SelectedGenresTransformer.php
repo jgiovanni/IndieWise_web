@@ -1,10 +1,10 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Genre;
-use IndieWise\SelectedGenres;
+use App\Genre;
+use App\SelectedGenres;
 use League\Fractal\TransformerAbstract;
 
 class SelectedGenresTransformer extends TransformerAbstract

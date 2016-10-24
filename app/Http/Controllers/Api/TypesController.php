@@ -1,12 +1,12 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Type;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Type;
 
 class TypesController extends Controller
 {

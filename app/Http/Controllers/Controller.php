@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Foundation\Bus\DispatchesJobs;

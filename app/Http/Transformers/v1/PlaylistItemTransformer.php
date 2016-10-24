@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\PlaylistItem;
+use App\PlaylistItem;
 use League\Fractal\TransformerAbstract;
 
 class PlaylistItemTransformer extends TransformerAbstract

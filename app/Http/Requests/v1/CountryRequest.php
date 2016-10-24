@@ -1,8 +1,8 @@
 <?php
 
-namespace IndieWise\Http\Requests\v1;
+namespace App\Http\Requests\v1;
 
-use IndieWise\Http\Requests\Request;
+use App\Http\Requests\Request;
 
 class CountryRequest extends Request
 {

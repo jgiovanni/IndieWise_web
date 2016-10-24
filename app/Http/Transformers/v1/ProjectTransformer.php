@@ -1,10 +1,10 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
 use Carbon\Carbon;
-use IndieWise\Project;
+use App\Project;
 use League\Fractal\ParamBag;
 use League\Fractal\TransformerAbstract;
 

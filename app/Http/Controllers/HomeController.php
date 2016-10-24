@@ -1,8 +1,8 @@
 <?php
 
-namespace IndieWise\Http\Controllers;
+namespace App\Http\Controllers;
 
-use IndieWise\Http\Requests;
+use App\Http\Requests;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller

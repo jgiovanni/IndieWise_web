@@ -1,12 +1,12 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-use IndieWise\Genre;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
+use App\Genre;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 class GenresController extends Controller
 {

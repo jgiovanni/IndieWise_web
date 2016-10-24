@@ -1,12 +1,12 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use EloquentFilter\Filterable;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use GetStream\StreamLaravel\Facades\FeedManager;
 use Illuminate\Database\Eloquent\Model;
-use IndieWise\Events\Event;
+use App\Events\Event;
 
 class Rating extends Model
 {

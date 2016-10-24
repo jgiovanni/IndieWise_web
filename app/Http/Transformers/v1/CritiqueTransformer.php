@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Critique;
+use App\Critique;
 use League\Fractal\TransformerAbstract;
 
 class CritiqueTransformer extends TransformerAbstract
@@ -13,7 +13,7 @@ class CritiqueTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = ['project', 'user'];
+    protected $availableIncludes = ['project', 'user', 'comments'];
 
     /**
      * Turn this item object into a generic array
@@ -51,6 +51,20 @@ class CritiqueTransformer extends TransformerAbstract
         $user = $critique->user;
         if($user)
             return $this->item($user, new UserTransformer);
+
+    }
+
+    /**
+     * Include Comments
+     *
+     * @param Critique $critique
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeComments(Critique $critique)
+    {
+        $comments = $critique->comments->take(1);
+        if($comments)
+            return $this->collection($comments, new CommentTransformer);
 
     }
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
 
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\MessageTransformer;
-//use IndieWise\Thread;
-//use IndieWise\Participant;
-use IndieWise\User;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\MessageTransformer;
+//use App\Thread;
+//use App\Participant;
+use App\User;
 use Carbon\Carbon;
-use IndieWise\Message;
+use App\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

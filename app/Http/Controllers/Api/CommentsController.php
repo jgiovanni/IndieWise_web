@@ -1,13 +1,13 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 
 use Dingo\Api\Http\Request;
-use IndieWise\Comment;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\CommentTransformer;
+use App\Comment;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\CommentTransformer;
 
 class CommentsController extends Controller
 {

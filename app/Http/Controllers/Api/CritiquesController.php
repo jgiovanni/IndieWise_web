@@ -1,16 +1,16 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
 
 use Illuminate\Support\Facades\DB;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\CritiqueTransformer;
-use IndieWise\Critique;
-use IndieWise\Nomination;
-use IndieWise\Project;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\CritiqueTransformer;
+use App\Critique;
+use App\Nomination;
+use App\Project;
 
 class CritiquesController extends Controller
 {

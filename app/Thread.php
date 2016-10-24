@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise;
+namespace App;
 
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Models;

@@ -1,6 +1,6 @@
 <?php
 
-namespace IndieWise\Models;
+namespace App\Models;
 
 use Zizaco\Entrust\EntrustPermission;
 

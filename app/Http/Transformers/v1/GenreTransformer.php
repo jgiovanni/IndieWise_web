@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Genre;
+use App\Genre;
 use League\Fractal\TransformerAbstract;
 
 class GenreTransformer extends TransformerAbstract

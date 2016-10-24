@@ -1,11 +1,11 @@
 <?php
 
-namespace IndieWise\Providers\v1;
+namespace App\Providers\v1;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use IndieWise\Project;
-use IndieWise\Critique;
+use App\Project;
+use App\Critique;
 
 class ProjectServiceProvider extends ServiceProvider
 {

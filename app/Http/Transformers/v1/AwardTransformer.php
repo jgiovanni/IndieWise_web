@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Award;
+use App\Award;
 use League\Fractal\TransformerAbstract;
 
 class AwardTransformer extends TransformerAbstract

@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Rating;
+use App\Rating;
 use League\Fractal\TransformerAbstract;
 
 class RatingTransformer extends TransformerAbstract

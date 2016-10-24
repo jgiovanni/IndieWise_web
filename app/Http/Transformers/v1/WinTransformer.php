@@ -1,9 +1,9 @@
 <?php
 
-namespace IndieWise\Http\Transformers\v1;
+namespace App\Http\Transformers\v1;
 
 
-use IndieWise\Win;
+use App\Win;
 use League\Fractal\TransformerAbstract;
 
 class WinTransformer extends TransformerAbstract

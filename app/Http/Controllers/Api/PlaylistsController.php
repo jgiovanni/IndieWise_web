@@ -1,12 +1,12 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Http\Transformers\v1\PlaylistTransformer;
-use IndieWise\Playlist;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Transformers\v1\PlaylistTransformer;
+use App\Playlist;
 
 class PlaylistsController extends Controller
 {

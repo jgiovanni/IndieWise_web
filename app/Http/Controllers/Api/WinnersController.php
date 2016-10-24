@@ -1,14 +1,14 @@
 <?php
 
-namespace IndieWise\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
 
-use IndieWise\Award;
-use IndieWise\Http\Requests;
-use IndieWise\Http\Controllers\Controller;
-use IndieWise\Win;
-use IndieWise\Winner;
+use App\Award;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Win;
+use App\Winner;
 
 class WinnersController extends Controller
 {
