@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Action;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -122,6 +123,8 @@ class ProjectsController extends Controller
         // Record possible user watch action
         if ($user = $this->auth->user()) {
             $user->actions()->create(['project_id' => $request->get('project_id'), 'verb' => 'watch']);
+        } else {
+            Action::create(['project_id' => $request->get('project_id'), 'verb' => 'watch']);
         }
 
     }
