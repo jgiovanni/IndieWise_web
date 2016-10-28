@@ -109,7 +109,9 @@ Route::any('{path?}', function() use ($dispatcher) {
         } else
             return view("index", compact('countries'));
     }
-})->where("path", ".+");
+})->where("path", ".+")/*->where("path", "!community")*/;
+
+Route::auth();
 
 /*
 Route::get('/', function () {
@@ -121,6 +123,5 @@ Route::get('/logout', function () {
     $user = Auth::user();
     return response()->json($user);
 });
-Route::auth();
 
 Route::get('/home', 'HomeController@index');*/

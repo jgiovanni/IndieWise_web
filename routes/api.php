@@ -59,6 +59,9 @@ $api->version('v1', [
                         if ($value === null) {
                             continue;
                         }
+                        // Backward compatability (IndieWise <--> App Namespaces)
+                        $value = str_replace('IndieWise', 'App', $value);
+//                        dd($value);
                         if (in_array($field, $loadObjectsArray)) {
                             $reference = explode(':', $value);
                             $model_references[$reference[0]][$reference[1]] = 1;

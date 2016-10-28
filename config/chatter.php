@@ -52,7 +52,7 @@ return [
     |
     */
     
-    'headline' => 'Welcome to Chatter',
+    'headline' => 'Welcome to the IndieWise Community',
     'description' => 'A simple forum package for your Laravel app.',
 
     /*
@@ -90,6 +90,7 @@ return [
 
     'master_file_extend' => 'layouts.app',
 //    'master_file_extend' => 'layouts.dev_master',
+//    'master_file_extend' => 'layouts.master',
 
     /*
     |--------------------------------------------------------------------------
@@ -129,10 +130,10 @@ return [
 
     'user' => [
         'namespace' => 'App\User',
-        'database_field_with_user_name' => 'name',
-        'relative_url_to_profile' => '',
+        'database_field_with_user_name' => 'fullName',
+        'relative_url_to_profile' => '/users/{url_id}/about',
         'relative_url_to_image_assets' => '',
-        'avatar_image_database_field' => ''
+        'avatar_image_database_field' => 'avatar'
     ],
 
     /*
@@ -210,7 +211,7 @@ return [
     */
 
     'paginate' => [
-        'num_of_results' => 10,
+        'num_of_results' => 20,
     ]
 
 ];

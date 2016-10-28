@@ -390,6 +390,11 @@ md-toast .md-action.md-button {
   border-bottom: none;
 }
 
+.content .post .post-des .post-stats,
+.content .post .post-des h6 {
+  height: 30px;
+}
+
 .topProfile {
   background-image: url("./images/profile-bg_demo.png");
   background-position: center center;
