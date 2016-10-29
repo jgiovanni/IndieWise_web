@@ -101,7 +101,10 @@
         </button>
     </div>
 
-    @yield('content')
+    <section non-angular-routes>
+        @yield('content')
+
+    </section>
 
     @include('shared.footer')
 </md-content>

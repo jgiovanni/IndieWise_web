@@ -1652,6 +1652,16 @@
                 transclude: true,
                 replace: true
             }
+        }])
+        .directive('nonAngularRoutes', ['$window', '$rootElement', function ($window, $rootElement) {
+            return {
+                restrict: 'A',
+                // templateUrl: 'directives/static-sidebar.html',
+                // transclude: true,
+                link: function () {
+                    $rootElement.off('click');
+                }
+            }
         }]);
 
     angular.module('IndieWise.filters', [])
