@@ -612,7 +612,7 @@
         };
 
         self.toSignInRedirect = function () {
-            return window.location = 'https://getindiewise.com/sign-in?redirect=https%253A%252F%252Fgetindiewise.com%252Fcommunity';
+            return window.location = window.location.origin + '/sign-in?redirect=/community';
         };
 
         $rootScope.toFavorites = self.toFavorites = toFavorites;
