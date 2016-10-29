@@ -608,7 +608,7 @@
         };
 
         self.toSignInRedirect = function () {
-            return $state.go('sign_in', { redirect: $window.location.href }, { reload: true});
+            return $state.go('sign_in', { redirect: window.location.href }, { reload: true});
         };
 
         $rootScope.toFavorites = self.toFavorites = toFavorites;
