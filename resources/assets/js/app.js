@@ -764,7 +764,7 @@ jQuery(document).ready(function (jQuery) {
                 })
             ;
 
-            $urlRouterProvider.otherwise('/404');
+            // $urlRouterProvider.otherwise('/404');
             $locationProvider.html5Mode({
                 enabled: true,
                 requireBase: false,
