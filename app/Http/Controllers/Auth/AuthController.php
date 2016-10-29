@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\SocialAccountService;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
@@ -107,6 +108,7 @@ class AuthController extends Controller
         // Step 1 + 2
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
         if($user) {
+            Auth::login($user, true);
             $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');
@@ -126,6 +128,7 @@ class AuthController extends Controller
     {
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
         if($user) {
+            Auth::login($user, true);
             $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');

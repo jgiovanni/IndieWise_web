@@ -61,6 +61,10 @@ input[type=checkbox]:checked + .customLabel:before {
   color: #fefefe !important;
 }
 
+#category #owl-demo-cat .item-cat figure {
+  background-color: #ffffff;
+}
+
 table tbody, table tfoot, table thead, table tbody tr:nth-child(even) {
   background: #444444;
 }

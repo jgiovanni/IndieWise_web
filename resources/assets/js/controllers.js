@@ -607,6 +607,10 @@
             self.markAllAsSeen();
         };
 
+        self.toSignInRedirect = function () {
+            return $state.go('sign_in', { redirect: $window.location.href }, { reload: true});
+        };
+
         $rootScope.toFavorites = self.toFavorites = toFavorites;
         $rootScope.toWatchLater = self.toWatchLater = toWatchLater;
         $rootScope.checkContains = self.checkContains = checkContains;

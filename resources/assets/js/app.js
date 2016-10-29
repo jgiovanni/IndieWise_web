@@ -691,7 +691,7 @@ jQuery(document).ready(function (jQuery) {
                     controller: 'RegisterCtrl as RC'
                 })
                 .state('sign_in', {
-                    url: '/sign-in',
+                    url: '/sign-in?redirect',
                     authenticate: false,
                     templateUrl: 'auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'

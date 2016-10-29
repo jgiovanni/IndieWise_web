@@ -49,12 +49,12 @@
     <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
 
     <!-- Elite Video Player Scripts-->
-    <script type="text/javascript" src="/app/eliteplayer/deploy/js/froogaloop.js"></script>
-    <script type="text/javascript" src="/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
-    <script type="text/javascript" src="/app/eliteplayer/deploy/js/videoPlayer.js"></script>
-    <script type="text/javascript" src="/app/eliteplayer/deploy/js/Playlist.js"></script>
-    <script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
+    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/froogaloop.js"></script>--}}
+    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>--}}
+    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>--}}
+    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/videoPlayer.js"></script>--}}
+    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/Playlist.js"></script>--}}
+    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
@@ -91,7 +91,7 @@
 @include('shared.offCanvasLeft')
 
 <md-content flex layout="column">
-@include('shared.navbar')
+@include('shared.forum_navbar')
 <!-- End Header -->
 
     <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>

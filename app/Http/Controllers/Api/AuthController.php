@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -80,6 +81,7 @@ class AuthController extends Controller
             if ( ! $token = JWTAuth::attempt($credentials)) {
                 return response()->json(['errors' => [ 'credentials' => ['Invalid Credentials']]], 401);
             }
+            Auth::attempt($credentials);
         } catch ( JWTException $e) {
             return response()->json(['error' => $e], 401);
         }
@@ -118,6 +120,7 @@ class AuthController extends Controller
             setting()->save("'$user->id'");
 
 
+            Auth::login($user, true);
             $token = JWTAuth::fromUser($user);
         } catch (JWTException $e) {
             return response()->json(['error' => 'User already exists.'], 409);
