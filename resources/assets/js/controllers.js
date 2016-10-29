@@ -612,7 +612,7 @@
         };
 
         self.toSignInRedirect = function () {
-            return window.location = window.location.origin + '/sign-in?redirect=/community';
+            return window.location = window.location.origin + '/sign-in?redirect=' + window.location.pathname;
         };
 
         $rootScope.toFavorites = self.toFavorites = toFavorites;
