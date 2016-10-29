@@ -390,6 +390,9 @@
                                     console.log('User ' + user.fullName + ' created successfully!');
                                     $state.go('profile.about');
                                 } else {
+                                    if($rootScope.$stateParams.redirect) {
+                                        return $window.location.href = $rootScope.$stateParams.redirect;
+                                    };
                                     $state.go('home');
                                 }
                             } else {

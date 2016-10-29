@@ -175,8 +175,8 @@
         }, 500);
     }
 
-    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$modal', 'cfpLoadingBar'];
-    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $modal, cfpLoadingBar) {
+    SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$window', '$modal', 'cfpLoadingBar'];
+    function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $window, $modal, cfpLoadingBar) {
         $rootScope.metadata.title = 'Sign In';
         var self = this;
         self.authErrors = null;
@@ -194,6 +194,9 @@
                     return false;
                 } else {
                     if (redirect && angular.isDefined(res)) {
+                        if($rootScope.$stateParams.redirect) {
+                            return $window.location.href = $rootScope.$stateParams.redirect;
+                        }
                         $state.go('home');
                     }
                 }
@@ -211,7 +214,8 @@
                     self.authErrors = res.errors;
                     $rootScope.toastMessage('There is an error, please check your form');
                     // console.log('Failed', res);
-                }            });
+                }
+            });
         };
 
         $timeout(function () {
@@ -608,7 +612,7 @@
         };
 
         self.toSignInRedirect = function () {
-            return $state.go('sign_in', { redirect: encodeURIComponent(window.location.href) }, { reload: true});
+            return window.location = 'https://getindiewise.com/sign-in?redirect=https%253A%252F%252Fgetindiewise.com%252Fcommunity';
         };
 
         $rootScope.toFavorites = self.toFavorites = toFavorites;
