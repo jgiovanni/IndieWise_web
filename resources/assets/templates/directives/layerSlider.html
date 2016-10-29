@@ -28,30 +28,30 @@
             <div layout="column">
                 <div class="inner-item inner-item-big" flex>
                     <div id="layerslider" style="width:100%;height:400px;">
-                        <div class="ls-slide" data-ls="transition2d:1;">
-                            <img ng-src="{{::BASE}}assets/images/fRugjfO-happy-halloween-wallpaper.jpg" class="ls-bg" alt="Slide background"/>
+                        <div class="ls-slide" data-ls="transition2d:1;" style="background-image: url({{::BASE}}assets/images/fRugjfO-happy-halloween-wallpaper.jpg);background-position: center center;background-size: cover">
+                            <!--<img ng-src="{{::BASE}}assets/images/fRugjfO-happy-halloween-wallpaper.jpg" class="ls-bg" alt="Slide background"/>-->
                             <!--<a href="single-video-v1.html" class="ls-l hover-posts">
                                 <span><i class="fa fa-play"></i></span>
                             </a>-->
                             <div class="ls-l item-title">
-                                <span>This Week's Favorites</span>
-                                <!--<h6>WORLD’S LARGEST VIRTUAL FILM FESTIVAL You be the Judge...</h6>-->
+                                <span>WORLD’S LARGEST</span>
+                                <h6>VIRTUAL FILM FESTIVAL You be the Judge...</h6>
                             </div>
                             <!--<img class="ls-l ls-linkto-2" style="top:400px;left:50%;white-space: nowrap;" data-ls="offsetxin:-50;delayin:1000;rotatein:-40;offsetxout:-50;rotateout:-40;" ng-src="{{::BASE}}assets/images/sliderimages/left.png" alt="">-->
                             <!--<img class="ls-l ls-linkto-2" style="top:400px;left:52%;white-space: nowrap;" data-ls="offsetxin:50;delayin:1000;offsetxout:50;" ng-src="{{::BASE}}assets/images/sliderimages/right.png" alt="">-->
                         </div>
-                        <a class="ls-slide" data-ls="transition2d:1;" ng-repeat="project in projects.data" ui-sref="video({url_id: project.url_id})" style="background-image: url({{::project.thumbnail_url}});background-position: center center;background-size: cover">
-                            <!--<img ng-src="{{::project.thumbnail_url}}" class="ls-bg" alt="{{::project.name}}"/>-->
-                            <!--<a href="single-video-v1.html" class="ls-l hover-posts">
+                        <!--<a class="ls-slide" data-ls="transition2d:1;" ng-repeat="project in projects.data" ui-sref="video({url_id: project.url_id})" style="background-image: url({{::project.thumbnail_url}});background-position: center center;background-size: cover">
+                            &lt;!&ndash;<img ng-src="{{::project.thumbnail_url}}" class="ls-bg" alt="{{::project.name}}"/>&ndash;&gt;
+                            &lt;!&ndash;<a href="single-video-v1.html" class="ls-l hover-posts">
                                 <span><i class="fa fa-play"></i></span>
-                            </a>-->
+                            </a>&ndash;&gt;
                             <div class="ls-l item-title">
                                 <span>This Week's Favorites</span>
-                                <!--<h6>WORLD’S LARGEST VIRTUAL FILM FESTIVAL You be the Judge...</h6>-->
+                                &lt;!&ndash;<h6>WORLD’S LARGEST VIRTUAL FILM FESTIVAL You be the Judge...</h6>&ndash;&gt;
                             </div>
-                            <!--<img class="ls-l ls-linkto-2" style="top:400px;left:50%;white-space: nowrap;" data-ls="offsetxin:-50;delayin:1000;rotatein:-40;offsetxout:-50;rotateout:-40;" ng-src="{{::BASE}}assets/images/sliderimages/left.png" alt="">-->
-                            <!--<img class="ls-l ls-linkto-2" style="top:400px;left:52%;white-space: nowrap;" data-ls="offsetxin:50;delayin:1000;offsetxout:50;" ng-src="{{::BASE}}assets/images/sliderimages/right.png" alt="">-->
-                        </a>
+                            &lt;!&ndash;<img class="ls-l ls-linkto-2" style="top:400px;left:50%;white-space: nowrap;" data-ls="offsetxin:-50;delayin:1000;rotatein:-40;offsetxout:-50;rotateout:-40;" ng-src="{{::BASE}}assets/images/sliderimages/left.png" alt="">&ndash;&gt;
+                            &lt;!&ndash;<img class="ls-l ls-linkto-2" style="top:400px;left:52%;white-space: nowrap;" data-ls="offsetxin:50;delayin:1000;offsetxout:50;" ng-src="{{::BASE}}assets/images/sliderimages/right.png" alt="">&ndash;&gt;
+                        </a>-->
                     </div>
 
                 </div>
@@ -61,7 +61,7 @@
             <div layout="column">
                 <div class="inner-item" flex>
                     <img src="https://getindiewise.com/assets/images/sliderimages/Join%20the%20Discussion.jpg" alt="images">
-                    <a href="/community" class="hover-posts">
+                    <a href="#" class="hover-posts">
                         <span><i class="fa fa-comments-o"></i></span>
                     </a>
                     <div class="item-title">

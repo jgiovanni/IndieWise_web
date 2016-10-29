@@ -49,6 +49,10 @@ input[type=checkbox]:checked + .customLabel:before {
   color: #2199e8;
 }
 
+#carouselSlider .item .inner-item .item-title {
+  top: auto;
+}
+
 #carouselSlider .item .inner-item .item-title span {
   color: #ffffff;
 }
