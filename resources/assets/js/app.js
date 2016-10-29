@@ -19,17 +19,10 @@ function loadScript(url, callback) {
 }*/
 
 
-jQuery.noConflict();
+// jQuery.noConflict();
 jQuery(document).foundation();
 jQuery(document).ready(function (jQuery) {
     'use strict';
-    //login register click
-    jQuery('.loginReg').on('click', function (e) {
-        e.preventDefault();
-        jQuery(this).next().slideToggle();
-        jQuery(this).toggleClass('active');
-    });
-
     //back to top
     var backtotop = '#back-to-top';
     if (jQuery(backtotop).length) {
@@ -57,16 +50,14 @@ jQuery(document).ready(function (jQuery) {
     //register form
     jQuery('div.social-login').mouseenter(function () {
         jQuery('i.arrow-left').addClass('active');
-    })
-        .mouseleave(function () {
-            jQuery('i.arrow-left').removeClass('active');
-        });
+    }).mouseleave(function () {
+        jQuery('i.arrow-left').removeClass('active');
+    });
     jQuery('div.register-form').mouseenter(function () {
         jQuery('i.arrow-right').addClass('active');
-    })
-        .mouseleave(function () {
-            jQuery('i.arrow-right').removeClass('active');
-        });
+    }).mouseleave(function () {
+        jQuery('i.arrow-right').removeClass('active');
+    });
 
     //vertical thumb slider
     var thumb = jQuery('.thumb-slider .thumbs').find('.ver-thumbnail');
@@ -774,7 +765,11 @@ jQuery(document).ready(function (jQuery) {
             ;
 
             $urlRouterProvider.otherwise('/404');
-            $locationProvider.html5Mode(true);
+            $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false,
+                rewriteLinks: false
+            });
 
         }])
         .config(['$transitionsProvider', function($transitionsProvider) {

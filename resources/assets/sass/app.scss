@@ -5,6 +5,7 @@
 @import "node_modules/video.js/src/css/video-js.scss";
 @import "node_modules/videojs-playlist-thumbs/src/plugin.scss";
 @import "node_modules/videojs-panorama/src/styles/plugin.scss";
+@import "../../../../node_modules/slippry/dist/slippry.css";
 @import "../../../../node_modules/videojs-sublime-skin/dist/videojs-sublime-skin.css";
 @import "../../../../node_modules/videojs-airplay/dist/videojs.airplay.css";
 @import "../../../../node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.css";
@@ -44,7 +45,17 @@ input[type=checkbox]:checked + .customLabel:before {
   border-top: none;
 }
 
+.content .post .post-thumb .video-stats .thumb-stats i {
+  color: #2199e8;
+}
 
+#carouselSlider .item .inner-item .item-title span {
+  color: #ffffff;
+}
+
+#carouselSlider .item .inner-item .item-title h6, #premium .owl-carousel .item * {
+  color: #fefefe !important;
+}
 
 table tbody, table tfoot, table thead, table tbody tr:nth-child(even) {
   background: #444444;

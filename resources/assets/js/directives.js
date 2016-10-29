@@ -16,22 +16,28 @@
                         scope.users = res.data;
                     });
 
-                    var b = DataService.collection('projects/count').then(function (res) {
+                    /*var b = DataService.collection('projects/count').then(function (res) {
+                        scope.projects = res.data;
+                    });*/
+
+                    var b = DataService.collection('projects', {per_page: 3}).then(function (res) {
                         scope.projects = res.data;
                     });
 
                     $q.all([a, b]).then(function () {
                         $timeout(function () {
+                            // jQuery('#slippry').slippry();
                             jQuery("#layerslider").layerSlider({
-                                responsive: false,
-                                responsiveUnder: 1280,
-                                layersContainer: 1280,
+                                responsive: true,
+                                // responsiveUnder: 950,
+                                layersContainer: 950,
                                 skin: 'noskin',
                                 hoverPrevNext: false,
                                 skinsPath: BASE + 'assets/layerslider/skins/'
                             });
-                        }, 0);
-                    })
+                        }, 0)
+
+                    });
                 }
             }
         }])

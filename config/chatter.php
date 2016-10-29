@@ -88,9 +88,9 @@ return [
     |
     */
 
-    'master_file_extend' => 'layouts.app',
+//    'master_file_extend' => 'layouts.app',
 //    'master_file_extend' => 'layouts.dev_master',
-//    'master_file_extend' => 'layouts.master',
+    'master_file_extend' => 'layouts.master',
 
     /*
     |--------------------------------------------------------------------------
