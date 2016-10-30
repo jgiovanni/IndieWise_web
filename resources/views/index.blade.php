@@ -37,8 +37,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
-    {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
-    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="{{ elixir('js/main.js') }}"></script>
 
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
@@ -49,12 +48,12 @@
     <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
 
     <!-- Elite Video Player Scripts-->
-    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/froogaloop.js"></script>--}}
-    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>--}}
-    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>--}}
-    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/videoPlayer.js"></script>--}}
-    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/Playlist.js"></script>--}}
-    {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
+    <script type="text/javascript" src="/app/eliteplayer/deploy/js/froogaloop.js"></script>
+    <script type="text/javascript" src="/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
+    <script type="text/javascript" src="/app/eliteplayer/deploy/js/videoPlayer.js"></script>
+    <script type="text/javascript" src="/app/eliteplayer/deploy/js/Playlist.js"></script>
+    <script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
@@ -66,11 +65,11 @@
     <link rel="stylesheet" href="/assets/css/jquery.kyco.easyshare.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
     <!-- Elite Video Player Styles-->
-    {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>--}}
-    {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">--}}
-    {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">--}}
+    <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/css/all.css?v=092420161221"/>
+    <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
 
     <script>
         /* Replace 'APP_ID' with your app ID */
@@ -161,8 +160,8 @@
 </script>
 
 {{--<!-- AngularJs Components -->--}}
-<script type="text/javascript" src="/js/angular.js?v=092420161221"></script>
-<script type="text/javascript" src="/js/templates.js?v=092420161221"></script>
+<script type="text/javascript" src="{{ elixir('js/angular.js') }}"></script>
+<script type="text/javascript" src="{{ elixir('js/templates.js') }}"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
@@ -209,7 +208,9 @@
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script type="text/javascript" src="/js/all.js?v=092420161221"></script>
+<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+
+@yield('js')
 
 </body>
 </html>

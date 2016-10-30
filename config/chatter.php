@@ -19,7 +19,7 @@ return [
         'discussion' => 'discussion',
         'category' => 'category',
         'register' => 'register',
-        'login' => 'login'
+        'login' => 'sign-in'
     ],
 
     /*
@@ -53,7 +53,7 @@ return [
     */
     
     'headline' => 'Welcome to the IndieWise Community',
-    'description' => 'A simple forum package for your Laravel app.',
+    'description' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -89,8 +89,8 @@ return [
     */
 
 //    'master_file_extend' => 'layouts.app',
-//    'master_file_extend' => 'layouts.dev_master',
-    'master_file_extend' => 'layouts.master',
+    'master_file_extend' => 'layouts.dev_master',
+//    'master_file_extend' => 'layouts.master',
 
     /*
     |--------------------------------------------------------------------------

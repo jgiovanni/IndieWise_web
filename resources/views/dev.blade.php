@@ -38,7 +38,7 @@
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
-    <script type="text/javascript" src="/public/js/main.js"></script>
+    <script type="text/javascript" src="/public/{{ elixir('js/main.js') }}"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/momentjs.timezone@0.5.4(moment-timezone-with-data.min.js)"></script>--}}
     <script>window.BASE = '/public/';</script>
 
@@ -51,12 +51,12 @@
     {{--<link rel="stylesheet" href="/public/app/bower_components/videogular-themes-default/videogular.css"/>--}}
 
     <!-- Elite Video Player Scripts-->
-    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.js"></script>--}}
-    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>--}}
-    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>--}}
-    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/videoPlayer.js"></script>--}}
-    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/Playlist.js"></script>--}}
-    {{--<script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/froogaloop.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/THREEx.FullScreen.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/videoPlayer.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/Playlist.js"></script>
+    <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
 
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="/public/{{ elixir('css/app.css') }}">
@@ -69,11 +69,13 @@
     <link rel="stylesheet" href="/public/assets/css/jquery.kyco.easyshare.css">
     <link rel="stylesheet" href="/public/assets/css/responsive.css">
     <!-- Elite Video Player Styles-->
-    {{--<link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>--}}
-    {{--<link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">--}}
-    {{--<link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">--}}
+    <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/public/css/all.css?v=942016"/>
+    <link rel="stylesheet" href="/public/{{ elixir('css/all.css') }}">
+
+    @yield('css')
 
     <script>
         /* Replace 'APP_ID' with your app ID */
@@ -161,9 +163,9 @@
 </script>
 
 <!-- AngularJs Components -->
-{{--<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.js+angular-aria.js+angular-messages.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>--}}
-<script type="text/javascript" src="/public/js/angular.js"></script>
-<script src="/public/js/templates.js"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/angular.js') }}"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/templates.js') }}"></script>
+
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
 {{--<script src="/public/app/bower_components/lodash/lodash.js"></script>--}}
@@ -202,13 +204,14 @@
 <!--<script src="/public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
 {{--<script src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>--}}
-<script type="text/javascript" src="/public/js/all.js"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/all.js') }}"></script>
 {{--<script src="/public/src/utils.js"></script>--}}
 
 {{--<script src="/public/src/directives.js"></script>--}}
 {{--<script src="/public/src/services.js"></script>--}}
 {{--<script src="/public/src/controllers.js"></script>--}}
 {{--<script src="/public/src/app.js"></script>--}}
+    @yield('js')
 
 </body>
 </html>

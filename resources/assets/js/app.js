@@ -690,8 +690,20 @@ jQuery(document).ready(function (jQuery) {
                     templateUrl: 'auth/register.html',
                     controller: 'RegisterCtrl as RC'
                 })
+                .state('forum_register', {
+                    url: '/community/register?redirect',
+                    authenticate: false,
+                    templateUrl: 'auth/register.html',
+                    controller: 'RegisterCtrl as RC'
+                })
                 .state('sign_in', {
                     url: '/sign-in?redirect',
+                    authenticate: false,
+                    templateUrl: 'auth/sign-in.html',
+                    controller: 'SignInCtrl as SIC'
+                })
+                .state('forum_sign_in', {
+                    url: '/community/sign-in?redirect',
                     authenticate: false,
                     templateUrl: 'auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'
@@ -743,7 +755,7 @@ jQuery(document).ready(function (jQuery) {
 
                 // Video Pages
                 .state('video', {
-                    url: '/{url_id:[0-9a-zA-Z]{1,13}}',
+                    url: '/{url_id:[0-9a-zA-Z]{10,13}}',
                     authenticate: false,
                     templateUrl: 'common/video.html',
                     controller: 'VideoCtrl as VC',

@@ -38,10 +38,11 @@
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
-    <script type="text/javascript" src="/public/js/main.js"></script>
+    <script type="text/javascript" src="/public/{{ elixir('js/main.js') }}"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/momentjs.timezone@0.5.4(moment-timezone-with-data.min.js)"></script>--}}
     <script>window.BASE = '/public/';</script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
@@ -72,7 +73,7 @@
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/public/css/all.css?v=942016"/>
+    <link rel="stylesheet" href="/public/{{ elixir('css/all.css') }}">
 
     @yield('css')
 
@@ -161,32 +162,16 @@
     }(document, 'script'));
 </script>
 
-@yield('js')
 <!-- AngularJs Components -->
-{{--<script src="https://cdn.jsdelivr.net/g/angularjs@1.5.5(angular.js+angular-animate.js+angular-aria.js+angular-messages.js),angular.moment@1.0.0-beta.6,localforage@1.4.0,angular.translate@2.11.0"></script>--}}
-<script type="text/javascript" src="/public/js/angular.js"></script>
-<script src="/public/js/templates.js"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/angular.js') }}"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/templates.js') }}"></script>
+
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
-{{--<script src="/public/app/bower_components/lodash/lodash.js"></script>--}}
-{{--<script src="/public/app/bower_components/getstream/dist/js_min/getstream.js"></script>--}}
-{{--<script src="/public/app/bower_components/foundation-datepicker/js/foundation-datepicker.min.js"></script>--}}
-{{--<script src="/public/app/bower_components/angular-loading-bar/build/loading-bar.js"></script>--}}
-{{--<script src="/public/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>--}}
-{{--<script src="/public/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>--}}
-{{--<script src="/public/app/bower_components/satellizer/dist/satellizer.js"></script>--}}
 <script type="text/javascript" src="/public/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
-{{--<script src="/public/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>--}}
 <script type="text/javascript" src="/public/app/bower_components/ngAnimate-animate.css/animate.js"></script>
 <script src="/public/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
-{{--<script src="/public/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>--}}
-{{--<script src="/public/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>--}}
-{{--<script src="/public/app/bower_components/angular-material/angular-material.min.js"></script>--}}
-{{--<script src="/public/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>--}}
-{{--<script src="/public/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>--}}
 <script type="text/javascript" src="/public/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
-{{--<script src="/public/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>--}}
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>--}}
 <!--[if lte IE 9]>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
 <![endif]-->
@@ -194,7 +179,6 @@
 {{--<script src="/public/app/bower_components/what-input/what-input.js"></script>--}}
 {{--<script src="/public/app/bower_components/foundation-sites/dist/foundation.js"></script>--}}
 <script type="text/javascript" src="/public/assets/js/jquery.showmore.src.js" ></script>
-{{--<script src="/public/assets/js/app.js"></script>--}}
 <script src="/public/assets/layerslider/js/greensock.js" type="text/javascript"></script>
 <!-- LayerSlider script files -->
 <script type="text/javascript" src="/public/assets/layerslider/js/layerslider.transitions.js" ></script>
@@ -203,14 +187,10 @@
 <!--<script src="/public/assets/js/inewsticker.js" type="text/javascript"></script>-->
 <!--<script src="/public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
-{{--<script src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>--}}
-<script type="text/javascript" src="/public/js/all.js"></script>
-{{--<script src="/public/src/utils.js"></script>--}}
+<script type="text/javascript" src="/public/{{ elixir('js/all.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-{{--<script src="/public/src/directives.js"></script>--}}
-{{--<script src="/public/src/services.js"></script>--}}
-{{--<script src="/public/src/controllers.js"></script>--}}
-{{--<script src="/public/src/app.js"></script>--}}
+@yield('js')
 
 </body>
 </html>

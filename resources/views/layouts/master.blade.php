@@ -37,10 +37,10 @@
     <meta name="theme-color" content="#ffffff">
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
-    {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
-    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="{{ elixir('js/main.js') }}"></script>
 
     <script>window.BASE = '/';</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
@@ -70,7 +70,7 @@
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/css/all.css?v=092420161221"/>
+    <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
 
     @yield('css')
 
@@ -82,7 +82,7 @@
         /* Replace 'APP_ID' with your app ID */
         (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function")    {ic('reattach_activator');ic('update',intercomSettings);}else{var    d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args)   {i.q.push(args)};w.Intercom=i;function l(){var   s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ppp65byn';var x=d.getElementsByTagName('script')   [0];x.parentNode.insertBefore(s,x);}if(w.attachEvent)   {w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
     </script>
-    <script type="text/javascript" src="//cdn.broadstreetads.com/init.js"></script>
+    {{--<script type="text/javascript" src="//cdn.broadstreetads.com/init.js"></script>--}}
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 
@@ -163,11 +163,10 @@
     }(document, 'script'));
 </script>
 
-@yield('js')
 
 {{--<!-- AngularJs Components -->--}}
-<script type="text/javascript" src="/js/angular.js?v=092420161221"></script>
-<script type="text/javascript" src="/js/templates.js?v=092420161221"></script>
+<script type="text/javascript" src="{{ elixir('js/angular.js') }}"></script>
+<script type="text/javascript" src="{{ elixir('js/templates.js') }}"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
@@ -214,7 +213,10 @@
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script type="text/javascript" src="/js/all.js?v=092420161221"></script>
+<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>--}}
+
+@yield('js')
 
 </body>
 </html>

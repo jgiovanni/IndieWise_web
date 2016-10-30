@@ -391,7 +391,7 @@
                                     $state.go('profile.about');
                                 } else {
                                     if($rootScope.$stateParams.redirect) {
-                                        return $window.location.href = $rootScope.$stateParams.redirect;
+                                        return window.location.href = $rootScope.$stateParams.redirect;
                                     };
                                     $state.go('home');
                                 }

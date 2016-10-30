@@ -54,5 +54,5 @@ elixir(function(mix) {
         'directives.js',
         'services.js',
         'utils.js'
-    ]).version(["css/app.css", "custom.css", "js/app.js"]);
+    ]).version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/app.js", "js/all.js"]);
 });
