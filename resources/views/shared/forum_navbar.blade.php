@@ -39,7 +39,7 @@
                                     </div>
                                     <input type="submit" name="submit" value="Login Now">
                                 </form>
-                                <p class="text-center">New here? <a class="newaccount" ui-sref="register">Create
+                                <p class="text-center">New here? <a class="newaccount" ui-sref="register" data-ui-sref-opts="{reload: true}">Create
                                         a new Account</a></p>
                             </div>
                         </li>
@@ -63,7 +63,7 @@
                             <md-button class="md-icon-button" aria-label="Menu" ng-click="Body.toggleSideNav('left')">
                                 <md-icon>menu</md-icon>
                             </md-button>
-                            <h2 ui-sref="home">
+                            <h2 ui-sref="home" data-ui-sref-opts="{reload: true}">
                                 <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                             </h2>
                             {{--<md-autocomplete flex="80"
@@ -86,7 +86,7 @@
                                 </md-not-found>
                             </md-autocomplete>--}}
                             <span flex></span>
-                            <md-button class="md-icon-button" aria-label="Profile" ui-sref="profile.about">
+                            <md-button class="md-icon-button" aria-label="Profile" ui-sref="profile.about" data-ui-sref-opts="{reload: true}">
                                 <md-icon ng-if="!isAuthenticated() || (isAuthenticated() && !AppData.User.avatar)">account_circle</md-icon>
                                 <img ng-if="isAuthenticated() && AppData.User.avatar" ng-src="@{{AppData.User.avatar}}" class="md-avatar md-contact-avatar" alt="@{{AppData.User.fullName}}" />
                             </md-button>
@@ -128,7 +128,7 @@
                         <div class="top-bar-left  search-btn">
                             <ul class="menu">
                                 <li class="menu-text">
-                                    <a ui-sref="home">
+                                    <a ui-sref="home" data-ui-sref-opts="{reload: true}">
                                         <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                     </a>
                                 </li>
@@ -139,24 +139,24 @@
                         </div>
                         <div class="top-bar-right search-btn" ng-cloak>
                             <ul ng-if="isAuthenticated()" class="menu dropdown" dropdown-menu>
-                                <li class="search" ui-sref="profile.about">
+                                <li class="search" ui-sref="profile.about" data-ui-sref-opts="{reload: true}">
                                     <i class="fa fa-user"></i>
                                 </li>
                                 <li class="search ">
                                     <i class="fa" ng-click="Body.toggleSideNav('right');Body.markAllAsRead();Body.markAllAsSeen()" ng-class="{'fa-bell': AppData.Notifications.unseen, 'fa-bell-o': AppData.Notifications.loaded === 'indeterminate' || !AppData.Notifications.unseen}"></i>
                                     <span ng-show="AppData.Notifications.unseen>0" class="alert badge">@{{AppData.Notifications.unseen}}</span>
                                 </li>
-                                <li class="search" ui-sref="messages">
+                                <li class="search" ui-sref="messages" data-ui-sref-opts="{reload: true}">
                                     <i class="fa fa-envelope"></i>
                                     <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
                                 </li>
                                 <li class="upl-btn end">
-                                    <a ui-sref="profile.upload">Upload Video</a>
+                                    <a ui-sref="profile.upload" data-ui-sref-opts="{reload: true}">Upload Video</a>
                                 </li>
                             </ul>
                             <ul ng-if="!isAuthenticated()" class="menu dropdown" dropdown-menu>
                                 <li class="upl-btn end">
-                                    <a ui-sref="profile.upload">Upload Video</a>
+                                    <a ui-sref="profile.upload" data-ui-sref-opts="{reload: true}">Upload Video</a>
                                 </li>
                             </ul>
                         </div>
@@ -164,17 +164,17 @@
                             <ul class="menu vertical medium-horizontal"
                                 data-responsive-menu="drilldown medium-dropdown">
                                 <li ui-sref-active="active">
-                                    <a ui-sref="home"><i class="fa fa-home"></i>Home</a>
+                                    <a ui-sref="home" data-ui-sref-opts="{reload: true}"><i class="fa fa-home"></i>Home</a>
                                 </li>
                                 <li ui-sref-active="active">
-                                    <a ui-sref="browse"><i class="fa fa-th"></i>Browse
+                                    <a ui-sref="browse" data-ui-sref-opts="{reload: true}"><i class="fa fa-th"></i>Browse
                                     </a>
                                 </li>
                                 <li ui-sref-active="active">
-                                    <a ui-sref="latest"><i class="fa fa-bolt"></i>Latest</a>
+                                    <a ui-sref="latest" data-ui-sref-opts="{reload: true}"><i class="fa fa-bolt"></i>Latest</a>
                                 </li>
                                 <li ui-sref-active="active">
-                                    <a ui-sref="winners"><i class="fa fa-star"></i>Winners</a>
+                                    <a ui-sref="winners" data-ui-sref-opts="{reload: true}"><i class="fa fa-star"></i>Winners</a>
                                 </li>
                             </ul>
                         </div>
