@@ -4,9 +4,9 @@
         <div class="row">
             <div class="medium-6 columns">
                 <div class="socialLinks">
-                    <a href="https://www.facebook.com/getindiewise"><i class="fa fa-facebook-f"></i></a>
-                    <a href="https://twitter.com/getindiewise"><i class="fa fa-twitter"></i></a>
-                    <a href="https://www.instagram.com/getindiewise/"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/getindiewise" target="_blank"><i class="fa fa-facebook-f"></i></a>
+                    <a href="https://twitter.com/getindiewise" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/getindiewise/" target="_blank"><i class="fa fa-instagram"></i></a>
                 </div>
             </div>
             <div class="medium-6 columns">

@@ -16,37 +16,37 @@
             </md-input-container>
         </md-subheader>--}}
         <md-list>
-            <md-list-item ui-sref="home" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="home" ui-sref-active="active" data-target="_self" target="_self" ng-click="Body.closeSideNav('left')">
                 <md-icon>home</md-icon>
                 <p>Home</p>
             </md-list-item>
-            <md-list-item ui-sref="browse" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="browse" ui-sref-active="active" data-target="_self" target="_self" ng-click="Body.closeSideNav('left')">
                 <md-icon>view_list</md-icon>
                 <p>Browse</p>
             </md-list-item>
-            <md-list-item ui-sref="latest" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="latest" ui-sref-active="active" data-target="_self" target="_self" ng-click="Body.closeSideNav('left')">
                 <md-icon>new_releases</md-icon>
                 <p>Latest</p>
             </md-list-item>
-            <md-list-item ui-sref="winners" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="winners" ui-sref-active="active" data-target="_self" target="_self" ng-click="Body.closeSideNav('left')">
                 <md-icon>grade</md-icon>
                 <p>Winners</p>
             </md-list-item>
-            <md-list-item ng-if="!isAuthenticated()" ui-sref="sign_in" ng-click="Body.closeSideNav('left')">
+            <md-list-item ng-if="!isAuthenticated()" ui-sref="sign_in" data-target="_self" target="_self" ng-click="Body.closeSideNav('left')">
                 <p>Login/Register</p>
             </md-list-item>
-            <md-list-item ui-sref="profile.about" ui-sref-active="active" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="profile.about" ui-sref-active="active" data-target="_self" target="_self" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
                 <md-icon>account_circle</md-icon>
                 <p>Profile</p>
             </md-list-item>
-            <md-list-item ui-sref="messages" ui-sref-active="active" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="messages" ui-sref-active="active" data-target="_self" target="_self" ng-if="isAuthenticated()" ng-click="Body.closeSideNav('left')">
                 <md-icon>email</md-icon>
                 <p>
                     Messages
                     <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
                 </p>
             </md-list-item>
-            <md-list-item ui-sref="profile.upload" ui-sref-active="active" ng-click="Body.closeSideNav('left')">
+            <md-list-item ui-sref="profile.upload" ui-sref-active="active" data-target="_self" target="_self" ng-click="Body.closeSideNav('left')">
                 <md-icon>cloud_upload</md-icon>
                 <p>Upload</p>
             </md-list-item>

@@ -37,16 +37,16 @@
     <meta name="theme-color" content="#ffffff">
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
-    <script type="text/javascript" src="{{ elixir('js/main.js') }}"></script>
+    <script type="text/javascript" src="/public/{{ elixir('js/main.js') }}"></script>
 
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
-    <link rel="stylesheet" href="/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
-    <link rel="stylesheet" href="/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
-    <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
+    <link rel="stylesheet" href="/public/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
+    <link rel="stylesheet" href="/public/app/bower_components/angular-loading-bar/build/loading-bar.css"/>
+    <link rel="stylesheet" href="/public/app/bower_components/animate.css/animate.min.css"/>
 
     <!-- Elite Video Player Scripts-->
     {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/froogaloop.js"></script>--}}
@@ -57,20 +57,20 @@
     {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
 
     <!-- BeTube Styles-->
-    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
-    <link rel="stylesheet" href="/assets/layerslider/css/layerslider.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/assets/css/jquery.kyco.easyshare.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="/public/assets/layerslider/css/layerslider.css" type="text/css">
+    <link rel="stylesheet" href="/public/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/public/assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/public/assets/css/jquery.kyco.easyshare.css">
+    <link rel="stylesheet" href="/public/assets/css/responsive.css">
     <!-- Elite Video Player Styles-->
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
+    <link rel="stylesheet" href="/public/{{ elixir('css/all.css') }}"/>
 
     @yield('css')
 
@@ -165,8 +165,8 @@
 
 
 {{--<!-- AngularJs Components -->--}}
-<script type="text/javascript" src="{{ elixir('js/angular.js') }}"></script>
-<script type="text/javascript" src="{{ elixir('js/templates.js') }}"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/angular.js') }}"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/templates.js') }}"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
@@ -178,16 +178,16 @@
 {{--<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>--}}
 {{--<script src="/app/bower_components/angular-ui-scroll/dist/ui-scroll-jqlite.js"></script>--}}
 {{--<script src="/app/bower_components/satellizer/dist/satellizer.min.js"></script>--}}
-<script type="text/javascript" src="/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
+<script type="text/javascript" src="/public/app/bower_components/angular-filepicker/dist/angular_filepicker.min.js"></script>
 {{--<script src="/app/bower_components/ng-flow/dist/ng-flow-standalone.js"></script>--}}
-<script type="text/javascript" src="/app/bower_components/ngAnimate-animate.css/animate.js"></script>
-<script src="/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
+<script type="text/javascript" src="/public/app/bower_components/ngAnimate-animate.css/animate.js"></script>
+<script src="/public/app/bower_components/angular-foundation-6/dist/angular-foundation.js"></script>
 {{--<script src="/app/bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>--}}
 {{--<script src="/app/bower_components/cloudinary-core/cloudinary-core.min.js" type="text/javascript"></script>--}}
 {{--<script src="/app/bower_components/angular-material/angular-material.min.js"></script>--}}
 {{--<script src="/app/bower_components/cloudinary_ng/js/angular.cloudinary.min.js" type="text/javascript"></script>--}}
 {{--<script src="/app/bower_components/angular-localforage/dist/angular-localForage.min.js"></script>--}}
-<script type="text/javascript" src="/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
+<script type="text/javascript" src="/public/app/bower_components/ng-videosharing-embed/build/ng-videosharing-embed.min.js"></script>
 {{--<script src="/app/bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>--}}
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.min.js"></script>--}}
 <!--[if lte IE 9]>
@@ -196,25 +196,25 @@
 <!-- BeTube script files -->
 {{--<script src="/app/bower_components/what-input/what-input.js"></script>--}}
 {{--<script src="/app/bower_components/foundation-sites/dist/foundation.js"></script>--}}
-<script src="/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
+<script src="/public/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
 {{--<script src="/assets/js/app.js"></script>--}}
-<script src="/assets/layerslider/js/greensock.js" type="text/javascript"></script>
+<script src="/public/assets/layerslider/js/greensock.js" type="text/javascript"></script>
 <!-- LayerSlider script files -->
-<script src="/assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
-<script src="/assets/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
-<script src="/assets/js/owl.carousel.min.js"></script>
+<script src="/public/assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
+<script src="/public/assets/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
+<script src="/public/assets/js/owl.carousel.min.js"></script>
 {{--<!--<script src="/assets/js/inewsticker.js" type="text/javascript"></script>-->--}}
 {{--<!--<script src="/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->--}}
 
-<script type="text/javascript" src="/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
+<script type="text/javascript" src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
 {{--<script src="/src/utils.js"></script>--}}
 
 {{--<script src="/src/directives.js"></script>--}}
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>--}}
+<script type="text/javascript" src="/public/{{ elixir('js/all.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 @yield('js')
 
