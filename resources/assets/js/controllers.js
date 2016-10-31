@@ -2292,10 +2292,10 @@
                     mimetype: 'image/*',
                     services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'INSTAGRAM', 'URL'],
                     conversions: ['crop', 'rotate', 'filter'],
-                    customSourcePath: self.user.url_id + '/films/'
+                    customSourcePath: $rootScope.AppData.User.url_id + '/films/'
                 },
                 function (Blob){
-                    self.newVideo.thumbnail_url = Blob.url + '?cache=true';
+                    self.editedProject.thumbnail_url = Blob.url + '?cache=true';
                     $rootScope.$digest();
                 }
             );

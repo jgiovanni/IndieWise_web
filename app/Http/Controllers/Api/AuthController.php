@@ -206,7 +206,7 @@ class AuthController extends Controller
 
         if ( !$user->verified ) {
             UserVerification::generate($user);
-            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+            UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
             return response()->json(['sent' => true]);
         } else return response()->json(['sent' => false]);
 
