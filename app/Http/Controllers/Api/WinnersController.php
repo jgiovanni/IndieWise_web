@@ -28,10 +28,10 @@ class WinnersController extends Controller
      */
     public function index(Request $request)
     {
-        $awards = Award::with(['winners' => function ($query) {
-            $query->whereHas('win', function ($q) {
-                $q->where('AwardWin.created_at', '>=', '2016-09-01 00:00:00')
-                    ->where('AwardWin.created_at', '<', '2016-10-01 00:00:00');
+        $awards = Award::with(['winners' => function ($query) use ($request) {
+            $query->whereHas('win', function ($q) use ($request) {
+                $q->where('AwardWin.created_at', '>=', $request->get('date_start'))
+                    ->where('AwardWin.created_at', '<', $request->get('date_end'));
             });
         }, 'winners.project'])/*->withCount(['wins' => function ($query) {
             $query
@@ -47,7 +47,7 @@ class WinnersController extends Controller
 
     public function assignWinners()
     {
-        $wins = Win::where('created_at', '>=', '2016-09-01 00:00:00')->where('created_at', '<', '2016-10-01 00:00:00')->doesntHave('winner')->get();
+        $wins = Win::where('created_at', '>=', '2016-10-01 00:00:00')->where('created_at', '<', '2016-11-01 00:00:00')->doesntHave('winner')->get();
         return $wins;
         $wins->each(function ($win) {
             Winner::create([

@@ -1927,7 +1927,7 @@
             type: undefined,
             runTime: 0,
             thumbnail_url: '',
-            hosting_type: undefined,
+            hosting_type: 'youtube',
             video_url: '',
             tags: '',
             unlist: false,
@@ -2179,8 +2179,8 @@
         };
     }
 
-    ProfileVideoEditCtrl.$inject = ['$rootScope', '$state', '$modal', 'UserActions', 'Project', 'DataService', 'anchorSmoothScroll', 'Upload', '_'];
-    function ProfileVideoEditCtrl($rootScope, $state, $modal, UserActions, Project, DataService, anchorSmoothScroll, Upload, _) {
+    ProfileVideoEditCtrl.$inject = ['$rootScope', '$state', '$modal', 'UserActions', 'Project', 'DataService', 'anchorSmoothScroll', 'filepickerService', 'Upload', '_'];
+    function ProfileVideoEditCtrl($rootScope, $state, $modal, UserActions, Project, DataService, anchorSmoothScroll, filepickerService, Upload, _) {
         var self = this;
         self.project = Project.data.data;
         self.uploadType = 2;
@@ -2283,6 +2283,22 @@
                     });
                 }
             }
+        };
+
+        self.pickArtwork = function (){
+            filepickerService.pick(
+                {
+                    cropRatio: 4/3,
+                    mimetype: 'image/*',
+                    services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'INSTAGRAM', 'URL'],
+                    conversions: ['crop', 'rotate', 'filter'],
+                    customSourcePath: self.user.url_id + '/films/'
+                },
+                function (Blob){
+                    self.newVideo.thumbnail_url = Blob.url + '?cache=true';
+                    $rootScope.$digest();
+                }
+            );
         };
 
         self.uploadArtwork = function (file) {

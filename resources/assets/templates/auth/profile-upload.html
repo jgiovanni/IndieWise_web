@@ -37,34 +37,41 @@
                                     <label class="customLabel" for="videolink1">Upload MP4 Video File. (Max Size: 1GB)</label>
                                     <br class="hide-for-medium">
                                     <br class="hide-for-medium">
-                                    <input type="radio" ng-model="UC.uploadType" value="2" name="videolink2" id="videolink2" checked>
-                                    <label class="customLabel" for="videolink2">Video URL From YouTube / Vimeo / DailyMotion / Youku / Vine</label>
+                                    <input type="radio" ng-model="UC.uploadType" value="2" ng-click="UC.newVideo.hosting_type = 'youtube'" name="videolink2" id="videolink2" checked>
+                                    <label class="customLabel" for="videolink2">YouTube Video URL</label>
+                                    <input type="radio" ng-model="UC.uploadType" value="2" ng-click="UC.newVideo.hosting_type = 'vimeo'" name="videolink3" id="videolink3" checked>
+                                    <label class="customLabel" for="videolink3">Vimeo Video URL</label>
                                 </div>
-                                <div layout="large-12 columns" ng-if="UC.uploadType == 1">
-                                    <label>
-                                        <input filepicker type="filepicker-dragdrop" on-success="UC.onSuccess(event.fpfile)"
-                                               data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
-                                               data-fp-mimetype="video/*" data-fp-store-path="{{UC.getUserFilmPath()}}"/>
-                                    </label>
-                                    <!--<hr>-->
+                                <div ng-if="UC.uploadType == 1">
+                                    <div class="large-12 columns">
+                                        <label>
+                                            <input filepicker type="filepicker-dragdrop" on-success="UC.onSuccess(event.fpfile)"
+                                                   data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
+                                                   data-fp-mimetype="video/*" data-fp-store-path="{{UC.getUserFilmPath()}}"/>
+                                        </label>
+                                        <!--<hr>-->
+                                    </div>
                                 </div>
-                                <div layout="large-12 columns" ng-if="UC.uploadType == 2">
-                                    <!--<div class="large-12 columns">-->
-                                    <label>Video URL <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                        <input type="url" ng-model="UC.newVideo.video_url" ng-required="UC.uploadType == 2"
-                                               ng-change="UC.getThumbnailUrl(UC.newVideo.video_url)">
-                                    </label>
-                                    <hr>
-                                    <embed-video ng-if="UC.newVideo.video_url != ''" ng-href="{{UC.newVideo.video_url}}"
-                                                 width="100%" height="200"></embed-video>
-                                    <!--</div>-->
+                                <div ng-if="UC.uploadType == 2">
+                                    <div class="large-12 columns">
+                                        <!--<div class="large-12 columns">-->
+                                        <label>{{UC.newVideo.hosting_type | uppercase}} Video URL <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                            <input type="url" ng-model="UC.newVideo.video_url" ng-required="UC.uploadType == 2"
+                                                   ng-change="UC.getThumbnailUrl(UC.newVideo.video_url)">
+                                        </label>
+                                        <hr ng-if="UC.newVideo.video_url != ''">
+                                        <embed-video ng-if="UC.newVideo.video_url != ''" ng-href="{{UC.newVideo.video_url}}"
+                                                     width="100%" height="200"></embed-video>
+                                        <!--</div>-->
+                                    </div>
                                 </div>
+
                             </div>
 
                             <div class="large-12 columns">
                                 <h6 class="borderBottom">Upload Thumbnail/Artwork</h6>
                             </div>
-                            <div class="large-12 columns row">
+                            <div>
                                 <div class="large-12 columns">
                                     <div class="checkbox">
                                         <input id="uploadOwnArt" type="checkbox" ng-model="uploadOwnArt">
@@ -75,12 +82,12 @@
                                     <label>Poster Artwork/Video Thumbnail URL
                                         <input type="url" ng-model="UC.newVideo.thumbnail_url">
                                     </label>
-                                    <hr>
+                                    <hr ng-if="UC.newVideo.thumbnail_url != ''">
                                     <img ng-if="UC.newVideo.thumbnail_url != ''" ng-src="{{UC.newVideo.thumbnail_url}}"
                                          alt="Video Thumbnail URL">
                                 </div>
                                 <div class="large-12 columns" ng-if="!!uploadOwnArt">
-                                    <img ngf-thumbnail="UC.newVideo.thumbnail_url || '/assets/img/default_video_thumbnail.jpg'" class="md-card-image"
+                                    <img ngf-thumbnail="UC.newVideo.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'" class="md-card-image"
                                          style="max-width: 560px"/>
                                     <br>
                                     <div class="row">

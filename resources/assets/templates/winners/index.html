@@ -29,16 +29,21 @@
 
     <div class="row secBg">
         <div class="large-12 columns">
-            <h3>September 2016</h3>
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Audience Awards">
                     <md-content class="">
+                        <h3>
+                            <select ng-model="WC.date" ng-change="WC.fetchWinners()">
+                                <option value="2016-09-01 00:00:00">September 2016</option>
+                                <option value="2016-10-01 00:00:00">October 2016</option>
+                            </select>
+                        </h3>
                         <table class="stack" ng-repeat="award in WC.awards">
                             <caption>
-                    <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
-                          <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
-                        </span>
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
+                                    <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
+                                </span>
                                 {{::award.name}}
                             </caption>
                             <thead>
