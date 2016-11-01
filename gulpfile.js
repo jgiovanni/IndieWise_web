@@ -38,7 +38,14 @@ elixir(function(mix) {
         }
     });
     mix.styles([
-        'custom.css'
+        'custom.css',
+        '../../../node_modules/slippry/dist/slippry.css',
+        '../../../node_modules/videojs-sublime-skin/dist/videojs-sublime-skin.css',
+        '../../../node_modules/videojs-airplay/dist/videojs.airplay.css',
+        '../../../node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.css',
+        '../../../node_modules/videojs-chromecast/dist/videojs-chromecast.css',
+        '../../../node_modules//videojs-suggestedvideoendcap/videojs.suggestedVideoEndcap.css',
+        '../../../node_modules/videojs-socialshare/videojs.socialShare.css',
     ]);
     mix.sass('app.scss');
     // complie js
