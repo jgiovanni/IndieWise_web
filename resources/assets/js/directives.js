@@ -20,7 +20,7 @@
                         scope.projects = res.data;
                     });*/
 
-                    var b = DataService.collection('projects', {per_page: 3}).then(function (res) {
+                    var b = DataService.collection('projects', { random: true, per_page: 3}).then(function (res) {
                         scope.projects = res.data;
                     });
 
