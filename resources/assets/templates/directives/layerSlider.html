@@ -40,7 +40,7 @@
                             &lt;!&ndash;<img class="ls-l ls-linkto-2" style="top:400px;left:50%;white-space: nowrap;" data-ls="offsetxin:-50;delayin:1000;rotatein:-40;offsetxout:-50;rotateout:-40;" ng-src="{{::BASE}}assets/images/sliderimages/left.png" alt="">&ndash;&gt;
                             &lt;!&ndash;<img class="ls-l ls-linkto-2" style="top:400px;left:52%;white-space: nowrap;" data-ls="offsetxin:50;delayin:1000;offsetxout:50;" ng-src="{{::BASE}}assets/images/sliderimages/right.png" alt="">&ndash;&gt;
                         </div>-->
-                        <div class="ls-slide" data-ls="transition2d:1;" ng-repeat="project in projects.data" ui-sref="video({url_id: project.url_id})" style="background-image: url({{::project.thumbnail_url}});background-position: center center;background-size: cover">
+                        <div class="ls-slide" data-ls="transition2d:1;" ng-repeat="project in projects.data" ui-sref="video({url_id: project.url_id})" style="background-image: url({{::project.thumbnail_url||'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'}});background-position: center center;background-size: cover">
                             <!--<img ng-src="{{::project.thumbnail_url}}" class="ls-bg" alt="{{::project.name}}"/>-->
                             <!--<a href="single-video-v1.html" class="ls-l hover-posts">
                                 <span><i class="fa fa-play"></i></span>
