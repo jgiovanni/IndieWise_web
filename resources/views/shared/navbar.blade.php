@@ -1,6 +1,6 @@
 <header>
     <!-- Top -->
-    <section id="top" class="topBar topBarBlack show-for-large" ng-cloak>
+    <section id="top" class="topBar show-for-large" ng-cloak>
         <div class="row">
             <div class="medium-6 columns">
                 <div class="socialLinks">
@@ -52,10 +52,10 @@
 
     <!--Navbar-->
     <section id="navBar">
-    <nav class="sticky-container navBlack" data-sticky-container>
+    <nav class="sticky-container" data-sticky-container>
         <div class="sticky topnav" data-sticky data-top-anchor="navBar"
              data-btm-anchor="footer-bottom:bottom" data-margin-top="0" data-margin-bottom="0" data-top-anchor="1"
-             style="width: 100%; background: rgb(68, 68, 68);" data-sticky-on="small">
+             style="width: 100%; background: rgb(255, 255, 255);" data-sticky-on="small">
             <div class="row" style="">
                 <md-toolbar class="md-primary md-hue-3 hide-for-large" ng-class="{'md-tall': showMobileSearch}" md-whiteframe="1" ng-init="showMobileSearch = false">
                     <div class="md-toolbar-tools" layout-wrap layout="row">
@@ -124,7 +124,7 @@
                         </div>
                     </div>--}}
 
-                    <div class="top-bar show-for-large topbar-light-dark" id="beNav" style="width: 100%;">
+                    <div class="top-bar show-for-large" id="beNav" style="width: 100%;">
                         <div class="top-bar-left  search-btn">
                             <ul class="menu">
                                 <li class="menu-text">

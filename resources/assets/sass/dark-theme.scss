@@ -1,0 +1,54 @@
+// Dark Theme
+.content .post .post-thumb .video-stats .thumb-stats span, label, .help-text {
+  color: #e0e0e0 !important; // #222
+}
+
+.content .post .post-des h6 a, .content .head-text h4, #category #owl-demo-cat .item-cat h6 a  {
+  color: #bdbdbd; // #444
+}
+
+.customLabel:before {
+  color: #222222 !important; border: 1px solid #151515 !important;
+}
+
+input[type=checkbox]:checked + .customLabel:before {
+  color: #6969e9 !important;
+}
+
+.tabs, .tabs-content {
+  background: transparent !important;
+}
+
+#randomMedia .random-media-head {
+  background: #222 !important;
+  border: 1px solid #151515 !important;
+  border-bottom: none !important;
+}
+
+.secBg {
+  border-top: none;
+}
+
+.content .post .post-thumb .video-stats .thumb-stats i {
+  color: #2199e8;
+}
+
+#carouselSlider .item .inner-item .item-title {
+  top: auto;
+}
+
+#carouselSlider .item .inner-item .item-title span {
+  color: #ffffff;
+}
+
+#carouselSlider .item .inner-item .item-title h6, #premium .owl-carousel .item * {
+  color: #fefefe !important;
+}
+
+#category #owl-demo-cat .item-cat figure {
+  background-color: #ffffff;
+}
+
+table tbody, table tfoot, table thead, table tbody tr:nth-child(even) {
+  background: #444444;
+}

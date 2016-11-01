@@ -250,7 +250,7 @@ jQuery(document).ready(function (jQuery) {
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('grey')
-                .accentPalette('indigo').dark();;
+                .accentPalette('indigo');
 
             // Emoticons
             $mdIconProvider

@@ -8,7 +8,7 @@
     function WinnersController($rootScope, $scope, DataService) {
         var self = this;
         self.awards = [];
-        self.date = moment().date(1).startOf('day').format('YYYY-MM-DD HH:mm:ss');
+        self.date = moment().subtract(1, 'months').date(1).startOf('day').format('YYYY-MM-DD HH:mm:ss');
 
         self.fetchWinners = fetchWinners;
 
