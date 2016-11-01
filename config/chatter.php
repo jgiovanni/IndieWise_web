@@ -131,7 +131,7 @@ return [
     'user' => [
         'namespace' => 'App\User',
         'database_field_with_user_name' => 'fullName',
-        'relative_url_to_profile' => '/users/{url_id}/about',
+        'relative_url_to_profile' => '/user/{url_id}' . '/about',
         'relative_url_to_image_assets' => '',
         'avatar_image_database_field' => 'avatar'
     ],

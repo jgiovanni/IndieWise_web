@@ -19,7 +19,7 @@
     </div>
     <div class="row">
         <div id="owl-featured" class="owl-carousel carousel" data-car-length="3" data-items="3" data-loop="true" data-nav="false" data-autoplay="true" data-autoplay-timeout="5000" data-dots="false" data-auto-width="false" data-responsive-small="1" data-responsive-medium="3" data-responsive-xlarge="3">
-            <div class="item" ng-repeat="f in featuredFilms.data|limitTo:6">
+            <div class="item" ng-repeat="f in featuredFilms.data|limitTo:3">
                 <figure class="premium-img">
                     <img src="{{::f.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="carousel">
                     <figcaption>

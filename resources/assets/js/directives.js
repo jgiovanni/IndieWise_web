@@ -49,7 +49,7 @@
                 templateUrl: 'directives/featured-area.html',
                 scope: {},
                 link: function (scope, el, attrs) {
-                    DataService.collection("projects", { random: true }).then(function (result) {
+                    DataService.collection("projects", { random: true, per_page: 3 }).then(function (result) {
                         scope.featuredFilms = result.data;
                         // console.log("featuredFilms: ", scope.featuredFilms);
                     }).then(function () {
