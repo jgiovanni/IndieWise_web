@@ -144,15 +144,18 @@ jQuery(document).ready(function (jQuery) {
             $authProvider.signupUrl = '/api/register';
 
             $authProvider.facebook({
-                clientId: '150687055270744'
+                clientId: '150687055270744',
+                url: '/auth/facebook'
             });
 
             $authProvider.google({
-                clientId: '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com'
+                clientId: '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com',
+                url: '/auth/google'
             });
 
             $authProvider.twitter({
-                clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm'
+                clientId: 'nnSvvHd86gBpxPwJaLGvzM2Mm',
+                url: '/auth/twitter'
             });
         }])
         .config(['$intercomProvider', 'INTERCOM_APPID', function($intercomProvider, INTERCOM_APPID) {
