@@ -401,9 +401,10 @@
                         });
                     })
                     .catch(function(response) {
+                        console.log(response);
                         return {
                             status: false,
-                            errors: service.error = response.data.errors || 'Unknown error from server'
+                            errors: service.error = response || 'Unknown error from server'
                         };
                     });
             },

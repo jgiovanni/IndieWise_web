@@ -3,7 +3,7 @@
     <input type="text" ng-model="selected" placeholder="Search a feeling">
     <ul style="height: 300px;overflow-y: scroll;">
         <li class="angucomplete-row" ng-repeat="reaction in emotions|filter:selected|orderBy:'name'" ng-click="selectedEmotion(reaction)">
-            <a href="#">
+            <a>
                 <md-icon class="emoticon" md-svg-icon="{{::reaction.icon}}"></md-icon>&nbsp;{{::reaction.name}}
             </a>
         </li>

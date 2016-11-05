@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Contract\Http\Request;
-
+use App\Http\Requests\v1\CritiqueRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -41,7 +41,7 @@ class CritiquesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CritiqueRequest $request)
     {
         // Check if user is owner of same project
         $me = $this->auth()->user();

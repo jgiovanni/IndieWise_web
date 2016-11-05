@@ -13,6 +13,9 @@ class CritiqueRequest extends FormRequest
      */
     public function authorize()
     {
+        if($this->isMethod('post')) {
+            return ($this->user());
+        }
         return false;
     }
 
@@ -24,6 +27,19 @@ class CritiqueRequest extends FormRequest
     public function rules()
     {
         return [
+            'audio' => 'required|numeric',
+            'cinematography' => 'required|numeric',
+            'direction' => 'required|numeric',
+            'music' => 'required|numeric',
+            'originality' => 'required|numeric',
+            'overall' => 'required|numeric',
+            'pacing' => 'required|numeric',
+            'performance' => 'required|numeric',
+            'private' => 'required|numeric',
+            'production' => 'required|numeric',
+            'structure' => 'required|numeric',
+            'writing' => 'required|numeric',
+            'body' => 'required',
             'project_id' => 'required|exists:Project,id',
             'user_id' => 'required|exists:users,id',
         ];
