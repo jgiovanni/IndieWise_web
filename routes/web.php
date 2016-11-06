@@ -73,6 +73,14 @@ Route::get('testy', function () {
     return $project;*/
 });
 
+if (App::environment('local')) {
+    Route::any('login-as/{id}', function ($id) use ($dispatcher){
+        $token = JWTAuth::fromUser(User::find($id));
+        dd($token);
+    });
+}
+
+
 
 //Route::group(['middleware' => 'web'], function () {
 //    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');

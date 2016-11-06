@@ -34,7 +34,7 @@ class ProjectRequest extends FormRequest
             'filmingCountry_id' => 'required|exists:Country,id',
             'completionDate' => 'required|date|before:now',
             'hosting_type' => 'required|string|max:255',
-            'hosting_id' => 'string|max:255',
+//            'hosting_id' => 'string|max:255',
             'video_url' => 'required|string|max:255',
             'director' => 'required|string|max:255',
             'writer' => 'required|string|max:255',

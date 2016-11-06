@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Country;
 use App\Project;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Vinkla\Hashids\Facades\Hashids;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
@@ -72,7 +73,6 @@ Route::get('testy', function () {
     }
     return $project;*/
 });
-
 
 //Route::group(['middleware' => 'web'], function () {
 //    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
