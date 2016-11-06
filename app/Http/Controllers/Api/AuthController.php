@@ -234,11 +234,11 @@ class AuthController extends Controller
         }
 
         // if user changes email address, revalidation is required
-        if ($user->email === $request->get('email')) {
+        if ($user->email !== $request->get('email')) {
             $user->verified = false;
             $user->verified_at = NULL;
             UserVerification::generate($user);
-            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
+            UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
         }
 
         $user->update($request->except('genres', 'country', 'types', 'user_id', 'name', 'user_hash', 'app_id', 'password_confirmation'));
