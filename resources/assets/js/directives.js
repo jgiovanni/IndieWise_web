@@ -12,9 +12,9 @@
                 scope: {},
                 link: function (scope, el, attrs) {
                     scope.BASE = BASE || '/';
-                    var a = DataService.collection('users/count').then(function (res) {
+                    /*var a = DataService.collection('users/count').then(function (res) {
                         scope.users = res.data;
-                    });
+                    });*/
 
                     /*var b = DataService.collection('projects/count').then(function (res) {
                         scope.projects = res.data;
@@ -24,12 +24,13 @@
                         scope.projects = res.data;
                     });
 
-                    $q.all([a, b]).then(function () {
+                    $q.all([b]).then(function () {
                         $timeout(function () {
                             // jQuery('#slippry').slippry();
                             jQuery("#layerslider").layerSlider({
                                 responsive: true,
                                 // responsiveUnder: 950,
+                                slideDelay: 5000,
                                 layersContainer: 950,
                                 skin: 'noskin',
                                 hoverPrevNext: false,
