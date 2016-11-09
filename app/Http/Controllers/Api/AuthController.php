@@ -64,6 +64,7 @@ class AuthController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
+            Auth::login($user, true);
         } catch (JWTException $e) {
             return response()->json(['token_expired'], 401);
         } catch (JWTException $e) {

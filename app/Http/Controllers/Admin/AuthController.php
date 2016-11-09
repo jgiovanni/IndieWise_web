@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
@@ -64,6 +65,7 @@ class AuthController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
+            Auth::login($user, true);
             $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
             if (empty($test)) {
                 return response()->json(['user_not_authorized'], 401);
@@ -90,6 +92,7 @@ class AuthController extends Controller
             }
 
             $user = JWTAuth::user();
+            Auth::login($user, true);
             $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
             if (empty($test)) {
                 return response()->json(['user_not_authorized'], 401);
