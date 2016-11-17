@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row columns" ng-if="::!VCC.critique.private||AppData.User.id == VCC.critique.user_id">
+                                <div class="row columns" ng-if="::(!VCC.critique.private||AppData.User.id == VCC.critique.user_id) && VCC.critique.type === 'video'">
                                     <div class="row columns">
                                         <div class="columns medium-8 small-6 text-right">
                                             <span class="md-body-1">Acting</span>
@@ -120,6 +120,76 @@
                                     <div class="row columns" style="border-bottom: 1px solid #ddd;">
                                         <div class="columns medium-8 small-6 text-right">
                                             <span class="md-body-1">Writing</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6">{{::VCC.critique.writing}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Overall Rating</span>
+                                        </div>
+                                        <div class="columns medium-4 small-6">
+                                            <span class="md-body-2">{{::VCC.critique.overall|number:1}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row columns" ng-if="::(!VCC.critique.private||AppData.User.id == VCC.critique.user_id) && VCC.critique.type === 'script'">
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Concept</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6">{{::VCC.critique.concept}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Presentation</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6">{{::VCC.critique.presentation}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Character Development</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6" >{{::VCC.critique.characters}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Quality of Dialogue</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6">{{::VCC.critique.dialogue}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Theme</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6" >{{::VCC.critique.theme}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Style</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6">{{::VCC.critique.style}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Pacing</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6" >{{::VCC.critique.pacing}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Structure</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6">{{::VCC.critique.structure}}</span>
+                                    </div>
+                                    <div class="row columns">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Originality</span>
+                                        </div>
+                                        <span class="columns medium-4 small-6" >{{::VCC.critique.originality}}</span>
+                                    </div>
+                                    <div class="row columns" style="border-bottom: 1px solid #ddd;">
+                                        <div class="columns medium-8 small-6 text-right">
+                                            <span class="md-body-1">Plot</span>
                                         </div>
                                         <span class="columns medium-4 small-6">{{::VCC.critique.writing}}</span>
                                     </div>

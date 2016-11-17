@@ -13,7 +13,7 @@
                 <div class="top-button">
                     <ul class="menu float-right">
                         <!--<li ui-sref-active="active">
-                            <a ui-sref="upload">upload Video</a>
+                            <a ui-sref="upload">upload Project</a>
                         </li>-->
                         <li class="dropdown-login">
                             <a ng-if="!isAuthenticated()" ui-sref="sign_in">Login/Register</a>
@@ -151,12 +151,12 @@
                                     <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
                                 </li>
                                 <li class="upl-btn end">
-                                    <a ui-sref="profile.upload">Upload Video</a>
+                                    <a ui-sref="profile.upload">Upload Project</a>
                                 </li>
                             </ul>
                             <ul ng-if="!isAuthenticated()" class="menu dropdown" dropdown-menu>
                                 <li class="upl-btn end">
-                                    <a ui-sref="profile.upload">Upload Video</a>
+                                    <a ui-sref="profile.upload">Upload Project</a>
                                 </li>
                             </ul>
                         </div>

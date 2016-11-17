@@ -407,6 +407,19 @@
                 }
             }
         }])
+        .directive('scriptViewer', [function () {
+            return {
+                restrict: 'E',
+                templateUrl: 'directives/script-viewer.html',
+                transclude: true,
+                // replace: true,
+                scope: {film: '=film', lightsOff: '=lightsOff'},
+                link: function (scope, el, attrs) {
+                    scope.script = scope.film.video_url
+                    // scope.script = scope.film.video_url.replace('https://cdn.filepicker.io/api', 'https://www.filestackapi.com/api');
+                }
+            }
+        }])
         .directive('videoPlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
             return {
                 restrict: 'E',

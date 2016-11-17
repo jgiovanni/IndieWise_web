@@ -1368,9 +1368,18 @@
                 $scope.starArray = angular.copy([{"num": 0}, {"num": 1}, {"num": 2}, {"num": 3}, {"num": 4}, {"num": 5}, {"num": 6}, {"num": 7}, {"num": 8}, {"num": 9}, {"num": 10}].reverse());
 
                 $scope.calcOverall = function () {
-                    $scope.critique.overall = ($scope.critique.originality + $scope.critique.direction + $scope.critique.writing +
-                        $scope.critique.cinematography + $scope.critique.performances + $scope.critique.production +
-                        $scope.critique.pacing + $scope.critique.structure + $scope.critique.audio + $scope.critique.music) / 10;
+                    switch ($scope.critique.type){
+                        case 'script':
+                            $scope.critique.overall = ($scope.critique.originality + $scope.critique.pacing + $scope.critique.structure +
+                                $scope.critique.writing + $scope.critique.potential + $scope.critique.style +
+                                $scope.critique.theme + $scope.critique.dialogue + $scope.critique.characters + $scope.critique.presentation + $scope.critique.concept) / 11;
+                            break;
+                        default:
+                            $scope.critique.overall = ($scope.critique.originality + $scope.critique.direction + $scope.critique.writing +
+                                $scope.critique.cinematography + $scope.critique.performances + $scope.critique.production +
+                                $scope.critique.pacing + $scope.critique.structure + $scope.critique.audio + $scope.critique.music) / 10;
+                            break;
+                    }
                 };
 
                 $scope.$watchCollection('critique', function () {
@@ -1391,16 +1400,26 @@
                     if (failA) {
                         $scope.errors.push('Tell us why you gave this critique an overall rating of ' + $scope.critique.overall);
                     }
-                    failB = $scope.critique.originality < 1 || $scope.critique.direction < 1 || $scope.critique.writing < 1 ||
-                        $scope.critique.cinematography < 1 || $scope.critique.performances < 1 || $scope.critique.production < 1 ||
-                        $scope.critique.pacing < 1 || $scope.critique.structure < 1 || $scope.critique.audio < 1 || $scope.critique.music < 1;
+                    switch ($scope.critique.type){
+                        case 'script':
+                            failB = $scope.critique.originality < 1 || $scope.critique.pacing < 1 || $scope.critique.writing < 1 ||
+                                $scope.critique.structure < 1 || $scope.critique.potential < 1 || $scope.critique.style < 1 ||
+                                $scope.critique.theme < 1 || $scope.critique.dialogue < 1 || $scope.critique.characters < 1 || $scope.critique.presentation < 1 || $scope.critique.concept < 1;
+                            break;
+                        default:
+                            failB = $scope.critique.originality < 1 || $scope.critique.direction < 1 || $scope.critique.writing < 1 ||
+                                $scope.critique.cinematography < 1 || $scope.critique.performances < 1 || $scope.critique.production < 1 ||
+                                $scope.critique.pacing < 1 || $scope.critique.structure < 1 || $scope.critique.audio < 1 || $scope.critique.music < 1;
+                            break;
+                    }
+
                     if (failB) {
                         $scope.errors.push('Be sure to put a minimum of 1-star in every category.')
                     }
 
                     if(!failA && !failB) {
                         $scope.postCritique();
-                    };
+                    }
                 };
 
                 $scope.closeDialog = function () {
@@ -1499,7 +1518,15 @@
                                     private: false,
                                     user_id: $rootScope.AppData.User.id,
                                     body: '',
-                                    project_id: self.film.id
+                                    project_id: self.film.id,
+                                    type: self.film.hosting_type === 'script' ? 'script' : 'video',
+                                    potential: 0,
+                                    style: 0,
+                                    theme: 0,
+                                    dialogue: 0,
+                                    characters: 0,
+                                    presentation: 0,
+                                    concept: 0,
                                 };
                             },
                             film: function () {
@@ -1966,7 +1993,7 @@
         };
 
         self.getUserFilmPath = function () {
-            return self.user.url_id + '/films/';
+            return self.newVideo.hosting_type === 'script' ? self.user.url_id + '/scripts/' : self.user.url_id + '/films/';
         };
 
         self.isURL = function (str) {
@@ -2038,9 +2065,11 @@
                 msg += 'Language, ';
                 test = false;
             }
-            if (self.newVideo.runTime == 0) {
-                msg += 'Duration';
-                test = false;
+            if (self.newVideo.hosting_type !== 'script') {
+                if (self.newVideo.runTime == 0) {
+                    msg += 'Duration';
+                    test = false;
+                }
             }
             if (!test) {
                 $rootScope.toastMessage(msg);
@@ -2165,14 +2194,14 @@
 
             filepickerService.pick({
                     mimetype: 'video/mp4',
-                    customSourcePath: self.user.url_id + '/films/'
+                    customSourcePath: self.user.url_id + self.newVideo.hosting_type === 'script' ? '/scripts/' : '/films/'
                 },
                 self.onSuccess
             );
         };
 
         self.onSuccess = function (Blob) {
-            self.newVideo.hosting_type = 'HTML5';
+            self.newVideo.hosting_type = self.newVideo.hosting_type === 'script' ? 'script' : 'HTML5';
             self.newVideo.video_url = Blob.url + '?cache=true';
             // self.files.push(Blob);
             // $window.localStorage.setItem('files', JSON.stringify(self.files));

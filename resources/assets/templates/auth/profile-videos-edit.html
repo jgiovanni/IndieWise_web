@@ -33,8 +33,20 @@
                             </div>
                             <div class="large-12 columns">
                                 <div class="radio" style="margin-bottom: 20px;">
-                                    <input type="radio" ng-model="VEC.uploadType" value="2" name="videolink" id="videolink1" checked>
-                                    <label class="customLabel" for="videolink1">Video Link From YouTube/Vimeo</label>
+                                    <input ng-if="VEC.editedProject.hosting_type === 'script'" type="radio" ng-model="UC.uploadType" value="3" ng-click="VEC.editedProject.hosting_type = 'script'" name="videolink0" id="videolink0" checked>
+                                    <label ng-if="VEC.editedProject.hosting_type === 'script'" class="customLabel" for="videolink0">Script PDF File</label>
+                                    <input ng-if="VEC.editedProject.hosting_type !== 'script'" type="radio" ng-model="VEC.uploadType" value="2" name="videolink" id="videolink1" checked>
+                                    <label ng-if="VEC.editedProject.hosting_type !== 'script'" class="customLabel" for="videolink1">Video Link From YouTube/Vimeo</label>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="UC.uploadType === 3">
+                                <div class="large-12 columns">
+                                    <label>
+                                        <input filepicker type="filepicker-dragdrop" on-success="UC.onSuccess(event.fpfile)"
+                                               data-fp-services="computer,dropbox,url,googledrive,skydrive,clouddrive"
+                                               data-fp-extension=".pdf" data-fp-store-path="{{UC.getUserFilmPath()}}"/>
+                                    </label>
+                                    <!--<hr>-->
                                 </div>
                             </div>
                             <div class="row" ng-if="VEC.uploadType == 2">

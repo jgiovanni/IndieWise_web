@@ -1,84 +1,176 @@
 <div aria-label="Critique">
     <form ng-submit="validateCritique()">
         <div class="row">
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Acting</span>
+            <div ng-if="critique.type === 'video'">
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Acting</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.performances" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-                <div class="columns small-8">
-                    <rating value="critique.performances" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="hyphenate">Cinematography</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.cinematography" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Direction</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.direction" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Editing</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.structure" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Music</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.music" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Originality</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.originality" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Pacing</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.pacing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Production Value</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.production" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Sound Quality</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.audio" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
+                </div>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Writing</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.writing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
             </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="hyphenate">Cinematography</span>
+            <div ng-if="critique.type === 'script'">
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Concept</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.concept" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-                <div class="columns small-8">
-                    <rating value="critique.cinematography" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="hyphenate">Presentation</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.presentation" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Direction</span>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Characters</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.characters" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-                <div class="columns small-8">
-                    <rating value="critique.direction" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Structure</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.structure" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Editing</span>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Dialogue</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.dialogue" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-                <div class="columns small-8">
-                    <rating value="critique.structure" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Originality</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.originality" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Music</span>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Pacing</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.pacing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-                <div class="columns small-8">
-                    <rating value="critique.music" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Theme</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.theme" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Originality</span>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Style</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.style" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-                <div class="columns small-8">
-                    <rating value="critique.originality" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Plot</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.writing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Pacing</span>
-                </div>
-                <div class="columns small-8">
-                    <rating value="critique.pacing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-                </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Production Value</span>
-                </div>
-                <div class="columns small-8">
-                    <rating value="critique.production" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-                </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Sound Quality</span>
-                </div>
-                <div class="columns small-8">
-                    <rating value="critique.audio" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-                </div>
-            </div>
-            <div class="columns row">
-                <div class="columns small-4 text-right">
-                    <span class="">Writing</span>
-                </div>
-                <div class="columns small-8">
-                    <rating value="critique.writing" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                <div class="columns row">
+                    <div class="columns small-4 text-right">
+                        <span class="">Potential</span>
+                    </div>
+                    <div class="columns small-8">
+                        <rating value="critique.potential" max="ratingMax" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    </div>
                 </div>
             </div>
             <hr class="thin">
@@ -87,7 +179,7 @@
                     <span class="">Overall Rating</span>
                 </div>
                 <div class="columns small-4">
-                    <span class="">{{critique.overall|number:1}}/10</span>
+                    <span class="">{{critique.overall | number:1}}/10</span>
                 </div>
             </div>
             <hr class="thin">

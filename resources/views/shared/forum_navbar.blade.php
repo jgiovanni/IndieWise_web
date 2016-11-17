@@ -151,12 +151,12 @@
                                     <span ng-show="AppData.MessageNotifications.unread>0" class="alert badge">@{{AppData.MessageNotifications.unread}}</span>
                                 </li>
                                 <li class="upl-btn end">
-                                    <a ui-sref="profile.upload" ui-sref-opts="{reload: true, notify: true}" target="_self">Upload Video</a>
+                                    <a ui-sref="profile.upload" ui-sref-opts="{reload: true, notify: true}" target="_self">Upload Project</a>
                                 </li>
                             </ul>
                             <ul ng-if="!isAuthenticated()" class="menu dropdown" dropdown-menu>
                                 <li class="upl-btn end">
-                                    <a ui-sref="profile.upload" ui-sref-opts="{reload: true, notify: true}" target="_self">Upload Video</a>
+                                    <a ui-sref="profile.upload" ui-sref-opts="{reload: true, notify: true}" target="_self">Upload Project</a>
                                 </li>
                             </ul>
                         </div>
