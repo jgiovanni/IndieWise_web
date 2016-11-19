@@ -170,15 +170,14 @@
                             </div>
                             <fieldset class="large-12 columns row">
                                 <legend style="margin-left: 20px" ng-if="UC.newVideo.hosting_type !== 'script'">Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
-                                <legend style="margin-left: 20px" ng-if="UC.newVideo.hosting_type === 'script'"># of Pages <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
-                                <div class="large-4 columns">
+                                <div class="large-4 columns" ng-if="UC.newVideo.hosting_type !== 'script'">
                                     <label>Hours
                                         <input type="number" ng-model="UC.runtime.hours" min="0"
                                                ng-change="UC.runtimeToSeconds()" required>
                                     </label>
 
                                 </div>
-                                <div class="large-4 columns">
+                                <div class="large-4 columns" ng-if="UC.newVideo.hosting_type !== 'script'">
                                     <label>Minutes
                                         <input type="number" ng-model="UC.runtime.mins" min="0" max="60"
                                                ng-change="UC.runtimeToSeconds()" required>
@@ -186,7 +185,9 @@
 
                                 </div>
                                 <div class="large-4 columns">
-                                    <label>Seconds
+                                    <label>
+                                        <span ng-if="UC.newVideo.hosting_type !== 'script'">Seconds</span>
+                                        <span ng-if="UC.newVideo.hosting_type === 'script'"># of Pages</span>
                                         <input type="number" ng-model="UC.runtime.secs" min="0" max="60"
                                                ng-change="UC.runtimeToSeconds()" required>
                                     </label>
@@ -231,8 +232,9 @@
                                     </label>
                                 </div>
                                 <div class="post-category">
-                                    <label ng-if="UC.newVideo.hosting_type !== 'script'">Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                    <label ng-if="UC.newVideo.hosting_type === 'script'">Country of Origin: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                    <label>
+                                        <span ng-if="UC.newVideo.hosting_type !== 'script'">Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup></span>
+                                        <span ng-if="UC.newVideo.hosting_type === 'script'">Country of Origin: <sup class="fa fa-asterisk req" aria-hidden="true"></sup></span>
                                         <select ng-model="UC.newVideo.filmingCountry" ng-options="c.id as c.name for c in UC.countryList|orderBy:'name'" required>
                                             <option value="">Select Country</option>
                                         </select>
