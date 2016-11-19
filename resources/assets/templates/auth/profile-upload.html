@@ -127,7 +127,7 @@
                                     <textarea ng-model="UC.newVideo.description" ng-maxlength="3000"></textarea>
                                 </label>
                             </div>
-                            <div class="large-12 columns row">
+                            <div class="large-12 columns row" ng-if="UC.newVideo.hosting_type !== 'script'">
                                 <div class="large-4 columns">
                                     <label>Director <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <input type="text" ng-model="UC.newVideo.director" required>
@@ -140,14 +140,28 @@
                                     </label>
 
                                 </div>
-                                <div class="large-4 columns" ng-if="UC.newVideo.hosting_type !== 'script'">
+                                <div class="large-4 columns">
                                     <label>Producers <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <input type="text" ng-model="UC.newVideo.producers" required>
                                     </label>
 
                                 </div>
                             </div>
-                            <div class="large-12 columns">
+                            <div class="large-12 columns row" ng-if="UC.newVideo.hosting_type === 'script'">
+                                <div class="large-6 columns">
+                                    <label>Writer <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                        <input type="text" ng-model="UC.newVideo.writer" required>
+                                    </label>
+
+                                </div>
+                                <div class="large-6 columns">
+                                    <label>Producers <sup class="fa fa-asterisk" aria-hidden="true"></sup>
+                                        <input type="text" ng-model="UC.newVideo.producers" >
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="large-12 columns" ng-if="UC.newVideo.hosting_type !== 'script'">
                                 <div class="post-meta">
                                     <label>Key Cast:
                                         <textarea ng-model="UC.newVideo.keyCast" placeholder="Key Cast"></textarea>
@@ -155,7 +169,8 @@
                                 </div>
                             </div>
                             <fieldset class="large-12 columns row">
-                                <legend style="margin-left: 20px">Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
+                                <legend style="margin-left: 20px" ng-if="UC.newVideo.hosting_type !== 'script'">Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
+                                <legend style="margin-left: 20px" ng-if="UC.newVideo.hosting_type === 'script'"># of Pages <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
                                 <div class="large-4 columns">
                                     <label>Hours
                                         <input type="number" ng-model="UC.runtime.hours" min="0"
@@ -216,7 +231,8 @@
                                     </label>
                                 </div>
                                 <div class="post-category">
-                                    <label>Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                    <label ng-if="UC.newVideo.hosting_type !== 'script'">Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                    <label ng-if="UC.newVideo.hosting_type === 'script'">Country of Origin: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <select ng-model="UC.newVideo.filmingCountry" ng-options="c.id as c.name for c in UC.countryList|orderBy:'name'" required>
                                             <option value="">Select Country</option>
                                         </select>
