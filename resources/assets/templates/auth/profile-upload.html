@@ -233,8 +233,10 @@
                                 </div>
                                 <div class="post-category">
                                     <label>
-                                        <span ng-if="UC.newVideo.hosting_type !== 'script'">Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup></span>
-                                        <span ng-if="UC.newVideo.hosting_type === 'script'">Country of Origin: <sup class="fa fa-asterisk req" aria-hidden="true"></sup></span>
+                                        <span ng-if="UC.newVideo.hosting_type !== 'script'">Country of Filming: </span>
+                                        <span ng-if="UC.newVideo.hosting_type === 'script'">Country of Origin: </span>
+
+                                        <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <select ng-model="UC.newVideo.filmingCountry" ng-options="c.id as c.name for c in UC.countryList|orderBy:'name'" required>
                                             <option value="">Select Country</option>
                                         </select>
