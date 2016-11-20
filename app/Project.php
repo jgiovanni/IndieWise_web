@@ -17,7 +17,7 @@ class Project extends Model
 
     protected $with = ['owner', 'genres', 'type', 'filmingCountry', 'language'];
 
-//    protected $appends = [];
+//    protected $appends = [''];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
 
@@ -36,6 +36,41 @@ class Project extends Model
         'iwRating' => 'float'
     ];
 
+    public function getThumbnailUrlAttribute($value)
+    {
+        if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
+            $json_policy = json_encode([
+//            "handle" => "KW9EJhYtS6y48Whm2S6D",
+                "expiry" => intval(time() + (60 * 60)),
+            ]);
+            $policy = strtr(base64_encode($json_policy), '+/=', '-_');
+            $hash = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
+
+            if (strpos($value, '?cache=true') !== false) {
+                return $value . '&policy=' . $policy . '&signature=' . $hash;
+            } else {
+                return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
+            }
+        }
+    }
+
+    public function getVideoUrlAttribute($value)
+    {
+        if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
+            $json_policy = json_encode([
+//            "handle" => "KW9EJhYtS6y48Whm2S6D",
+                "expiry" => intval(time() + (60 * 60)),
+            ]);
+            $policy = strtr(base64_encode($json_policy), '+/=', '-_');
+            $hash = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
+            if (strpos($value, '?cache=true') !== false) {
+                return $value . '&policy=' . $policy . '&signature=' . $hash;
+            } else {
+                return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
+            }
+        }
+    }
+
     /*
      * Set Bool values
      */
@@ -43,22 +78,27 @@ class Project extends Model
     {
         $this->attributes['unlist'] = (boolean)($val);
     }
+
     public function setNsfwAttribute($val)
     {
         $this->attributes['nsfw'] = (boolean)($val);
     }
+
     public function setDisableProjectAttribute($val)
     {
         $this->attributes['disableProject'] = (boolean)($val);
     }
+
     public function setDisableCritiqueAttribute($val)
     {
         $this->attributes['disableCritique'] = (boolean)($val);
     }
+
     public function setDisableCommentsAttribute($val)
     {
         $this->attributes['disableComments'] = (boolean)($val);
     }
+
     public function setCopyrightOwnerAttribute($val)
     {
         $this->attributes['copyrightOwner'] = (boolean)($val);
@@ -69,7 +109,7 @@ class Project extends Model
     {
         return $query->where('unlist', 0);
     }
-     /* Relations */
+    /* Relations */
     //  Child of
     public function owner()
     {

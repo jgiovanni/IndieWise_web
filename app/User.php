@@ -73,6 +73,44 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         return hash_hmac("sha256", $this->attributes['id'], "IyW66SD_5ohnI6zok0zWtPoZRf7QS32jNv9wfkg8");
     }
 
+    public function getAvatarAttribute($value)
+    {
+        if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
+            $json_policy = json_encode([
+//            "handle" => "KW9EJhYtS6y48Whm2S6D",
+                "expiry" => intval(time() + (60 * 60)),
+            ]);
+            $policy = strtr(base64_encode($json_policy), '+/=', '-_');
+            $hash = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
+
+            if (strpos($value, '?cache=true') !== false) {
+                return $value . '&policy=' . $policy . '&signature=' . $hash;
+            } else {
+                return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
+            }
+        }
+    }
+
+    public function getCoverPhotoAttribute($value)
+    {
+        if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
+            $json_policy = json_encode([
+//            "handle" => "KW9EJhYtS6y48Whm2S6D",
+                "expiry" => intval(time() + (60 * 60)),
+            ]);
+            $policy = strtr(base64_encode($json_policy), '+/=', '-_');
+            $hash = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
+
+            if (strpos($value, '?cache=true') !== false) {
+                return $value . '&policy=' . $policy . '&signature=' . $hash;
+            } else {
+                return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
+            }
+        }
+    }
+
+
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -187,7 +225,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         parent::boot();
 
         static::created(function ($user) {
-            if (is_null($user->verification_token)) {
+            if ( !$user->verified ) {
                 UserVerification::generate($user);
                 UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
             }

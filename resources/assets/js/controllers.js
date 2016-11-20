@@ -2125,7 +2125,7 @@
                     owner_id: self.newVideo.owner,
                     runTime: self.newVideo.runTime,
                     video_url: self.newVideo.video_url,
-                    thumbnail_url: self.newVideo.thumbnail_url,
+                    thumbnail_url: (self.newVideo.thumbnail_url === ''|| self.newVideo.thumbnail_url === null) ? self.getDefaultImage() : self.newVideo.thumbnail_url,
                     hosting_type: self.newVideo.hosting_type,
                     hosting_id: self.newVideo.hosting_id,
                     tags: self.newVideo.tags,
