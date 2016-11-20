@@ -52,6 +52,7 @@ class Project extends Model
                 return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
             }
         }
+        return $value;
     }
 
     public function getVideoUrlAttribute($value)
@@ -69,6 +70,7 @@ class Project extends Model
                 return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
             }
         }
+        return $value;
     }
 
     /*
