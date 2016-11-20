@@ -1371,9 +1371,10 @@
                     switch ($scope.critique.type){
                         case 'script':
                             $scope.critique.overall = ($scope.critique.originality + $scope.critique.pacing + $scope.critique.structure +
-                                $scope.critique.writing + $scope.critique.potential + $scope.critique.style +
-                                $scope.critique.theme + $scope.critique.dialogue + $scope.critique.characters + $scope.critique.presentation + $scope.critique.concept) / 11;
+                                $scope.critique.writing + $scope.critique.style + $scope.critique.theme + $scope.critique.dialogue +
+                                $scope.critique.characters + $scope.critique.presentation + $scope.critique.concept) / 10;
                             break;
+                        case 'video':
                         default:
                             $scope.critique.overall = ($scope.critique.originality + $scope.critique.direction + $scope.critique.writing +
                                 $scope.critique.cinematography + $scope.critique.performances + $scope.critique.production +
@@ -1403,9 +1404,10 @@
                     switch ($scope.critique.type){
                         case 'script':
                             failB = $scope.critique.originality < 1 || $scope.critique.pacing < 1 || $scope.critique.writing < 1 ||
-                                $scope.critique.structure < 1 || $scope.critique.potential < 1 || $scope.critique.style < 1 ||
-                                $scope.critique.theme < 1 || $scope.critique.dialogue < 1 || $scope.critique.characters < 1 || $scope.critique.presentation < 1 || $scope.critique.concept < 1;
+                                $scope.critique.structure < 1 || $scope.critique.style < 1 || $scope.critique.theme < 1 ||
+                                $scope.critique.dialogue < 1 || $scope.critique.characters < 1 || $scope.critique.presentation < 1 || $scope.critique.concept < 1;
                             break;
+                        case 'video':
                         default:
                             failB = $scope.critique.originality < 1 || $scope.critique.direction < 1 || $scope.critique.writing < 1 ||
                                 $scope.critique.cinematography < 1 || $scope.critique.performances < 1 || $scope.critique.production < 1 ||
@@ -2102,6 +2104,10 @@
             return match;
         };
 
+        self.getDefaultImage = function () {
+            return self.newVideo.hosting_type === 'script' ? 'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng' : 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'
+        };
+
         self.submitNewVideo = function () {
             if (!!self.validateNewVideoForm()) {
                 if (angular.isArray(self.genresArr) && self.genresArr.length) {
@@ -2138,13 +2144,13 @@
                 DataService.save('projects', filmParams)
                     .then(function (film) {
                         console.log(film.data.data);
-                        $rootScope.toastMessage('Video Uploaded Successfully');
+                        $rootScope.toastMessage('Project Uploaded Successfully');
                         // register Action
                         $state.go('video', {url_id: film.data.data.url_id});
                         //return film;
                     }, function (err) {
                         // console.log(err);
-                        alert('Failed to create new video, with error: ' + err.message);
+                        alert('Failed to create new project, with error: ' + err.message);
                     });
 
             } else {
@@ -2289,6 +2295,10 @@
             return str.length < 2083 && url.test(str);
         };
 
+        self.getDefaultImage = function () {
+            return self.editedProject.hosting_type === 'script' ? 'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng' : 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'
+        };
+
         self.getThumbnailUrl = function (url) {
             if (url != null && url != '') {
                 if (url.indexOf('youtu') != -1) {
@@ -2356,7 +2366,7 @@
                     // console.log(res);
                     self.saveComplete = true;
                     // anchorSmoothScroll.scrollTo('success');
-                    $rootScope.toastMessage('Video Updated');
+                    $rootScope.toastMessage('Project Updated');
                     $state.go('profile.videos');
                 });
         };

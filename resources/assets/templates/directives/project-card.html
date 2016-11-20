@@ -20,7 +20,8 @@
                     <span>{{::(video.reactions_count)||0}}</span>
                 </div>
                 <div class="thumb-stats pull-right">
-                    <span>{{::video.runTime|secondsToDateTime|date:'HH:mm:ss'}}</span>
+                    <span ng-if="video.hosting_type !== 'script'">{{::video.runTime|secondsToDateTime|date:'HH:mm:ss'}}</span>
+                    <span ng-if="video.hosting_type === 'script'">{{::video.runTime}} pages</span>
                 </div>
             </div>
         </a>

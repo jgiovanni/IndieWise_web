@@ -77,7 +77,7 @@
                                          alt="Video Thumbnail URL">
                                 </div>
                                 <div class="large-12 columns" ng-if="!!uploadOwnArt">
-                                    <img ngf-thumbnail="VEC.editedProject.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'" class="md-card-image"
+                                    <img ngf-thumbnail="VEC.editedProject.thumbnail_url || VEC.getDefaultImage()" class="md-card-image"
                                          style="max-width: 560px"/>
                                     <br>
                                     <div class="row">
@@ -126,7 +126,7 @@
                                     <textarea ng-model="VEC.editedProject.description" ng-maxlength="3000"></textarea>
                                 </label>
                             </div>
-                            <div class="large-12 columns row">
+                            <div class="large-12 columns row" ng-if="VEC.editedProject.hosting_type !== 'script'">
                                 <div class="large-4 columns">
                                     <label>Director <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <input type="text" ng-model="VEC.editedProject.director" required>
@@ -146,14 +146,33 @@
 
                                 </div>
                             </div>
-                            <div class="large-12 columns">
+                            <div class="large-12 columns row" ng-if="VEC.editedProject.hosting_type === 'script'">
+                                <div class="large-6 columns">
+                                    <label>Writer <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                        <input type="text" ng-model="VEC.editedProject.writer" required>
+                                    </label>
+
+                                </div>
+                                <div class="large-6 columns">
+                                    <label>Producers
+                                        <input type="text" ng-model="VEC.editedProject.producers" >
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="large-12 columns" ng-if="VEC.editedProject.hosting_type !== 'script'">
                                 <div class="post-meta">
                                     <label>Key Cast:
                                         <textarea ng-model="VEC.editedProject.keyCast" placeholder="Key Cast"></textarea>
                                     </label>
                                 </div>
                             </div>
-                            <fieldset class="large-12 columns row">
+                            <div class="large-12 columns" ng-if="VEC.editedProject.hosting_type === 'script'">
+                                <label># of Pages
+                                    <input type="number" ng-model="VEC.editedProject.runTime" min="0" required>
+                                </label>
+                            </div>
+                            <fieldset class="large-12 columns row" ng-if="VEC.editedProject.hosting_type !== 'script'">
                                 <legend style="margin-left: 20px">Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
                                 <div class="large-4 columns">
                                     <label>Hours
@@ -215,7 +234,10 @@
                                     </label>
                                 </div>
                                 <div class="post-category">
-                                    <label>Country of Filming: <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
+                                    <label>
+                                        <span ng-if="VEC.editedProject.hosting_type !== 'script'">Country of Filming: </span>
+                                        <span ng-if="VEC.editedProject.hosting_type === 'script'">Country of Origin: </span>
+                                        <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                         <select ng-model="VEC.editedProject.filmingCountry_id" ng-options="c.id as c.name for c in VEC.countryList|orderBy:'name'" required>
                                             <option value="">Select Country</option>
                                         </select>

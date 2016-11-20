@@ -101,7 +101,7 @@
                                          alt="Video Thumbnail URL">
                                 </div>
                                 <div class="large-12 columns" ng-if="!!uploadOwnArt">
-                                    <img ngf-thumbnail="UC.newVideo.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg'" class="md-card-image"
+                                    <img ngf-thumbnail="UC.newVideo.thumbnail_url || UC.getDefaultImage()" class="md-card-image"
                                          style="max-width: 560px"/>
                                     <br>
                                     <div class="row">
@@ -168,16 +168,21 @@
                                     </label>
                                 </div>
                             </div>
-                            <fieldset class="large-12 columns row">
-                                <legend style="margin-left: 20px" ng-if="UC.newVideo.hosting_type !== 'script'">Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
-                                <div class="large-4 columns" ng-if="UC.newVideo.hosting_type !== 'script'">
+                            <div class="large-12 columns" ng-if="UC.newVideo.hosting_type === 'script'">
+                                <label># of Pages
+                                    <input type="number" ng-model="UC.newVideo.runTime" min="0" required>
+                                </label>
+                            </div>
+                            <fieldset class="large-12 columns row" ng-if="UC.newVideo.hosting_type !== 'script'">
+                                <legend style="margin-left: 20px">Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup></legend>
+                                <div class="large-4 columns">
                                     <label>Hours
                                         <input type="number" ng-model="UC.runtime.hours" min="0"
                                                ng-change="UC.runtimeToSeconds()" required>
                                     </label>
 
                                 </div>
-                                <div class="large-4 columns" ng-if="UC.newVideo.hosting_type !== 'script'">
+                                <div class="large-4 columns">
                                     <label>Minutes
                                         <input type="number" ng-model="UC.runtime.mins" min="0" max="60"
                                                ng-change="UC.runtimeToSeconds()" required>
@@ -185,9 +190,7 @@
 
                                 </div>
                                 <div class="large-4 columns">
-                                    <label>
-                                        <span ng-if="UC.newVideo.hosting_type !== 'script'">Seconds</span>
-                                        <span ng-if="UC.newVideo.hosting_type === 'script'"># of Pages</span>
+                                    <label>Seconds
                                         <input type="number" ng-model="UC.runtime.secs" min="0" max="60"
                                                ng-change="UC.runtimeToSeconds()" required>
                                     </label>
