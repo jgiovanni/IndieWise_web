@@ -33,7 +33,7 @@
                             </div>
                             <div class="large-12 columns">
                                 <div class="radio" style="margin-bottom: 20px;">
-                                    <input type="radio" ng-model="UC.uploadType" value="3" ng-click="UC.newVideo.hosting_type = 'script'" name="videolink0" id="videolink0" checked>
+                                    <input type="radio" ng-model="UC.uploadType" value="4" ng-click="UC.newVideo.hosting_type = 'script'" name="videolink0" id="videolink0" checked>
                                     <label class="customLabel" for="videolink0">Script PDF File</label>
                                     <br class="hide-for-medium">
                                     <br class="hide-for-medium">
@@ -43,7 +43,7 @@
                                     <br class="hide-for-medium">
                                     <input type="radio" ng-model="UC.uploadType" value="2" ng-click="UC.newVideo.hosting_type = 'youtube'" name="videolink2" id="videolink2" checked>
                                     <label class="customLabel" for="videolink2">YouTube Video URL</label>
-                                    <input type="radio" ng-model="UC.uploadType" value="2" ng-click="UC.newVideo.hosting_type = 'vimeo'" name="videolink3" id="videolink3" checked>
+                                    <input type="radio" ng-model="UC.uploadType" value="3" ng-click="UC.newVideo.hosting_type = 'vimeo'" name="videolink3" id="videolink3" checked>
                                     <label class="customLabel" for="videolink3">Vimeo Video URL</label>
                                 </div>
                                 <div ng-if="UC.uploadType == 1">
@@ -56,7 +56,7 @@
                                         <!--<hr>-->
                                     </div>
                                 </div>
-                                <div ng-if="UC.uploadType == 3">
+                                <div ng-if="UC.uploadType == 4">
                                     <div class="large-12 columns">
                                         <label>
                                             <input filepicker type="filepicker-dragdrop" on-success="UC.onSuccess(event.fpfile)"
@@ -66,11 +66,11 @@
                                         <!--<hr>-->
                                     </div>
                                 </div>
-                                <div ng-if="UC.uploadType == 2">
+                                <div ng-if="UC.uploadType == 2 || UC.uploadType == 3">
                                     <div class="large-12 columns">
                                         <!--<div class="large-12 columns">-->
                                         <label>{{UC.newVideo.hosting_type | uppercase}} Video URL <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                            <input type="url" ng-model="UC.newVideo.video_url" ng-required="UC.uploadType == 2"
+                                            <input type="url" ng-model="UC.newVideo.video_url" ng-required="UC.uploadType == 2 || UC.uploadType == 3"
                                                    ng-change="UC.getThumbnailUrl(UC.newVideo.video_url)">
                                         </label>
                                         <hr ng-if="UC.newVideo.video_url != ''">

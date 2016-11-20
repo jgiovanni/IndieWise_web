@@ -33,13 +33,13 @@
                             </div>
                             <div class="large-12 columns">
                                 <div class="radio" style="margin-bottom: 20px;">
-                                    <input ng-if="VEC.editedProject.hosting_type === 'script'" type="radio" ng-model="UC.uploadType" value="3" ng-click="VEC.editedProject.hosting_type = 'script'" name="videolink0" id="videolink0" checked>
+                                    <input ng-if="VEC.editedProject.hosting_type === 'script'" type="radio" ng-model="UC.uploadType" value="4" ng-click="VEC.editedProject.hosting_type = 'script'" name="videolink0" id="videolink0" checked>
                                     <label ng-if="VEC.editedProject.hosting_type === 'script'" class="customLabel" for="videolink0">Script PDF File</label>
                                     <input ng-if="VEC.editedProject.hosting_type !== 'script'" type="radio" ng-model="VEC.uploadType" value="2" name="videolink" id="videolink1" checked>
                                     <label ng-if="VEC.editedProject.hosting_type !== 'script'" class="customLabel" for="videolink1">Video Link From YouTube/Vimeo</label>
                                 </div>
                             </div>
-                            <div class="row" ng-if="UC.uploadType === 3">
+                            <div class="row" ng-if="UC.uploadType === 4">
                                 <div class="large-12 columns">
                                     <label>
                                         <input filepicker type="filepicker-dragdrop" on-success="UC.onSuccess(event.fpfile)"
@@ -49,10 +49,10 @@
                                     <!--<hr>-->
                                 </div>
                             </div>
-                            <div class="row" ng-if="VEC.uploadType == 2">
+                            <div class="row" ng-if="VEC.uploadType == 2 || VEC.uploadType == 3">
                                 <div class="large-12 columns">
                                     <label>Video URL <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
-                                        <input type="url" ng-model="VEC.editedProject.video_url" ng-required="VEC.uploadType == 2"
+                                        <input type="url" ng-model="VEC.editedProject.video_url" ng-required="VEC.uploadType == 2 || VEC.uploadType == 3"
                                                ng-change="VEC.getThumbnailUrl(VEC.editedProject.video_url)">
                                     </label>
                                     <hr>

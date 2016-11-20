@@ -96,14 +96,22 @@
         @include('shared.navbar')
         <!-- End Header -->
 
-        <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
-            Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
-            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+            <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
+                Please check your e-mail and <a ng-click="requestVerificationEmail()" data-close>Verify Your Account</a> to get involved! Check your spam folder just in case.
+                <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-        <div class="ui-view-container">
+            <div ng-if="justVerified()" class="callout alert-box warning" data-closable>
+                Account Verification Successful!
+                <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="ui-view-container">
             <ui-view class="" ng-cloak></ui-view>
         </div>
 

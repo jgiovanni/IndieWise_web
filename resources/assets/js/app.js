@@ -841,7 +841,11 @@ jQuery(document).ready(function (jQuery) {
                 };
 
                 $rootScope.justVerified = function () {
-                    return window.location.search.indexOf('verification_successful') !== -1;
+                    var test = window.location.search.indexOf('verification_successful') !== -1;
+                    if(test) {
+                        $rootScope.toastMessage('Account Verification Successful!');
+                    }
+                    return test;
                 };
 
                 $rootScope.listenNotifications = function (username) {
