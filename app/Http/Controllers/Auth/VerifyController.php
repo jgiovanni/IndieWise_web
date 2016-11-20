@@ -13,7 +13,7 @@ class VerifyController extends Controller
 {
     use VerifiesUsers;
 
-    protected $redirectIfVerified = '/?verification_successful';
+    protected $redirectIfVerified = '/home?verification_successful';
 
     /**
      * VerifyController constructor.

@@ -145,7 +145,8 @@ jQuery(document).ready(function (jQuery) {
 
             $authProvider.facebook({
                 clientId: '150687055270744',
-                url: '/auth/facebook'
+                url: '/auth/facebook',
+                redirectUri: window.location.origin + '/sign-in'
             });
 
             $authProvider.google({
