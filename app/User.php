@@ -89,6 +89,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
                 return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
             }
         }
+        return $value;
     }
 
     public function getCoverPhotoAttribute($value)
@@ -107,6 +108,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
                 return $value . '?cache=true&policy=' . $policy . '&signature=' . $hash;
             }
         }
+        return $value;
     }
 
 
