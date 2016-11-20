@@ -50,7 +50,7 @@ class CritiqueRequest extends FormRequest
             'production' =>     'required_if:type,video|numeric',
 
             // Type Script only
-            'potential' =>      'required_if:type,script|numeric',
+            //'potential' =>      'required_if:type,script|numeric',
             'style' =>          'required_if:type,script|numeric',
             'theme' =>          'required_if:type,script|numeric',
             'dialogue' =>       'required_if:type,script|numeric',
