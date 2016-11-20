@@ -1522,7 +1522,6 @@
                                     body: '',
                                     project_id: self.film.id,
                                     type: self.film.hosting_type === 'script' ? 'script' : 'video',
-                                    potential: 0,
                                     style: 0,
                                     theme: 0,
                                     dialogue: 0,
