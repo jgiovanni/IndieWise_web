@@ -420,15 +420,19 @@
 
                     function searchDownloadButton() {
                        $timeout(function () {
+                           console.log(el);
                             var da = jQuery('#download');
                             var db = jQuery('#secondaryDownload');
                             var pa = jQuery('#print');
                             var pb = jQuery('#secondaryPrint');
                             if (da !== null) {
-                                da.remove();
-                                db.remove();
-                                pa.remove();
-                                pb.remove();
+                                var css = '<style type="text/css">#download, #secondaryDownload, #print, #secondaryPrint { display: none !important; }</style>';
+                                var $head = $("script-viewer iframe").contents().find("head").append(css);
+                                // da.remove();
+                                // db.remove();
+                                // pa.remove();
+                                // pb.remove();
+
                             } else {
                                 searchDownloadButton();
                             }

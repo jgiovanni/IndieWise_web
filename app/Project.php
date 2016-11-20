@@ -61,6 +61,9 @@ class Project extends Model
             $json_policy = json_encode([
 //            "handle" => "KW9EJhYtS6y48Whm2S6D",
                 "expiry" => intval(time() + (60 * 60)),
+                "optional_permission" => [
+                    "call" => ["read"]
+                ]
             ]);
             $policy = strtr(base64_encode($json_policy), '+/=', '-_');
             $hash = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
