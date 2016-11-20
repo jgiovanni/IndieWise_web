@@ -84,8 +84,8 @@ if (App::environment('local')) {
 
 //Route::group(['middleware' => 'web'], function () {
 //    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-Route::post('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-Route::get('auth/{provider?}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+Route::post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+Route::get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 //});
 
 Route::get('verification/error', 'Auth\VerifyController@getVerificationError');

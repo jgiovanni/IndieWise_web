@@ -35,7 +35,7 @@ class AuthController extends Controller
      */
     public function __construct(Socialite $socialite)
     {
-        $this->middleware('guest', ['except' => ['getLogout', 'getVerification', 'getVerificationError']]);
+//        $this->middleware('guest', ['except' => ['getLogout', 'getVerification', 'getVerificationError']]);
         $this->socialite = $socialite;
     }
 
@@ -80,6 +80,7 @@ class AuthController extends Controller
     public function redirect($provider = 'facebook', Request $request, SocialAccountService $service)
     {
         //return $this->socialite->with($provider)->stateless()->redirect();
+
         if ($provider == 'twitter') {
             $provider = \Laravel\Socialite\Facades\Socialite::driver($provider);
             // Part 1 of 2: Initial request from Satellizer.
