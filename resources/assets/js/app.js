@@ -840,6 +840,10 @@ jQuery(document).ready(function (jQuery) {
                     return AuthService.isAuthenticated() && angular.isObject($rootScope.AppData.User) && $rootScope.AppData.User.verified === 0;
                 };
 
+                $rootScope.justVerified = function () {
+                    return window.location.search.indexOf('verification_successful') !== -1;
+                };
+
                 $rootScope.listenNotifications = function (username) {
                     $rootScope.refreshNotifications(username);
                 };

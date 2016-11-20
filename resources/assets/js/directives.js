@@ -420,9 +420,15 @@
 
                     function searchDownloadButton() {
                        $timeout(function () {
-                            var a = jQuery('#secondaryDownload');
-                            if (a !== null) {
-                                a.remove();
+                            var da = jQuery('#download');
+                            var db = jQuery('#secondaryDownload');
+                            var pa = jQuery('#print');
+                            var pb = jQuery('#secondaryPrint');
+                            if (da !== null) {
+                                da.remove();
+                                db.remove();
+                                pa.remove();
+                                pb.remove();
                             } else {
                                 searchDownloadButton();
                             }

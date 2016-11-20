@@ -98,6 +98,13 @@
             </button>
         </div>
 
+        <div ng-if="justVerified()" class="callout alert-box warning" data-closable>
+           Account Verification Successful!
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <div class="ui-view-container">
             <ui-view class="" ng-cloak></ui-view>
         </div>
