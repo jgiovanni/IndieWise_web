@@ -407,7 +407,7 @@
                 }
             }
         }])
-        .directive('scriptViewer', [function () {
+        .directive('scriptViewer', ['$timeout', function ($timeout) {
             return {
                 restrict: 'E',
                 templateUrl: 'directives/script-viewer.html',
@@ -417,6 +417,18 @@
                 link: function (scope, el, attrs) {
                     scope.script = scope.film.video_url
                     // scope.script = scope.film.video_url.replace('https://cdn.filepicker.io/api', 'https://www.filestackapi.com/api');
+
+                    function searchDownloadButton() {
+                       $timeout(function () {
+                            var a = jQuery('#secondaryDownload');
+                            if (a !== null) {
+                                a.remove();
+                            } else {
+                                searchDownloadButton();
+                            }
+                        }, 3000);
+                    }
+                    searchDownloadButton();
                 }
             }
         }])
