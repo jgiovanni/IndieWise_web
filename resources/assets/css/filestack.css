@@ -1,0 +1,7 @@
+/* File-Viewer Styles */
+button#download, #secondaryDownload, button#print, #secondaryPrint {
+    display: none !important;
+    visibility: hidden;
+}
+
+/* https://www.filestackapi.com/api/file/5dYvfXsLTqiri3YfMd1e */

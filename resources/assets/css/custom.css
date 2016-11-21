@@ -697,9 +697,3 @@ button .emoticon {
         margin-bottom: 314px;
     }
 }
-
-
-/* File-Viewer Styles */
-#download, #secondaryDownload, #print, #secondaryPrint {
-    display: none !important;
-}
