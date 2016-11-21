@@ -300,6 +300,7 @@
         };
 
         $rootScope.requestVerificationEmail = function () {
+            debugger;
             AuthService.requestVerification().then(function () {
                 self.verificationEmailSentMessage = true;
             });
@@ -1121,7 +1122,7 @@
             }
 
             if ($rootScope.isNotVerified()) {
-                $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                 return false;
             }
 
@@ -1239,7 +1240,7 @@
                 }
 
                 if ($rootScope.isNotVerified()) {
-                    $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                    $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                     return false;
                 }
 
@@ -1284,7 +1285,7 @@
             }
 
             if ($rootScope.isNotVerified()) {
-                $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                 return false;
             }
 
@@ -1492,7 +1493,7 @@
                 if (res) {
 
                     if ($rootScope.isNotVerified()) {
-                        $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                        $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                         return false;
                     }
 
@@ -1572,7 +1573,7 @@
                 if (res) {
 
                     if ($rootScope.isNotVerified()) {
-                        $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                        $rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                         return false;
                     }
 
