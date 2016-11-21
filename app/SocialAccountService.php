@@ -43,6 +43,12 @@ class SocialAccountService
                     'verified_at' => Carbon::now()->toDateTimeString()
                 ]);
 
+                // Force Verification
+                $user->verified = 1;
+                $user->verified_at = Carbon::now()->toDateTimeString();
+                $user->save();
+
+
                 // Add playlists
                 Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
                 Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
