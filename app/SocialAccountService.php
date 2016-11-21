@@ -7,18 +7,33 @@ use Laravel\Socialite\Contracts\User as ProviderUser;
 
 class SocialAccountService
 {
-    public function createOrGetUser(ProviderUser $providerUser)
+    public function createOrGetUser(ProviderUser $providerUser, $provider = 'facebook')
     {
-        $account = SocialAccount::whereProvider('facebook')
+        $account = SocialAccount::whereProvider($provider)
             ->whereProviderUserId($providerUser->getId())
             ->first();
 
         if ($account) {
             return $account->user;
         } else {
+            $account = SocialAccount::whereProvider('facebook')
+                ->whereProviderUserId($providerUser->getId())
+                ->first();
+
+            if ($account){
+                if ($account->provider === 'facebook' && $provider !== 'facebook') {
+                    $account->provider = $provider;
+                    $account->save();
+                }
+            }
+        }
+
+        if ($account) {
+            return $account->user;
+        } else {
             $account = new SocialAccount([
                 'provider_user_id' => $providerUser->getId(),
-                'provider' => 'facebook'
+                'provider' => $provider
             ]);
 
             $user = User::whereEmail($providerUser->getEmail())->first();
