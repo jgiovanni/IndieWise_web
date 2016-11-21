@@ -26,7 +26,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     protected $table = 'users';
 
-    protected $guarded = ['url_id', 'public', 'id'];
+    protected $guarded = ['url_id', 'public', 'id', 'verified', 'verified_at'];
 
     protected $hidden = ['password', 'remember_token'];
 
