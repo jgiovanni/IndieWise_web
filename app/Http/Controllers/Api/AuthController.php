@@ -108,6 +108,11 @@ class AuthController extends Controller
 
             $user->save();
 
+            if ( !$user->verified && is_null($user->verification_token) ) {
+                UserVerification::generate($user);
+                UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
+            }
+
             // Add playlists
             Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
             Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
