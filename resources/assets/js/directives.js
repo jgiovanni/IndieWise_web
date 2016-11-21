@@ -415,30 +415,8 @@
                 // replace: true,
                 scope: {film: '=film', lightsOff: '=lightsOff'},
                 link: function (scope, el, attrs) {
-                    scope.script = scope.film.video_url
+                    scope.script = scope.film.video_url + '?cache=true&css=https://www.filestackapi.com/api/file/5dYvfXsLTqiri3YfMd1e'
                     // scope.script = scope.film.video_url.replace('https://cdn.filepicker.io/api', 'https://www.filestackapi.com/api');
-
-                    function searchDownloadButton() {
-                       $timeout(function () {
-                           console.log(el);
-                            var da = jQuery('#download');
-                            var db = jQuery('#secondaryDownload');
-                            var pa = jQuery('#print');
-                            var pb = jQuery('#secondaryPrint');
-                            if (da !== null) {
-                                var css = '<style type="text/css">#download, #secondaryDownload, #print, #secondaryPrint { display: none !important; }</style>';
-                                var $head = $("script-viewer iframe").contents().find("head").append(css);
-                                // da.remove();
-                                // db.remove();
-                                // pa.remove();
-                                // pb.remove();
-
-                            } else {
-                                searchDownloadButton();
-                            }
-                        }, 3000);
-                    }
-                    searchDownloadButton();
                 }
             }
         }])
