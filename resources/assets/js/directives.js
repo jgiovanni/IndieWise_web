@@ -1223,7 +1223,7 @@
                         }
 
                         if ($rootScope.isNotVerified()) {
-                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                             return false;
                         }
 
@@ -1445,7 +1445,7 @@
                         }
 
                         if ($rootScope.isNotVerified()) {
-                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                             return false;
                         }
 
@@ -1520,7 +1520,7 @@
                         }
 
                         if ($rootScope.isNotVerified()) {
-                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail());
+                            $rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                             return false;
                         }
 
