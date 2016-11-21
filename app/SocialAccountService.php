@@ -31,6 +31,7 @@ class SocialAccountService
                     'email' => $providerUser->getEmail(),
                 ]);
 
+                User::unguard();
                 $user = User::create([
                     'email' => $providerUser->getEmail(),
                     'username' => $providerUser->getEmail(),
@@ -42,12 +43,12 @@ class SocialAccountService
                     'verified' => true,
                     'verified_at' => Carbon::now()->toDateTimeString()
                 ]);
+                User::reguard();
 
                 // Force Verification
-                $user->verified = 1;
-                $user->verified_at = Carbon::now()->toDateTimeString();
-                $user->save();
-
+//                $user->verified = 1;
+//                $user->verified_at = Carbon::now()->toDateTimeString();
+//                $user->save();
 
                 // Add playlists
                 Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
