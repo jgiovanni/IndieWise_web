@@ -46,7 +46,7 @@ class SocialAccountService
                     'email' => $providerUser->getEmail(),
                 ]);
 
-                User::unguard();
+//                User::unguard();
                 $user = User::create([
                     'email' => $providerUser->getEmail(),
                     'username' => $providerUser->getEmail(),
@@ -58,7 +58,7 @@ class SocialAccountService
                     'verified' => true,
                     'verified_at' => Carbon::now()->toDateTimeString()
                 ]);
-                User::reguard();
+//                User::reguard();
 
                 // Force Verification
                 $user->verified = 1;

@@ -101,7 +101,7 @@ class AuthController extends Controller
 
     public function register(UserRequest $request) {
         try {
-            $user = new User($request->except('password_confirmation'));
+            $user = new User($request->except('password_confirmation', 'verified', 'verified_at'));
 //            $user->verified = 1;
 //            $user->verified_at = Carbon::now()->toDateTimeString();
             $user->ip_used = request()->ip();
@@ -249,7 +249,7 @@ class AuthController extends Controller
             UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
         }
 
-        $user->update($request->except('genres', 'country', 'types', 'user_id', 'name', 'user_hash', 'app_id', 'password_confirmation'));
+        $user->update($request->except('genres', 'country', 'types', 'user_id', 'name', 'user_hash', 'app_id', 'password_confirmation', 'verified', 'verified_at'));
 
         if( $request->has('genres') && count($request->get('genres')) > 0 && !is_array($request->get('genres')[0]) ) {
             $user->syncGenres($request->get('genres'));
