@@ -64,7 +64,7 @@ class AuthController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            Auth::login($user, true);
+//            Auth::login($user, true);
         } catch (JWTException $e) {
             return response()->json(['token_expired'], 401);
         } catch (JWTException $e) {
@@ -82,7 +82,7 @@ class AuthController extends Controller
             if ( ! $token = JWTAuth::attempt($credentials)) {
                 return response()->json(['errors' => [ 'credentials' => ['Invalid Credentials']]], 401);
             }
-            Auth::attempt($credentials, true);
+//            Auth::attempt($credentials, true);
         } catch ( JWTException $e) {
             return response()->json(['error' => $e], 401);
         }
@@ -127,7 +127,7 @@ class AuthController extends Controller
             setting()->save("'$user->id'");
 
 
-            Auth::login($user, true);
+//            Auth::login($user, true);
             $token = JWTAuth::fromUser($user);
         } catch (JWTException $e) {
             return response()->json(['error' => 'User already exists.'], 409);
@@ -213,9 +213,9 @@ class AuthController extends Controller
         if ( !$user->verified ) {
             if (is_null($user->verification_token)){
                 UserVerification::generate($user);
-            }
-            UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
-            return response()->json(['sent' => true]);
+                UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+                return response()->json(['sent' => true]);
+            } else return response()->json(['sent' => false]);
         } else return response()->json(['sent' => false]);
 
     }

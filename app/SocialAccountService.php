@@ -55,7 +55,7 @@ class SocialAccountService
                     'firstName' => $name_parts[0],
                     'lastName' => end($name_parts),
                     'ip_used' => request()->ip(),
-                    'verified' => true,
+                    'verified' => 1,
                     'verified_at' => Carbon::now()->toDateTimeString()
                 ]);
 //                User::reguard();
