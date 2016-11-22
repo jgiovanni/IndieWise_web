@@ -73,6 +73,10 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         return hash_hmac("sha256", $this->attributes['id'], "IyW66SD_5ohnI6zok0zWtPoZRf7QS32jNv9wfkg8");
     }
 
+    public function getVerifiedAttribute($value)
+    {
+        return 1;
+    }
     public function getAvatarAttribute($value)
     {
         if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
