@@ -102,8 +102,8 @@ class AuthController extends Controller
     public function register(UserRequest $request) {
         try {
             $user = new User($request->except('password_confirmation', 'verified', 'verified_at'));
-//            $user->verified = 1;
-//            $user->verified_at = Carbon::now()->toDateTimeString();
+            $user->verified = 1;
+            $user->verified_at = Carbon::now()->toDateTimeString();
             $user->ip_used = request()->ip();
 
             $user->save();
