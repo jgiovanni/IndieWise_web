@@ -69,8 +69,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row columns"
-                                                             ng-if="::!critique.private||AppData.User.id == critique.user.id">
+                                                        <div class="row columns" ng-if="::(!critique.private||AppData.User.id == critique.user.id) && critique.type === 'video'">
                                                             <div class="row columns">
                                                                 <div class="columns medium-8 small-9 text-right">
                                                                     <span class="md-body-1">Acting</span>
@@ -141,6 +140,77 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="row columns" ng-if="::(!critique.private||AppData.User.id == critique.user.id) && critique.type === 'script'">
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Concept</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.concept}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Presentation</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.presentation}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Characters</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.characters}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Structure</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.structure}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Dialogue</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.dialogue}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Originality</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.originality}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Pacing</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.pacing}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Theme</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.theme}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Style</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.style}}</span>
+                                                            </div>
+                                                            <div class="row columns" style="border-bottom: 1px solid #ddd;">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Plot</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.writing}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Overall Rating</span>
+                                                                </div>
+                                                                <div class="columns medium-4 small-3">
+                                                                    <span class="md-body-2">{{::critique.overall|number:1}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -220,8 +290,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row columns"
-                                                             ng-if="::!critique.private||$rootScope.AppData.User.id == critique.user.id">
+                                                        <div class="row columns" ng-if="::(!critique.private||$rootScope.AppData.User.id == critique.user.id) && critique.type === 'video'">
                                                             <div class="row columns">
                                                                 <div class="columns medium-8 small-9 text-right">
                                                                     <span class="md-body-1">Acting</span>
@@ -280,6 +349,76 @@
                                                                  style="border-bottom: 1px solid #ddd;">
                                                                 <div class="columns medium-8 small-9 text-right">
                                                                     <span class="md-body-1">Writing</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.writing}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Overall Rating</span>
+                                                                </div>
+                                                                <div class="columns medium-4 small-3">
+                                                                    <span class="md-body-2">{{::critique.overall|number:1}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row columns" ng-if="::(!critique.private||$rootScope.AppData.User.id == critique.user.id) && critique.type === 'script'">
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Concept</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.concept}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Presentation</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.presentation}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Characters</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.characters}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Structure</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.structure}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Dialogue</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.dialogue}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Originality</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.originality}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Pacing</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.pacing}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Theme</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3">{{::critique.theme}}</span>
+                                                            </div>
+                                                            <div class="row columns">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Style</span>
+                                                                </div>
+                                                                <span class="columns medium-4 small-3" >{{::critique.style}}</span>
+                                                            </div>
+                                                            <div class="row columns" style="border-bottom: 1px solid #ddd;">
+                                                                <div class="columns medium-8 small-9 text-right">
+                                                                    <span class="md-body-1">Plot</span>
                                                                 </div>
                                                                 <span class="columns medium-4 small-3">{{::critique.writing}}</span>
                                                             </div>
