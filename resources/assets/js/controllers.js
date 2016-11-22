@@ -1828,10 +1828,19 @@
         };
 
         $scope.calcOverall = function () {
-            $scope.editedCritique.overall = ($scope.editedCritique.originality + $scope.editedCritique.direction + $scope.editedCritique.writing +
-                $scope.editedCritique.cinematography + $scope.editedCritique.performances + $scope.editedCritique.production +
-                $scope.editedCritique.pacing + $scope.editedCritique.structure + $scope.editedCritique.audio + $scope.editedCritique.music) / 10;
-        };
+            switch ($scope.editedCritique.type){
+                case 'script':
+                    $scope.editedCritique.overall = ($scope.editedCritique.originality + $scope.editedCritique.pacing + $scope.editedCritique.structure +
+                        $scope.editedCritique.writing + $scope.editedCritique.style + $scope.editedCritique.theme + $scope.editedCritique.dialogue +
+                        $scope.editedCritique.characters + $scope.editedCritique.presentation + $scope.editedCritique.concept) / 10;
+                    break;
+                case 'video':
+                default:
+                    $scope.editedCritique.overall = ($scope.editedCritique.originality + $scope.editedCritique.direction + $scope.editedCritique.writing +
+                        $scope.editedCritique.cinematography + $scope.editedCritique.performances + $scope.editedCritique.production +
+                        $scope.editedCritique.pacing + $scope.editedCritique.structure + $scope.editedCritique.audio + $scope.editedCritique.music) / 10;
+                    break;
+            }        };
 
         $scope.$watchCollection('editedCritique', function () {
             $scope.calcOverall();
