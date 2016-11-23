@@ -75,7 +75,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function getVerifiedAttribute($value)
     {
-        return 1;
+        return $value;
     }
     public function getAvatarAttribute($value)
     {
