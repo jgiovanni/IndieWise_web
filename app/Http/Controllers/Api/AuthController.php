@@ -102,16 +102,14 @@ class AuthController extends Controller
     public function register(UserRequest $request) {
         try {
             $user = new User($request->except('password_confirmation', 'verified', 'verified_at'));
-            $user->verified = 1;
-            $user->verified_at = Carbon::now()->toDateTimeString();
+//            $user->verified = 1;
+//            $user->verified_at = Carbon::now()->toDateTimeString();
             $user->ip_used = request()->ip();
 
             $user->save();
 
-            /*if ( !$user->verified && is_null($user->verification_token) ) {
-                UserVerification::generate($user);
-                UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
-            }*/
+            UserVerification::generate($user);
+            UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@mail.getindiewise.com', $name = 'IndieWise Registration');
 
             // Add playlists
             Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
