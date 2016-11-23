@@ -17,7 +17,7 @@ class Project extends Model
 
     protected $with = ['owner', 'genres', 'type', 'filmingCountry', 'language'];
 
-    protected $appends = ['fp_policy', 'fp_signature'];
+//    protected $appends = ['fp_policy', 'fp_signature'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
 
