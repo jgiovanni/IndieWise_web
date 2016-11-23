@@ -17,7 +17,7 @@ class Project extends Model
 
     protected $with = ['owner', 'genres', 'type', 'filmingCountry', 'language'];
 
-//    protected $appends = [''];
+    protected $appends = ['fp_policy', 'fp_signature'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
 
@@ -36,7 +36,17 @@ class Project extends Model
         'iwRating' => 'float'
     ];
 
-    public function getThumbnailUrlAttribute($value)
+    /*public function getFpPolicyAttribute()
+    {
+        return
+    }
+
+    public function getFpSignatureAttribute()
+    {
+
+    }*/
+
+    /*public function getThumbnailUrlAttribute($value)
     {
         if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
             $json_policy = json_encode([
@@ -53,9 +63,9 @@ class Project extends Model
             }
         }
         return $value;
-    }
+    }*/
 
-    public function getVideoUrlAttribute($value)
+    /*public function getVideoUrlAttribute($value)
     {
         if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
             $json_policy = json_encode([
@@ -74,7 +84,7 @@ class Project extends Model
             }
         }
         return $value;
-    }
+    }*/
 
     /*
      * Set Bool values
