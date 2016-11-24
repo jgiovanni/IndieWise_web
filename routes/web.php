@@ -12,6 +12,7 @@
 */
 
 //use Dingo\Api\Auth\Auth;
+use App\Award;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use GetStream\Stream\Client;
@@ -44,6 +45,8 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
 //    return view('home');
 });*/
 
+if (App::environment('local')) {
+
 Route::get('testy', function () {
     /*$users = Project::groupBy('url_id')->havingRaw('COUNT(*) > 1')->get();
     $users->each(function ($user, $key) {
@@ -53,27 +56,34 @@ Route::get('testy', function () {
         sleep(2);
     });*/
 
-//    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
-//    return response()->json(['test' => $user->projects->count()]);
-//    echo url('user', 'lol' ) . '/about';
-    //Find project
-    /*$project = Project::with('wins.award')->whereHas('wins', function ($query) {
-        $query->where('award_id', '6950ef19-1cce-11e6-b1e1-e12b04098a26');
-    }, '=', 0)->whereHas('nominations', function ($query) {
-        $query->where('award_id', '6950ef19-1cce-11e6-b1e1-e12b04098a26');
-    }, '>=', 5)->find('1108b3f2-2cd5-11e6-9f2e-df967fc712f1');
+    //    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
+    //    return response()->json(['test' => $user->projects->count()]);
+    //    echo url('user', 'lol' ) . '/about';
 
-    if (!is_null($project)) {
-        //Award win to project
-        $project->wins()->create([
-            'award_id' => '6950ef19-1cce-11e6-b1e1-e12b04098a26',
-            'owner_id' => $project->owner_id,
-        ]);
-    }
-    return $project;*/
+    $awards = Award::all();
+    $awards->each(function ($award) {
+
+        //Find project
+        $projects = Project::with('wins.award')->whereHas('wins', function ($query) use ($award) {
+            $query->where('award_id', $award);
+        }, '=', 0)->whereHas('nominations', function ($query) use ($award) {
+            $query->where('award_id', $award);
+        }, '>=', 5)->get();
+
+        $projects->each(function ($project) use ($award) {
+            if (!is_null($project)) {
+                //Award win to project
+                $project->wins()->create([
+                    'award_id' => $award,
+                    'owner_id' => $project->owner_id,
+                ]);
+            }
+        });
+
+//        return $project;
+    });
 });
 
-if (App::environment('local')) {
     Route::any('login-as/{id}', function ($id) use ($dispatcher){
         $token = JWTAuth::fromUser(User::find($id));
         dd($token);

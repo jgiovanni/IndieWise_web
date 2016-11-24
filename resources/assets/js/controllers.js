@@ -210,10 +210,12 @@
         self.authenticate = function (provider) {
             self.error = null;
             AuthService.socialLogin(provider, false).then(function (res) {
-                if (angular.isUndefined(res.status) || (res.hasOwnProperty('status') && res.status === false)) {
+                if (res && res.hasOwnProperty('status') && res.status === false) {
                     self.authErrors = res.errors;
                     $rootScope.toastMessage('There is an error, please check your form');
                     // console.log('Failed', res);
+                } else {
+                    $rootScope.toastMessage('There is an error, please try again');
                 }
             });
         };

@@ -197,7 +197,7 @@ class AuthController extends Controller
     public function requestVerification(Request $request)
     {
         try {
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
+            if (!$user = $this->auth()->user()) {
                 return response()->json(['user_not_found'], 404);
             }
         } catch (JWTException $e) {
@@ -231,8 +231,8 @@ class AuthController extends Controller
             return response()->json(['token_absent'], 401);
         }
 
-        dd($user);
-        return $user->isVerified();
+//        dd($user);
+        return response()->json(['check' => $user->isVerified()]);
 
     }
 
@@ -246,7 +246,7 @@ class AuthController extends Controller
     public function updateMe(UserRequest $request, $id)
     {
         try {
-            if (!$user = JWTAuth::parseToken()->toUser()) {
+            if (!$user = $this->auth()->user()) {
                 return response()->json(['user_not_found'], 404);
             }
         } catch (JWTException $e) {

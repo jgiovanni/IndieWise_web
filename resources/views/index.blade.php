@@ -91,7 +91,7 @@
         @include('shared.navbar')
         <!-- End Header -->
 
-        <div ng-if="isNotVerified()" class="callout alert-box warning" data-closable>
+        <div ng-if="isAuthenticated() && isNotVerified()" class="callout alert-box warning" data-closable>
             Please check your e-mail and verify your account to get involved! Check your spam folder just in case. <a ng-click="requestVerificationEmail" data-close>Click here to resend verification email</a>
             <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
                 <span aria-hidden="true">&times;</span>

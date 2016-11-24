@@ -75,10 +75,10 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function getVerifiedAttribute($value)
     {
-//        return 1;
+//        return 0;
         return $value;
     }
-    public function getAvatarAttribute($value)
+    /*public function getAvatarAttribute($value)
     {
         if (strpos($value, 'filepicker') !== false || strpos($value, 'filestackapi') !== false) {
             $json_policy = json_encode([
@@ -114,7 +114,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
             }
         }
         return $value;
-    }
+    }*/
 
 
 

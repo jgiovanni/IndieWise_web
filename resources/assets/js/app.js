@@ -834,11 +834,13 @@ jQuery(document).ready(function (jQuery) {
                 };
 
                 $rootScope.isVerified = function () {
-                    return AuthService.isAuthenticated() && angular.isObject($rootScope.AppData.User) && $rootScope.AppData.User.verified === 1;
+                    return AuthService.isVerified();
                 };
 
                 $rootScope.isNotVerified = function () {
-                    return AuthService.isAuthenticated() && angular.isObject($rootScope.AppData.User) && $rootScope.AppData.User.verified === 0;
+                    var test = $rootScope.isVerified();
+                    return !test;
+                    // return AuthService.isNotVerified();
                 };
 
                 $rootScope.justVerified = function () {

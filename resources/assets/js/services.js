@@ -374,7 +374,7 @@
                         console.log(response);
                         return {
                             status: false,
-                            errors: service.error = response.data.errors || 'Unknown error from server'
+                            errors: service.error = response.data ? response.data.errors : 'Unknown error from server'
                         };
                     });
             },
@@ -457,7 +457,36 @@
                 //var params = $auth.getPayload();
                 //console.log(params);
                 return $auth.isAuthenticated();
-            }
+            },
+            isVerified: function () {
+                // if user is authenticated and currentUser is an object
+                if (this.isAuthenticated && angular.isObject(this.currentUser)) {
+                    // if currentUser.verified is true
+                    if(this.currentUser.verified === 1 || this.currentUser.verified === true) {
+                        return true;
+                    } else {
+                        // restrict continuous checking. If 30 seconds since the last check has passed, try again
+                        if (this.lastCheckedVerification === null || moment().isAfter( this.lastCheckedVerification.add(30, 's')) ) {
+                            var test = this.throttledVerificationCheck();
+                            return this.currentUser.verified = $rootScope.AppData.User.verified = !!test.$$state.status ? test.$$state.value : false;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    // not logged in
+                    return false;
+                }
+            },
+            throttledVerificationCheck: _.throttle(function () {
+                var self = this;
+                return $http.get(API + 'check_verification').then(function (response) {
+                    self.lastCheckedVerification = moment();
+                    return response.data.check;
+                });
+            }.bind(this), 30000),
+            checkedVerification: false,
+            lastCheckedVerification: null
         };
 
         function _init() {
