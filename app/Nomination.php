@@ -98,7 +98,7 @@ class Nomination extends Model
                 $query->where('award_id', $nomination->award_id);
             }, '=', 0)->whereHas('nominations', function ($query) use ($nomination) {
                 $query->where('award_id', $nomination->award_id);
-            }, '>=', 8)->find($nomination->project_id);
+            }, '>=', 6)->find($nomination->project_id);
 
             if (!is_null($project)) {
                 //Award win to project

@@ -208,13 +208,31 @@ class AuthController extends Controller
             return response()->json(['token_absent'], 401);
         }
 
-        if ( !$user->verified ) {
-            if (is_null($user->verification_token)){
-//                UserVerification::generate($user);
-//                UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
-                return response()->json(['sent' => true]);
-            } else return response()->json(['sent' => false]);
+        if ( !$user->isVerified() ) {
+            if (!$user->hasVerificationToken()){
+                UserVerification::generate($user);
+            }
+            UserVerification::send($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
+            return response()->json(['sent' => true]);
         } else return response()->json(['sent' => false]);
+
+    }
+
+    public function checkVerification(Request $request){
+        try {
+            if (!$user = $this->auth()->user()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['token_absent'], 401);
+        }
+
+        dd($user);
+        return $user->isVerified();
 
     }
 

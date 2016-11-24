@@ -10,7 +10,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Support\Facades\Hash;
-use Jrean\UserVerification\Facades\UserVerification;
+//use Jrean\UserVerification\Facades\UserVerification;
 use Sendinblue\Mailin;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -75,8 +75,8 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function getVerifiedAttribute($value)
     {
-        return 1;
-//        return $value;
+//        return 1;
+        return $value;
     }
     public function getAvatarAttribute($value)
     {
@@ -225,6 +225,36 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
             ->withPivot(['body'])
             ->groupBy('thread_id')
             ->latest('updated_at');
+    }
+
+    /**
+     * Check if the user is verified.
+     *
+     * @return boolean
+     */
+    public function isVerified()
+    {
+        return (bool) $this->verified;
+    }
+
+    /**
+     * Check if the user verification is pending.
+     *
+     * @return boolean
+     */
+    public function isPendingVerification()
+    {
+        return ! $this->isVerified() && $this->hasVerificationToken();
+    }
+
+    /**
+     * Checks if the user has a verification token.
+     *
+     * @return bool
+     */
+    public function hasVerificationToken()
+    {
+        return ! is_null($this->verification_token);
     }
 
     public static function boot()
