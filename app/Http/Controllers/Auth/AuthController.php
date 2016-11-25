@@ -109,7 +109,7 @@ class AuthController extends Controller
         // Step 1 + 2
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user(), $provider);
         if($user) {
-            Auth::login($user, true);
+//            Auth::login($user, true);
             $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');
@@ -129,7 +129,7 @@ class AuthController extends Controller
     {
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
         if($user) {
-            Auth::login($user, true);
+//            Auth::login($user, true);
             $token = JWTAuth::fromUser($user);
         }else{
             return response()->make('something went wrong');

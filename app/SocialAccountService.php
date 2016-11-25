@@ -13,6 +13,7 @@ class SocialAccountService
             ->whereProviderUserId($providerUser->getId())
             ->first();
 
+
         if ($account) {
             return $account->user;
         } else {
@@ -46,24 +47,27 @@ class SocialAccountService
                     'email' => $providerUser->getEmail(),
                 ]);
 
-//                User::unguard();
-                $user = User::create([
+                $userData = [
                     'email' => $providerUser->getEmail(),
                     'username' => $providerUser->getEmail(),
                     'avatar' => $providerUser->getAvatar(),
                     'fullName' => $providerUser->getName(),
+                    'gender' => isset($providerUser->user["gender"]) ? $providerUser->user["gender"] : null,
                     'firstName' => $name_parts[0],
                     'lastName' => end($name_parts),
                     'ip_used' => request()->ip(),
-                    'verified' => 1,
+                    'verified' => true,
                     'verified_at' => Carbon::now()->toDateTimeString()
-                ]);
-//                User::reguard();
+                ];
 
-                // Force Verification
-                $user->verified = 1;
-                $user->verified_at = Carbon::now()->toDateTimeString();
-                $user->save();
+                if ($provider === 'facebook') {
+                    $userData['verified'] = isset($providerUser->user["verified"]) ? $providerUser->user["verified"] : false;
+                    $userData['verified_at'] = (isset($providerUser->user["verified"]) && $providerUser->user["verified"] === true) ? Carbon::now()->toDateTimeString() : null;
+                }
+
+//                User::unguard();
+                $user = User::create($userData);
+//                User::reguard();
 
                 // Add playlists
                 Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
