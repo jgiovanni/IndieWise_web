@@ -298,6 +298,9 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent'], 401);
         }
+
+        return $user->delete();
+
     }
 
 }

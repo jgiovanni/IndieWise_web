@@ -275,6 +275,15 @@
         self.notificationsTemplate = $sce.trustAsResourceUrl('src/directives/notification.html');
         self.newsletterRegister = newsletterRegister;
 
+        //if cache is too old, empty it
+        $localForage.getItem('timestamp', true).then(function (timestamp) {
+            // if older than 1 week, clear it
+            if (moment(timestamp).add(1, 'w').isBefore()) {
+                $localForage.clear();
+            }
+        }, function (error) {
+            $localForage.clear();
+        });
 
         // Recent Videos Footer Section
         DataService.collection('projects', {per_page: 3, sort: 'created_at'}).then(function (result) {
@@ -318,6 +327,7 @@
                 DataService.collection('genres').then(function (result) {
                     $rootScope.genresList = result.data.Genres;
                     $localForage.setItem('genres', result.data.Genres);
+                    $localForage.setItem('timestamp', moment().toISOString());
                     deferred.resolve(result.data.Genres);
                 });
             });
@@ -335,6 +345,7 @@
                 DataService.collection('types').then(function (result) {
                     $rootScope.typesList = result.data.Types;
                     $localForage.setItem('types', result.data.Types);
+                    $localForage.setItem('timestamp', moment().toISOString());
                     deferred.resolve(result.data.Types);
                 });
             });
@@ -352,6 +363,7 @@
                 DataService.collection('countries').then(function (result) {
                     $rootScope.countryList = result.data.Countries;
                     $localForage.setItem('countries', result.data.Countries);
+                    $localForage.setItem('timestamp', moment().toISOString());
                     deferred.resolve(result.data.Countries);
                 });
             });
@@ -369,6 +381,7 @@
                 DataService.collection('languages').then(function (result) {
                     $rootScope.languageList = result.data.Languages;
                     $localForage.setItem('languages', result.data.Languages);
+                    $localForage.setItem('timestamp', moment().toISOString());
                     deferred.resolve(result.data.Languages);
                 });
             });
