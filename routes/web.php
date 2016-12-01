@@ -26,7 +26,7 @@ $dispatcher = app('Dingo\Api\Dispatcher');
 
 Route::group(['prefix' => 'console'], function () use ($dispatcher) {
 //    dd(Auth::user());
-    Route::any('{path?}', function() {
+    Route::any('{path?}', function () {
         if (App::environment('local')) {
             return view("admin_dev");
         } else return view("admin");
@@ -47,49 +47,49 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
 
 if (App::environment('local')) {
 
-Route::get('testy', function () {
-    /*$users = Project::groupBy('url_id')->havingRaw('COUNT(*) > 1')->get();
-    $users->each(function ($user, $key) {
-        sleep(2);
-        $user->url_id = (string) Hashids::encode((int)microtime(true));
-        $user->save();
-        sleep(2);
-    });*/
+    Route::get('testy', function () {
+        /*$users = Project::groupBy('url_id')->havingRaw('COUNT(*) > 1')->get();
+        $users->each(function ($user, $key) {
+            sleep(2);
+            $user->url_id = (string) Hashids::encode((int)microtime(true));
+            $user->save();
+            sleep(2);
+        });*/
 
-    //    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
-    //    return response()->json(['test' => $user->projects->count()]);
-    //    echo url('user', 'lol' ) . '/about';
+        //    $user = User::find('cbb785b0-7578-4897-86dd-8154af47b39b');
+        //    return response()->json(['test' => $user->projects->count()]);
+        //    echo url('user', 'lol' ) . '/about';
+        $given = 0;
+        $awards = Award::all();
+        $awards->each(function ($award) use ($given) {
+            //Find project
+            $projects = Project::with('wins.award')->whereHas('wins', function ($query) use ($award) {
+                $query->where('award_id', $award->id);
+            }, '=', 0)->whereHas('nominations', function ($query) use ($award) {
+                $query->where('award_id', $award->id);
+            }, '>=', 5)->get();
 
-    $awards = Award::all();
-    $awards->each(function ($award) {
-
-        //Find project
-        $projects = Project::with('wins.award')->whereHas('wins', function ($query) use ($award) {
-            $query->where('award_id', $award);
-        }, '=', 0)->whereHas('nominations', function ($query) use ($award) {
-            $query->where('award_id', $award);
-        }, '>=', 5)->get();
-
-        $projects->each(function ($project) use ($award) {
-            if (!is_null($project)) {
-                //Award win to project
-                $project->wins()->create([
-                    'award_id' => $award,
-                    'owner_id' => $project->owner_id,
-                ]);
+            if (!empty($projects)) {
+                $projects->each(function ($project) use ($award, $given) {
+                    //Award win to project
+                    $project->wins()->create([
+                        'award_id' => $award->id,
+                        'owner_id' => $project->owner_id,
+                    ]);
+                    $given++;
+                });
             }
-        });
 
 //        return $project;
+        });
+        return $given;
     });
-});
 
-    Route::any('login-as/{id}', function ($id) use ($dispatcher){
+    Route::any('login-as/{id}', function ($id) use ($dispatcher) {
         $token = JWTAuth::fromUser(User::find($id));
         dd($token);
     });
 }
-
 
 
 //Route::group(['middleware' => 'web'], function () {
@@ -102,7 +102,7 @@ Route::get('verification/error', 'Auth\VerifyController@getVerificationError');
 Route::get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
 //Route::get('verification/{token}', 'Auth\AuthController@getVerification');
 
-Route::any('{path?}', function() use ($dispatcher) {
+Route::any('{path?}', function () use ($dispatcher) {
     $countries = Country::orderBy('name', 'desc')->get();
 
     if (App::environment('local')) {
@@ -127,7 +127,8 @@ Route::any('{path?}', function() use ($dispatcher) {
         } else
             return view("index", compact('countries'));
     }
-})->where("path", ".+")/*->where("path", "!community")*/;
+})->where("path", ".+")/*->where("path", "!community")*/
+;
 
 Route::auth();
 
