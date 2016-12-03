@@ -13,6 +13,7 @@
 
 //use Dingo\Api\Auth\Auth;
 use App\Award;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use GetStream\Stream\Client;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Country;
 use App\Project;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Vinkla\Hashids\Facades\Hashids;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
@@ -39,11 +42,26 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
     return "event fired";
 });*/
 
-/*Route::get('test', function () {
+Route::get('forum', function () {
     // this checks for the event
-    return request()->ip();
+    $me = Auth::user();
+    $customClaims = [
+        'id' => $me->id,
+        'email' => $me->email,
+        'firstName' => $me->firstName,
+        'lastName' => $me->lastName,
+        'picture' => $me->avatar,
+    ];
+    try {
+        if (!$token = JWTAuth::claims($customClaims)->fromUser($me)) {
+            return response()->json(['errors' => ['credentials' => ['Invalid Credentials']]], 401);
+        }
+    } catch (JWTException $e) {
+        return response()->json(['error' => $e], 401);
+    }
+    return request()->cookie('iw_token', $token, '/', null, true, false);
 //    return view('home');
-});*/
+});
 
 if (App::environment('local')) {
 

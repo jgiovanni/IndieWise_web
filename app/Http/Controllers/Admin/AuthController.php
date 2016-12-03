@@ -86,140 +86,43 @@ class AuthController extends Controller
 
     public function login(AuthenticationRequest $request){
         $credentials = $request->only('email', 'password');
-        try {
-            if ( ! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['errors' => [ 'credentials' => ['Invalid Credentials']]], 401);
+        // login user first with Auth first to build custom token
+        if (Auth::attempt($credentials, true)) {
+            $me = Auth::user();
+            $customClaims = [
+                'id' => $me->id,
+                'email' => $me->email,
+                'firstName' => $me->firstName,
+                'lastName' => $me->lastName,
+                'picture' => $me->avatar,
+            ];
+            try {
+                if (!$token = JWTAuth::attempt($credentials, $customClaims)) {
+                    return response()->json(['errors' => ['credentials' => ['Invalid Credentials']]], 401);
+                }
+
+                $user = JWTAuth::user();
+                //Auth::login($user, true);
+                $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
+                if (empty($test)) {
+                    return response()->json(['user_not_authorized'], 401);
+                }
+
+            } catch (JWTException $e) {
+                return response()->json(['error' => $e], 401);
             }
 
-            $user = JWTAuth::user();
-            Auth::login($user, true);
-            $test = DB::table('role_user')->where('user_id', $user->id)->where('role_id', 1000)->first();
-            if (empty($test)) {
-                return response()->json(['user_not_authorized'], 401);
-            }
 
-        } catch ( JWTException $e) {
-            return response()->json(['error' => $e], 401);
+            return response()->json(compact('token'));
         }
-
-
-        return response()->json(compact('token'));
+        return response()->json(['errors' => ['credentials' => ['Invalid Credentials']]], 401);
     }
 
     public function logout()
     {
         JWTAuth::invalidate(JWTAuth::getToken());
+        Auth::logout();
         return response()->json(['message' => 'Logged out!'], 200);
     }
 
-    /*public function register(UserRequest $request) {
-        try {
-            $user = new User($request->except('password_confirmation'));
-//            $user->verified = 1;
-//            $user->verified_at = Carbon::now()->toDateTimeString();
-            $user->save();
-
-            // Add playlists
-            Playlist::create(['name' => 'Favorites', 'user_id' => $user->id]);
-            Playlist::create(['name' => 'Watch Later', 'user_id' => $user->id]);
-
-            // Set default settings
-            setting()->set('email_critique', true, "'$user->id'");
-            setting()->set('email_nomination', true, "'$user->id'");
-            setting()->set('email_win', true, "'$user->id'");
-            setting()->set('email_comment', true, "'$user->id'");
-            setting()->set('email_message', true, "'$user->id'");
-            setting()->set('email_like', true, "'$user->id'");
-            setting()->save("'$user->id'");
-
-
-            $token = JWTAuth::fromUser($user);
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'User already exists.'], 409);
-        }
-
-        return response()->json(compact('token'));
-    }
-
-    public function sendResetLinkEmail(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'required|email|exists:users,email',
-//            'password' => 'required|min:8|confirmed',
-        ]);
-
-        //invalidate old tokens
-        PasswordReset::whereEmail($request->email)->delete();
-        $email = $request->email;
-        $reset = PasswordReset::create([
-            'email' => $email,
-            'token' => str_random(10),
-        ]);
-        $token = $reset->token;
-        Mail::send('auth.emails.password', compact('email', 'token'), function ($mail) use ($email) {
-            $mail->to($email)
-                ->from('noreply@getindiewise.com')
-                ->subject('Password reset link');
-        });
-//        return response()->json($token);
-        return response()->json(true);
-    }
-
-    public function verify(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'token' => 'required',
-        ]);
-        $check = PasswordReset::whereEmail($request->email)
-            ->whereToken($request->token)
-            ->first();
-        if (!$check) {
-            return response()->error('Email does not exist', 422);
-        }
-        return response()->json(true);
-    }
-
-    public function reset(Request $request)
-    {
-        $this->validate($request, [
-            'email'    => 'required|email',
-            'token'    => "required|exists:password_resets,token,email,{$request->email}",
-            'password' => 'required|min:8|confirmed',
-        ]);
-        $user = User::whereEmail($request->email)->firstOrFail();
-        $user->password = bcrypt($request->password);
-        $user->save();
-        //delete pending resets
-        PasswordReset::whereEmail($request->email)->delete();
-        return response()->json(true);
-    }
-
-    public function checkEmailUse(Request $request)
-    {
-        $exists = User::where('email', $request->get('email'))->first();
-        return response()->json(['verify' => !!$exists]);
-    }
-
-    public function requestVerification(Request $request)
-    {
-        try {
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
-        } catch (JWTException $e) {
-            return response()->json(['token_expired'], 401);
-        } catch (JWTException $e) {
-            return response()->json(['token_invalid'], 401);
-        } catch (JWTException $e) {
-            return response()->json(['token_absent'], 401);
-        }
-
-        if ( !$user->verified ) {
-            UserVerification::generate($user);
-            UserVerification::sendQueue($user, $subject = 'IndieWise: Account Verification', $from = 'noreply@getindiewise.com', $name = 'IndieWise Registration');
-            return response()->json(['sent' => true]);
-        } else return response()->json(['sent' => false]);
-
-    }*/
 }
