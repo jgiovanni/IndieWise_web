@@ -89,6 +89,7 @@ jQuery(document).ready(function (jQuery) {
             'ngIntercom',
             'ngMaterial',
             'ngSanitize',
+            'ngCookies',
             'mm.foundation',
             'angucomplete-alt',
             'ngMessages',

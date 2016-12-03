@@ -248,8 +248,8 @@
         return service;
     }
 
-    AuthService.$inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth', 'API'];
-    function AuthService($rootScope, $q, $state, $http, DataService, $auth, API) {
+    AuthService.$inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth', 'API', '$cookies'];
+    function AuthService($rootScope, $q, $state, $http, DataService, $auth, API, $cookies) {
         /**
          *
          * @returns {*}
@@ -336,6 +336,7 @@
                 if(service.isAuthenticated()) {
                     if (!angular.isObject(service.currentUser)) {
                         $http.get(API + 'authenticate').then(function (response) {
+                            $cookies.put('iw_token', $auth.getToken(), { secure: true});
                             deferred.resolve($rootScope.AppData.User = service.currentUser = response.data.user);
                         });
                     } else {
@@ -359,6 +360,7 @@
                         if (response.status === 200) {
                             $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                             $auth.setToken(response.data.token);
+                            $cookies.put('iw_token', response.data.token, { secure: true});
                             service.getCurrentUser();
                             return true;
                         } else {
@@ -416,6 +418,7 @@
                 //var deferred = $q.defer();
                 return $http.post(API + 'logout', null).then(function () {
                     $auth.removeToken();
+                    $cookies.remove('iw_token');
                     $auth.logout();
                     // localStorage.removeItem('User');
                     // $rootScope.AppData.User = undefined;

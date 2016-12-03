@@ -5,6 +5,7 @@ require('angular-resource');
 require('angular-messages');
 require('angular-sanitize');
 require('angular-animate');
+require('angular-cookies');
 require('angucomplete-alt');
 require('angular-google-analytics');
 require('angular-loading-bar');

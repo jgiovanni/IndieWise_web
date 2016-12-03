@@ -42,26 +42,29 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
     return "event fired";
 });*/
 
-Route::get('forum', function () {
+/*Route::get('forum', function () {
     // this checks for the event
-    $me = Auth::user();
-    $customClaims = [
-        'id' => $me->id,
-        'email' => $me->email,
-        'firstName' => $me->firstName,
-        'lastName' => $me->lastName,
-        'picture' => $me->avatar,
-    ];
-    try {
-        if (!$token = JWTAuth::claims($customClaims)->fromUser($me)) {
-            return response()->json(['errors' => ['credentials' => ['Invalid Credentials']]], 401);
+    if (Auth::user()) {
+        $me = Auth::user();
+        $customClaims = [
+            'id' => $me->id,
+            'email' => $me->email,
+            'firstName' => $me->firstName,
+            'lastName' => $me->lastName,
+            'picture' => $me->avatar,
+        ];
+        try {
+            if (!$token = JWTAuth::claims($customClaims)->fromUser($me)) {
+                return response()->json(['errors' => ['credentials' => ['Invalid Credentials']]], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => $e], 401);
         }
-    } catch (JWTException $e) {
-        return response()->json(['error' => $e], 401);
+        return request()->cookie('iw_token', $token, '/', null, true, false);
+    } else {
+        return redirect('/forum');
     }
-    return request()->cookie('iw_token', $token, '/', null, true, false);
-//    return view('home');
-});
+});*/
 
 if (App::environment('local')) {
 
