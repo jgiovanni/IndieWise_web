@@ -113,7 +113,7 @@ class AuthController extends Controller
             $customClaims = [
                 'id' => $user->id,
                 'email' => $user->email,
-                'username' => explode("@", $user->email)[0],
+                'username' => explode("@", $user->username)[0],
                 'firstName' => $user->firstName,
                 'lastName' => $user->lastName,
                 'picture' => $user->avatar,
@@ -140,7 +140,7 @@ class AuthController extends Controller
             $customClaims = [
                 'id' => $user->id,
                 'email' => $user->email,
-                'username' => explode("@", $user->email)[0],
+                'username' => explode("@", $user->username)[0],
                 'firstName' => $user->firstName,
                 'lastName' => $user->lastName,
                 'picture' => $user->avatar,
