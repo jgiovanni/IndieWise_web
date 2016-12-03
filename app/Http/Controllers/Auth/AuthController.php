@@ -113,6 +113,7 @@ class AuthController extends Controller
             $customClaims = [
                 'id' => $user->id,
                 'email' => $user->email,
+                'username' => substr(strrchr($user->email, "@"), 0),
                 'firstName' => $user->firstName,
                 'lastName' => $user->lastName,
                 'picture' => $user->avatar,
@@ -139,6 +140,7 @@ class AuthController extends Controller
             $customClaims = [
                 'id' => $user->id,
                 'email' => $user->email,
+                'username' => substr(strrchr($user->email, "@"), 0),
                 'firstName' => $user->firstName,
                 'lastName' => $user->lastName,
                 'picture' => $user->avatar,

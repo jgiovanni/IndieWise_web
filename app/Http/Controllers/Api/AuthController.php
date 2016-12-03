@@ -83,6 +83,7 @@ class AuthController extends Controller
             $customClaims = [
                 'id' => $me->id,
                 'email' => $me->email,
+                'username' => substr(strrchr($me->email, "@"), 0),
                 'firstName' => $me->firstName,
                 'lastName' => $me->lastName,
                 'picture' => $me->avatar,
@@ -134,9 +135,15 @@ class AuthController extends Controller
             setting()->set('email_like', true, "'$user->id'");
             setting()->save("'$user->id'");
 
-
-//            Auth::login($user, true);
-            $token = JWTAuth::fromUser($user);
+            $customClaims = [
+                'id' => $user->id,
+                'email' => $user->email,
+                'username' => substr(strrchr($user->email, "@"), 0),
+                'firstName' => $user->firstName,
+                'lastName' => $user->lastName,
+                'picture' => $user->avatar,
+            ];
+            $token = JWTAuth::claims($customClaims)->fromUser($user);
         } catch (JWTException $e) {
             return response()->json(['error' => 'User already exists.'], 409);
         }
