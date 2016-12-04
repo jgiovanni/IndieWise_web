@@ -133,7 +133,10 @@ jQuery(document).ready(function (jQuery) {
             'IndieWise.utilities',
 
             // Modularity
-            'IndieWise.winners'
+            'IndieWise.home',
+            'IndieWise.browse',
+            'IndieWise.latest',
+            'IndieWise.winners',
         ])
         .constant('moment', window.momentTimeZone)
         .constant('angularMomentConfig', { timezone: 'UTC' })

@@ -312,7 +312,7 @@
              * @param _userParams
              */
             deleteUser: function (_userParams) {
-                return DataService.delete('users/me/' + _userParams.id).then(function (response) {
+                return DataService.delete('users/me', _userParams.id).then(function (response) {
                     return response;
                 });
             },

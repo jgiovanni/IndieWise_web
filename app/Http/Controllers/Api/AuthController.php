@@ -302,10 +302,10 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function terminate()
+    public function terminate($id)
     {
         try {
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
+            if (!$user = $this->auth()->user()) {
                 return response()->json(['user_not_found'], 404);
             }
         } catch (JWTException $e) {
@@ -316,7 +316,7 @@ class AuthController extends Controller
             return response()->json(['token_absent'], 401);
         }
 
-        return $user->delete();
+        return response()->json(['status' => $user->delete()]);
 
     }
 

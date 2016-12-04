@@ -57,9 +57,9 @@
 
         // Other App Controllers
         .controller('BodyCtrl', BodyCtrl)
-        .controller('HomeCtrl', HomeCtrl)
-        .controller('BrowseCtrl', BrowseCtrl)
-        .controller('LatestCtrl', LatestCtrl)
+        // .controller('HomeCtrl', HomeCtrl)
+        // .controller('BrowseCtrl', BrowseCtrl)
+        // .controller('LatestCtrl', LatestCtrl)
         // .controller('AdvancedResultsCtrl', AdvancedResultsCtrl)
         // .controller('ResultsCtrl', ResultsCtrl)
         .controller('VideoCtrl', VideoCtrl)
@@ -663,227 +663,6 @@
                     // console.log(err);
                 });
         }
-    }
-
-    HomeCtrl.$inject = ['$rootScope', 'DataService', '$scope', '$window', '$modal', '$interval'];
-    function HomeCtrl($rootScope, DataService, $scope, $window, $modal, $interval) {
-        var self = this;
-        $rootScope.metadata.title = 'Home';
-
-        self.refresh = function () {
-            // Trending Videos
-            DataService.collection('projects', {sort: 'reactions_count', per_page: 8}).then(function (result) {
-                self.trending = result.data;
-            });
-
-            // Highest Rated Videos
-            DataService.collection('projects', {sort: 'topRating', per_page: 8}).then(function (result) {
-                self.highestRated = result.data;
-            });
-
-            // Highest Awarded Videos
-            DataService.collection('projects', {sort: 'wins_count', per_page: 8}).then(function (result) {
-                self.highestAwarded = result.data;
-            });
-
-            // Recent Videos
-            DataService.collection('projects', {sort: 'created_at', per_page: 8}).then(function (result) {
-                self.recentFilms = result.data;
-            });
-        };
-        self.refresh();
-        self.refInterval = $interval(self.refresh, 300000);
-
-        $scope.$on('$destroy', function () {
-            $interval.cancel(self.refInterval);
-        });
-
-        $window.onfocus = function () {
-            //do something
-        };
-
-        $window.onblur = function () {
-            // console.log('Refresh Stopped');
-            $interval.cancel(self.refInterval);
-        };
-    }
-
-    BrowseCtrl.$inject = ['$scope', '$rootScope', '$state', 'DataService', '$q', '$timeout', '$modal', '$mdSidenav', '_'];
-    function BrowseCtrl($scope, $rootScope, $state, DataService, $q, $timeout, $modal, $mdSidenav, _) {
-        $rootScope.metadata.title = 'Browse';
-        var self = this;
-        self.isOpen = false;
-        self.loading = false;
-        self.selectedGenres = [];
-        self.selectedTypes = [];
-        self.films = [];
-        self.arrs = {
-            genres: [],
-            types: []
-        };
-        self.filters = {
-            sort: $rootScope.$stateParams.sort || 'created_at',
-            genres: $rootScope.$stateParams.genres || undefined,
-            type: $rootScope.$stateParams.types || undefined,
-            search: $rootScope.$stateParams.q || undefined,
-            page: 1
-        };
-        $rootScope.AppData.searchText = $rootScope.$stateParams.q;
-
-        $rootScope.generateTypes().then(function (types) {
-            var d = $q.defer();
-
-            self.arrs.types = angular.isArray(self.selectedTypes) && self.selectedTypes.length ? self.selectedTypes : types;
-            return d.promise;
-        });
-
-        $rootScope.generateGenres().then(function (genres) {
-            var d = $q.defer();
-            self.arrs.genres = angular.isArray(self.selectedGenres) && self.selectedGenres.length ? self.selectedGenres : genres;
-            return d.promise;
-        });
-
-        self.refresh = function () {
-            $q.all([$rootScope.generateTypes(), $rootScope.generateGenres()]).then(function (values) {
-                self.filters.sort = $rootScope.$stateParams.sort || 'recent';
-                self.search();
-            });
-        };
-
-        self.search = function () {
-            self.loading = true;
-            var filterField = '';
-            switch (self.filters.sort) {
-                case 'trending':
-                    filterField = 'reactions_count';
-                    break;
-                case 'rating':
-                    filterField = 'iwRating';
-                    break;
-                case 'awards':
-                    filterField = 'wins_count';
-                    break;
-                case 'recent':
-                default:
-                    filterField = 'created_at';
-                    break;
-            }
-
-            $rootScope.AppData.searchText = $rootScope.$stateParams.q = self.filters.search || undefined;
-            DataService.collection('projects', {
-                sort: filterField,
-                order: 'DESC',
-                types: _.pluck(self.selectedTypes, 'id').toString(),
-                genres: _.pluck(self.selectedGenres, 'id').toString(),
-                search: self.filters.search || undefined,
-                per_page: 50,
-                page: self.filters.page
-            }).then(function (res) {
-                self.pagination = res.data.meta.pagination;
-                return self.films = res.data.data;
-            }).then(function () {
-                self.loading = false;
-            });
-
-
-            $scope.$broadcast('scroll.refreshComplete');
-        };
-
-        self.loadMore = function () {
-            if (self.loading) {
-                $rootScope.toastMessage('Please wait...');
-            }
-
-            self.loading = true;
-            var filterField = '';
-            switch (self.filters.sort) {
-                case 'trending':
-                    filterField = 'reactions_count';
-                    break;
-                case 'rating':
-                    filterField = 'iwRating';
-                    break;
-                case 'awards':
-                    filterField = 'wins_count';
-                    break;
-                case 'recent':
-                default:
-                    filterField = 'created_at';
-                    break;
-            }
-
-            DataService.collection('projects', {
-                sort: filterField,
-                order: 'DESC',
-                types: _.pluck(self.selectedTypes, 'id').toString(),
-                genres: _.pluck(self.selectedGenres, 'id').toString(),
-                search: self.filters.search || undefined,
-                per_page: 50,
-                page: ++self.filters.page
-            }).then(function (res) {
-                return self.films = _.union(self.films, res.data.data);
-            }).then(function () {
-                self.loading = false;
-            });
-        };
-
-        self.selectGenres = function (genre) {
-            var exists = _.findWhere(self.selectedGenres, {id: genre.id});
-            !!exists ? self.selectedGenres = _.reject(self.selectedGenres, genre) : self.selectedGenres.push(genre);
-            self.search();
-        };
-
-        self.selectTypes = function (type) {
-            var exists = _.find(self.selectedTypes, {id: type.id});
-            !!exists ? self.selectedTypes = _.reject(self.selectedTypes, type) : self.selectedTypes.push(type);
-            self.search();
-        };
-
-        self.filterBy = function (filter) {
-            self.search();
-        };
-
-        self.toggleFilterNav = function () {
-            $mdSidenav('filterNav')
-                .toggle()
-                .then(function () {
-
-                });
-
-        };
-
-        /*$scope.$watch('filters.search', function (newValue, oldValue) {
-            debugger;
-        });*/
-
-        self.refresh();
-    }
-
-    LatestCtrl.$inject = ['$rootScope', '$scope', 'DataService', '$timeout', '$interval'];
-    function LatestCtrl($rootScope, $scope, DataService, $timeout, $interval) {
-        $rootScope.metadata.title = 'Latest';
-        var self = this;
-
-        self.init = function () {
-            DataService.collection('reactions/latest').then(function (res) {
-                self.reactions = res.data;
-            });
-            DataService.collection('nominations/latest').then(function (res) {
-                self.nominations = res.data;
-            });
-            DataService.collection('critiques/latest').then(function (res) {
-                self.critiques = res.data;
-            });
-        };
-
-        self.init();
-        self.refInterval = $interval(self.init, 10000);
-
-        $scope.$on('$destroy', function () {
-            $interval.cancel(self.refInterval);
-        });
-
-        $timeout(jQuery(document).foundation(), 0);
     }
 
     VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'DataService', '$state', 'Analytics', '$window', '$timeout', '_'];
@@ -2607,7 +2386,11 @@
 
             $mdDialog.show(confirm).then(function() {
                 AuthService.deleteUser(self.user).then(function (res) {
-                    AuthService.logout();
+                    if(res.data.status) {
+                        AuthService.logout().then(function (res) {
+                            window.location.reload();
+                        });
+                    }
                 });
             }, function() {
 

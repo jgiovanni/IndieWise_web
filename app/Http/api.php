@@ -179,7 +179,7 @@ $api->version('v1', [
 
         // User Routes
         $api->put('users/me/{id?}', 'AuthController@updateMe');
-        $api->delete('users/me', 'AuthController@terminate');
+//        $api->delete('users/me/{id?}', 'AuthController@terminate');
 
         // Query Routes
         $api->get('users/count', 'UsersController@count');

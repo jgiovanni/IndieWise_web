@@ -56,6 +56,9 @@ elixir(function(mix) {
         'app.js',
         'controllers.js',
         // Modules
+        '../templates/home/home.js',
+        '../templates/browse/browse.js',
+        '../templates/latest/latest.js',
         '../templates/winners/winners.js',
 
         'directives.js',
