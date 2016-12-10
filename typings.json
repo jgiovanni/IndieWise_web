@@ -1,0 +1,11 @@
+{
+  "globalDependencies": {
+    "angular": true,
+    "jQuery": true,
+    "moment": true,
+    "momentTimeZone": true,
+    "stream": true,
+    "___": true,
+    "_": true
+  }
+}
