@@ -49,20 +49,22 @@ elixir(function(mix) {
     ]);
     mix.sass('app.scss');
     // complie js
-    mix.browserify('main.js');
-    mix.browserify('angular.js');
+    mix.browserify('main.ts');
+    mix.browserify('angular.ts');
 
-    mix.scripts([
-        'app.js',
-        'controllers.js',
-        // Modules
-        '../templates/home/home.js',
+    mix.babel([
+        'app.ts',
+        'controllers.ts',
+
+        //// Modularity
+        '../templates/home/home.ts',
+        '../templates/home/home-projects-list.ts',
         '../templates/browse/browse.js',
         '../templates/latest/latest.js',
         '../templates/winners/winners.js',
 
-        'directives.js',
-        'services.js',
-        'utils.js'
+        'directives.ts',
+        'services.ts',
+        'utils.ts'
     ]).version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/app.js", "js/all.js"]);
 });

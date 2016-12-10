@@ -3,15 +3,11 @@
     angular
         .module('IndieWise.services', [])
         .factory('FacebookAngularPatch', ['$q', '$timeout', '$window', function ($q, $timeout, $window) {
-
             var fbApiAngular = function () {
-
                 var params = [].splice.call(arguments, 0);
                 var defer = $q.defer();
                 var angularWrap = $timeout;
-
                 $window.fbPromise.then(function () {
-
                     // Pushing callback function that will resolve to the params array
                     params.push(function (response) {
                         if (!___.isUndefined(response.error)) {
@@ -20,20 +16,14 @@
                             });
                             return;
                         }
-
                         angularWrap(function () {
                             defer.resolve(response);
                         });
                     });
-
                     FB.api.apply(FB, params);
-
                 });
-
                 return defer.promise;
             };
-
-
             // using the fbPromise we set up in index.html, we extend the FB SDK with FB.apiAngular
             // now we use FB.apiAngular instead of FB.api, which gives us an angular wrapped promise
             if (angular.isObject($window.FB)) {
@@ -44,20 +34,14 @@
                     xfbml: true,
                     version: 'v2.7'
                 });
-
                 $window.FB.AppEvents.activateApp();
-
-                /*$window.fbPromise.then(function () {
-                    FB.apiAngular = fbApiAngular;
-                });*/
             }
-
             return fbApiAngular;
         }])
         .factory('AuthService', AuthService)
         .factory('UserActions', UserActions)
         .factory('DataService', DataService)
-        .factory('socket', ['$rootScope', '$window',function ($rootScope, $window) {
+        .factory('socket', ['$rootScope', '$window', function ($rootScope, $window) {
             var socket = io($window.location.origin, {
                 'secure': true,
                 'reconnect': true,
@@ -81,7 +65,7 @@
                                 callback.apply(socket, args);
                             }
                         });
-                    })
+                    });
                 }
             };
         }])
@@ -92,67 +76,70 @@
                     return $filter('linkify')(str, type);
                 };
             }
-
             return {
                 twitter: _linkifyAsType('twitter'),
                 github: _linkifyAsType('github'),
                 normal: _linkifyAsType()
             };
         }])
-        .service('anchorSmoothScroll', function(){
-
-            this.scrollTo = function(eID) {
-
-                // This scrolling function
-                // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
-
-                var startY = currentYPosition();
-                var stopY = elmYPosition(eID);
-                var distance = stopY > startY ? stopY - startY : startY - stopY;
-                if (distance < 100) {
-                    scrollTo(0, stopY); return;
+        .service('anchorSmoothScroll', function () {
+        this.scrollTo = function (eID) {
+            // This scrolling function
+            // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
+            var startY = currentYPosition();
+            var stopY = elmYPosition(eID);
+            var distance = stopY > startY ? stopY - startY : startY - stopY;
+            if (distance < 100) {
+                scrollTo(0, stopY);
+                return;
+            }
+            var speed = Math.round(distance / 100);
+            if (speed >= 20)
+                speed = 20;
+            var step = Math.round(distance / 25);
+            var leapY = stopY > startY ? startY + step : startY - step;
+            var timer = 0;
+            if (stopY > startY) {
+                for (var i = startY; i < stopY; i += step) {
+                    setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+                    leapY += step;
+                    if (leapY > stopY)
+                        leapY = stopY;
+                    timer++;
                 }
-                var speed = Math.round(distance / 100);
-                if (speed >= 20) speed = 20;
-                var step = Math.round(distance / 25);
-                var leapY = stopY > startY ? startY + step : startY - step;
-                var timer = 0;
-                if (stopY > startY) {
-                    for ( var i=startY; i<stopY; i+=step ) {
-                        setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
-                        leapY += step; if (leapY > stopY) leapY = stopY; timer++;
-                    } return;
+                return;
+            }
+            for (var i = startY; i > stopY; i -= step) {
+                setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+                leapY -= step;
+                if (leapY < stopY)
+                    leapY = stopY;
+                timer++;
+            }
+            function currentYPosition() {
+                // Firefox, Chrome, Opera, Safari
+                if (self.pageYOffset)
+                    return self.pageYOffset;
+                // Internet Explorer 6 - standards mode
+                if (document.documentElement && document.documentElement.scrollTop)
+                    return document.documentElement.scrollTop;
+                // Internet Explorer 6, 7 and 8
+                if (document.body.scrollTop)
+                    return document.body.scrollTop;
+                return 0;
+            }
+            function elmYPosition(eID) {
+                var elm = document.getElementById(eID);
+                var y = elm.offsetTop;
+                var node = elm;
+                while (node.offsetParent && node.offsetParent != document.body) {
+                    node = node.offsetParent;
+                    y += node.offsetTop;
                 }
-                for ( var i=startY; i>stopY; i-=step ) {
-                    setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
-                    leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
-                }
-
-                function currentYPosition() {
-                    // Firefox, Chrome, Opera, Safari
-                    if (self.pageYOffset) return self.pageYOffset;
-                    // Internet Explorer 6 - standards mode
-                    if (document.documentElement && document.documentElement.scrollTop)
-                        return document.documentElement.scrollTop;
-                    // Internet Explorer 6, 7 and 8
-                    if (document.body.scrollTop) return document.body.scrollTop;
-                    return 0;
-                }
-
-                function elmYPosition(eID) {
-                    var elm = document.getElementById(eID);
-                    var y = elm.offsetTop;
-                    var node = elm;
-                    while (node.offsetParent && node.offsetParent != document.body) {
-                        node = node.offsetParent;
-                        y += node.offsetTop;
-                    } return y;
-                }
-
-            };
-
-        });
-
+                return y;
+            }
+        };
+    });
     UserActions.$inject = ['$rootScope', '$q', 'AuthService', 'DataService', 'UtilsService', '$timeout', '$modal', '$mdMedia'];
     function UserActions($rootScope, $q, AuthService, DataService, UtilsService, $timeout, $modal, $mdMedia) {
         var service = {
@@ -163,7 +150,7 @@
             },
             markAsWatched: function (video) {
                 // Set as watched when user has watched 20% for the video's runtime or 6 seconds
-                var time = 0;// (video.attributes.runTime * 200) || 6000;
+                var time = 0; // (video.attributes.runTime * 200) || 6000;
                 return $timeout(function () {
                     //console.log('Marked as Watched');
                     DataService.save('projects/watched', {
@@ -177,15 +164,14 @@
             canCritique: function (filmId) {
                 var deferred = $q.defer();
                 if (AuthService.isAuthenticated()) {
-                    DataService.collection('critiques', {project: filmId, user: AuthService.currentUser.id})
+                    DataService.collection('critiques', { project: filmId, user: AuthService.currentUser.id })
                         .then(function (res) {
-                            res.data.data.length
-                                // critique exists already from this user
-                                ? deferred.reject(res.data.data[0])
-                                // user hasn't critiqued yet
-                                : deferred.resolve(true);
-                        });
-                } else {
+                        res.data.data.length
+                            ? deferred.reject(res.data.data[0])
+                            : deferred.resolve(true);
+                    });
+                }
+                else {
                     deferred.reject(false);
                 }
                 return deferred.promise;
@@ -193,15 +179,14 @@
             canReact: function (filmId) {
                 var deferred = $q.defer();
                 if (AuthService.currentUser) {
-                    DataService.collection('reactions', {project: filmId, user: AuthService.currentUser.id})
+                    DataService.collection('reactions', { project: filmId, user: AuthService.currentUser.id })
                         .then(function (res) {
-                            res.data.data.length
-                                // critique exists already from this user
-                                ? deferred.reject(res.data.data[0])
-                                // user hasn't critiqued yet
-                                : deferred.resolve(true);
-                        });
-                } else {
+                        res.data.data.length
+                            ? deferred.reject(res.data.data[0])
+                            : deferred.resolve(true);
+                    });
+                }
+                else {
                     deferred.reject(false);
                 }
                 return deferred.promise;
@@ -209,15 +194,14 @@
             canRate: function (filmId) {
                 var deferred = $q.defer();
                 if (AuthService.currentUser) {
-                    DataService.collection('ratings', {project: filmId, user: AuthService.currentUser.id})
+                    DataService.collection('ratings', { project: filmId, user: AuthService.currentUser.id })
                         .then(function (res) {
-                            res.data.ratings.length
-                                // critique exists already from this user
-                                ? deferred.reject(res.data.ratings[0])
-                                // user hasn't critiqued yet
-                                : deferred.resolve(true);
-                        });
-                } else {
+                        res.data.ratings.length
+                            ? deferred.reject(res.data.ratings[0])
+                            : deferred.resolve(true);
+                    });
+                }
+                else {
                     deferred.reject(false);
                 }
                 return deferred.promise;
@@ -230,7 +214,6 @@
                         templateUrl: 'auth/sign-in-dialog.html',
                         size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
                     };
-
                     var modalInstance = $modal.open(options);
                     modalInstance.result.then(function (answer) {
                         console.log(answer);
@@ -247,26 +230,22 @@
         };
         return service;
     }
-
     AuthService.$inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth', 'API', '$cookies'];
     function AuthService($rootScope, $q, $state, $http, DataService, $auth, API, $cookies) {
         /**
          *
          * @returns {*}
          */
-
-
         var service = {
             /**
              *
              * @param _userParams
              */
             createUser: function (_userParams) {
-
                 var user = {
                     email: _userParams.email,
                     password: _userParams.password,
-                    password_confirmation:_userParams.passwordCheck,
+                    password_confirmation: _userParams.passwordCheck,
                     username: _userParams.email,
                     firstName: _userParams.firstName,
                     lastName: _userParams.lastName,
@@ -275,25 +254,24 @@
                     dob: _userParams.dob,
                     gender: _userParams.gender,
                 };
-
                 return $auth.signup(user)
                     .then(function (userData) {
-                        service.error = '';
-                        console.log('User ' + userData.username + ' created successfully!');
-                        return service.login(_userParams.email, _userParams.password).then(function (res) {
+                    service.error = '';
+                    console.log('User ' + userData.username + ' created successfully!');
+                    return service.login(_userParams.email, _userParams.password).then(function (res) {
+                        console.log(res);
+                        service.getCurrentUser().then(function (res) {
                             console.log(res);
-                            service.getCurrentUser().then(function (res) {
-                                console.log(res);
-                                $state.go('profile.about');
-                            });
+                            $state.go('profile.about');
                         });
-                    })
-                    .catch(function (error) {
-                        return {
-                            status: false,
-                            errors: service.error = error.data.errors || 'Unknown error from server'
-                        };
                     });
+                })
+                    .catch(function (error) {
+                    return {
+                        status: false,
+                        errors: service.error = error.data.errors || 'Unknown error from server'
+                    };
+                });
             },
             /**
              *
@@ -333,20 +311,21 @@
             currentUser: null,
             getCurrentUser: function (force) {
                 var deferred = $q.defer();
-                if(service.isAuthenticated()) {
+                if (service.isAuthenticated()) {
                     if (!angular.isObject(service.currentUser)) {
                         $http.get(API + 'authenticate').then(function (response) {
-                            $cookies.put('iw_token', $auth.getToken(), { secure: true});
+                            $cookies.put('iw_token', $auth.getToken(), { secure: true });
                             deferred.resolve($rootScope.AppData.User = service.currentUser = response.data.user);
                         });
-                    } else {
+                    }
+                    else {
                         deferred.resolve(service.currentUser);
                     }
-                } else {
+                }
+                else {
                     deferred.reject(false);
                 }
                 return deferred.promise;
-
             },
             /**
              *
@@ -357,58 +336,62 @@
             login: function (_user, _password) {
                 return $auth.login({ email: _user, password: _password })
                     .then(function (response) {
-                        if (response.status === 200) {
-                            $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                            $auth.setToken(response.data.token);
-                            $cookies.put('iw_token', response.data.token, { secure: true});
-                            service.getCurrentUser();
-                            return true;
-                        } else {
-                            return {
-                                status: false,
-                                errors: service.error = { credentials: ['Invalid email or password']}
-                            };
-                        }
-                    })
-                    .catch(function(response) {
-                        // Handle errors here, such as displaying a notification
-                        // for invalid email and/or password.
-                        console.log(response);
+                    if (response.status === 200) {
+                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                        $auth.setToken(response.data.token);
+                        $cookies.put('iw_token', response.data.token, { secure: true });
+                        service.getCurrentUser();
+                        return true;
+                    }
+                    else {
                         return {
                             status: false,
-                            errors: service.error = response.data ? response.data.errors : 'Unknown error from server'
+                            errors: service.error = { credentials: ['Invalid email or password'] }
                         };
-                    });
+                    }
+                })
+                    .catch(function (response) {
+                    // Handle errors here, such as displaying a notification
+                    // for invalid email and/or password.
+                    console.log(response);
+                    return {
+                        status: false,
+                        errors: service.error = response.data ? response.data.errors : 'Unknown error from server'
+                    };
+                });
             },
             socialLogin: function (provider, isModal) {
                 isModal = isModal || false;
                 return $auth.authenticate(provider)
-                    .then(function(response) {
-                        // console.log(response.data);
-                        service.getCurrentUser().then(function (user) {
-                            self.error = '';
-                            if (!isModal) {
-                                if (moment(user.created_at).isSame(moment(), 'hour')) {
-                                    console.log('User ' + user.fullName + ' created successfully!');
-                                    $state.go('profile.about');
-                                } else {
-                                    if($rootScope.$stateParams.redirect) {
-                                        return window.location.href = $rootScope.$stateParams.redirect;
-                                    };
-                                    $state.go('home');
-                                }
-                            } else {
-                                return user;
+                    .then(function (response) {
+                    // console.log(response.data);
+                    service.getCurrentUser().then(function (user) {
+                        self.error = '';
+                        if (!isModal) {
+                            if (moment(user.created_at).isSame(moment(), 'hour')) {
+                                console.log('User ' + user.fullName + ' created successfully!');
+                                $state.go('profile.about');
                             }
-                        });
-                    })
-                    .catch(function(response) {
-                        console.log(response);
-                        return {
-                            status: false,
-                            errors: service.error = response || 'Unknown error from server'
-                        };
+                            else {
+                                if ($rootScope.$stateParams.redirect) {
+                                    return window.location.href = $rootScope.$stateParams.redirect;
+                                }
+                                ;
+                                $state.go('home');
+                            }
+                        }
+                        else {
+                            return user;
+                        }
                     });
+                })
+                    .catch(function (response) {
+                    console.log(response);
+                    return {
+                        status: false,
+                        errors: service.error = response || 'Unknown error from server'
+                    };
+                });
             },
             /**
              *
@@ -432,7 +415,7 @@
              * @returns {Promise}
              */
             requestPasswordReset: function (email) {
-                return $http.post(API + 'requestPasswordReset', {email: email}).then(function (res) {
+                return $http.post(API + 'requestPasswordReset', { email: email }).then(function (res) {
                     console.log(res);
                     return res;
                 }, function (error) {
@@ -440,23 +423,23 @@
                     return error;
                 });
             },
-            passwordReset: function (email, password, password_confirmation,token) {
-                return $http.post(API + 'resetPassword', {email: email, password: password, password_confirmation: password_confirmation, token: token})
+            passwordReset: function (email, password, password_confirmation, token) {
+                return $http.post(API + 'resetPassword', { email: email, password: password, password_confirmation: password_confirmation, token: token })
                     .then(function (res) {
-                        console.log(res);
-                        $state.go('sign_in');
-                        return res;
-                    }, function (error) {
-                        //console.log(error);
-                        return error;
-                    });
+                    console.log(res);
+                    $state.go('sign_in');
+                    return res;
+                }, function (error) {
+                    //console.log(error);
+                    return error;
+                });
             },
-            parseJwt: function(token) {
+            parseJwt: function (token) {
                 var base64Url = token.split('.')[1];
                 var base64 = base64Url.replace('-', '+').replace('_', '/');
                 return JSON.parse(atob(base64));
             },
-            isAuthenticated: function() {
+            isAuthenticated: function () {
                 //var params = $auth.getPayload();
                 //console.log(params);
                 return $auth.isAuthenticated();
@@ -465,18 +448,21 @@
                 // if user is authenticated and currentUser is an object
                 if (this.isAuthenticated && angular.isObject(this.currentUser)) {
                     // if currentUser.verified is true
-                    if(this.currentUser.verified === 1 || this.currentUser.verified === true) {
+                    if (this.currentUser.verified === 1 || this.currentUser.verified === true) {
                         return true;
-                    } else {
+                    }
+                    else {
                         // restrict continuous checking. If 30 seconds since the last check has passed, try again
-                        if (this.lastCheckedVerification === null || moment().isAfter( this.lastCheckedVerification.add(30, 's')) ) {
+                        if (this.lastCheckedVerification === null || moment().isAfter(this.lastCheckedVerification.add(30, 's'))) {
                             var test = this.throttledVerificationCheck();
                             return this.currentUser.verified = $rootScope.AppData.User.verified = !!test.$$state.status ? test.$$state.value : false;
-                        } else {
+                        }
+                        else {
                             return false;
                         }
                     }
-                } else {
+                }
+                else {
                     // not logged in
                     return false;
                 }
@@ -491,21 +477,17 @@
             checkedVerification: false,
             lastCheckedVerification: null
         };
-
         function _init() {
             service.getCurrentUser();
         }
-
         _init();
         return service;
     }
-
     DataService.$inject = ['$http', 'API'];
     function DataService($http, API) {
         var vm = this;
-
         vm.collection = function (name, params) {
-            var data = angular.extend({per_page: 10, page: 1}, params);
+            var data = angular.extend({ per_page: 10, page: 1 }, params);
             return $http({
                 method: 'GET',
                 url: API + name,
@@ -547,16 +529,12 @@
         vm.mail = function (route, params) {
             return $http.post(API + route, params);
         };
-
-
         // Newsletter Form
         vm.notifyMe = function (params) {
             return $http.post('utils/notify-me.php', params);
         };
-
         return vm;
     }
-
     SignInModalCtrl.$inject = ['$rootScope', '$timeout', 'AuthService', '$modalInstance'];
     function SignInModalCtrl($rootScope, $timeout, AuthService, $modalInstance) {
         zIndexPlayer();
@@ -566,15 +544,12 @@
             email: '',
             password: ''
         };
-
         self.doLogin = function (redirect) {
             redirect = redirect || true;
             self.error = false;
             AuthService.login(self.user.email, self.user.password).then(function (res) {
                 console.log('Success', res);
                 if (redirect) {
-                    //$state.go('home');
-                    //window.location.reload();
                 }
             }, function (res) {
                 self.error = res;
@@ -583,8 +558,6 @@
                 self.ok();
             });
         };
-
-
         self.authenticate = function (provider) {
             self.error = null;
             AuthService.socialLogin(provider, true).then(function (a) {
@@ -592,15 +565,12 @@
                 self.ok();
             });
         };
-
         self.ok = function () {
             $modalInstance.close();
         };
-
         self.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-
         $timeout(function () {
             jQuery(document).foundation();
             $timeout(function () {
@@ -608,13 +578,11 @@
             }, 500);
         }, 0);
     }
-
     function zIndexPlayer(remove) {
         var vidDiv = jQuery('.flex-video');
         if (vidDiv) {
             !!remove ? vidDiv.css('z-index', '') : vidDiv.css('z-index', 0);
         }
     }
-
 })();
-
+//# sourceMappingURL=services.js.map

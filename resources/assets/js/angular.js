@@ -39,3 +39,4 @@ require('angular-iscroll');
 // require('videogular-angulartics/vg-analytics.min');
 // require('videogular-controls');
 // require('videogular-chromecast');
+//# sourceMappingURL=angular.js.map

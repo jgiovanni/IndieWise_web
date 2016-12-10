@@ -43,7 +43,7 @@
     "hammerjs": "^2.0.8",
     "ioredis": "^2.3.0",
     "jquery": "^1.11.2",
-    "laravel-elixir": "^3.0.0",
+    "laravel-elixir": "^4.0.0",
     "laravel-elixir-ng-templates": "^0.1.3",
     "laravel-elixir-ngtemplatecache": "^0.3.0",
     "localforage": "^1.4.2",

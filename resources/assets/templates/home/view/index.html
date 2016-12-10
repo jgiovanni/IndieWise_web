@@ -7,46 +7,7 @@
 <!-- End Premium Videos -->
 
 <!-- Trending Videos -->
-<section class="content">
-    <!-- trending videos -->
-    <div class="main-heading">
-        <div class="row secBg padding-14 head-text">
-            <div class="medium-8 small-8 columns">
-                <div class="head-title">
-                    <i class="fa fa-line-chart"></i>
-                    <h4 class="has-tip" tooltip="Top videos ranked according to number of Reactions received" tooltip-placement="right">
-                        Trending
-                    </h4>
-                </div>
-            </div>
-            <div class="medium-4 small-4 columns">
-                <div class="grid-system pull-right show-for-large" ng-init="typeA='grid-default'">
-                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
-                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
-                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
-                       ng-class="{'current':typeA == 'grid-medium'}"><i class="fa fa-th-large"></i></a>
-                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
-                            class="fa fa-th-list"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row secBg">
-        <div class="large-12 columns">
-            <div>
-                <div class="tabs-panel is-active" id="new-all">
-                    <div class="row list-group">
-                        <project-card ng-repeat="video in Home.trending.data" video="video" type="typeA"
-                                      queried="'true'"></project-card>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center row-btn">
-                <a class="button radius" ui-sref="browse({sort: 'trending'})">View More Videos</a>
-            </div>
-        </div>
-    </div>
-</section>
+<home-projects-list sort="trending" per-page="8" type="Home.type"></home-projects-list>
 
 <!-- ad Section -->
 <div class="googleAdv text-center">
@@ -56,46 +17,7 @@
 </div><!-- End ad Section -->
 
 <!-- Highest Rated  video -->
-<section class="content">
-    <!-- Highest Rated Videos -->
-    <div class="main-heading">
-        <div class="row secBg padding-14 head-text">
-            <div class="medium-8 small-8 columns">
-                <div class="head-title">
-                    <i class="fa fa-star"></i>
-                    <h4 class="has-tip" tooltip="Top videos ranked according to IndieWise Average" tooltip-placement="right">
-                        Highest Rated
-                    </h4>
-                </div>
-            </div>
-            <div class="medium-4 small-4 columns">
-                <div class="grid-system pull-right show-for-large">
-                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
-                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
-                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
-                       ng-class="{'current':typeA == ('grid-medium')}"><i class="fa fa-th-large"></i></a>
-                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
-                            class="fa fa-th-list"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row secBg">
-        <div class="large-12 columns">
-            <div>
-                <div class="tabs-panel is-active" id="popular-all">
-                    <div class="row list-group">
-                        <project-card ng-repeat="video in Home.highestRated.data|orderBy:'-iwRating'" video="video" type="typeA"
-                                      queried="'true'"></project-card>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center row-btn">
-                <a class="button radius" ui-sref="browse({sort: 'rating'})">View More Videos</a>
-            </div>
-        </div>
-    </div>
-</section>
+<home-projects-list sort="rating" per-page="8" type="Home.type"></home-projects-list>
 
 <!-- ad Section -->
 <div class="googleAdv text-center">
@@ -104,47 +26,8 @@
     <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
 </div><!-- End ad Section -->
 
-<!-- Highest Awarded  video -->
-<section class="content">
-    <!-- Highest Rated Videos -->
-    <div class="main-heading">
-        <div class="row secBg padding-14 head-text">
-            <div class="medium-8 small-8 columns">
-                <div class="head-title">
-                    <i class="fa fa-trophy"></i>
-                    <h4 class="has-tip" tooltip="Top videos ranked according to number of Award Wins" tooltip-placement="right">
-                        Award-Winning
-                    </h4>
-                </div>
-            </div>
-            <div class="medium-4 small-4 columns">
-                <div class="grid-system pull-right show-for-large">
-                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
-                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
-                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
-                       ng-class="{'current':typeA == ('grid-medium')}"><i class="fa fa-th-large"></i></a>
-                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
-                            class="fa fa-th-list"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row secBg">
-        <div class="large-12 columns">
-            <div>
-                <div class="tabs-panel is-active" id="highestAwarded-all">
-                    <div class="row list-group">
-                        <project-card ng-repeat="video in Home.highestAwarded.data" video="video" type="typeA"
-                                      queried="'true'"></project-card>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center row-btn">
-                <a class="button radius" ui-sref="browse({sort: 'awards'})">View More Videos</a>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- Highest Awarded video -->
+<home-projects-list sort="awards" per-page="8" type="Home.type"></home-projects-list>
 
 <!-- ad Section -->
 <div class="googleAdv text-center">
@@ -154,53 +37,13 @@
 </div><!-- End ad Section -->
 
 <!-- Recently Added video -->
-<section class="content">
-    <!-- Highest Rated Videos -->
-    <div class="main-heading">
-        <div class="row secBg padding-14 head-text">
-            <div class="medium-8 small-8 columns">
-                <div class="head-title">
-                    <i class="fa fa-plus"></i>
-                    <h4>
-                        Recently Added
-                    </h4>
-                </div>
-            </div>
-            <div class="medium-4 small-4 columns">
-                <div class="grid-system pull-right show-for-large">
-                    <a class="secondary-button grid-default" ng-click="typeA='grid-default'"
-                       ng-class="{'current':typeA == 'grid-default'}"><i class="fa fa-th"></i></a>
-                    <a class="secondary-button grid-medium" ng-click="typeA='grid-medium'"
-                       ng-class="{'current':typeA == ('grid-medium')}"><i class="fa fa-th-large"></i></a>
-                    <a class="secondary-button list" ng-click="typeA='list'" ng-class="{'current':typeA == 'list'}"><i
-                            class="fa fa-th-list"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row secBg">
-        <div class="large-12 columns">
-            <div>
-                <div class="tabs-panel is-active" id="recentlyAdded-all">
-                    <div class="row list-group">
-                        <project-card ng-repeat="video in Home.recentFilms.data" video="video" type="typeA"
-                                      queried="'true'"></project-card>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center row-btn">
-                <a class="button radius" ui-sref="browse({sort: 'recent'})">View More Videos</a>
-            </div>
-        </div>
-    </div>
-    <!-- ad Section -->
-    <div class="googleAdv text-center">
-        <!--<broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>-->
-        <!--<script>window.broadstreet.zone(51348);</script>-->
-        <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
-    </div><!-- End ad Section -->
-</section>
+<home-projects-list sort="recent" per-page="8" type="Home.type"></home-projects-list>
 
+<div class="googleAdv text-center">
+    <!--<broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>-->
+    <!--<script>window.broadstreet.zone(51348);</script>-->
+    <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
+</div><!-- End ad Section -->
 <!-- End main content -->
 
 <!--</div>&lt;!&ndash; end left side content area &ndash;&gt;-->
