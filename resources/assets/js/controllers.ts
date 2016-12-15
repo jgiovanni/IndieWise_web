@@ -72,7 +72,7 @@
     RegisterCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', 'DataService', 'anchorSmoothScroll', '_'];
     function RegisterCtrl($rootScope, $timeout, $q, $state, AuthService, DataService, anchorSmoothScroll, _) {
         $rootScope.metadata.title = 'Register';
-        var self = this;
+        let self = this;
         self.creating = false;
         self.accountCreated = false;
         self.genresArr = [];
@@ -102,7 +102,7 @@
 
         self.thisYear = moment().year();
         self.yearsList = [];
-        for (var i = self.thisYear; i > (self.thisYear - 100); i--) {
+        for (let i = self.thisYear; i > (self.thisYear - 100); i--) {
             self.yearsList.push(i);
         }
 
@@ -178,7 +178,7 @@
     SignInCtrl.$inject = ['$rootScope', '$timeout', '$q', '$state', 'AuthService', '$window', '$modal', 'cfpLoadingBar'];
     function SignInCtrl($rootScope, $timeout, $q, $state, AuthService, $window, $modal, cfpLoadingBar) {
         $rootScope.metadata.title = 'Sign In';
-        var self = this;
+        let self = this;
         self.authErrors = null;
         self.user = {
             email: '',
@@ -232,7 +232,7 @@
     function ForgotPasswordCtrl($rootScope, $state, AuthService) {
         $rootScope.metadata.title = 'Password Recovery';
 
-        var self = this;
+        let self = this;
         self.email = '';
         self.reseting = {
             newPassword: null,
@@ -266,7 +266,7 @@
 
     BodyCtrl.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$mdSidenav'];
     function BodyCtrl($rootScope, $localForage, $q, $state, AuthService, $mdToast, UserActions, $sce, DataService, _, $interval, $mdSidenav) {
-        var self = this;
+        let self = this;
 
         self.selected = null;
         $rootScope.AppData.searchText = decodeURIComponent($rootScope.$stateParams.q || '');
@@ -299,10 +299,10 @@
             }
         };
 
-        var isIOS = function() {
+        let isIOS = function() {
             return !!(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
         };
-        var isAndroid = function() {
+        let isAndroid = function() {
             return !!navigator.userAgent.match(/Android/i);
         };
 
@@ -318,7 +318,7 @@
         };
 
         $rootScope.generateGenres = function () {
-            var deferred = $q.defer();
+            let deferred = $q.defer();
             // $localForage.removeItem('genres');
             $localForage.getItem('genres', true).then(function (data) {
                 $rootScope.genresList = data;
@@ -336,7 +336,7 @@
         };
 
         $rootScope.generateTypes = function () {
-            var deferred = $q.defer();
+            let deferred = $q.defer();
             // $localForage.removeItem('types');
             $localForage.getItem('types', true).then(function (data) {
                 $rootScope.typesList = data;
@@ -354,7 +354,7 @@
         };
 
         $rootScope.generateCountries = function () {
-            var deferred = $q.defer();
+            let deferred = $q.defer();
             // $localForage.removeItem('countries');
             $localForage.getItem('countries', true).then(function (data) {
                 $rootScope.countryList = data;
@@ -372,7 +372,7 @@
         };
 
         $rootScope.generateLanguages = function () {
-            var deferred = $q.defer();
+            let deferred = $q.defer();
             // $localForage.removeItem('languages');
             $localForage.getItem('languages', true).then(function (data) {
                 $rootScope.languageList = data;
@@ -514,7 +514,7 @@
         $rootScope.generateTypes();
 
         $rootScope.toastMessage = function (msg) {
-            var toast = $mdToast.simple()
+            let toast = $mdToast.simple()
                 .textContent(msg)
                 .position('bottom right')
                 .parent(jQuery('#alerts'));
@@ -522,7 +522,7 @@
         };
 
         $rootScope.toastAction = function (msg, action, cb) {
-            var toast = $mdToast.simple()
+            let toast = $mdToast.simple()
                 .textContent(msg)
                 .action(action)
                 .hideDelay(0)
@@ -568,8 +568,8 @@
         };
 
         self.markAllAsSeen = function () {
-            var unseenList = _.where($rootScope.AppData.Notifications.list, {seen: false});
-            var i = 0;
+            let unseenList = _.where($rootScope.AppData.Notifications.list, {seen: false});
+            let i = 0;
 
             _.each($rootScope.AppData.Notifications.list, function (a) {
                 if (!a.seen) {
@@ -578,7 +578,7 @@
             });
 
             $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                let feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                 feed.get({limit: 20, mark_seen: true}, function (a) {
                     _.each($rootScope.AppData.Notifications.list, function (n) {
                         n.is_seen = true;
@@ -590,7 +590,7 @@
 
         self.markAllAsRead = function () {
             $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                let feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                 feed.get({limit: 20, mark_read: true}, function (a) {
                     _.each($rootScope.AppData.Notifications.list, function (n) {
                         n.is_read = true;
@@ -603,7 +603,7 @@
         self.markAsRead = function (obj) {
             if (!obj.is_seen) {
                 $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                    var feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                    let feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                     feed.get({limit:25, mark_read: [obj.id], mark_seen: [obj.id]})
                         .then(function(data) { /* on success */ })
                         .catch(function(reason) { /* on failure */ });
@@ -667,7 +667,7 @@
 
     VideoCtrl.$inject = ['$rootScope', '$scope', 'Project', '$modal', 'UserActions', 'DataService', '$state', 'Analytics', '$window', '$timeout', '_'];
     function VideoCtrl($rootScope, $scope, Project, $modal, UserActions, DataService, $state, Analytics, $window, $timeout, _) {
-        var self = this;
+        let self = this;
         self.loaded = false;
         self.displayShare = false;
         self.toggleReactionsList = false;
@@ -774,7 +774,7 @@
         });
 
         if (!$rootScope.isAuthenticated()) {
-            var endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
+            let endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                 if (newValue && angular.isString(newValue.id)) {
                     console.log('User Logged In');
                     self.checkUserActions();
@@ -828,7 +828,7 @@
         self.qReactions = function () {
             // Fetch Reactions
             DataService.collection('reactions', {project: self.film.id, sort: 'created_at', per_page: 500})
-                .then(function (result) {
+                .then(function(result) {
                     self.reactions = result.data;
                     self.chartedReactions = _.countBy(self.reactions.data, function (r) {
                         return _.contains(self.reactions.data, r) ? r.emotion : undefined;
@@ -837,43 +837,54 @@
                         return i;
                     });
 
-                    var sortable = [];
-                    for (var r in self.chartedReactions)
+                    let sortable = [];
+                    for (let r in self.chartedReactions)
                         sortable.push([r, self.chartedReactions[r]])
                     sortable.sort(function (a, b) {
                         return b[1] - a[1]
                     });
 
                     self.chartedReactions = _.object(sortable);
+                }, function(error) {
+                    console.log(error);
                 });
         };
 
         self.qCritiques = function () {
             // Fetch Critiques
-            DataService.collection('critiques', {include: 'comments', project: self.film.id, per_page: 200, page: self.critiquesPage})
-                .then(function (result) {
+            self.critiquesParams = {include: 'comments', project: self.film.id, sort: 'comments_count'};
+            DataService.collection('critiques', {project: self.film.id, per_page: 200, page: self.critiquesPage})
+                .then((result) => {
                     self.critiques = result.data.data;
+                    //TODO turn calcIwAverage into a Query for back-end
                     self.calcIwAverage(self.critiques);
+                }, (error) => {
+                    console.log(error);
                 });
         };
 
         self.qNominations = function () {
             DataService.collection('nominations', {include: 'user,award', project: self.film.id, sort: 'created_at', per_page: 200, page: self.nominationsPage})
-                .then(function (result) {
+                .then((result) => {
                     self.nominations = result.data.data;
                     //// console.log('Nomination: ', result.data);
+                }, (error) => {
+                    console.log(error);
                 });
         };
 
         self.qWins = function () {
-            DataService.collection('wins', {project: self.film.id, sort: 'created_at'}).then(function (result) {
+            DataService.collection('wins', {project: self.film.id, sort: 'created_at'})
+                .then((result) => {
                 self.wins = result.data.data;
                 // console.log('AwardWin: ', result.data);
-            });
+            }, (error) => {
+                    console.log(error);
+                });
         };
 
         self.calcIwAverage = function (critiques) {
-            var total = 0;
+            let total = 0;
             _.each(critiques, function (a) {
                 total += a.overall;
             });
@@ -881,15 +892,15 @@
         };
 
         self.getEmoticonByEmotion = function (emotion) {
-            var reactions = $rootScope.generateReactions();
+            let reactions = $rootScope.generateReactions();
             return _.findWhere(reactions, {emotion: emotion});
         };
 
         self.showMessageDialog = function () {
             UserActions.checkAuth().then(function (res) {
                 if (res) {
-                    var params = {
-                        templateUrl: 'common/contactUserDialog.html',
+                    let params = {
+                        templateUrl: 'templates/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.videoOwner.id;
@@ -897,7 +908,7 @@
                         },
                         controller: ContactUserDialogController
                     };
-                    var msgModal = $modal.open(params);
+                    let msgModal = $modal.open(params);
                 }
             }, function (err) {
                 UserActions.loginModal();
@@ -921,7 +932,7 @@
             }
 
             self.rateThrottled = true;
-            var actionVerb = 'like';
+            let actionVerb = 'like';
             if (self.canRate === true) {
                 DataService.save('ratings', {
                     author_id: $rootScope.AppData.User.id,
@@ -998,7 +1009,7 @@
 
                     // down is true && direction is up || up is true && direction is down -> reversal
                 } else if ((!!self.canRate.down && direction === 'up') || (!!self.canRate.up && direction === 'down')) {
-                    var up = false, down = false;
+                    let up = false, down = false;
                     switch (direction) {
                         case 'up':
                             up = true;
@@ -1038,7 +1049,7 @@
                     return false;
                 }
 
-                var actionVerb = 'react';
+                let actionVerb = 'react';
                 if (self.canReact === true) {
                     DataService.save('reactions', {
                         user_id: $rootScope.AppData.User.id,
@@ -1067,7 +1078,7 @@
 
         self.canReactIcon = function () {
             if (angular.isObject(self.canReact)) {
-                var emoticon = _.findWhere(self.emotions, {'emotion': self.canReact.emotion});
+                let emoticon = _.findWhere(self.emotions, {'emotion': self.canReact.emotion});
                 return angular.isObject(emoticon) ? emoticon.icon : false;
             } else return false;
         };
@@ -1083,8 +1094,8 @@
                 return false;
             }
 
-            var modalInstance = $modal.open({
-                templateUrl: 'common/confirmDialog.html',
+            let modalInstance = $modal.open({
+                templateUrl: 'templates/common/confirmDialog.html',
                 controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                     $scope.ok = function () {
                         $modalInstance.close(true);
@@ -1101,7 +1112,7 @@
                 DataService.collection('nominations', [], [{
                     critique: c.id
                 }]).then(function (noms) {
-                    var nom = noms.data.data[0];
+                    let nom = noms.data.data[0];
                     DataService.delete('Nominations', nom.id).then(function () {
                         // Decrement film nominationCount
                         self.film.nominationCount--;
@@ -1189,8 +1200,8 @@
                 $scope.validateCritique = function () {
                     $scope.errors = [];
 
-                    var failA = true;
-                    var failB = true;
+                    let failA = true;
+                    let failB = true;
                     $scope.critique.body.trim();
                     failA = $scope.critique.body.length < 1;
                     if (failA) {
@@ -1242,7 +1253,7 @@
                     $scope.processing = true;
                     $scope.critique.url_id = moment().valueOf();
                     DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
-                        var obj = res.data.data;
+                        let obj = res.data.data;
 
                         self.critiques.push(obj);
                         self.calcIwAverage(self.critiques);
@@ -1297,7 +1308,7 @@
                     }
 
                     $modal.open({
-                        templateUrl: 'common/critiqueDialog.html',
+                        templateUrl: 'templates/common/critiqueDialog.html',
                         resolve: {
                             critique: function () {
                                 return {
@@ -1342,7 +1353,7 @@
 
         self.openShareDialog = function () {
             $modal.open({
-                templateUrl: 'common/shareDialog.html',
+                templateUrl: 'templates/common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1371,8 +1382,8 @@
                         return false;
                     }
 
-                    var modalInstance = $modal.open({
-                        templateUrl: 'common/reactionDialog.html',
+                    let modalInstance = $modal.open({
+                        templateUrl: 'templates/common/reactionDialog.html',
                         resolve: {
                             Video: function () {
                                 return self.film;
@@ -1434,7 +1445,7 @@
 
         self.openAddToDialog = function () {
             $modal.open({
-                templateUrl: 'common/shareDialog.html',
+                templateUrl: 'templates/common/shareDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1486,8 +1497,8 @@
 
         self.toggleLights = function () {
             self.lightsOff = !self.lightsOff;
-            var overlay = jQuery('#overlay');
-            var body = jQuery('body');
+            let overlay = jQuery('#overlay');
+            let body = jQuery('body');
             overlay.fadeToggle(1000);
             /* Choose desired delay */
             if (!self.lightsOff) {
@@ -1503,8 +1514,8 @@
         };
 
         self.reportDialog = function () {
-            var modalInstance = $modal.open({
-                templateUrl: 'common/reportVideoDialog.html',
+            let modalInstance = $modal.open({
+                templateUrl: 'templates/common/reportVideoDialog.html',
                 resolve: {
                     Video: function () {
                         return self.film;
@@ -1550,7 +1561,7 @@
         };
 
         function zIndexPlayer(remove) {
-            var vidDiv = jQuery('.flex-video');
+            let vidDiv = jQuery('.flex-video');
             !!remove ? vidDiv.css('z-index', '') : vidDiv.css('z-index', 0);
         }
 
@@ -1560,11 +1571,11 @@
 
     VideoCritiqueCtrl.$inject = ['$rootScope', '$scope', 'Critique', 'UserActions', 'DataService', '_'];
     function VideoCritiqueCtrl($rootScope, $scope, Critique, UserActions, DataService, _) {
-        var self = this;
+        let self = this;
         self.commentsPage = 1;
 
         // Fetch Critique
-        var init = function (critique) {
+        let init = function (critique) {
             self.critique = critique;
             $scope.commentsParent = self.critique;
 
@@ -1644,7 +1655,7 @@
     ProfileCtrl.$inject = ['$rootScope', 'filepickerService', 'User', 'UserStats', 'AuthService', 'Upload', '_'];
     function ProfileCtrl($rootScope, filepickerService, User, UserStats, AuthService, Upload, _) {
         $rootScope.metadata.title = 'Profile';
-        var self = this;
+        let self = this;
         self.user = User;
         self.userStats = UserStats;
         // self.updateAvatar = _.throttle(updateAvatar, 1000);
@@ -1653,7 +1664,7 @@
         self.pickBanner = pickBanner;
 
         self.getEmoticonByEmotion = function (emotion) {
-            var reactions = $rootScope.generateReactions();
+            let reactions = $rootScope.generateReactions();
             return _.findWhere(reactions, {emotion: emotion});
         };
 
@@ -1710,7 +1721,7 @@
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                let progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
         }*/
@@ -1730,7 +1741,7 @@
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                let progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
 
@@ -1740,7 +1751,7 @@
 
     ProfileUploadController.$inject = ['$rootScope', '$state', 'User', '$http', 'DataService', '$window', 'Upload', 'filepickerService', '_'];
     function ProfileUploadController($rootScope, $state, User, $http, DataService, $window, Upload, filepickerService, _) {
-        var self = this;
+        let self = this;
         self.user = User;
         self.uploadType = 2;
         self.newVideo = {
@@ -1802,20 +1813,20 @@
         };
 
         self.isURL = function (str) {
-            var urlRegex = '[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
-            var url = new RegExp(urlRegex, 'i');
+            let urlRegex = '[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
+            let url = new RegExp(urlRegex, 'i');
             return str.length < 2083 && url.test(str);
         };
 
         self.getThumbnailUrl = function (url) {
             if (url != null && url != '') {
                 if (url.indexOf('youtu') != -1) {
-                    var video_id = url.indexOf('v=') != -1 ? url.split('v=')[1].split('&')[0] : url.split('be/')[1];
+                    let video_id = url.indexOf('v=') != -1 ? url.split('v=')[1].split('&')[0] : url.split('be/')[1];
                     self.newVideo.hosting_type = 'youtube';
                     self.newVideo.hosting_id = video_id;
                     return self.newVideo.thumbnail_url = 'https://img.youtube.com/vi/' + video_id + '/hqdefault.jpg';
                 } else if (url.indexOf('vimeo') != -1) {
-                    var video_id = url.split('.com/')[1];
+                    let video_id = url.split('.com/')[1];
                     self.newVideo.hosting_type = 'vimeo';
                     self.newVideo.hosting_id = video_id;
                     $http.jsonp('https://api.vimeo.com/videos/' + video_id + '/pictures.json?callback=JSON_CALLBACK').then(function (res) {
@@ -1826,7 +1837,7 @@
                             ? res.data[0].sizes[4] : res.data[0].sizes[3];
                     });
                 } else if (url.indexOf('dailymotion') != -1) {
-                    var video_id = url.split('video/')[1].split('_')[0];
+                    let video_id = url.split('video/')[1].split('_')[0];
                     self.newVideo.hosting_type = 'dailymotion';
                     self.newVideo.hosting_id = video_id;
                     $http.get('https://api.dailymotion.com/video/' + video_id + '?fields=thumbnail_large_url').then(function (res) {
@@ -1847,8 +1858,8 @@
         };
 
         self.validateNewVideoForm = function () {
-            var test = true;
-            var msg = 'Your project is missing:';
+            let test = true;
+            let msg = 'Your project is missing:';
             if (!self.newVideo.name.length) {
                 msg += 'Project Title, ';
                 $rootScope.toastMessage();
@@ -1889,7 +1900,7 @@
                 self.genresArr.push(item);
             } else {
                 // remove item
-                for (var i = 0; i < self.genresArr.length; i++) {
+                for (let i = 0; i < self.genresArr.length; i++) {
                     if (self.genresArr[i].id == item.id) {
                         self.genresArr.splice(i, 1);
                     }
@@ -1898,8 +1909,8 @@
         };
 
         self.isCheckedGenre = function (id) {
-            var match = false;
-            for (var i = 0; i < self.genresArr.length; i++) {
+            let match = false;
+            for (let i = 0; i < self.genresArr.length; i++) {
                 if (self.genresArr[i].id == id) {
                     match = true;
                 }
@@ -1917,7 +1928,7 @@
                     self.newVideo.genres = _.pluck(self.genresArr, 'id');
                 }
 
-                var filmParams = {
+                let filmParams = {
                     name: self.newVideo.name,
                     description: self.newVideo.description,
                     director: self.newVideo.director,
@@ -1991,7 +2002,7 @@
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                let progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
         };
@@ -2019,7 +2030,7 @@
 
     ProfileVideoEditCtrl.$inject = ['$rootScope', '$state', '$modal', 'UserActions', 'Project', 'DataService', 'anchorSmoothScroll', 'filepickerService', 'Upload', '_'];
     function ProfileVideoEditCtrl($rootScope, $state, $modal, UserActions, Project, DataService, anchorSmoothScroll, filepickerService, Upload, _) {
-        var self = this;
+        let self = this;
         self.project = Project.data.data;
         self.uploadType = 2;
         self.genresArr = self.project.genres;
@@ -2034,7 +2045,7 @@
         // console.log(self.editedProject);
 
         if (self.project.runTime) {
-            var totalSeconds = self.project.runTime;
+            let totalSeconds = self.project.runTime;
             self.runtime = {};
             self.runtime.hours = Math.floor(totalSeconds / 3600);
             totalSeconds %= 3600;
@@ -2069,7 +2080,7 @@
                  });*/
             } else {
                 // remove item
-                for (var i = 0; i < self.genresArr.length; i++) {
+                for (let i = 0; i < self.genresArr.length; i++) {
                     if (self.genresArr[i].id == item.id) {
                         DataService.delete('Genres', self.genresArr[i].id);
                         self.genresArr.splice(i, 1);
@@ -2079,8 +2090,8 @@
         };
 
         self.isCheckedGenre = function (id) {
-            var match = false;
-            for (var i = 0; i < self.genresArr.length; i++) {
+            let match = false;
+            for (let i = 0; i < self.genresArr.length; i++) {
                 if (self.genresArr[i].id == id) {
                     match = true;
                 }
@@ -2093,8 +2104,8 @@
         };
 
         self.isURL = function (str) {
-            var urlRegex = '[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
-            var url = new RegExp(urlRegex, 'i');
+            let urlRegex = '[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
+            let url = new RegExp(urlRegex, 'i');
             return str.length < 2083 && url.test(str);
         };
 
@@ -2105,15 +2116,15 @@
         self.getThumbnailUrl = function (url) {
             if (url != null && url != '') {
                 if (url.indexOf('youtu') != -1) {
-                    var video_id = url.split('v=')[1].split('&')[0];
+                    let video_id = url.split('v=')[1].split('&')[0];
                     return self.editedProject.thumbnail_url = self.project.thumbnail_url = 'http://img.youtube.com/vi/' + video_id + '/mqdefault.jpg';
                 } else if (url.indexOf('vimeo') != -1) {
-                    var video_id = url.split('.com/')[1];
+                    let video_id = url.split('.com/')[1];
                     $http.jsonp('http://www.vimeo.com/api/v2/video/' + video_id + '.json?callback=JSON_CALLBACK').then(function (res) {
                         return self.editedProject.thumbnail_url = self.project.thumbnail_url = res.data[0].thumbnail_large;
                     });
                 } else if (url.indexOf('dailymotion') != -1) {
-                    var video_id = url.split('video/')[1].split('_')[0];
+                    let video_id = url.split('video/')[1].split('_')[0];
                     $http.get('https://api.dailymotion.com/video/' + video_id + '?fields=thumbnail_large_url').then(function (res) {
                         return self.editedProject.thumbnail_url = self.project.thumbnail_url = res.data.thumbnail_large_url;
                     });
@@ -2156,7 +2167,7 @@
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                let progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
         };
@@ -2176,7 +2187,7 @@
 
         /*self.deleteProject = function (ev) {
          if ($rootScope.AppData.User && ($rootScope.AppData.User.id === self.project.owner.id)) {
-         var confirm = $modal.confirm()
+         let confirm = $modal.confirm()
          .title('Would you like to delete your project?')
          //.content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
          //.ariaLabel('Lucky day')
@@ -2206,11 +2217,11 @@
 
     ProfilePlaylistsController.$inject = ['$rootScope', 'DataService', 'User', 'Playlists', 'UserActions', '_', '$interval', '$http'];
     function ProfilePlaylistsController($rootScope, DataService, User, Playlists, UserActions, _, $interval, $http) {
-        var self = this;
+        let self = this;
         self.user = User.data;
         self.playlists = Playlists.data.playlists;
         self.playlistItems = [];
-        var hasFave = _.findWhere(self.playlists, {name: 'Favorites', private: true});
+        let hasFave = _.findWhere(self.playlists, {name: 'Favorites', private: true});
         self.selectedPlaylist = !!hasFave ? hasFave.id : self.playlists.length ? self.playlists[0].id : null;
 
         self.loadPlaylistItems = function () {
@@ -2241,7 +2252,7 @@
 
     ProfileSettingsController.$inject = ['$rootScope', 'AuthService', 'User', 'Genres', 'UserTypes', 'DataService', 'anchorSmoothScroll', '_', '$window', '$intercom', '$mdDialog'];
     function ProfileSettingsController($rootScope, AuthService, User, Genres, UserTypes, DataService, anchorSmoothScroll, _, $window, $intercom, $mdDialog) {
-        var self = this;
+        let self = this;
         self.countries = [];
         self.genresArr = [];
         self.typesArr = [];
@@ -2253,7 +2264,7 @@
         self.genresArr = User.genres; //Genres.data.data;
         self.typesArr = User.types;// UserTypes.data.data;
         self.updateUser = _.throttle(updateUser, 1000);
-        var pwSetting = $window.localStorage.getItem('pwAllowPushNotifications');
+        let pwSetting = $window.localStorage.getItem('pwAllowPushNotifications');
         self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
         self.toggleNotifications = toggleNotifications;
         self.requestVerificationEmail = requestVerificationEmail;
@@ -2286,7 +2297,7 @@
 
         function updateUser() {
             if (!self.updating) {
-                var user = self.user;
+                let user = self.user;
                 self.updating = true;
                 user.genres = _.pluck(self.genresArr, 'id');
                 user.types = _.pluck(self.typesArr, 'id');
@@ -2332,7 +2343,7 @@
                 self.genresArr.push(item);
             } else {
                 // remove item
-                for (var i = 0; i < self.genresArr.length; i++) {
+                for (let i = 0; i < self.genresArr.length; i++) {
                     if (self.genresArr[i].id == item.id) {
                         DataService.delete('Genres', self.genresArr[i].id);
                         self.genresArr.splice(i, 1);
@@ -2342,8 +2353,8 @@
         };
 
         self.isCheckedGenre = function (id) {
-            var match = false;
-            for (var i = 0; i < self.genresArr.length; i++) {
+            let match = false;
+            for (let i = 0; i < self.genresArr.length; i++) {
                 if (self.genresArr[i].id == id) {
                     match = true;
                 }
@@ -2357,7 +2368,7 @@
                 self.typesArr.push(item);
             } else {
                 // remove item
-                for (var i = 0; i < self.typesArr.length; i++) {
+                for (let i = 0; i < self.typesArr.length; i++) {
                     if (self.typesArr[i].id == item.id) {
                         DataService.delete('UserTypes', self.typesArr[i].id);
                         self.typesArr.splice(i, 1);
@@ -2367,8 +2378,8 @@
         };
 
         self.isCheckedType = function (id) {
-            var match = false;
-            for (var i = 0; i < self.typesArr.length; i++) {
+            let match = false;
+            for (let i = 0; i < self.typesArr.length; i++) {
                 if (self.typesArr[i].id == id) {
                     match = true;
                 }
@@ -2376,7 +2387,7 @@
             return match;
         };
         function confirmTerminate(ev) {
-            var confirm = $mdDialog.confirm()
+            let confirm = $mdDialog.confirm()
                 .title('Terminate Account')
                 .textContent('Are you sure you want to terminate your account?')
                 .ariaLabel('Terminate Account')
@@ -2401,7 +2412,7 @@
 
     UserCtrl.$inject = ['$rootScope', 'DataService', 'User', 'UserStats', '$state', 'UserActions', '$modal', '_'];
     function UserCtrl($rootScope, DataService, User, UserStats, $state, UserActions, $modal, _) {
-        var self = this;
+        let self = this;
         self.user = User;
         self.userStats = UserStats;
         $rootScope.metadata.title = 'Profile: ' + self.user.firstName + ' ' + self.user.lastName;
@@ -2466,7 +2477,7 @@
             UserActions.checkAuth().then(function (res) {
                 if (res) {
                     $modal.open({
-                        templateUrl: 'common/contactUserDialog.html',
+                        templateUrl: 'templates/common/contactUserDialog.html',
                         resolve: {
                             recipient: function () {
                                 return self.user;
@@ -2483,22 +2494,22 @@
 
     UserAboutController.$inject = ['$rootScope', 'DataService', 'User', '$state', 'UserActions'];
     function UserAboutController($rootScope, DataService, User, $state, UserActions) {
-        var self = this;
+        let self = this;
         self.user = User;
         // console.log(self.user);
     }
 
     UserVideosController.$inject = ['$rootScope', 'DataService', 'User', 'Videos', '$modal', 'UserActions', '_'];
     function UserVideosController($rootScope, DataService, User, Videos, $modal, UserActions, _) {
-        var self = this;
+        let self = this;
         self.user = User;
         self.projects = Videos.data;
 
         self.deleteProject = function (videoId) {
             UserActions.checkAuth().then(function (res) {
                 if (res) {
-                    var modalInstance = $modal.open({
-                        templateUrl: 'common/confirmDialog.html',
+                    let modalInstance = $modal.open({
+                        templateUrl: 'templates/common/confirmDialog.html',
                         controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                             $scope.ok = function () {
                                 $modalInstance.close(true);
@@ -2528,7 +2539,7 @@
 
     UserCritiquesController.$inject = ['$rootScope', 'User', 'Critiques', 'Critiqued'];
     function UserCritiquesController($rootScope, User, Critiques, Critiqued) {
-        var self = this;
+        let self = this;
         self.user = User;
         self.critiques = Critiques.data.data;
         self.critiqued = Critiqued.data.data;
@@ -2536,13 +2547,13 @@
 
     UserReactionsController.$inject = ['$rootScope', 'User', 'Reactions', 'Reacted', '_'];
     function UserReactionsController($rootScope, User, Reactions, Reacted, _) {
-        var self = this;
+        let self = this;
         self.user = User;
         self.reactions = Reactions.data.data;
         self.reacted = Reacted.data.data;
 
         self.getEmoticonByEmotion = function (emotion) {
-            var reactions = $rootScope.generateReactions();
+            let reactions = $rootScope.generateReactions();
             return _.findWhere(reactions, {emotion: emotion});
         };
 
@@ -2550,7 +2561,7 @@
 
     UserAwardsController.$inject = ['$rootScope', 'DataService', 'User', 'Awards', 'Nominations', 'Nominated'];
     function UserAwardsController($rootScope, DataService, User, Awards, Nominations, Nominated) {
-        var self = this;
+        let self = this;
         self.user = User;
         self.awards = Awards.data.data;
         self.nominations = Nominations.data.data;
@@ -2560,7 +2571,7 @@
     MessagesCtrl.$inject = ['$rootScope', '$scope', 'Conversations', 'DataService', '$window', '$modal', 'UserActions', '$timeout', '$q', '_'];
     function MessagesCtrl($rootScope, $scope, Conversations, DataService, $window, $modal, UserActions, $filter, $q, _) {
         $rootScope.metadata.title = 'Messages';
-        var self = this;
+        let self = this;
         self.selectedConvo = null;
         self.newConvo = null;
         self.conversations = Conversations.data.conversations;
@@ -2599,8 +2610,8 @@
                     },
                     get: function (index, count, success) {
                         console.log('index = ' + index + '; count = ' + count);
-                        var start = index;
-                        var end = Math.min(index + count - 1, this.first);
+                        let start = index;
+                        let end = Math.min(index + count - 1, this.first);
                         if (this.meta.pagination.total_pages >= this.meta.pagination.current_page) {
                             this.meta.pagination.current_page++;
                         }
@@ -2612,11 +2623,11 @@
                             .then(function() {
                                 console.log(self.convoMessages);
                                 // reverse logic
-                                var result = [];
+                                let result = [];
                                 if (start <= end) {
-                                    for (var i = start; i <= end; i++) {
-                                        var serverDataIndex = /*(self.convoMessages.meta.pagination.current_page > 1) ? 0 :*/ (-1) * i + self.convoMessages.first;
-                                        var item = self.convoMessages.data[serverDataIndex];
+                                    for (let i = start; i <= end; i++) {
+                                        let serverDataIndex = /*(self.convoMessages.meta.pagination.current_page > 1) ? 0 :*/ (-1) * i + self.convoMessages.first;
+                                        let item = self.convoMessages.data[serverDataIndex];
                                         if (item) {
                                             result.push(item);
                                         }
@@ -2645,7 +2656,7 @@
 
                 UserActions.checkAuth().then(function (res) {
                     if (res) {
-                        var reply = self.myReply;
+                        let reply = self.myReply;
                         self.myReply = null;
                         DataService.update('messages', self.selectedConvo.id, {message: reply})
                             .then(function (result) {
@@ -2661,7 +2672,7 @@
                             })
                             .then(function () {
                                 // scroll to bottom of viewport
-                                var viewport = angular.element('.viewport.main-comment');
+                                let viewport = angular.element('.viewport.main-comment');
                                 viewport.scrollTop(viewport.prop("scrollHeight"));
                             });
                     }
@@ -2712,7 +2723,7 @@
 
         function leaveConvo() {
             // TODO replacve confirm dialog
-            var confirm = $modal.confirm()
+            let confirm = $modal.confirm()
                 .title('Leave Conversation?')
                 //.textContent('Are you sure you want to delete this conversation?')
                 //.ariaLabel('Lucky day')
@@ -2720,8 +2731,8 @@
                 .ok('Yes')
                 .cancel('No');
             $modal.show(confirm).then(function () {
-                var me = $rootScope.AppData.User.id;
-                var message = new Parse.Object('Message');
+                let me = $rootScope.AppData.User.id;
+                let message = new Parse.Object('Message');
                 message.set('body', me.first_name + ' ' + me.last_name + ' left the conversation...');
                 message.set('parent', {
                     __type: 'Pointer',
@@ -2730,7 +2741,7 @@
                 });
                 message.set('from', $rootScope.AppData.User.id);
                 message.save().then(function (result) {
-                    var relParticipants = self.selectedConvo.relation('participants');
+                    let relParticipants = self.selectedConvo.relation('participants');
                     relParticipants.remove(me);
 
                     self.selectedConvo.set('updatedAt', moment().toDate());
@@ -2756,14 +2767,14 @@
 
     NotificationsCtrl.$inject = ['$rootScope', 'UserActions', '_'];
     function NotificationsCtrl($rootScope, UserActions, _) {
-        var self = this;
+        let self = this;
         self.refresh = function () {
             //$rootScope.getFlatNotificationsFeed();
         };
 
         self.markAllAsRead = function () {
             /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
-             var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
+             let feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
              feed.get({limit: 20, mark_read: true}, function (a) {
              _.each($rootScope.AppData.NotificationsFeed.list, function (n) {
              n.is_read = true;
@@ -2775,7 +2786,7 @@
 
         self.markAsRead = function (n) {
             /*$rootScope.getNewToken('flat', $rootScope.AppData.User.id).then(function (token) {
-             var feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
+             let feed = window.StreamClient.feed('flat_notifications', $rootScope.AppData.User.id, token);
              feed.get({limit: 5, mark_read: [n.id]}, function (a) {
              n.is_read = true;
              --$rootScope.AppData.NotificationsFeed.unseen;
@@ -2790,7 +2801,7 @@
 
     ContactPageCtrl.$inject = ['$rootScope', 'DataService', '$sce', '_'];
     function ContactPageCtrl($rootScope, DataService, $sce, _) {
-        var self = this;
+        let self = this;
         self.emails = [
             {
                 title: 'Technical Support',

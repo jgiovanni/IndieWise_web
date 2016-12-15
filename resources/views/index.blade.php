@@ -215,7 +215,7 @@
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+<script type="text/javascript" src="{{ elixir('js/bundle.js') }}"></script>
 
 @yield('js')
 

@@ -212,7 +212,7 @@
 <!--<script src="/public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
 {{--<script src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>--}}
-<script type="text/javascript" src="/public/{{ elixir('js/all.js') }}"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/bundle.js') }}"></script>
 {{--<script src="/public/src/utils.js"></script>--}}
 
 {{--<script src="/public/src/directives.js"></script>--}}

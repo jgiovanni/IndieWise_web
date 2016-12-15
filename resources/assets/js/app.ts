@@ -1,3 +1,7 @@
+/// <reference path="../../../node_modules/@types/angular/index.d.ts" />
+
+'use strict';
+// import module from 'angular';
 function loadScript(url, callback) {
 
     let script = document.createElement('script');
@@ -11,30 +15,29 @@ function loadScript(url, callback) {
 }
 
 /*if (window.chrome && window.chrome.cookies) {
-    loadScript('/pushwoosh-web-pushes-http-sdk.js?pw_application_code=73409-786EB', function () {
-    })
-} else {
-    loadScript('/pushwoosh-web-notifications.js', function () {
-    })
-}*/
+ loadScript('/pushwoosh-web-pushes-http-sdk.js?pw_application_code=73409-786EB', function () {
+ })
+ } else {
+ loadScript('/pushwoosh-web-notifications.js', function () {
+ })
+ }*/
 
 
 // jQuery.noConflict();
 jQuery(document).foundation();
 jQuery(document).ready(function (jQuery) {
-    'use strict';
     //back to top
     let backtotop = '#back-to-top';
     if (jQuery(backtotop).length) {
-        let scrollTrigger: number = 100, // px
-            backToTop = function () {
-                let scrollTop = jQuery(window).scrollTop();
-                if (scrollTop > scrollTrigger) {
-                    jQuery(backtotop).addClass('show');
-                } else {
-                    jQuery(backtotop).removeClass('show');
-                }
-            };
+        let scrollTrigger = 100; // px
+        let backToTop = function () {
+            let scrollTop = jQuery(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                jQuery(backtotop).addClass('show');
+            } else {
+                jQuery(backtotop).removeClass('show');
+            }
+        };
         backToTop();
         jQuery(window).on('scroll', function () {
             backToTop();
@@ -46,7 +49,7 @@ jQuery(document).ready(function (jQuery) {
             }, 700);
         });
     }
-    
+
     //register form
     jQuery('div.social-login').mouseenter(function () {
         jQuery('i.arrow-left').addClass('active');
@@ -76,70 +79,74 @@ jQuery(document).ready(function (jQuery) {
         $par.animate({scrollTop: n});
     });
 });
-(function () {
-    'use strict';
-    angular.module('underscore', [])
+
+import {module} from 'angular';
+/*angular.module('underscore', [])
+ .factory('_', function () {
+ return window.___; // assumes underscore has already been loaded on the page
+ });*/
+
+module IndieWise {
+    // export let IndieWise = angular.module('IndieWise', [
+    export let IndieWise = module('IndieWise', [
+        'templates',
+        'ngIntercom',
+        'ngMaterial',
+        'ngSanitize',
+        'ngCookies',
+        'mm.foundation',
+        'angucomplete-alt',
+        'ngMessages',
+        'ngResource',
+        'ngWebSocket',
+        'angular-cloudinary',
+        // 'underscore',
+        'angularMoment',
+        'videosharing-embed',
+        'angular-loading-bar',
+        'LocalForageModule',
+        'ui.router',
+        'angular-google-analytics',
+        'angular-iscroll',
+        'ui.scroll',
+        'ui.scroll.jqlite',
+        'ngFileUpload',
+        'satellizer',
+        'angular-filepicker',
+        'pascalprecht.translate',
+        '720kb.socialshare',
+        'ngAnimate-animate.css',
+        'vjs.video',
+
+        // Videogular
+        // 'com.2fdevs.videogular',
+        // 'com.2fdevs.videogular.plugins.controls',
+        // 'com.2fdevs.videogular.plugins.overlayplay',
+        // 'com.2fdevs.videogular.plugins.poster',
+        // 'com.2fdevs.videogular.plugins.buffering',
+        // 'info.vietnamcode.nampnq.videogular.plugins.youtube',
+        // 'videogular.plugins.texttrack',
+        // 'videogular.plugins.vimeo',
+        // 'th.co.softever.videogular.plugins.quality',
+
+
+        'IndieWise.controllers',
+        'IndieWise.services',
+        'IndieWise.directives',
+        'IndieWise.filters',
+        'IndieWise.utilities',
+
+        // Modularity
+        'IndieWise.home',
+        'IndieWise.browse',
+        'IndieWise.latest',
+        'IndieWise.winners',
+    ])
         .factory('_', function () {
-                return window.___; // assumes underscore has already been loaded on the page
-        });
-
-    angular
-        .module('IndieWise', [
-            'templates',
-            'ngIntercom',
-            'ngMaterial',
-            'ngSanitize',
-            'ngCookies',
-            'mm.foundation',
-            'angucomplete-alt',
-            'ngMessages',
-            'ngResource',
-            'ngWebSocket',
-            'angular-cloudinary',
-            'underscore',
-            'angularMoment',
-            'videosharing-embed',
-            'angular-loading-bar',
-            'LocalForageModule',
-            'ui.router',
-            'angular-google-analytics',
-            'angular-iscroll',
-            'ui.scroll',
-            'ui.scroll.jqlite',
-            'ngFileUpload',
-            'satellizer',
-            'angular-filepicker',
-            'pascalprecht.translate',
-            '720kb.socialshare',
-            'ngAnimate-animate.css',
-            'vjs.video',
-
-            // Videogular
-            // 'com.2fdevs.videogular',
-            // 'com.2fdevs.videogular.plugins.controls',
-            // 'com.2fdevs.videogular.plugins.overlayplay',
-            // 'com.2fdevs.videogular.plugins.poster',
-            // 'com.2fdevs.videogular.plugins.buffering',
-            // 'info.vietnamcode.nampnq.videogular.plugins.youtube',
-            // 'videogular.plugins.texttrack',
-            // 'videogular.plugins.vimeo',
-            // 'th.co.softever.videogular.plugins.quality',
-
-
-            'IndieWise.controllers',
-            'IndieWise.services',
-            'IndieWise.directives',
-            'IndieWise.filters',
-            'IndieWise.utilities',
-
-            // Modularity
-            'IndieWise.home',
-            'IndieWise.browse',
-            'IndieWise.latest',
-            'IndieWise.winners',
-        ])
+            return window.___; // assumes underscore has already been loaded on the page
+        })
         .constant('moment', window.momentTimeZone)
-        .constant('angularMomentConfig', { timezone: 'UTC' })
+        .constant('angularMomentConfig', {timezone: 'UTC'})
         .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
         .constant('INTERCOM_APPID', 'ppp65byn')
@@ -163,7 +170,7 @@ jQuery(document).ready(function (jQuery) {
                 url: '/auth/twitter'
             });
         }])
-        .config(['$intercomProvider', 'INTERCOM_APPID', function($intercomProvider, INTERCOM_APPID) {
+        .config(['$intercomProvider', 'INTERCOM_APPID', function ($intercomProvider, INTERCOM_APPID) {
             // Either include your app_id here or later on boot
             $intercomProvider
                 .appID(INTERCOM_APPID);
@@ -172,23 +179,6 @@ jQuery(document).ready(function (jQuery) {
             $intercomProvider
                 .asyncLoading(true)
         }])
-        /*.config(['flowFactoryProvider', function (flowFactoryProvider) {
-            flowFactoryProvider.defaults = {
-                //target: 'utils/upload.php',
-                query: {
-                    upload_preset: 'r0kuyqef'
-                },
-                target: 'https://api.cloudinary.com/v1_1/indiewise/upload',
-                permanentErrors: [404, 500, 501],
-                maxChunkRetries: 1,
-                chunkRetryInterval: 5000,
-                simultaneousUploads: 1,
-                singleFile: true
-            };
-            /!*flowFactoryProvider.on('catchAll', function (event) {
-             console.log('catchAll', arguments);
-             })*!/
-        }])*/
         .config(['filepickerProvider', function (filepickerProvider) {
             filepickerProvider.setKey('APbjTx44SlSuCI6P58jwvz');
         }])
@@ -200,8 +190,8 @@ jQuery(document).ready(function (jQuery) {
             });
 
             /*cloudinaryProvider
-                .set('cloud_name', 'indiewise')
-                .set('upload_preset', 'r0kuyqef');*/
+             .set('cloud_name', 'indiewise')
+             .set('upload_preset', 'r0kuyqef');*/
         }])
         .config(['$compileProvider', function ($compileProvider) {
             // significant performance boost
@@ -211,22 +201,24 @@ jQuery(document).ready(function (jQuery) {
             // Add configuration code as desired - see below
             AnalyticsProvider
                 .setAccount('UA-27155404-17')
-                // Remove prefix on launch
-                // .trackPrefix('alpha')
-                ;
+            // Remove prefix on launch
+            // .trackPrefix('alpha')
+            ;
         }])
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
         }])
         .factory('authInterceptor', ['$q', '$injector', '$location', 'API', function ($q, $injector, $location, API) {
-            function retryHttpRequest(config, deferred){
-                function successCallback(response){
+            function retryHttpRequest(config, deferred) {
+                function successCallback(response) {
                     deferred.resolve(response);
                 }
-                function errorCallback(response){
+
+                function errorCallback(response) {
                     deferred.reject(response);
                 }
-                let $http: any = $injector.get('$http');
+
+                let $http = $injector.get('$http');
                 $http(config).then(successCallback, errorCallback);
             }
 
@@ -245,7 +237,7 @@ jQuery(document).ready(function (jQuery) {
                     if (response.status === 401 || response.status === 403) {
                         //$location.path('/sign-in');
                     } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
-                        let deferred: any = $q.defer();
+                        let deferred = $q.defer();
                         //retryHttpRequest(response.config, deferred);
                         return deferred.promise;
                     }
@@ -254,7 +246,6 @@ jQuery(document).ready(function (jQuery) {
                 }
             };
         }])
-
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('grey')
@@ -313,31 +304,31 @@ jQuery(document).ready(function (jQuery) {
                 .state('home', {
                     url: '/home',
                     authenticate: false,
-                    templateUrl: 'home/view/index.html',
+                    templateUrl: 'templates/home/view/index.html',
                     controller: 'HomeCtrl as Home'
                 })
                 .state('browse', {
                     url: '/browse?q&sort&types&genres',
                     authenticate: false,
-                    templateUrl: 'browse/view/index.html',
+                    templateUrl: 'templates/browse/view/index.html',
                     controller: 'BrowseCtrl as Browse'
                 })
                 .state('latest', {
                     url: '/latest',
                     authenticate: false,
-                    templateUrl: 'latest/view/index.html',
+                    templateUrl: 'templates/latest/view/index.html',
                     controller: 'LatestCtrl as LC'
                 })
                 .state('winners', {
                     url: '/winners',
                     authenticate: false,
-                    templateUrl: 'winners/index.html',
+                    templateUrl: 'templates/winners/index.html',
                     controller: 'WinnersCtrl as WC'
                 })
                 .state('video_critique', {
                     url: '/{video_url_id}/critique/{url_id}',
                     authenticate: false,
-                    templateUrl: 'common/critique.html',
+                    templateUrl: 'templates/common/critique.html',
                     controller: 'VideoCritiqueCtrl as VCC',
                     resolve: {
                         Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
@@ -350,7 +341,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('video_critique-edit', {
                     url: '/{video_url_id}/critique/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: 'common/critique-edit.html',
+                    templateUrl: 'templates/common/critique-edit.html',
                     controller: 'VideoCritiqueEditCtrl',
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
@@ -365,7 +356,7 @@ jQuery(document).ready(function (jQuery) {
                     url: '/user/{url_id}',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: 'auth/user.html',
+                    templateUrl: 'templates/auth/user.html',
                     controller: 'UserCtrl as UserC',
                     resolve: {
                         User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
@@ -382,12 +373,12 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.about', {
                     url: '/about',
-                    templateUrl: 'auth/user-about.html',
+                    templateUrl: 'templates/auth/user-about.html',
                     controller: 'UserAboutController as UserAboutCtrl'
                 })
                 .state('user.videos', {
                     url: '/videos',
-                    templateUrl: 'auth/user-videos.html',
+                    templateUrl: 'templates/auth/user-videos.html',
                     controller: 'UserVideosController as UserVideosCtrl',
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
@@ -404,7 +395,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.critiques', {
                     url: '/critiques',
-                    templateUrl: 'auth/user-critiques.html',
+                    templateUrl: 'templates/auth/user-critiques.html',
                     controller: 'UserCritiquesController as UserCritiquesCtrl',
                     resolve: {
                         Critiques: ['User', 'DataService', function (User, DataService) {
@@ -423,7 +414,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.reactions', {
                     url: '/reactions',
-                    templateUrl: 'auth/user-reactions.html',
+                    templateUrl: 'templates/auth/user-reactions.html',
                     controller: 'UserReactionsController as UserReactionsCtrl',
                     resolve: {
                         Reactions: ['User', 'DataService', function (User, DataService) {
@@ -442,7 +433,7 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('user.awards', {
                     url: '/awards',
-                    templateUrl: 'auth/user-awards.html',
+                    templateUrl: 'templates/auth/user-awards.html',
                     controller: 'UserAwardsController as UserAwardsCtrl',
                     resolve: {
                         Awards: ['User', 'DataService', function (User, DataService) {
@@ -474,16 +465,16 @@ jQuery(document).ready(function (jQuery) {
                     url: '/profile',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: 'auth/profile.html',
+                    templateUrl: 'templates/auth/profile.html',
                     controller: 'ProfileCtrl as Profile',
                     resolve: {
                         User: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.item('users', AuthService.currentUser.id, { include: 'genres' }).then(function (response) {
+                            return DataService.item('users', AuthService.currentUser.id, {include: 'genres'}).then(function (response) {
                                 return response.data.data;
                             });
                             /*return AuthService.getCurrentUser().then(function (response) {
-                                return response;
-                            });*/
+                             return response;
+                             });*/
                         }],
                         UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('users/countUserStats').then(function (response) {
@@ -495,17 +486,17 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.about', {
                     url: '/about',
                     authenticate: true,
-                    templateUrl: 'auth/profile-about.html',
+                    templateUrl: 'templates/auth/profile-about.html',
                     controller: 'ProfileAboutController as ProfileAboutCtrl'
                 })
                 .state('profile.upload', {
                     url: '/upload',
                     authenticate: true,
-                    templateUrl: 'auth/profile-upload.html',
+                    templateUrl: 'templates/auth/profile-upload.html',
                     controller: 'ProfileUploadController as UC',
                     resolve: {
                         Access: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
-                            let deferred: any = $q.defer();
+                            let deferred = $q.defer();
                             if ($rootScope.isNotVerified()) {
                                 $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                                 deferred.reject(false);
@@ -526,7 +517,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.videos', {
                     url: '/videos',
                     authenticate: true,
-                    templateUrl: 'auth/profile-videos.html',
+                    templateUrl: 'templates/auth/profile-videos.html',
                     controller: 'ProfileVideosController as ProfileVideosCtrl',
                     resolve: {
                         Videos: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -544,7 +535,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.videos-edit', {
                     url: '/videos/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: 'auth/profile-videos-edit.html',
+                    templateUrl: 'templates/auth/profile-videos-edit.html',
                     controller: 'ProfileVideoEditCtrl as VEC',
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
@@ -557,7 +548,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.critiques', {
                     url: '/critiques',
                     authenticate: true,
-                    templateUrl: 'auth/profile-critiques.html',
+                    templateUrl: 'templates/auth/profile-critiques.html',
                     controller: 'ProfileCritiquesController as ProfileCritiquesCtrl',
                     resolve: {
                         Critiques: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -577,7 +568,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.reactions', {
                     url: '/reactions',
                     authenticate: true,
-                    templateUrl: 'auth/profile-reactions.html',
+                    templateUrl: 'templates/auth/profile-reactions.html',
                     controller: 'ProfileReactionsController as ProfileReactionsCtrl',
                     resolve: {
                         Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -603,7 +594,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.awards', {
                     url: '/awards',
                     authenticate: true,
-                    templateUrl: 'auth/profile-awards.html',
+                    templateUrl: 'templates/auth/profile-awards.html',
                     controller: 'ProfileAwardsController as ProfileAwardsCtrl',
                     resolve: {
                         Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -634,7 +625,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
-                    templateUrl: 'auth/profile-playlists.html',
+                    templateUrl: 'templates/auth/profile-playlists.html',
                     controller: 'ProfilePlaylistsController as ProfilePlaylistsCtrl',
                     resolve: {
                         Playlists: ['AuthService', 'DataService', function (AuthService, DataService) {
@@ -647,7 +638,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('profile.settings', {
                     url: '/settings',
                     authenticate: true,
-                    templateUrl: 'auth/profile-settings.html',
+                    templateUrl: 'templates/auth/profile-settings.html',
                     controller: 'ProfileSettingsController as PSC',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -669,7 +660,7 @@ jQuery(document).ready(function (jQuery) {
                 .state('messages', {
                     url: '/messages',
                     authenticate: true,
-                    templateUrl: 'auth/messages.html',
+                    templateUrl: 'templates/auth/messages.html',
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
@@ -681,13 +672,13 @@ jQuery(document).ready(function (jQuery) {
                 })
                 .state('messages.message', {
                     authenticate: true,
-                    templateUrl: 'auth/messages.html',
+                    templateUrl: 'templates/auth/messages.html',
                     controller: 'MessagesCtrl as Msgs'
                 })
                 /*.state('notifications', {
                  url: '/notifications',
                  authenticate: true,
-                 templateUrl: 'auth/notifications.html',
+                 templateUrl: 'templates/auth/notifications.html',
                  controller: 'NotificationsCtrl as NC'
                  })*/
 
@@ -695,31 +686,31 @@ jQuery(document).ready(function (jQuery) {
                 .state('register', {
                     url: '/register',
                     authenticate: false,
-                    templateUrl: 'auth/register.html',
+                    templateUrl: 'templates/auth/register.html',
                     controller: 'RegisterCtrl as RC'
                 })
                 .state('forum_register', {
                     url: '/community/register?redirect',
                     authenticate: false,
-                    templateUrl: 'auth/register.html',
+                    templateUrl: 'templates/auth/register.html',
                     controller: 'RegisterCtrl as RC'
                 })
                 .state('sign_in', {
                     url: '/sign-in?redirect',
                     authenticate: false,
-                    templateUrl: 'auth/sign-in.html',
+                    templateUrl: 'templates/auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'
                 })
                 .state('forum_sign_in', {
                     url: '/community/sign-in?redirect',
                     authenticate: false,
-                    templateUrl: 'auth/sign-in.html',
+                    templateUrl: 'templates/auth/sign-in.html',
                     controller: 'SignInCtrl as SIC'
                 })
                 .state('reset_password', {
                     url: '/reset-password?email&token',
                     authenticate: false,
-                    templateUrl: 'auth/reset-password.html',
+                    templateUrl: 'templates/auth/reset-password.html',
                     controller: 'ForgotPasswordCtrl as FPC'
                 })
 
@@ -727,49 +718,49 @@ jQuery(document).ready(function (jQuery) {
                 .state('about', {
                     url: '/about',
                     authenticate: false,
-                    templateUrl: 'static/about.html'
+                    templateUrl: 'templates/static/about.html'
                 })
                 .state('faq', {
                     url: '/faq',
                     authenticate: false,
-                    templateUrl: 'static/faq.html'
+                    templateUrl: 'templates/static/faq.html'
                 })
                 .state('contact', {
                     url: '/contact?email',
                     authenticate: false,
-                    templateUrl: 'static/contact.html',
+                    templateUrl: 'templates/static/contact.html',
                     controller: 'ContactPageCtrl as CC'
                 })
                 .state('tos', {
                     url: '/terms-of-service',
                     authenticate: false,
-                    templateUrl: 'static/tos.html'
+                    templateUrl: 'templates/static/tos.html'
                 })
                 .state('advertise', {
                     url: '/advertise',
                     authenticate: false,
-                    templateUrl: 'static/advertise.html'
+                    templateUrl: 'templates/static/advertise.html'
                 })
                 .state('privacy', {
                     url: '/privacy-policy',
                     authenticate: false,
-                    templateUrl: 'static/privacy.html'
+                    templateUrl: 'templates/static/privacy.html'
                 })
                 .state('404', {
                     url: '/404',
                     authenticate: false,
-                    templateUrl: 'static/404.html'
+                    templateUrl: 'templates/static/404.html'
                 })
 
                 // Video Pages
                 .state('video', {
                     url: '/{url_id:[0-9a-zA-Z]{10,13}}',
                     authenticate: false,
-                    templateUrl: 'common/video.html',
+                    templateUrl: 'templates/common/video.html',
                     controller: 'VideoCtrl as VC',
                     resolve: {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
-                            let deferred: any = $q.defer();
+                            let deferred = $q.defer();
                             DataService.item('projects', $stateParams.url_id, '')
                                 .then(function (result) {
                                     deferred.resolve(result.data.data);
@@ -792,10 +783,10 @@ jQuery(document).ready(function (jQuery) {
             });
 
         }])
-        .config(['$transitionsProvider', function($transitionsProvider) {
-            $transitionsProvider.onError({}, function(transition) {
+        .config(['$transitionsProvider', function ($transitionsProvider) {
+            $transitionsProvider.onError({}, function (transition) {
                 // debugger;
-                transition.promise.catch(function(error) {
+                transition.promise.catch(function (error) {
                     // debugger;
                     console.error(error);
                 });
@@ -808,7 +799,7 @@ jQuery(document).ready(function (jQuery) {
         })
         .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
             function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, FacebookAngularPatch, socket) {
-                attachFastClick(document.body);
+                window.attachFastClick(document.body);
                 $rootScope.AppData = {
                     User: AuthService.currentUser,
                     Notifications: {
@@ -842,14 +833,14 @@ jQuery(document).ready(function (jQuery) {
                 };
 
                 $rootScope.isNotVerified = function () {
-                    let test: boolean = $rootScope.isVerified();
+                    let test = $rootScope.isVerified();
                     return !test;
                     // return AuthService.isNotVerified();
                 };
 
                 $rootScope.justVerified = function () {
-                    let test: boolean = window.location.search.indexOf('verification_successful') !== -1;
-                    if(test) {
+                    let test = window.location.search.indexOf('verification_successful') !== -1;
+                    if (test) {
                         $rootScope.toastMessage('Account Verification Successful!');
                     }
                     return test;
@@ -868,7 +859,7 @@ jQuery(document).ready(function (jQuery) {
                         $rootScope.AppData.Notifications = {
                             loaded: '',
                             list: res.data,
-                            unseen: _.where(res.data, { seen: false }).length,
+                            unseen: _.where(res.data, {seen: false}).length,
                             unread: 0
                         };
                         console.log($rootScope.AppData.Notifications);
@@ -903,7 +894,7 @@ jQuery(document).ready(function (jQuery) {
 
                 $rootScope.subscribeUserFeeds = function () {
                     $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                        let feed: any = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                        let feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
                         feed.subscribe(function (obj) {
                             console.log('Notification: ', obj);
                             $rootScope.getNotificationsFeed(feed);
@@ -912,7 +903,7 @@ jQuery(document).ready(function (jQuery) {
                         });
                     });
                     $rootScope.getNewToken('message', $rootScope.AppData.User.id).then(function (token) {
-                        let feed: any = $rootScope.StreamClient.feed('message', $rootScope.AppData.User.id, token);
+                        let feed = $rootScope.StreamClient.feed('message', $rootScope.AppData.User.id, token);
                         feed.subscribe(function (obj) {
                             console.log('Messages: ', obj);
                             $rootScope.getMessagesFeed(feed);
@@ -933,38 +924,38 @@ jQuery(document).ready(function (jQuery) {
                         };
                     });
                     /*feed.get({limit: 10}, function (error, response, body) {
-                        console.log('Notifications: ', body);
-                        try {
-                            let data = UtilsService.enrichRawNotifications(body.results);
-                            console.log(data);
-                            $rootScope.AppData.RawNotifications = {
-                                loaded: '',
-                                list: data.data,
-                                unseen: body.unseen,
-                                unread: body.unread
-                            };
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    });*/
+                     console.log('Notifications: ', body);
+                     try {
+                     let data = UtilsService.enrichRawNotifications(body.results);
+                     console.log(data);
+                     $rootScope.AppData.RawNotifications = {
+                     loaded: '',
+                     list: data.data,
+                     unseen: body.unseen,
+                     unread: body.unread
+                     };
+                     } catch (e) {
+                     console.log(e);
+                     }
+                     });*/
                 };
 
                 $rootScope.getNewMessages = function () {
                     /*DataService.collection('messages/new').then(function (response) {
-                        $rootScope.AppData.MessageNotifications.loaded = true;
-                        $rootScope.AppData.MessageNotifications.unread = response.data.length;
-                    });*/
+                     $rootScope.AppData.MessageNotifications.loaded = true;
+                     $rootScope.AppData.MessageNotifications.unread = response.data.length;
+                     });*/
                 };
 
                 // Register listeners to $intercom using '.$on()' rather than '.on()' to trigger a safe $apply on $rootScope
-                $intercom.$on('show', function() {
+                $intercom.$on('show', function () {
                     $rootScope.intercomShowing = true; // currently Intercom onShow callback isn't working
                 });
-                $intercom.$on('hide', function() {
+                $intercom.$on('hide', function () {
                     $rootScope.intercomShowing = false;
                 });
 
-                let endWatch: any = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
+                let endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
                     if (newValue && angular.isString(newValue.id)) {
                         console.log('User Logged In');
 
@@ -974,7 +965,7 @@ jQuery(document).ready(function (jQuery) {
                         // $intercom.show();
 
                         // Push Notifications
-                        let OneSignal: any = window.OneSignal || [];
+                        let OneSignal = window.OneSignal || [];
                         OneSignal.push(["init", {
                             appId: "9972c4b2-7bd1-47c0-a2f8-213b8c767cd8",
                             safari_web_id: 'web.onesignal.auto.3f58661c-f8ad-4946-a9b6-84125eec4421',
@@ -985,7 +976,7 @@ jQuery(document).ready(function (jQuery) {
                         }]);
 
                         if (!newValue.push_id) {
-                            OneSignal.getUserId().then(function(userId) {
+                            OneSignal.getUserId().then(function (userId) {
                                 // console.log("OneSignal User ID:", userId);
                                 AuthService.updateUser({id: newValue.id, push_id: userId});
                                 // DataService.update('users', newValue.id, { push_id: userId});
@@ -1030,10 +1021,10 @@ jQuery(document).ready(function (jQuery) {
                     }
                 }, function ($transition$) {
                     return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
-                        return true;
-                    }, function () {
-                        return $state.target('sign_in');
-                    });
+                            return true;
+                        }, function () {
+                            return $state.target('sign_in');
+                        });
 
                 });
 
@@ -1052,7 +1043,7 @@ jQuery(document).ready(function (jQuery) {
                     console.log($state);
                 });
 
-                $state.defaultErrorHandler(function(err) {
+                $state.defaultErrorHandler(function (err) {
                     // debugger;
                     // handle err
                 });
@@ -1092,5 +1083,5 @@ jQuery(document).ready(function (jQuery) {
                 'https://www.getindiewise.com/**',
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
-        }]);
-})();
+        }])
+}

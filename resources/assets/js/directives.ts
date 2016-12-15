@@ -8,7 +8,7 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                templateUrl: 'directives/layerSlider.html',
+                templateUrl: 'templates/directives/layerSlider.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     scope.BASE = BASE || '/';
@@ -47,7 +47,7 @@
                 restrict: 'E',
                 replace: true,
                 //transclude: true,
-                templateUrl: 'directives/featured-area.html',
+                templateUrl: 'templates/directives/featured-area.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     DataService.collection("projects", { random: true, per_page: 3 }).then(function (result) {
@@ -129,7 +129,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'directives/people-watching.html',
+                templateUrl: 'templates/directives/people-watching.html',
                 scope: {},
                 link: function (scope, el, attrs) {
                     scope.getWatchedList = function () {
@@ -291,7 +291,7 @@
         .directive('playlists', ['$rootScope', 'DataService', 'UserActions', '_', function ($rootScope, DataService, UserActions, _) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/playlists.html',
+                templateUrl: 'templates/directives/playlists.html',
                 replace: false,
                 scope: {
                     project: '='
@@ -410,7 +410,7 @@
         .directive('scriptViewer', ['$timeout', function ($timeout) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/script-viewer.html',
+                templateUrl: 'templates/directives/script-viewer.html',
                 transclude: true,
                 // replace: true,
                 scope: {film: '=film', lightsOff: '=lightsOff'},
@@ -423,7 +423,7 @@
         .directive('videoPlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/video-player.html',
+                templateUrl: 'templates/directives/video-player.html',
                 transclude: true,
                 // replace: true,
                 scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
@@ -660,7 +660,7 @@
         .directive('videogularPlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '$sce', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, $sce, _) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/videogular-player.html',
+                templateUrl: 'templates/directives/videogular-player.html',
                 transclude: true,
                 // replace: true,
                 scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
@@ -712,7 +712,7 @@
         .directive('elitePlayer', ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_', function ($rootScope, DataService, UserActions, $timeout, $interval, $state, anchorSmoothScroll, _) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/videoPlayer.html',
+                templateUrl: 'templates/directives/videoPlayer.html',
                 scope: {film: '=film', type: '=type', lightsOff: '=lightsOff'},
                 link: function (scope, el, attrs) {
                     var listenerStarted = false;
@@ -1001,7 +1001,7 @@
         .directive('elitePlayerEmbed', ['$rootScope', '_', function ($rootScope, _) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/videoPlayer.html',
+                templateUrl: 'templates/directives/videoPlayer.html',
                 scope: { name: '=', hosting_id: '=', url: '=', type: '=', thumbnail: '=', description: '=' },
                 link: function (scope, el, attrs) {
                     var playlist = [];
@@ -1145,54 +1145,17 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                templateUrl: 'directives/help-info.html',
+                templateUrl: 'templates/directives/help-info.html',
                 scope: {
                     text: '=text',
                     direction: '=direction'
                 }
             }
         }])
-        .directive('projectCard', ['$rootScope', '$state', '$modal', '$mdMedia', 'UserActions', function ($rootScope, $state, $modal, $mdMedia, UserActions) {
+        /*.directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
             return {
                 restrict: 'E',
-                transclude: true,
-                replace: false,
-                templateUrl: 'directives/project-card.html',
-                scope: {
-                    video: '=video',
-                    type: '=type',
-                    related: '=related',
-                    queried: '=queried'
-                },
-                link: function (scope, el, attrs) {
-                    scope.isQueried = scope.queried === 'true';
-                    scope.isLoggedIn = $rootScope.AppData.User;
-                    scope.openShareDialog = openShareDialog;
-
-                    function openShareDialog(video) {
-                        $modal.open({
-                            templateUrl: 'common/shareDialog.html',
-                            resolve: {
-                                Video: function () {
-                                    return video;
-                                }
-                            },
-                            controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
-                                $scope.video = Video;
-                                $scope.shareLink = window.location.origin + '/' + Video.url_id;
-                                $scope.cancel = function () {
-                                    $modalInstance.close();
-                                };
-                            }]
-                        })
-                    }
-                }
-            }
-        }])
-        .directive('commentsBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
-            return {
-                restrict: 'E',
-                templateUrl: 'directives/comments.html',
+                templateUrl: 'templates/directives/comments.html',
                 scope: {
                     comments: '=comments',
                     disable: '=disable',
@@ -1333,11 +1296,11 @@
                     });
                 }
             }
-        }])
-        .directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
+        }])*/
+        /*.directive('critiquesBlock', ['$rootScope', 'DataService', 'UserActions', '$modal', '_', function ($rootScope, DataService, UserActions, $modal, _) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/critiques.html',
+                templateUrl: 'templates/directives/critiques.html',
                 scope: {
                     critiques: '=critiques',
                     disable: '=disable',
@@ -1360,7 +1323,7 @@
                         UserActions.checkAuth().then(function (res) {
                             if (res) {
                                 var modalInstance = $modal.open({
-                                    templateUrl: 'common/confirmDialog.html',
+                                    templateUrl: 'templates/common/confirmDialog.html',
                                     controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
                                         $scope.ok = function () {
                                             $modalInstance.close(true);
@@ -1394,7 +1357,7 @@
                     };
                 }
             }
-        }])
+        }])*/
         .directive('toggleReplies', ['$rootScope', function ($rootScope) {
             return {
                 restrict: 'A',
@@ -1421,21 +1384,11 @@
                 }
             }
         }])
-        .directive('repliesBlock', [function () {
+        /*.directive('replyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'directives/replies.html',
-                link: function (scope, el, attrs) {
-
-                }
-            }
-        }])
-        .directive('replyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
-            return {
-                restrict: 'E',
-                replace: true,
-                templateUrl: 'directives/reply-comment.html',
+                templateUrl: 'templates/directives/reply-comment.html',
                 link: function (scope, el, attrs) {
                     scope.postReply = _.throttle(postReply, 1000);
                     function postReply() {
@@ -1501,12 +1454,12 @@
                     }
                 }
             }
-        }])
+        }])*/
         .directive('quickReplyBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'directives/reply-comment.html',
+                templateUrl: 'templates/directives/reply-comment.html',
                 link: function (scope, el, attrs) {
                     scope.model = {
                         isLoggedIn: $rootScope.AppData.User
@@ -1546,7 +1499,7 @@
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'directives/edit-comment.html',
+                templateUrl: 'templates/directives/edit-comment.html',
                 link: function (scope, el, attrs) {
                     scope.editedBody = scope.editComment.body;
                     scope.updateComment = _.throttle(updateComment, 1000);
@@ -1647,7 +1600,7 @@
         .directive('broadstreetZone', ['$window', '$sce', function ($window, $sce) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/broadstreet-zone.html',
+                templateUrl: 'templates/directives/broadstreet-zone.html',
                 transclude: true,
                 scope: { 
                     zone: "=",
@@ -1662,7 +1615,7 @@
         .directive('staticSideBar', ['$window', '$sce', function ($window, $sce) {
             return {
                 restrict: 'E',
-                templateUrl: 'directives/static-sidebar.html',
+                templateUrl: 'templates/directives/static-sidebar.html',
                 transclude: true,
                 replace: true
             }
@@ -1670,7 +1623,7 @@
         .directive('nonAngularRoutes', ['$window', '$rootElement', function ($window, $rootElement) {
             return {
                 restrict: 'A',
-                // templateUrl: 'directives/static-sidebar.html',
+                // templateUrl: 'templates/directives/static-sidebar.html',
                 // transclude: true,
                 link: function () {
                     $rootElement.off('click');

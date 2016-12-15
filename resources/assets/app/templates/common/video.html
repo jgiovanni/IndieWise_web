@@ -260,8 +260,8 @@
         <!-- End Comments -->
 
         <!-- Critiques -->
-        <critiques-block ng-show="VC.activeTab=='critiques'" critiques="VC.critiques" parent-url-id="VC.film.url_id" parent-owner-id="VC.film.owner_id"
-                         disable="VC.film.disableCritique"></critiques-block>
+        <critiques ng-show="VC.activeTab=='critiques'" parent-url-id="VC.film.url_id" params="VC.critiquesParams"
+                   parent-owner-id="VC.film.owner_id" disable="VC.film.disableCritique"></critiques>
         <!-- End Critiques -->
 
         <!-- Awards -->

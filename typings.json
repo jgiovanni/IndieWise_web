@@ -3,6 +3,7 @@
     "angular": true,
     "jQuery": true,
     "moment": true,
+    "attachFastClick": true,
     "momentTimeZone": true,
     "stream": true,
     "___": true,

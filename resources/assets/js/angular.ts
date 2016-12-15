@@ -1,5 +1,7 @@
 // AngularJs Dependencies
-require('angular');
+let angular = require('angular');
+import {module} from 'angular';
+
 require('angular-aria');
 require('angular-resource');
 require('angular-messages');
@@ -39,3 +41,7 @@ require('angular-iscroll');
 // require('videogular-angulartics/vg-analytics.min');
 // require('videogular-controls');
 // require('videogular-chromecast');
+
+/*module.exports = function() {
+
+};*/

@@ -4,11 +4,11 @@
         .module('IndieWise.services', [])
         .factory('FacebookAngularPatch', ['$q', '$timeout', '$window', function ($q, $timeout, $window) {
 
-            var fbApiAngular = function () {
+            let fbApiAngular = function () {
 
-                var params = [].splice.call(arguments, 0);
-                var defer = $q.defer();
-                var angularWrap = $timeout;
+                let params = [].splice.call(arguments, 0);
+                let defer = $q.defer();
+                let angularWrap = $timeout;
 
                 $window.fbPromise.then(function () {
 
@@ -54,11 +54,9 @@
 
             return fbApiAngular;
         }])
-        .factory('AuthService', AuthService)
         .factory('UserActions', UserActions)
-        .factory('DataService', DataService)
         .factory('socket', ['$rootScope', '$window',function ($rootScope, $window) {
-            var socket = io($window.location.origin, {
+            let socket = io($window.location.origin, {
                 'secure': true,
                 'reconnect': true,
                 'reconnection delay': 500,
@@ -67,7 +65,7 @@
             return {
                 on: function (eventName, callback) {
                     socket.on(eventName, function () {
-                        var args = arguments;
+                        let args = arguments;
                         $rootScope.$apply(function () {
                             callback.apply(socket, args);
                         });
@@ -75,7 +73,7 @@
                 },
                 emit: function (eventName, data, callback) {
                     socket.emit(eventName, data, function () {
-                        var args = arguments;
+                        let args = arguments;
                         $rootScope.$apply(function () {
                             if (callback) {
                                 callback.apply(socket, args);
@@ -106,24 +104,24 @@
                 // This scrolling function
                 // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
 
-                var startY = currentYPosition();
-                var stopY = elmYPosition(eID);
-                var distance = stopY > startY ? stopY - startY : startY - stopY;
+                let startY = currentYPosition();
+                let stopY = elmYPosition(eID);
+                let distance = stopY > startY ? stopY - startY : startY - stopY;
                 if (distance < 100) {
                     scrollTo(0, stopY); return;
                 }
-                var speed = Math.round(distance / 100);
+                let speed = Math.round(distance / 100);
                 if (speed >= 20) speed = 20;
-                var step = Math.round(distance / 25);
-                var leapY = stopY > startY ? startY + step : startY - step;
-                var timer = 0;
+                let step = Math.round(distance / 25);
+                let leapY = stopY > startY ? startY + step : startY - step;
+                let timer = 0;
                 if (stopY > startY) {
-                    for ( var i=startY; i<stopY; i+=step ) {
+                    for ( let i=startY; i<stopY; i+=step ) {
                         setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
                         leapY += step; if (leapY > stopY) leapY = stopY; timer++;
                     } return;
                 }
-                for ( var i=startY; i>stopY; i-=step ) {
+                for ( let i=startY; i>stopY; i-=step ) {
                     setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
                     leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
                 }
@@ -140,9 +138,9 @@
                 }
 
                 function elmYPosition(eID) {
-                    var elm = document.getElementById(eID);
-                    var y = elm.offsetTop;
-                    var node = elm;
+                    let elm = document.getElementById(eID);
+                    let y = elm.offsetTop;
+                    let node = elm;
                     while (node.offsetParent && node.offsetParent != document.body) {
                         node = node.offsetParent;
                         y += node.offsetTop;
@@ -155,15 +153,15 @@
 
     UserActions.$inject = ['$rootScope', '$q', 'AuthService', 'DataService', 'UtilsService', '$timeout', '$modal', '$mdMedia'];
     function UserActions($rootScope, $q, AuthService, DataService, UtilsService, $timeout, $modal, $mdMedia) {
-        var service = {
+        let service = {
             checkAuth: function () {
-                var deferred = $q.defer();
+                let deferred = $q.defer();
                 AuthService.isAuthenticated() ? deferred.resolve(true) : deferred.reject(false);
                 return deferred.promise;
             },
             markAsWatched: function (video) {
                 // Set as watched when user has watched 20% for the video's runtime or 6 seconds
-                var time = 0;// (video.attributes.runTime * 200) || 6000;
+                let time = 0;// (video.attributes.runTime * 200) || 6000;
                 return $timeout(function () {
                     //console.log('Marked as Watched');
                     DataService.save('projects/watched', {
@@ -175,7 +173,7 @@
                 $timeout.cancel(promise);
             },
             canCritique: function (filmId) {
-                var deferred = $q.defer();
+                let deferred = $q.defer();
                 if (AuthService.isAuthenticated()) {
                     DataService.collection('critiques', {project: filmId, user: AuthService.currentUser.id})
                         .then(function (res) {
@@ -191,7 +189,7 @@
                 return deferred.promise;
             },
             canReact: function (filmId) {
-                var deferred = $q.defer();
+                let deferred = $q.defer();
                 if (AuthService.currentUser) {
                     DataService.collection('reactions', {project: filmId, user: AuthService.currentUser.id})
                         .then(function (res) {
@@ -207,7 +205,7 @@
                 return deferred.promise;
             },
             canRate: function (filmId) {
-                var deferred = $q.defer();
+                let deferred = $q.defer();
                 if (AuthService.currentUser) {
                     DataService.collection('ratings', {project: filmId, user: AuthService.currentUser.id})
                         .then(function (res) {
@@ -224,14 +222,14 @@
             },
             loginModal: function () {
                 if (!$rootScope.authModalOpen) {
-                    var options = {
+                    let options = {
                         controller: SignInModalCtrl,
                         controllerAs: 'SIC',
-                        templateUrl: 'auth/sign-in-dialog.html',
+                        templateUrl: 'templates/auth/sign-in-dialog.html',
                         size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
                     };
 
-                    var modalInstance = $modal.open(options);
+                    let modalInstance = $modal.open(options);
                     modalInstance.result.then(function (answer) {
                         console.log(answer);
                         $rootScope.authModalOpen = false;
@@ -248,320 +246,11 @@
         return service;
     }
 
-    AuthService.$inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth', 'API', '$cookies'];
-    function AuthService($rootScope, $q, $state, $http, DataService, $auth, API, $cookies) {
-        /**
-         *
-         * @returns {*}
-         */
-
-
-        var service = {
-            /**
-             *
-             * @param _userParams
-             */
-            createUser: function (_userParams) {
-
-                var user = {
-                    email: _userParams.email,
-                    password: _userParams.password,
-                    password_confirmation:_userParams.passwordCheck,
-                    username: _userParams.email,
-                    firstName: _userParams.firstName,
-                    lastName: _userParams.lastName,
-                    fullName: _userParams.firstName + ' ' + _userParams.lastName,
-                    country_id: _userParams.country,
-                    dob: _userParams.dob,
-                    gender: _userParams.gender,
-                };
-
-                return $auth.signup(user)
-                    .then(function (userData) {
-                        service.error = '';
-                        console.log('User ' + userData.username + ' created successfully!');
-                        return service.login(_userParams.email, _userParams.password).then(function (res) {
-                            console.log(res);
-                            service.getCurrentUser().then(function (res) {
-                                console.log(res);
-                                $state.go('profile.about');
-                            });
-                        });
-                    })
-                    .catch(function (error) {
-                        return {
-                            status: false,
-                            errors: service.error = error.data.errors || 'Unknown error from server'
-                        };
-                    });
-            },
-            /**
-             *
-             * @param _userParams
-             */
-            updateUser: function (_userParams) {
-                return DataService.update('users/me', _userParams.id, _userParams).then(function (response) {
-                    return response;
-                }).catch(function (error) {
-                    console.log(error);
-                    return error;
-                });
-            },
-            /**
-             *
-             * @param _userParams
-             */
-            deleteUser: function (_userParams) {
-                return DataService.delete('users/me', _userParams.id).then(function (response) {
-                    return response;
-                });
-            },
-            /**
-             *
-             * @param _userParams
-             */
-            requestVerification: function () {
-                return DataService.collection('request_verification').then(function (response) {
-                    return response;
-                });
-            },
-            /**
-             *
-             * @param Back&
-             * @returns {Promise}
-             */
-            currentUser: null,
-            getCurrentUser: function (force) {
-                var deferred = $q.defer();
-                if(service.isAuthenticated()) {
-                    if (!angular.isObject(service.currentUser)) {
-                        $http.get(API + 'authenticate').then(function (response) {
-                            $cookies.put('iw_token', $auth.getToken(), { secure: true});
-                            deferred.resolve($rootScope.AppData.User = service.currentUser = response.data.user);
-                        });
-                    } else {
-                        deferred.resolve(service.currentUser);
-                    }
-                } else {
-                    deferred.reject(false);
-                }
-                return deferred.promise;
-
-            },
-            /**
-             *
-             * @param _user
-             * @param _password
-             * @returns {Promise}
-             */
-            login: function (_user, _password) {
-                return $auth.login({ email: _user, password: _password })
-                    .then(function (response) {
-                        if (response.status === 200) {
-                            $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                            $auth.setToken(response.data.token);
-                            $cookies.put('iw_token', response.data.token, { secure: true});
-                            service.getCurrentUser();
-                            return true;
-                        } else {
-                            return {
-                                status: false,
-                                errors: service.error = { credentials: ['Invalid email or password']}
-                            };
-                        }
-                    })
-                    .catch(function(response) {
-                        // Handle errors here, such as displaying a notification
-                        // for invalid email and/or password.
-                        console.log(response);
-                        return {
-                            status: false,
-                            errors: service.error = response.data ? response.data.errors : 'Unknown error from server'
-                        };
-                    });
-            },
-            socialLogin: function (provider, isModal) {
-                isModal = isModal || false;
-                return $auth.authenticate(provider)
-                    .then(function(response) {
-                        // console.log(response.data);
-                        service.getCurrentUser().then(function (user) {
-                            self.error = '';
-                            if (!isModal) {
-                                if (moment(user.created_at).isSame(moment(), 'hour')) {
-                                    console.log('User ' + user.fullName + ' created successfully!');
-                                    $state.go('profile.about');
-                                } else {
-                                    if($rootScope.$stateParams.redirect) {
-                                        return window.location.href = $rootScope.$stateParams.redirect;
-                                    };
-                                    $state.go('home');
-                                }
-                            } else {
-                                return user;
-                            }
-                        });
-                    })
-                    .catch(function(response) {
-                        console.log(response);
-                        return {
-                            status: false,
-                            errors: service.error = response || 'Unknown error from server'
-                        };
-                    });
-            },
-            /**
-             *
-             * @returns {Promise}
-             */
-            logout: function () {
-                //var deferred = $q.defer();
-                return $http.post(API + 'logout', null).then(function () {
-                    $auth.removeToken();
-                    $cookies.remove('iw_token');
-                    $auth.logout();
-                    // localStorage.removeItem('User');
-                    // $rootScope.AppData.User = undefined;
-                    //deferred.resolve(true);
-                });
-                //return deferred.promise;
-            },
-            /**
-             *
-             * @param email
-             * @returns {Promise}
-             */
-            requestPasswordReset: function (email) {
-                return $http.post(API + 'requestPasswordReset', {email: email}).then(function (res) {
-                    console.log(res);
-                    return res;
-                }, function (error) {
-                    //console.log(error);
-                    return error;
-                });
-            },
-            passwordReset: function (email, password, password_confirmation,token) {
-                return $http.post(API + 'resetPassword', {email: email, password: password, password_confirmation: password_confirmation, token: token})
-                    .then(function (res) {
-                        console.log(res);
-                        $state.go('sign_in');
-                        return res;
-                    }, function (error) {
-                        //console.log(error);
-                        return error;
-                    });
-            },
-            parseJwt: function(token) {
-                var base64Url = token.split('.')[1];
-                var base64 = base64Url.replace('-', '+').replace('_', '/');
-                return JSON.parse(atob(base64));
-            },
-            isAuthenticated: function() {
-                //var params = $auth.getPayload();
-                //console.log(params);
-                return $auth.isAuthenticated();
-            },
-            isVerified: function () {
-                // if user is authenticated and currentUser is an object
-                if (this.isAuthenticated && angular.isObject(this.currentUser)) {
-                    // if currentUser.verified is true
-                    if(this.currentUser.verified === 1 || this.currentUser.verified === true) {
-                        return true;
-                    } else {
-                        // restrict continuous checking. If 30 seconds since the last check has passed, try again
-                        if (this.lastCheckedVerification === null || moment().isAfter( this.lastCheckedVerification.add(30, 's')) ) {
-                            var test = this.throttledVerificationCheck();
-                            return this.currentUser.verified = $rootScope.AppData.User.verified = !!test.$$state.status ? test.$$state.value : false;
-                        } else {
-                            return false;
-                        }
-                    }
-                } else {
-                    // not logged in
-                    return false;
-                }
-            },
-            throttledVerificationCheck: _.throttle(function () {
-                var self = this;
-                return $http.get(API + 'check_verification').then(function (response) {
-                    self.lastCheckedVerification = moment();
-                    return response.data.check;
-                });
-            }.bind(this), 30000),
-            checkedVerification: false,
-            lastCheckedVerification: null
-        };
-
-        function _init() {
-            service.getCurrentUser();
-        }
-
-        _init();
-        return service;
-    }
-
-    DataService.$inject = ['$http', 'API'];
-    function DataService($http, API) {
-        var vm = this;
-
-        vm.collection = function (name, params) {
-            var data = angular.extend({per_page: 10, page: 1}, params);
-            return $http({
-                method: 'GET',
-                url: API + name,
-                params: data
-            });
-        };
-        vm.item = function (name, id, include, search) {
-            return $http({
-                method: 'GET',
-                url: API + name + '/' + id,
-                params: {
-                    include: include,
-                    search: search
-                }
-            });
-        };
-        vm.save = function (name, data, params) {
-            return $http({
-                method: 'POST',
-                url: API + name,
-                params: params,
-                data: data
-            });
-        };
-        vm.update = function (name, id, data, params) {
-            return $http({
-                method: 'PUT',
-                url: API + name + '/' + id,
-                params: params,
-                data: data
-            });
-        };
-        vm.delete = function (name, id) {
-            return $http({
-                method: 'DELETE',
-                url: API + name + '/' + id
-            });
-        };
-        vm.mail = function (route, params) {
-            return $http.post(API + route, params);
-        };
-
-
-        // Newsletter Form
-        vm.notifyMe = function (params) {
-            return $http.post('utils/notify-me.php', params);
-        };
-
-        return vm;
-    }
-
     SignInModalCtrl.$inject = ['$rootScope', '$timeout', 'AuthService', '$modalInstance'];
     function SignInModalCtrl($rootScope, $timeout, AuthService, $modalInstance) {
         zIndexPlayer();
         $rootScope.metadata.title = 'Sign In';
-        var self = this;
+        let self = this;
         self.user = {
             email: '',
             password: ''
@@ -610,7 +299,7 @@
     }
 
     function zIndexPlayer(remove) {
-        var vidDiv = jQuery('.flex-video');
+        let vidDiv = jQuery('.flex-video');
         if (vidDiv) {
             !!remove ? vidDiv.css('z-index', '') : vidDiv.css('z-index', 0);
         }

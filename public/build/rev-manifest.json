@@ -1,9 +1,9 @@
 {
   "css/all.css": "css/all-5e76dea5fc.css",
-  "css/app.css": "css/app-0d7959176d.css",
-  "js/all.js": "js/all-4981e5f44a.js",
-  "js/angular.js": "js/angular-1c3fb78c41.js",
-  "js/app.js": "js/app-90173c4ad6.js",
-  "js/main.js": "js/main-874e6cadfb.js",
-  "js/templates.js": "js/templates-83432f01fe.js"
+  "css/app.css": "css/app-973e312471.css",
+  "js/angular.js": "js/angular-42c0ef1669.js",
+  "js/app.js": "js/app-4da70f4d52.js",
+  "js/bundle.js": "js/bundle-9923da38f5.js",
+  "js/main.js": "js/main-2209b9dbb4.js",
+  "js/templates.js": "js/templates-7ec5b02fd7.js"
 }

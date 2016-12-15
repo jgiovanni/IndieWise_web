@@ -26,7 +26,7 @@ require('laravel-elixir-ngtemplatecache');
 
 elixir(function(mix) {
 
-    mix.ngTemplateCache('/**/**/*.html', 'public/js', 'resources/assets/templates', {
+    mix.ngTemplateCache('/**/**/**/*.html', 'public/js', 'resources/assets/app', {
         templateCache: {
             standalone: true
         },
@@ -44,27 +44,58 @@ elixir(function(mix) {
         '../../../node_modules/videojs-airplay/dist/videojs.airplay.css',
         '../../../node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.css',
         '../../../node_modules/videojs-chromecast/dist/videojs-chromecast.css',
-        '../../../node_modules//videojs-suggestedvideoendcap/videojs.suggestedVideoEndcap.css',
+        '../../../node_modules/videojs-suggestedvideoendcap/videojs.suggestedVideoEndcap.css',
         '../../../node_modules/videojs-socialshare/videojs.socialShare.css',
     ]);
     mix.sass('app.scss');
     // complie js
-    mix.browserify('main.ts');
-    mix.browserify('angular.ts');
+    mix.combine('main.js');
+    // mix.browserify('angular.js');
 
-    mix.babel([
-        'app.ts',
-        'controllers.ts',
+    mix.browserify([
+        'app.js',
+
+        //Services
+        'services.js',
+        '../app/services/authService.service.js',
+        '../app/services/dataService.service.js',
+        '../app/services/socket.service.js',
+        '../app/services/userActions.service.js',
+
+        // Old Files
+        'controllers.js',
+        'directives.js',
+        'utils.js',
 
         //// Modularity
-        '../templates/home/home.ts',
-        '../templates/home/home-projects-list.ts',
-        '../templates/browse/browse.js',
-        '../templates/latest/latest.js',
-        '../templates/winners/winners.js',
+        '../app/templates/home/home.js',
+        '../app/templates/browse/browse.js',
+        '../app/templates/latest/latest.js',
+        '../app/templates/winners/winners.js',
 
-        'directives.ts',
-        'services.ts',
-        'utils.ts'
-    ]).version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/app.js", "js/all.js"]);
+        //// Components
+        // Common
+        '../app/common/project-card.js',
+
+        // Home
+        '../app/home/home-projects-list.js',
+
+        // Comments
+        '../app/comments/comments.js',
+        '../app/comments/comment.js',
+        '../app/comments/replies.js',
+        '../app/comments/reply.js',
+        '../app/comments/quick-reply.js',
+
+        // Critiques
+        '../app/critiques/critiques.js',
+        '../app/critiques/critique.js',
+        // '../app/critiques/critiques.js',
+
+        //Directives
+
+    ]);
+
+    // Versioning
+    mix.version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/app.js", "js/bundle.js"]);
 });
