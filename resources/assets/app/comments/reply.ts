@@ -1,13 +1,16 @@
 import DataService from "../services/dataService.service";
 interface IReply {
-    targetComment: any;
-    parent: any;
+    targetItem: Object | null;
+    isLoggedIn: Object | null;
+    parent: Object;
     postReply: any;
+    _postReply: () => void;
 }
 
 export class ReplyController implements IReply {
-    targetComment: any;
-    parent: any;
+    targetItem: Object | null;
+    isLoggedIn: Object | null;
+    parent: Object;
     postReply: any;
 
     static $inject = ['$rootScope', 'UserActions', 'DataService', '_'];
@@ -16,6 +19,10 @@ export class ReplyController implements IReply {
         this.postReply = _.throttle(this._postReply.bind(this), 1000);
     }
 
+    $onInit = function () {
+        this.isLoggedIn = this.$rootScope.AppData.User;
+    };
+
     _postReply() {
         if (!this.$rootScope.isAuthenticated()) {
             this.UserActions.loginModal();
@@ -23,13 +30,13 @@ export class ReplyController implements IReply {
         }
 
         if (this.$rootScope.isNotVerified()) {
-            this.$rootScope.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', this.$rootScope.requestVerificationEmail);
+            this.$rootScope.toastAction('Please verify your account so comment! Check your spam folder too.', 'Verify Now', this.$rootScope.requestVerificationEmail);
             return false;
         }
 
-        let repliedTo = angular.isString(this.targetComment.comment_id) ? this.targetComment.comment_id : this.targetComment;
+        let repliedTo = angular.isString(this.targetItem.comment_id) ? this.targetItem.comment_id : this.targetItem;
         if (angular.isString(repliedTo)) {
-            repliedTo = this._.findWhere(this.comments.data, {id: this.targetComment.comment_id})
+            repliedTo = this._.findWhere(this.comments.data, {id: this.targetItem.comment_id})
         }
         this.DataService.save('comments', {
             body: this.myReply,
@@ -51,25 +58,25 @@ export class ReplyController implements IReply {
             this.toggleReplyInput();
             // refresh parent data
             this.parent.comments_count++;
-            if (this.parent.hasOwnProperty('unlist')) {
+            /*if (this.parent.hasOwnProperty('unlist')) {
                 DataService.item('projects', this.parent.id).then(function (a) {
                     angular.extend(this.parent, a.data.data);
-                    /*if (this.targetComment.repliesLoaded) {
+                    /!*if (this.targetItem.repliesLoaded) {
                         repliedTo.repliesLoaded = true;
                         oldReplies.push(comment.data.data);
                         repliedTo.replies = oldReplies;
-                    }*/
+                    }*!/
                 });
-            } else {
+            } else {*/
                 DataService.item('critiques', this.parent.id).then(function (a) {
                     angular.extend(this.parent, a.data.data);
-                    /*if (this.targetComment.repliesLoaded) {
+                    /*if (this.targetItem.repliesLoaded) {
                         repliedTo.repliesLoaded = true;
                         oldReplies.push(comment.data.data);
                         repliedTo.replies = oldReplies;
                     }*/
                 });
-            }
+            //}
             this.$rootScope.toastMessage('Reply posted!');
             this.myReply = null;
 
@@ -83,5 +90,5 @@ angular.module('IndieWise.directives')
     .component('reply', {
         templateUrl: 'comments/reply.html',
         controller: ReplyController,
-        bindings: {targetComment: '=', parent: '<'}
-    })
+        bindings: {targetItem: '=', parent: '<'}
+    });

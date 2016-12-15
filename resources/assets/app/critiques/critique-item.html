@@ -184,14 +184,15 @@
         </div>
         <div class="comment-btns">
             <span>{{$ctrl.critique.comments_count||0}} comments
-            &nbsp;
-            <a ng-click="$ctrl.showQuickReply =! $ctrl.showQuickReply"><i class="fa fa-comment"></i> Quick Reply</a>
+                &nbsp;
+                <a ng-click="$ctrl.showQuickReply =! $ctrl.showQuickReply"><i class="fa fa-comment"></i> Quick Reply</a>
+                &nbsp;
+                <a ng-click="$ctrl.view()"><i class="fa fa-eye"></i> View</a>
             </span>
-            <span><a ng-click="$ctrl.view()"><i class="fa fa-eye"></i>View</a></span>
-            <span><a ui-sref="video_critique({video_url_id: $ctrl.parentUrlId, url_id:$ctrl.critique.url_id})"><i class="fa fa-link"></i>Permalink</a></span>
+            <span><a ui-sref="video_critique({video_url_id: $ctrl.parentUrlId, url_id: $ctrl.critique.url_id})"><i class="fa fa-link"></i> Permalink</a></span>
             <span ng-if="::$ctrl.isPrivate()" class="has-tip" style="margin-right: 0" tooltip="Private"><i class="fa fa-lock"></i></span>
             <span ng-if="$ctrl.critique.user_id === $ctrl.isLoggedIn.id">
-                <a ui-sref="video_critique-edit({video_url_id: $ctrl.parentUrlId, url_id: $ctrl.critique.url_id})"><i class="fa fa-pencil"></i>Edit</a>
+                <a ui-sref="video_critique-edit({video_url_id: $ctrl.parentUrlId, url_id: $ctrl.critique.url_id})"><i class="fa fa-pencil"></i> Edit</a>
             </span>
             <!--<span ng-if="$ctrl.critique.user_id === isLoggedIn.id">
                 <a ng-click="$ctrl.critique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
@@ -202,7 +203,7 @@
 
 
     <div class="media-object stack-for-small reply-comment">
-        <div class="media-object stack-for-small" ng-repeat="comment in $ctrl.critique.comments.data|orderBy:sortOrder"
+        <div class="media-object stack-for-small" ng-repeat="comment in $ctrl.critique.comments.data"
              ng-init="comment.replies=[];comment.showReplies=false;">
             <div class="media-object-section comment-img text-center">
                 <div class="comment-box-img">
@@ -275,6 +276,6 @@
 
             </div>
         </div>
-        <quick-reply-block ng-show="showQuickReply"></quick-reply-block>
+        <reply parent="$ctrl.critique" ng-show="$ctrl.showQuickReply"></reply>
     </div>
 </div>

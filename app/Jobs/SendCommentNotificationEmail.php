@@ -42,7 +42,7 @@ class SendCommentNotificationEmail extends Job implements ShouldQueue
                 'actorUrlId' => $this->comment->author->url_id,
                 'ownerEmail' => $this->comment->target->author->email,
                 'ownerName' => $this->comment->target->author->fullName,
-                'subject' => $this->comment->author->fullName . 'replied to your comment.',
+                'subject' => $this->comment->author->fullName . ' replied to your comment.',
                 'critique' => $this->comment->target->critique->url_id,
                 'video' => $this->comment->target->critique->project->url_id,
             ];
@@ -54,7 +54,7 @@ class SendCommentNotificationEmail extends Job implements ShouldQueue
                     'actorUrlId' => $this->comment->author->url_id,
                     'ownerEmail' => $this->comment->target->user->email,
                     'ownerName' => $this->comment->target->user->fullName,
-                    'subject' => $this->comment->author->fullName . 'commented on your critique.',
+                    'subject' => $this->comment->author->fullName . ' commented on your critique.',
                     'critique' => $this->comment->target->url_id,
                     'video' => $this->comment->target->project->url_id,
                 ];

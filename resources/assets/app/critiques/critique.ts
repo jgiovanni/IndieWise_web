@@ -20,7 +20,7 @@ export class CritiqueController implements ICritique {
     showQuickReply: boolean = window.Foundation.MediaQuery.atLeast('large') || false;
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$modal', '_'];
-    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $modal: IDialogService, private _: any) {}
+    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $modal: any, private _: any) {}
 
     $onInit = function () {
         this.critique.replies = [];
@@ -36,7 +36,42 @@ export class CritiqueController implements ICritique {
     };
 
     view() {
+        let self = this;
+        let modalInstance = this.$modal.open({
+            templateUrl: 'components/critique-view.html',
+            resolve: {
+                Critique: () => {
+                    return self.critique;
+                }
+            },
+            controller: ['$scope', '$modalInstance', 'Critique', function ($scope, $modalInstance) {
+                $scope.ok = function () {
+                    $modalInstance.close(true);
+                };
 
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            }],
+            size: window.Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
+            keyboard: true
+        });
+        modalInstance.result.then(function () {
+            /*if (this.isOwnerOrAuthor) {
+                this.DataService.delete('Critique', this.critique.id).then(function () {
+                    this.$rootScope.toastMessage('Your critique was deleted.');
+                    // Decrement film critiques_count
+                    self.film.critiques_count--;
+                    this.updateVideoObj();
+                    self.checkUserActions();
+                    this.critiques = this._.reject(this.critiques, function (a) {
+                        return a.id === critique.id;
+                    });
+                });
+            }*/
+        }, function () {
+            // console.info('Modal dismissed at: ' + new Date());
+        });
     }
 
     /*deleteCritique() {

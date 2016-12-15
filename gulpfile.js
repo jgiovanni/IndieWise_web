@@ -90,6 +90,7 @@ elixir(function(mix) {
         // Critiques
         '../app/critiques/critiques.js',
         '../app/critiques/critique.js',
+        // '../app/critiques/critique-view.js',
         // '../app/critiques/critiques.js',
 
         //Directives
