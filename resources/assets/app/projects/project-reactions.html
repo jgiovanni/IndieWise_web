@@ -1,0 +1,24 @@
+<div class="widgetBox">
+	<div class="widgetTitle">
+		<h5>
+			Reactions
+		</h5>
+
+	</div>
+	<div class="widgetContent">
+		<ul>
+			<li class="has-tip" style="display: block;border-bottom: none" ng-repeat="(key, count) in $ctrl.chartedReactions" tooltip="{{count}} users feel {{$ctrl.getEmoticonByEmotion(key).name}}">
+				<md-icon class="emoticon" aria-label="{{$ctrl.getEmoticonByEmotion(key).name}}"
+				         md-svg-icon="{{$ctrl.getEmoticonByEmotion(key).icon}}"></md-icon>
+				{{$ctrl.getEmoticonByEmotion(key).name}}
+				<div class="progress" role="progressbar" tabindex="0"
+				     aria-valuenow="{{(count/$ctrl.reactions.length)*100}}" aria-valuemin="0"
+				     aria-valuetext="{{(count/$ctrl.reactions.length)*100}} percent"
+				     aria-valuemax="100">
+					<div class="progress-meter" style="width: {{(count/$ctrl.project.reactions_count)*100}}%"></div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+</div>

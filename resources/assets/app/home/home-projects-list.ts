@@ -76,9 +76,9 @@ export class ProjectsListController implements ProjectListInterface {
     };
 }
 
-angular.module('IndieWise.directives')
+angular.module('IndieWise.home')
 /*IndieWise*/.component('homeProjectsList', {
-    templateUrl: 'components/home-projects-list.html',
+    templateUrl: 'home/home-projects-list.html',
     controller: ProjectsListController,
     bindings: {sort: '@', perPage: '=', type: '='}
 });

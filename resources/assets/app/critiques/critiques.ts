@@ -1,14 +1,14 @@
 import DataService from "../services/dataService.service";
 import {IDialogService} from "angular";
 interface ICritiques {
-    critiques: any;
+    critiques: Array<Object>;
     pagination: Object;
     params: Object;
     disable: boolean;
-    parentUrlId: Object | null;
+    parentUrlId: Object;
     parentOwnerId: boolean;
     sortOrder: string;
-    isLoggedIn: Object | null;
+    isLoggedIn: Object;
     showQuickReply: boolean;
     loading: boolean;
     load: () => void;
@@ -17,14 +17,14 @@ interface ICritiques {
 }
 
 export class CritiquesController implements ICritiques {
-    critiques: any = [];
+    critiques: Array<Object> = [];
     pagination: Object;
     params: Object;
     disable: boolean;
-    parentUrlId: Object | null;
+    parentUrlId: Object;
     parentOwnerId: boolean;
-    sortOrder: string = 'created_at asc';
-    isLoggedIn: Object | null;
+    sortOrder: string = 'created_at|desc';
+    isLoggedIn: Object;
     showQuickReply: boolean = window.Foundation.MediaQuery.atLeast('large');
     loading: boolean = true;
 
@@ -39,7 +39,7 @@ export class CritiquesController implements ICritiques {
 
     load() {
         let self = this;
-        this.params.sort = this.sortOrder || 'created_at asc';
+        this.params.sort = this.sortOrder || 'created_at|desc';
         this.DataService.collection('critiques', this.params)
             .then((result) => {
                 self.critiques = result.data.data;

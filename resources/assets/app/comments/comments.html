@@ -31,12 +31,13 @@
             </div>
 
             <div class="comment-sort text-right" ng-if="!$ctrl.child">
-                <span>Sort By : <a ng-class="{'active':$ctrl.sortOrder=='-created_at'}" ng-click="$ctrl.sortOrder='-created_at'">newest</a> | <a ng-class="{'active':$ctrl.sortOrder=='created_at'}" ng-click="$ctrl.sortOrder='created_at'">oldest</a></span>
+                <a ng-class="{'active':$ctrl.sortOrder === 'created_at|desc'}" ng-click="$ctrl.reSort('created_at|desc')">newest</a> |
+                <a ng-class="{'active':$ctrl.sortOrder === 'created_at|asc'}" ng-click="$ctrl.reSort('created_at|asc')">oldest</a>
             </div>
 
             <!-- main comment -->
             <div class="main-comment showmore_one">
-                <comment ng-repeat="comment in $ctrl.comments.data | orderBy: $ctrl.sortOrder" comment="comment"></comment>
+                <comment ng-repeat="comment in $ctrl.comments.data | orderBy: '-created_at'" comment="comment" parent="$ctrl.parent"></comment>
             </div>
             <!-- End main comment -->
 

@@ -49,7 +49,7 @@ elixir(function(mix) {
     ]);
     mix.sass('app.scss');
     // complie js
-    mix.combine('main.js');
+    mix.combine('resources/assets/js/main.js');
     // mix.browserify('angular.js');
 
     mix.browserify([
@@ -68,17 +68,47 @@ elixir(function(mix) {
         'utils.js',
 
         //// Modularity
-        '../app/templates/home/home.js',
-        '../app/templates/browse/browse.js',
-        '../app/templates/latest/latest.js',
-        '../app/templates/winners/winners.js',
 
         //// Components
         // Common
         '../app/common/project-card.js',
 
         // Home
+        '../app/home/home.js',
         '../app/home/home-projects-list.js',
+        '../app/home/layer-slider.js',
+        '../app/home/premium-carousel.js',
+
+        // Browse
+        '../app/browse/browse.js',
+        '../app/browse/watching-carousel.js',
+
+        // Latest
+        '../app/latest/latest.js',
+
+        // Winners
+        '../app/winners/winners.js',
+
+        // Profile
+        '../app/profile/profile.js',
+        '../app/profile/profile-about.js',
+        // '../app/profile/profile-admin.js',
+        '../app/profile/profile-awards.js',
+        '../app/profile/profile-critiques.js',
+        '../app/profile/profile-playlists.js',
+        '../app/profile/profile-reactions.js',
+        '../app/profile/profile-settings.js',
+        '../app/profile/profile-upload.js',
+        '../app/profile/profile-videos.js',
+        '../app/profile/profile-videos-edit.js',
+
+        // User
+        '../app/user/user.js',
+        '../app/user/user-about.js',
+        '../app/user/user-awards.js',
+        '../app/user/user-critiques.js',
+        '../app/user/user-reactions.js',
+        '../app/user/user-videos.js',
 
         // Comments
         '../app/comments/comments.js',
@@ -89,14 +119,23 @@ elixir(function(mix) {
 
         // Critiques
         '../app/critiques/critiques.js',
-        '../app/critiques/critique.js',
+        '../app/critiques/critique-item.js',
         // '../app/critiques/critique-view.js',
         // '../app/critiques/critiques.js',
+
+        // Projects
+        '../app/projects/project.js',
+        '../app/projects/project-awards.js',
+        '../app/projects/project-playlists.js',
+        '../app/projects/project-reactions.js',
+        '../app/projects/project-stats-actions.js',
+        '../app/projects/script-viewer.js',
+        '../app/projects/video-player.js',
 
         //Directives
 
     ]);
 
     // Versioning
-    mix.version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/app.js", "js/bundle.js"]);
+    mix.version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/bundle.js"]);
 });

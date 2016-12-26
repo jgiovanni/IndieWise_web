@@ -27,7 +27,7 @@ class CommentsController extends Controller
      */
     public function index(Request $request)
     {
-        $comments = $this->comment->filter($request->all())->withCount('replies')->paginate($request->get('per_page', 50));
+        $comments = $this->comment->withCount('replies')->filter($request->all())->paginate($request->get('per_page', 50));
         return $this->response->paginator($comments, new CommentTransformer);
     }
 

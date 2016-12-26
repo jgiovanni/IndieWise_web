@@ -7,9 +7,9 @@
             <h6><a ui-sref="user.about({id: $ctrl.isLoggedIn.id})">{{$ctrl.isLoggedIn.fullName}}</a></h6>
         </div>
         <div class="media-object-section comment-textarea">
-            <form name="replyForm" id="replyForm" ng-submit="postReply()">
-            <textarea name="commentText" placeholder="Reply to {{$ctrl.targetComment.user.firstName||$ctrl.parent.user.fullName}}"
-                      linkify ng-model="myReply" ng-minlength="1" focus-on="!!$ctrl.showReplyInput"></textarea>
+            <form name="replyForm" id="replyForm" ng-submit="$ctrl.postReply()">
+            <textarea name="commentText" placeholder="Reply to {{$ctrl.targetComment.author.firstName||$ctrl.parent.user.fullName}}"
+                      linkify ng-model="$ctrl.myReply" ng-minlength="1" focus-on="!!$ctrl.showReplyInput"></textarea>
                 <input type="submit" value="send">
             </form>
         </div>

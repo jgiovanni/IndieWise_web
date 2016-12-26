@@ -13,6 +13,7 @@
 
 //use Dingo\Api\Auth\Auth;
 use App\Award;
+use App\Reaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User;
@@ -66,7 +67,22 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
     }
 });*/
 
+/*Route::get('test', function () {
+    $id = '7ec2df4f-fa41-4c6c-b437-697ad79a0f0b';
+    if ( isset($id) ) {
+        $reactions = Reaction::where('project_id', $id)->get();
+        $mapped = $reactions->groupBy('emotion')->map(function ($item) use ($arr) {
+            return count($item);
+        })->sort()->reverse();
+        return response()->json(['mapped' => $mapped]);
+        dd($mapped);
+    } else {
+        return response()->json(['message' => 'project_id required']);
+    }
+});*/
+
 if (App::environment('local')) {
+
 
     Route::get('testy', function () {
         /*$users = Project::groupBy('url_id')->havingRaw('COUNT(*) > 1')->get();

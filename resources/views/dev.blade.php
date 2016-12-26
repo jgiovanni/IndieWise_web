@@ -36,6 +36,11 @@
     <meta name="msapplication-TileImage" content="/public/mstile-144x144.png?v=dLL8Gal3KG">
     <meta name="theme-color" content="#ffffff">
 
+    {{-- ES6 Shims --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
+    <script src="https://unpkg.com/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
     <script type="text/javascript" src="/public/{{ elixir('js/main.js') }}"></script>

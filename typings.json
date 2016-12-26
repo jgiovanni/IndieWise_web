@@ -1,12 +1,15 @@
 {
   "globalDependencies": {
-    "angular": true,
+    "angular": "registry:dt/angular#1.5.0+20161220143421",
+    "_": true,
+    "___": true,
+    "attachFastClick": true,
     "jQuery": true,
     "moment": true,
-    "attachFastClick": true,
     "momentTimeZone": true,
-    "stream": true,
-    "___": true,
-    "_": true
+    "stream": true
+  },
+  "dependencies": {
+
   }
 }

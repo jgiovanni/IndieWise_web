@@ -264,14 +264,14 @@
                                         <a href="#"><i class="fa fa-thumbs-o-up"></i></a> |
                                         <a href="#"><i class="fa fa-thumbs-o-down"></i></a>
                                     </span>
-                            <span><a ng-click="toggleReplyInput(reply)"><i
+                            <span><a ng-click="$ctrl.toggleReplyInput(reply)"><i
                                     class="fa fa-share"></i>Reply</a></span>
                             <!--<span toggle-replies class='reply float-right'></span>-->
                         </div>
                     </div>
                 </div>
                 <reply flex="95" ng-repeat-end target-comment="targetComment" parent="commentsParent"
-                       ng-if="!!showReplyInput && targetComment == reply"></reply>
+                       ng-if="!!$ctrl.showReplyInput && targetComment == reply"></reply>
                 <!-- end sub comment -->
 
             </div>

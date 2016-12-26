@@ -1,1 +1,235 @@
-<critique-item></critique-item>
+<md-toolbar class="md-accent md-hue-2">
+	<div class="md-toolbar-tools">
+		<md-button class="md-icon-button" aria-label="Avatar" ui-sref="user.about({url_id: $ctrl.critique.user.url_id})">
+			<img ng-src="{{::$ctrl.critique.user.avatar||'/assets/img/avatar-1.png'}}" class="md-avatar md-user-avatar" alt="{{::$ctrl.critique.user.fullName}}" />
+		</md-button>
+		<h2>
+			<span>Critique by {{::$ctrl.critique.user.fullName}}</span><!-- on
+		<abbr title="{{::$ctrl.critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}" class=""
+		      ng-bind="::$ctrl.critique.created_at|amUtc|amLocal|amDateFormat:'lll'"></abbr>
+		<span class="grey-text" ng-if="$ctrl.critique.edited_at && !Body.isSame($ctrl.critique.created_at, $ctrl.critique.edited_at)">
+		Edited:
+        <abbr title="{{::$ctrl.critique.edited_at|amUtc|amLocal|amDateFormat:'lll'}}" class=""
+              ng-bind="::$ctrl.critique.edited_at|amUtc|amLocal|amDateFormat:'lll'"></abbr>
+		</span>-->
+		</h2>
+
+		<span flex></span>
+		<md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+			<md-icon class="fa fa-close fa-2x" aria-label="Close dialog"></md-icon>
+		</md-button>
+	</div>
+</md-toolbar>
+
+<md-dialog-content>
+	<div class="main-comment">
+		<div class="media-object stack-for-small">
+			<div class="media-object-section comment-img text-center">
+				<!--<div class="comment-box-img">
+					<a ui-sref="user.about({url_id: $ctrl.critique.user.url_id})">
+						<img ng-src="{{::$ctrl.critique.user.avatar||'/assets/img/avatar-1.png'}}" alt="comment">
+					</a>
+				</div>-->
+			</div>
+			<div class="media-object-section comment-desc">
+				<div class="columns comment-title text-right">
+					<br>
+					<span class="time"><i class="fa fa-clock-o"></i>
+	                <abbr title="{{::$ctrl.critique.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+	                      am-time-ago="::$ctrl.critique.created_at"></abbr>
+
+						<!--<span ng-if="$ctrl.critique.editedAt && !Body.isSame(critique.created_at, $ctrl.critique.editedAt)">
+							|Edited: <abbr title="{{::$ctrl.critique.editedAt|amUtc|amLocal|amDateFormat:'lll'}}"
+										   am-time-ago="::$ctrl.critique.editedAt"></abbr>
+						</span>-->
+	            </span>
+				</div>
+				<div class="comment-text">
+					<div class="row clearfix">
+						<div class="columns medium-7 small-5">
+							<p ng-bind="::$ctrl.critique.body"></p>
+						</div>
+						<div class="columns medium-5 small-7">
+							<div class="row" ng-if="::$ctrl.isPrivate() && !$ctrl.isOwnerOrAuthor()">
+								<h3 class="text-center">Private</h3>
+
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Overall Rating</span>
+									</div>
+									<div class="columns medium-4 small-3">
+										<span class="md-body-2">{{::$ctrl.critique.overall|number:1}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row columns"
+							     ng-if="::(!$ctrl.isPrivate() || $ctrl.isOwnerOrAuthor()) && $ctrl.critique.type === 'video'">
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Acting</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.performances}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Cinematography</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.cinematography}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Direction</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.direction}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Editing</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.structure}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Music</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.music}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Originality</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.originality}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Pacing</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.pacing}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Production Value</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.production}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Sound Quality</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.audio}}</span>
+								</div>
+								<div class="row columns" style="border-bottom: 1px solid #ddd;">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Writing</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.writing}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Overall Rating</span>
+									</div>
+									<div class="columns medium-4 small-3">
+										<span class="md-body-2">{{::$ctrl.critique.overall|number:1}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row columns"
+							     ng-if="::(!$ctrl.isPrivate() || $ctrl.isOwnerOrAuthor()) && $ctrl.critique.type === 'script'">
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Concept</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.concept}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Presentation</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.presentation}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Characters</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.characters}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Structure</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.structure}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Dialogue</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.dialogue}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Originality</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.originality}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Pacing</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.pacing}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Theme</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.theme}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Style</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.style}}</span>
+								</div>
+								<div class="row columns" style="border-bottom: 1px solid #ddd;">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Plot</span>
+									</div>
+									<span class="columns medium-4 small-3">{{::$ctrl.critique.writing}}</span>
+								</div>
+								<div class="row columns">
+									<div class="columns medium-8 small-9 text-right">
+										<span class="md-body-1">Overall Rating</span>
+									</div>
+									<div class="columns medium-4 small-3">
+										<span class="md-body-2">{{::$ctrl.critique.overall|number:1}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="comment-btns">
+		            <span>{{$ctrl.critique.comments_count||0}} comments
+		                &nbsp;
+			            <a ui-sref="video_critique({video_url_id: $ctrl.parentUrlId, url_id: $ctrl.critique.url_id})" ng-click="$ctrl.hide()">
+				            <i class="fa fa-link"></i> Permalink
+			            </a>
+		                &nbsp;
+						<span ng-if="::$ctrl.isPrivate()" ><i class="fa fa-lock"></i> Private</span>
+                        &nbsp;
+			            <span ng-if="$ctrl.critique.user_id === $ctrl.isLoggedIn.id">
+		                <a ui-sref="video_critique-edit({video_url_id: $ctrl.parentUrlId, url_id: $ctrl.critique.url_id})">
+			                <i class="fa fa-pencil"></i> Edit</a>
+	                    </span>
+                    </span>
+					<!--<span ng-if="$ctrl.critique.user_id === isLoggedIn.id">
+						<a ng-click="$ctrl.critique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
+					</span>-->
+				</div>
+
+			</div>
+
+			<comments comments="$ctrl.comments" disable="false" parent="$ctrl.critique" child="false"></comments>
+
+		</div>
+	</div>
+</md-dialog-content>

@@ -14,9 +14,9 @@
 
             <div class="comment-sort text-right">
                 <span>Sort By :
-                    <a ng-class="{'active':$ctrl.sortOrder=='comments_count asc'}" ng-click="$ctrl.reSort('comments_count asc')">comments</a> |
-                    <a ng-class="{'active':$ctrl.sortOrder=='created_at asc'}" ng-click="$ctrl.reSort('created_at asc')">newest</a> |
-                    <a ng-class="{'active':$ctrl.sortOrder=='created_at desc'}" ng-click="$ctrl.reSort('created_at desc')">oldest</a>
+                    <a ng-class="{'active':$ctrl.sortOrder === 'comments_count|desc'}" ng-click="$ctrl.reSort('comments_count|desc')">comments</a> |
+                    <a ng-class="{'active':$ctrl.sortOrder === 'created_at|desc'}" ng-click="$ctrl.reSort('created_at|desc')">newest</a> |
+                    <a ng-class="{'active':$ctrl.sortOrder === 'created_at|asc'}" ng-click="$ctrl.reSort('created_at|asc')">oldest</a>
                 </span>
             </div>
 

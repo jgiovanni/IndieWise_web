@@ -19,6 +19,8 @@ class Critique extends Model
 
     protected $guarded = ['id', 'url_id'];
 
+//    protected $appends = ['project_url_id'];
+
     protected $with = ['user'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -39,6 +41,11 @@ class Critique extends Model
     public function setPrivateAttribute($val)
     {
         $this->attributes['private'] = (boolean)($val);
+    }
+
+    public function getProjectUrlIdAttribute()
+    {
+        return $this->project->url_id;
     }
 
     // Relations

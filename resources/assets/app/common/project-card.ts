@@ -26,7 +26,7 @@ export class ProjectCardController implements IProjectCard {
 
     openShareDialog(video) {
         this.$modal.open({
-            templateUrl: 'templates/common/shareDialog.html',
+            templateUrl: 'common/share-dialog.html',
             resolve: {
                 Video: function () {
                     return video;
@@ -47,7 +47,7 @@ export class ProjectCardController implements IProjectCard {
 
 angular.module('IndieWise.directives')
 /*IndieWise*/.component('projectCard', {
-    templateUrl: 'components/project-card.html',
+    templateUrl: 'common/project-card.html',
     // transclude: true,
     controller: ProjectCardController,
     bindings: {queried: '=', isLoggedIn: '=', type: '=', video: '='}

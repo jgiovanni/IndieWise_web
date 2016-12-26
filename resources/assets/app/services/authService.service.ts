@@ -1,18 +1,17 @@
-// import {IndieWise} from '../../js/app';
 import DataService from "./dataService.service";
 let moment = window.momentTimeZone;
-interface IAuthService {
+export interface IAuthService {
     error: Object | string;
-    currentUser: Object | null;
+    currentUser: any;
     throttledVerificationCheck: any;
     checkedVerification: boolean;
-    lastCheckedVerification: any | null;
+    lastCheckedVerification: any;
     createUser: (_userParams: Object) => any;
     updateUser: (_userParams: Object) => any;
     deleteUser: (_userParams: Object) => any;
     requestVerification: () => any;
     getCurrentUser: () => any;
-    login: (_user: string, _password: string) => any | boolean;
+    login: (_user: string, _password: string) => any;
     socialLogin: (provider: string, isModal: boolean) => any;
     logout: () => any;
     requestPasswordReset: (email: string) => any;
@@ -21,12 +20,12 @@ interface IAuthService {
     isVerified: () => boolean;
 }
 
-export class AuthService implements IAuthService {
+export default class AuthService implements IAuthService {
     error: Object | string;
-    currentUser: Object | null = null;
+    currentUser: Object = null;
     throttledVerificationCheck: any;
     checkedVerification: boolean = false;
-    lastCheckedVerification: any | null = null;
+    lastCheckedVerification: any = null;
 
     static $inject = ['$rootScope', '$q', '$state', '$http', 'DataService', '$auth', 'API', '$cookies', '_'];
 
@@ -93,9 +92,13 @@ export class AuthService implements IAuthService {
     }
 
     deleteUser(_userParams: any) {
-        return this.DataService.delete('users/me', _userParams.id).then(function (response) {
-            return response;
-        });
+        return this.DataService.delete('users/me', _userParams.id)
+            .then(function (response) {
+                return response;
+            }).catch(function (error) {
+                console.log(error);
+                return error;
+            });
     }
 
     requestVerification() {
@@ -160,21 +163,22 @@ export class AuthService implements IAuthService {
     }
 
     socialLogin(provider: string, isModal: boolean) {
+        let self = this;
         isModal = isModal || false;
         return this.$auth.authenticate(provider)
             .then(function (response) {
                 // console.log(response.data);
-                this.getCurrentUser().then(function (user) {
-                    this.error = '';
+                self.getCurrentUser().then(function (user) {
+                    self.error = '';
                     if (!isModal) {
                         if (moment(user.created_at).isSame(moment(), 'hour')) {
                             console.log('User ' + user.fullName + ' created successfully!');
-                            this.$state.go('profile.about');
+                            self.$state.go('profile.about');
                         } else {
-                            if (this.$rootScope.this.$stateParams.redirect) {
-                                return window.location.href = this.$rootScope.this.$stateParams.redirect;
+                            if (self.$rootScope.this.$stateParams.redirect) {
+                                return window.location.href = self.$rootScope.this.$stateParams.redirect;
                             }
-                            this.$state.go('home');
+                            self.$state.go('home');
                         }
                     } else {
                         return user;
@@ -187,7 +191,7 @@ export class AuthService implements IAuthService {
                 console.log(response);
                 return {
                     status: false,
-                    errors: this.error = response || 'Unknown error from server'
+                    errors: self.error = response || 'Unknown error from server'
                 };
             });
     }
@@ -210,13 +214,14 @@ export class AuthService implements IAuthService {
     }
 
     requestPasswordReset(email: string) {
-        return this.$http.post(this.API + 'requestPasswordReset', {email: email}).then(function (res) {
-            console.log(res);
-            return res;
-        }, function (error) {
-            //console.log(error);
-            return error;
-        });
+        return this.$http.post(this.API + 'requestPasswordReset', {email: email})
+            .then(function (res) {
+                console.log(res);
+                return res;
+            }, function (error) {
+                //console.log(error);
+                return error;
+            });
     }
 
     passwordReset(email: string, password: string, password_confirmation: string, token: string) {

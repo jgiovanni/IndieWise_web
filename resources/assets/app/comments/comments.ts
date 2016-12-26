@@ -3,7 +3,7 @@ import {IDialogService} from "angular";
 interface IComments {
     comments: Object;
     disable: boolean;
-    parent: Object | null;
+    parent: Object;
     child: boolean;
     model: Object;
     sortOrder: string;
@@ -12,13 +12,13 @@ interface IComments {
 export class CommentsController implements IComments {
     comments: Object;
     disable: boolean;
-    parent: Object | null;
+    parent: Object;
     child: boolean;
     model: Object = {
         myComment: null,
         isLoggedIn: null
     };
-    sortOrder: string;
+    sortOrder: string = 'created_at|desc    ';
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$modal', '_'];
     constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $modal: IDialogService, private _: any) {
@@ -30,7 +30,12 @@ export class CommentsController implements IComments {
         // });
     }
 
+    $onInit = function () {
+        // debugger;
+    }
+
     _postComment() {
+        let self = this;
         if (!this.$rootScope.isAuthenticated()) {
             this.UserActions.loginModal();
             return false;
@@ -47,11 +52,11 @@ export class CommentsController implements IComments {
             user_id: this.model.isLoggedIn.id
         })
             .then(function (comment) {
-                this.comments.data.push(comment.data.data);
-                this.$rootScope.toastMessage('Comment posted!');
-                this.model.myComment = null;
-                this.clearCommentinput();
-                this.parent.comments_count++;
+                self.comments.data.push(comment.data.data);
+                self.$rootScope.toastMessage('Comment posted!');
+                self.model.myComment = null;
+                self.clearCommentinput();
+                self.parent.comments_count++;
             }, function (error) {
                 console.log('Failed to create new comment, with error code: ' + error.message);
             });
@@ -64,11 +69,24 @@ export class CommentsController implements IComments {
     clearCommentinput() {
         this.model.myComment = null;
     }
+
+    reSort(order: string) {
+        let parentCtrl = this.critiqueItemCtrl || this.critiqueViewCtrl;
+        this.parentCtrl.sortOrder = order;
+        // this.params.page = 1;
+        // this.loading = true;
+        this.parentCtrl.loadComments();
+    }
+
 }
 
 angular.module('IndieWise.directives')
 /*IndieWise*/.component('comments', {
+    require: {
+        critiqueItemCtrl: '?^^critique-item',
+        critiqueViewCtrl: '?^^critique-view',
+    },
     templateUrl: 'comments/comments.html',
     controller: CommentsController,
-    bindings: {comments: '=', disable: '<', parent: '<', child: '<'}
+    bindings: {comments: '<', disable: '<', parent: '<', child: '<'}
 });

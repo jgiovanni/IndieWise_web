@@ -1,6 +1,5 @@
 /// <reference path="../../../node_modules/@types/angular/index.d.ts" />
 
-'use strict';
 // import module from 'angular';
 function loadScript(url, callback) {
 
@@ -81,13 +80,15 @@ jQuery(document).ready(function (jQuery) {
 });
 
 import {module} from 'angular';
-/*angular.module('underscore', [])
- .factory('_', function () {
- return window.___; // assumes underscore has already been loaded on the page
- });*/
+import moment = require("moment");
 
 module IndieWise {
     // export let IndieWise = angular.module('IndieWise', [
+    import IInjectorService = angular.auto.IInjectorService;
+    import ILocationProvider = angular.ILocationProvider;
+    import ILocationService = angular.ILocationService;
+    import {IStateProvider, IUrlRouterProvider} from "angular-ui-router";
+
     export let IndieWise = module('IndieWise', [
         'templates',
         'ngIntercom',
@@ -141,6 +142,9 @@ module IndieWise {
         'IndieWise.browse',
         'IndieWise.latest',
         'IndieWise.winners',
+        'IndieWise.project',
+        'IndieWise.profile',
+        'IndieWise.user',
     ])
         .factory('_', function () {
             return window.___; // assumes underscore has already been loaded on the page
@@ -150,6 +154,11 @@ module IndieWise {
         .constant('API', window.API || '/api/')
         .constant('BASE', window.BASE || BASE + 'public/')
         .constant('INTERCOM_APPID', 'ppp65byn')
+        .constant('StreamConfig', {
+            streamApiKey: '97wfnrargt9f',
+            streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
+            streamApp: '6408'
+        })
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
@@ -170,7 +179,7 @@ module IndieWise {
                 url: '/auth/twitter'
             });
         }])
-        .config(['$intercomProvider', 'INTERCOM_APPID', function ($intercomProvider, INTERCOM_APPID) {
+        .config(['$intercomProvider', 'INTERCOM_APPID', function ($intercomProvider: any, INTERCOM_APPID: string) {
             // Either include your app_id here or later on boot
             $intercomProvider
                 .appID(INTERCOM_APPID);
@@ -179,25 +188,21 @@ module IndieWise {
             $intercomProvider
                 .asyncLoading(true)
         }])
-        .config(['filepickerProvider', function (filepickerProvider) {
+        .config(['filepickerProvider', function (filepickerProvider: any) {
             filepickerProvider.setKey('APbjTx44SlSuCI6P58jwvz');
         }])
-        .config(['cloudinaryProvider', function (cloudinaryProvider) {
+        .config(['cloudinaryProvider', function (cloudinaryProvider: any) {
             cloudinaryProvider.config({
                 upload_endpoint: 'https://api.cloudinary.com/v1_1/', // default
                 cloud_name: 'indiewise', // required
                 upload_preset: 'r0kuyqef', // optional
             });
-
-            /*cloudinaryProvider
-             .set('cloud_name', 'indiewise')
-             .set('upload_preset', 'r0kuyqef');*/
         }])
-        .config(['$compileProvider', function ($compileProvider) {
+        .config(['$compileProvider', function ($compileProvider: any) {
             // significant performance boost
             $compileProvider.debugInfoEnabled(false);
         }])
-        .config(['AnalyticsProvider', function (AnalyticsProvider) {
+        .config(['AnalyticsProvider', function (AnalyticsProvider: any) {
             // Add configuration code as desired - see below
             AnalyticsProvider
                 .setAccount('UA-27155404-17')
@@ -205,48 +210,11 @@ module IndieWise {
             // .trackPrefix('alpha')
             ;
         }])
-        .config(['$httpProvider', function ($httpProvider) {
+        .config(['$httpProvider', function ($httpProvider: any) {
             $httpProvider.interceptors.push('authInterceptor');
         }])
-        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', function ($q, $injector, $location, API) {
-            function retryHttpRequest(config, deferred) {
-                function successCallback(response) {
-                    deferred.resolve(response);
-                }
-
-                function errorCallback(response) {
-                    deferred.reject(response);
-                }
-
-                let $http = $injector.get('$http');
-                $http(config).then(successCallback, errorCallback);
-            }
-
-            return {
-                'request': function (config) {
-                    config.headers = config.headers || {};
-                    return config;
-                },
-                'response': function (response) {
-                    // only contains 'content-type' and 'cache-control'
-                    // console.log(response.headers());
-                    return response;
-                },
-                'responseError': function (response) {
-
-                    if (response.status === 401 || response.status === 403) {
-                        //$location.path('/sign-in');
-                    } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
-                        let deferred = $q.defer();
-                        //retryHttpRequest(response.config, deferred);
-                        return deferred.promise;
-                    }
-
-                    return response;
-                }
-            };
-        }])
-        .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
+        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', AuthInterceptor])
+        .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider: any, $mdIconProvider: any, BASE: string) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('grey')
                 .accentPalette('indigo');
@@ -296,7 +264,7 @@ module IndieWise {
                 .icon('trophy', BASE + 'assets/svg/trophy.svg', 120)
                 .icon('matureLarge', BASE + 'assets/svg/OFLC_large_M.svg', 120);
         }])
-        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'BASE', function ($stateProvider, $urlRouterProvider, $locationProvider, BASE) {
+        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'BASE', function ($stateProvider: IStateProvider, $urlRouterProvider: IUrlRouterProvider, $locationProvider: ILocationProvider, BASE: string) {
 
             $urlRouterProvider.when('', '/home');
             $urlRouterProvider.when('/', '/home');
@@ -304,26 +272,22 @@ module IndieWise {
                 .state('home', {
                     url: '/home',
                     authenticate: false,
-                    templateUrl: 'templates/home/view/index.html',
-                    controller: 'HomeCtrl as Home'
+                    template: '<home></home>',
                 })
                 .state('browse', {
                     url: '/browse?q&sort&types&genres',
                     authenticate: false,
-                    templateUrl: 'templates/browse/view/index.html',
-                    controller: 'BrowseCtrl as Browse'
+                    template: '<browse></browse>',
                 })
                 .state('latest', {
                     url: '/latest',
                     authenticate: false,
-                    templateUrl: 'templates/latest/view/index.html',
-                    controller: 'LatestCtrl as LC'
+                    template: '<latest></latest>',
                 })
                 .state('winners', {
                     url: '/winners',
                     authenticate: false,
-                    templateUrl: 'templates/winners/index.html',
-                    controller: 'WinnersCtrl as WC'
+                    template: '<winners></winners>',
                 })
                 .state('video_critique', {
                     url: '/{video_url_id}/critique/{url_id}',
@@ -334,7 +298,7 @@ module IndieWise {
                         Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
                                 return result;
-                            });
+                            }, (error) => console.log(error));
                         }]
                     }
                 })
@@ -347,99 +311,92 @@ module IndieWise {
                         Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
                                 return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result : 'Not Owner';
-                            });
+                            }, (error) => console.log(error));
                         }]
                     }
                 })
-                // Authenticated Pages
+
+                // User Pages
                 .state('user', {
                     url: '/user/{url_id}',
-                    authenticate: true,
                     abstract: true,
-                    templateUrl: 'templates/auth/user.html',
-                    controller: 'UserCtrl as UserC',
+                    template: '<user user="$resolve.User" user-stats="$resolve.UserStats"></user>',
                     resolve: {
                         User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
                             return DataService.item('users', $stateParams.url_id).then(function (result) {
                                 return result.data.data;
-                            });
+                            }, (error) => console.log(error));
                         }],
                         UserStats: ['User', 'DataService', function (User, DataService) {
                             return DataService.item('users/countUserStats', User.id).then(function (response) {
                                 return response.data;
-                            });
+                            }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('user.about', {
                     url: '/about',
-                    templateUrl: 'templates/auth/user-about.html',
-                    controller: 'UserAboutController as UserAboutCtrl'
+                    template: '<user-about user="$resolve.User"></user-about>',
                 })
                 .state('user.videos', {
                     url: '/videos',
-                    templateUrl: 'templates/auth/user-videos.html',
-                    controller: 'UserVideosController as UserVideosCtrl',
+                    template: '<user-videos user="$resolve.User" projects="$resolve.Videos"></user-videos>',
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
                             return DataService.collection('projects', {
-                                owner: User.id,
-                                sort: 'created_at',
-                                per_page: 50
+                                owner: User.id, sort: 'created_at', per_page: 50
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('user.critiques', {
                     url: '/critiques',
-                    templateUrl: 'templates/auth/user-critiques.html',
-                    controller: 'UserCritiquesController as UserCritiquesCtrl',
+                    template: '<user-critiques user="$resolve.User" critiques="$resolve.Critiques" critiqued="$resolve.Critiqued"></user-critiques>',
                     resolve: {
                         Critiques: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('critiques', {user: User.id, include: 'project'})
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }],
                         Critiqued: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('critiques', {notUser: User.id, include: 'project'})
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('user.reactions', {
                     url: '/reactions',
-                    templateUrl: 'templates/auth/user-reactions.html',
-                    controller: 'UserReactionsController as UserReactionsCtrl',
+                    template: '<user-reactions user="$resolve.User" reactions="$resolve.Reactions" reacted="$resolve.Reacted"></user-reactions>',
                     resolve: {
                         Reactions: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('reactions', {user: User.id, include: 'user,project'})
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }],
                         Reacted: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('reactions', {notUser: User.id, include: 'user,project'})
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('user.awards', {
                     url: '/awards',
-                    templateUrl: 'templates/auth/user-awards.html',
-                    controller: 'UserAwardsController as UserAwardsCtrl',
+                    template: '<user-awards user="$resolve.User" awards="$resolve.Awards" nominations="$resolve.Nominations" nominated="$resolve.Nominated"></user-awards>',
                     resolve: {
                         Awards: ['User', 'DataService', function (User, DataService) {
-                            return DataService.collection('wins', {user: User.id}).then(function (result) {
-                                return result;
-                            });
+                            return DataService.collection('wins', {user: User.id})
+                                .then(function (result) {
+                                    return result;
+                                }, (error) => console.log(error));
                         }],
                         Nominations: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('nominations', {
@@ -448,7 +405,7 @@ module IndieWise {
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }],
                         Nominated: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('nominations', {
@@ -457,43 +414,41 @@ module IndieWise {
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
+
+                // Profile Pages
                 .state('profile', {
                     url: '/profile',
                     authenticate: true,
                     abstract: true,
-                    templateUrl: 'templates/auth/profile.html',
-                    controller: 'ProfileCtrl as Profile',
+                    template: '<profile user="$resolve.User" user-stats="$resolve.UserStats"></profile>',
                     resolve: {
                         User: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.item('users', AuthService.currentUser.id, {include: 'genres'}).then(function (response) {
-                                return response.data.data;
-                            });
-                            /*return AuthService.getCurrentUser().then(function (response) {
-                             return response;
-                             });*/
+                            return DataService.item('users', AuthService.currentUser.id, {include: 'genres'})
+                                .then(function (response) {
+                                    return response.data.data;
+                                }, (error) => console.log(error));
                         }],
                         UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.collection('users/countUserStats').then(function (response) {
-                                return response.data;
-                            });
+                            return DataService.collection('users/countUserStats')
+                                .then(function (response) {
+                                    return response.data;
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.about', {
                     url: '/about',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-about.html',
-                    controller: 'ProfileAboutController as ProfileAboutCtrl'
+                    template: '<profile-about user="$resolve.User" user-stats="$resolve.UserStats"></profile-about>',
                 })
                 .state('profile.upload', {
                     url: '/upload',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-upload.html',
-                    controller: 'ProfileUploadController as UC',
+                    template: '<profile-upload user="$resolve.User"></profile-upload>',
                     resolve: {
                         Access: ['$rootScope', 'DataService', 'AuthService', '$q', function ($rootScope, DataService, AuthService, $q) {
                             let deferred = $q.defer();
@@ -501,14 +456,15 @@ module IndieWise {
                                 $rootScope.toastAction('Please verify your account so you can upload videos! Check your spam folder too.', 'Verify Now', $rootScope.requestVerificationEmail);
                                 deferred.reject(false);
                             } else {
-                                DataService.collection('projects/limit').then(function (response) {
-                                    if (response.data.status) {
-                                        deferred.resolve(true);
-                                    } else {
-                                        $rootScope.toastMessage('Your upload limit of 3 has been reached');
-                                        deferred.reject(false);
-                                    }
-                                });
+                                DataService.collection('projects/limit')
+                                    .then(response => {
+                                        if (response.data.status) {
+                                            deferred.resolve(true);
+                                        } else {
+                                            $rootScope.toastMessage('Your upload limit of 3 has been reached');
+                                            deferred.reject(false);
+                                        }
+                                    }, (error) => console.log(error));
                             }
                             return deferred.promise;
                         }]
@@ -517,8 +473,7 @@ module IndieWise {
                 .state('profile.videos', {
                     url: '/videos',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-videos.html',
-                    controller: 'ProfileVideosController as ProfileVideosCtrl',
+                    template: '<profile-videos user="$resolve.User" projects="$resolve.Videos"></profile-videos>',
                     resolve: {
                         Videos: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('projects', {
@@ -526,50 +481,50 @@ module IndieWise {
                                 sort: 'created_at',
                                 per_page: 50
                             })
-                                .then(function (result) {
-                                    return result;
-                                });
+                                .then(result => result, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.videos-edit', {
                     url: '/videos/{url_id}/edit',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-videos-edit.html',
-                    controller: 'ProfileVideoEditCtrl as VEC',
+                    template: '<profile-videos-edit user="$resolve.User" project="$resolve.Project"></profile-videos-edit>',
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
-                            return DataService.item('projects', $stateParams.url_id).then(function (result) {
-                                return result;
-                            });
+                            return DataService.item('projects', $stateParams.url_id)
+                                .then(result => result, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.critiques', {
                     url: '/critiques',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-critiques.html',
-                    controller: 'ProfileCritiquesController as ProfileCritiquesCtrl',
+                    template: '<profile-critiques user="$resolve.User" critiques="$resolve.Critiques" critiqued="$resolve.Critiqued"></profile-critiques>',
                     resolve: {
                         Critiques: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.collection('critiques', {user: AuthService.currentUser.id})
+                            return DataService.collection('critiques', {
+                                user: AuthService.currentUser.id,
+                                include: 'project'
+                            })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }],
                         Critiqued: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.collection('critiques', {notUser: AuthService.currentUser.id})
+                            return DataService.collection('critiques', {
+                                notUser: AuthService.currentUser.id,
+                                include: 'project'
+                            })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.reactions', {
                     url: '/reactions',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-reactions.html',
-                    controller: 'ProfileReactionsController as ProfileReactionsCtrl',
+                    template: '<profile-reactions user="$resolve.User" reactions="$resolve.Reactions" reacted="$resolve.Reacted"></profile-reactions>',
                     resolve: {
                         Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('reactions', {
@@ -578,7 +533,7 @@ module IndieWise {
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }],
                         Reacted: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('reactions', {
@@ -587,20 +542,20 @@ module IndieWise {
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.awards', {
                     url: '/awards',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-awards.html',
-                    controller: 'ProfileAwardsController as ProfileAwardsCtrl',
+                    template: '<profile-awards user="$resolve.User" awards="$resolve.Awards" nominations="$resolve.Nominations" nominated="$resolve.Nominated"></profile-awards>',
                     resolve: {
                         Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.collection('wins', {user: AuthService.currentUser.id}).then(function (result) {
-                                return result;
-                            });
+                            return DataService.collection('wins', {user: AuthService.currentUser.id})
+                                .then(function (result) {
+                                    return result;
+                                }, (error) => console.log(error));
                         }],
                         Nominations: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('nominations', {
@@ -609,7 +564,7 @@ module IndieWise {
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }],
                         Nominated: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('nominations', {
@@ -618,42 +573,33 @@ module IndieWise {
                             })
                                 .then(function (result) {
                                     return result;
-                                });
+                                }, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-playlists.html',
-                    controller: 'ProfilePlaylistsController as ProfilePlaylistsCtrl',
+                    template: '<profile-playlists playlists="$resolve.Playlists"></profile-playlists>',
                     resolve: {
                         Playlists: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.collection('playlists').then(function (result) {
-                                return result;
-                            });
+                            return DataService.collection('playlists')
+                                .then(result => result, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.settings', {
                     url: '/settings',
                     authenticate: true,
-                    templateUrl: 'templates/auth/profile-settings.html',
-                    controller: 'ProfileSettingsController as PSC',
+                    template: '<profile-settings genres="$resolve.Genres" user-types="$resolve.UserTypes"></profile-settings>',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            return DataService.collection('genres', [],
-                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
-                                20, false, false, 1).then(function (result) {
-                                return result;
-                            });
+                            return DataService.collection('genres')
+                                .then(result => result, (error) => console.log(error));
                         }],
                         UserTypes: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            return DataService.collection('types', [],
-                                [{fieldName: 'user', operator: 'in', value: AuthService.currentUser.id}],
-                                20, false, false, 1).then(function (result) {
-                                return result;
-                            });
+                            return DataService.collection('types')
+                                .then(result => result, (error) => console.log(error));
                         }]
                     }
                 })
@@ -664,9 +610,8 @@ module IndieWise {
                     controller: 'MessagesCtrl as Msgs',
                     resolve: {
                         Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
-                            return DataService.collection('messages').then(function (result) {
-                                return result;
-                            });
+                            return DataService.collection('messages')
+                                .then(result => result, (error) => console.log(error));
                         }]
                     }
                 })
@@ -756,18 +701,13 @@ module IndieWise {
                 .state('video', {
                     url: '/{url_id:[0-9a-zA-Z]{10,13}}',
                     authenticate: false,
-                    templateUrl: 'templates/common/video.html',
-                    controller: 'VideoCtrl as VC',
+                    template: '<project project="$resolve.Project"></project>',
                     resolve: {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
                             let deferred = $q.defer();
                             DataService.item('projects', $stateParams.url_id, '')
-                                .then(function (result) {
-                                    deferred.resolve(result.data.data);
-                                })
-                                .catch(function (response) {
-                                    deferred.reject(response);
-                                });
+                                .then(result => deferred.resolve(result.data.data))
+                                .catch(response => deferred.reject(response));
 
                             return deferred.promise;
                         }]
@@ -784,289 +724,8 @@ module IndieWise {
 
         }])
         .config(['$transitionsProvider', function ($transitionsProvider) {
-            $transitionsProvider.onError({}, function (transition) {
-                // debugger;
-                transition.promise.catch(function (error) {
-                    // debugger;
-                    console.error(error);
-                });
-            });
+            $transitionsProvider.onError({}, transition => transition.promise.catch(error => console.error(error)));
         }])
-        .constant('StreamConfig', {
-            streamApiKey: '97wfnrargt9f',
-            streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
-            streamApp: '6408'
-        })
-        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
-            function ($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, FacebookAngularPatch, socket) {
-                window.attachFastClick(document.body);
-                $rootScope.AppData = {
-                    User: AuthService.currentUser,
-                    Notifications: {
-                        loaded: 'indeterminate'
-                    },
-                    NotificationsFeed: {
-                        loaded: 'indeterminate'
-                    },
-                    MessageNotifications: {
-                        loaded: 'indeterminate'
-                    },
-                    searchText: ''
-                };
-                $rootScope.$state = window.thisState = $state;
-                $rootScope.metadata = {
-                    title: '',
-                    description: '',
-                    image: '',
-                    url: ''
-                };
-                $rootScope.$stateParams = $stateParams;
-                $rootScope.isViewLoading = false;
-                $rootScope.today = moment().toDate();
-
-                $rootScope.isAuthenticated = function () {
-                    return AuthService.isAuthenticated();
-                };
-
-                $rootScope.isVerified = function () {
-                    return AuthService.isVerified();
-                };
-
-                $rootScope.isNotVerified = function () {
-                    let test = $rootScope.isVerified();
-                    return !test;
-                    // return AuthService.isNotVerified();
-                };
-
-                $rootScope.justVerified = function () {
-                    let test = window.location.search.indexOf('verification_successful') !== -1;
-                    if (test) {
-                        $rootScope.toastMessage('Account Verification Successful!');
-                    }
-                    return test;
-                };
-
-                $rootScope.listenNotifications = function (username) {
-                    $rootScope.refreshNotifications(username);
-                };
-
-                $rootScope.refreshNotifications = function (id) {
-                    $rootScope.AppData.Notifications.loaded = 'indeterminate';
-                    DataService.collection('getUserNotifications', {
-                        username: id
-                    }).then(function (res) {
-                        console.log(res.data);
-                        $rootScope.AppData.Notifications = {
-                            loaded: '',
-                            list: res.data,
-                            unseen: _.where(res.data, {seen: false}).length,
-                            unread: 0
-                        };
-                        console.log($rootScope.AppData.Notifications);
-                    });
-                };
-
-                $rootScope.StreamClient = stream.connect(StreamConfig.streamApiKey, null, StreamConfig.streamApp, {location: 'us-east'});
-                $rootScope.getNewToken = function (type, id) {
-                    return $http.get('/api/notifications/token?type=' + type).then(function (res) {
-                        return res.data.token;
-                    });
-                };
-
-                $rootScope.getMessagesFeed = function (feed) {
-                    feed.get({limit: 10}, function (error, response, body) {
-                        console.log('Messages Notifications: ', body);
-                        try {
-                            //let data = UtilsService.enrichRawNotifications(body.results);
-                            //console.log(data);
-                            $rootScope.AppData.MessageNotifications = {
-                                loaded: '',
-                                list: body.results,
-                                unseen: body.unseen,
-                                unread: body.unread
-                            };
-                            console.log($rootScope.AppData.MessageNotifications);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    });
-                };
-
-                $rootScope.subscribeUserFeeds = function () {
-                    $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
-                        let feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
-                        feed.subscribe(function (obj) {
-                            console.log('Notification: ', obj);
-                            $rootScope.getNotificationsFeed(feed);
-                        }).then(function () {
-                            $rootScope.getNotificationsFeed(feed);
-                        });
-                    });
-                    $rootScope.getNewToken('message', $rootScope.AppData.User.id).then(function (token) {
-                        let feed = $rootScope.StreamClient.feed('message', $rootScope.AppData.User.id, token);
-                        feed.subscribe(function (obj) {
-                            console.log('Messages: ', obj);
-                            $rootScope.getMessagesFeed(feed);
-                        }).then(function () {
-                            $rootScope.getMessagesFeed(feed);
-                        });
-                    });
-                };
-
-                $rootScope.getNotificationsFeed = function (feed) {
-                    $http.get('/api/notifications/feed').then(function (res) {
-                        console.log('Notification: ', res.data.activities);
-                        $rootScope.AppData.Notifications = {
-                            loaded: '',
-                            list: res.data.activities,
-                            unseen: res.data.unseen,
-                            unread: res.data.unread
-                        };
-                    });
-                    /*feed.get({limit: 10}, function (error, response, body) {
-                     console.log('Notifications: ', body);
-                     try {
-                     let data = UtilsService.enrichRawNotifications(body.results);
-                     console.log(data);
-                     $rootScope.AppData.RawNotifications = {
-                     loaded: '',
-                     list: data.data,
-                     unseen: body.unseen,
-                     unread: body.unread
-                     };
-                     } catch (e) {
-                     console.log(e);
-                     }
-                     });*/
-                };
-
-                $rootScope.getNewMessages = function () {
-                    /*DataService.collection('messages/new').then(function (response) {
-                     $rootScope.AppData.MessageNotifications.loaded = true;
-                     $rootScope.AppData.MessageNotifications.unread = response.data.length;
-                     });*/
-                };
-
-                // Register listeners to $intercom using '.$on()' rather than '.on()' to trigger a safe $apply on $rootScope
-                $intercom.$on('show', function () {
-                    $rootScope.intercomShowing = true; // currently Intercom onShow callback isn't working
-                });
-                $intercom.$on('hide', function () {
-                    $rootScope.intercomShowing = false;
-                });
-
-                let endWatch = $rootScope.$watch('AppData.User', function (newValue, oldValue) {
-                    if (newValue && angular.isString(newValue.id)) {
-                        console.log('User Logged In');
-
-                        // Intercom
-                        newValue.name = newValue.fullName;
-                        $intercom.boot(newValue);
-                        // $intercom.show();
-
-                        // Push Notifications
-                        let OneSignal = window.OneSignal || [];
-                        OneSignal.push(["init", {
-                            appId: "9972c4b2-7bd1-47c0-a2f8-213b8c767cd8",
-                            safari_web_id: 'web.onesignal.auto.3f58661c-f8ad-4946-a9b6-84125eec4421',
-                            autoRegister: true,
-                            notifyButton: {
-                                enable: false /* Set to false to hide */
-                            }
-                        }]);
-
-                        if (!newValue.push_id) {
-                            OneSignal.getUserId().then(function (userId) {
-                                // console.log("OneSignal User ID:", userId);
-                                AuthService.updateUser({id: newValue.id, push_id: userId});
-                                // DataService.update('users', newValue.id, { push_id: userId});
-                                // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
-                            });
-                        }
-
-                        // initialize stream
-                        $rootScope.subscribeUserFeeds();
-                        //$rootScope.listenNotifications(newValue.username);
-
-                        $rootScope.getNewMessages();
-                        endWatch();
-                    }
-                });
-
-                // loading animation
-                $rootScope.setLoading = function () {
-                    $rootScope.isViewLoading = true;
-                };
-                $rootScope.unsetLoading = function () {
-                    $rootScope.isViewLoading = false;
-                };
-
-                // State transition hooks
-                $transitions.onBefore({}, function ($transition$) {
-                    $rootScope.setLoading();
-                });
-
-                $transitions.onStart({to: 'register', from: '*'}, function ($transition$) {
-                    return AuthService.isAuthenticated() ? $state.target('home') : true;
-                });
-                $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$) {
-                    return AuthService.isAuthenticated() ? $state.target('home') : true;
-                });
-                $transitions.onStart({to: 'reset_password', from: '*'}, function ($transition$) {
-                    return AuthService.isAuthenticated() ? $state.target('home') : true;
-                });
-                $transitions.onStart({
-                    to: function (state) {
-                        return !!state.authenticate;
-                    }
-                }, function ($transition$) {
-                    return AuthService.currentUser ? true : AuthService.getCurrentUser().then(function () {
-                            return true;
-                        }, function () {
-                            return $state.target('sign_in');
-                        });
-
-                });
-
-                $transitions.onSuccess({}, function () {
-                    $rootScope.unsetLoading();
-                    $timeout(function () {
-                        jQuery(document).foundation();
-                        // angular.element('body').scrollTop(0);
-                        anchorSmoothScroll.scrollTo('body');
-                    }, 100);
-                    // Analytics.trackPage($location.path());
-                });
-
-                $transitions.onError({}, function ($transition$) {
-                    // debugger;
-                    console.log($state);
-                });
-
-                $state.defaultErrorHandler(function (err) {
-                    // debugger;
-                    // handle err
-                });
-
-                //search bar
-                jQuery('.search.end').on('click', function () {
-                    if (jQuery(this).children().hasClass('fa-search')) {
-                        jQuery(this).children().removeClass('fa-search');
-                        jQuery(this).children().addClass('fa-times');
-                        $rootScope.$broadcast('overVideoPlayer', false);
-
-                    } else {
-                        jQuery(this).children().removeClass('fa-times');
-                        jQuery(this).children().addClass('fa-search');
-                        $rootScope.$broadcast('overVideoPlayer', true);
-                    }
-                    jQuery(this).toggleClass('search-active');
-                    jQuery('#search-bar').slideToggle();
-
-                });
-
-            }
-        ])
         .config(['$localForageProvider', function ($localForageProvider) {
             $localForageProvider.config({
                 //driver: 'localStorageWrapper', // if you want to force a driver
@@ -1084,4 +743,343 @@ module IndieWise {
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }])
+        .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
+            IndieWiseRun
+        ]);
+
+    function AuthInterceptor($q: IQService, $injector: IInjectorService, $location: ILocationService, API: string) {
+        function retryHttpRequest(config, deferred) {
+            function successCallback(response) {
+                deferred.resolve(response);
+            }
+
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+
+            let $http = $injector.get('$http');
+            $http(config).then(successCallback, errorCallback);
+        }
+
+        return {
+            'request': function (config) {
+                config.headers = config.headers || {};
+                return config;
+            },
+            'response': function (response) {
+                // only contains 'content-type' and 'cache-control'
+                // console.log(response.headers());
+                return response;
+            },
+            'responseError': function (response) {
+
+                if (response.status === 401 || response.status === 403) {
+                    //$location.path('/sign-in');
+                } else if (response.status == 500 && response.config.url.indexOf('http') === -1 && response.config.url.indexOf('/api') > -1) {
+                    let deferred = $q.defer();
+                    //retryHttpRequest(response.config, deferred);
+                    return deferred.promise;
+                }
+
+                return response;
+            }
+        };
+    }
+
+    function IndieWiseRun($rootScope, $state, $stateParams, AuthService, UtilsService, DataService, $http, $timeout, $transitions, StreamConfig, anchorSmoothScroll, amMoment, $intercom, FacebookAngularPatch, socket) {
+        window.attachFastClick(document.body);
+        $rootScope.AppData = {
+            User: AuthService.currentUser,
+            Notifications: {
+                loaded: 'indeterminate'
+            },
+            NotificationsFeed: {
+                loaded: 'indeterminate'
+            },
+            MessageNotifications: {
+                loaded: 'indeterminate'
+            },
+            searchText: ''
+        };
+        $rootScope.$state = window.thisState = $state;
+        $rootScope.metadata = {
+            title: '',
+            description: '',
+            image: '',
+            url: ''
+        };
+        $rootScope.$stateParams = $stateParams;
+        $rootScope.isViewLoading = false;
+        $rootScope.today = moment().toDate();
+
+        $rootScope.isAuthenticated = function () {
+            return AuthService.isAuthenticated();
+        };
+
+        $rootScope.isVerified = function () {
+            return AuthService.isVerified();
+        };
+
+        $rootScope.isNotVerified = function () {
+            let test = $rootScope.isVerified();
+            return !test;
+            // return AuthService.isNotVerified();
+        };
+
+        $rootScope.justVerified = function () {
+            let test = window.location.search.indexOf('verification_successful') !== -1;
+            if (test) {
+                $rootScope.toastMessage('Account Verification Successful!');
+            }
+            return test;
+        };
+
+        $rootScope.listenNotifications = function (username) {
+            $rootScope.refreshNotifications(username);
+        };
+
+        $rootScope.refreshNotifications = function (id) {
+            $rootScope.AppData.Notifications.loaded = 'indeterminate';
+            DataService.collection('getUserNotifications', {
+                username: id
+            }).then(function (res) {
+                console.log(res.data);
+                $rootScope.AppData.Notifications = {
+                    loaded: '',
+                    list: res.data,
+                    unseen: _.where(res.data, {seen: false}).length,
+                    unread: 0
+                };
+                console.log($rootScope.AppData.Notifications);
+            });
+        };
+
+        $rootScope.StreamClient = stream.connect(StreamConfig.streamApiKey, null, StreamConfig.streamApp, {location: 'us-east'});
+        $rootScope.getNewToken = function (type, id) {
+            return $http.get('/api/notifications/token?type=' + type).then(function (res) {
+                return res.data.token;
+            });
+        };
+
+        $rootScope.getMessagesFeed = function (feed) {
+            feed.get({limit: 10}, function (error, response, body) {
+                console.log('Messages Notifications: ', body);
+                try {
+                    //let data = UtilsService.enrichRawNotifications(body.results);
+                    //console.log(data);
+                    $rootScope.AppData.MessageNotifications = {
+                        loaded: '',
+                        list: body.results,
+                        unseen: body.unseen,
+                        unread: body.unread
+                    };
+                    console.log($rootScope.AppData.MessageNotifications);
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        };
+
+        $rootScope.subscribeUserFeeds = function () {
+            $rootScope.getNewToken('notification', $rootScope.AppData.User.id).then(function (token) {
+                let feed = $rootScope.StreamClient.feed('notification', $rootScope.AppData.User.id, token);
+                feed.subscribe(function (obj) {
+                    console.log('Notification: ', obj);
+                    $rootScope.getNotificationsFeed(feed);
+                }).then(function () {
+                    $rootScope.getNotificationsFeed(feed);
+                });
+            });
+            $rootScope.getNewToken('message', $rootScope.AppData.User.id).then(function (token) {
+                let feed = $rootScope.StreamClient.feed('message', $rootScope.AppData.User.id, token);
+                feed.subscribe(function (obj) {
+                    console.log('Messages: ', obj);
+                    $rootScope.getMessagesFeed(feed);
+                }).then(function () {
+                    $rootScope.getMessagesFeed(feed);
+                });
+            });
+        };
+
+        $rootScope.getNotificationsFeed = function (feed) {
+            $http.get('/api/notifications/feed').then(function (res) {
+                console.log('Notification: ', res.data.activities);
+                $rootScope.AppData.Notifications = {
+                    loaded: '',
+                    list: res.data.activities,
+                    unseen: res.data.unseen,
+                    unread: res.data.unread
+                };
+            });
+            /*feed.get({limit: 10}, function (error, response, body) {
+             console.log('Notifications: ', body);
+             try {
+             let data = UtilsService.enrichRawNotifications(body.results);
+             console.log(data);
+             $rootScope.AppData.RawNotifications = {
+             loaded: '',
+             list: data.data,
+             unseen: body.unseen,
+             unread: body.unread
+             };
+             } catch (e) {
+             console.log(e);
+             }
+             });*/
+        };
+
+        $rootScope.
+            getNewMessages = function () {
+            /*DataService.collection('messages/new').then(function (response) {
+             $rootScope.AppData.MessageNotifications.loaded = true;
+             $rootScope.AppData.MessageNotifications.unread = response.data.length;
+             });*/
+        };
+// Register listeners to $intercom using '.$on()' rather than '.on()' to trigger a safe $apply on $rootScope
+        $intercom.$on('show', function () {
+            $rootScope.intercomShowing = true;
+
+// currently Intercom onShow callback isn't working
+        });
+        $intercom.$on('hide'
+            , function () {
+            $rootScope.
+                intercomShowing = false;
+        });
+
+        let
+            endWatch = $rootScope.$watch(
+                'AppData.User', function (newValue,
+                                          oldValue) {
+            if (newValue && angular.isString(
+                    newValue.id)) {
+                console.log('User Logged In');
+                // Intercom
+                newValue.name = newValue.fullName;
+                $intercom.boot(newValue);
+                // $intercom.show();
+
+                // Push Notifications
+                let OneSignal = window.OneSignal
+                    || [];
+                OneSignal.push(["init", {
+                    appId: "9972c4b2-7bd1-47c0-a2f8-213b8c767cd8",
+                    safari_web_id: 'web.onesignal.auto.3f58661c-f8ad-4946-a9b6-84125eec4421',
+                    autoRegister: true,
+                    notifyButton: {
+                        enable: false /* Set to false to hide */
+                    }
+                }]);
+
+                if (!newValue.push_id) {
+                    OneSignal.getUserId
+                    ()
+
+                        .then(function (userId) {
+                        // console.log("OneSignal User ID:", userId);
+                        AuthService.updateUser({id: newValue.id,
+                            push_id: userId});
+// DataService.update('users', newValue.id, { push_id: userId});
+// (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
+                    });
+                }
+
+                // initialize stream
+
+                $rootScope.subscribeUserFeeds();
+//$rootScope.listenNotifications(newValue.username);
+                $rootScope.getNewMessages();
+                endWatch();
+            }
+        });
+
+        // loading animation
+        $rootScope.setLoading = function () {
+            $rootScope.isViewLoading =
+                true;
+        };
+        $rootScope.unsetLoading = function () {
+            $rootScope.isViewLoading = false;
+        };
+// State transition hooks
+        $transitions.onBefore({}, function ($transition$) {
+            $rootScope.setLoading()
+            ;
+        });
+
+        $transitions.onStart({to: 'register', from: '*'}, function ($transition$) {
+            return AuthService.isAuthenticated() ? $state.target('home') : true;
+        });
+        $transitions.onStart({to: 'sign_in', from: '*'}, function ($transition$) {
+            return AuthService.isAuthenticated
+            () ? $state.target(
+                'home') : true;
+        });
+        $transitions.onStart({to: 'reset_password', from: '*'},
+            function ($transition$) {
+            return AuthService.isAuthenticated
+            () ? $state.target('home') :
+                true;
+        });
+        $transitions.onStart({
+            to: function (state) {
+                return !!state.authenticate;
+            }
+        }, function ($transition$) {
+            return AuthService.
+                currentUser ? true
+                :
+
+                AuthService.getCurrentUser().then(function () {
+                return true
+                    ;
+            },
+
+                    function () {
+                return $state.target('sign_in');
+            });
+
+        });
+
+        $transitions.onSuccess({},
+            function () {
+            $rootScope.unsetLoading();
+            $timeout(
+                function () {
+                jQuery(
+                    document).foundation();
+                    // angular.element('body').scrollTop(0);
+                anchorSmoothScroll.scrollTo('body');
+            }, 100);
+                // Analytics.trackPage($location.path());
+        });
+
+        $transitions.onError({}, function ($transition$) {
+            // debugger;
+            console.log($state);
+        });
+
+        $state.defaultErrorHandler(function (err) {
+            // debugger;
+            // handle err
+        });
+
+        //search bar
+        jQuery('.search.end').on('click', function () {
+            if (jQuery(this).children().hasClass('fa-search')) {
+                jQuery(this).children().removeClass('fa-search');
+                jQuery(this).children().addClass('fa-times');
+                $rootScope.$broadcast('overVideoPlayer', false);
+
+            } else {
+                jQuery(this).children().removeClass('fa-times');
+                jQuery(this).children().addClass('fa-search');
+                $rootScope.$broadcast('overVideoPlayer', true);
+            }
+            jQuery(this).toggleClass('search-active');
+            jQuery('#search-bar').slideToggle();
+
+        });
+
+    }
 }

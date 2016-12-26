@@ -1,29 +1,34 @@
-import DataService from "../services/dataService.service";
+import {IDataService} from "../services/dataService.service";
+import {IUserActionsService} from "../services/userActions.service";
 interface IReply {
-    targetItem: Object | null;
+    targetComment: Object | null;
     isLoggedIn: Object | null;
-    parent: Object;
+    parent: Object
+    myReply: string;
     postReply: any;
     _postReply: () => void;
 }
 
 export class ReplyController implements IReply {
-    targetItem: Object | null;
+    targetComment: Object | null;
     isLoggedIn: Object | null;
     parent: Object;
+    myReply: string;
     postReply: any;
 
     static $inject = ['$rootScope', 'UserActions', 'DataService', '_'];
 
-    constructor(private $rootScope: ng.IRootScopeService, private UserActions: any, private DataService: DataService, private _: any) {
-        this.postReply = _.throttle(this._postReply.bind(this), 1000);
+    constructor(private $rootScope: ng.IRootScopeService, private UserActions: IUserActionsService, private DataService: IDataService, private _: any) {
+        this.postReply = this._.throttle(this._postReply.bind(this), 5000);
     }
 
     $onInit = function () {
         this.isLoggedIn = this.$rootScope.AppData.User;
+        // debugger;
     };
 
     _postReply() {
+        let self = this;
         if (!this.$rootScope.isAuthenticated()) {
             this.UserActions.loginModal();
             return false;
@@ -34,51 +39,15 @@ export class ReplyController implements IReply {
             return false;
         }
 
-        let repliedTo = angular.isString(this.targetItem.comment_id) ? this.targetItem.comment_id : this.targetItem;
-        if (angular.isString(repliedTo)) {
-            repliedTo = this._.findWhere(this.comments.data, {id: this.targetItem.comment_id})
-        }
         this.DataService.save('comments', {
             body: this.myReply,
             critique_id: this.parent.id,
-            comment_id: repliedTo.id,
-            user_id: this.model.isLoggedIn.id
+            comment_id: this.targetComment.id,
+            user_id: this.isLoggedIn.id
         }).then(function (comment) {
 
-            if (!!repliedTo.repliesLoaded) {
-                let repliesLoaded = true;
-                let oldReplies = repliedTo.replies || [];
-            }
-            if (!repliedTo.replies) {
-                repliedTo.replies = [];
-            }
-
-            repliedTo.replies.push(comment.data.data);
-            repliedTo.replies_count++;
-            this.toggleReplyInput();
-            // refresh parent data
-            this.parent.comments_count++;
-            /*if (this.parent.hasOwnProperty('unlist')) {
-                DataService.item('projects', this.parent.id).then(function (a) {
-                    angular.extend(this.parent, a.data.data);
-                    /!*if (this.targetItem.repliesLoaded) {
-                        repliedTo.repliesLoaded = true;
-                        oldReplies.push(comment.data.data);
-                        repliedTo.replies = oldReplies;
-                    }*!/
-                });
-            } else {*/
-                DataService.item('critiques', this.parent.id).then(function (a) {
-                    angular.extend(this.parent, a.data.data);
-                    /*if (this.targetItem.repliesLoaded) {
-                        repliedTo.repliesLoaded = true;
-                        oldReplies.push(comment.data.data);
-                        repliedTo.replies = oldReplies;
-                    }*/
-                });
-            //}
-            this.$rootScope.toastMessage('Reply posted!');
-            this.myReply = null;
+            self.onReply({ reply: comment.data.data });
+            self.myReply = null;
 
         }, function (error) {
             console.log('Failed to create new reply, with error code: ' + error.message);
@@ -90,5 +59,5 @@ angular.module('IndieWise.directives')
     .component('reply', {
         templateUrl: 'comments/reply.html',
         controller: ReplyController,
-        bindings: {targetItem: '=', parent: '<'}
+        bindings: {targetComment: '<', parent: '<', onReply: '&'}
     });

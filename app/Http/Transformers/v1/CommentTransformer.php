@@ -69,19 +69,16 @@ class CommentTransformer extends TransformerAbstract
     }
 
     /**
-     * Include User
+     * Include Replies
      *
      * @param Comment $comment
-     * @return \League\Fractal\Resource\Item
+     * @return \League\Fractal\Resource\Collection
      */
     public function includeReplies(Comment $comment)
     {
-        $replies = $comment->replies;
+        $replies = $comment->replies->sortByDesc('created_at');
         if($replies)
             return $this->collection($replies, new CommentTransformer);
 
     }
-
-
-
 }

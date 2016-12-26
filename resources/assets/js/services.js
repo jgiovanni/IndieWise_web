@@ -2,81 +2,11 @@
     'use strict';
     angular
         .module('IndieWise.services', [])
-        .factory('FacebookAngularPatch', ['$q', '$timeout', '$window', function ($q, $timeout, $window) {
-            var fbApiAngular = function () {
-                var params = [].splice.call(arguments, 0);
-                var defer = $q.defer();
-                var angularWrap = $timeout;
-                $window.fbPromise.then(function () {
-                    params.push(function (response) {
-                        if (!___.isUndefined(response.error)) {
-                            angularWrap(function () {
-                                defer.reject(response.error);
-                            });
-                            return;
-                        }
-                        angularWrap(function () {
-                            defer.resolve(response);
-                        });
-                    });
-                    FB.api.apply(FB, params);
-                });
-                return defer.promise;
-            };
-            if (angular.isObject($window.FB)) {
-                $window.FB.init({
-                    appId: '150687055270744',
-                    status: true,
-                    cookie: true,
-                    xfbml: true,
-                    version: 'v2.7'
-                });
-                $window.FB.AppEvents.activateApp();
-            }
-            return fbApiAngular;
-        }])
-        .factory('UserActions', UserActions)
-        .factory('socket', ['$rootScope', '$window', function ($rootScope, $window) {
-            var socket = io($window.location.origin, {
-                'secure': true,
-                'reconnect': true,
-                'reconnection delay': 500,
-                'max reconnection attempts': 10
-            });
-            return {
-                on: function (eventName, callback) {
-                    socket.on(eventName, function () {
-                        var args = arguments;
-                        $rootScope.$apply(function () {
-                            callback.apply(socket, args);
-                        });
-                    });
-                },
-                emit: function (eventName, data, callback) {
-                    socket.emit(eventName, data, function () {
-                        var args = arguments;
-                        $rootScope.$apply(function () {
-                            if (callback) {
-                                callback.apply(socket, args);
-                            }
-                        });
-                    });
-                }
-            };
-        }])
-        .factory('linkify', ['$filter', function ($filter) {
-            function _linkifyAsType(type) {
-                return function (str) {
-                    return $filter('linkify')(str, type);
-                };
-            }
-            return {
-                twitter: _linkifyAsType('twitter'),
-                github: _linkifyAsType('github'),
-                normal: _linkifyAsType()
-            };
-        }])
-        .service('anchorSmoothScroll', function () {
+        .factory('FacebookAngularPatch', ['$q', '$timeout', '$window', FacebookAngularPatchService])
+        .factory('socket', ['$rootScope', '$window', SocketService])
+        .factory('linkify', ['$filter', LinkifyService])
+        .service('anchorSmoothScroll', AnchorSmoothScrollService);
+    function AnchorSmoothScrollService() {
         this.scrollTo = function (eID) {
             var startY = currentYPosition();
             var stopY = elmYPosition(eID);
@@ -128,137 +58,79 @@
                 return y;
             }
         };
-    });
-    UserActions.$inject = ['$rootScope', '$q', 'AuthService', 'DataService', 'UtilsService', '$timeout', '$modal', '$mdMedia'];
-    function UserActions($rootScope, $q, AuthService, DataService, UtilsService, $timeout, $modal, $mdMedia) {
-        var service = {
-            checkAuth: function () {
-                var deferred = $q.defer();
-                AuthService.isAuthenticated() ? deferred.resolve(true) : deferred.reject(false);
-                return deferred.promise;
-            },
-            markAsWatched: function (video) {
-                var time = 0;
-                return $timeout(function () {
-                    DataService.save('projects/watched', {
-                        project_id: video.id
+    }
+    function LinkifyService($filter) {
+        function _linkifyAsType(type) {
+            return function (str) {
+                return $filter('linkify')(str, type);
+            };
+        }
+        return {
+            twitter: _linkifyAsType('twitter'),
+            github: _linkifyAsType('github'),
+            normal: _linkifyAsType()
+        };
+    }
+    function SocketService($rootScope, $window) {
+        var socket = io($window.location.origin, {
+            'secure': true,
+            'reconnect': true,
+            'reconnection delay': 500,
+            'max reconnection attempts': 10
+        });
+        return {
+            on: function (eventName, callback) {
+                socket.on(eventName, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        callback.apply(socket, args);
                     });
-                }, time);
+                });
             },
-            cancelWatched: function (promise) {
-                $timeout.cancel(promise);
-            },
-            canCritique: function (filmId) {
-                var deferred = $q.defer();
-                if (AuthService.isAuthenticated()) {
-                    DataService.collection('critiques', { project: filmId, user: AuthService.currentUser.id })
-                        .then(function (res) {
-                        res.data.data.length
-                            ? deferred.reject(res.data.data[0])
-                            : deferred.resolve(true);
+            emit: function (eventName, data, callback) {
+                socket.emit(eventName, data, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        if (callback) {
+                            callback.apply(socket, args);
+                        }
                     });
-                }
-                else {
-                    deferred.reject(false);
-                }
-                return deferred.promise;
-            },
-            canReact: function (filmId) {
-                var deferred = $q.defer();
-                if (AuthService.currentUser) {
-                    DataService.collection('reactions', { project: filmId, user: AuthService.currentUser.id })
-                        .then(function (res) {
-                        res.data.data.length
-                            ? deferred.reject(res.data.data[0])
-                            : deferred.resolve(true);
-                    });
-                }
-                else {
-                    deferred.reject(false);
-                }
-                return deferred.promise;
-            },
-            canRate: function (filmId) {
-                var deferred = $q.defer();
-                if (AuthService.currentUser) {
-                    DataService.collection('ratings', { project: filmId, user: AuthService.currentUser.id })
-                        .then(function (res) {
-                        res.data.ratings.length
-                            ? deferred.reject(res.data.ratings[0])
-                            : deferred.resolve(true);
-                    });
-                }
-                else {
-                    deferred.reject(false);
-                }
-                return deferred.promise;
-            },
-            loginModal: function () {
-                if (!$rootScope.authModalOpen) {
-                    var options = {
-                        controller: SignInModalCtrl,
-                        controllerAs: 'SIC',
-                        templateUrl: 'templates/auth/sign-in-dialog.html',
-                        size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
-                    };
-                    var modalInstance = $modal.open(options);
-                    modalInstance.result.then(function (answer) {
-                        console.log(answer);
-                        $rootScope.authModalOpen = false;
-                        zIndexPlayer(true);
-                    }, function () {
-                        console.log('You cancelled the dialog.');
-                        $rootScope.authModalOpen = false;
-                        zIndexPlayer(true);
-                    });
-                    $rootScope.authModalOpen = true;
-                }
+                });
             }
         };
-        return service;
     }
-    SignInModalCtrl.$inject = ['$rootScope', '$timeout', 'AuthService', '$modalInstance'];
-    function SignInModalCtrl($rootScope, $timeout, AuthService, $modalInstance) {
-        zIndexPlayer();
-        $rootScope.metadata.title = 'Sign In';
-        var self = this;
-        self.user = {
-            email: '',
-            password: ''
-        };
-        self.doLogin = function (redirect) {
-            redirect = redirect || true;
-            self.error = false;
-            AuthService.login(self.user.email, self.user.password).then(function (res) {
-                console.log('Success', res);
-                if (redirect) {
-                }
-            }, function (res) {
-                self.error = res;
-                console.log('Failed', res);
-            }).then(function () {
-                self.ok();
+    function FacebookAngularPatchService($q, $timeout, $window) {
+        var fbApiAngular = function () {
+            var params = [].splice.call(arguments, 0);
+            var defer = $q.defer();
+            var angularWrap = $timeout;
+            $window.fbPromise.then(function () {
+                params.push(function (response) {
+                    if (!___.isUndefined(response.error)) {
+                        angularWrap(function () {
+                            defer.reject(response.error);
+                        });
+                        return;
+                    }
+                    angularWrap(function () {
+                        defer.resolve(response);
+                    });
+                });
+                FB.api.apply(FB, params);
             });
+            return defer.promise;
         };
-        self.authenticate = function (provider) {
-            self.error = null;
-            AuthService.socialLogin(provider, true).then(function (a) {
-                console.log(a);
-                self.ok();
+        if (angular.isObject($window.FB)) {
+            $window.FB.init({
+                appId: '150687055270744',
+                status: true,
+                cookie: true,
+                xfbml: true,
+                version: 'v2.7'
             });
-        };
-        self.ok = function () {
-            $modalInstance.close();
-        };
-        self.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-        $timeout(function () {
-            jQuery(document).foundation();
-            $timeout(function () {
-                jQuery(document).foundation();
-            }, 500);
-        }, 0);
+            $window.FB.AppEvents.activateApp();
+        }
+        return fbApiAngular;
     }
     function zIndexPlayer(remove) {
         var vidDiv = jQuery('.flex-video');
