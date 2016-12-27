@@ -72,6 +72,9 @@ elixir(function(mix) {
         //// Components
         // Common
         '../app/common/project-card.js',
+        '../app/common/help-info.js',
+        '../app/common/broadstreet-zone.js',
+        '../app/common/static-sidebar.js',
 
         // Home
         '../app/home/home.js',

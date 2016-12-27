@@ -46,9 +46,10 @@ jQuery(document).ready(function (jQuery) {
     var thumb = jQuery('.thumb-slider .thumbs').find('.ver-thumbnail');
     jQuery(thumb).on('click', function () {
         var id = jQuery(this).attr('id');
-        jQuery('.image').eq(0).show();
-        jQuery('.image').hide();
-        jQuery('.image').hide();
+        var thisIMG = jQuery('.image');
+        thisIMG.eq(0).show();
+        thisIMG.hide();
+        thisIMG.hide();
         jQuery('.' + id).fadeIn();
     });
     var $par = jQuery('.thumb-slider .thumbs .thumbnails').scrollTop(0);
@@ -156,10 +157,6 @@ var IndieWise;
             AnalyticsProvider
                 .setAccount('UA-27155404-17');
         }])
-        .config(['$httpProvider', function ($httpProvider) {
-            $httpProvider.interceptors.push('authInterceptor');
-        }])
-        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', AuthInterceptor])
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider, $mdIconProvider, BASE) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('grey')
@@ -664,6 +661,10 @@ var IndieWise;
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }])
+        .config(['$httpProvider', function ($httpProvider) {
+            $httpProvider.interceptors.push('authInterceptor');
+        }])
+        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', AuthInterceptor])
         .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
         IndieWiseRun
     ]);

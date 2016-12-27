@@ -66,14 +66,16 @@ jQuery(document).ready(function (jQuery) {
     jQuery(thumb).on('click', function () {
         let id = jQuery(this).attr('id');
         //alert(id);
-        jQuery('.image').eq(0).show();
-        jQuery('.image').hide();
-        jQuery('.image').hide();
+        let thisIMG = jQuery('.image');
+        thisIMG.eq(0).show();
+        thisIMG.hide();
+        thisIMG.hide();
         jQuery('.' + id).fadeIn();
     });
+
     let $par = jQuery('.thumb-slider .thumbs .thumbnails').scrollTop(0);
     jQuery('.thumb-slider .thumbs a').click(function (e) {
-        e.preventDefault();                      // Prevent defautl Anchors behavior
+        e.preventDefault();                      // Prevent default Anchors behavior
         let n = jQuery(this).hasClass('down') ? '+=200' : '-=200'; // Direction
         $par.animate({scrollTop: n});
     });
@@ -159,6 +161,7 @@ module IndieWise {
             streamApiSecret: '4t8dpp9bsap2svjhvu2n4x3h3bvwyyb3kgvg7san3bab2esu6vmnquffq2u95z82',
             streamApp: '6408'
         })
+
         .config(['$authProvider', function ($authProvider) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
@@ -210,10 +213,6 @@ module IndieWise {
             // .trackPrefix('alpha')
             ;
         }])
-        .config(['$httpProvider', function ($httpProvider: any) {
-            $httpProvider.interceptors.push('authInterceptor');
-        }])
-        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', AuthInterceptor])
         .config(['$mdThemingProvider', '$mdIconProvider', 'BASE', function ($mdThemingProvider: any, $mdIconProvider: any, BASE: string) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('grey')
@@ -743,6 +742,10 @@ module IndieWise {
                 new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$')
             ]);
         }])
+        .config(['$httpProvider', function ($httpProvider: any) {
+            $httpProvider.interceptors.push('authInterceptor');
+        }])
+        .factory('authInterceptor', ['$q', '$injector', '$location', 'API', AuthInterceptor])
         .run(['$rootScope', '$state', '$stateParams', 'AuthService', 'UtilsService', 'DataService', '$http', '$timeout', '$transitions', 'StreamConfig', 'anchorSmoothScroll', 'amMoment', '$intercom', 'FacebookAngularPatch', 'socket',
             IndieWiseRun
         ]);

@@ -824,17 +824,6 @@
                 }
             }
         }])
-        .directive('helpInfo', [function () {
-            return {
-                restrict: 'E',
-                transclude: true,
-                templateUrl: 'templates/directives/help-info.html',
-                scope: {
-                    text: '=text',
-                    direction: '=direction'
-                }
-            }
-        }])
         .directive('editCommentBlock', ['$rootScope', 'UserActions', 'DataService', '_', function ($rootScope, UserActions, DataService, _) {
             return {
                 restrict: 'E',
@@ -936,29 +925,6 @@
                     });
                 }
             };
-        }])
-        .directive('broadstreetZone', ['$window', '$sce', function ($window, $sce) {
-            return {
-                restrict: 'E',
-                templateUrl: 'templates/directives/broadstreet-zone.html',
-                transclude: true,
-                scope: { 
-                    zone: "=",
-                    width: "=",
-                    height: "=",
-                },
-                link: function (scope, el, attrs) {
-                    scope.link = $sce.trustAsResourceUrl('https://ad.broadstreetads.com/zdisplay/' + scope.zone + '.html');
-                }
-            }
-        }])
-        .directive('staticSideBar', ['$window', '$sce', function ($window, $sce) {
-            return {
-                restrict: 'E',
-                templateUrl: 'templates/directives/static-sidebar.html',
-                transclude: true,
-                replace: true
-            }
         }])
         .directive('nonAngularRoutes', ['$window', '$rootElement', function ($window, $rootElement) {
             return {

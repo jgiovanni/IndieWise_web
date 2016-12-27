@@ -46,7 +46,7 @@ export class ProjectCardController implements IProjectCard {
 // ProjectCardController.$inject = ['$rootScope', '$state', '$modal', '$mdMedia', 'UserActions'];
 
 angular.module('IndieWise.directives')
-/*IndieWise*/.component('projectCard', {
+    .component('projectCard', {
     templateUrl: 'common/project-card.html',
     // transclude: true,
     controller: ProjectCardController,
