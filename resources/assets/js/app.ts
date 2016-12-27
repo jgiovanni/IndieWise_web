@@ -82,7 +82,7 @@ jQuery(document).ready(function (jQuery) {
 });
 
 import {module} from 'angular';
-import moment = require("moment");
+// import moment = require("moment");
 
 module IndieWise {
     // export let IndieWise = angular.module('IndieWise', [
@@ -162,7 +162,7 @@ module IndieWise {
             streamApp: '6408'
         })
 
-        .config(['$authProvider', function ($authProvider) {
+        .config(['$authProvider', function ($authProvider: any) {
             $authProvider.loginUrl = '/api/login';
             $authProvider.signupUrl = '/api/register';
 
@@ -722,10 +722,10 @@ module IndieWise {
             });
 
         }])
-        .config(['$transitionsProvider', function ($transitionsProvider) {
+        .config(['$transitionsProvider', function ($transitionsProvider: any) {
             $transitionsProvider.onError({}, transition => transition.promise.catch(error => console.error(error)));
         }])
-        .config(['$localForageProvider', function ($localForageProvider) {
+        .config(['$localForageProvider', function ($localForageProvider: any) {
             $localForageProvider.config({
                 //driver: 'localStorageWrapper', // if you want to force a driver
                 name: 'iw', // name of the database and prefix for your data, it is 'lf' by default
@@ -734,7 +734,7 @@ module IndieWise {
                 description: 'some description'
             });
         }])
-        .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
+        .config(['$sceDelegateProvider', function ($sceDelegateProvider: any) {
             $sceDelegateProvider.resourceUrlWhitelist([
                 'self',
                 'https://getindiewise.com/**',

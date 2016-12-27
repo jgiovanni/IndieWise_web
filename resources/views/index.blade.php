@@ -45,7 +45,7 @@
     <script type="text/javascript" src="{{ elixir('js/main.js') }}"></script>
 
     <script>window.BASE = '/';</script>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    {{--<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">--}}
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
     <link rel="stylesheet" href="/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>
