@@ -1,8 +1,6 @@
-import {IRootthisService} from "angular";
+import {IRootScopeService, ITimeoutService, IIntervalService} from "angular";
 import {IDataService} from "../services/dataService.service";
 import {IUserActionsService} from "../services/userActions.service";
-import {ITimeoutService} from "angular";
-import {IIntervalService} from "angular";
 import {IStateService} from "angular-ui-router";
 interface IVideoPlayer {
     sources: Array<Object>;
@@ -49,7 +47,7 @@ export class VideoPlayerController implements IVideoPlayer {
     };
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_'];
-    constructor(private $rootScope: IRootthisService, private DataService: IDataService, private UserActions: IUserActionsService, private $timeout: ITimeoutService, private $interval: IIntervalService, private $state: IStateService, private anchorSmoothScroll: any, private _: any){}
+    constructor(private $rootScope: IRootScopeService, private DataService: IDataService, private UserActions: IUserActionsService, private $timeout: ITimeoutService, private $interval: IIntervalService, private $state: IStateService, private anchorSmoothScroll: any, private _: any){}
 
     $onInit = () => {
         let self = this;
@@ -263,6 +261,6 @@ angular.module('IndieWise.directives')
     .component('videoPlayer', {
         transclude: true,
         templateUrl: 'projects/video-player.html',
-        controller: VideoCtrl,
+        controller: VideoPlayerController,
         bindings: {project: '<', type: '<', lightsOff: '='}
     });

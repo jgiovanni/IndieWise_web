@@ -1,6 +1,6 @@
 // import {IndieWise} from '../../js/app';
     export interface IDataService {
-        collection: (name: string, params?: Object | null) => Object;
+        collection: (name: string, params?: Object | null) => any;
         item: (name: string, id: string, include?: string | null, search?: string | null) => any;
         save: (name: string, data?: Object, params?: any | null) => any;
         update: (name: string, id: string, data: any, params?: Object | null) => any;

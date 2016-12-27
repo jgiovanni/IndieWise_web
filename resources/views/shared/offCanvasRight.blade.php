@@ -9,7 +9,7 @@
         </div>
     </md-toolbar>
     <md-content>
-        <md-list class=" notification-list" >
+        <md-list class="notification-list" >
             <ng-repeat ng-repeat="notice in AppData.Notifications.list" ng-click="Body.markAsRead(notice);Body.closeSideNav('right')" ng-class="{'unread': !notice.is_read}">
                 <md-list-item ng-if="::notice.verb === 'win'" ui-sref="video({url_id: notice.project.url_id})">
                     <md-icon class="fa fa-trophy"></md-icon>

@@ -1,11 +1,12 @@
 import {IUser} from "./user";
+import {IRootScopeService} from "angular";
 export class UserAboutController implements IUser {
     user: Object;
     userStats: Object;
 
-    static $inject = [];
+    static $inject = ['$rootScope'];
 
-    constructor() {
+    constructor(private $rootScope: IRootScopeService) {
         let self = this;
     }
 }

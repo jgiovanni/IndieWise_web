@@ -1,5 +1,4 @@
 import DataService from "../services/dataService.service";
-import {IDialogService} from "angular";
 import {CritiqueViewController} from "./critique-view";
 
 interface ICritique {
@@ -24,7 +23,7 @@ export class CritiqueController implements ICritique {
     showQuickReply: boolean = window.Foundation.MediaQuery.atLeast('large') || false;
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$mdDialog', '_'];
-    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $mdDialog: IDialogService, private _: any) {}
+    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $mdDialog: any, private _: any) {}
 
     $onInit = function () {
         this.critique.replies = [];

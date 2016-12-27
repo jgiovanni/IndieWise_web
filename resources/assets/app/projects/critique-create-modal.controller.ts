@@ -1,8 +1,10 @@
 import IScope = angular.IScope;
 import IQService = angular.IQService;
-CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', 'project', '$q', 'Analytics'];
-function CritiqueDialogController($scope, $modalInstance, critique, project, $q, Analytics) {
-    zIndexPlayer();
+import {IScope} from "angular";
+import {IDataService} from "../services/dataService.service";
+CritiqueDialogController.$inject = ['$scope', 'DataService', '$modalInstance', 'critique', 'project', '$q', 'Analytics'];
+function CritiqueDialogController($scope: IScope, DataService: IDataService, $modalInstance: any, critique, project, $q, Analytics) {
+    // zIndexPlayer();
     $scope.critique = critique;
     $scope.project = project;
     $scope.ratingMax = 10;

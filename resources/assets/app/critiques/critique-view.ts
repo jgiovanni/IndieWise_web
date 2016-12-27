@@ -19,7 +19,7 @@ export class CritiqueViewController implements ICritiqueView {
     parentOwnerId: boolean;
 
     static $inject = ['$scope', '$mdDialog', 'DataService'];
-    constructor(private $scope: any, private $mdDialog: any, private DataService: any) {
+    constructor(private $scope: IScope, private $mdDialog: any, private DataService: any) {
         // console.log(this);
         this.loadComments();
     }

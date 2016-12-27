@@ -76,6 +76,13 @@ elixir(function(mix) {
         '../app/common/broadstreet-zone.js',
         '../app/common/static-sidebar.js',
 
+        // Auth
+        '../app/auth/register.js',
+        '../app/auth/sign-in.js',
+        '../app/auth/reset-password.js',
+        '../app/auth/messages.js',
+        '../app/auth/notifications.js',
+
         // Home
         '../app/home/home.js',
         '../app/home/home-projects-list.js',
@@ -92,6 +99,14 @@ elixir(function(mix) {
         // Winners
         '../app/winners/winners.js',
 
+        // User
+        '../app/user/user.js',
+        '../app/user/user-about.js',
+        '../app/user/user-awards.js',
+        '../app/user/user-critiques.js',
+        '../app/user/user-reactions.js',
+        '../app/user/user-videos.js',
+
         // Profile
         '../app/profile/profile.js',
         '../app/profile/profile-about.js',
@@ -105,14 +120,6 @@ elixir(function(mix) {
         '../app/profile/profile-videos.js',
         '../app/profile/profile-videos-edit.js',
 
-        // User
-        '../app/user/user.js',
-        '../app/user/user-about.js',
-        '../app/user/user-awards.js',
-        '../app/user/user-critiques.js',
-        '../app/user/user-reactions.js',
-        '../app/user/user-videos.js',
-
         // Comments
         '../app/comments/comments.js',
         '../app/comments/comment.js',
@@ -121,8 +128,10 @@ elixir(function(mix) {
         '../app/comments/quick-reply.js',
 
         // Critiques
+        '../app/critiques/critique.js',
         '../app/critiques/critiques.js',
         '../app/critiques/critique-item.js',
+        '../app/critiques/critique-edit.js',
         // '../app/critiques/critique-view.js',
         // '../app/critiques/critiques.js',
 
@@ -135,7 +144,8 @@ elixir(function(mix) {
         '../app/projects/script-viewer.js',
         '../app/projects/video-player.js',
 
-        //Directives
+        //Static
+        '../app/static/contact.js',
 
     ]);
 

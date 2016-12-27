@@ -95,13 +95,15 @@ var IndieWise;
         'IndieWise.directives',
         'IndieWise.filters',
         'IndieWise.utilities',
+        'IndieWise.auth',
+        'IndieWise.profile',
+        'IndieWise.user',
         'IndieWise.home',
         'IndieWise.browse',
         'IndieWise.latest',
         'IndieWise.winners',
         'IndieWise.project',
-        'IndieWise.profile',
-        'IndieWise.user',
+        'IndieWise.static',
     ])
         .factory('_', function () {
         return window.___;
@@ -229,26 +231,22 @@ var IndieWise;
                 .state('video_critique', {
                 url: '/{video_url_id}/critique/{url_id}',
                 authenticate: false,
-                templateUrl: 'templates/common/critique.html',
-                controller: 'VideoCritiqueCtrl as VCC',
+                template: '<critique critique="$resolve.Critique"></critique>',
                 resolve: {
                     Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
-                            return DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                            return DataService.item('critiques', $stateParams.url_id, 'project.owner')
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
                 .state('video_critique-edit', {
                 url: '/{video_url_id}/critique/{url_id}/edit',
                 authenticate: true,
-                templateUrl: 'templates/common/critique-edit.html',
-                controller: 'VideoCritiqueEditCtrl',
+                template: '<critique-edit critique="$resolve.Critique"></critique-edit>',
                 resolve: {
                     Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
-                            return DataService.item('critiques', $stateParams.url_id, 'project.owner').then(function (result) {
-                                return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result : 'Not Owner';
-                            }, function (error) { return console.log(error); });
+                            return DataService.item('critiques', $stateParams.url_id, 'project.owner')
+                                .then(function (result) { return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result : 'Not Owner'; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -258,14 +256,12 @@ var IndieWise;
                 template: '<user user="$resolve.User" user-stats="$resolve.UserStats"></user>',
                 resolve: {
                     User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
-                            return DataService.item('users', $stateParams.url_id).then(function (result) {
-                                return result.data.data;
-                            }, function (error) { return console.log(error); });
+                            return DataService.item('users', $stateParams.url_id)
+                                .then(function (result) { return result.data.data; }, function (error) { return console.log(error); });
                         }],
                     UserStats: ['User', 'DataService', function (User, DataService) {
-                            return DataService.item('users/countUserStats', User.id).then(function (response) {
-                                return response.data;
-                            }, function (error) { return console.log(error); });
+                            return DataService.item('users/countUserStats', User.id)
+                                .then(function (response) { return response.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -278,12 +274,8 @@ var IndieWise;
                 template: '<user-videos user="$resolve.User" projects="$resolve.Videos"></user-videos>',
                 resolve: {
                     Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
-                            return DataService.collection('projects', {
-                                owner: User.id, sort: 'created_at', per_page: 50
-                            })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                            return DataService.collection('projects', { owner: User.id, sort: 'created_at', per_page: 50 })
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -293,15 +285,11 @@ var IndieWise;
                 resolve: {
                     Critiques: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('critiques', { user: User.id, include: 'project' })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Critiqued: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('critiques', { notUser: User.id, include: 'project' })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -311,15 +299,11 @@ var IndieWise;
                 resolve: {
                     Reactions: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('reactions', { user: User.id, include: 'user,project' })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Reacted: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('reactions', { notUser: User.id, include: 'user,project' })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -329,27 +313,15 @@ var IndieWise;
                 resolve: {
                     Awards: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('wins', { user: User.id })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Nominations: ['User', 'DataService', function (User, DataService) {
-                            return DataService.collection('nominations', {
-                                user: User.id,
-                                include: 'user,project,award'
-                            })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                            return DataService.collection('nominations', { user: User.id, include: 'user,project,award' })
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Nominated: ['User', 'DataService', function (User, DataService) {
-                            return DataService.collection('nominations', {
-                                notUser: User.id,
-                                include: 'user,project,award'
-                            })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                            return DataService.collection('nominations', { notUser: User.id, include: 'user,project,award' })
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -360,16 +332,12 @@ var IndieWise;
                 template: '<profile user="$resolve.User" user-stats="$resolve.UserStats"></profile>',
                 resolve: {
                     User: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.item('users', AuthService.currentUser.id, { include: 'genres' })
-                                .then(function (response) {
-                                return response.data.data;
-                            }, function (error) { return console.log(error); });
+                            return DataService.item('users', AuthService.currentUser.id, 'genres')
+                                .then(function (response) { return response.data.data; }, function (error) { return console.log(error); });
                         }],
                     UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('users/countUserStats')
-                                .then(function (response) {
-                                return response.data;
-                            }, function (error) { return console.log(error); });
+                                .then(function (response) { return response.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -412,9 +380,7 @@ var IndieWise;
                 resolve: {
                     Videos: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('projects', {
-                                owner: AuthService.currentUser.id,
-                                sort: 'created_at',
-                                per_page: 50
+                                owner: AuthService.currentUser.id, sort: 'created_at', per_page: 50
                             })
                                 .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
@@ -441,18 +407,13 @@ var IndieWise;
                                 user: AuthService.currentUser.id,
                                 include: 'project'
                             })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Critiqued: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('critiques', {
-                                notUser: AuthService.currentUser.id,
-                                include: 'project'
+                                notUser: AuthService.currentUser.id, include: 'project'
                             })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -462,22 +423,15 @@ var IndieWise;
                 template: '<profile-reactions user="$resolve.User" reactions="$resolve.Reactions" reacted="$resolve.Reacted"></profile-reactions>',
                 resolve: {
                     Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.collection('reactions', {
-                                user: AuthService.currentUser.id,
-                                include: 'user,project'
-                            })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                            return DataService.collection('reactions', { user: AuthService.currentUser.id, include: 'user,project' })
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Reacted: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('reactions', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project'
                             })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -488,27 +442,21 @@ var IndieWise;
                 resolve: {
                     Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('wins', { user: AuthService.currentUser.id })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Nominations: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('nominations', {
                                 user: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }],
                     Nominated: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('nominations', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
-                                .then(function (result) {
-                                return result;
-                            }, function (error) { return console.log(error); });
+                                .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -541,10 +489,9 @@ var IndieWise;
                 .state('messages', {
                 url: '/messages',
                 authenticate: true,
-                templateUrl: 'templates/auth/messages.html',
-                controller: 'MessagesCtrl as Msgs',
+                template: '<messages conversations="$resolve.Conversations"></messages>',
                 resolve: {
-                    Conversations: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
+                    Conversations: ['DataService', function (DataService) {
                             return DataService.collection('messages')
                                 .then(function (result) { return result; }, function (error) { return console.log(error); });
                         }]
@@ -552,74 +499,57 @@ var IndieWise;
             })
                 .state('messages.message', {
                 authenticate: true,
-                templateUrl: 'templates/auth/messages.html',
-                controller: 'MessagesCtrl as Msgs'
+                template: '<messages conversations="$resolve.Conversations"></messages>',
             })
                 .state('register', {
                 url: '/register',
                 authenticate: false,
-                templateUrl: 'templates/auth/register.html',
-                controller: 'RegisterCtrl as RC'
-            })
-                .state('forum_register', {
-                url: '/community/register?redirect',
-                authenticate: false,
-                templateUrl: 'templates/auth/register.html',
-                controller: 'RegisterCtrl as RC'
+                template: '<register></register>',
             })
                 .state('sign_in', {
                 url: '/sign-in?redirect',
                 authenticate: false,
-                templateUrl: 'templates/auth/sign-in.html',
-                controller: 'SignInCtrl as SIC'
-            })
-                .state('forum_sign_in', {
-                url: '/community/sign-in?redirect',
-                authenticate: false,
-                templateUrl: 'templates/auth/sign-in.html',
-                controller: 'SignInCtrl as SIC'
+                template: '<sign-in></sign-in>',
             })
                 .state('reset_password', {
                 url: '/reset-password?email&token',
                 authenticate: false,
-                templateUrl: 'templates/auth/reset-password.html',
-                controller: 'ForgotPasswordCtrl as FPC'
+                template: '<reset-password></reset-password>',
             })
                 .state('about', {
                 url: '/about',
                 authenticate: false,
-                templateUrl: 'templates/static/about.html'
+                templateUrl: 'static/about.html'
             })
                 .state('faq', {
                 url: '/faq',
                 authenticate: false,
-                templateUrl: 'templates/static/faq.html'
+                templateUrl: 'static/faq.html'
             })
                 .state('contact', {
                 url: '/contact?email',
                 authenticate: false,
-                templateUrl: 'templates/static/contact.html',
-                controller: 'ContactPageCtrl as CC'
+                template: '<contact></contact>',
             })
                 .state('tos', {
                 url: '/terms-of-service',
                 authenticate: false,
-                templateUrl: 'templates/static/tos.html'
+                templateUrl: 'static/tos.html'
             })
                 .state('advertise', {
                 url: '/advertise',
                 authenticate: false,
-                templateUrl: 'templates/static/advertise.html'
+                templateUrl: 'static/advertise.html'
             })
                 .state('privacy', {
                 url: '/privacy-policy',
                 authenticate: false,
-                templateUrl: 'templates/static/privacy.html'
+                templateUrl: 'static/privacy.html'
             })
                 .state('404', {
                 url: '/404',
                 authenticate: false,
-                templateUrl: 'templates/static/404.html'
+                templateUrl: 'static/404.html'
             })
                 .state('video', {
                 url: '/{url_id:[0-9a-zA-Z]{10,13}}',
@@ -839,8 +769,10 @@ var IndieWise;
                 if (!newValue.push_id) {
                     OneSignal.getUserId()
                         .then(function (userId) {
-                        AuthService.updateUser({ id: newValue.id,
-                            push_id: userId });
+                        AuthService.updateUser({
+                            id: newValue.id,
+                            push_id: userId
+                        });
                     });
                 }
                 $rootScope.subscribeUserFeeds();
