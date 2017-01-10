@@ -275,7 +275,7 @@ var IndieWise;
                 resolve: {
                     Videos: ['User', 'DataService', '$q', function (User, DataService, $q) {
                             return DataService.collection('projects', { owner: User.id, sort: 'created_at', per_page: 50 })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -285,11 +285,11 @@ var IndieWise;
                 resolve: {
                     Critiques: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('critiques', { user: User.id, include: 'project' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Critiqued: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('critiques', { notUser: User.id, include: 'project' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -299,11 +299,11 @@ var IndieWise;
                 resolve: {
                     Reactions: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('reactions', { user: User.id, include: 'user,project' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Reacted: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('reactions', { notUser: User.id, include: 'user,project' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -313,15 +313,15 @@ var IndieWise;
                 resolve: {
                     Awards: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('wins', { user: User.id })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Nominations: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('nominations', { user: User.id, include: 'user,project,award' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Nominated: ['User', 'DataService', function (User, DataService) {
                             return DataService.collection('nominations', { notUser: User.id, include: 'user,project,award' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -332,8 +332,9 @@ var IndieWise;
                 template: '<profile user="$resolve.User" user-stats="$resolve.UserStats"></profile>',
                 resolve: {
                     User: ['AuthService', 'DataService', function (AuthService, DataService) {
-                            return DataService.item('users', AuthService.currentUser.id, 'genres')
-                                .then(function (response) { return response.data.data; }, function (error) { return console.log(error); });
+                            return AuthService.getCurrentUser()
+                                .then(function (response) { return DataService.item('users', response.id, 'genres')
+                                .then(function (response) { return response.data.data; }, function (error) { return console.log(error); }); }, function (error) { return console.log(error); });
                         }],
                     UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('users/countUserStats')
@@ -382,7 +383,7 @@ var IndieWise;
                             return DataService.collection('projects', {
                                 owner: AuthService.currentUser.id, sort: 'created_at', per_page: 50
                             })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -393,7 +394,7 @@ var IndieWise;
                 resolve: {
                     Project: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
                             return DataService.item('projects', $stateParams.url_id)
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -407,13 +408,13 @@ var IndieWise;
                                 user: AuthService.currentUser.id,
                                 include: 'project'
                             })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Critiqued: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('critiques', {
                                 notUser: AuthService.currentUser.id, include: 'project'
                             })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -424,14 +425,14 @@ var IndieWise;
                 resolve: {
                     Reactions: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('reactions', { user: AuthService.currentUser.id, include: 'user,project' })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Reacted: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('reactions', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project'
                             })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -442,39 +443,39 @@ var IndieWise;
                 resolve: {
                     Awards: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('wins', { user: AuthService.currentUser.id })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Nominations: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('nominations', {
                                 user: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }],
                     Nominated: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('nominations', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
                 .state('profile.playlists', {
                 url: '/playlists',
                 authenticate: true,
-                template: '<profile-playlists playlists="$resolve.Playlists"></profile-playlists>',
+                template: '<profile-playlists user="$resolve.User" playlists="$resolve.Playlists"></profile-playlists>',
                 resolve: {
                     Playlists: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('playlists')
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
                 .state('profile.settings', {
                 url: '/settings',
                 authenticate: true,
-                template: '<profile-settings genres="$resolve.Genres" user-types="$resolve.UserTypes"></profile-settings>',
+                template: '<profile-settings user="$resolve.User" user-stats="$resolve.UserStats" genres="$resolve.Genres" user-types="$resolve.UserTypes"></profile-settings>',
                 resolve: {
                     Genres: ['AuthService', 'DataService', '$q', function (AuthService, DataService, $q) {
                             return DataService.collection('genres')

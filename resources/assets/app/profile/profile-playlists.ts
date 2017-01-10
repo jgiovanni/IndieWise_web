@@ -6,8 +6,8 @@ export class ProfilePlaylistsController implements IUser{
     user: Object;
     userStats: Object;
     selectedPlaylist: Object;
-    playlists: Array<Object> = [];
-    playlistItems: Array<Object> = [];
+    playlists: Object = {};
+    playlistItems: Object = null;
     hasFave: boolean = false;
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '_', '$interval', '$http'];

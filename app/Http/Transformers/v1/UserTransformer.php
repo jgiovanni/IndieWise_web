@@ -40,7 +40,7 @@ class UserTransformer extends TransformerAbstract
     {
         $genres = $user->genres;
         if($genres)
-            return $this->item($genres, new GenreTransformer);
+            return $this->collection($genres, new GenreTransformer);
     }
 
 

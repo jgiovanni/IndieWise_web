@@ -5,7 +5,7 @@ import {IRootScopeService} from "angular";
 export class UserVideosController implements IUser{
     user: Object;
     userStats: Object;
-    projects: Array<Object> = [];
+    projects: Object = null;
 
     static $inject = ['$rootScope', 'DataService', '$modal', 'UserActions', '_'];
     constructor(private $rootScope: IRootScopeService, private DataService: IDataService, private $modal: any, private UserActions: IUserActionsService, private _: any) {

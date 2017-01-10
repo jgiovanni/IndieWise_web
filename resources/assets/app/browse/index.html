@@ -187,13 +187,13 @@
                                 <!--<hr class="">-->
                                 <!--{{typesList}}-->
                                 <h6>Types</h6>
-                                <div class="checkbox" ng-repeat="g in typesList|orderBy:'name'">
+                                <div class="checkbox" ng-repeat="g in Browse.$rootScope.typesList|orderBy:'name'">
                                     <input id="typeCheck{{$index}}" type="checkbox" ng-model="selected" ng-change="Browse.selectTypes(g)">
                                     <label class="customLabel" for="typeCheck{{$index}}">{{::g.name}}</label>
                                 </div>
 
                                 <h6>Genres</h6>
-                                <div class="checkbox" ng-repeat="g in genresList|orderBy:'name'">
+                                <div class="checkbox" ng-repeat="g in Browse.$rootScope.genresList|orderBy:'name'">
                                     <input id="genreCheck{{$index}}" type="checkbox" ng-model="selected" ng-change="Browse.selectGenres(g)">
                                     <label class="customLabel" for="genreCheck{{$index}}">{{::g.name}}</label>
                                 </div>

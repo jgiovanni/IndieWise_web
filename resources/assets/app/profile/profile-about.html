@@ -24,7 +24,7 @@
                 <h4>Description</h4>
             </div>
             <div class="description">
-                <p ng-bind="::ProfileAbout.user.bio"></p>
+                <p ng-bind="::ProfileAboutCtrl.user.bio"></p>
 
                 <!--<div class="email profile-margin">
                     <button><i class="fa fa-envelope"></i>Email</button>
@@ -37,14 +37,14 @@
 
                 <div class="socialLinks profile-margin">
                     <button><i class="fa fa-share-alt"></i>Get Social</button>
-                    <a ng-if="::ProfileAbout.user.website" ng-href="{{::ProfileAbout.user.website}}" class="inner-btn"><i class="fa fa-globe"></i></a>
-                    <a ng-if="::ProfileAbout.user.urlFacebook" ng-href="{{::ProfileAbout.user.urlFacebook}}" class="inner-btn"><i class="fa fa-facebook"></i></a>
-                    <a ng-if="::ProfileAbout.user.urlTwitter" ng-href="{{::ProfileAbout.user.urlTwitter}}" class="inner-btn"><i class="fa fa-twitter"></i></a>
-                    <a ng-if="::ProfileAbout.user.urlGoogle" ng-href="{{::ProfileAbout.user.urlGoogle}}" class="inner-btn"><i class="fa fa-google-plus"></i></a>
+                    <a ng-if="::ProfileAboutCtrl.user.website" ng-href="{{::ProfileAboutCtrl.user.website}}" class="inner-btn"><i class="fa fa-globe"></i></a>
+                    <a ng-if="::ProfileAboutCtrl.user.urlFacebook" ng-href="{{::ProfileAboutCtrl.user.urlFacebook}}" class="inner-btn"><i class="fa fa-facebook"></i></a>
+                    <a ng-if="::ProfileAboutCtrl.user.urlTwitter" ng-href="{{::ProfileAboutCtrl.user.urlTwitter}}" class="inner-btn"><i class="fa fa-twitter"></i></a>
+                    <a ng-if="::ProfileAboutCtrl.user.urlGoogle" ng-href="{{::ProfileAboutCtrl.user.urlGoogle}}" class="inner-btn"><i class="fa fa-google-plus"></i></a>
                 </div>
                 <div class="site profile-margin">
                     <button><i class="fa fa-user"></i>Profile Link</button>
-                    <a href="/user/{{::ProfileAbout.user.url_id}}/about" class="inner-btn" style="text-transform: lowercase;">http://getindiewise.com/user/{{::ProfileAbout.user.url_id}}/about</a>
+                    <a href="/user/{{::ProfileAboutCtrl.user.url_id}}/about" class="inner-btn" style="text-transform: lowercase;">http://getindiewise.com/user/{{::ProfileAboutCtrl.user.url_id}}/about</a>
                 </div>
 
             </div>

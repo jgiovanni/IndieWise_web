@@ -237,7 +237,7 @@
 
                                 <!--<div class="radio" style="margin-bottom: 20px;">
                                     <label>Preferred Genres:</label>
-                                    <input type="checkbox" ng-repeat-start="g in RC.genresList|orderBy:'name'"
+                                    <input type="checkbox" ng-repeat-start="g in RC.$rootScope.genresList|orderBy:'name'"
                                            ng-model="bool" name="genre{{$index}}" id="genre{{$index}}"
                                            ng-change="RC.syncGenres(bool, g)" ng-checked="RC.isCheckedGenre(g.id)">
                                     <label ng-repeat-end class="customLabel" for="genre{{$index}}">{{::g.name}}</label>
@@ -245,7 +245,7 @@
 
                                 <!--<div class="radio" style="margin-bottom: 20px;">
                                     <label>Preferred Types:</label>
-                                    <input type="checkbox" ng-repeat-start="t in RC.typesList|orderBy:'name'"
+                                    <input type="checkbox" ng-repeat-start="t in RC.$rootScope.typesList|orderBy:'name'"
                                            ng-model="bool" name="type{{$index}}" id="type{{$index}}"
                                            ng-change="RC.syncTypes(bool, t)" ng-checked="RC.isCheckedType(t.id)">
                                     <label ng-repeat-end class="customLabel" for="type{{$index}}">{{::t.name}}</label>
@@ -254,7 +254,7 @@
                                 <label>
                                     <select ng-model="RC.user.country" required>
                                         <option value="">Select Country</option>
-                                        <option ng-value="c.id" ng-repeat="c in countryList|orderBy:'name'"
+                                        <option ng-value="c.id" ng-repeat="c in RC.$rootScope.countryList|orderBy:'name'"
                                                  class="md-accent">
                                           {{::c.name}}
                                         </option>

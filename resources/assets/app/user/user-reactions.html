@@ -28,7 +28,7 @@
                                 <!-- main comment -->
                                 <div class="main-comment">
                                     <div class="media-object stack-for-small"
-                                         ng-repeat="reaction in UserReactionsCtrl.reactions|orderBy:sortOrder">
+                                         ng-repeat="reaction in UserReactionsCtrl.reactions.data|orderBy:sortOrder">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
                                                 <img ng-src="{{::reaction.project.data.thumbnail_url||'/assets/img/avatar-1.png'}}"
@@ -70,7 +70,7 @@
                                 <!-- main comment -->
                                 <div class="main-comment">
                                     <div class="media-object stack-for-small"
-                                         ng-repeat="reaction in UserReactionsCtrl.reacted|orderBy:sortOrder">
+                                         ng-repeat="reaction in UserReactionsCtrl.reacted.data|orderBy:sortOrder">
                                         <div class="media-object-section comment-img text-center">
                                             <div class="comment-box-img">
                                                 <a ui-sref="user.about({url_id: reaction.user.data.url_id})"><img ng-src="{{::reaction.user.data.avatar||'/assets/img/avatar-1.png'}}"

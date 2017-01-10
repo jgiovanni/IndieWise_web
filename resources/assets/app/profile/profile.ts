@@ -18,7 +18,7 @@ export class ProfileController implements IProfile{
     }
 
     generatePublicId (type: string) {
-        return self.user.url_id + '_' + type + '_' + moment().valueOf();
+        return this.user.url_id + '_' + type + '_' + moment().valueOf();
     }
 
     pickBanner(){

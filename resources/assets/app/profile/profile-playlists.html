@@ -7,7 +7,7 @@
                 <h4>My Playlists</h4>
             </div>
             <label>Select Playlist
-                <select ng-options="pl.id as pl.name for pl in ProfilePlaylistsCtrl.playlists"
+                <select ng-options="pl.id as pl.name for pl in ProfilePlaylistsCtrl.playlists.data"
                         ng-model="ProfilePlaylistsCtrl.selectedPlaylist" ng-change="ProfilePlaylistsCtrl.loadPlaylistItems()">
                 </select>
             </label>

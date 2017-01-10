@@ -1,7 +1,6 @@
-import IRootScopeService = angular.IRootScopeService;
+import {IRootScopeService, IScope, ITimeoutService, IQService} from "angular";
 import {IStateService} from "angular-ui-router";
 import {IDataService} from "../services/dataService.service";
-import ITimeoutService = angular.ITimeoutService;
 interface IBrowse {
     isOpen: boolean;
     loading: boolean;
@@ -26,7 +25,7 @@ export class BrowseController implements IBrowse {
     selectedGenres: Array<Object> = [];
     selectedTypes: Array<Object> = [];
     films: Array<Object> = [];
-    arrs: Object= {
+    arrs: Object = {
         genres: [],
         types: []
     };
@@ -39,33 +38,38 @@ export class BrowseController implements IBrowse {
     };
 
     static $inject = ['$scope', '$rootScope', '$state', 'DataService', '$q', '$timeout', '$modal', '$mdSidenav', '_'];
-    constructor(private $scope: IScope, private $rootScope: IRootScopeService, private $state: IStateService, private DataService: IDataService, private $q: IQService, private $timeout: ITimeoutService, private $modal: any, private $mdSidenav: any, private _: any){
+
+    constructor(private $scope: IScope, private $rootScope: IRootScopeService, private $state: IStateService, private DataService: IDataService, private $q: IQService, private $timeout: ITimeoutService, private $modal: any, private $mdSidenav: any, private _: any) {
         let self = this;
     }
 
     $onInit = function () {
         let self = this;
-        this.$rootScope.AppData.searchText = $rootScope.$stateParams.q;
+        this.$rootScope.AppData.searchText = this.$rootScope.$stateParams.q;
 
         this.$rootScope.generateTypes().then(function (types) {
-            var d = $q.defer();
+            let d = self.$q.defer();
 
             self.arrs.types = angular.isArray(self.selectedTypes) && self.selectedTypes.length ? self.selectedTypes : types;
             return d.promise;
-        });
-        this.refresh()
+        }, (error) => console.log(error));
+        this.refresh();
     };
 
-    refresh () {
-        $q.all([$rootScope.generateTypes(), $rootScope.generateGenres()]).then(function (values) {
-            self.filters.sort = $rootScope.$stateParams.sort || 'recent';
-            self.search();
-        });
+    refresh() {
+        let self = this;
+        this.$q.all([self.$rootScope.generateTypes(), self.$rootScope.generateGenres()])
+            .then(function (values) {
+                self.
+                self.filters.sort = self.$rootScope.$stateParams.sort || 'recent';
+                self.search();
+            });
     }
 
-    search () {
+    search() {
+        let self = this;
         self.loading = true;
-        var filterField = '';
+        let filterField = '';
         switch (self.filters.sort) {
             case 'trending':
                 filterField = 'reactions_count';
@@ -82,33 +86,32 @@ export class BrowseController implements IBrowse {
                 break;
         }
 
-        $rootScope.AppData.searchText = $rootScope.$stateParams.q = self.filters.search || undefined;
-        DataService.collection('projects', {
+        self.$rootScope.AppData.searchText = self.$rootScope.$stateParams.q = self.filters.search || undefined;
+        self.DataService.collection('projects', {
             sort: filterField,
             order: 'DESC',
-            types: _.pluck(self.selectedTypes, 'id').toString(),
-            genres: _.pluck(self.selectedGenres, 'id').toString(),
+            types: self._.pluck(self.selectedTypes, 'id').toString(),
+            genres: self._.pluck(self.selectedGenres, 'id').toString(),
             search: self.filters.search || undefined,
             per_page: 50,
             page: self.filters.page
-        }).then(function (res) {
+        }).then(res => {
             self.pagination = res.data.meta.pagination;
             return self.films = res.data.data;
-        }).then(function () {
-            self.loading = false;
-        });
+        }, (error) => console.log(error)).then(() => self.loading = false);
 
 
-        $scope.$broadcast('scroll.refreshComplete');
+        self.$scope.$broadcast('scroll.refreshComplete');
     }
 
-    loadMore () {
+    loadMore() {
+        let self = this;
         if (self.loading) {
-            $rootScope.toastMessage('Please wait...');
+            self.$rootScope.toastMessage('Please wait...');
         }
 
         self.loading = true;
-        var filterField = '';
+        let filterField = '';
         switch (self.filters.sort) {
             case 'trending':
                 filterField = 'reactions_count';
@@ -125,39 +128,40 @@ export class BrowseController implements IBrowse {
                 break;
         }
 
-        DataService.collection('projects', {
+        self.DataService.collection('projects', {
             sort: filterField,
             order: 'DESC',
-            types: _.pluck(self.selectedTypes, 'id').toString(),
-            genres: _.pluck(self.selectedGenres, 'id').toString(),
+            types: self._.pluck(self.selectedTypes, 'id').toString(),
+            genres: self._.pluck(self.selectedGenres, 'id').toString(),
             search: self.filters.search || undefined,
             per_page: 50,
             page: ++self.filters.page
-        }).then(function (res) {
-            return self.films = _.union(self.films, res.data.data);
-        }).then(function () {
-            self.loading = false;
-        });
+        })
+            .then(res => self.films = self._.union(self.films, res.data.data), (error) => console.log(error))
+            .then(() => self.loading = false);
     }
 
-    selectGenres (genre: Object) {
-        var exists = _.findWhere(self.selectedGenres, {id: genre.id});
-        !!exists ? self.selectedGenres = _.reject(self.selectedGenres, genre) : self.selectedGenres.push(genre);
+    selectGenres(genre: Object) {
+        let self = this;
+        let exists = self._.findWhere(self.selectedGenres, {id: genre.id});
+        !!exists ? self.selectedGenres = self._.reject(self.selectedGenres, genre) : self.selectedGenres.push(genre);
         self.search();
     }
 
-    selectTypes (type: Object) {
-        var exists = _.find(self.selectedTypes, {id: type.id});
-        !!exists ? self.selectedTypes = _.reject(self.selectedTypes, type) : self.selectedTypes.push(type);
+    selectTypes(type: Object) {
+        let self = this;
+        let exists = self._.find(self.selectedTypes, {id: type.id});
+        !!exists ? self.selectedTypes = self._.reject(self.selectedTypes, type) : self.selectedTypes.push(type);
         self.search();
     }
 
-    filterBy (filter: any) {
+    filterBy(filter: any) {
+        let self = this;
         self.search();
     }
 
-    toggleFilterNav () {
-        $mdSidenav('filterNav')
+    toggleFilterNav() {
+        this.$mdSidenav('filterNav')
             .toggle()
             .then(function () {
 
@@ -167,7 +171,7 @@ export class BrowseController implements IBrowse {
 }
 
 angular.module('IndieWise.browse', [])
-    // .controller('BrowseCtrl', BrowseController)
+// .controller('BrowseCtrl', BrowseController)
     .component('browse', {
         templateUrl: 'browse/index.html',
         controller: BrowseController,

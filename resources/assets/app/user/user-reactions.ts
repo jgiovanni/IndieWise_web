@@ -3,11 +3,15 @@ import {IRootScopeService} from "angular";
 export class UserReactionsController implements IUser{
     user: Object;
     userStats: Object;
-    reactions: Array<Object> = [];
-    reacted: Array<Object> = [];
+    reactions: Object = null;
+    reacted: Object = null;
     static $inject = ['$rootScope', '_'];
     constructor(private $rootScope: IRootScopeService, private _: any) {
         let self = this;
+    }
+
+    $onInit = function () {
+
     }
 
     getEmoticonByEmotion (emotion: string) {

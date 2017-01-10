@@ -1,4 +1,3 @@
-import {IUser} from "../user/user";
 import {IProfile} from "./profile";
 import {IRootScopeService, IWindowService} from "angular";
 import {IAuthService} from "../services/authService.service";
@@ -20,16 +19,17 @@ export class ProfileSettingsController implements IProfile {
 
     static $inject = ['$rootScope', 'AuthService', 'DataService', 'anchorSmoothScroll', '_', '$window', '$intercom', '$mdDialog'];
 
-    constructor(private $rootScope: IRootScopeService, private AuthService: IAuthService, private DataService: IDataService, private anchorSmoothScroll: any, _, private $window: IWindowService, private $intercom: any, private $mdDialog: any) {
+    constructor(private $rootScope: IRootScopeService, private AuthService: IAuthService, private DataService: IDataService, private anchorSmoothScroll: any, private _: any, private $window: IWindowService, private $intercom: any, private $mdDialog: any) {
         let self = this;
     }
 
     $onInit = function () {
         let self = this;
+        // this.updateUser = this._.throttle(this._updateUser, 1000);
         let pwSetting = this.$window.localStorage.getItem('pwAllowPushNotifications');
         this.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
 
-        this.genresArr = this.user.genres; //Genres.data.data;
+        this.genresArr = this.user.genres.data; //Genres.data.data;
         this.typesArr = this.user.types;// UserTypes.data.data;
 
         this.user.dob = moment(this.user.dob).startOf('day').toDate();

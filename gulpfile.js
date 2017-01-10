@@ -132,8 +132,6 @@ elixir(function(mix) {
         '../app/critiques/critiques.js',
         '../app/critiques/critique-item.js',
         '../app/critiques/critique-edit.js',
-        // '../app/critiques/critique-view.js',
-        // '../app/critiques/critiques.js',
 
         // Projects
         '../app/projects/project.js',

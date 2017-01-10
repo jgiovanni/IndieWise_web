@@ -4,9 +4,9 @@ import {IDataService} from "../services/dataService.service";
 export class UserAwardsController implements IUser {
     user: Object;
     userStats: Object;
-    awards: Array<Object>;
-    nominations: Array<Object>;
-    nominated: Array<Object>;
+    awards: Object;
+    nominations: Object;
+    nominated: Object;
 
     static $inject = ['$rootScope', 'DataService'];
     constructor(private $rootScope: IRootScopeService, private DataService: IDataService) {
@@ -15,7 +15,7 @@ export class UserAwardsController implements IUser {
 }
 
 angular.module('IndieWise.user')
-    .component('userVideos', {
+    .component('userAwards', {
         require: {
             UserCtrl: '^^user'
         },

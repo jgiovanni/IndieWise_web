@@ -3,8 +3,8 @@ import {IUser} from "./user";
 export class UserCritiquesController implements IUser{
     user: Object;
     userStats: Object;
-    critiques: Array<Object> = [];
-    critiqued: Array<Object> = [];
+    critiques: Object = null;
+    critiqued: Object = null;
 
     static $inject = ['$rootScope'];
     constructor(private $rootScope: IRootScopeService) {

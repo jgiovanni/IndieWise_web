@@ -6,7 +6,7 @@ angular.module('IndieWise.profile')
         require: {
             ProfileCtrl: '^^profile'
         },
-        templateUrl: 'user/profile-critiques.html',
+        templateUrl: 'profile/profile-critiques.html',
         controller: ProfileCritiquesController,
         controllerAs: 'ProfileCritiquesCtrl',
         bindings: {user: '<', userStats: '<', critiques: '<', critiqued: '<'}

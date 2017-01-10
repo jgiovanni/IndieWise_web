@@ -343,7 +343,7 @@ module IndieWise {
                     resolve: {
                         Videos: ['User', 'DataService', '$q', function (User, DataService: IDataService, $q: IQService) {
                             return DataService.collection('projects', {owner: User.id, sort: 'created_at', per_page: 50})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -353,11 +353,11 @@ module IndieWise {
                     resolve: {
                         Critiques: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('critiques', {user: User.id, include: 'project'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Critiqued: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('critiques', {notUser: User.id, include: 'project'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -367,11 +367,11 @@ module IndieWise {
                     resolve: {
                         Reactions: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('reactions', {user: User.id, include: 'user,project'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Reacted: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('reactions', {notUser: User.id, include: 'user,project'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -381,15 +381,15 @@ module IndieWise {
                     resolve: {
                         Awards: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('wins', {user: User.id})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Nominations: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('nominations', {user: User.id, include: 'user,project,award'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Nominated: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.collection('nominations', {notUser: User.id, include: 'user,project,award'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -402,8 +402,10 @@ module IndieWise {
                     template: '<profile user="$resolve.User" user-stats="$resolve.UserStats"></profile>',
                     resolve: {
                         User: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
-                            return DataService.item('users', AuthService.currentUser.id, 'genres')
-                                .then(response => response.data.data, (error) => console.log(error));
+                            return AuthService.getCurrentUser()
+                                .then(response => DataService.item('users', response.id, 'genres')
+                                    .then(response => response.data.data, (error) => console.log(error))
+                                , (error) => console.log(error) )
                         }],
                         UserStats: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('users/countUserStats')
@@ -450,7 +452,7 @@ module IndieWise {
                             return DataService.collection('projects', {
                                 owner: AuthService.currentUser.id, sort: 'created_at', per_page: 50
                             })
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -461,7 +463,7 @@ module IndieWise {
                     resolve: {
                         Project: ['AuthService', '$stateParams', 'DataService', function (AuthService: IAuthService, $stateParams: IStateParamsService, DataService: IDataService) {
                             return DataService.item('projects', $stateParams.url_id)
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -475,13 +477,13 @@ module IndieWise {
                                 user: AuthService.currentUser.id,
                                 include: 'project'
                             })
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Critiqued: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('critiques', {
                                 notUser: AuthService.currentUser.id, include: 'project'
                             })
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -492,14 +494,14 @@ module IndieWise {
                     resolve: {
                         Reactions: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('reactions', {user: AuthService.currentUser.id, include: 'user,project'})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Reacted: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('reactions', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project'
                             })
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -510,39 +512,39 @@ module IndieWise {
                     resolve: {
                         Awards: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('wins', {user: AuthService.currentUser.id})
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Nominations: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('nominations', {
                                 user: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }],
                         Nominated: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('nominations', {
                                 notUser: AuthService.currentUser.id,
                                 include: 'user,project,award'
                             })
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.playlists', {
                     url: '/playlists',
                     authenticate: true,
-                    template: '<profile-playlists playlists="$resolve.Playlists"></profile-playlists>',
+                    template: '<profile-playlists user="$resolve.User" playlists="$resolve.Playlists"></profile-playlists>',
                     resolve: {
                         Playlists: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return DataService.collection('playlists')
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data, (error) => console.log(error));
                         }]
                     }
                 })
                 .state('profile.settings', {
                     url: '/settings',
                     authenticate: true,
-                    template: '<profile-settings genres="$resolve.Genres" user-types="$resolve.UserTypes"></profile-settings>',
+                    template: '<profile-settings user="$resolve.User" user-stats="$resolve.UserStats" genres="$resolve.Genres" user-types="$resolve.UserTypes"></profile-settings>',
                     resolve: {
                         Genres: ['AuthService', 'DataService', '$q', function (AuthService: IAuthService, DataService: IDataService, $q: IQService) {
                             return DataService.collection('genres')
