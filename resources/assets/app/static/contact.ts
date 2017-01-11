@@ -43,7 +43,7 @@ export class ContactController {
             description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'
         },
         {
-            title: 'Register for IndieWise Convention (JULY 28-30, 2017)',
+            title: 'Register for IndieWise Convention (AUG 25-27, 2017)',
             address: 'convention@getindiewise.com',
             description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'
         },
@@ -53,7 +53,7 @@ export class ContactController {
             description: 'We welcome any feedback you have, to help us to provide you with the very best experience! Tell us!'
         },
     ];
-    selectedEmail = this._.contains(this._.pluck(this.emails, 'address').bind(this), this.$rootScope.$stateParams.email).bind(this) ? this._.findWhere(this.emails, {address: this.$rootScope.$stateParams.email}).bind(this) : null;
+    selectedEmail: Object = null;
     description: string = '';
     form: Object = {
         to: '',
@@ -69,12 +69,13 @@ export class ContactController {
     }
 
     $onInit = function () {
+        this.selectedEmail = this._.contains(this._.pluck(this.emails, 'address'), this.$rootScope.$stateParams.email) ? this._.findWhere(this.emails, {address: this.$rootScope.$stateParams.email}) : null;
         this.getDescription();
     };
 
     getDescription () {
         let self = this;
-        self.description = angular.isObject(self.selectedEmail) ? $sce.trustAsHtml(self.selectedEmail.description) : $sce.trustAsHtml('');
+        self.description = angular.isObject(self.selectedEmail) ? this.$sce.trustAsHtml(self.selectedEmail.description) : this.$sce.trustAsHtml('');
     }
 
     submitForm () {

@@ -12,15 +12,7 @@
                         Artists, and Art Lovers, who seek Objective Feedback on their work from peers, and wish
                         to also participate in providing feedback and judging other projects or works.
                     </div>
-                    <hr>
-                    <div class="">
-                        <a class="tiny expanded button" ui-sref="privacy">Privacy Policy</a>
-                        <a class="tiny expanded button" ui-sref="faq">FAQ</a>
-                        <a class="tiny expanded button" ui-sref="advertise">Advertise</a>
-                        <a class="tiny expanded button" ui-sref="tos">Terms of Service</a>
-                        <a class="tiny expanded button" ui-sref="contact">Contact</a>
-                        <a class="tiny expanded button" ui-sref="about">About</a>
-                    </div>
+                    {{--<hr>--}}
                 </div>
             </div>
             <div class="large-6 medium-6 columns">
@@ -74,10 +66,18 @@
             <div class="large-6 medium-6 columns">
                 <div class="widgetBox">
                     <div class="widgetTitle">
-                        <h5>Subscribe Now</h5>
+                        <h5>Links</h5>
                     </div>
                     <div class="widgetContent">
-                        <form data-abide ng-submit="Body.newsletterRegister(Body.notifyMe)" name="notifyMe">
+                        <div class="">
+                            <a class="tiny expanded button" ui-sref="privacy">Privacy Policy</a>
+                            <a class="tiny expanded button" ui-sref="faq">FAQ</a>
+                            <a class="tiny expanded button" ui-sref="advertise">Advertise</a>
+                            <a class="tiny expanded button" ui-sref="tos">Terms of Service</a>
+                            <a class="tiny expanded button" ui-sref="contact">Contact</a>
+                            <a class="tiny expanded button" ui-sref="about">About</a>
+                        </div>
+                        {{--<form data-abide ng-submit="Body.newsletterRegister(Body.notifyMe)" name="notifyMe">
                             <p>Subscribe to get exclusive videos</p>
 
                             <div class="input">
@@ -110,7 +110,7 @@
                                 </select>
                             </div>
                             <button class="button" type="submit">Subscribe Now</button>
-                        </form>
+                        </form>--}}
                     </div>
                 </div>
             </div>

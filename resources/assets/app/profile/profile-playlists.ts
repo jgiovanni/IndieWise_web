@@ -12,20 +12,25 @@ export class ProfilePlaylistsController implements IUser{
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '_', '$interval', '$http'];
     constructor(private $rootScope: IRootScopeService, private DataService: IDataService, private UserActions: IUserActionsService, private _: any, private $interval: IIntervalService, private $http: IHttpService) {
+
+    }
+
+    $onInit = function () {
         let self = this;
         this.hasFave = this._.findWhere(self.playlists, {name: 'Favorites', private: true});
-        this.selectedPlaylist = !!this.hasFave ? this.hasFave.id : this.playlists.length ? this.playlists[0].id : null;
+        this.selectedPlaylist = this.hasFave ? this.hasFave.id : this.playlists.length ? this.playlists[0].id : null;
 
         // autoload if preselect
         if (angular.isString(this.selectedPlaylist)) {
             this.loadPlaylistItems();
         }
-    }
+        console.log(this);
+    };
 
     loadPlaylistItems () {
         let self = this;
         this.DataService.collection('playlistItems', {playlist: this.selectedPlaylist, include: 'project.owner'})
-            .then(res => self.playlistItems = res.data.data, (error) => console.log(error));
+            .then(res => self.playlistItems = res.data, (error) => console.log(error));
     }
 
     removeItem (id) {
@@ -44,6 +49,6 @@ angular.module('IndieWise.profile')
         },
         templateUrl: 'profile/profile-playlists.html',
         controller: ProfilePlaylistsController,
-        controllerAs: 'ProfilePlaylistsCtrl',
+        // controllerAs: 'ProfilePlaylistsCtrl',
         bindings: {user: '<', userStats: '<', playlists: '<'}
     });

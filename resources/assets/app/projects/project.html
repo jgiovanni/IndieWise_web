@@ -7,7 +7,7 @@
             <nav aria-label="You are here:" role="navigation">
                 <ul class="breadcrumbs">
                     <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
-                    <!--<li><a href="#">Animation</a></li>-->
+                    <!--<li><a>Animation</a></li>-->
                     <li>
                         <a ui-sref="user.about({url_id: VC.project.owner.url_id})">{{VC.project.owner.fullName}}</a>
                     </li>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="categories">
+                        <div class="categories" ng-if="VC.project.director.length">
                             <button><i class="fa fa-chevron-right"></i>Director</button>
                             <a ui-sref="browse({q: VC.project.director})" class="inner-btn" ng-bind="VC.project.director"></a>
                         </div>
@@ -87,7 +87,7 @@
                             <button><i class="fa fa-chevron-right"></i>Producer(s)</button>
                             <a ui-sref="browse({q: VC.project.producers})" class="inner-btn" ng-bind="VC.project.producers"></a>
                         </div>
-                        <div class="categories">
+                        <div class="categories" ng-if="VC.project.hosting_type !== 'script'">
                             <button><i class="fa fa-chevron-right"></i>Country of Filming</button>
                             <a ui-sref="browse({q: VC.project.projecting_country.name})" class="inner-btn" ng-bind="VC.project.projecting_country.name"></a>
                         </div>
@@ -103,12 +103,17 @@
                             <button><i class="fa fa-chevron-right"></i>Genres</button>
                             <a ng-repeat="g in VC.project.genres" ui-sref="browse({genres: g.name})" style="margin-right: 2px;" class="inner-btn">{{g.name}}</a>
                         </div>
-                        <div class="categories">
+                        <div class="categories" ng-if="VC.project.hosting_type !== 'script'">
                             <button><i class="fa fa-chevron-right"></i>Running Time</button>
-                            <a href="#" class="inner-btn"
+                            <a class="inner-btn"
                                ng-bind="VC.project.runTime|secondsToDateTime|date:'HH:mm:ss'"></a>
                         </div>
-                        <div class="tags">
+                        <div class="categories" ng-if="VC.project.hosting_type === 'script'">
+                            <button><i class="fa fa-chevron-right"></i>Pages</button>
+                            <a class="inner-btn"
+                               ng-bind="VC.project.runTime"></a>
+                        </div>
+                        <div class="tags" ng-if="VC.project.tags.length">
                             <button><i class="fa fa-tags"></i>Tags</button>
                             <a class="inner-btn" ui-sref="browse({q: tag})" ng-repeat="tag in VC.tagsArray" style="margin-right: 2px;">{{tag}}</a>
                         </div>
@@ -359,7 +364,7 @@
                         <div class="widgetContent">
                             <div class="advBanner text-center">
                                 <broadstreet-zone zone="51349" width="300" height="250"></broadstreet-zone>
-                                <!--<a href="#"><img src="/assets/images/sideradv.png" alt="sidebar adv"></a>-->
+                                <!--<a><img src="/assets/images/sideradv.png" alt="sidebar adv"></a>-->
                             </div>
                         </div>
                     </div>

@@ -7,12 +7,13 @@
                 <h4>My Playlists</h4>
             </div>
             <label>Select Playlist
-                <select ng-options="pl.id as pl.name for pl in ProfilePlaylistsCtrl.playlists.data"
-                        ng-model="ProfilePlaylistsCtrl.selectedPlaylist" ng-change="ProfilePlaylistsCtrl.loadPlaylistItems()">
+                <select ng-options="pl.id as pl.name for pl in $ctrl.playlists.data"
+                        ng-model="$ctrl.selectedPlaylist" ng-change="$ctrl.loadPlaylistItems()">
                 </select>
             </label>
             <hr>
-            <div class="profile-video" ng-repeat="item in ProfilePlaylistsCtrl.playlistItems">
+            <h4 class="text-center" ng-if="$ctrl.playlistItems.data.length === 0"> No projects added to this playlist yet</h4>
+            <div class="profile-video" ng-if="$ctrl.playlistItems.data.length" ng-repeat="item in $ctrl.playlistItems.data">
                 <div class="media-object stack-for-small">
                     <div class="media-object-section media-img-content">
                         <div class="video-img" ui-sref="video({url_id: item.project.data.url_id})">
@@ -30,7 +31,7 @@
                                 <span><i class="fa fa-clock-o"></i>{{::item.project.data.created_at|amUtc|amLocal|amDateFormat:'lll'}}</span>
                             </div>
                             <div class="video-btns">
-                                <a class="video-btn" ng-click="ProfilePlaylistsCtrl.removeItem(item.id)">
+                                <a class="video-btn" ng-click="$ctrl.removeItem(item.id)">
                                     <i class="fa fa-times"></i> Remove item
                                 </a>
                             </div>

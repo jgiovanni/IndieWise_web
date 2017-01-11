@@ -26,8 +26,8 @@ class PlaylistsController extends Controller
     public function index(Request $request)
     {
         $user = $this->auth->user();
-        $playlists = $this->playlist->where('user_id', $user->id)->get();
-        return response()->json(compact('playlists'));
+        $data = $this->playlist->where('user_id', $user->id)->get();
+        return response()->json(compact('data'));
     }
 
     /**
