@@ -11,6 +11,9 @@ interface IProject {
     tagsArray: Array<string>;
     lightsOff: boolean;
     project: Object;
+    projectStats: Object;
+    projectCritiques: Object;
+    projectReactions: Object;
     critiquesParams: Object;
     wins: Array<Object>;
     nominations: Array<Object>;
@@ -20,6 +23,7 @@ interface IProject {
     qWins: () => void;
     toggleWidthMode: () => void;
     updateVideoObj: () => void;
+    handleActions: (action: string, data: Object) => void;
     toggleLights: () => void;
     zIndexPlayer: (remove: boolean) => void;
 }
@@ -33,6 +37,9 @@ export class ProjectController implements IProject {
     tagsArray: Array<string> = [];
     lightsOff: boolean = false;
     project: Object;
+    projectStats: Object;
+    projectCritiques: Object;
+    projectReactions: Object;
     critiquesParams: Object;
     wins: Array<Object> = [];
     nominations: Array<Object> = [];
@@ -99,22 +106,45 @@ export class ProjectController implements IProject {
     }
 
     qNominations () {
+        let self = this;
         this.DataService.collection('nominations', {include: 'user,award', project: this.project.id, sort: 'created_at', per_page: 200, page: this.nominationsPage})
             .then((result) => {
-                this.nominations = result.data.data;
+                self.nominations = result.data.data;
                 //// console.log('Nomination: ', result.data);
-            }, (error) => console.log(error)).bind(this);
+            }, (error) => console.log(error));
     }
 
     qWins () {
+        let self = this;
         this.DataService.collection('wins', {project: this.project.id, sort: 'created_at'})
             .then((result) => {
-                this.wins = result.data.data;
+                self.wins = result.data.data;
                 // console.log('AwardWin: ', result.data);
-            }, (error) => console.log(error)).bind(this);
+            }, (error) => console.log(error));
     }
 
-    showMessageDialog () {
+    handleActions(action: string, data: Object) {
+        let self = this;
+        switch (action) {
+            case 'reaction':
+                // communicate with child to refresh reaction
+                console.log('refresh reactions');
+                console.log(data);
+                this.projectReactions.refresh();
+                break;
+            case 'rate':
+                console.log('refresh rates');
+                console.log(data);
+                break;
+            case 'critique':
+                console.log('refresh critiques');
+                console.log(data);
+                this.projectCritiques.load();
+                break;
+        }
+    }
+
+    /*showMessageDialog () {
         if (this.$rootScope.isAuthenticated()) {
             let params = {
                 templateUrl: 'templates/common/contactUserDialog.html',
@@ -128,23 +158,25 @@ export class ProjectController implements IProject {
             let msgModal = this.$modal.open(params);
         } else this.UserActions.loginModal();
 
-    }
+    }*/
 
     toggleWidthMode () {
+        let self = this;
         this.$window.localStorage.playerResponsiveMode = this.playerResponsiveMode = !this.playerResponsiveMode;
         this.$timeout(() => {
-            this.$window.videoPlayer.resize();
+            self.$window.player.resize();
             //fail-safe
-            this.$timeout( () => this.$window.videoPlayer.resize(), 500).bind(this);
-        }, 100).bind(this);
+            self.$timeout( () => self.$window.player.resize(), 500);
+        }, 100);
     }
 
     updateVideoObj () {
+        let self = this;
         return this.DataService.item('projects', this.project.id)
             .then(function (response) {
                 console.log('Project Updated: ', response);
-                this.project = a.data.data;
-            }.bind(this), (error) => console.log(error));
+                self.project = response.data.data;
+            }, (error) => console.log(error));
     }
 
     toggleLights () {

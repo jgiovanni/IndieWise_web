@@ -30,10 +30,10 @@ export class CritiquesController implements ICritiques {
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$modal', '_'];
 
-    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $modal: IDialogService, private _: any) {
-    }
+    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $modal: IDialogService, private _: any) {}
 
     $onInit = function () {
+        this.projectCtrl.projectCritiques = this;
         this.load();
     };
 
@@ -80,6 +80,9 @@ export class CritiquesController implements ICritiques {
 
 angular.module('IndieWise.directives')
 /*IndieWise*/.component('critiques', {
+    require: {
+        projectCtrl: '^^project'
+    },
     transclude: true,
     templateUrl: 'critiques/critiques.html',
     controller: CritiquesController,

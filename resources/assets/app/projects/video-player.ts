@@ -1,4 +1,4 @@
-import {IRootScopeService, ITimeoutService, IIntervalService} from "angular";
+import {IRootScopeService, ITimeoutService, IIntervalService, IScope} from "angular";
 import {IDataService} from "../services/dataService.service";
 import {IUserActionsService} from "../services/userActions.service";
 import {IStateService} from "angular-ui-router";
@@ -46,8 +46,8 @@ export class VideoPlayerController implements IVideoPlayer {
         }
     };
 
-    static $inject = ['$rootScope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_'];
-    constructor(private $rootScope: IRootScopeService, private DataService: IDataService, private UserActions: IUserActionsService, private $timeout: ITimeoutService, private $interval: IIntervalService, private $state: IStateService, private anchorSmoothScroll: any, private _: any){}
+    static $inject = ['$rootScope', '$scope', 'DataService', 'UserActions', '$timeout', '$interval', '$state', 'anchorSmoothScroll', '_'];
+    constructor(private $rootScope: IRootScopeService, private $scope: IScope, private DataService: IDataService, private UserActions: IUserActionsService, private $timeout: ITimeoutService, private $interval: IIntervalService, private $state: IStateService, private anchorSmoothScroll: any, private _: any){}
 
     $onInit = () => {
         let self = this;
@@ -83,7 +83,7 @@ export class VideoPlayerController implements IVideoPlayer {
             self.loaded = true;
         });
 
-        this.$on('vjsVideoReady', function (e, data) {
+        this.$scope.$on('vjsVideoReady', function (e, data) {
             //data contains `id`, `vid`, `player` and `controlBar`
             //NOTE: vid is depricated, use player instead
             console.log('video id:' + data.id);
@@ -93,8 +93,8 @@ export class VideoPlayerController implements IVideoPlayer {
             self.controlBar = data.controlBar;
 
             // Add Playlist toggle button
-            /*var Button = videojs.getComponent('Button');
-             var MyButton = videojs.extend(Button, {
+            /*let Button = videojs.getComponent('Button');
+             let MyButton = videojs.extend(Button, {
              constructor: function() {
              Button.apply(this, arguments);
              /!* initialize your button *!/
@@ -113,7 +113,7 @@ export class VideoPlayerController implements IVideoPlayer {
             });
             // handle watched
             //if (scope.type !== 'vimeo') {
-            var timeForPlayButton = self.$watch('player.currentTime()', function (newValue, oldValue) {
+            let timeForPlayButton = self.$scope.$watch('player.currentTime()', function (newValue, oldValue) {
                 if (newValue > 5) {
                     self.$rootScope.initWatch();
                     timeForPlayButton();
@@ -123,11 +123,11 @@ export class VideoPlayerController implements IVideoPlayer {
 
             // Setup watcher
             self.player.on('sourcechanged', function(e, data) {
-                videojs.log('SOURCE CHANGED!', e, data);
+                window.videojs.log('SOURCE CHANGED!', e, data);
 
                 // Find which source it changed to
                 /*if (angular.isDefined(data.from)) {
-                 var videoObj = _.findWhere(scope.otherSources, {id: _.findWhere(scope.media.sources, {src: data.to}).id});
+                 let videoObj = _.findWhere(scope.otherSources, {id: _.findWhere(scope.media.sources, {src: data.to}).id});
                  if (videoObj && videoObj.hasOwnProperty('id')) {
                  // Send video object to rest of page or reload
                  scope.$emit('VideoPlayer:sourceChanged', videoObj);
@@ -163,7 +163,7 @@ export class VideoPlayerController implements IVideoPlayer {
              }, 5000)*/
         });
 
-        this.$on('vjsVideoMediaChanged', function (e, data) {
+        this.$scope.$on('vjsVideoMediaChanged', function (e, data) {
             console.log('vjsVideoMediaChanged event was fired');
         });
 
@@ -174,7 +174,7 @@ export class VideoPlayerController implements IVideoPlayer {
     };
 
     setupSource(video: Object, dest: Array<Object>) {
-        var source = {
+        let source = {
             id: video.id,
             src: video.video_url,
             title: video.name,
@@ -199,20 +199,20 @@ export class VideoPlayerController implements IVideoPlayer {
     }
 
     updateElementWidth(player: any) {
-        var resize = function resize(p) {
-            var itemWidth = this.hideSidebar ? 0 : 300;
+        let resize = function resize(p) {
+            let itemWidth = this.hideSidebar ? 0 : 300;
 
-            var playerWidth = p.el().offsetWidth;
-            var playerHeight = p.el().offsetHeight;
-            var itemHeight = Math.round(playerHeight / 5);
+            let playerWidth = p.el().offsetWidth;
+            let playerHeight = p.el().offsetHeight;
+            let itemHeight = Math.round(playerHeight / 5);
 
-            var youtube = p.$(".vjs-tech");
-            var newSize = playerWidth - itemWidth;
+            let youtube = p.$(".vjs-tech");
+            let newSize = playerWidth - itemWidth;
 
             if (newSize >= 0) {
 
-                var style = document.createElement('style');
-                var def = ' ' + '.vjs-playlist .vjs-poster { width: ' + newSize + 'px !important; }' + '.vjs-playlist .vjs-playlist-items { width: ' + itemWidth + 'px !important; }' + '.vjs-playlist .vjs-playlist-items li { width: ' + itemWidth + 'px !important; height: ' + itemHeight + 'px !important; }' + '.vjs-playlist .vjs-modal-dialog { width: ' + newSize + 'px !important; } ' + '.vjs-playlist .vjs-control-bar, .vjs-playlist .vjs-tech { width: ' + newSize + 'px !important; } ' + '.vjs-playlist .vjs-big-play-button, .vjs-playlist .vjs-loading-spinner { left: ' + Math.round(newSize / 2) + 'px !important; } ';
+                let style = document.createElement('style');
+                let def = ' ' + '.vjs-playlist .vjs-poster { width: ' + newSize + 'px !important; }' + '.vjs-playlist .vjs-playlist-items { width: ' + itemWidth + 'px !important; }' + '.vjs-playlist .vjs-playlist-items li { width: ' + itemWidth + 'px !important; height: ' + itemHeight + 'px !important; }' + '.vjs-playlist .vjs-modal-dialog { width: ' + newSize + 'px !important; } ' + '.vjs-playlist .vjs-control-bar, .vjs-playlist .vjs-tech { width: ' + newSize + 'px !important; } ' + '.vjs-playlist .vjs-big-play-button, .vjs-playlist .vjs-loading-spinner { left: ' + Math.round(newSize / 2) + 'px !important; } ';
 
                 style.setAttribute('type', 'text/css');
                 style.setAttribute('id', 'videoplayer-playlist-stylesheet');
@@ -240,12 +240,12 @@ export class VideoPlayerController implements IVideoPlayer {
 
     toggleLights() {
         this.lightsOff = !this.lightsOff;
-        var overlay = jQuery('#overlay');
-        var body = jQuery('body');
+        let overlay = jQuery('#overlay');
+        let body = jQuery('body');
         overlay.fadeToggle(1000);
         /* Choose desired delay */
         if (!this.lightsOff) {
-            $timeout(function () {
+            this.$timeout(function () {
                 overlay.removeClass('highlight');
                 body.removeClass('cinema-mode');
             }, 1000);

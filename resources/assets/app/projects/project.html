@@ -42,7 +42,7 @@
                 <!--<div class="switch"></div>-->
                 <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4" allowfullscreen></iframe>-->
                 <!--<elite-player ng-if="VC.project" film="VC.project" type="VC.project.hosting_type" lights-off="VC.lightsOff"></elite-player>-->
-                <video-player ng-if="VC.project  &&  VC.project.hosting_type !== 'script'" film="VC.project" type="VC.project.hosting_type" lights-off="VC.lightsOff"></video-player>
+                <video-player ng-if="VC.project  &&  VC.project.hosting_type !== 'script'" project="VC.project" type="VC.project.hosting_type" lights-off="VC.lightsOff"></video-player>
                 <script-viewer ng-if="VC.project  &&  VC.project.hosting_type === 'script'" project="VC.project"></script-viewer>
                 <!--<videogular-player ng-if="VC.project" film="VC.project" type="VC.project.hosting_type" lights-off="VC.lightsOff"></videogular-player>-->
             </div>

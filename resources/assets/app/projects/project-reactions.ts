@@ -16,17 +16,23 @@ export class ProjectReactionsController implements IProjectReactions {
     chartedReactions: Array<Object> = [];
 
     static $inject = ['$rootScope', 'DataService', '_'];
-    constructor(private $rootScope: IRootScopeService, private DataService: IDataService, private _: any) {}
+    constructor(private $rootScope: IRootScopeService, private DataService: IDataService, private _: any) {
+        let self = this;
+    }
 
     $onInit = function () {
         this.reactions = this.$rootScope.generateReactions();
+        this.projectCtrl.projectReactions = this;
+        this.refresh();
+    };
 
+    refresh() {
         let self = this;
         this.DataService.collection('projects/reactions', {project: this.project.id})
             .then(function (response: Object) {
                 self.chartedReactions = response.data.data;
             });
-    };
+    }
 
     getEmoticonByEmotion(emotion: string) {
         return this._.findWhere(this.reactions, {emotion: emotion});
@@ -35,7 +41,10 @@ export class ProjectReactionsController implements IProjectReactions {
 
 angular.module('IndieWise.project')
     .component('projectReactions', {
+        require: {
+            projectCtrl: '^^project'
+        },
         templateUrl: 'projects/project-reactions.html',
         controller: ProjectReactionsController,
-        bindings: {project: '<'}
+        bindings: { project: '<' }
     });

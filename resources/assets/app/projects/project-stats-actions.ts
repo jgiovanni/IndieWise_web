@@ -44,6 +44,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
     }
 
     $onInit = function () {
+        this.projectCtrl.projectStats = this;
         this.emotions = this.$rootScope.generateReactions();
 
         if (!this.$rootScope.isAuthenticated()) {
@@ -53,8 +54,8 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     this.checkUserActions();
                     endWatch();
                 }
-            });
-        }
+            }.bind(this));
+        } else this.checkUserActions();
     };
 
     checkUserActions() {
@@ -110,7 +111,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     self.project.reactions_count++;
                     // self.updateVideoObj();
                     self.checkUserActions();
-                    self.qReactions();
+                    self.projectCtrl.handleActions('reaction', resA.data.data);
                 });
             } else if (angular.isObject(self.canReact)) {
                 if (self.canReact.emotion !== emotion.emotion) {
@@ -120,7 +121,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         self.canReact = resA.data;
                         // self.updateVideoObj();
                         self.checkUserActions();
-                        self.qReactions();
+                        self.projectCtrl.handleActions('reaction', resA.data.data);
                     });
                 }
             }
@@ -168,6 +169,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                 // self.updateVideoObj();
                 angular.extend(res.data, {projectOwner: self.project.owner_id});
                 self.checkUserActions();
+                self.projectCtrl.handleActions('rate', res.data.data);
             });
 
         } else if (angular.isObject(self.canRate)) {
@@ -193,6 +195,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         //self.updateVideoObj();
                         angular.extend(res.data, {projectOwner: self.project.owner_id});
                         //self.checkUserActions();
+                        self.projectCtrl.handleActions('rate', res.data.data);
                     });
 
                 // up is already true && direction is up
@@ -205,6 +208,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         //self.updateVideoObj();
                         angular.extend(res.data, {projectOwner: self.project.owner_id});
                         //self.checkUserActions();
+                        self.projectCtrl.handleActions('rate', res.data.data);
                     });
 
                 // down is already true && direction is down
@@ -217,6 +221,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         //self.updateVideoObj();
                         angular.extend(res.data, {projectOwner: self.project.owner_id});
                         //self.checkUserActions();
+                        self.projectCtrl.handleActions('rate', res.data.data);
                     });
 
                 // down is true && direction is up || up is true && direction is down -> reversal
@@ -241,6 +246,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     //self.updateVideoObj();
                     //self.checkUserActions();
                     angular.extend(res.data, {projectOwner: self.project.owner_id});
+                    self.projectCtrl.handleActions('rate', res.data.data);
                 });
             }
         }
@@ -400,6 +406,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     } else {
 
                     }
+                    self.projectCtrl.handleActions('rate', critique.data.data);
 
                 }, function (error) {
                     alert('Failed to create new critique, with error code: ' + error.message);
@@ -417,17 +424,17 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
             if (res) {
 
                 if (self.$rootScope.isNotVerified()) {
-                    this.$rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', this.$rootScope.requestVerificationEmail);
+                    self.$rootScope.toastAction('Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', self.$rootScope.requestVerificationEmail);
                     return false;
                 }
 
-                if (self.project.owner_id === this.$rootScope.AppData.User.id) {
-                    this.$rootScope.toastMessage('You cannot critique your own content.');
+                if (self.project.owner_id === self.$rootScope.AppData.User.id) {
+                    self.$rootScope.toastMessage('You cannot critique your own content.');
                     return false;
                 }
 
                 self.$modal.open({
-                    templateUrl: 'templates/common/critique-dialog.html',
+                    templateUrl: 'projects/modal/critique-dialog.html',
                     resolve: {
                         critique: function () {
                             return {
@@ -443,7 +450,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                                 music: 0,
                                 overall: 0,
                                 private: false,
-                                user_id: this.$rootScope.AppData.User.id,
+                                user_id: self.$rootScope.AppData.User.id,
                                 body: '',
                                 project_id: self.project.id,
                                 type: self.project.hosting_type === 'script' ? 'script' : 'video',
@@ -639,7 +646,10 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
 
 angular.module('IndieWise.directives')
     .component('projectStatsActions', {
+        require: {
+            projectCtrl: '^^project'
+        },
         templateUrl: 'projects/project-stats-actions.html',
         controller: ProjectStatsActionsController,
-        bindings: {project: '<'}
+        bindings: { project: '<' }
     });

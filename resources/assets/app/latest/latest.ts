@@ -12,7 +12,7 @@ export class LatestController {
     $onInit = function () {
         let self = this;
         this.init();
-        this.refInterval = this.$interval(self.init, 10000);
+        this.refInterval = this.$interval(self.init.bind(self), 10000);
 
         this.$timeout(jQuery(document).foundation(), 0);
     };
@@ -24,19 +24,19 @@ export class LatestController {
 
     init() {
         let self = this;
-        this.DataService.collection('reactions/latest')
+        self.DataService.collection('reactions/latest')
             .then(function (res) {
                 self.reactions = res.data;
             }, (error) => {
                 console.log(error);
             });
-        this.DataService.collection('nominations/latest')
+        self.DataService.collection('nominations/latest')
             .then(function (res) {
                 self.nominations = res.data;
             }, (error) => {
                 console.log(error);
             });
-        this.DataService.collection('critiques/latest')
+        self.DataService.collection('critiques/latest')
             .then(function (res) {
                 self.critiques = res.data;
             }, (error) => {

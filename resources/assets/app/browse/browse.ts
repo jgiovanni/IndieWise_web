@@ -53,6 +53,7 @@ export class BrowseController implements IBrowse {
             self.arrs.types = angular.isArray(self.selectedTypes) && self.selectedTypes.length ? self.selectedTypes : types;
             return d.promise;
         }, (error) => console.log(error));
+
         this.refresh();
     };
 
@@ -60,7 +61,6 @@ export class BrowseController implements IBrowse {
         let self = this;
         this.$q.all([self.$rootScope.generateTypes(), self.$rootScope.generateGenres()])
             .then(function (values) {
-                self.
                 self.filters.sort = self.$rootScope.$stateParams.sort || 'recent';
                 self.search();
             });
