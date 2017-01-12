@@ -16,20 +16,20 @@
                 <div class="media-object stack-for-small">
                     <div class="media-object-section comment-img text-center">
                         <div class="comment-box-img">
-                            <img ng-src="{{::editedCritique.user.avatar || '/assets/img/avatar-1.png'}}"
+                            <img ng-src="{{::$ctrl.$scope.editedCritique.user.avatar || '/assets/img/avatar-1.png'}}"
                                  alt="comment">
                         </div>
                     </div>
-                    <div class="media-object-section comment-desc" ng-if="editedCritique.type === 'video'">
+                    <div class="media-object-section comment-desc" ng-if="$ctrl.$scope.editedCritique.type === 'video'">
                         <div class="row" style="border-left: 1px solid #CCCCCC">
                             <div class="columns row">
                                 <div class="columns small-4 text-right">
                                     <span class="">Acting</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.performances" max="ratingMax"
+                                    <rating value="$ctrl.$scope.editedCritique.performances" max="$ctrl.$scope.ratingMax"
                                             on-hover="(value)"
-                                            on-leave="overStar = null"></rating>
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -37,9 +37,9 @@
                                     <span class="">Cinematography</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.cinematography" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.cinematography" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -47,9 +47,9 @@
                                     <span class="">Direction</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.direction" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.direction" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -57,9 +57,9 @@
                                     <span class="">Editing</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.structure" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.structure" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -67,8 +67,8 @@
                                     <span class="">Music</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.music" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.music" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -76,9 +76,9 @@
                                     <span class="">Originality</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.originality" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.originality" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -86,8 +86,8 @@
                                     <span class="">Pacing</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.pacing" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.pacing" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -95,9 +95,9 @@
                                     <span class="">Production Value</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.production" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.production" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -105,8 +105,8 @@
                                     <span class="">Sound Quality</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.audio" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.audio" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -114,8 +114,8 @@
                                     <span class="">Writing</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.writing" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.writing" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <hr class="thin">
@@ -124,7 +124,7 @@
                                     <span class="">Overall Rating</span>
                                 </div>
                                 <div class="columns small-4">
-                                    <span class="">{{editedCritique.overall|number:1}}/10</span>
+                                    <span class="">{{$ctrl.$scope.editedCritique.overall|number:1}}/10</span>
                                 </div>
                             </div>
                             <hr class="thin">
@@ -133,17 +133,17 @@
                             <div class="columns">
                                 <div class="input">
                                     <label for="desc">Care to elaborate?</label>
-                                        <textarea id="desc" ng-model="editedCritique.body" columns="1" rows="5"
+                                        <textarea id="desc" ng-model="$ctrl.$scope.editedCritique.body" columns="1" rows="5"
                                                   ng-maxlength="5000"></textarea>
                                 </div>
                                 <div class="checkbox">
-                                    <input id="checkboxPrivate" type="checkbox" ng-model="editedCritique.private">
+                                    <input id="checkboxPrivate" type="checkbox" ng-model="$ctrl.$scope.editedCritique.private">
 
                                     <label class="customLabel" for="checkboxPrivate" style="margin-left: 0;margin-right: 0;font-size: 0.875rem;">Make Private?</label>
-                            <span class="warning badge" ng-init="helpToggle=false" ng-click="helpToggle=!helpToggle"><i
+                            <span class="warning badge" ng-init="$ctrl.$scope.helpToggle=false" ng-click="$ctrl.$scope.helpToggle=!$ctrl.$scope.helpToggle"><i
                                     class="fa fa-question"></i></span>
                                 </div>
-                                <p ng-show="helpToggle" class="help-text">By choosing this "Make private" Option,
+                                <p ng-show="$ctrl.$scope.helpToggle" class="help-text">By choosing this "Make private" Option,
                                     individual
                                     rating categories, such as "Production Value", "Originality", etc. will not be
                                     publicly
@@ -157,27 +157,27 @@
                                       tooltip="A project needs 5 or more Nominations, for the exact same Award, by different users in order to secure a win for that particular award.">Award Worthy? Nominate it!</span>
                                         <select ng-model="dialogModel.awardId" disabled style="min-width: 200px;">
                                             <option value="">No</option>
-                                            <option value="{{a.id}}" ng-repeat="a in awardsList.data|orderBy:'name'"
+                                            <option value="{{a.id}}" ng-repeat="a in $ctrl.$scope.awardsList.data|orderBy:'name'"
                                                     ng-bind="::a.name"></option>
                                         </select>
                                     </label>
 
                                 </div>
                             </div>
-                            <button class="button tiny" ui-sref="video_critique({video_url_id: $stateParams.video_url_id, url_id: critique.url_id}) ">Cancel</button>
-                            <button class="button tiny primary pull-right" ng-click="update()">Save Changes</button>
+                            <button class="button tiny" ui-sref="video_critique({video_url_id: $ctrl.$rootScope.$stateParams.video_url_id, url_id: $ctrl.$scope.critique.url_id}) ">Cancel</button>
+                            <button class="button tiny primary pull-right" ng-click="$ctrl.$scope.update()">Save Changes</button>
                         </div>
                     </div>
-                    <div class="media-object-section comment-desc" ng-if="editedCritique.type === 'script'">
+                    <div class="media-object-section comment-desc" ng-if="$ctrl.$scope.editedCritique.type === 'script'">
                         <div class="row" style="border-left: 1px solid #CCCCCC">
                             <div class="columns row">
                                 <div class="columns small-4 text-right">
                                     <span class="">Concept</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.concept" max="ratingMax"
+                                    <rating value="$ctrl.$scope.editedCritique.concept" max="$ctrl.$scope.ratingMax"
                                             on-hover="(value)"
-                                            on-leave="overStar = null"></rating>
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -185,9 +185,9 @@
                                     <span class="">Presentation</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.presentation" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.presentation" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -195,9 +195,9 @@
                                     <span class="">Character Development</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.characters" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.characters" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -205,9 +205,9 @@
                                     <span class="">Structure</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.structure" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.structure" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -215,8 +215,8 @@
                                     <span class="">Quality of Dialogue</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.dialogue" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.dialogue" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -224,9 +224,9 @@
                                     <span class="">Originality</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.originality" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.originality" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -234,8 +234,8 @@
                                     <span class="">Pacing</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.pacing" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.pacing" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -243,9 +243,9 @@
                                     <span class="">Theme</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.theme" max="ratingMax"
-                                            on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.theme" max="$ctrl.$scope.ratingMax"
+                                            on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -253,8 +253,8 @@
                                     <span class="">Style</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.style" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.style" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <div class="columns row">
@@ -262,8 +262,8 @@
                                     <span class="">Plot</span>
                                 </div>
                                 <div class="columns small-8">
-                                    <rating value="editedCritique.writing" max="ratingMax" on-hover="hoveringOver(value)"
-                                            on-leave="overStar = null"></rating>
+                                    <rating value="$ctrl.$scope.editedCritique.writing" max="$ctrl.$scope.ratingMax" on-hover="$ctrl.$scope.hoveringOver(value)"
+                                            on-leave="$ctrl.$scope.overStar = null"></rating>
                                 </div>
                             </div>
                             <hr class="thin">
@@ -272,7 +272,7 @@
                                     <span class="">Overall Rating</span>
                                 </div>
                                 <div class="columns small-4">
-                                    <span class="">{{editedCritique.overall|number:1}}/10</span>
+                                    <span class="">{{$ctrl.$scope.editedCritique.overall|number:1}}/10</span>
                                 </div>
                             </div>
                             <hr class="thin">
@@ -281,17 +281,17 @@
                             <div class="columns">
                                 <div class="input">
                                     <label for="desc">Care to elaborate?</label>
-                                        <textarea id="desc" ng-model="editedCritique.body" columns="1" rows="5"
+                                        <textarea id="desc" ng-model="$ctrl.$scope.editedCritique.body" columns="1" rows="5"
                                                   ng-maxlength="5000"></textarea>
                                 </div>
                                 <div class="checkbox">
-                                    <input id="checkboxPrivate" type="checkbox" ng-model="editedCritique.private">
+                                    <input id="checkboxPrivate" type="checkbox" ng-model="$ctrl.$scope.editedCritique.private">
 
                                     <label class="customLabel" for="checkboxPrivate" style="margin-left: 0;margin-right: 0;font-size: 0.875rem;">Make Private?</label>
-                            <span class="warning badge" ng-init="helpToggle=false" ng-click="helpToggle=!helpToggle"><i
+                            <span class="warning badge" ng-init="$ctrl.$scope.helpToggle=false" ng-click="$ctrl.$scope.helpToggle=!helpToggle"><i
                                     class="fa fa-question"></i></span>
                                 </div>
-                                <p ng-show="helpToggle" class="help-text">By choosing this "Make private" Option,
+                                <p ng-show="$ctrl.$scope.helpToggle" class="help-text">By choosing this "Make private" Option,
                                     individual
                                     rating categories, such as "Production Value", "Originality", etc. will not be
                                     publicly
@@ -305,15 +305,15 @@
                                       tooltip="A project needs 5 or more Nominations, for the exact same Award, by different users in order to secure a win for that particular award.">Award Worthy? Nominate it!</span>
                                         <select ng-model="dialogModel.awardId" disabled style="min-width: 200px;">
                                             <option value="">No</option>
-                                            <option value="{{a.id}}" ng-repeat="a in awardsList.data|orderBy:'name'"
+                                            <option value="{{a.id}}" ng-repeat="a in $ctrl.$scope.awardsList.data|orderBy:'name'"
                                                     ng-bind="::a.name"></option>
                                         </select>
                                     </label>
 
                                 </div>
                             </div>
-                            <button class="button tiny" ui-sref="video_critique({video_url_id: $stateParams.video_url_id, url_id: critique.url_id}) ">Cancel</button>
-                            <button class="button tiny primary pull-right" ng-click="update()">Save Changes</button>
+                            <button class="button tiny" ui-sref="video_critique({video_url_id: $ctrl.$rootScope.$stateParams.video_url_id, url_id: $ctrl.$scope.critique.url_id}) ">Cancel</button>
+                            <button class="button tiny primary pull-right" ng-click="$ctrl.$scope.update()">Save Changes</button>
                         </div>
                     </div>
                 </div>

@@ -235,7 +235,7 @@ var IndieWise;
                 resolve: {
                     Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(function (result) { return result; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.data.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -246,7 +246,7 @@ var IndieWise;
                 resolve: {
                     Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(function (result) { return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result : 'Not Owner'; }, function (error) { return console.log(error); });
+                                .then(function (result) { return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result.data.data : 'Not Owner'; }, function (error) { return console.log(error); });
                         }]
                 }
             })

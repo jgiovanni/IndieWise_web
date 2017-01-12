@@ -203,13 +203,13 @@
                                             <div class="comment-btns">
                                                 <span>{{::critique.commentCount||0}} comments</span>
                                                 <span><a
-                                                        ui-sref="video_critique({video_url_id: critique.projectUrlId, url_id:critique.url_id})"><i
+                                                        ui-sref="video_critique({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                                         class="fa fa-comments"></i>View</a></span>
-                            <span ng-if="::critique.author === $rootScope.AppData.User.userId">
-                                <a ui-sref="video_critique-edit({video_url_id: critique.project.url_id, url_id:critique.url_id})"><i
+                            <span ng-if="::critique.user.id === ProfileCritiquesCtrl.user.id">
+                                <a ui-sref="video_critique-edit({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                         class="fa fa-pencil"></i>Edit</a>
                             </span>
-                                                <!--<span ng-if="critique.author === $rootScope.AppData.User.userId">
+                                                <!--<span ng-if="critique.user.id === ProfileCritiquesCtrl.user.id">
                                                     <a ng-click="Vcritique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
                                                 </span>-->
                                             </div>
@@ -410,13 +410,13 @@
                                             <div class="comment-btns">
                                                 <span>{{::critique.commentCount||0}} comments</span>
                                                 <span><a
-                                                        ui-sref="video_critique({video_url_id: critique.projectUrlId, url_id: critique.url_id})"><i
+                                                        ui-sref="video_critique({video_url_id: critique.project.data.url_id, url_id: critique.url_id})"><i
                                                         class="fa fa-comments"></i>View</a></span>
-                                                <span ng-if="critique.author === $rootScope.AppData.User.userId">
-                                                    <a ui-sref="video_critique-edit({video_url_id: critique.projectUrlId, url_id:critique.url_id})"><i
+                                                <span ng-if="critique.user.id === ProfileCritiquesCtrl.user.id">
+                                                    <a ui-sref="video_critique-edit({video_url_id: critique.project.data.url_id, url_id:critique.url_id})"><i
                                                             class="fa fa-pencil"></i>Edit</a>
                                                 </span>
-                                                <!--<span ng-if="critique.author === $rootScope.AppData.User.userId">
+                                                <!--<span ng-if="critique.user.id === ProfileCritiquesCtrl.user.id">
                                                     <a ng-click="Vcritique.deleteCritique(critique, $event)"><i class="fa fa-close"></i>Delete</a>
                                                 </span>-->
                                             </div>

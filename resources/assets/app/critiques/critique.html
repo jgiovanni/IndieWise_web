@@ -41,7 +41,7 @@
                                   ng-bind="::VCC.critique.edited_at|amUtc|amLocal|amDateFormat:'lll'"></abbr></span>
 
                             <a ui-sref="video_critique-edit({video_url_id:VCC.critique.project.data.url_id, url_id:VCC.critique.url_id})"
-                               ng-if="AppData.User.id == VCC.critique.user_id" class="fa fa-edit pull-right"></a>
+                               ng-if="VCC.$rootScope.AppData.User.id == VCC.critique.user_id" class="fa fa-edit pull-right"></a>
                         </h5>
                     </div>
                     <div class="description">
@@ -50,7 +50,7 @@
                                 <p ng-bind="::VCC.critique.body"></p>
                             </div>
                             <div class="columns medium-5">
-                                <div class="row" ng-if="::VCC.critique.private && AppData.User.id != VCC.critique.user_id">
+                                <div class="row" ng-if="::VCC.critique.private && VCC.$rootScope.AppData.User.id != VCC.critique.user_id">
                                     <h3 class="text-center">Private</h3>
 
                                     <div class="row columns">
@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row columns" ng-if="::(!VCC.critique.private||AppData.User.id == VCC.critique.user_id) && VCC.critique.type === 'video'">
+                                <div class="row columns" ng-if="::(!VCC.critique.private||VCC.$rootScope.AppData.User.id == VCC.critique.user_id) && VCC.critique.type === 'video'">
                                     <div class="row columns">
                                         <div class="columns medium-8 small-6 text-right">
                                             <span class="md-body-1">Acting</span>
@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row columns" ng-if="::(!VCC.critique.private||AppData.User.id == VCC.critique.user_id) && VCC.critique.type === 'script'">
+                                <div class="row columns" ng-if="::(!VCC.critique.private||VCC.$rootScope.AppData.User.id == VCC.critique.user_id) && VCC.critique.type === 'script'">
                                     <div class="row columns">
                                         <div class="columns medium-8 small-6 text-right">
                                             <span class="md-body-1">Concept</span>

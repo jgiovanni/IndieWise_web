@@ -299,7 +299,7 @@ module IndieWise {
                     resolve: {
                         Critique: ['$stateParams', 'DataService', function ($stateParams: IStateParamsService, DataService: IDataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(result => result, (error) => console.log(error));
+                                .then(result => result.data.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -312,7 +312,7 @@ module IndieWise {
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService: IAuthService, $stateParams: IStateParamsService, DataService: IDataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(result => (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result : 'Not Owner', (error) => console.log(error));
+                                .then(result => (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result.data.data : 'Not Owner', (error) => console.log(error));
                         }]
                     }
                 })
