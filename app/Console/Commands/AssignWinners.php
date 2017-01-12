@@ -40,7 +40,7 @@ class AssignWinners extends Command
     public function handle()
     {
         //
-        $wins = Win::where('created_at', '>=', '2016-11-01 00:00:00')->where('created_at', '<', '2016-12-01 00:00:00')->doesntHave('winner')->get();
+        $wins = Win::where('created_at', '>=', '2016-12-01 00:00:00')->where('created_at', '<', '2017-01-01 00:00:00')->doesntHave('winner')->get();
         // $this->info($wins->count());
         // return $wins;
         $wins->each(function ($win) {
