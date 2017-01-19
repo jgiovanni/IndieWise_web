@@ -24,12 +24,20 @@ export class ProjectCardController implements IProjectCard {
         this.isLoggedIn = this.$rootScope.AppData.User;
     }
 
-    openShareDialog(video) {
+    $onInit = function () {
+        if (this.video.thumbnail_url.indexOf('cloudinary') !== -1) {
+            let str = this.video.thumbnail_url.split('upload/');
+            this.video.thumbnail_url = str[0] + 'upload/c_scale,f_auto,h_275,q_80/' + str[1];
+        }
+    };
+
+    openShareDialog() {
+        let self = this;
         this.$modal.open({
             templateUrl: 'common/share-dialog.html',
             resolve: {
                 Video: function () {
-                    return video;
+                    return self.video;
                 }
             },
             controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
@@ -42,8 +50,6 @@ export class ProjectCardController implements IProjectCard {
         })
     };
 }
-
-// ProjectCardController.$inject = ['$rootScope', '$state', '$modal', '$mdMedia', 'UserActions'];
 
 angular.module('IndieWise.directives')
     .component('projectCard', {
