@@ -2,7 +2,7 @@
 <html lang="en" ng-app="IndieWise" class="no-js" ng-strict-di>
 <head>
     <title>IndieWise</title>
-    <base href="http://indiewise.dev/">
+    <base href="http//indiewise.dev/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:title" content="IndieWise" />
@@ -90,7 +90,7 @@
         /* Replace 'APP_ID' with your app ID */
         (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function")    {ic('reattach_activator');ic('update',intercomSettings);}else{var    d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args)   {i.q.push(args)};w.Intercom=i;function l(){var   s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ppp65byn';var x=d.getElementsByTagName('script')   [0];x.parentNode.insertBefore(s,x);}if(w.attachEvent)   {w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
     </script>
-    <script src="//cdn.broadstreetads.com/init.js"></script>
+    {{--<script src="//cdn.broadstreetads.com/init.js"></script>--}}
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 

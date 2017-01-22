@@ -187,7 +187,7 @@
                 &nbsp;
                 <a ng-click="$ctrl.showQuickReply =! $ctrl.showQuickReply"><i class="fa fa-comment"></i> Quick Reply</a>
                 &nbsp;
-                <a ng-click="$ctrl.view()"><i class="fa fa-eye"></i> View</a>
+                <a ng-click="$ctrl.view($event)"><i class="fa fa-eye"></i> View</a>
             </span>
             <span><a ui-sref="video_critique({video_url_id: $ctrl.parentUrlId, url_id: $ctrl.critique.url_id})"><i class="fa fa-link"></i> Permalink</a></span>
             <span ng-if="::$ctrl.isPrivate()" class="has-tip" style="margin-right: 0" tooltip="Private"><i class="fa fa-lock"></i></span>

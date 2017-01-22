@@ -24,7 +24,7 @@
     <div class="row secBg">
         <div class="large-12 columns">
             <div>
-                <div class="tabs-panel is-active" id="popular-all">
+                <div class="tabs-panel is-active" style="display: block;" id="popular-all">
                     <div class="row list-group">
                         <project-card ng-repeat="video in $ctrl.projects.data|orderBy:'-iwRating'" video="video" type="$ctrl.type"
                                       queried="true"></project-card>

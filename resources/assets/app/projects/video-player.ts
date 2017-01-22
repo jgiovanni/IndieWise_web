@@ -113,12 +113,12 @@ export class VideoPlayerController implements IVideoPlayer {
             });
             // handle watched
             //if (scope.type !== 'vimeo') {
-            let timeForPlayButton = self.$scope.$watch('player.currentTime()', function (newValue, oldValue) {
-                if (newValue > 5) {
+            let timeForPlayButton = self.$interval(function () {
+                if (self.player.currentTime() > 5) {
                     self.$rootScope.initWatch();
-                    timeForPlayButton();
+                    self.$interval.cancel(timeForPlayButton);
                 }
-            });
+            }, 1000, 500, false);
             //}
 
             // Setup watcher

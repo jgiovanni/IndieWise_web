@@ -1,6 +1,9 @@
+import {IScope, IRootScopeService} from "angular";
+import {IDataService} from "../services/dataService.service";
 interface ICritiqueView {
     critique: Object;
     comments: Object;
+    parentUrlId: string;
     sortOrder: string;
     isLoggedIn: Object | null;
     parentOwnerId: boolean;
@@ -14,15 +17,20 @@ interface ICritiqueView {
 export class CritiqueViewController implements ICritiqueView {
     critique: Object;
     comments: Object;
+    parentUrlId: string;
     sortOrder: string = 'created_at|desc';
     isLoggedIn: Object | null;
     parentOwnerId: boolean;
 
-    static $inject = ['$scope', '$mdDialog', 'DataService'];
-    constructor(private $scope: IScope, private $mdDialog: any, private DataService: any) {
+    static $inject = ['$scope', '$rootScope', '$mdDialog', 'DataService'];
+    constructor(private $scope: IScope, private $rootScope: IRootScopeService, private $mdDialog: any, private DataService: IDataService) {
         // console.log(this);
-        this.loadComments();
     }
+
+    $onInit = function () {
+        this.isLoggedIn = this.$rootScope.AppData.User;
+        this.loadComments();
+    };
 
     hide() {
         this.$mdDialog.hide();
@@ -42,20 +50,19 @@ export class CritiqueViewController implements ICritiqueView {
 
     loadComments() {
         this.DataService.collection('comments', { include: 'replies', replies: false, critique: this.critique.id, per_page: 50, sort: this.sortOrder})
-            .then((response) => {
+            .then((response: Object) => {
                 this.comments = response.data;
                 // console.log(this);
-            }, (error) => {
+            }, (error: any) => {
                 console.log(error);
             });
     }
 
 }
 
-/*
 angular.module('IndieWise.directives')
     .component('critiqueView', {
         templateUrl: 'critiques/critique-view.html',
         controller: CritiqueViewController,
-        bindings: { critique: "<" }
-    });*/
+        bindings: { critique: '<', parentUrlId: '<', isLoggedIn: '<' }
+    });

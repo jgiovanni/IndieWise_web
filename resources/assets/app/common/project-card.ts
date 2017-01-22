@@ -5,19 +5,19 @@ import {IState} from "angular-ui-router";
 interface IProjectCard {
     queried: boolean;
     isQueried: boolean;
-    video: Object | null;
-    type: any | null;
-    related: any | null;
-    isLoggedIn: any | null;
+    video: Object;
+    type: any;
+    related: any;
+    isLoggedIn: any;
 }
 
 export class ProjectCardController implements IProjectCard {
     queried: boolean;
     isQueried: boolean = this.queried;
-    video: Object | null;
-    type: any | null;
-    related: any | null;
-    isLoggedIn: any | null;
+    video: Object;
+    type: any;
+    related: any;
+    isLoggedIn: any;
 
     static $inject = ['$rootScope', '$state', '$modal', '$mdMedia', 'UserActions'];
     constructor(private $rootScope: ng.IRootScopeService, private $state: IState, private $modal: IDialogService, private $mdMedia: IMedia, private UserActions: any) {
@@ -56,5 +56,5 @@ angular.module('IndieWise.directives')
     templateUrl: 'common/project-card.html',
     // transclude: true,
     controller: ProjectCardController,
-    bindings: {queried: '=', isLoggedIn: '=', type: '=', video: '='}
+    bindings: {queried: '=', isLoggedIn: '=', type: '=', video: '<'}
 });

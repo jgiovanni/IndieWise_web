@@ -1,5 +1,4 @@
 import DataService from "../services/dataService.service";
-import {CritiqueViewController} from "./critique-view";
 
 interface ICritique {
     critique: Object;
@@ -10,8 +9,8 @@ interface ICritique {
 
     isPrivate: () => boolean;
     isOwnerOrAuthor: () => boolean;
-    view: () => void;
-    deleteCritique: (event: Object) => void;
+    view: ($event: Object) => void;
+    deleteCritique: ($event: Object) => void;
 
 }
 
@@ -23,7 +22,9 @@ export class CritiqueController implements ICritique {
     showQuickReply: boolean = window.Foundation.MediaQuery.atLeast('large') || false;
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$mdDialog', '_'];
-    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $mdDialog: any, private _: any) {}
+
+    constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $mdDialog: any, private _: any) {
+    }
 
     $onInit = function () {
         this.critique.replies = [];
@@ -31,33 +32,38 @@ export class CritiqueController implements ICritique {
         this.isLoggedIn = this.$rootScope.AppData.User;
     };
 
-    isPrivate () {
+    isPrivate() {
         return this.critique && this.critique.private;
-    };
+    }
 
     isOwnerOrAuthor() {
         return this.isLoggedIn && ((this.critique && this.isLoggedIn.id === this.critique.user_id) || this.isLoggedIn.id === this.parentOwnerId);
-    };
+    }
 
-    view() {
-        let self = this;
-        this.$mdDialog.show({
-            autoWrap: true,
-            templateUrl: 'critiques/critique-view.html',
-            bindToController: true,
-            controllerAs: '$ctrl',
-            locals: {
-                critique: self.critique,
-                parentUrlId: self.parentUrlId,
-                isLoggedIn: self.isLoggedIn
-            },
-            controller: CritiqueViewController,
-            clickOutsideToClose:true,
-        });
+    view($event: Object) {
+        this.$mdDialog
+            .show({
+                targetEvent: $event,
+                autoWrap: true,
+                template: '<critique-view critique="$ctrl.critique" parent-url-id="$ctrl.parentUrlId"></critique-view>',
+                bindToController: true,
+                controllerAs: '$ctrl',
+                locals: {
+                    critique: this.critique,
+                    parentUrlId: this.parentUrlId,
+                },
+                controller: () => {},
+                clickOutsideToClose: true,
+            });
+            /*.then((response: any) => {
+                console.log(response);
+            }, (error: any) => {
+                console.log(error);
+            });*/
 
     }
 
-    deleteCritique(event: Object) {
+    deleteCritique($event: Object) {
         let self = this;
         this.UserActions.checkAuth().then(function (res) {
             if (res) {
@@ -65,11 +71,11 @@ export class CritiqueController implements ICritique {
                     .title('Delete Critique')
                     .textContent('Are you sure you want to delete your critique?')
                     .ariaLabel('Delete Critique')
-                    .targetEvent(event)
+                    .targetEvent($event)
                     .ok('Yes')
                     .cancel('No');
 
-                this.$mdDialog.show(confirm).then(function() {
+                this.$mdDialog.show(confirm).then(function () {
                     if (this.isOwnerOrAuthor) {
                         this.DataService.delete('Critique', this.critique.id).then(function () {
                             this.$rootScope.toastMessage('Your critique was deleted.');
@@ -82,18 +88,18 @@ export class CritiqueController implements ICritique {
                             });
                         });
                     }
-                }, function(error) {
+                }, function (error) {
                     console.log(error);
                 });
             }
         })
-    };
+    }
 
 }
 
 angular.module('IndieWise.directives')
 /*IndieWise*/.component('critiqueItem', {
-    transclude:true,
+    transclude: true,
     templateUrl: 'critiques/critique-item.html',
     controller: CritiqueController,
     bindings: {critique: '=', parentUrlId: '<', parentOwnerId: '<'}

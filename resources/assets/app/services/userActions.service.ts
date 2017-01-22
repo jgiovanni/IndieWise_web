@@ -30,9 +30,10 @@ export default class UserActionsService implements IUserActionsService {
     markAsWatched (video: Object) {
         // Set as watched when user has watched 20% for the video's runtime or 6 seconds
         let time = 0;// (video.attributes.runTime * 200) || 6000;
+        let self = this;
         return this.$timeout(function () {
             //console.log('Marked as Watched');
-            this.DataService.save('projects/watched', {
+            self.DataService.save('projects/watched', {
                 project_id: video.id
             });
         }, time);
@@ -89,12 +90,13 @@ export default class UserActionsService implements IUserActionsService {
         return deferred.promise;
     }
     loginModal () {
+        let self = this;
         if (!this.$rootScope.authModalOpen) {
             let options = {
                 controller: SignInModalController,
                 // controller: SignInModalCtrl,
                 controllerAs: 'SIC',
-                templateUrl: 'templates/auth/sign-in-dialog.html',
+                templateUrl: 'auth/sign-in-dialog.html',
                 size: window.Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
             };
 
@@ -143,15 +145,11 @@ class SignInModalController {
         }, 0);
     }
 
-    doLogin (redirect: boolean) {
-        redirect = redirect || true;
+    doLogin () {
         this.error = false;
         this.AuthService.login(this.user.email, this.user.password).then(function (res) {
             console.log('Success', res);
-            if (redirect) {
-                //$state.go('home');
-                //window.location.reload();
-            }
+                window.location.reload();
         }, function (res) {
             this.error = res;
             console.log('Failed', res);

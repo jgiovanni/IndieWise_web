@@ -82,7 +82,6 @@ export class ProjectController implements IProject {
         this.$scope.$on('overVideoPlayer', function (state) {
             self.zIndexPlayer(state);
         });
-        //UserActions.cancelWatched(self.activeWatch);
 
         //Populate tags array
         if (angular.isString(project.tags) && project.tags.length) {
