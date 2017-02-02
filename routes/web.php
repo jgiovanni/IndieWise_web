@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Vinkla\Hashids\Facades\Hashids;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
@@ -128,6 +129,13 @@ if (App::environment('local')) {
     });
 }
 
+Route::get('sign-in', function () {
+    return view('auth.login');
+});
+Route::post('sign-in', 'Auth\AuthController@authenticate');
+Route::get('register', 'Auth\AuthController@register');
+Route::get('logout', 'Auth\AuthController@logout');
+
 
 //Route::group(['middleware' => 'web'], function () {
 //    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
@@ -138,6 +146,54 @@ Route::get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('p
 Route::get('verification/error', 'Auth\VerifyController@getVerificationError');
 Route::get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
 //Route::get('verification/{token}', 'Auth\AuthController@getVerification');
+
+Route::get('', function () {
+    SEO::setTitle('Home');
+//    SEO::setDescription('This is my page description');
+//    SEO::opengraph()->addProperty('type', 'articles');
+
+    return view('home');
+});
+
+Route::get('browse', function () {
+    return view('browse');
+});
+
+Route::get('latest', function () {
+    return view('latest');
+});
+
+$this->group([ 'prefix' => 'profile'], function () {
+    $this->get('/', function () {
+        return view('home');
+    });
+    $this->get('/about', function () {
+        return redirect('profile');
+    });
+});
+
+Route::get('{project_id}', function ($project_id) use ($dispatcher) {
+    $project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
+    // dd($project);
+
+    SEO::setTitle($project->name);
+    SEO::setDescription($project->description);
+    SEO::opengraph()->setDescription($project->description);
+    SEO::opengraph()->setType($project->hosting_type === 'script' ? 'indiewise:screenplay' : 'video.other');
+    SEO::opengraph()->setVideoOther([
+//        'actor' => (strpos($project->director, ',') || strpos($project->director, ',') || strstr($project->director, PHP_EOL)) !== false ? $project->director : preg_split('/(,|,\s|\/|\s\/\s|\r\n|\n|\r)/', $project->director),
+//        'actor:role' => 'string',
+//        'director' => (strpos($project->director, ',') || strpos($project->director, '/')) !== false ? $project->director : preg_split("/(,|,\s|\/|\s\/\s)/", $project->director),
+//        'writer' => (strpos($project->writer, ',') || strpos($project->writer, '/')) !== false ? $project->writer : preg_split('/(,|,\s|\/|\s\/\s)/', $project->writer),
+        'duration' => $project->runTime,
+        'release_date' => $project->completionDate,
+        'tag' => strpos($project->tags, ',') !== false ? $project->tags : preg_split('/(,|,\s)/', $project->tags)
+    ]);
+    SEO::opengraph()->addImage($project->thumbnail_url . '?cache=true', ['secure_url' => $project->thumbnail_url . '?cache=true', 'height' => 500, 'width' => 1170]);
+    SEO::twitter()->setDescription($project->description);
+    SEO::twitter()->setUrl('/' . $project->url_id);
+    return view('project.index', compact('project'));
+})->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
 Route::any('{path?}', function () use ($dispatcher) {
     $countries = Country::orderBy('name', 'desc')->get();
@@ -166,9 +222,6 @@ Route::any('{path?}', function () use ($dispatcher) {
     }
 })->where("path", ".+")/*->where("path", "!community")*/
 ;
-
-Route::auth();
-
 /*
 Route::get('/', function () {
     return view('welcome');

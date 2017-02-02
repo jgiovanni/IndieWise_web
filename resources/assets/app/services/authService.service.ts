@@ -45,7 +45,7 @@ export default class AuthService implements IAuthService {
         let user = {
             email: _userParams.email,
             password: _userParams.password,
-            password_confirmation: _userParams.passwordCheck,
+             password_confirmation: _userParams.passwordCheck,
             username: _userParams.email,
             firstName: _userParams.firstName,
             lastName: _userParams.lastName,

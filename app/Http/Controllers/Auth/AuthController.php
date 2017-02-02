@@ -154,5 +154,11 @@ class AuthController extends Controller
         return response()->json(compact('token'), 200, ['Token' => $token]);
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
 
 }

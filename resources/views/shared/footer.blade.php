@@ -1,5 +1,5 @@
 <!-- footer -->
-<footer style="padding: 0;" ng-cloak>
+<footer style="padding: 0;">
     <div class="row" style="margin: 80px auto;">
         <div class="large-6 columns">
             <div class="large-6 medium-6 columns">
@@ -21,26 +21,27 @@
                         <h5>Recent Videos</h5>
                     </div>
                     <div class="widgetContent">
-                        <div class="media-object" ng-repeat="video in Body.footerRecentVideos.data|limitTo:3">
+
+                        {{--<div class="media-object" ng-repeat="video in Body.footerRecentVideos.data|limitTo:3">
                             <div class="media-object-section">
                                 <div class="recent-img">
                                     <img ng-src="@{{::video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="recent">
-                                    <a ui-sref="video({url_id: video.url_id})" class="hover-posts">
+                                    <a href="video({url_id: video.url_id})" class="hover-posts">
                                         <span><i class="fa fa-play"></i></span>
                                     </a>
                                 </div>
                             </div>
                             <div class="media-object-section">
                                 <div class="media-content">
-                                    <h6><a ui-sref="video({url_id: video.url_id})">@{{::video.name|truncate:50}}</a></h6>
+                                    <h6><a href="video({url_id: video.url_id})">@{{::video.name|truncate:50}}</a></h6>
 
                                     <p>
-                                        <i class="fa fa-user"></i><span><a ui-sref="user.about({url_id: video.owner.url_id})">@{{::video.owner.fullName}}</a></span>
+                                        <i class="fa fa-user"></i><span><a href="user.about({url_id: video.owner.url_id})">@{{::video.owner.fullName}}</a></span>
                                         <i class="fa fa-clock-o"></i><span class="md-caption" am-time-ago="::video.created_at"></span>
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -70,12 +71,12 @@
                     </div>
                     <div class="widgetContent">
                         <div class="">
-                            <a class="tiny expanded button" ui-sref="privacy">Privacy Policy</a>
-                            <a class="tiny expanded button" ui-sref="faq">FAQ</a>
-                            <a class="tiny expanded button" ui-sref="advertise">Advertise</a>
-                            <a class="tiny expanded button" ui-sref="tos">Terms of Service</a>
-                            <a class="tiny expanded button" ui-sref="contact">Contact</a>
-                            <a class="tiny expanded button" ui-sref="about">About</a>
+                            <a class="text-white tiny expanded button" href="privacy">Privacy Policy</a>
+                            <a class="text-white tiny expanded button" href="faq">FAQ</a>
+                            <a class="text-white tiny expanded button" href="advertise">Advertise</a>
+                            <a class="text-white tiny expanded button" href="tos">Terms of Service</a>
+                            <a class="text-white tiny expanded button" href="contact">Contact</a>
+                            <a class="text-white tiny expanded button" href="about">About</a>
                         </div>
                         {{--<form data-abide ng-submit="Body.newsletterRegister(Body.notifyMe)" name="notifyMe">
                             <p>Subscribe to get exclusive videos</p>
@@ -118,7 +119,7 @@
     </div>
     <a href="#" id="back-to-top" title="Back to top"><i class="fa fa-angle-double-up"></i></a>
 </footer>
-<div id="footer-bottom" style="padding: 0;" ng-cloak>
+<div id="footer-bottom" style="padding: 0;">
     <div style="margin: 25px auto;">
         <div class="logo text-center">
             <img src="/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">

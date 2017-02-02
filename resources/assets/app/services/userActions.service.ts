@@ -28,15 +28,7 @@ export default class UserActionsService implements IUserActionsService {
         return deferred.promise;
     }
     markAsWatched (video: Object) {
-        // Set as watched when user has watched 20% for the video's runtime or 6 seconds
-        let time = 0;// (video.attributes.runTime * 200) || 6000;
-        let self = this;
-        return this.$timeout(function () {
-            //console.log('Marked as Watched');
-            self.DataService.save('projects/watched', {
-                project_id: video.id
-            });
-        }, time);
+
     }
     cancelWatched (promise: any) {
         this.$timeout.cancel(promise);

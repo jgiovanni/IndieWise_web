@@ -18,7 +18,7 @@ export class CommentsController implements IComments {
         myComment: null,
         isLoggedIn: null
     };
-    sortOrder: string = 'created_at|desc    ';
+    sortOrder: string = 'created_at|desc';
 
     static $inject = ['$rootScope', 'DataService', 'UserActions', '$modal', '_'];
     constructor(private $rootScope: ng.IRootScopeService, private DataService: DataService, private UserActions: any, private $modal: IDialogService, private _: any) {

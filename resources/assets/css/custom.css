@@ -1,4 +1,4 @@
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .hidden {
+[v-cloak], [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .hidden {
     display: none !important;
 }
 
@@ -658,11 +658,11 @@ button .emoticon {
 }
 
 .text-white {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 .text-black {
-    color: #000;
+    color: #000 !important;
 }
 
 /* Mobile Styles */
@@ -697,3 +697,10 @@ button .emoticon {
         margin-bottom: 314px;
     }
 }
+
+.md-input-container input, .md-input-container input:focus, .md-input-container textarea, .md-input-container textarea:focus {
+    border: none;
+    box-shadow: none;
+    margin:0;
+}
+[type='text']:focus, [type='password']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='week']:focus, [type='email']:focus, [type='number']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='url']:focus, [type='color']:focus, textarea:focus

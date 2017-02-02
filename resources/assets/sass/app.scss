@@ -1,11 +1,13 @@
 // Theme Styles
-@import "node_modules/angular-material/angular-material.scss";
+//@import "node_modules/angular-material/angular-material.scss";
+//@import "node_modules/vue-material/dist/vue-material";
 @import "resources/assets/scss/app.scss";
 @import "resources/assets/scss/theme.scss";
 // Video.js and plugin styles
 @import "node_modules/video.js/src/css/video-js.scss";
 @import "node_modules/videojs-playlist-thumbs/src/plugin.scss";
 @import "node_modules/videojs-panorama/src/styles/plugin.scss";
+
 //@import "../../../../node_modules/slippry/dist/slippry.css";
 //@import "../../../../node_modules/videojs-sublime-skin/dist/videojs-sublime-skin.css";
 //@import "../../../../node_modules/videojs-airplay/dist/videojs.airplay.css";

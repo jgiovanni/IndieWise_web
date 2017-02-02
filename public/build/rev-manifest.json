@@ -1,8 +1,5 @@
 {
-  "css/all.css": "css/all-d0bceec48c.css",
-  "css/app.css": "css/app-b8052791bc.css",
-  "js/angular.js": "js/angular-75ce998c3d.js",
-  "js/bundle.js": "js/bundle-f1eb4ce9ac.js",
-  "js/main.js": "js/main-2209b9dbb4.js",
-  "js/templates.js": "js/templates-bcc0a91a99.js"
+  "css/all.css": "css/all-3634ed6868.css",
+  "css/app.css": "css/app-ea0797f53b.css",
+  "js/main.vue.js": "js/main-42709055a3.vue.js"
 }

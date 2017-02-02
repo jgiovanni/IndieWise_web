@@ -1,18 +1,18 @@
 window.$ = window.jQuery = require('jquery');
-window._ = require('lodash');
-window.___ = require('underscore');
-window.attachFastClick = require('fastclick');
-window.stream = require('getstream');
+// window._ = require('lodash');
+// window.___ = require('underscore');
+// window.attachFastClick = require('fastclick');
+// window.stream = require('getstream');
 window.moment = require('moment');
-window.cloudinary = require('cloudinary-core');
+// window.cloudinary = require('cloudinary-core');
 window.momentTimeZone = require('moment-timezone/builds/moment-timezone-with-data.js');
 // require('commonjs');
 require('hammerjs');
 require('foundation-sites');
-require('localforage');
+// require('localforage');
 require('foundation-datepicker/js/foundation-datepicker.min.js');
 require('filepicker-js');
-window.IScroll = require('angular-iscroll/node_modules/iscroll');
+// window.IScroll = require('angular-iscroll/node_modules/iscroll');
 // require('socket.io');
 
 //video-js packages

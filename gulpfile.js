@@ -1,10 +1,12 @@
 var gulp = require('gulp');
 // var glob = require('glob');
 var elixir = require('laravel-elixir');
+// require('laravel-elixir-vueify');
+require('laravel-elixir-vue-2');
 // var templateCache = require('gulp-angular-templatecache');
 
 // require("laravel-elixir-ng-templates");
-require('laravel-elixir-ngtemplatecache');
+// require('laravel-elixir-ngtemplatecache');
 /*elixir.extend('ngTemplates', function(source, output, options) {
     new elixir.Task('ngTemplates', function() {
         return gulp.src(source)
@@ -24,9 +26,10 @@ require('laravel-elixir-ngtemplatecache');
  |
  */
 
+
 elixir(function(mix) {
 
-    mix.ngTemplateCache('/**/**/**/*.html', 'public/js', 'resources/assets/app', {
+    /*mix.ngTemplateCache('/!**!/!**!/!**!/!*.html', 'public/js', 'resources/assets/app', {
         templateCache: {
             standalone: true
         },
@@ -36,7 +39,7 @@ elixir(function(mix) {
             collapseWhitespace: true,
             removeComments: true
         }
-    });
+    });*/
     mix.styles([
         'custom.css',
         // '../../../node_modules/slippry/dist/slippry.css',
@@ -46,13 +49,17 @@ elixir(function(mix) {
         '../../../node_modules/videojs-chromecast/dist/videojs-chromecast.css',
         '../../../node_modules/videojs-suggestedvideoendcap/videojs.suggestedVideoEndcap.css',
         '../../../node_modules/videojs-socialshare/videojs.socialShare.css',
+        '../../../node_modules/vue-material/dist/vue-material.css',
+
     ]);
     mix.sass('app.scss');
     // complie js
     mix.combine('resources/assets/js/main.js');
     // mix.browserify('angular.js');
 
-    mix.browserify([
+    // VueJS file
+    mix.webpack('main.vue.js');
+    /*mix.browserify([
         'app.js',
 
         //Services
@@ -146,8 +153,12 @@ elixir(function(mix) {
         //Static
         '../app/static/contact.js',
 
-    ]);
+    ]);*/
 
     // Versioning
-    mix.version(["css/app.css", "css/all.css", "js/main.js", "js/angular.js", "js/templates.js", "js/bundle.js"]);
+    mix.version(["css/app.css", "css/all.css",/* "js/main.js", "js/angular.js", "js/templates.js", "js/bundle.js",*/ "js/main.vue.js"]);
+
+    /*mix.browserSync({
+        proxy: 'indiewise.dev'
+    });*/
 });

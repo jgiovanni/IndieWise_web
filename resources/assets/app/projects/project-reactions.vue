@@ -1,0 +1,61 @@
+<template>
+    <div class="widgetBox">
+        <div class="widgetTitle">
+            <h5>
+                Reactions
+            </h5>
+        </div>
+        <div class="widgetContent">
+            <md-list class="md-dense">
+                <reaction v-if="project.reactions_count" v-for="(count, key) in chartedReactions" :count="count" :id="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
+                <md-list-item v-else>
+                    No Reactions made yet.
+                </md-list-item>
+            </md-list>
+        </div>
+
+    </div>
+</template>
+<style scoped></style>
+<script type="text/babel">
+    import reaction from './reaction.vue';
+    export default {
+        name: 'project-reactions',
+        components: {reaction},
+        props: {
+            project: {
+                type: Object,
+                required: true
+            }
+        },
+        data(){
+            return {
+                reactions: [],
+                reactionCountMax: 0,
+                chartedReactions: [],
+            }
+        },
+        methods: {
+            computedProgress(count) {
+                return (( count / this.project.reactions_count ) * 100) + '%';
+            },
+            refresh() {
+                this.$http.get('projects/reactions', { params: {project: this.project.id}})
+                    .then(function (response) {
+                        this.chartedReactions = response.data.data;
+                    });
+            },
+            getEmoticonByEmotion(emotion) {
+                return _.findWhere(this.reactions, {emotion: emotion});
+            }
+
+
+        },
+        mounted(){
+            this.reactions = this.generateReactions();
+            this.reactionCountMax = this.project.reactions_count;
+            this.$parent.projectReactions = this;
+            this.refresh();
+        }
+    }
+</script>

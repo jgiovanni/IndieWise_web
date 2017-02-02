@@ -31,13 +31,13 @@ class ProjectFilter extends ModelFilter
 
     public function types($types)
     {
-        return $this->whereIn('type_id', explode(',', $types));
+        return $this->whereIn('type_id', $types);
     }
 
     public function genres($genres)
     {
         return $this->whereHas('genres', function($query) use ($genres) {
-            return $query->whereIn('id', explode(',', $genres));
+            return $query->whereIn('id', $genres);
         });
     }
 

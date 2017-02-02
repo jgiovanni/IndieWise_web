@@ -1,51 +1,47 @@
-<section class="content comments" ng-if="!$ctrl.disable">
+<section class="content comments">
     <div class="row secBg">
         <div class="large-12 columns">
-            <div class="main-heading borderBottom">
-                <div class="row padding-14">
-                    <div class="medium-12 small-12 columns">
-                        <div class="head-title">
-                            <i class="fa fa-star"></i>
-                            <h4>Critiques <span>({{$ctrl.pagination.total||0}})</span></h4>
+            <div ng-if="!$ctrl.disable">
+                <div class="main-heading borderBottom">
+                    <div class="row padding-14">
+                        <div class="medium-12 small-12 columns">
+                            <div class="head-title">
+                                <i class="fa fa-star"></i>
+                                <h4>Critiques <span>({{$ctrl.pagination.total||0}})</span></h4>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="comment-sort text-right">
+                <div class="comment-sort text-right">
                 <span>Sort By :
                     <a ng-class="{'active':$ctrl.sortOrder === 'comments_count|desc'}" ng-click="$ctrl.reSort('comments_count|desc')">comments</a> |
                     <a ng-class="{'active':$ctrl.sortOrder === 'created_at|desc'}" ng-click="$ctrl.reSort('created_at|desc')">newest</a> |
                     <a ng-class="{'active':$ctrl.sortOrder === 'created_at|asc'}" ng-click="$ctrl.reSort('created_at|asc')">oldest</a>
                 </span>
-            </div>
-
-            <!-- main comment -->
-            <div class="main-comment showmore_ones" toggle-show-mores show-more-height="368">
-                <critique-item ng-repeat="critique in $ctrl.critiques" critique="critique"
-                               parent-url-id="$ctrl.parentUrlId" parent-owner-id="$ctrl.parentOwnerId"></critique-item>
-                <div class="text-center loadMore">
-                    <button class="button" type="button"  ng-click="$ctrl.loadMore()" ng-disabled="$ctrl.loading">
-                        <span ng-if="!$ctrl.loading">load more</span>
-                        <span ng-if="!!$ctrl.loading"><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
-                    </button>
                 </div>
+
+                <!-- main comment -->
+                <div class="main-comment showmore_ones" toggle-show-mores show-more-height="368">
+                    <critique-item ng-repeat="critique in $ctrl.critiques" critique="critique"
+                                   parent-url-id="$ctrl.parentUrlId" parent-owner-id="$ctrl.parentOwnerId"></critique-item>
+                    <div class="text-center loadMore">
+                        <button class="button" type="button"  ng-click="$ctrl.loadMore()" ng-disabled="$ctrl.loading">
+                            <span ng-if="!$ctrl.loading">load more</span>
+                            <span ng-if="!!$ctrl.loading"><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- End main comment -->
             </div>
-            <!-- End main comment -->
-
-        </div>
-    </div>
-</section>
-
-<section class="content comments" ng-if="$ctrl.disable">
-    <div class="row secBg">
-        <div class="large-12 columns">
-            <div class="main-heading borderBottom">
-                <div class="row padding-14">
-                    <div class="medium-12 small-12 columns">
-                        <div class="head-title">
-                            <i class="fa fa-comments"></i>
-                            <h4>Critiques disabled by Uploader</h4>
+            <div v-else>
+                <div class="main-heading borderBottom">
+                    <div class="row padding-14">
+                        <div class="medium-12 small-12 columns">
+                            <div class="head-title">
+                                <i class="fa fa-comments"></i>
+                                <h4>Critiques disabled by Uploader</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
