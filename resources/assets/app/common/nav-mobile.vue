@@ -9,7 +9,7 @@
         </md-toolbar>
 
         <md-list class="md-transparent">
-            <md-list-item v-if="isAuthenticated()">
+            <md-list-item v-if="isAuthenticated">
                 <md-avatar aria-label="Profile">
                     <md-icon v-if="!$root.user.avatar">
                         account_circle
@@ -59,14 +59,14 @@
                     <md-icon>grade</md-icon>
                     <span>Winners</span>
                 </md-list-item>
-                <md-list-item v-if="!isAuthenticated()" href="sign-in" @click="closeLeftSideNav()">
+                <md-list-item v-if="!isAuthenticated" href="sign-in" @click="closeLeftSideNav()">
                     <span>Login/Register</span>
                 </md-list-item>
-                <md-list-item href="profile/about" ui-sref-active="active" v-if="isAuthenticated()" @click="closeLeftSideNav()">
+                <md-list-item href="profile/about" ui-sref-active="active" v-if="isAuthenticated" @click="closeLeftSideNav()">
                     <md-icon>account_circle</md-icon>
                     <span>Profile</span>
                 </md-list-item>
-                <md-list-item href="messages" ui-sref-active="active" v-if="isAuthenticated()" @click="closeLeftSideNav()">
+                <md-list-item href="messages" ui-sref-active="active" v-if="isAuthenticated" @click="closeLeftSideNav()">
                     <md-icon>email</md-icon>
                     <span>
                         Messages
@@ -77,7 +77,7 @@
                     <md-icon>cloud_upload</md-icon>
                     <span>Upload</span>
                 </md-list-item>
-                <md-list-item v-if="isAuthenticated()" @click="doSignOut();closeLeftSideNav()">
+                <md-list-item v-if="isAuthenticated" @click="doSignOut();closeLeftSideNav()">
                     <md-icon>exit_to_app</md-icon>
                     <span>Logout</span>
                 </md-list-item>

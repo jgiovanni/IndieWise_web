@@ -180,6 +180,9 @@ $api->version('v1', [
         $api->get('emailCheck', 'AuthController@checkEmailUse');
         $api->get('request_verification', 'AuthController@requestVerification');
         $api->get('check_verification', 'AuthController@checkVerification');
+        $api->post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+        $api->get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+
 
         // User Routes
         $api->put('users/me/{id?}', 'AuthController@updateMe');

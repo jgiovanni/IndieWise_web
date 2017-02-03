@@ -1,52 +1,25 @@
 <template>
-    <div class="comment-box thumb-border">
-        <div class="media-object stack-for-small">
-            <md-layout>
-                <md-layout md-flex="20" md-flex-large="10">
-                    <md-list>
-                        <md-list-item :href="$root.user ? 'user/' + $root.user.id + '/about' : '#'">
-                            <md-avatar md-flex="20" md-flex-large="10">
-                                <img v-if="$root.user" :src="$root.user.avatar || '/assets/img/avatar-1.png'" alt="comment">
-                                <img v-else src="/assets/img/avatar-1.png" alt="comment">
-                            </md-avatar>
-                        </md-list-item>
-                    </md-list>
-                </md-layout>
-                <md-layout md-flex="80" md-flex-large="90" md-column>
-                    <form novalidate @submit.stop.prevent="postReply()" style="flex: 1">
-                        <md-input-container md-inline>
-                            <md-textarea name="commentText" :placeholder="'Reply to ' + author"
-                                         v-model="myReply" minlength="1"></md-textarea>
-                            <md-button type="submit">Send</md-button>
-                        </md-input-container>
-
-                        <!--<input type="submit" value="send">-->
-                    </form>
-                </md-layout>
-            </md-layout>
-
-            <!--<div class="media-object-section comment-img text-center">
-                <div class="comment-box-img">
-                    <img v-if="$root.user" :src="$root.user.avatar || '/assets/img/avatar-1.png'" alt="comment">
-                    <img v-else src="/assets/img/avatar-1.png" alt="comment">
-                </div>
-                <h6 v-if="$root.user">
-                    <a :href="'user/' + $root.user.id + '/about'">{{$root.user.fullName}}</a>
-                </h6>
-            </div>
-            <div class="media-object-section comment-textarea">
-                <form novalidate @submit.stop.prevent="postReply()">
-                    <md-input-container md-inline>
-                        <md-textarea name="commentText" :placeholder="'Reply to ' + author"
-                                     v-model="myReply" minlength="1"></md-textarea>
-                        <md-button type="submit">Send</md-button>
-                    </md-input-container>
-
-                    &lt;!&ndash;<input type="submit" value="send">&ndash;&gt;
-                </form>
-            </div>-->
-        </div>
-    </div>
+    <md-layout>
+        <md-layout md-flex="20" md-flex-large="10">
+            <md-list>
+                <md-list-item :href="$root.user ? 'user/' + $root.user.id + '/about' : '#'">
+                    <md-avatar md-flex="20" md-flex-large="10">
+                        <img v-if="$root.user" :src="$root.user.avatar || '/assets/img/avatar-1.png'" alt="comment">
+                        <img v-else src="/assets/img/avatar-1.png" alt="comment">
+                    </md-avatar>
+                </md-list-item>
+            </md-list>
+        </md-layout>
+        <md-layout md-flex="80" md-flex-large="90" md-column>
+            <form novalidate @submit.stop.prevent="postReply()" style="flex: 1">
+                <md-input-container md-inline>
+                    <md-textarea name="commentText" :placeholder="'Reply to ' + author"
+                                 v-model="myReply" minlength="1"></md-textarea>
+                    <md-button type="submit">Send</md-button>
+                </md-input-container>
+            </form>
+        </md-layout>
+    </md-layout>
 </template>
 <style scoped></style>
 <script type="text/babel">
@@ -75,12 +48,12 @@
         methods: {
             defaultPostReply() {
                 let self = this;
-                if (!this.isAuthenticated()) {
+                if (!this.isAuthenticated) {
                     this.loginModal();
                     return false;
                 }
 
-                if (this.isNotVerified()) {
+                if (this.isNotVerified) {
                     this.$root.$emit('toastAction', 'Please verify your account so comment! Check your spam folder too.', 'Verify Now', this.requestVerificationEmail);
                     return false;
                 }

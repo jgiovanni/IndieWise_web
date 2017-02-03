@@ -4,7 +4,7 @@
         <div class="md-list-text-container">
             <span>{{reaction.name}}</span>
             <span>
-                <md-progress class="md-accent" :md-progress="progress"></md-progress>
+                <md-progress class="md-primary" :md-progress="progress"></md-progress>
                 <!--<div class="progress" role="progressbar" tabindex="0"
                      :aria-valuenow="(count/reactions.length)*100" aria-valuemin="0"
                      :aria-valuetext="((count/reactions.length)*100) + ' percent'"

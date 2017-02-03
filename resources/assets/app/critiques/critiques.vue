@@ -8,7 +8,7 @@
                             <div class="medium-12 small-12 columns">
                                 <div class="head-title">
                                     <i class="fa fa-star"></i>
-                                    <h4>Critiques <span v-if="pagination">({{pagination.total||0}})</span></h4>
+                                    <h4>Critiques <span v-if="pagination">({{(pagination.count * pagination.current_page)}} of {{pagination.total||0}})</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                                :parent-url-id="parentUrlId" :parent-owner-id="parentOwnerId"></critique-item>
 
                                 <div class="text-center loadMore" v-show="pagination.total_pages > 0">
-                                    <button class="button" type="button" @click="loadMore" disabled="loading">
+                                    <button class="button" type="button" @click="loadMore" :disabled="loading">
                                         <span v-if="!loading">load more</span>
                                         <span v-else><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
                                     </button>

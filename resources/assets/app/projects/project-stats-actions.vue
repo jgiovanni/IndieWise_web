@@ -39,7 +39,7 @@
                             </div>
                             <div class="subscribe">
                                 <form>
-                                    <button @click="openReactionDialog()">
+                                    <button @click.stop.prevent="openReactionDialog()">
                                         <span v-if="canReact===true" class="fa fa-smile-o"></span>
                                         <span v-if="canReact===true">I'm feeling ...</span>
                                         <span v-if="canReact!==true && canReact != 'login'">
@@ -48,7 +48,7 @@
                                     </span>
                                     </button>
                                     <a class="primary button tiny show-for-small-only"
-                                       @click="openCritiqueDialog()" v-if="canCritique">
+                                       @click.stop.prevent="openCritiqueDialog()" v-if="canCritique">
                                         <span class="fa fa-star"></span>
                                         <span v-if="canCritique===true">Judge</span>
                                         <span v-if="canCritique!==true && canCritique != 'login'">
@@ -56,7 +56,7 @@
                                     </span>
                                     </a>
                                     <a class="primary button small hide-for-small-only" v-cloak
-                                       @click="openCritiqueDialog()" v-if="canCritique">
+                                       @click.stop.prevent="openCritiqueDialog()" v-if="canCritique">
                                         <span class="fa fa-star"></span>
                                         <span v-if="canCritique===true">Judge</span>
                                         <span v-if="canCritique!==true && canCritique != 'login'">
@@ -81,7 +81,8 @@
                                     <a class="button tiny text-white" @click="openShareDialog"><i
                                             class="fa fa-share"></i>Share
                                     </a>
-                                    <a id="reportDialogButtonA" class="button tiny alert text-white" @click="openReportDialog($event)">
+                                    <a id="reportDialogButtonA" class="button tiny alert text-white"
+                                       @click="openReportDialog($event)">
                                         <i class="fa fa-flag"></i> Flag
                                     </a>
                                 </form>
@@ -103,7 +104,8 @@
                                 <a class="button  text-white" @click="openShareDialog"><i
                                         class="fa fa-share"></i>Share
                                 </a>
-                                <a id="reportDialogButtonB" class="button tiny alert text-white" @click="openReportDialog($event)">
+                                <a id="reportDialogButtonB" class="button tiny alert text-white"
+                                   @click="openReportDialog($event)">
                                     <i class="fa fa-flag"></i> Flag
                                 </a>
                             </form>
@@ -114,18 +116,21 @@
             </div>
         </div>
 
-        <share-dialog :id="project.id" :url="project.url_id" :name="project.name" :description="project.description"></share-dialog>
+        <share-dialog :id="project.id" :url="project.url_id" :name="project.name"
+                      :description="project.description"></share-dialog>
         <report-project-dialog :project-id="project.id"></report-project-dialog>
+        <critique-project-dialog v-if="canCritique === true" :project="project" ></critique-project-dialog>
     </section>
 </template>
 <style scoped></style>
 <script type="text/babel">
     import projectPlaylists from './project-playlists.vue';
     import reportProjectDialog from './modal/report-project-dialog.vue';
+    import critiqueProjectDialog from './modal/critique-project-dialog.vue';
     import shareDialog from '../common/share-dialog.vue';
     export default {
         name: 'project-stats-actions',
-        components: {projectPlaylists, reportProjectDialog, shareDialog},
+        components: {projectPlaylists, critiqueProjectDialog, reportProjectDialog, shareDialog},
         props: {
             project: {
                 type: Object,
@@ -141,6 +146,7 @@
                 isSaved: false,
                 rateThrottled: false,
                 emotions: [],
+                preppedCritique: null,
             }
         },
         computed: {
@@ -197,7 +203,7 @@
             },
             checkUserActions() {
                 let self = this;
-                if (this.isAuthenticated()) {
+                if (this.isAuthenticated) {
                     this.canReactCheck(self.project.id).then(function (res) {
                         self.canReact = res;
                     }, function (error) {
@@ -228,12 +234,12 @@
             react(emotion) {
                 let self = this;
                 if (_.isObject(emotion)) {
-                    if (!this.isAuthenticated()) {
+                    if (!this.isAuthenticated) {
                         this.loginModal();
                         return false;
                     }
 
-                    if (this.isNotVerified()) {
+                    if (this.isNotVerified) {
                         this.$root.$emit('VerifyAction', 'Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', this.requestVerificationEmail);
                         return false;
                     }
@@ -271,13 +277,13 @@
                     return false;
                 }
 
-                if (!this.isAuthenticated()) {
+                if (!this.isAuthenticated) {
                     this.loginModal();
                     return false;
                 }
 
-                if (this.$rootScope.isNotVerified()) {
-                    this.$root.$emit('toastAction', 'Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', this.$rootScope.requestVerificationEmail);
+                if (this.isNotVerified) {
+                    this.$root.$emit('toastAction', 'Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', this.requestVerificationEmail);
                     return false;
                 }
 
@@ -387,18 +393,16 @@
                         });
                     }
                 }
-                this.$timeout(function () {
+                setTimeout(function () {
                     self.rateThrottled = false;
                 }, 1000);
             },
 
             openCritiqueDialog($event) {
                 let self = this;
-                if (self.canCritique !== true && self.canCritique !== false) {
-                    return this.$state.go('video_critique', {
-                        video_url_id: self.project.url_id,
-                        url_id: self.canCritique.url_id
-                    });
+
+                if (this.canCritique !== true && this.canCritique !== false) {
+                    return window.location = this.project.url_id + '/critique/' + this.canCritique.url_id;
                 }
 
                 CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', 'project', '$q', 'Analytics'];
@@ -413,7 +417,7 @@
                     $scope.errors = [];
 
                     if ($scope.project.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
-                        self.$http.get('awards', { params: {trailer: true}}).then(function (result) {
+                        self.$http.get('awards', {params: {trailer: true}}).then(function (result) {
                             $scope.awardsList = result.data.Awards;
                         });
                     } else {
@@ -556,62 +560,22 @@
                     };
                 }
 
-                this.canCritique(self.project.id).then(function (res) {
-                    // is logged in
-                    if (res) {
+                // is logged in
+                if (this.canCritique) {
 
-                        if (self.$rootScope.isNotVerified()) {
-                            self.$root.$emit('toastAction', 'Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', self.$rootScope.requestVerificationEmail);
-                            return false;
-                        }
-
-                        if (self.project.owner_id === self.$root.user.id) {
-                            self.$rootScope.toastMessage('You cannot critique your own content.');
-                            return false;
-                        }
-
-                        self.$modal.open({
-                            templateUrl: 'projects/modal/critique-dialog.html',
-                            resolve: {
-                                critique: function () {
-                                    return {
-                                        originality: 0,
-                                        direction: 0,
-                                        writing: 0,
-                                        cinematography: 0,
-                                        performances: 0,
-                                        production: 0,
-                                        pacing: 0,
-                                        structure: 0,
-                                        audio: 0,
-                                        music: 0,
-                                        overall: 0,
-                                        private: false,
-                                        user_id: self.$root.user.id,
-                                        body: '',
-                                        project_id: self.project.id,
-                                        type: self.project.hosting_type === 'script' ? 'script' : 'video',
-                                        style: 0,
-                                        theme: 0,
-                                        dialogue: 0,
-                                        characters: 0,
-                                        presentation: 0,
-                                        concept: 0,
-                                    };
-                                },
-                                project: function () {
-                                    return self.project;
-                                }
-                            },
-                            controller: CritiqueDialogController,
-                            keyboard: true
-                        });
-                    }
-                }, function (err) {
-                    if (_.isObject(err)) {
+                    if (self.isNotVerified) {
+                        self.$root.$emit('toastAction', 'Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', self.requestVerificationEmail);
                         return false;
-                    } else self.loginModal();
-                });
+                    }
+
+                    if (self.project.owner_id === self.$root.user.id) {
+                        self.$root.$emit('toastMessage', 'You cannot critique your own content.');
+                        return false;
+                    }
+
+                    this.$root.$emit('openCritiqueDialog');
+
+                } else self.loginModal();
             },
 
             openShareDialog() {
@@ -621,65 +585,14 @@
             openReactionDialog() {
                 let self = this;
                 // is logged in
-                if (this.isAuthenticated()) {
+                if (this.isAuthenticated) {
 
-                    if (this.$rootScope.isNotVerified()) {
+                    if (this.isNotVerified) {
                         this.$root.$emit('toastAction', 'Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', this.$rootScope.requestVerificationEmail);
                         return false;
                     }
 
-                    let modalInstance = this.$modal.open({
-                        templateUrl: 'projects/modal/reaction-dialog.html',
-                        resolve: {
-                            Video: function () {
-                                return self.project;
-                            },
-                            Reaction: function () {
-                                return self.canReact || null;
-                            },
-                            Emotions: function () {
-                                return self.emotions;
-                            }
-                        },
-                        size: window.Foundation.MediaQuery.atLeast('medium') ? 'tiny' : 'full',
-                        controller: ['$scope', '$modalInstance', 'Video', 'Reaction', 'Emotions', '_', function ($scope, $modalInstance, Video, Reaction, Emotions, _) {
-                            // zIndexPlayer();
-                            $scope.video = Video;
-                            $scope.emotions = Emotions;
-
-                            $scope.getEmoticonByEmotion = function (emotion) {
-                                return _.findWhere($scope.emotions, {emotion: emotion});
-                            };
-
-                            $scope.selectedEmotion = function (e) {
-                                // zIndexPlayer(true);
-                                //$modalInstance.dismiss('cancel');
-                                $modalInstance.close(e);
-                            };
-
-                            $scope.cancel = function () {
-                                // zIndexPlayer(true);
-                                $modalInstance.dismiss('cancel');
-                            };
-
-                            $scope.closeDialog = function () {
-                                // zIndexPlayer(true);
-                                $modalInstance.dismiss('cancel');
-                            };
-
-                        }]
-                    });
-
-                    modalInstance.result.then(function (reaction) {
-                        self.react(reaction);
-                    }, function () {
-                        // console.info('Modal dismissed at: ' + new Date());
-                    }).then(function () {
-                        self.$timeout(function () {
-                            // console.log('remove is-reveal-open');
-                            jQuery('body').removeClass('is-reveal-open')
-                        }, 500);
-                    });
+                    this.$root.$emit('openReactionDialog');
                 } else {
                     self.loginModal()
                 }
@@ -720,18 +633,20 @@
             },
         },
         mounted(){
+            let self = this;
             this.$parent.projectStats = this;
             this.emotions = this.generateReactions();
 
-            if (!this.isAuthenticated()) {
-                /*let endWatch = this.$rootScope.$watch('AppData.User', function (newValue, oldValue) {
-                 if (newValue && _.isString(newValue.id)) {
-                 console.log('User Logged In');
-                 this.checkUserActions();
-                 endWatch();
-                 }
-                 }.bind(this));*/
-            } else this.checkUserActions();
+            if (this.isAuthenticated) {
+                this.checkUserActions();
+            }
+
+            this.$root.$on('userHasLoggedIn', function () {
+                self.checkUserActions();
+            });
+            this.$root.$on('projectReactionSelected', function (e) {
+                self.react(e);
+            });
         }
     }
 </script>

@@ -55,6 +55,7 @@ elixir(function(mix) {
     mix.sass('app.scss');
     // complie js
     mix.combine('resources/assets/js/main.js');
+    mix.webpack('resources/assets/js/videojs.js');
     // mix.browserify('angular.js');
 
     // VueJS file
@@ -156,7 +157,7 @@ elixir(function(mix) {
     ]);*/
 
     // Versioning
-    mix.version(["css/app.css", "css/all.css",/* "js/main.js", "js/angular.js", "js/templates.js", "js/bundle.js",*/ "js/main.vue.js"]);
+    mix.version(["css/app.css", "css/all.css",/* "js/main.js", "js/angular.js", "js/templates.js",*/ "js/videojs.js", "js/main.vue.js"]);
 
     /*mix.browserSync({
         proxy: 'indiewise.dev'

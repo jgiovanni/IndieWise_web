@@ -198,7 +198,7 @@
             </md-card-content>
         </md-card-area>
 
-        <md-card-expand :class="{'md-active': true}">
+        <md-card-expand :class="{'md-active': critique.comments.data.length}">
             <md-card-actions>
                 <md-button @click="showQuickReply =! showQuickReply">
                     <md-icon>reply</md-icon> Reply critique
@@ -227,6 +227,7 @@
             </md-card-actions>
 
             <md-card-content>
+
                 <comment v-for="comment in critique.comments.data" :comment="comment" :parent="critique" :child="true"></comment>
             </md-card-content>
         </md-card-expand>

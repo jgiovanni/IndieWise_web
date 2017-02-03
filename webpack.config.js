@@ -4,9 +4,14 @@ Elixir.webpack.mergeConfig({
             test: /\.json$/,
             loader: 'json'
         }],
-        loaders:[{
-            test: /\.css$/,
-            loader:'style!css!'
-        }]
+        loaders: [
+            {
+                test: /\.css$/,
+                loader: 'style!css!'
+            },
+            {
+                test: /\.scss$/,
+                loaders: ["style-loader", "css-loader", "sass-loader"]
+            }]
     }
 });

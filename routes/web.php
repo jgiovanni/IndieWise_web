@@ -156,11 +156,16 @@ Route::get('', function () {
 });
 
 Route::get('browse', function () {
+    SEO::setTitle('Browse');
     return view('browse');
 });
 
 Route::get('latest', function () {
     return view('latest');
+});
+
+Route::get('winners', function () {
+    return view('winners');
 });
 
 $this->group([ 'prefix' => 'profile'], function () {
@@ -194,6 +199,61 @@ Route::get('{project_id}', function ($project_id) use ($dispatcher) {
     SEO::twitter()->setUrl('/' . $project->url_id);
     return view('project.index', compact('project'));
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
+
+
+Route::get('sitemap', function(){
+
+    // create new sitemap object
+    $sitemap = App::make("sitemap");
+
+    // set cache key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean)
+    // by default cache is disabled
+    $sitemap->setCache('laravel.sitemap', 60);
+
+    // check if there is cached sitemap and build new only if is not
+    if (!$sitemap->isCached())
+    {
+        // add item to the sitemap (url, date, priority, freq)
+        $sitemap->add(URL::to('/'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+        $sitemap->add(URL::to('/browse'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+        $sitemap->add(URL::to('/latest'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+        $sitemap->add(URL::to('/forum'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+
+        $sitemap->add(URL::to('/about'), '2016-09-21T08:00:00-05:00', '0.8', 'monthly');
+        $sitemap->add(URL::to('/faq'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+        $sitemap->add(URL::to('/contact'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+        $sitemap->add(URL::to('/privacy-policy'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+        $sitemap->add(URL::to('/terms-of-service'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+//        $sitemap->add(URL::to('/'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+
+        // get all posts from db
+        $projects = Project::with('critiques')->orderBy('created_at', 'desc')->get();
+
+        // add every post to the sitemap
+        foreach ($projects as $project)
+        {
+            $images = [
+                    ['url' => $project->thumbnail_url . '?cache=true', 'title' => $project->name, 'caption' => $project->description, 'geo_location' => $project->filmingCountry->name],
+            ];
+            $sitemap->add(URL::to($project->url_id), $project->edited_at, '0.8', 'daily', $images);
+
+            // add every critique per project
+            foreach ($project->critiques as $critique)
+            {
+                $sitemap->add(URL::to($project->url_id . '/critique/' . $critique->url_id), $critique->edited_at, '0.7', 'weekly');
+            }
+
+        }
+
+        // TODO list profiles routes
+        // TODO list profiles routes
+    }
+
+    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
+    return $sitemap->render('xml');
+//    return $sitemap->store('xml', 'sitemap');
+
+});
 
 Route::any('{path?}', function () use ($dispatcher) {
     $countries = Country::orderBy('name', 'desc')->get();

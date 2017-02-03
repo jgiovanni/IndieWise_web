@@ -31,6 +31,7 @@
 <script src="/assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
 <script src="/assets/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
 <script src="/assets/js/owl.carousel.min.js"></script>
-<script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>
 
 @yield('js')
+
+<script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>

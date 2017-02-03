@@ -265,6 +265,11 @@
                 });
             });
 
+            this.$root.$on('reSortComments', function (order) {
+                self.sortOrder = order;
+                self.loadComments();
+            });
+
         },
         mounted(){
         }

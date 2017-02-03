@@ -162,6 +162,7 @@ return [
         Darkin1\Intercom\IntercomServiceProvider::class,
         Laravelista\Ekko\EkkoServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+        Roumen\Sitemap\SitemapServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -16,25 +16,33 @@ import home from '../app/home/home.vue';
 import browse from '../app/browse/browse.vue';
 import latest from '../app/latest/latest.vue';
 import project from '../app/projects/project.vue';
+import winners from '../app/winners/winners.vue';
 import authenticationModal from '../app/auth/authentication-modal.vue';
 
 // import VueAnalytics from 'vue-ua';
 // import VueAdsense from 'vue-adsense';
 import VueMaterial from 'vue-material';
-
+import VueLocalForage from 'vue-localforage';
+import VueSocial from '@blocklevel/vue-social'
 // Global Components
 // Vue.use(Vuex);
 // Vue.component('adsense', VueAdsense);
 // Vue Form Validation
 Vue.use(require('vee-validate'));
 
-import VueLocalForage from 'vue-localforage';
 Vue.use(VueLocalForage);
+Vue.use(VueSocial);
+Vue.social.auth = {
+    facebook: 'api/auth/facebook',
+    // twitter: 'api/auth/twitter',
+    google: 'api/auth/google',
+}
 
 // Vue Material Design
 Vue.use(VueMaterial.MdCore);
 Vue.use(VueMaterial.MdAvatar);
 Vue.use(VueMaterial.MdButton);
+Vue.use(VueMaterial.MdButtonToggle);
 Vue.use(VueMaterial.MdCard);
 Vue.use(VueMaterial.MdCheckbox);
 Vue.use(VueMaterial.MdMenu);
@@ -44,20 +52,30 @@ Vue.use(VueMaterial.MdDialog);
 Vue.use(VueMaterial.MdIcon);
 Vue.use(VueMaterial.MdImage);
 Vue.use(VueMaterial.MdInputContainer);
+Vue.use(VueMaterial.MdSelect);
 Vue.use(VueMaterial.MdProgress);
 Vue.use(VueMaterial.MdTooltip);
 Vue.use(VueMaterial.MdSnackbar);
 Vue.use(VueMaterial.MdSelect);
 Vue.use(VueMaterial.MdTabs);
+Vue.use(VueMaterial.MdTable);
 Vue.use(VueMaterial.MdWhiteframe);
 Vue.use(VueMaterial.MdSidenav);
 Vue.use(VueMaterial.MdToolbar);
 Vue.use(VueMaterial.MdLayout);
-Vue.material.registerTheme('default', {
-    primary: 'grey',
-    accent: 'indigo',
-    warn: 'red',
-    background: { color: 'grey', hue: 300 }
+Vue.material.registerTheme({
+    'default': {
+        primary: 'indigo',
+        accent: 'amber',
+        warn: 'red',
+        background: { color: 'grey', hue: 300 }
+    },
+    /*'social': {
+        primary: 'indigo',
+        accent: 'indigo',
+        warn: 'red',
+        background: { color: 'grey', hue: 300 }
+    }*/
 });
 // Vue Social Sharing
 Vue.use(require('vue-social-sharing'));
@@ -84,14 +102,33 @@ Vue.use(require('vue-resource'));
 });*/
 
 Vue.http.options.root = '/api';
+// Vue.http.headers['Authorization'] =
 Vue.http.interceptors.push((request, next) => {
-    request.headers.Authorization = localStorage.hasOwnProperty('satellizer_token') ? 'Bearer ' + localStorage.getItem('satellizer_token') : null;
+    // request.headers.Authorization = localStorage.hasOwnProperty('jwt-token') ? 'Bearer ' + localStorage.getItem('jwt-token') : null;
     // modify request
     // request.method = 'POST';
+    let token, headers;
+
+    token = localStorage.getItem('jwt-token');
+    headers = request.headers || (request.headers = {});
+
+    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+    if (token !== null && token !== 'undefined') {
+        request.headers.set('Authorization', token);
+    }
 
     // continue to next interceptor
     next(response => {
-
+        if (response.status && response.status.code === 401) {
+            localStorage.removeItem('jwt-token')
+        }
+        if (response.headers && response.headers.Authorization) {
+            localStorage.setItem('jwt-token', response.headers.Authorization)
+        }
+        if (response.entity && response.entity.token && response.entity.token.length > 10) {
+            localStorage.setItem('jwt-token', 'Bearer ' + response.entity.token)
+        }
+        // return response
         // modify response
         // response.body = '...';
 
@@ -205,15 +242,6 @@ Vue.mixin({
         },
         isAndroid(){
             return !!navigator.userAgent.match(/Android/i);
-        }
-    },
-    methods: {
-        // Auth Methods
-        doSignOut() {
-            localStorage.removeItem('satellizer_token');
-            this.$removeItem('user');
-            this.authenticated = false;
-            window.location = '/logout';
         },
         isAuthenticated() {
             return this.$root.authenticated;
@@ -223,6 +251,15 @@ Vue.mixin({
         },
         isNotVerified() {
             return !this.$root.user.verified;
+        }
+    },
+    methods: {
+        // Auth Methods
+        doSignOut() {
+            localStorage.removeItem('jwt-token');
+            this.$removeItem('user');
+            this.authenticated = false;
+            window.location = '/logout';
         },
         justVerified() {
             return false;
@@ -431,28 +468,8 @@ Vue.mixin({
             ];
         },
         loginModal(){
-            let self = this;
-            if (!this.authModalOpen) {
-                let options = {
-                    controller: SignInModalController,
-                    // controller: SignInModalCtrl,
-                    controllerAs: 'SIC',
-                    templateUrl: 'auth/sign-in-dialog.html',
-                    size: Foundation.MediaQuery.atLeast('medium') ? 'large' : 'full'
-                };
-
-                let modalInstance = this.$modal.open(options);
-                modalInstance.result.then(function (answer) {
-                    console.log(answer);
-                    this.authModalOpen = false;
-                    // this.zIndexPlayer(true);
-                }, function () {
-                    console.log('You cancelled the dialog.');
-                    this.authModalOpen = false;
-                    // this.zIndexPlayer(true);
-                });
-                this.authModalOpen = true;
-            }
+            this.$root.$emit('openAuthModal');
+            this.authModalOpen = true;
         }
     }
 });
@@ -461,7 +478,8 @@ new Vue({
     el: '#app',
     http: {
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            // 'Authorization': localStorage.getItem('jwt-token')
         }
     },
     components: {
@@ -471,6 +489,7 @@ new Vue({
         browse,
         latest,
         project,
+        winners,
         authenticationModal,
     },
     data: {
@@ -478,7 +497,6 @@ new Vue({
         showSuccess: false,
         showError: false,
         // showSuccess: false,
-        message: 'Hello Vue!',
         authenticated: false,
         toastType: 'action',
         toastDuration: 4000,
@@ -544,18 +562,19 @@ new Vue({
         this.generateGenres();
         this.generateTypes();
 
-        if (!localStorage.hasOwnProperty('satellizer_token')) {
+        if (!localStorage.hasOwnProperty('jwt-token')) {
             this.$removeItem('user');
         } else {
             // Check validity of token
-            let tokenData = this.parseJwt(localStorage.getItem('satellizer_token'))
+            let tokenData = this.parseJwt(localStorage.getItem('jwt-token'))
             if ( moment.unix(tokenData.exp).isBefore() ) {
-                localStorage.removeItem('satellizer_token');
+                localStorage.removeItem('jwt-token');
                 this.$removeItem('user');
                 this.authenticated = false;
             } else {
                 // Load user data
                 this.getUser().then(function (data) {
+                    this.$emit('userHasLoggedIn');
                     this.user = data;
                     this.authenticated = true;
                 });

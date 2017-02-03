@@ -1,57 +1,53 @@
 <template>
     <md-card>
-        <md-layout md-column>
-            <md-layout>
-                <md-layout md-flex-offset="5" md-flex="20" md-flex-large="10">
-                    <md-avatar class="">
-                        <img :src="comment.author.avatar || '/assets/img/avatar-1.png'" alt="comment">
-                    </md-avatar>
-                </md-layout>
-                <md-layout md-flex="75" md-flex-large="85" md-column>
-                    <div class="comment-title">
-                        <a class="md-subheading" :href="'user/' + comment.author.url_id">
-                            {{comment.author.fullName}}</a>
+        <md-card-area>
+            <md-card-header>
+                <md-avatar class="md-lrge">
+                    <img :src="comment.author.avatar || '/assets/img/avatar-1.png'" alt="comment">
+                </md-avatar>
+                <div class="md-title"><a :href="'user/' + comment.author.url_id">{{comment.author.fullName}}</a></div>
+                <div class="md-subhead">
+                    <i class="fa fa-clock-o"></i>
+                    <abbr :title="comment.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
+                        {{ comment.created_at|vmTimeAgo }}
+                    </abbr>
+                    &nbsp;&middot;&nbsp;
+                    <a class="md-dense" @click.prevent="toggleReplyInput">Reply</a>
+                    <template v-if="comment.replies_count">
+                        &nbsp;&middot;&nbsp;
+                        <a @click.prevent="toggleShowReplies" class=''>
+                            <span v-if="!showReplies">Show {{comment.replies_count||0}} replies <i
+                                    class="fa fa-angle-down"></i></span>
+                            <span v-else>Hide {{comment.replies_count||0}} replies <i class="fa fa-angle-up"></i></span>
+                        </a>
+                    </template>
+                </div>
+            </md-card-header>
 
-                        <span class="time float-right">
-                        <i class="fa fa-clock-o"></i>
-                        <abbr :title="comment.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
-                            {{ comment.created_at|vmTimeAgo }}
-                        </abbr>
-                    </span>
-                    </div>
-                    <div class="comment-text">
-                        <p v-text="comment.body"></p>
-                    </div>
-                    <div class="comment-btns">
-                    <span>
-                        <!--<a href="#"><i class="fa fa-thumbs-o-up"></i></a> |-->
-                        <!--<a href="#"><i class="fa fa-thumbs-o-down"></i></a> |-->
-                        {{comment.replies_count||0}}&nbsp;<i class="fa fa-comments"></i>
-                    </span>
-                        <!--<span><a @click="toggleReplyInput(comment)"><i class="fa fa-share"></i>Reply</a></span>-->
-                        <span toggle-replies v-if="comment.replies_count" class='reply float-right'>
-                        Show replies <i class="fa fa-angle-down"></i>
-                    </span>
-                    </div>
-                </md-layout>
-            </md-layout>
-            <md-layout md-column>
-                <reply :target-comment="comment" :parent="parent" @defaultPostReply="handleReply(reply)"
-                       v-if="showReplyInput"></reply>
-                <!--sub comments-->
+            <md-card-content>
+                {{ comment.body }}
+            </md-card-content>
+
+            <md-card-content v-if="showReplies">
                 <replies v-for="reply in comment.replies" :reply="reply" :target-comment="comment" :parent="parent"
                          @defaultPostReply="handleReply(reply)"></replies>
-                <!-- end sub comment -->
+            </md-card-content>
+        </md-card-area>
 
-            </md-layout>
-        </md-layout>
+        <md-card-content v-if="showReplyInput">
+            <reply :target-comment="comment" :parent="parent" @defaultPostReply="handleReply(reply)"></reply>
+        </md-card-content>
     </md-card>
 </template>
 <style scoped>
     .md-card {
         box-shadow: none;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 0;
+    }
+
+    .replies-list {
+        width: 100%;
     }
 </style>
 <script type="text/babel">
@@ -92,6 +88,10 @@
 
             toggleReplyInput() {
                 this.showReplyInput = !this.showReplyInput;
+            },
+
+            toggleShowReplies() {
+                this.showReplies = !this.showReplies;
             },
 
             deleteComment(event) {

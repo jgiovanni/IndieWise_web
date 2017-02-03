@@ -15,26 +15,54 @@
                     </div>
 
                     <div class="comment-box thumb-border">
+                        <!--<md-layout>
+                            <md-layout md-flex="20" md-flex-large="10">
+                                <md-list>
+                                    <md-list-item :href="$root.user ? 'user/' + $root.user.id + '/about' : '#'">
+                                        <md-avatar>
+                                            <img v-if="$root.user" :src="$root.user.avatar || '/assets/img/avatar-1.png'" alt="comment">
+                                            <img v-else src="/assets/img/avatar-1.png" alt="comment">
+                                        </md-avatar>
+                                    </md-list-item>
+                                </md-list>
+                            </md-layout>
+                            <md-layout md-flex="80" md-flex-large="90" md-column>
+                                <form novalidate @submit.stop.prevent="postComment()" style="flex: 1">
+                                    <md-input-container md-inline>
+                                        <md-textarea name="commentText" placeholder="Add a comment here.."
+                                                     v-model="myComment" minlength="1"></md-textarea>
+                                        <md-button type="submit">Send</md-button>
+                                    </md-input-container>
+                                </form>
+                            </md-layout>
+                        </md-layout>-->
+
                         <div class="media-object stack-for-small">
                             <div class="media-object-section comment-img text-center">
                                 <div class="comment-box-img">
-                                    <img :src="$root.user ? $root.user.avatar : '/assets/img/avatar-1.png'" alt="comment">
+                                    <img :src="$root.user ? $root.user.avatar : '/assets/img/avatar-1.png'"
+                                         alt="comment">
                                 </div>
                                 <h6 v-if="$root.user"><a href="'user/' + $root.user.id">{{$root.user.fullName}}</a></h6>
                             </div>
                             <div class="media-object-section comment-textarea">
-                                <form name="commentForm" id="commentForm" @submit="postComment()">
-                                    <textarea name="commentText" placeholder="Add a comment here.."
-                                              v-model="myComment" minlength="1"></textarea>
-                                    <input type="submit" name="submit" value="send">
+                                <form novalidate @submit.stop.prevent="postComment()" style="flex: 1">
+                                    <md-input-container md-inline>
+                                        <md-textarea name="commentText" placeholder="Add a comment here.."
+                                                     style="border: none;"
+                                                     v-model="myComment" minlength="1"></md-textarea>
+                                        <md-button type="submit">Send</md-button>
+                                    </md-input-container>
                                 </form>
                             </div>
                         </div>
                     </div>
 
                     <div class="comment-sort text-right">
-                        <a :class="{'active':sortOrder === 'created_at|desc'}" @click="reSort('created_at|desc')">newest</a> |
-                        <a :class="{'active':sortOrder === 'created_at|asc'}" @click="reSort('created_at|asc')">oldest</a>
+                        <a :class="{'active':sortOrder === 'created_at|desc'}"
+                           @click="reSort('created_at|desc')">newest</a> |
+                        <a :class="{'active':sortOrder === 'created_at|asc'}"
+                           @click="reSort('created_at|asc')">oldest</a>
                     </div>
 
                 </template>
@@ -91,12 +119,12 @@
         methods: {
             _postComment() {
                 let self = this;
-                if (!this.isAuthenticated()) {
+                if (!this.isAuthenticated) {
                     this.loginModal();
                     return false;
                 }
 
-                if (this.isNotVerified()) {
+                if (this.isNotVerified) {
                     this.toastAction('Please verify your account so you can rate videos! Check your spam folder too.', 'Verify Now', this.requestVerificationEmail);
                     return false;
                 }
@@ -126,10 +154,7 @@
             },
 
             reSort(order) {
-                this.$parent.sortOrder = order;
-                // this.params.page = 1;
-                // this.loading = true;
-                this.$parent.loadComments();
+                this.$root.$emit('reSortComments', order);
             }
         },
         mounted(){

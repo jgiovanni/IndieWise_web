@@ -11,7 +11,7 @@
 
         <nav-header></nav-header>
 
-        <div v-if="isAuthenticated() && isNotVerified()" class="callout alert-box warning" data-closable>
+        <div v-if="isAuthenticated && isNotVerified" class="callout alert-box warning" data-closable>
             Please check your e-mail and verify your account to get involved! Check your spam folder just in case.
             <a v-on:click="requestVerificationEmail" data-close>Click here to resend verification email</a>
             <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
@@ -19,15 +19,16 @@
             </button>
         </div>
 
-        <div v-if="justVerified()" class="callout alert-box warning" data-closable>
+        {{--<div v-if="justVerified()" class="callout alert-box warning" data-closable>
             Account Verification Successful!
             <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
                 <span aria-hidden="true">&times;</span>
             </button>
-        </div>
+        </div>--}}
 
-        <authentication-modal v-if="!isAuthenticated()"></authentication-modal>
+        <authentication-modal></authentication-modal>
 
+        {{-- Causes Error: Cannot read property 'parentNode' of null --}}
         <md-snackbar md-position="bottom center" ref="snackbar" :md-duration="toastDuration">
             <span v-text="toastMessage"></span>
             <md-button v-if="toastType === 'action'" class="md-accent" md-theme="light-blue" @click.prevent="toastAction" v-text="toastButton"></md-button>
@@ -44,7 +45,5 @@
 </div>
 
 @include('shared._footer')
-@yield('js')
-
 </body>
 </html>

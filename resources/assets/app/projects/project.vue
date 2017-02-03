@@ -315,7 +315,7 @@
                                                 </small>-->
                                             <md-tooltip v-if="win.rewarded === 0" md-direction="top">Awards are reviewed before being given. Once verified this label will disappear.</md-tooltip>
                                         </md-list-item>
-                                        <md-list-item velse>
+                                        <md-list-item v-else>
                                             No Awards won yet.
                                         </md-list-item>
                                     </md-list>
@@ -543,7 +543,7 @@
             },
 
             /*showMessageDialog () {
-             if (this.$rootScope.isAuthenticated()) {
+             if (this.$rootScope.isAuthenticated) {
              let params = {
              templateUrl: 'templates/common/contactUserDialog.html',
              resolve: {

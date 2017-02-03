@@ -18,7 +18,7 @@
                                 <a href="upload">upload Project</a>
                             </li>-->
                             <li class="dropdown-login">
-                                <a v-if="!isAuthenticated()" href="sign-in">Login/Register</a>
+                                <a v-if="!isAuthenticated" href="sign-in">Login/Register</a>
                                 <a v-else @click="doSignOut()">logout</a>
                             </li>
                         </ul>
@@ -42,14 +42,14 @@
                             <md-image href="/" md-src="/assets/img/Logo_alt2_web_87x45.png"></md-image>
                             <span style="flex: 1;"></span>
                             <md-avatar class="md-icon-button" aria-label="Profile" href="profile">
-                                <md-icon v-if="!isAuthenticated() || (isAuthenticated() && !$root.user.avatar)">
+                                <md-icon v-if="!isAuthenticated || (isAuthenticated && !$root.user.avatar)">
                                     account_circle
                                 </md-icon>
-                                <img v-if="isAuthenticated() && $root.user.avatar" :src="$root.user.avatar"
+                                <img v-if="isAuthenticated && $root.user.avatar" :src="$root.user.avatar"
                                      class="md-avatar md-contact-avatar" :alt="$root.user.fullName"/>
                             </md-avatar>
                             <md-button class="md-icon-button" aria-label="Notifications"
-                                       @click="toggleRightSidenav()" v-if="isAuthenticated()">
+                                       @click="toggleRightSidenav()" v-if="isAuthenticated">
                                 <md-icon>notifications</md-icon>
                             </md-button>
                             <md-button class="md-icon-button" aria-label="Search"
@@ -86,7 +86,7 @@
                                     </ul>
                                 </div>
                                 <div class="top-bar-right search-btn" v-cloak>
-                                    <ul v-if="isAuthenticated()" class="menu dropdown" dropdown-menu>
+                                    <ul v-if="isAuthenticated" class="menu dropdown" dropdown-menu>
                                         <li class="search" href="profile">
                                             <i class="fa fa-user"></i>
                                         </li>
