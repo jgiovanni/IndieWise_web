@@ -27,7 +27,7 @@
             </md-button>
         </md-list-item>
         <md-list-item md-flex-offset="5" md-flex="95" v-if="showReplyInput">
-            <reply :target-comment="targetComment" :parent="parent" @defaultPostReply="forwardReply(reply)"></reply>
+            <reply :target-comment="targetComment" :parent="parent" @default-post-reply="forwardReply(reply)"></reply>
         </md-list-item>
     </md-list>
 </template>

@@ -30,12 +30,12 @@
 
             <md-card-content v-if="showReplies">
                 <replies v-for="reply in comment.replies" :reply="reply" :target-comment="comment" :parent="parent"
-                         @defaultPostReply="handleReply(reply)"></replies>
+                         @default-post-reply="handleReply(reply)"></replies>
             </md-card-content>
         </md-card-area>
 
         <md-card-content v-if="showReplyInput">
-            <reply :target-comment="comment" :parent="parent" @defaultPostReply="handleReply(reply)"></reply>
+            <reply :target-comment="comment" :parent="parent" @default-post-reply="handleReply(reply)"></reply>
         </md-card-content>
     </md-card>
 </template>

@@ -1,4 +1,4 @@
-<template>
+-<template>
     <md-dialog :ref="'dialog-' + id">
         <md-dialog-title>Share</md-dialog-title>
 
@@ -7,7 +7,7 @@
                 <input class="input-group-field" type="text" @click="selectShareUrl()" :value="shareLink" readonly/>
             </div>
             <social-sharing :url="shareLink" :title="name" :description="description"
-                            hashtags="#indiewise,#getindiewise" twitterUser="indiewise" inline-template>
+                            hashtags="#indiewise,#getindiewise" twitter-user="indiewise" inline-template>
                 <div>
                     <ul class="md-list">
                         <li class="md-list-item">

@@ -234,7 +234,7 @@
 
         <md-card-content>
             <!--<div class="media-object stack-for-small reply-comment">-->
-                <reply @defaultPostReply="toggleReplyInput" :parent="critique" v-show="showQuickReply"></reply>
+                <reply @default-post-reply="toggleReplyInput" :parent="critique" v-show="showQuickReply"></reply>
             <!--</div>-->
         </md-card-content>
 

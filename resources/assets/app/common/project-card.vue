@@ -3,7 +3,7 @@
          :class="[{'end': isLast()}, type]">
         <div class="post thumb-border">
             <a class="post-thumb" :href="video.url_id">
-                <md-ink-ripple />
+                <md-ink-ripple></md-ink-ripple>
                 <img v-if="video.hosting_type !== 'script'"
                      :src="video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'" :alt="video.name">
                 <img v-else :src="video.thumbnail_url||'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng'"

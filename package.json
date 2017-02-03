@@ -79,7 +79,9 @@
   "dependencies": {
     "@blocklevel/vue-social": "^1.2.4",
     "bulma": "^0.3.1",
+    "css-loader": "^0.26.1",
     "filepicker-js": "^2.4.18",
+    "json-loader": "^0.5.4",
     "rawmodel": "^1.5.1",
     "sass-loader": "^4.1.1",
     "scss-loader": "0.0.1",

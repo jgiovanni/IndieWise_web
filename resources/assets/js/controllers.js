@@ -371,9 +371,9 @@
                 });
             }
         }
-        BodyController.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$mdSidenav'];
         return BodyController;
     }());
+    BodyController.$inject = ['$rootScope', '$localForage', '$q', '$state', 'AuthService', '$mdToast', 'UserActions', '$sce', 'DataService', '_', '$interval', '$mdSidenav'];
     angular.module('IndieWise.controllers', [])
         .controller('BodyCtrl', BodyController);
 })();
