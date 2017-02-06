@@ -1,7 +1,7 @@
 <template>
     <md-layout md-flex="100" md-gutter="8" md-column-small class="row" v-if="project">
             <!-- left side content area -->
-            <md-layout md-flex md-flex-large="66" class="">
+            <md-layout md-flex md-flex-medium="100" md-flex-xlarge="66" class="">
                 <!-- single post stats -->
                 <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
                 <!-- End single post stats -->
@@ -231,12 +231,10 @@
             </md-layout>
             <!-- end left side content area -->
             <!-- sidebar -->
-            <md-layout md-flex md-flex-large="33" class="">
+            <md-layout md-flex md-flex-medium="100" md-flex-xlarge="33" class="">
                 <md-layout md-flex="100" class="secBg sidebar">
-                    <div class="row">
-
                         <!-- IndieWise Average Widget -->
-                        <div class="large-12 medium-centered columns show-for-large">
+                        <md-layout md-flex="100" md-align="center" class=" show-for-large">
                             <!--<project-average project="project"></project-average>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -250,11 +248,11 @@
                                     </h5>
                                 </div>
                             </div>
-                        </div>
+                        </md-layout>
                         <!-- End IndieWise Average Widget -->
 
                         <!-- Awards Widget -->
-                        <div class="large-12 medium-centered columns show-for-large" v-if="wins.length">
+                        <md-layout md-flex="100" md-align="center" class=" show-for-large">
                             <!--<project-awards project="project"></project-awards>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -266,7 +264,7 @@
                                 </div>
                                 <div class="widgetContent">
                                     <md-list>
-                                        <md-list-item v-for="win in wins">
+                                        <md-list-item v-if="wins.length" v-for="win in wins">
                                             <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
                                             <!--<span class="md-icon fa-stack fa-lg">
                                                   <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
@@ -289,11 +287,11 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </md-layout>
                         <!-- End Awards Widget -->
 
                         <!-- Reactions Widget -->
-                        <div class="large-12 medium-centered columns show-for-large" v-if="project.reactions_count>0">
+                        <md-layout md-flex="100" md-align="center" class=" show-for-large" v-if="project.reactions_count>0">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Reactions</h5>
@@ -302,11 +300,11 @@
                                     <project-reactions :project="project"></project-reactions>
                                 </div>
                             </div>
-                        </div>
+                        </md-layout>
                         <!-- End Reactions Widget -->
 
                         <!-- most view Widget -->
-                        <div class="large-12 medium-centered columns">
+                        <md-layout md-flex="100" md-align="center" class="">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Recommended Next</h5>
@@ -339,12 +337,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </md-layout>
                         <!-- end most view Widget -->
 
 
                         <!-- ad banner widget -->
-                        <div class="large-12 medium-centered columns">
+                        <md-layout md-flex="100" md-align="center" class="">
                             <div class="widgetBox">
                                 <!--<div class="widgetTitle">
                                     <h5>Sponsored Ad</h5>
@@ -356,9 +354,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </md-layout>
                         <!-- end ad banner widget -->
-                    </div>
                 </md-layout>
             </md-layout>
             <!-- end sidebar -->

@@ -7,9 +7,9 @@
 
     <nav-mobile></nav-mobile>
 
-    <md-layout md-flex md-column>
+    <nav-header></nav-header>
 
-        <nav-header></nav-header>
+    <md-layout md-flex md-column>
 
         <div v-if="isAuthenticated && isNotVerified" class="callout alert-box warning" data-closable>
             Please check your e-mail and verify your account to get involved! Check your spam folder just in case.
@@ -35,9 +35,13 @@
             <md-button class="md-accent" md-theme="light-blue" @click.prevent="$refs.snackbar.close()">Close</md-button>
         </md-snackbar>
 
-        @yield('layout')
+        <md-layout md-column>
+            @yield('layout')
+        </md-layout>
 
+        <md-layout md-column>
         @include('shared.footer')
+        </md-layout>
 
     </md-layout>
 

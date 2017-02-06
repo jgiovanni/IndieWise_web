@@ -45,7 +45,7 @@ elixir(function(mix) {
     // complie js
     // mix.combine('resources/assets/js/main.js');
     // mix.webpack('resources/assets/js/videojs.js');
-    mix.webpack('resources/assets/js/vendor.js');
+    // mix.webpack('resources/assets/js/vendor.js');
     // mix.browserify('angular.js');
 
     // VueJS file
