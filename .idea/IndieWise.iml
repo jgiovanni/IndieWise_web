@@ -284,6 +284,7 @@
           <root url="file://$MODULE_DIR$/vendor/webup/laravel-sendinblue" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
+          <root url="jar://$APPLICATION_HOME_DIR$/plugins/phpspec/lib/phpspec.jar!/phpspec_stub" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/99designs/http-signatures" />
@@ -414,6 +415,7 @@
           <root url="file://$MODULE_DIR$/vendor/webup/laravel-sendinblue" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
+          <root url="jar://$APPLICATION_HOME_DIR$/plugins/phpspec/lib/phpspec.jar!/phpspec_stub" />
         </SOURCES>
       </library>
     </orderEntry>

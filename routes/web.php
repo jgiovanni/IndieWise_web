@@ -163,14 +163,17 @@ Route::get('browse', function () {
 });
 
 Route::get('latest', function () {
+    SEO::setTitle('Latest');
     return view('latest');
 });
 
 Route::get('winners', function () {
+    SEO::setTitle('Winners');
     return view('winners');
 });
 
 Route::get('upload', function () {
+    SEO::setTitle('Upload');
     return view('user.views.upload');
 });
 
@@ -188,6 +191,7 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}', function ($id) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName);
 
         return view('user.views.about', compact('user', 'stats'));
     });
@@ -199,6 +203,7 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}/projects', function ($id) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName . ' Projects');
 
         return view('user.views.projects', compact('user', 'stats'));
     });
@@ -210,6 +215,7 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}/awards', function ($id) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName . ' Awards');
 
         return view('user.views.awards', compact('user', 'stats'));
     });
@@ -217,6 +223,7 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}/critiques', function ($id) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName . ' Critiques');
 
         return view('user.views.critiques', compact('user', 'stats'));
     });
@@ -224,6 +231,7 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}/reactions', function ($id) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName . ' Reactions');
 
         return view('user.views.reactions', compact('user', 'stats'));
     });
@@ -231,6 +239,7 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}/settings', function ($id) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName . ' Settings');
 
         return view('user.views.settings', compact('user', 'stats'));
     });
@@ -265,7 +274,7 @@ Route::get('{project_id}/critique/{critique_id}', function ($project_id, $critiq
 //    $user = JWTAuth::parseToken()->authenticate();
 //    dd(Cookie::get('token'));
     return view('project.critique', compact('critique'));
-});
+})->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
 Route::get('sitemap', function(){
 
@@ -321,37 +330,7 @@ Route::get('sitemap', function(){
 
 });
 
-Route::any('{path?}', function () use ($dispatcher) {
-    $countries = Country::orderBy('name', 'desc')->get();
-
-    if (App::environment('local')) {
-        return view("dev", compact('countries'));
-    } else {
-        $ua = request()->server('HTTP_USER_AGENT');
-
-        if (preg_match('/facebookexternalhit|Facebot|Twitterbot|Pinterest|Google.*snippet/i', $ua)) {
-            $segments = request()->segments();
-            try {
-                $project = $dispatcher->get('projects/' . end($segments));
-            } catch (Dingo\Api\Exception\InternalHttpException $e) {
-                $response = $e->getResponse();
-            } catch (NotFoundHttpException $e) {
-                return redirect('404');
-//                $response = $e->getResponse();
-            } catch (ModelNotFoundException $e) {
-                return redirect('404');
-//                $response = $e;
-            }
-            return view("hard-video", compact('project', 'countries'));
-        } else
-            return view("index", compact('countries'));
-    }
-})->where("path", ".+")/*->where("path", "!community")*/
-;
 /*
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/logout', function () {
     //Auth::logout();
