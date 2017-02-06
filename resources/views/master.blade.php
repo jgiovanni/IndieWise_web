@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 @include('shared._head')
-<body id="body">
+<body id="body" style="background-color: #fafafa !important;">
 
 <div id="app" v-cloak>
 

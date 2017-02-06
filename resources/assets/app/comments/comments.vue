@@ -15,28 +15,6 @@
                     </div>
 
                     <div class="comment-box thumb-border">
-                        <!--<md-layout>
-                            <md-layout md-flex="20" md-flex-large="10">
-                                <md-list>
-                                    <md-list-item :href="$root.user ? 'user/' + $root.user.id + '/about' : '#'">
-                                        <md-avatar>
-                                            <img v-if="$root.user" :src="$root.user.avatar || '/assets/img/avatar-1.png'" alt="comment">
-                                            <img v-else src="/assets/img/avatar-1.png" alt="comment">
-                                        </md-avatar>
-                                    </md-list-item>
-                                </md-list>
-                            </md-layout>
-                            <md-layout md-flex="80" md-flex-large="90" md-column>
-                                <form novalidate @submit.stop.prevent="postComment()" style="flex: 1">
-                                    <md-input-container md-inline>
-                                        <md-textarea name="commentText" placeholder="Add a comment here.."
-                                                     v-model="myComment" minlength="1"></md-textarea>
-                                        <md-button type="submit">Send</md-button>
-                                    </md-input-container>
-                                </form>
-                            </md-layout>
-                        </md-layout>-->
-
                         <div class="media-object stack-for-small">
                             <div class="media-object-section comment-img text-center">
                                 <div class="comment-box-img">
@@ -59,10 +37,13 @@
                     </div>
 
                     <div class="comment-sort text-right">
-                        <a :class="{'active':sortOrder === 'created_at|desc'}"
-                           @click="reSort('created_at|desc')">newest</a> |
-                        <a :class="{'active':sortOrder === 'created_at|asc'}"
-                           @click="reSort('created_at|asc')">oldest</a>
+                        <span>
+                            <md-icon>sort</md-icon>
+                            <a :class="{'active':sortOrder === 'created_at|desc'}"
+                               @click="reSort('created_at|desc')">newest</a> |
+                            <a :class="{'active':sortOrder === 'created_at|asc'}"
+                               @click="reSort('created_at|asc')">oldest</a>
+                        </span>
                     </div>
 
                 </template>
@@ -81,7 +62,15 @@
 
                 <!-- main comment -->
                 <div class="main-comment showmore_one">
-                    <comment v-for="comment in comments.data" :comment="comment" :parent="parent"></comment>
+                    <comment v-if="comments.data.length" v-for="comment in comments.data" :comment="comment" :parent="parent"></comment>
+
+                    <div class="text-center loadMore" v-show="comments.meta.pagination.total_pages > 0">
+                        <button class="button" type="button" @click="loadMore" :disabled="loading">
+                            <span v-if="!loading">load more</span>
+                            <span v-else><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
+                        </button>
+                    </div>
+
                 </div>
                 <!-- End main comment -->
 
@@ -100,6 +89,10 @@
             comments: {
                 type: Object,
             },
+            critiqueId: {
+                type: String,
+                default: ''
+            },
             disable: {
                 type: Boolean
             },
@@ -113,7 +106,8 @@
         data(){
             return {
                 sortOrder: this.$parent.sortOrder,
-                myComment: null
+                myComment: null,
+				loading: true,
             }
         },
         methods: {
@@ -134,15 +128,15 @@
                     critique_id: !this.parent.hasOwnProperty('unlist') ? this.parent.id : undefined,
                     user_id: this.$root.user.id
                 })
-                    .then(function (comment) {
-                        self.comments.data.push(comment.data.data);
-                        self.$root.$emit('toastMessage', 'Comment posted!');
-                        self.myComment = null;
-                        self.clearCommentinput();
-                        self.parent.comments_count++;
-                    }, function (error) {
-                        console.log('Failed to create new comment, with error code: ' + error.message);
-                    });
+                        .then(function (comment) {
+                            self.comments.data.push(comment.data.data);
+                            self.$root.$emit('toastMessage', 'Comment posted!');
+                            self.myComment = null;
+                            self.clearCommentinput();
+                            self.parent.comments_count++;
+                        }, function (error) {
+                            console.log('Failed to create new comment, with error code: ' + error.message);
+                        });
             },
 
             toggleCommentInput() {
@@ -155,10 +149,21 @@
 
             reSort(order) {
                 this.$root.$emit('reSortComments', order);
-            }
+				this.loading = true;
+			},
+			loadMore(){
+                let nextPage = this.comments.meta.pagination.current_page < this.comments.meta.pagination.total_pages ? this.comments.meta.pagination.current_page + 1 : this.comments.meta.pagination.current_page
+				this.$root.$emit('loadComments', nextPage);
+				this.loading = true;
+			}
+
         },
         mounted(){
-
+            if (this.critiqueId.length) {
+                this.$http.get('comments', {critique: this.critiqueId, include: 'replies'}).then(function (response) {
+                    this.comments = response.data;
+                });
+            }
         }
     }
 </script>

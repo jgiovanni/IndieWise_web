@@ -1,0 +1,152 @@
+<template>
+	<div>
+		<!-- single post description -->
+		<section class="singlePostDescription" v-if="isUser">
+			<div class="row secBg">
+				<div class="large-12 columns">
+					<div class="heading">
+						<i class="fa fa-play"></i>
+						<h4>View the IndieWise Tutorial Below</h4>
+					</div>
+					<div class="description">
+						<video width="100%" height="100%" controls preload="metadata" poster="/assets/img/default_video_thumbnail.jpg">
+							<source src='https://cdn.filepicker.io/api/file/GYr0iXWiTxat7uVwgPjS+.mp4'>
+						</video>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End single post description -->
+		<!-- single post description -->
+		<section class="singlePostDescription">
+			<div class="row secBg">
+				<div class="large-12 columns">
+					<div class="heading">
+						<i class="fa fa-user"></i>
+						<h4>Description</h4>
+					</div>
+					<div class="description">
+						<p v-text="user.bio"></p>
+
+						<!--<div class="email profile-margin">
+							<button><i class="fa fa-envelope"></i>u</button>
+							<span class="inner-btn">support@betube.com</span>
+						</div>-->
+						<!--<div class="phone profile-margin">
+							<button><i class="fa fa-phone"></i>Phone</button>
+							<span class="inner-btn">92-568-748</span>
+						</div>-->
+
+						<div v-if="user.website||user.urlFacebook||user.urlTwitter||user.urlGoogle" class="socialLinks profile-margin">
+							<button><i class="fa fa-share-alt"></i>Get Social</button>
+							<a v-if="user.website" :href="user.website" class="inner-btn"><i class="fa fa-globe"></i></a>
+							<a v-if="user.urlFacebook" :href="user.urlFacebook" class="inner-btn"><i class="fa fa-facebook"></i></a>
+							<a v-if="user.urlTwitter" :href="user.urlTwitter" class="inner-btn"><i class="fa fa-twitter"></i></a>
+							<a v-if="user.urlGoogle" :href="user.urlGoogle" class="inner-btn"><i class="fa fa-google-plus"></i></a>
+						</div>
+						<div class="site profile-margin">
+							<button><i class="fa fa-user"></i>Profile Link</button>
+							<a :href="'/user/' + user.url_id" class="inner-btn" style="text-transform: lowercase;">https://getindiewise.com/user/{{user.url_id}}</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section><!-- End single post description -->
+		<!-- followers -->
+		<!--
+		<section class="content content-with-sidebar followers margin-bottom-10">
+			<div class="row secBg">
+				<div class="large-12 columns">
+					<div class="row column head-text clearfix">
+						<h4 class="pull-left"><i class="fa fa-users"></i>Followers</h4>
+					</div>
+					<div class="row collapse">
+						<div class="large-2 small-6 medium-3 columns">
+							<div class="follower">
+								<div class="follower-img">
+									<img src="http://placehold.it/115x100" alt="followers">
+								</div>
+								<span>Frank Wright</span>
+								<button type="submit" name="follow">Subscribe</button>
+							</div>
+						</div>
+						<div class="large-2 small-6 medium-3 columns">
+							<div class="follower">
+								<div class="follower-img">
+									<img src="http://placehold.it/115x100" alt="followers">
+								</div>
+								<span>John Doe</span>
+								<button type="submit" name="follow">Subscribe</button>
+							</div>
+						</div>
+						<div class="large-2 small-6 medium-3 columns">
+							<div class="follower">
+								<div class="follower-img">
+									<img src="http://placehold.it/115x100" alt="followers">
+								</div>
+								<span>Nancy john</span>
+								<button type="submit" name="follow">Subscribe</button>
+							</div>
+						</div>
+						<div class="large-2 small-6 medium-3 columns">
+							<div class="follower">
+								<div class="follower-img">
+									<img src="http://placehold.it/115x100" alt="followers">
+								</div>
+								<span>Frank</span>
+								<button type="submit" name="follow">Subscribe</button>
+							</div>
+						</div>
+						<div class="large-2 small-6 medium-3 columns">
+							<div class="follower">
+								<div class="follower-img">
+									<img src="http://placehold.it/115x100" alt="followers">
+								</div>
+								<span>lucy</span>
+								<button type="submit" name="follow">Subscribe</button>
+							</div>
+						</div>
+						<div class="large-2 small-6 medium-3 columns end">
+							<div class="follower">
+								<div class="follower-img">
+									<img src="http://placehold.it/115x100" alt="followers">
+								</div>
+								<span>daisy</span>
+								<button type="submit" name="follow">Subscribe</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>-->
+
+
+	</div>
+</template>
+<style></style>
+<script type="text/javascript">
+    export default{
+        name: 'user-about',
+        props: ['user'],
+	    data(){
+            return {}
+        },
+        computed: {
+            isUser(){
+                return this.$root.user && (this.user.id === this.$root.user.id);
+            },
+        },
+	    methods: {},
+        mounted(){
+            if (this.isUser) {
+                this.user = this.$root.user;
+            } else {
+                this.$http.get('users/' + this.user.id).then(function (response) {
+	                this.user = response.data.data;
+                });
+            }
+
+        }
+    }
+</script>

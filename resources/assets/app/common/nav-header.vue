@@ -7,8 +7,7 @@
                     <div class="socialLinks">
                         <a href="https://www.facebook.com/getindiewise" target="_blank"><i class="fa fa-facebook-f"></i></a>
                         <a href="https://twitter.com/getindiewise" target="_blank"><i class="fa fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/getindiewise/" target="_blank"><i
-                                class="fa fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/getindiewise/" target="_blank"><i class="fa fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="medium-6 columns">
@@ -31,7 +30,7 @@
         <!--Navbar-->
         <section id="navBar">
             <nav class="sticky-container" data-sticky-container>
-                <div class="sticky topnav" data-sticky data-top-anchor="navBar"
+                <div class="sticky topnav" data-sticky data-top-anchor="navBar" data-check-every="1"
                      data-btm-anchor="footer-bottom:bottom" data-margin-top="0" data-margin-bottom="0"
                      style="width: 100%; background: rgb(255, 255, 255);" data-sticky-on="small">
                     <div class="row" style="">
@@ -73,7 +72,7 @@
                         <div class="large-12 columns">
 
                             <div class="top-bar show-for-large" id="beNav" style="width: 100%;">
-                                <div class="top-bar-left  search-btn">
+                                <div class="top-bar-left search-btn">
                                     <ul class="menu">
                                         <li class="menu-text">
                                             <a href="/">
@@ -87,20 +86,45 @@
                                 </div>
                                 <div class="top-bar-right search-btn" v-cloak>
                                     <ul v-if="isAuthenticated" class="menu dropdown" dropdown-menu>
-                                        <li class="search" href="profile">
-                                            <i class="fa fa-user"></i>
-                                        </li>
-                                        <li class="search ">
+                                        <a :href="'/' + $root.user.url_id">
+                                            <md-avatar class="md-icon-button" aria-label="Profile" >
+                                                <img v-if="$root.user.avatar" :src="$root.user.avatar"
+                                                     class="md-avatar md-contact-avatar" :alt="$root.user.fullName"/>
+                                                <md-icon v-else>account_circle</md-icon>
+                                            </md-avatar>
+                                        </a>
+                                        <md-menu md-size="6" md-direction="bottom left" @open="notificationsMenuOpened" id="notificationsMenu" ref="notificationsMenu">
+                                            <md-button class="md-icon-button" md-menu-trigger>
+                                                <md-icon v-if="!$root.notifications.loaded">notifications_none</md-icon>
+                                                <template v-else>
+                                                    <md-icon v-if="$root.notifications.unseen>0">notifications_none</md-icon>
+                                                    <md-icon v-else>notifications</md-icon>
+                                                </template>
+                                            </md-button>
+                                            <md-menu-content>
+                                                <md-list class="md-dense notification-list">
+                                                    <notification-item v-for="notice in $root.notifications.list" :notification="notice" :verb="notice.verb" :class="{'unread': !notice.is_read}"></notification-item>
+                                                </md-list>
+                                            </md-menu-content>
+                                        </md-menu>
+                                        <md-button class="md-icon-button" href="messages"><md-icon>email</md-icon></md-button>
+                                        <md-button class="md-icon-button
+                                            <md-icon>cloud_upload</md-icon>
+                                            <md-tooltip md-direction="left">Upload Project</md-tooltip>
+                                        </md-button>
+                                        <!--<li class="search">-->
+                                        <!--</li>-->
+                                        <!--<li class="search">-->
                                             <!--<i class="fa" @click="Body.toggleSideNav('right');Body.markAllAsRead();Body.markAllAsSeen()" :class="{'fa-bell': $root.Notifications.unseen, 'fa-bell-o': $root.Notifications.loaded === 'indeterminate' || !$root.Notifications.unseen}"></i>-->
                                             <!--<span v-show="$root.Notifications.unseen>0" class="alert badge">{{$root.Notifications.unseen}}</span>-->
-                                        </li>
-                                        <li class="search" href="messages">
-                                            <i class="fa fa-envelope"></i>
+                                        <!--</li>-->
+                                        <!--<li class="search">-->
+                                            <!--<a href="messages"><i class="fa fa-envelope"></i></a>-->
                                             <!--<span v-show="$root.MessageNotifications.unread>0" class="alert badge">{{$root.MessageNotifications.unread}}</span>-->
-                                        </li>
-                                        <li class="upl-btn end">
+                                        <!--</li>-->
+                                        <!--<li class="upl-btn end">
                                             <a href="profile/upload">Upload Project</a>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                     <ul v-else class="menu dropdown" dropdown-menu>
                                         <li class="upl-btn end">
@@ -140,7 +164,7 @@
                                                   remote-url-data-field="data"
                                                   title-field="term"
                                                   input-class="form-control form-control-small"/>-->
-                                <input type="search" v-model="searchText" my-enter="Body.startSearch($root.searchText)"
+                                <input type="search" v-model="searchText" my-enter="startSearch($root.searchText)"
                                        placeholder="Search Anything">
                             </div>
                             <div class="search-btn float-right text-right">
@@ -153,10 +177,21 @@
         </section>
     </header>
 </template>
-<style scoped></style>
+<style scoped>
+    .upload-btn {
+        position: absolute;
+        right: 10px;
+    }
+    .md-menu[id='notificationsMenu'] {
+        top: -10px;
+        position: relative;
+    }
+</style>
 <script type="text/babel">
+    import notificationItem from './notification-item.vue';
     export default {
         name: 'nav-header',
+        components: {notificationItem},
         data() {
             return {
                 showMobileSearch: false,
@@ -176,7 +211,13 @@
             },
             closeRightSideNav() {
                 this.$root.$emit('overVideoPlayer', false);
-            }
+            },
+            notificationsMenuOpened() {
+                this.markAllAsRead();
+                this.markAllAsSeen()
+            },
+            markAllAsRead(){},
+            markAllAsSeen(){},
         },
         mounted(){
 

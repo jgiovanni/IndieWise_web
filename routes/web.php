@@ -15,6 +15,7 @@
 use App\Award;
 use App\Reaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use GetStream\Stream\Client;
@@ -133,6 +134,7 @@ Route::get('sign-in', function () {
     return view('auth.login');
 });
 Route::post('sign-in', 'Auth\AuthController@authenticate');
+Route::post('login', 'Api\AuthController@login');
 Route::get('register', 'Auth\AuthController@register');
 Route::get('logout', 'Auth\AuthController@logout');
 
@@ -168,12 +170,69 @@ Route::get('winners', function () {
     return view('winners');
 });
 
-$this->group([ 'prefix' => 'profile'], function () {
-    $this->get('/', function () {
-        return view('home');
+Route::get('upload', function () {
+    return view('user.views.upload');
+});
+
+/*$this->group([ 'prefix' => 'profile'], function () use ($dispatcher) {
+    $this->get('/', function () use ($dispatcher) {
+        dd('here');
+        return view('profile.index');
     });
     $this->get('/about', function () {
         return redirect('profile');
+    });
+});*/
+
+$this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
+    $this->get('{id}', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+
+        return view('user.views.about', compact('user', 'stats'));
+    });
+
+    $this->get('{id}/about', function ($id) {
+        return redirect('user/' . $id);
+    });
+
+    $this->get('{id}/projects', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+
+        return view('user.views.projects', compact('user', 'stats'));
+    });
+
+    $this->get('{id}/videos', function ($id) {
+        return redirect('user/' . $id . '/projects');
+    });
+
+    $this->get('{id}/awards', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+
+        return view('user.views.awards', compact('user', 'stats'));
+    });
+
+    $this->get('{id}/critiques', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+
+        return view('user.views.critiques', compact('user', 'stats'));
+    });
+
+    $this->get('{id}/reactions', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+
+        return view('user.views.reactions', compact('user', 'stats'));
+    });
+
+    $this->get('{id}/settings', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+
+        return view('user.views.settings', compact('user', 'stats'));
     });
 });
 
@@ -200,6 +259,13 @@ Route::get('{project_id}', function ($project_id) use ($dispatcher) {
     return view('project.index', compact('project'));
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
+Route::get('{project_id}/critique/{critique_id}', function ($project_id, $critique_id) use ($dispatcher) {
+    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);
+//    $token = JWTAuth::getToken();
+//    $user = JWTAuth::parseToken()->authenticate();
+//    dd(Cookie::get('token'));
+    return view('project.critique', compact('critique'));
+});
 
 Route::get('sitemap', function(){
 

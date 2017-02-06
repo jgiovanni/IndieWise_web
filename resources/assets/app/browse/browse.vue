@@ -1,30 +1,14 @@
 <template>
     <div>
-        <!--breadcrumbs-->
-        <section id="breadcrumb" class="breadMargin">
-            <div class="row">
-                <div class="large-12 columns">
-                    <nav aria-label="You are here:" role="navigation">
-                        <ul class="breadcrumbs">
-                            <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
-                            <li>
-                                <span class="show-for-sr">Current: </span>Search Results
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </section><!--end breadcrumbs-->
-
         <!-- Category -->
         <watching-carousel></watching-carousel>
         <!-- End Category -->
 
         <md-sidenav ref="filterNav" class="md-left" v-cloak>
-            <md-toolbar class="md-accent">
+            <md-toolbar class="md-primary">
                 <h2 class="md-title text-white" style="flex: 1">Filters</h2>
 
-                <md-button class="md-icon-button" aria-label="Close menu" @click="closeFilterNav()">
+                <md-button class="md-icon-button" aria-label="Close menu" @click="toggleFilterNav()">
                     <md-icon>close</md-icon>
                 </md-button>
             </md-toolbar>
@@ -38,7 +22,7 @@
                     <md-option value="awards">Award Winning</md-option>
                 </md-select>
             </md-input-container>
-            <md-layout md-column md-align="center" md-gutter>
+            <md-layout md-column md-align="center" md-gutter="8">
                 <md-layout md-flex md-column>
 
                     <form id="searchformA" @submit.stop.prevent="search()" role="search">
@@ -263,7 +247,7 @@
             },
             handleUrlFilters(){
                 let self = this;
-                let filters = location.search.substr(1).split('&');
+                let filters = decodeURIComponent(location.search).substr(1).split('&');
                 _.each(filters, function (filter, key, list) {
                     let arr = filter.split('=');
                     if (arr[0] === 'q')

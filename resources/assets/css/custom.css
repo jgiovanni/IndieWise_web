@@ -493,7 +493,7 @@ a.double-thumbs.active {
     border-color: #6969e9 !important;
 }
 
-.double-thumbs i, .post-like-btn i {
+.double-thumbs i {
     display: inline-block;
     color: inherit;
     margin-right: 5px;

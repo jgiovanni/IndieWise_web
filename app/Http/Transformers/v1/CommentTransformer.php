@@ -13,7 +13,7 @@ class CommentTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = ['project', 'user'];
+    protected $availableIncludes = ['project', 'author'];
 
     /**
      * Turn this item object into a generic array

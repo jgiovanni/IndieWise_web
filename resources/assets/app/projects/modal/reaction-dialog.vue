@@ -7,13 +7,13 @@
             </md-input-container>
             <md-list style="height: 300px;overflow-y: scroll;">
                 <md-list-item class="angucomplete-row" v-for="reaction in filteredEmotions" @click="selectedEmotion(reaction)">
-                    <md-icon class="emoticon" md-svg-icon="{{reaction.icon}}"></md-icon>&nbsp;<span>{{reaction.name}}</span>
+                    <md-icon :md-src="reaction.src"></md-icon>&nbsp;<span>{{reaction.name}}</span>
                 </md-list-item>
             </md-list>
             <br>
         </md-dialog-content>
         <md-dialog-actions>
-            <md-button class="button tiny" @click="close()">Cancel</md-button>
+            <md-button class="" @click="close()">Cancel</md-button>
         </md-dialog-actions>
     </md-dialog>
 </template>
@@ -31,7 +31,7 @@
             filteredEmotions(){
                 let self = this;
                 let filtered = _.filter(_.sortBy(this.emotions, 'name'), function (emotion) {
-                    return emotion.name.indexOf(self.search) !== -1;
+                    return emotion.name.toLowerCase().indexOf(self.search.toLowerCase()) !== -1;
                 });
                 return filtered;
             }
@@ -44,23 +44,19 @@
                 return _.findWhere($scope.emotions, {emotion: emotion});
             },
             selectedEmotion (e) {
-                // zIndexPlayer(true);
-                //$modalInstance.dismiss('cancel');
-                $modalInstance.close(e);
                 this.$root.$emit('projectReactionSelected', e);
                 this.$refs.ReactionDialog.close();
             }
-
         },
         created() {
-        },
-        mounted(){
             let self = this;
             this.emotions = this.generateReactions();
             this.$root.$on('openReactionDialog', function () {
-                debugger;
                 self.$refs.ReactionDialog.open();
             })
+        },
+        mounted(){
+
         }
     }
 </script>

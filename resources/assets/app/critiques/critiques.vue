@@ -17,7 +17,8 @@
                         <h4 class="text-center" v-if="pagination.total === 0">Be the first to judge this project!</h4>
                         <template v-else>
                             <div class="comment-sort text-right">
-                                <span>Sort By :
+                                <span>
+                                    <md-icon>sort</md-icon>
                                     <a :class="{'active':sortOrder === 'comments_count|desc'}"
                                        @click="reSort('comments_count|desc')">comments</a> |
                                     <a :class="{'active':sortOrder === 'created_at|desc'}"
@@ -32,12 +33,12 @@
                                 <critique-item v-for="critique in critiques" :critique="critique"
                                                :parent-url-id="parentUrlId" :parent-owner-id="parentOwnerId"></critique-item>
 
-                                <div class="text-center loadMore" v-show="pagination.total_pages > 0">
+                                <!--<div class="text-center loadMore" v-show="pagination.total_pages > 0">
                                     <button class="button" type="button" @click="loadMore" :disabled="loading">
                                         <span v-if="!loading">load more</span>
                                         <span v-else><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
                                     </button>
-                                </div>
+                                </div>-->
                             </div>
                             <!-- End main comment -->
                         </template>

@@ -103,6 +103,7 @@
                 switch (video.hosting_type) {
                     case 'HTML5':
                         src.type = 'video/mp4';
+                        src.src = video.video_url;
                         break;
                     case 'youtube':
                         src.type = 'video/youtube';
@@ -116,7 +117,6 @@
                         break;
                 }
                 source.sources.push(src);
-                console.log(source);
                 dest.push(source);
             },
             toggleLights() {

@@ -1,10 +1,150 @@
 <template>
+    <!--<section>
+        <md-card>
+            <md-card-header>
+                <md-avatar class="md-large">
+                    <img :src="project.owner.avatar" alt="post">
+                </md-avatar>
+                <div class="md-headline">
+                    {{project.name}} <span v-if="!project.nsfw"
+                                           style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
+                                           class="button tiny alert hollow">Mature</span>
+                    &lt;!&ndash;<a href="'user/' + project.owner.url_id + '/about'">{{project.owner.fullName}}</a>&ndash;&gt;
+                </div>
+                <div class="md-caption">
+                    <i class="fa fa-clock-o"></i>
+                    <abbr :title="project.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
+                        {{ project.created_at | vmTimeAgo }}
+                    </abbr>
+                    &nbsp;&middot;&nbsp;
+                    <i class="fa fa-smile-o"></i>&nbsp;&nbsp;{{project.reactions_count||0}}
+                    &nbsp;&middot;&nbsp;
+                    <span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
+                            class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;{{project.up_ratings_count||0}}</span>
+                    &nbsp;&middot;&nbsp;
+                    <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
+                            class="fa fa-thumbs-o-down"></i>&nbsp;&nbsp;{{project.down_ratings_count||0}}</span>
+                </div>
+            </md-card-header>
+            <md-card-actions>
+                <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
+                           :class="{'md-raised':canRate.up}">
+                    <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+                </md-button>
+                <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
+                           :class="{'md-raised':canRate.down}">
+                    <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+                </md-button>
+                &lt;!&ndash;<project-playlists :project="project"></project-playlists>&ndash;&gt;
+                <md-button class="md-raise md-accent md-dense" @click="openShareDialog">
+                    <md-icon>share</md-icon> Share
+                </md-button>
+                <md-button id="reportDialogButtonA" class="md-raise md-dense md-warn "
+                           @click="openReportDialog($event)">
+                    <md-icon>flag</md-icon> Flag
+                </md-button>
+                <md-button class="md-primary md-dense" @click.stop.prevent="openReactionDialog()">
+                    <md-icon v-if="canReact===true" class="">face</md-icon>
+                    <span v-if="canReact===true">I'm feeling ...</span>
+                    <span v-if="canReact!==true && canReact != 'login'">
+                            <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
+                            {{canReact.emotion}}
+                        </span>
+                </md-button>
+
+                <md-button class="md-primary md-dense" v-cloak
+                           @click.stop.prevent="openCritiqueDialog()" v-if="canCritique">
+                    <md-icon>star</md-icon>
+                    <span v-if="canCritique===true">Judge</span>
+                    <span v-if="canCritique!==true && canCritique != 'login'">
+                            Judged: <span>{{canCritique.overall}}</span>
+                        </span>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+
+    </section>-->
     <section class="SinglePostStats" id="SinglePostStats">
         <!-- newest video -->
         <div class="row secBg">
             <div class="large-12 columns">
                 <div class="media-object stack-for-small">
-                    <div class="media-object-section">
+                    <md-layout style="border-bottom: 1px solid #efefef">
+                        <md-layout md-column md-align="center" md-flex=20>
+                            <br>
+                            <md-avatar class="md-large">
+                                <img :src="project.owner.avatar" alt="post">
+                            </md-avatar>
+                            <p class="text-center">
+                                <a href="'user/' + project.owner.url_id + '/about'">
+                                    {{project.owner.fullName}}
+                                </a>
+                            </p>
+                        </md-layout>
+                        <md-layout md-column md-align="center">
+                            <h1 class="md-headline">
+                                {{project.name}} <span v-if="project.nsfw"
+                                                       style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
+                                                       class="button tiny alert hollow">Mature</span>
+                                <!--<a href="'user/' + project.owner.url_id + '/about'">{{project.owner.fullName}}</a>-->
+                            </h1>
+                            <div class="md-caption">
+                                <i class="fa fa-clock-o"></i>
+                                <abbr :title="project.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
+                                    {{ project.created_at | vmTimeAgo }}
+                                </abbr>
+                                &nbsp;&middot;&nbsp;
+                                <i class="fa fa-smile-o"></i>&nbsp;&nbsp;{{project.reactions_count||0}}
+                                &nbsp;&middot;&nbsp;
+                                <span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
+                                        class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;{{project.up_ratings_count||0}}</span>
+                                &nbsp;&middot;&nbsp;
+                                <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
+                                        class="fa fa-thumbs-o-down"></i>&nbsp;&nbsp;{{project.down_ratings_count||0}}</span>
+                            </div>
+                        </md-layout>
+                    </md-layout>
+                    <md-layout md-column-xsmall>
+                        <md-layout style="order: 2" md-align="end" md-align-xsmall="center">
+                            <md-button class="md-primary md-dense" @click.stop.prevent="openReactionDialog()">
+                                <md-icon v-if="canReact===true" class="">face</md-icon>
+                                <span v-if="canReact===true">I'm feeling ...</span>
+                                <span v-if="canReact!==true && canReact != 'login'">
+                                    <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
+                                    {{canReact.emotion}}
+                                </span>
+                            </md-button>
+
+                            <md-button class="md-primary md-dense" v-cloak
+                                       @click.stop.prevent="openCritiqueDialog()" v-if="canCritique">
+                                <md-icon>star</md-icon>
+                                <span v-if="canCritique===true">Judge</span>
+                                <span v-if="canCritique!==true && canCritique != 'login'">
+                                    Judged: <span>{{canCritique.overall}}</span>
+                                </span>
+                            </md-button>
+                        </md-layout>
+                        <md-layout style="order: 1" md-align="start" md-align-xsmall="center">
+                            <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
+                                       :class="{'md-raised':canRate.up}">
+                                <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+                            </md-button>
+                            <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
+                                       :class="{'md-raised':canRate.down}">
+                                <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+                            </md-button>
+                            <!--<project-playlists :project="project"></project-playlists>-->
+                            <md-button class="md-icon-button md-accent" @click="openShareDialog">
+                                <md-icon>share</md-icon>
+                            </md-button>
+                            <md-button id="reportDialogButtonA" class="md-icon-button md-warn "
+                                       @click="openReportDialog($event)">
+                                <md-icon>flag</md-icon>
+                            </md-button>
+
+                        </md-layout>
+                    </md-layout>
+                    <!--<div class="media-object-section">
                         <div class="author-img-sec">
                             <div class="thumbnail author-single-post">
                                 <a href="'user/' + project.owner.url_id + '/about'">
@@ -19,8 +159,8 @@
                         </div>
                     </div>
                     <div class="media-object-section object-second">
-                        <div class="author-des clearfix">
-                            <div class="post-title">
+                        <md-layout class="author-des" md-column-xsmall>
+                            <md-layout md-row md-align="start" class="post-title">
                                 <h4>{{project.name}} <span v-if="project.nsfw"
                                                            style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
                                                            class="button tiny alert hollow">Mature</span></h4>
@@ -34,84 +174,74 @@
                                             class="fa fa-thumbs-o-up"></i>{{project.up_ratings_count||0}}</span>
                                     <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
                                             class="fa fa-thumbs-o-down"></i>{{project.down_ratings_count||0}}</span>
-                                    <!--<span><i class="fa fa-commenting"></i>{{project.commentCount||0}}</span>-->
+                                    &lt;!&ndash;<span><i class="fa fa-commenting"></i>{{project.commentCount||0}}</span>&ndash;&gt;
                                 </p>
-                            </div>
-                            <div class="subscribe">
-                                <form>
-                                    <button @click.stop.prevent="openReactionDialog()">
-                                        <span v-if="canReact===true" class="fa fa-smile-o"></span>
+                            </md-layout>
+                            <md-layout md-row md-align="end">
+                                    <md-button class="md-primary" @click.stop.prevent="openReactionDialog()">
+                                        <md-icon v-if="canReact===true" class="">face</md-icon>
                                         <span v-if="canReact===true">I'm feeling ...</span>
                                         <span v-if="canReact!==true && canReact != 'login'">
-                                        <md-icon class="emoticon" :mdsrc="canReactIcon()"></md-icon>
-                                        I'm feeling {{canReact.emotion}}
-                                    </span>
-                                    </button>
-                                    <a class="primary button tiny show-for-small-only"
+                                            <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
+                                            {{canReact.emotion}}
+                                        </span>
+                                    </md-button>
+
+                                    <md-button class="md-primary" v-cloak
                                        @click.stop.prevent="openCritiqueDialog()" v-if="canCritique">
-                                        <span class="fa fa-star"></span>
+                                        <md-icon>star</md-icon>
                                         <span v-if="canCritique===true">Judge</span>
                                         <span v-if="canCritique!==true && canCritique != 'login'">
                                         Judged: <span>{{canCritique.overall}}</span>
                                     </span>
-                                    </a>
-                                    <a class="primary button small hide-for-small-only" v-cloak
-                                       @click.stop.prevent="openCritiqueDialog()" v-if="canCritique">
-                                        <span class="fa fa-star"></span>
-                                        <span v-if="canCritique===true">Judge</span>
-                                        <span v-if="canCritique!==true && canCritique != 'login'">
-                                        Judged: <span>{{canCritique.overall}}</span>
-                                    </span>
-                                    </a>
-                                </form>
-                            </div>
-                        </div>
+                                    </md-button>
+                                </md-layout>
+                        </md-layout>
                         <div class="social-share hide-for-small-only">
                             <div class="post-like-btn clearfix">
-                                <form>
-                                    <a class="double-thumbs primary button tiny text-white" @click="rate('up')"
-                                       :class="{'active':canRate.up}">
+                                <md-layout md-align="center">
+                                    <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
+                                               :class="{'md-raised':canRate.up}">
                                         <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
-                                    </a>
-                                    <a class="double-thumbs primary button tiny text-white" @click="rate('down')"
-                                       :class="{'active':canRate.down}">
+                                    </md-button>
+                                    <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
+                                               :class="{'md-raised':canRate.down}">
                                         <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
-                                    </a>
-                                    <!--<project-playlists :project="project"></project-playlists>-->
-                                    <a class="button tiny text-white" @click="openShareDialog"><i
-                                            class="fa fa-share"></i>Share
-                                    </a>
-                                    <a id="reportDialogButtonA" class="button tiny alert text-white"
-                                       @click="openReportDialog($event)">
-                                        <i class="fa fa-flag"></i> Flag
-                                    </a>
-                                </form>
+                                    </md-button>
+                                    &lt;!&ndash;<project-playlists :project="project"></project-playlists>&ndash;&gt;
+                                    <md-button class="md-raise md-accent md-dense" @click="openShareDialog">
+                                        <md-icon>share</md-icon> Share
+                                    </md-button>
+                                    <md-button id="reportDialogButtonA" class="md-raise md-dense md-warn "
+                                               @click="openReportDialog($event)">
+                                        <md-icon>flag</md-icon> Flag
+                                    </md-button>
+                                </md-layout>
                             </div>
                         </div>
                     </div>
                     <div class="social-share show-for-small-only">
                         <div class="post-like-btn clearfix">
-                            <form>
-                                <a class="double-thumbs primary button tiny text-white" @click="rate('up')"
-                                   :class="{'active':canRate.up}">
+                            <md-layout md-align="center">
+                                <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
+                                   :class="{'md-raised':canRate.up}">
                                     <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
-                                </a>
-                                <a class="double-thumbs primary button tiny text-white" @click="rate('down')"
-                                   :class="{'active':canRate.down}">
+                                </md-button>
+                                <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
+                                   :class="{'md-raised':canRate.down}">
                                     <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
-                                </a>
-                                <!--<project-playlists :project="project"></project-playlists>-->
-                                <a class="button  text-white" @click="openShareDialog"><i
-                                        class="fa fa-share"></i>Share
-                                </a>
-                                <a id="reportDialogButtonB" class="button tiny alert text-white"
+                                </md-button>
+                                &lt;!&ndash;<project-playlists :project="project"></project-playlists>&ndash;&gt;
+                                <md-button class="md-raise md-accent md-dense" @click="openShareDialog">
+                                    <md-icon>share</md-icon> Share
+                                </md-button>
+                                <md-button id="reportDialogButtonB" class="md-raise md-dense md-warn "
                                    @click="openReportDialog($event)">
-                                    <i class="fa fa-flag"></i> Flag
-                                </a>
-                            </form>
+                                    <md-icon>flag</md-icon> Flag
+                                </md-button>
+                            </md-layout>
                         </div>
-                    </div>
-
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -120,6 +250,7 @@
                       :description="project.description"></share-dialog>
         <report-project-dialog :project-id="project.id"></report-project-dialog>
         <critique-project-dialog v-if="canCritique === true" :project="project" ></critique-project-dialog>
+        <reaction-dialog></reaction-dialog>
     </section>
 </template>
 <style scoped></style>
@@ -127,10 +258,11 @@
     import projectPlaylists from './project-playlists.vue';
     import reportProjectDialog from './modal/report-project-dialog.vue';
     import critiqueProjectDialog from './modal/critique-project-dialog.vue';
+    import reactionDialog from './modal/reaction-dialog.vue';
     import shareDialog from '../common/share-dialog.vue';
     export default {
         name: 'project-stats-actions',
-        components: {projectPlaylists, critiqueProjectDialog, reportProjectDialog, shareDialog},
+        components: {projectPlaylists, critiqueProjectDialog, reactionDialog, reportProjectDialog, shareDialog},
         props: {
             project: {
                 type: Object,
@@ -230,7 +362,9 @@
                     self.canCritique = true;
                 }
             },
-
+            handleActions(type, data){
+                this.$emit('handle-actions', type, data);
+            },
             react(emotion) {
                 let self = this;
                 if (_.isObject(emotion)) {
@@ -240,7 +374,7 @@
                     }
 
                     if (this.isNotVerified) {
-                        this.$root.$emit('VerifyAction', 'Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', this.requestVerificationEmail);
+                        this.$root.$emit('toastAction', 'Please verify your account and join the conversation! Check your spam folder too.', 'Verify Now', this.requestVerificationEmail);
                         return false;
                     }
 
@@ -252,19 +386,19 @@
                             emotion: emotion.emotion
                         }).then(function (resA) {
                             self.project.reactions_count++;
-                            // self.updateVideoObj();
+                            
                             self.checkUserActions();
-                            self.projectCtrl.handleActions('reaction', resA.data.data);
+                            self.handleActions('reaction', resA.data.data);
                         });
                     } else if (_.isObject(self.canReact)) {
                         if (self.canReact.emotion !== emotion.emotion) {
-                            this.$http.put('reactions', self.canReact.id, {
+                            this.$http.put('reactions/' + self.canReact.id, {
                                 emotion: emotion.emotion
                             }).then(function (resA) {
                                 self.canReact = resA.data;
-                                // self.updateVideoObj();
+                                
                                 self.checkUserActions();
-                                self.projectCtrl.handleActions('reaction', resA.data.data);
+                                self.handleActions('reaction', resA.data.data);
                             });
                         }
                     }
@@ -309,16 +443,18 @@
                                 break;
                         }
 
-                        // self.updateVideoObj();
+                        
                         _.extend(res.data, {projectOwner: self.project.owner_id});
                         self.checkUserActions();
-                        self.projectCtrl.handleActions('rate', res.data.data);
+                        self.handleActions('rate', res.data.data);
                     });
 
                 } else if (_.isObject(self.canRate)) {
                     //up is false && down is false
+                    let ratingsResource = this.$resource('ratings{/id}');
+
                     if (!self.canRate.up && !self.canRate.down) {
-                        this.$http.put('ratings', self.canRate.id, {
+                        ratingsResource.update({id: self.canRate.id}, {
                             up: direction === 'up',
                             down: direction === 'down',
                         })
@@ -335,36 +471,34 @@
                                         break;
                                 }
                                 _.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
-                                //self.updateVideoObj();
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.projectCtrl.handleActions('rate', res.data.data);
+                                self.handleActions('rate', res.data.data);
                             });
 
                         // up is already true && direction is up
                     } else if (!!self.canRate.up && direction === 'up') {
-                        //DataService.delete('Rating', self.canRate.id)
+                        //$http.delete('Rating', self.canRate.id)
                         _.extend(self.canRate, {up: false});
-                        this.$http.put('ratings', self.canRate.id, {up: false, down: false})
+                        ratingsResource.update({id: self.canRate.id}, { up: false, down: false})
                             .then(function (res) {
                                 self.project.up_ratings_count--;
-                                //self.updateVideoObj();
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.projectCtrl.handleActions('rate', res.data.data);
+                                self.handleActions('rate', res.data.data);
                             });
 
                         // down is already true && direction is down
                     } else if (!!self.canRate.down && direction === 'down') {
-                        //DataService.delete('Rating', self.canRate.id)
+                        //$http.delete('Rating', self.canRate.id)
                         _.extend(self.canRate, {down: false});
-                        this.$http.put('ratings', self.canRate.id, {up: false, down: false})
+                        ratingsResource.update({id: self.canRate.id}, { up: false, down: false})
                             .then(function (res) {
                                 self.project.down_ratings_count--;
-                                //self.updateVideoObj();
+                                
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.projectCtrl.handleActions('rate', res.data.data);
+                                self.handleActions('rate', res.data.data);
                             });
 
                         // down is true && direction is up || up is true && direction is down -> reversal
@@ -385,11 +519,10 @@
                                 actionVerb = 'unlike';
                                 break;
                         }
-                        this.$http.put('ratings', self.canRate.id, {up: up, down: down}).then(function (res) {
-                            //self.updateVideoObj();
+                        ratingsResource.update({id: self.canRate.id}, { up: up, down: down}).then(function (res) {
                             //self.checkUserActions();
                             _.extend(res.data, {projectOwner: self.project.owner_id});
-                            self.projectCtrl.handleActions('rate', res.data.data);
+                            self.handleActions('rate', res.data.data);
                         });
                     }
                 }
@@ -403,161 +536,6 @@
 
                 if (this.canCritique !== true && this.canCritique !== false) {
                     return window.location = this.project.url_id + '/critique/' + this.canCritique.url_id;
-                }
-
-                CritiqueDialogController.$inject = ['$scope', '$modalInstance', 'critique', 'project', '$q', 'Analytics'];
-                function CritiqueDialogController($scope, $modalInstance, critique, project, $q, Analytics) {
-                    // zIndexPlayer();
-                    $scope.critique = critique;
-                    $scope.project = project;
-                    $scope.ratingMax = 10;
-                    $scope.makePrivateHelp = false;
-                    $scope.processing = false;
-                    $scope.canNominate = false;
-                    $scope.errors = [];
-
-                    if ($scope.project.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
-                        self.$http.get('awards', {params: {trailer: true}}).then(function (result) {
-                            $scope.awardsList = result.data.Awards;
-                        });
-                    } else {
-                        self.$http.get('awards').then(function (result) {
-                            $scope.awardsList = result.data.Awards;
-                        });
-                    }
-
-                    $scope.dialogModel = {
-                        award_id: null
-                    };
-
-                    $scope.nominated = {
-                        award_id: $scope.dialogModel.award_id,
-                        user_id: self.$root.user.id,
-                        project_id: $scope.critique.project_id,
-                        critique_id: undefined
-                    };
-
-                    $scope.starArray = _.clone([{"num": 0}, {"num": 1}, {"num": 2}, {"num": 3}, {"num": 4}, {"num": 5}, {"num": 6}, {"num": 7}, {"num": 8}, {"num": 9}, {"num": 10}].reverse());
-
-                    $scope.calcOverall = function () {
-                        switch ($scope.critique.type) {
-                            case 'script':
-                                $scope.critique.overall = ($scope.critique.originality + $scope.critique.pacing + $scope.critique.structure +
-                                    $scope.critique.writing + $scope.critique.style + $scope.critique.theme + $scope.critique.dialogue +
-                                    $scope.critique.characters + $scope.critique.presentation + $scope.critique.concept) / 10;
-                                break;
-                            case 'video':
-                            default:
-                                $scope.critique.overall = ($scope.critique.originality + $scope.critique.direction + $scope.critique.writing +
-                                    $scope.critique.cinematography + $scope.critique.performances + $scope.critique.production +
-                                    $scope.critique.pacing + $scope.critique.structure + $scope.critique.audio + $scope.critique.music) / 10;
-                                break;
-                        }
-                    };
-
-                    $scope.$watchCollection('critique', function () {
-                        $scope.calcOverall();
-                    });
-
-                    $scope.$watch('critique.overall', function (newValue) {
-                        $scope.canNominate = newValue >= 6;
-                    });
-
-                    $scope.validateCritique = function () {
-                        $scope.errors = [];
-
-                        let failA = true;
-                        let failB = true;
-                        $scope.critique.body.trim();
-                        failA = $scope.critique.body.length < 1;
-                        if (failA) {
-                            $scope.errors.push('Tell us why you gave this critique an overall rating of ' + $scope.critique.overall);
-                        }
-                        switch ($scope.critique.type) {
-                            case 'script':
-                                failB = $scope.critique.originality < 1 || $scope.critique.pacing < 1 || $scope.critique.writing < 1 ||
-                                    $scope.critique.structure < 1 || $scope.critique.style < 1 || $scope.critique.theme < 1 ||
-                                    $scope.critique.dialogue < 1 || $scope.critique.characters < 1 || $scope.critique.presentation < 1 || $scope.critique.concept < 1;
-                                break;
-                            case 'video':
-                            default:
-                                failB = $scope.critique.originality < 1 || $scope.critique.direction < 1 || $scope.critique.writing < 1 ||
-                                    $scope.critique.cinematography < 1 || $scope.critique.performances < 1 || $scope.critique.production < 1 ||
-                                    $scope.critique.pacing < 1 || $scope.critique.structure < 1 || $scope.critique.audio < 1 || $scope.critique.music < 1;
-                                break;
-                        }
-
-                        if (failB) {
-                            $scope.errors.push('Be sure to put a minimum of 1-star in every category.')
-                        }
-
-                        if (!failA && !failB) {
-                            $scope.postCritique();
-                        }
-                    };
-
-                    $scope.closeDialog = function () {
-                        // zIndexPlayer(true);
-                        $modalInstance.close(true);
-                    };
-
-                    $scope.cancel = function () {
-                        // zIndexPlayer(true);
-                        $modalInstance.dismiss('cancel');
-                    };
-
-                    $scope.hoveringOver = function (value) {
-                        $scope.overStar = value;
-                        $scope.percent = 100 * (value / $scope.max);
-                    };
-
-                    $scope.postCritique = function () {
-                        if ($scope.processing) {
-                            return false;
-                        }
-
-                        $scope.processing = true;
-                        $scope.critique.url_id = moment().valueOf();
-                        self.$http.post('critiques?include=user,award', $scope.critique).then(function (res) {
-                            let obj = res.data.data;
-
-                            self.critiques.push(obj);
-                            self.calcIwAverage(self.critiques);
-                            // Increment project critiques_count
-                            self.project.critiques_count++;
-
-                            // register Action
-                            Analytics.trackEvent('video', 'critique', self.project.name);
-
-                            // if an award has been selected, create a nomination
-                            if (!!$scope.dialogModel.award_id && _.isString($scope.dialogModel.award_id)) {
-                                $scope.nominated.critique_id = obj.id;
-                                $scope.nominated.award_id = $scope.dialogModel.award_id;
-                                self.$http.post('nominations', $scope.nominated).then(function (nom) {
-                                    // Increment project commentCount
-                                    self.project.nominationCount++;
-                                    // self.updateVideoObj();
-                                    // register Action
-                                    // self.qNominations();
-                                    nom.critique = obj;
-                                    Analytics.trackEvent('video', 'nominate', self.project.name);
-                                }, function (error) {
-                                    alert('Failed to create new nomination, with error code: ' + error.message);
-                                })
-                            } else {
-
-                            }
-                            self.projectCtrl.handleActions('rate', critique.data.data);
-
-                        }, function (error) {
-                            alert('Failed to create new critique, with error code: ' + error.message);
-                            $scope.processing = false;
-                        }).then(function () {
-                            // self.qCritiques();
-                            self.checkUserActions();
-                            $scope.closeDialog();
-                        });
-                    };
                 }
 
                 // is logged in
@@ -602,7 +580,7 @@
             canReactIcon () {
                 if (_.isObject(this.canReact)) {
                     let emoticon = _.findWhere(this.emotions, {'emotion': this.canReact.emotion});
-                    return _.isObject(emoticon) ? emoticon.icon : false;
+                    return _.isObject(emoticon) ? emoticon.src : '';
                 } else return false;
             },
 

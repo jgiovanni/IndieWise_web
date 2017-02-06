@@ -8,11 +8,11 @@
                         <h5 class="">Login via Social Profile</h5>
                         <!--<div class="social-login-btn facebook">-->
                         <!--<md-theme md-name="indigo">-->
-                            <md-button @click="authenticate('facebook')" class="md-accent">
+                            <md-button @click="authenticate('facebook')" class="md-primary">
                                 <i class="fa fa-facebook fa-2x md-icon"></i>&nbsp;
                                 login via facebook
                             </md-button>
-                        </md-theme>
+                        <!--</md-theme>-->
                         <!--</div>-->
                         <!--<div class="social-login-btn g-plus">-->
                             <md-button @click="authenticate('google')" class="md-warn">
@@ -41,17 +41,17 @@
 
                             <md-input-container :class="{'md-input-invalid': errors.has('email')}">
                                 <md-icon>account_circle</md-icon>
-                                <md-input placeholder="Enter your email" data-vv-name="email" v-model="user.email" required></md-input>
+                                <md-input placeholder="Enter your email" v-validate="'required|email'" data-vv-name="email" v-model="user.email" required></md-input>
                                 <span class="md-error" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                             </md-input-container>
 
                             <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
                                 <md-icon>lock</md-icon>
-                                <md-input placeholder="Enter your password" data-vv-name="password" v-model="user.password" type="password" required></md-input>
+                                <md-input placeholder="Enter your password" v-validate="'required|alpha_dash'" data-vv-name="password" v-model="user.password" type="password" required></md-input>
                                 <span class="md-error" v-show="errors.has('password')">{{ errors.first('password') }}</span>
                             </md-input-container>
 
-                            <md-checkbox id="remember" name="check" value="remember">Remember Me</md-checkbox>
+                            <md-checkbox id="remember" name="remember">Remember Me</md-checkbox>
 
                             <button class="button expanded" type="submit">login Now</button>
 
@@ -70,7 +70,7 @@
 </template>
 <style scoped></style>
 <script type="text/babel">
-    import { social } from 'vue'
+//    import { social } from 'vue'
     export default {
         name: 'authentication-modal',
         data(){
@@ -96,6 +96,8 @@
                     self.$http.post('login', { email: self.user.email, password: self.user.password}).then(function (res) {
                         console.log('Success', res);
                         localStorage.setItem('jwt-token', 'Bearer ' + res.data.token);
+                        // self.$cookie.set('token', res.data.token);
+
                         self.getUserData();
 //                        window.location.reload();
                     }, function (res) {
@@ -119,13 +121,13 @@
 
             authenticate (provider) {
                 this.error = null;
-                social.login(provider)
+                /*social.login(provider)
                     .then(function (a) {
                         console.log(a);
                         this.ok();
                     }, (error) => {
                         console.log(error);
-                    });
+                    });*/
             }
 
         },

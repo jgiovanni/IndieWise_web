@@ -125,8 +125,16 @@ class UsersController extends Controller
     {
         if (is_null($id)) {
             $me = JWTAuth::parseToken()->toUser();
-            $id = $me->id;
+        } else {
+            $me = $this->user->whereId($id)->orWhere('url_id', $id)->firstOrFail();
         }
+        $id = $me->id;
+
+        if (!isset($id)) {
+            return 'No ID provided';
+        }
+
+
 
         $user = DB::select('SELECT u.id, '.
             'COALESCE(project.projectCount,0) AS projectCount, COALESCE(critiqueA.critiqueCount+critiqueB.critiqueCount,0) AS critiqueCount, ' .

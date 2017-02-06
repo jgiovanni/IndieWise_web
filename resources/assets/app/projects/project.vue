@@ -62,9 +62,55 @@
             <!-- left side content area -->
             <div class="large-8 columns">
                 <!-- single post stats -->
-                <project-stats-actions :project="project"></project-stats-actions>
+                <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
                 <!-- End single post stats -->
 
+                <section class="SinglePostStats hide-for-large">
+                    <div class="secBg">
+                        <md-list>
+                            <md-list-item>
+                                <md-icon>star</md-icon>
+                                <span>IndieWise Average</span>
+
+                                <md-button class="md-list-action">
+                                    <span v-if="project.critiques_count > 0" class="label info">{{project.iwRating.toFixed(1)}}</span>
+                                    <span v-else class="label info">N/A</span>
+                                </md-button>
+                            </md-list-item>
+
+                            <md-list-item>
+                                <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
+                                <span>Awards</span>
+
+                                <md-list-expand>
+                                    <md-list-item class="md-inset" v-if="wins.length" v-for="win in wins">
+                                        <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
+
+                                        <span>{{win.award.data.name}}</span>
+                                        <!--<span class="flex"></span>-->
+                                        <md-icon v-if="win.rewarded === 0">hourglass_empty</md-icon>
+                                        <!--<small v-if="win.rewarded === 0" class="has-tip no-border">
+											pending
+										</small>-->
+                                        <md-tooltip v-if="win.rewarded === 0" md-direction="top">Awards are reviewed before being given. Once verified this label will disappear.</md-tooltip>
+                                    </md-list-item>
+                                    <md-list-item class="md-inset" v-else>
+                                        No Awards won yet.
+                                    </md-list-item>
+                                </md-list-expand>
+                            </md-list-item>
+
+                            <md-list-item>
+                                <md-icon>face</md-icon>
+                                <span>Reactions</span>
+
+                                <md-list-expand>
+                                    <project-reactions :project="project" :inset="true"></project-reactions>
+                                </md-list-expand>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </section>
                 <!-- single post description -->
                 <section v-once class="singlePostDescription">
                     <div class="row secBg">
@@ -190,7 +236,9 @@
                             <md-tabs md-dynamic-height md-centered class="md-transparent">
                                 <md-tab md-active :md-label="'Nominations ' + (nominations.length||0)">
                                     <div class="comment-sort text-right">
-                                        <span>Sort By : <a :class="{'active':sortOrderA=='-created_at'}"
+                                        <span>
+                                                <md-icon>sort</md-icon>
+                                                <a :class="{'active':sortOrderA=='-created_at'}"
                                                            @click="sortOrderA='-created_at'">newest</a> | <a
                                                 :class="{'active':sortOrderA=='created_at'}"
                                                 @click="sortOrderA='created_at'">oldest</a>
@@ -227,7 +275,7 @@
                                 </md-tab>
                                 <md-tab :md-label="'Wins ' + (wins.length||0)">
                                     <div class="comment-sort text-right">
-                                <span>Sort By : <a :class="{'active':sortOrderA=='-created_at'}"
+                                <span><md-icon>sort</md-icon><a :class="{'active':sortOrderA=='-created_at'}"
                                                    @click="sortOrderA='-created_at'">newest</a> | <a
                                         :class="{'active':sortOrderA=='created_at'}"
                                         @click="sortOrderA='created_at'">oldest</a></span>
@@ -270,7 +318,7 @@
                     <div class="row">
 
                         <!-- IndieWise Average Widget -->
-                        <div class="large-12 medium-7 medium-centered columns">
+                        <div class="large-12 medium-7 medium-centered columns show-for-large">
                             <!--<project-average project="project"></project-average>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -288,7 +336,7 @@
                         <!-- End IndieWise Average Widget -->
 
                         <!-- Awards Widget -->
-                        <div class="large-12 medium-7 medium-centered columns">
+                        <div class="large-12 medium-7 medium-centered columns show-for-large">
                             <!--<project-awards project="project"></project-awards>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -327,39 +375,48 @@
                         <!-- End Awards Widget -->
 
                         <!-- Reactions Widget -->
-                        <div class="large-12 medium-7 medium-centered columns" v-if="project.reactions_count>0">
-                            <project-reactions :project="project"></project-reactions>
+                        <div class="large-12 medium-7 medium-centered columns show-for-large" v-if="project.reactions_count>0">
+                            <div class="widgetBox">
+                                <div class="widgetTitle">
+                                    <h5>Reactions</h5>
+                                </div>
+                                <div class="widgetContent">
+                                    <project-reactions :project="project"></project-reactions>
+                                </div>
+                            </div>
                         </div>
                         <!-- End Reactions Widget -->
 
                         <!-- most view Widget -->
-                        <div class="large-12 medium-7 medium-centered columns">
+                        <div class="large-12 medium-7 medium-centered columns" v-if="relatedVideos">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
-                                    <h5>Judge This Next...</h5>
+                                    <h5>Recommended Next</h5>
                                 </div>
                                 <div class="widgetContent">
-                                    <div class="video-box thumb-border" v-if="relatedVideo">
-                                        <div class="video-img-thumb">
-                                            <img :src="relatedVideo.thumbnail_url || '/assets/img/default_video_thumbnail.jpg'"
-                                                 alt="Recently Watched Videos">
-                                            <a :href="relatedVideo.url_id" class="hover-posts">
-                                                <span><i class="fa fa-play"></i>Watch Video</span>
-                                            </a>
+                                    <div class="media-object stack-for-small" v-for="video in relatedVideos">
+                                        <div class="media-object-section">
+                                            <div class="recent-img">
+                                                <img :src="video.thumbnail_url || '/assets/img/default_video_thumbnail.jpg'"
+                                                     :alt="video.name">
+                                                <a :href="video.url_id" class="hover-posts">
+                                                    <span><i class="fa fa-play"></i></span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="video-box-content">
-                                            <h6><a :href="relatedVideo.url_id">{{relatedVideo.name}}</a></h6>
-
-                                            <p>
-                                                <span>
-                                                    <i class="fa fa-user"></i>
-                                                    <a :href="'user/' + relatedVideo.owner.url_id + '/about'">
-                                                        {{relatedVideo.owner.fullName}}
-                                                    </a>
-                                                </span>
-                                                <!--<span><i class="fa fa-clock-o"></i>5 January 16</span>-->
-                                                <!--<span><i class="fa fa-eye"></i>1,862K</span>-->
-                                            </p>
+                                        <div class="media-object-section">
+                                            <div class="media-content">
+                                                <h6><a :href="video.url_id">{{video.name}}</a></h6>
+                                                <p>
+                                                    <!--<i class="fa fa-user"></i>-->
+                                                    <span>
+                                                        <i class="fa fa-user"></i>
+                                                        <a :href="'user/' + video.owner.url_id + '/about'">
+                                                            {{video.owner.fullName}}
+                                                        </a>
+                                                    </span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -390,7 +447,11 @@
         </div>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+    .sidebar .widgetBox {
+        margin-bottom: 10px;
+    }
+</style>
 <script type="text/babel">
     import projectReactions from './project-reactions.vue';
     import projectVideoPlayer from './project-video-player.vue';
@@ -426,7 +487,7 @@
                 nominations: [],
                 nominationsPage: 1,
                 sortOrderA: '-created_at',
-                relatedVideo: null
+                relatedVideos: null
             }
         },
         computed: {
@@ -458,30 +519,10 @@
 
                 this.loaded = true;
 
-                /*this.$rootScope.metadata = {
-                    title: project.name,
-                    description: _.isString(project.description) ? project.description.substr(0, 150) : '',
-                    image: project.thumbnail_url,
-                    url: window.location.href
-                };*/
-
-
                 this.qNominations();
 
                 this.qWins();
 
-                /*this.$rootScope.initWatch = function () {
-                    self.Analytics.trackEvent('video', 'play', self.project.name);
-                    self.UserActions.markAsWatched(self.project)
-                };*/
-
-                /*this.$scope.$on('$destroy', function () {
-                    self.$rootScope.initWatch = undefined;
-                });
-
-                this.$scope.$on('overVideoPlayer', function (state) {
-                    self.zIndexPlayer(state);
-                });*/
 
                 //Populate tags array
                 if (_.isString(project.tags) && project.tags.length) {
@@ -493,12 +534,12 @@
                 // Get related video
                 this.$http.get('projects', { params: { notVideo: project.id, 
                     notOwner: this.$root.user ? this.$root.user.id : undefined,
-                    per_page: 1,
+                    per_page: 3,
                     random: true,
                 }})
                     .then((res) => {
                         if (res) {
-                            self.relatedVideo = res.data.data[0];
+                            self.relatedVideos = res.data.data;
                         }
                     }, (error) => console.log(error));
             },

@@ -1,5 +1,5 @@
 <template>
-    <md-dialog ref="reportDialog" :md-open-from="button_id" :md-close-to="button_id">
+    <md-dialog ref="reportDialog">
         <md-dialog-title>Explain Why You Are Flagging this Video</md-dialog-title>
         <md-dialog-content>
             <form id="ReportForm" novalidate @submit.prevent="throttledConfirm">

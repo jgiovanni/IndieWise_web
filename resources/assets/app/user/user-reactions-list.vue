@@ -1,16 +1,16 @@
 <template>
-    <md-list class="md-dense">
-        <reaction class="{'md-inset': inset}" v-if="project.reactions_count" v-for="(count, key) in chartedReactions" :count="count" :id="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
-        <md-list-item class="{'md-inset': inset}" v-else>
-            No Reactions made yet.
-        </md-list-item>
-    </md-list>
+	<md-list class="md-dense">
+		<reaction class="{'md-inset': inset}" v-if="project.reactions_count" v-for="(count, key) in chartedReactions" :count="count" :id="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
+		<md-list-item class="{'md-inset': inset}" v-else>
+			No Reactions made yet.
+		</md-list-item>
+	</md-list>
 </template>
 <style scoped></style>
 <script type="text/babel">
-    import reaction from './reaction.vue';
+    import reaction from '../projects/reaction.vue';
     export default {
-        name: 'project-reactions',
+        name: 'user-reactions-list',
         components: {reaction},
         props: {
             project: {

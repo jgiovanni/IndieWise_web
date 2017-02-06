@@ -1,6 +1,6 @@
 <template>
     <md-sidenav ref="leftSidenav" class="md-left" v-cloak>
-        <md-toolbar class="md-accent">
+        <md-toolbar class="md-primary">
             <h2 class="md-title text-white" style="flex: 1">Menu</h2>
 
             <md-button class="md-icon-button" @click="closeLeftSideNav()">
@@ -23,7 +23,7 @@
                 </div>
 
                 <md-list-expand>
-                    <md-list>
+                    <md-list class="md-dense">
                         <md-list-item class="md-inset" href="profile">My Profile</md-list-item>
                         <md-list-item class="md-inset" href="profile/projects">My Projects</md-list-item>
                         <md-list-item class="md-inset" href="profile/critiques">My Critiques</md-list-item>
@@ -42,38 +42,38 @@
                 <input id="leftMenuSearch" type="text" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" placeholder="Search Anything">
             </md-input-container>
         </md-subheader>&#45;&#45;}}-->
-            <md-list>
-                <md-list-item href="home" ui-sref-active="active" @click="closeLeftSideNav()">
+            <md-list class="md-dense">
+                <md-list-item href="/" @click="closeLeftSideNav()">
                     <md-icon>home</md-icon>
                     <span>Home</span>
                 </md-list-item>
-                <md-list-item href="browse" ui-sref-active="active" @click="closeLeftSideNav()">
+                <md-list-item href="browse" @click="closeLeftSideNav()">
                     <md-icon>view_list</md-icon>
                     <span>Browse</span>
                 </md-list-item>
-                <md-list-item href="latest" ui-sref-active="active" @click="closeLeftSideNav()">
+                <md-list-item href="latest" @click="closeLeftSideNav()">
                     <md-icon>new_releases</md-icon>
                     <span>Latest</span>
                 </md-list-item>
-                <md-list-item href="winners" ui-sref-active="active" @click="closeLeftSideNav()">
+                <md-list-item href="winners" @click="closeLeftSideNav()">
                     <md-icon>grade</md-icon>
                     <span>Winners</span>
                 </md-list-item>
                 <md-list-item v-if="!isAuthenticated" href="sign-in" @click="closeLeftSideNav()">
                     <span>Login/Register</span>
                 </md-list-item>
-                <md-list-item href="profile/about" ui-sref-active="active" v-if="isAuthenticated" @click="closeLeftSideNav()">
+                <md-list-item href="profile/about" v-if="isAuthenticated" @click="closeLeftSideNav()">
                     <md-icon>account_circle</md-icon>
                     <span>Profile</span>
                 </md-list-item>
-                <md-list-item href="messages" ui-sref-active="active" v-if="isAuthenticated" @click="closeLeftSideNav()">
+                <md-list-item href="messages" v-if="isAuthenticated" @click="closeLeftSideNav()">
                     <md-icon>email</md-icon>
                     <span>
                         Messages
                         <!--<span v-show="$root.MessageNotifications.unread>0" class="alert badge">{{AppData.MessageNotifications.unread}}</span>-->
                     </span>
                 </md-list-item>
-                <md-list-item href="profile/upload" ui-sref-active="active" @click="closeLeftSideNav()">
+                <md-list-item href="profile/upload" @click="closeLeftSideNav()">
                     <md-icon>cloud_upload</md-icon>
                     <span>Upload</span>
                 </md-list-item>
