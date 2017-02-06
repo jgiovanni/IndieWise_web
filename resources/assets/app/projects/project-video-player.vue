@@ -1,5 +1,5 @@
 <template>
-    <!--<video-player :options="videoOptions" @player-state-changed="playerStateChanged" ref="myPlayer"></video-player>-->
+    <video-player v-if="videoOptions" :configs="configs" :options="videoOptions" @player-state-changed="playerStateChanged" ref="myPlayer"></video-player>
     <!--<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="1170" height="264"
            poster="https://getindiewise.com/assets/img/default_video_thumbnail.jpg" data-setup="{}">
         <source src="https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm" type='video/webm'>
@@ -8,36 +8,40 @@
             <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
         </p>
     </video>-->
-    <section class="main-preview-player">
+    <!--<section class="main-preview-player">
         <video id="video" class="video-js vjs-default-skin vjs-16-9 vjs-big-play-centered vjs-fluid" controls
                preload="auto" crossorigin="anonymous">
             <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser
                 that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
         </video>
 
-        <!--<div class="playlist-container  preview-player-dimensions vjs-fluid">
+        &lt;!&ndash;<div class="playlist-container  preview-player-dimensions vjs-fluid">
             <ol class="vjs-playlist"></ol>
-        </div>-->
-    </section>
+        </div>&ndash;&gt;
+    </section>-->
 </template>
-<style scoped>
+<style>
+    .flex-video.widescreen {
+        height: auto;
+        padding: 0;
+    }
     /*.vjs-fluid {
         padding-top: 0;
     }*/
-    .vjs-playlist {
+    /*.vjs-playlist {
         display: none;
     }
 
     .vjs-playlist .vjs-playlist-items {
         overflow-x: hidden;
         background: #000;
-    }
+    }*/
 </style>
 <script type="text/babel">
-    //    import { videoPlayer } from 'vue-video-player'
+        import { videoPlayer } from 'vue-video-player'
     export default {
-        name: 'video-player',
-//        components: {videoPlayer},
+        name: 'project-video-player',
+        components: {videoPlayer},
         props: {
             project: {
                 type: Object,
@@ -54,6 +58,12 @@
         data(){
             return {
                 player: null,
+                configs: {
+                    youtube: true,
+                    vimeo: true,
+                    hls: false,
+                },
+                throttledWatcher: null,
                 watched: false,
                 playlist: [],
                 setupOptions: {
@@ -82,12 +92,16 @@
                             dynamicLabel: true
                         }
                     },
-                }
+                },
+                videoOptions: false
             }
         },
         methods: {
             playerStateChanged(playerCurrentState) {
-                console.log(playerCurrentState)
+                // console.log(playerCurrentState);
+                if (playerCurrentState.currentTime) {
+                    this.throttledWatcher(playerCurrentState.currentTime);
+                }
             },
             setupSource(video, dest) {
                 let source = {
@@ -136,11 +150,8 @@
                     body.addClass('cinema-mode');
                 }
             },
-            markAsWatched(){
-                const pl = this.player.playlist();
-                const plitem = pl[this.player.playlist.currentItem()];
-
-                if (this.player.currentTime() > 10 && !this.watched) {
+            markAsWatched(time){
+                if (time > 10 && !this.watched) {
                     //console.log('Marked as Watched');
                     this.$http.post('projects/watched', {
                         project_id: plitem.id
@@ -153,42 +164,52 @@
         },
         mounted(){
 
-            this.setupSource(this.project, this.playlist);
+            this.throttledWatcher = _.throttle(this.markAsWatched, 1000);
+            let config =  {
+                techOrder: ['youtube', 'vimeo', 'Html5'],
+                live: false,
+                autoplay: false,
+                controls: true,
+                source: {}
+            };
+
+            switch (this.project.hosting_type) {
+                case 'HTML5':
+                    config.source.type = 'video/mp4';
+                    config.source.src = this.project.video_url;
+                    config.controls = true;
+//                    config.techOrder = ['Html5'];
+                    break;
+                case 'youtube':
+                    config.source.type = 'video/youtube';
+                    config.source.src = 'https://www.youtube.com/watch?v=' + this.project.hosting_id;
+                    config.ytControls = false;
+//                    config.techOrder = ['youtube'];
+                    // source.youtube = { 'ytControls': 2, 'cc_load_policy': 1, 'iv_load_policy': 1, 'modestbranding': 1, 'cc': 1};
+                    break;
+                case 'vimeo':
+                    config.source.type = 'video/vimeo';
+                    config.source.src = 'https://vimeo.com/' + this.project.hosting_id;
+//                    config.techOrder = ['vimeo'];
+                    // source.vimeo = { "ytControls": 2 };
+                    break;
+            }
+            this.videoOptions = config;
+
+            /*this.setupSource(this.project, this.playlist);
             const player = window.player = this.player = videojs('video', this.setupOptions);
 
             player.on('loadstart', function (e) {
                 // console.log(e);
                 const pl = player.playlist();
                 const plitem = pl[player.playlist.currentItem()];
-
-                /*player.mux.emit('videochange', {
-                 video_id: plitem.name,
-                 video_title: plitem.name,
-                 video_duration: plitem.duration,
-                 });*/
-
-                // Init Sharing
-
-                /*player.socialShare({
-                    facebook: { // optional, includes a Facebook share button (See the [Facebook documentation](https://developers.facebook.com/docs/sharing/reference/share-dialog) for more information)
-                        // shareUrl: '', // optional, defaults to window.location.href
-                        shareImage: plitem.poster, // optional, defaults to the Facebook-scraped image
-                        shareText: 'I\'m watching ' + plitem.name + ' on IndieWise - Check it out!'
-                    },
-                    twitter: { // optional, includes a Twitter share button (See the [Twitter documentation](https://dev.twitter.com/web/tweet-button/web-intent) for more information)
-                        handle: 'indiewise', // optional, appends `via @handle` to the end of the tweet
-                        shareUrl: '', // optional, defaults to window.location.href
-                        shareText: 'I\'m watching ' + plitem.name + ' on IndieWise - Check it out!'
-                    }
-                });*/
             });
 
 
-            let throttledWatcher = _.throttle(this.markAsWatched, 1000);
             player.on('timeupdate', throttledWatcher, 1000);
 
             player.playlist(this.playlist);
-            player.playlistUi();
+            player.playlistUi();*/
         }
     }
 </script>

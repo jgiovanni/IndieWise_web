@@ -1,12 +1,12 @@
 <template>
-    <md-layout md-flex="100" md-gutter="8" md-column-small class="" v-if="project">
+    <md-layout md-flex="100" md-gutter="8" md-column-small class="row" v-if="project">
             <!-- left side content area -->
-            <md-layout md-flex md-column md-flex-large="66" class="">
+            <md-layout md-flex md-flex-large="66" class="">
                 <!-- single post stats -->
                 <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
                 <!-- End single post stats -->
 
-                <md-layout md-flex class="SinglePostStats hide-for-large">
+                <md-layout md-flex="100" class="SinglePostStats hide-for-large">
                     <md-layout md-flex md-column class="secBg">
                         <md-list>
                             <md-list-item>
@@ -53,8 +53,8 @@
                     </md-layout>
                 </md-layout>
                 <!-- single post description -->
-                <section v-once class="singlePostDescription">
-                    <div class="row secBg">
+                <md-layout md-flex="100" v-once class="singlePostDescription">
+                    <md-layout md-flex md-column class="secBg">
                         <div class="large-12 columns">
                             <div class="heading">
                                 <h5>Description</h5>
@@ -122,8 +122,8 @@
                                 <br>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </md-layout>
+                </md-layout>
                 <!-- End single post description -->
 
                 <md-tabs md-fixed md-dynamic-height md-centered class="md-transparents">
@@ -231,8 +231,8 @@
             </md-layout>
             <!-- end left side content area -->
             <!-- sidebar -->
-            <md-layout md-flex md-column md-flex-large="33" class="">
-                <aside class="secBg sidebar">
+            <md-layout md-flex md-flex-large="33" class="">
+                <md-layout md-flex="100" class="secBg sidebar">
                     <div class="row">
 
                         <!-- IndieWise Average Widget -->
@@ -359,7 +359,7 @@
                         </div>
                         <!-- end ad banner widget -->
                     </div>
-                </aside>
+                </md-layout>
             </md-layout>
             <!-- end sidebar -->
         </md-layout>

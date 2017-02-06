@@ -1,21 +1,7 @@
-require('hammerjs');
-/*window.foundation = */
-require('foundation-sites');
-// require('foundation-datepicker/js/foundation-datepicker.min.js');
-window.filepicker = require('filepicker-js');
-window.stream = require('getstream');
-window.moment = require('moment');
-window.momentTimeZone = require('moment-timezone/builds/moment-timezone-with-data.js');
-window._ = require('underscore');
-
-// let Vue  = require('vue');
-import Vue from 'vue';
-// import Vuex from 'vuex'
-
+window.Vue = require('vue');
+require('vue-resource');
 // import VueAnalytics from 'vue-ua';
 // import VueAdsense from 'vue-adsense';
-// import VueMaterial from 'vue-material';
-import VueLocalForage from 'vue-localforage';
 // import VueSocial from '@blocklevel/vue-social'
 
 import authenticationModal from '../app/auth/authentication-modal.vue';
@@ -49,9 +35,6 @@ import userAwards from '../app/user/user-awards.vue';
 // Vue.use(Vuex);
 // Vue.component('adsense', VueAdsense);
 // Vue Form Validation
-Vue.use(require('vee-validate'));
-
-Vue.use(VueLocalForage);
 // Vue.use(require('vue-cookie'));
 // Vue.use(VueSocial);
 /*Vue.social.auth = {
@@ -60,7 +43,8 @@ Vue.use(VueLocalForage);
     google: 'api/auth/google',
 };*/
 
-// Vue Material Design
+Vue.use(require('vee-validate'));
+Vue.use(require('vue-localforage'));
 Vue.use(require('vue-material'));
 Vue.material.registerTheme({
     'default': {
@@ -77,14 +61,7 @@ Vue.material.registerTheme({
      background: { color: 'grey', hue: 300 }
      }*/
 });
-// Vue Social Sharing
 Vue.use(require('vue-social-sharing'));
-
-// Vue VideoJs Player
-// Vue.use(require('vue-video-player'));
-
-// Vue Resource
-Vue.use(require('vue-resource'));
 /*Vue.use(VueAnalytics, {
  appName: '<app_name>', // Mandatory
  appVersion: '<app_version>', // Mandatory
@@ -102,11 +79,7 @@ Vue.use(require('vue-resource'));
  });*/
 
 Vue.http.options.root = '/api';
-// Vue.http.headers['Authorization'] =
 Vue.http.interceptors.push((request, next) => {
-    // request.headers.Authorization = localStorage.hasOwnProperty('jwt-token') ? 'Bearer ' + localStorage.getItem('jwt-token') : null;
-    // modify request
-    // request.method = 'POST';
     let token, headers;
 
     token = localStorage.getItem('jwt-token');
@@ -128,9 +101,6 @@ Vue.http.interceptors.push((request, next) => {
         if (response.entity && response.entity.token && response.entity.token.length > 10) {
             localStorage.setItem('jwt-token', 'Bearer ' + response.entity.token)
         }
-        // return response
-        // modify response
-        // response.body = '...';
 
     });
 });
@@ -207,9 +177,6 @@ Vue.filter('secondsToTimeLength', function (seconds) {
     return time.isSameOrAfter(SOT.add(1, 'h')) ? time.format('HH:mm:ss') : time.format('mm:ss');
     // return moment.duration(seconds, 'seconds').humanize();
 });
-
-// Vue Directives
-Vue.directive('filepickerPreview', {});
 
 Vue.directive('toggleShowMore', {
     inserted(el, binding) {
@@ -678,9 +645,6 @@ new Vue({
         console.log('Vue Ready');
 
         this.StreamClient = stream.connect(this.StreamConfig.streamApiKey, null, this.StreamConfig.streamApp, {location: 'us-east'})
-
-        // Init Filepicker
-        filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
 
         // Init LocalForage
         this.$storageConfig({

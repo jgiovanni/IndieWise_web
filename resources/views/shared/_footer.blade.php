@@ -26,12 +26,9 @@
 {{--<script src="/app/bower_components/foundation-sites/dist/foundation.js"></script>--}}
 <script src="/assets/js/jquery.showmore.src.js" type="text/javascript"></script>
 {{--<script src="/assets/js/app.js"></script>--}}
-<script src="/assets/layerslider/js/greensock.js" type="text/javascript"></script>
-<!-- LayerSlider script files -->
-<script src="/assets/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
-<script src="/assets/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
-<script src="/assets/js/owl.carousel.min.js"></script>
+{{--<script src="/assets/js/owl.carousel.min.js"></script>--}}
 
 @yield('js')
 
+<script type="text/javascript" src="{{ elixir('js/vendor.js') }}"></script>
 <script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>

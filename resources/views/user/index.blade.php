@@ -33,3 +33,7 @@
 
     </div>
 @endsection
+
+@section('js')
+    <script type="text/javascript" src="//api.filepicker.io/v2/filepicker.js"></script>
+@endsection

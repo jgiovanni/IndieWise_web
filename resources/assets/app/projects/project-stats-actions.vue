@@ -1,91 +1,91 @@
 <template>
-    <md-layout md-flex class="SinglePostStats" id="SinglePostStats">
-    <!-- newest video -->
-    <md-layout md-flex md-column class="secBg">
-        <md-layout style="border-bottom: 1px solid #efefef">
-            <md-layout md-align="center" md-flex=20>
-                <md-avatar class="md-large">
-                    <img :src="project.owner.avatar" alt="post">
-                </md-avatar>
-                <p class="text-center">
-                    <a :href="'/user/' + project.owner.url_id">
-                        {{project.owner.fullName}}
-                    </a>
-                </p>
+    <md-layout md-flex="100" class="SinglePostStats" id="SinglePostStats">
+        <!-- newest video -->
+        <md-layout md-flex class="secBg">
+            <md-layout md-flex="100" style="border-bottom: 1px solid #efefef">
+                <md-layout md-align="center" md-flex=20>
+                    <md-avatar class="md-large">
+                        <img :src="project.owner.avatar" alt="post">
+                    </md-avatar>
+                    <div class="text-center">
+                        <a :href="'/user/' + project.owner.url_id">
+                            {{project.owner.fullName}}
+                        </a>
+                    </div>
+                </md-layout>
+                <md-layout md-column md-align="center">
+                    <h1 class="md-headline">
+                        {{project.name}}&nbsp;
+                        <span v-if="project.nsfw" style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
+                              class="button tiny alert hollow">Mature</span>
+                        <!--<a href="'user/' + project.owner.url_id + '/about'">{{project.owner.fullName}}</a>-->
+                    </h1>
+                    <div class="md-caption">
+                        <i class="fa fa-clock-o"></i>
+                        <abbr :title="project.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
+                            {{ project.created_at | vmTimeAgo }}
+                        </abbr>
+                        &nbsp;&middot;&nbsp;
+                        <i class="fa fa-smile-o"></i>&nbsp;&nbsp;{{project.reactions_count||0}}
+                        &nbsp;&middot;&nbsp;
+                        <span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
+                                class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;{{project.up_ratings_count||0}}</span>
+                        &nbsp;&middot;&nbsp;
+                        <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
+                                class="fa fa-thumbs-o-down"></i>&nbsp;&nbsp;{{project.down_ratings_count||0}}</span>
+                    </div>
+                </md-layout>
             </md-layout>
-            <md-layout md-column md-align="center">
-                <h1 class="md-headline">
-                    {{project.name}}&nbsp;
-                    <span v-if="project.nsfw" style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
-                          class="button tiny alert hollow">Mature</span>
-                    <!--<a href="'user/' + project.owner.url_id + '/about'">{{project.owner.fullName}}</a>-->
-                </h1>
-                <div class="md-caption">
-                    <i class="fa fa-clock-o"></i>
-                    <abbr :title="project.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
-                        {{ project.created_at | vmTimeAgo }}
-                    </abbr>
-                    &nbsp;&middot;&nbsp;
-                    <i class="fa fa-smile-o"></i>&nbsp;&nbsp;{{project.reactions_count||0}}
-                    &nbsp;&middot;&nbsp;
-                    <span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
-                            class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;{{project.up_ratings_count||0}}</span>
-                    &nbsp;&middot;&nbsp;
-                    <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
-                            class="fa fa-thumbs-o-down"></i>&nbsp;&nbsp;{{project.down_ratings_count||0}}</span>
-                </div>
+            <md-layout md-flex="100" md-column-xsmall>
+                <md-layout style="order: 2" md-align="end" md-align-xsmall="center">
+                    <md-button class="md-primary md-dense" @click.stop.prevent="openReactionDialog()">
+                        <span v-if="canReact!==true && canReact !== 'login' && canReact !==false">
+                            <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
+                            {{canReact.emotion}}
+                        </span>
+                        <span v-else>
+                            <md-icon>face</md-icon>
+                            I'm feeling ...</span>
+                    </md-button>
+
+                    <md-button class="md-primary md-dense" @click.stop.prevent="openCritiqueDialog()">
+                        <span v-if="canCritique!==true && canCritique !== 'login' && canCritique !== false">
+                            Judged: <span>{{canCritique.overall}}</span>
+                        </span>
+                        <span v-else>
+                            <md-icon>star</md-icon>
+                            Judge
+                        </span>
+                    </md-button>
+                </md-layout>
+                <md-layout style="order: 1" md-align="start" md-align-xsmall="center">
+                    <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
+                               :class="{'md-raised':canRate.up}">
+                        <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+                    </md-button>
+                    <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
+                               :class="{'md-raised':canRate.down}">
+                        <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+                    </md-button>
+                    <!--<project-playlists :project="project"></project-playlists>-->
+                    <md-button class="md-icon-button md-accent" @click="openShareDialog">
+                        <md-icon>share</md-icon>
+                    </md-button>
+                    <md-button id="reportDialogButtonA" class="md-icon-button md-warn "
+                               @click="openReportDialog($event)">
+                        <md-icon>flag</md-icon>
+                    </md-button>
+
+                </md-layout>
             </md-layout>
         </md-layout>
-        <md-layout md-column-xsmall>
-            <md-layout style="order: 2" md-align="end" md-align-xsmall="center">
-                <md-button class="md-primary md-dense" @click.stop.prevent="openReactionDialog()">
-                    <span v-if="canReact!==true && canReact !== 'login' && canReact !==false">
-                        <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
-                        {{canReact.emotion}}
-                    </span>
-                    <span v-else>
-                        <md-icon>face</md-icon>
-                        I'm feeling ...</span>
-                </md-button>
 
-                <md-button class="md-primary md-dense" @click.stop.prevent="openCritiqueDialog()">
-                    <span v-if="canCritique!==true && canCritique !== 'login' && canCritique !== false">
-                        Judged: <span>{{canCritique.overall}}</span>
-                    </span>
-                    <span v-else>
-                        <md-icon>star</md-icon>
-                        Judge
-                    </span>
-                </md-button>
-            </md-layout>
-            <md-layout style="order: 1" md-align="start" md-align-xsmall="center">
-                <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
-                           :class="{'md-raised':canRate.up}">
-                    <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
-                </md-button>
-                <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
-                           :class="{'md-raised':canRate.down}">
-                    <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
-                </md-button>
-                <!--<project-playlists :project="project"></project-playlists>-->
-                <md-button class="md-icon-button md-accent" @click="openShareDialog">
-                    <md-icon>share</md-icon>
-                </md-button>
-                <md-button id="reportDialogButtonA" class="md-icon-button md-warn "
-                           @click="openReportDialog($event)">
-                    <md-icon>flag</md-icon>
-                </md-button>
-
-            </md-layout>
-        </md-layout>
+        <share-dialog :id="project.id" :url="project.url_id" :name="project.name"
+                      :description="project.description"></share-dialog>
+        <report-project-dialog :project-id="project.id"></report-project-dialog>
+        <critique-project-dialog v-if="canCritique === true" :project="project" ></critique-project-dialog>
+        <reaction-dialog></reaction-dialog>
     </md-layout>
-
-    <share-dialog :id="project.id" :url="project.url_id" :name="project.name"
-                  :description="project.description"></share-dialog>
-    <report-project-dialog :project-id="project.id"></report-project-dialog>
-    <critique-project-dialog v-if="canCritique === true" :project="project" ></critique-project-dialog>
-    <reaction-dialog></reaction-dialog>
-</md-layout>
 </template>
 <style scoped></style>
 <script type="text/babel">

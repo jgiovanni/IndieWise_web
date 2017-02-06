@@ -19,3 +19,7 @@
 
     <browse></browse>
 @endsection
+
+@section('js')
+    <script src="/assets/js/owl.carousel.min.js"></script>
+@endsection

@@ -1,20 +1,30 @@
 <template>
-	<span class="pull-right" style="position: relative;z-index: 11;font-size: 13px;">
-		<a class="lights-toggle-button" @click="toggleLights()" style="color: #ffffff;">
-			<i class="fa fa-lightbulb-o" :class="{ 'light-on': lightsOff }"></i>
-			<span v-if="!lightsOff">Lights Off</span>
-			<span v-else>Lights On</span>
-		</a>
-		<span class="show-for-large">&nbsp;|&nbsp;</span>
-		<a class="show-for-large" @click="toggleWidthMode()" style="position: relative;z-index: 11;font-size: 13px;color: #ffffff;">
-			<i v-if="!playerResponsiveMode" class="fa fa-expand"></i>
-			<i v-else class="fa fa-compress"></i>
-			<span v-if="!playerResponsiveMode">Widescreen</span>
-			<span v-else>Center</span>
-		</a>
-	</span>
+	<md-button-toggle class="player-toggles">
+		<md-button class="md-icon-button md-toggle lights-toggle-button" @click="toggleLights()" style="color: #ffffff;">
+			<md-icon :class="{ 'light-on': lightsOff }">lightbulb_outline</md-icon>
+			<!--<i class="fa fa-lightbulb-o" :class="{ 'light-on': lightsOff }"></i>-->
+			<md-tooltip md-direction="bottom">
+				<span v-if="!lightsOff">Lights Off</span>
+				<span v-else>Lights On</span>
+			</md-tooltip>
+		</md-button>
+		<md-button class="md-icon-button md-toggle show-for-large" @click="toggleWidthMode()" style="position: relative;z-index: 11;font-size: 13px;color: #ffffff;">
+			<!--<i v-if="!playerResponsiveMode" class="fa fa-expand"></i>-->
+			<!--<i v-else class="fa fa-compress"></i>-->
+			<md-icon v-if="!playerResponsiveMode">aspect_ratio</md-icon>
+			<md-icon v-else>crop_16_9</md-icon>
+			<md-tooltip md-direction="bottom">
+				<span v-if="!playerResponsiveMode">Widescreen</span>
+				<span v-else>Center</span>
+			</md-tooltip>
+		</md-button>
+	</md-button-toggle>
 </template>
-<style></style>
+<style scoped>
+	.player-toggles {
+		z-index: 10;
+	}
+</style>
 <script type="text/javascript">
     export default{
         name: 'project-breadcrumbs',

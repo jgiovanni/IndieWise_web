@@ -209,6 +209,8 @@
             }
         },
         created(){
+            // Init Filepicker
+            window.filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
 
         },
         mounted(){
