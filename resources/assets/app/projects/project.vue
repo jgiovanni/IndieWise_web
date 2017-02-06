@@ -388,7 +388,7 @@
                         <!-- End Reactions Widget -->
 
                         <!-- most view Widget -->
-                        <div class="large-12 medium-7 medium-centered columns" v-if="relatedVideos">
+                        <div class="large-12 medium-7 medium-centered columns">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Recommended Next</h5>
