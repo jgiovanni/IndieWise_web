@@ -1,72 +1,13 @@
 <template>
-    <div v-if="project">
-        <div id="overlay"></div>
-
-        <!--breadcrumbs-->
-        <section id="breadcrumb">
-            <div class="row">
-                <div class="large-12 columns">
-                    <md-layout md-gutter>
-                        <md-layout v-once md-flex="50">
-                            <nav aria-label="You are here:" role="navigation">
-                                <ul class="breadcrumbs">
-                                    <li><i class="fa fa-home"></i><a href="">Home</a></li>
-                                    <li>
-                                        <a :href="'user/' + project.owner.url_id + '/about'">{{project.owner.fullName}}</a>
-                                    </li>
-                                    <li>
-                                        <span class="show-for-sr">Current: </span> {{project.name}}
-                                    </li>
-
-                                </ul>
-                            </nav>
-                        </md-layout>
-                        <md-layout md-flex="50" md-align="end">
-                            <span class="pull-right" style="position: relative;z-index: 11;font-size: 13px;">
-                                <a class="lights-toggle-button" @click="toggleLights()" style="color: #ffffff;">
-                                    <i class="fa fa-lightbulb-o" :class="{ 'light-on': lightsOff }"></i>
-                                    <span v-if="!lightsOff">Lights Off</span>
-                                    <span v-else>Lights On</span>
-                                </a>
-                                <span class="show-for-large">&nbsp;|&nbsp;</span>
-                                <a class="show-for-large" @click="toggleWidthMode()"
-                                   style="position: relative;z-index: 11;font-size: 13px;color: #ffffff;">
-                                    <i v-if="!playerResponsiveMode" class="fa fa-expand"></i>
-                                    <i v-else class="fa fa-compress"></i>
-                                    <span v-if="!playerResponsiveMode">Widescreen</span>
-                                    <span v-else>Center</span>
-                                </a>
-                            </span>
-                        </md-layout>
-                    </md-layout>
-                </div>
-            </div>
-        </section>
-        <!--end breadcrumbs-->
-
-        <!-- full width Video -->
-        <section class="fullwidth-single-video" :class="{'no-padding': playerResponsiveMode}">
-            <div class="row" :class="{'no-max-width': playerResponsiveMode}">
-                <div class="large-12" :class="{'columns': !playerResponsiveMode}">
-                    <div class="flex-video widescreen">
-                        <!--<div class="switch"></div>-->
-                        <project-video-player v-if="project.hosting_type !== 'script'" :project="project"
-                                      :type="project.hosting_type" :lights-off="lightsOff"></project-video-player>
-                        <project-script-viewer v-if="project.hosting_type === 'script'"
-                                       :project="project"></project-script-viewer>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="row">
+    <md-layout md-flex="100" md-gutter="8" md-column-small class="" v-if="project">
             <!-- left side content area -->
-            <div class="large-8 columns">
+            <md-layout md-flex md-column md-flex-large="66" class="">
                 <!-- single post stats -->
                 <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
                 <!-- End single post stats -->
 
-                <section class="SinglePostStats hide-for-large">
-                    <div class="secBg">
+                <md-layout md-flex class="SinglePostStats hide-for-large">
+                    <md-layout md-flex md-column class="secBg">
                         <md-list>
                             <md-list-item>
                                 <md-icon>star</md-icon>
@@ -109,8 +50,8 @@
                                 </md-list-expand>
                             </md-list-item>
                         </md-list>
-                    </div>
-                </section>
+                    </md-layout>
+                </md-layout>
                 <!-- single post description -->
                 <section v-once class="singlePostDescription">
                     <div class="row secBg">
@@ -185,135 +126,112 @@
                 </section>
                 <!-- End single post description -->
 
-                <section id="randomMedia" style="padding: 0;border-bottom: none;">
-                    <div class="random-media-head text-center row"
-                         style="background-color:#ffffff;border:1px solid #ececec;border-bottom:none;margin-bottom:0;">
-                        <div class="large-12 columns">
-                            <ul class="tabs">
-                                <li class="tabs-title" :class="{'is-active': activeTab=='critiques'}">
-                                    <a @click="activeTab='critiques'">
-                                        <i class="fa fa-star"></i>
-                                        {{ pluralizeCritiquesCount }}
-                                    </a>
-                                </li>
-                                <li class="tabs-title" :class="{'is-active': activeTab=='awards'}">
-                                    <a @click="activeTab='awards'">
-                                        <i class="fa fa-trophy"></i>
-                                        {{ pluralizeWinsCount }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+                <md-tabs md-fixed md-dynamic-height md-centered class="md-transparents">
+                    <md-tab :md-label="pluralizeCritiquesCount">
+                        <!-- Critiques -->
+                        <critique-view :critique="selectedCritique" :parent-url-id="project.url_id" :parent-owner-id="project.owner_id"></critique-view>
 
-                <!-- Comments -->
-                <!--<comments-block ng-show="activeTab=='comments'" comments="comments" disable="project.disableComments"
-                                parent="project"></comments-block>-->
-                <!-- End Comments -->
-
-                <!-- Critiques -->
-                <critique-view :critique="selectedCritique" :parent-url-id="project.url_id" :parent-owner-id="project.owner_id"></critique-view>
-
-                <critiques v-show="activeTab==='critiques'" :parent-url-id="project.url_id" :params="critiquesParams"
-                           :parent-owner-id="project.owner_id" :disable="project.disableCritique"></critiques>
-                <!-- End Critiques -->
-
-                <!-- Awards -->
-                <section class="content comments" v-show="activeTab==='awards'">
-                    <div class="row secBg">
-                        <div class="large-12 columns">
-                            <div class="main-heading borderBottom">
-                                <div class="row padding-14">
-                                    <div class="medium-12 small-12 columns">
-                                        <div class="head-title">
-                                            <i class="fa fa-trophy"></i>
-                                            <h4>Awards <span>({{project.wins_count||0}})</span></h4>
+                        <critiques :parent-url-id="project.url_id" :params="critiquesParams"
+                                   :parent-owner-id="project.owner_id" :disable="project.disableCritique"></critiques>
+                        <!-- End Critiques -->
+                    </md-tab>
+                    <md-tab  :md-label="pluralizeWinsCount">
+                        <!-- Awards -->
+                        <section class="content comments">
+                            <div class="row secBg">
+                                <div class="large-12 columns">
+                                    <div class="main-heading borderBottom">
+                                        <div class="row padding-14">
+                                            <div class="medium-12 small-12 columns">
+                                                <div class="head-title">
+                                                    <i class="fa fa-trophy"></i>
+                                                    <h4>Awards <span>({{project.wins_count||0}})</span></h4>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <md-tabs md-dynamic-height md-centered class="md-transparent">
-                                <md-tab md-active :md-label="'Nominations ' + (nominations.length||0)">
-                                    <div class="comment-sort text-right">
+                                    <md-tabs md-fixed md-dynamic-height md-centered class="md-transparent">
+                                        <md-tab md-active :md-label="'Nominations ' + (nominations.length||0)">
+                                            <div class="comment-sort text-right">
                                         <span>
                                                 <md-icon>sort</md-icon>
-                                                <a :class="{'active':sortOrderA=='-created_at'}"
-                                                           @click="sortOrderA='-created_at'">newest</a> | <a
-                                                :class="{'active':sortOrderA=='created_at'}"
-                                                @click="sortOrderA='created_at'">oldest</a>
+                                                <a :class="{'active':sortOrderA=='created_at|desc'}"
+                                                   @click="sortOrderA='created_at|desc'">newest</a> | <a
+                                                :class="{'active':sortOrderA=='created_at|asc'}"
+                                                @click="sortOrderA='created_at|asc'">oldest</a>
                                         </span>
-                                    </div>
+                                            </div>
 
-                                    <!-- main comment -->
-                                    <div class="main-comment showmore_one">
-                                        <div class="media-object stack-for-small"
-                                             v-for="nom in sortNominations">
-                                            <div class="media-object-section comment-img text-center">
-                                                <div class="comment-box-img">
-                                                    <img :src="nom.user.data.avatar || '/assets/img/avatar-1.png'"
-                                                         alt="comment">
+                                            <!-- main comment -->
+                                            <div class="main-comment showmore_one">
+                                                <div class="media-object stack-for-small"
+                                                     v-for="nom in sortNominations">
+                                                    <div class="media-object-section comment-img text-center">
+                                                        <div class="comment-box-img">
+                                                            <img :src="nom.user.data.avatar || '/assets/img/avatar-1.png'"
+                                                                 alt="comment">
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-object-section comment-desc">
+                                                        <div class="comment-title">
+                                                            <span class="name"><a :href="'/user/'+nom.user.data.url_id">
+                                                                {{nom.user.data.fullName}}</a> nominated this video for:
+                                                            </span>
+                                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                                <!--<abbr :title="nom.created_at|amUtc|amLocal|amDateFormat:'lll'"
+																	  am-time-ago="nom.created_at"></abbr>-->
+                                                            </span>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            <p>{{nom.award.data.name||nom.award.name}} Award</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="media-object-section comment-desc">
-                                                <div class="comment-title">
-                                            <span class="name"><a ui-sref="user.about({url_id: nom.user.data.url_id})">
-                                                {{nom.user.data.fullName}}</a> nominated this video for:
-                                            </span>
-                                                    <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                                <!--<abbr :title="nom.created_at|amUtc|amLocal|amDateFormat:'lll'"
-                                                      am-time-ago="nom.created_at"></abbr>-->
-                                            </span>
-                                                </div>
-                                                <div class="comment-text">
-                                                    <p>{{nom.award.data.name||nom.award.name}} Award</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End main comment -->
-                                </md-tab>
-                                <md-tab :md-label="'Wins ' + (wins.length||0)">
-                                    <div class="comment-sort text-right">
+                                            <!-- End main comment -->
+                                        </md-tab>
+                                        <md-tab :md-label="'Wins ' + (wins.length||0)">
+                                            <div class="comment-sort text-right">
                                 <span><md-icon>sort</md-icon><a :class="{'active':sortOrderA=='-created_at'}"
-                                                   @click="sortOrderA='-created_at'">newest</a> | <a
+                                                                @click="sortOrderA='-created_at'">newest</a> | <a
                                         :class="{'active':sortOrderA=='created_at'}"
                                         @click="sortOrderA='created_at'">oldest</a></span>
-                                    </div>
-
-                                    <div class="main-comment showmore_one">
-                                        <div class="media-object stack-for-small" v-for="win in wins">
-                                            <div class="media-object-section comment-img text-center">
-                                                <div class="comment-box-img">
-                                                    <img src="/assets/img/award_win_small.png" alt="award">
-                                                </div>
                                             </div>
-                                            <div class="media-object-section comment-desc">
-                                                <div class="comment-title">
+
+                                            <div class="main-comment showmore_one">
+                                                <div class="media-object stack-for-small" v-for="win in wins">
+                                                    <div class="media-object-section comment-img text-center">
+                                                        <div class="comment-box-img">
+                                                            <img src="/assets/img/award_win_small.png" alt="award">
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-object-section comment-desc">
+                                                        <div class="comment-title">
                                             <span class="time float-right"><i class="fa fa-clock-o"></i>
                                                 <!--<abbr title="{{win.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
                                                       am-time-ago="win.created_at"></abbr>-->
                                             </span>
-                                                </div>
-                                                <div class="comment-text">
-                                                    <h2>{{win.award.data.name}}</h2>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            <h2>{{win.award.data.name}}</h2>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                </md-tab>
-                            </md-tabs>
+                                        </md-tab>
+                                    </md-tabs>
 
-                        </div>
-                    </div>
-                </section>
-                <!-- End Awards -->
-
-            </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- End Awards -->
+                    </md-tab>
+                </md-tabs>
+            </md-layout>
             <!-- end left side content area -->
             <!-- sidebar -->
-            <div class="large-4 columns">
+            <md-layout md-flex md-column md-flex-large="33" class="">
                 <aside class="secBg sidebar">
                     <div class="row">
 
@@ -411,7 +329,7 @@
                                                     <!--<i class="fa fa-user"></i>-->
                                                     <span>
                                                         <i class="fa fa-user"></i>
-                                                        <a :href="'user/' + video.owner.url_id + '/about'">
+                                                        <a :href="'/user/' + video.owner.url_id + '/about'">
                                                             {{video.owner.fullName}}
                                                         </a>
                                                     </span>
@@ -442,10 +360,9 @@
                         <!-- end ad banner widget -->
                     </div>
                 </aside>
-            </div>
+            </md-layout>
             <!-- end sidebar -->
-        </div>
-    </div>
+        </md-layout>
 </template>
 <style scoped>
     .sidebar .widgetBox {
@@ -454,14 +371,12 @@
 </style>
 <script type="text/babel">
     import projectReactions from './project-reactions.vue';
-    import projectVideoPlayer from './project-video-player.vue';
-    import projectScriptViewer from './project-script-viewer.vue';
     import projectStatsActions from './project-stats-actions.vue';
     import critiques from '../critiques/critiques.vue';
     import critiqueView from '../critiques/critique-view.vue';
     export default {
         name: 'project',
-        components:{projectReactions, projectVideoPlayer, projectScriptViewer, projectStatsActions, critiques, critiqueView},
+        components:{projectReactions, projectStatsActions, critiques, critiqueView},
         props: {
             id: {
                 type: String,
@@ -473,7 +388,6 @@
                 loaded: false,
                 displayShare: false,
                 toggleReactionsList: false,
-                activeTab: 'critiques',
                 playerResponsiveMode: localStorage.playerResponsiveMode ? JSON.parse(localStorage.playerResponsiveMode) : _.contains(['small', 'medium', 'large'], Foundation.MediaQuery.current),
                 tagsArray: [],
                 lightsOff: false,
@@ -486,7 +400,7 @@
                 wins: [],
                 nominations: [],
                 nominationsPage: 1,
-                sortOrderA: '-created_at',
+                sortOrderA: 'created_at|desc',
                 relatedVideos: null
             }
         },
@@ -546,7 +460,7 @@
 
             qNominations () {
                 let self = this;
-                this.$http.get('nominations', { params: {include: 'user,award', project: this.project.id, sort: 'created_at', per_page: 200, page: this.nominationsPage}})
+                this.$http.get('nominations', { params: {include: 'user,award', project: this.project.id, sort: 'created_at', per_page: 50, page: this.nominationsPage}})
                     .then((result) => {
                         self.nominations = result.data.data;
                         //// console.log('Nomination: ', result.data);
@@ -599,15 +513,6 @@
 
              }*/
 
-            toggleWidthMode () {
-                let self = this;
-                localStorage.playerResponsiveMode = this.playerResponsiveMode = !this.playerResponsiveMode;
-
-//                self.player.resize();
-                //fail-safe
-                // self.$timeout( () => self.$window.player.resize(), 500);
-            },
-
             updateVideoObj () {
                 let self = this;
                 return this.$http.get('projects{/id}', {params: { id: this.project.id}})
@@ -615,24 +520,6 @@
                         console.log('Project Updated: ', response);
                         self.project = response.data.data;
                     }, (error) => console.log(error));
-            },
-
-            toggleLights () {
-                this.lightsOff = !this.lightsOff;
-                let overlay = jQuery('#overlay');
-                let body = jQuery('body');
-                overlay.fadeToggle(1000);
-                /* Choose desired delay */
-                if (!this.lightsOff) {
-                    setTimeout(function () {
-                        overlay.removeClass('highlight');
-                        body.removeClass('cinema-mode');
-                    }, 1000);
-                    /* Same delay */
-                } else {
-                    overlay.addClass('highlight');
-                    body.addClass('cinema-mode');
-                }
             },
 
             zIndexPlayer(remove) {
@@ -655,6 +542,10 @@
 
             this.$root.$on('openCritiqueView', function (critique) {
                 self.selectedCritique = critique;
+            });
+
+            this.$root.$on('playerResponsiveMode', function (mode) {
+                self.playerResponsiveMode = mode;
             });
 
         }

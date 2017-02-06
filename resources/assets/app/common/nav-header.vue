@@ -17,7 +17,7 @@
                                 <a href="upload">upload Project</a>
                             </li>-->
                             <li class="dropdown-login">
-                                <a v-if="!isAuthenticated" href="sign-in">Login/Register</a>
+                                <a v-if="!isAuthenticated" href="/sign-in">Login/Register</a>
                                 <a v-else @click="doSignOut()">logout</a>
                             </li>
                         </ul>
@@ -107,8 +107,8 @@
                                                 </md-list>
                                             </md-menu-content>
                                         </md-menu>
-                                        <md-button class="md-icon-button" href="messages"><md-icon>email</md-icon></md-button>
-                                        <md-button class="md-icon-button">
+                                        <md-button class="md-icon-button" href="/messages"><md-icon>email</md-icon></md-button>
+                                        <md-button class="md-icon-button" href="/upload">
                                             <md-icon>cloud_upload</md-icon>
                                             <md-tooltip md-direction="left">Upload Project</md-tooltip>
                                         </md-button>
@@ -127,16 +127,17 @@
                                         </li>-->
                                     </ul>
                                     <ul v-else class="menu dropdown" dropdown-menu>
-                                        <li class="upl-btn end">
-                                            <a href="profile/upload">Upload Project</a>
-                                        </li>
+                                        <md-button class="md-icon-button" href="/upload">
+                                            <md-icon>cloud_upload</md-icon>
+                                            <md-tooltip md-direction="left">Upload Project</md-tooltip>
+                                        </md-button>
                                     </ul>
                                 </div>
                                 <div class="top-bar-right">
                                     <ul class="menu vertical medium-horizontal"
                                         data-responsive-menu="drilldown medium-dropdown">
                                         <li :class="{active: isFirstUrlSegment('')}">
-                                            <a href=""><i class="fa fa-home"></i>Home</a>
+                                            <a href="/"><i class="fa fa-home"></i>Home</a>
                                         </li>
                                         <li :class="{active: isFirstUrlSegment('browse')}">
                                             <a href="browse"><i class="fa fa-th"></i>Browse

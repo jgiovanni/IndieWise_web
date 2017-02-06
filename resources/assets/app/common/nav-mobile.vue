@@ -1,5 +1,5 @@
 <template>
-    <md-sidenav ref="leftSidenav" class="md-left" v-cloak>
+    <md-sidenav ref="leftSidenav" class="md-left" v-cloak style="position: fixed;">
         <md-toolbar class="md-primary">
             <h2 class="md-title text-white" style="flex: 1">Menu</h2>
 

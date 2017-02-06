@@ -7,7 +7,6 @@ window.stream = require('getstream');
 window.moment = require('moment');
 window.momentTimeZone = require('moment-timezone/builds/moment-timezone-with-data.js');
 window._ = require('underscore');
-var filepickerLibrary = require('filepicker-js');
 
 // let Vue  = require('vue');
 import Vue from 'vue';
@@ -17,7 +16,7 @@ import Vue from 'vue';
 // import VueAdsense from 'vue-adsense';
 // import VueMaterial from 'vue-material';
 import VueLocalForage from 'vue-localforage';
-import VueSocial from '@blocklevel/vue-social'
+// import VueSocial from '@blocklevel/vue-social'
 
 import authenticationModal from '../app/auth/authentication-modal.vue';
 import navHeader from '../app/common/nav-header.vue';
@@ -26,6 +25,10 @@ import home from '../app/home/home.vue';
 import browse from '../app/browse/browse.vue';
 import latest from '../app/latest/latest.vue';
 import project from '../app/projects/project.vue';
+import projectBreadcrumbs from '../app/projects/project-breadcrumbs.vue';
+import projectVideoPlayer from '../app/projects/project-video-player.vue';
+import projectScriptViewer from '../app/projects/project-script-viewer.vue';
+
 import critique from '../app/critiques/critique.vue';
 import winners from '../app/winners/winners.vue';
 // import profile from '../app/profile/profile.vue';
@@ -49,13 +52,13 @@ import userAwards from '../app/user/user-awards.vue';
 Vue.use(require('vee-validate'));
 
 Vue.use(VueLocalForage);
-Vue.use(require('vue-cookie'));
-Vue.use(VueSocial);
-Vue.social.auth = {
+// Vue.use(require('vue-cookie'));
+// Vue.use(VueSocial);
+/*Vue.social.auth = {
     facebook: 'api/auth/facebook',
     // twitter: 'api/auth/twitter',
     google: 'api/auth/google',
-};
+};*/
 
 // Vue Material Design
 Vue.use(require('vue-material'));
@@ -530,6 +533,9 @@ new Vue({
         browse,
         latest,
         project,
+        projectBreadcrumbs,
+        projectVideoPlayer,
+        projectScriptViewer,
         critique,
         winners,
         // comments,
@@ -571,6 +577,9 @@ new Vue({
             streamApp: '6408',
         },
         StreamClient: null,
+
+        //project page
+        playerResponsiveMode: localStorage.playerResponsiveMode ? JSON.parse(localStorage.playerResponsiveMode) : _.contains(['small', 'medium', 'large'], Foundation.MediaQuery.current),
     },
     computed: {
         /*user(){
@@ -665,6 +674,7 @@ new Vue({
         }*/
     },
     created() {
+        let self = this;
         console.log('Vue Ready');
 
         this.StreamClient = stream.connect(this.StreamConfig.streamApiKey, null, this.StreamConfig.streamApp, {location: 'us-east'})
@@ -758,7 +768,12 @@ new Vue({
             this.subscribeUserFeeds();
             //this.listenNotifications(newValue.username);
             // this.getNewMessages();
-        })
+        });
+
+        this.$root.$on('playerResponsiveMode', function (mode) {
+            self.playerResponsiveMode = mode;
+        });
+
     },
     mounted(){
 // Some Template JS
