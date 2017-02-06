@@ -497,25 +497,9 @@
                 }
             },
 
-            /*showMessageDialog () {
-             if (this.$rootScope.isAuthenticated) {
-             let params = {
-             templateUrl: 'templates/common/contactUserDialog.html',
-             resolve: {
-             recipient: () => {
-             return this.project.owner.id;
-             }
-             },
-             controller: ContactUserDialogController
-             };
-             let msgModal = this.$modal.open(params);
-             } else this.UserActions.loginModal();
-
-             }*/
-
             updateVideoObj () {
                 let self = this;
-                return this.$http.get('projects{/id}', {params: { id: this.project.id}})
+                return this.$http.get('projects' + this.project.id)
                     .then(function (response) {
                         console.log('Project Updated: ', response);
                         self.project = response.data.data;
