@@ -236,7 +236,7 @@
                     <div class="row">
 
                         <!-- IndieWise Average Widget -->
-                        <div class="large-12 medium-7 medium-centered columns show-for-large">
+                        <div class="large-12 medium-centered columns show-for-large">
                             <!--<project-average project="project"></project-average>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -254,7 +254,7 @@
                         <!-- End IndieWise Average Widget -->
 
                         <!-- Awards Widget -->
-                        <div class="large-12 medium-7 medium-centered columns show-for-large">
+                        <div class="large-12 medium-centered columns show-for-large" v-if="wins.length">
                             <!--<project-awards project="project"></project-awards>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -266,7 +266,7 @@
                                 </div>
                                 <div class="widgetContent">
                                     <md-list>
-                                        <md-list-item v-if="wins.length" v-for="win in wins">
+                                        <md-list-item v-for="win in wins">
                                             <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
                                             <!--<span class="md-icon fa-stack fa-lg">
                                                   <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
@@ -293,7 +293,7 @@
                         <!-- End Awards Widget -->
 
                         <!-- Reactions Widget -->
-                        <div class="large-12 medium-7 medium-centered columns show-for-large" v-if="project.reactions_count>0">
+                        <div class="large-12 medium-centered columns show-for-large" v-if="project.reactions_count>0">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Reactions</h5>
@@ -306,7 +306,7 @@
                         <!-- End Reactions Widget -->
 
                         <!-- most view Widget -->
-                        <div class="large-12 medium-7 medium-centered columns">
+                        <div class="large-12 medium-centered columns">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Recommended Next</h5>
@@ -344,7 +344,7 @@
 
 
                         <!-- ad banner widget -->
-                        <div class="large-12 medium-7 medium-centered columns">
+                        <div class="large-12 medium-centered columns">
                             <div class="widgetBox">
                                 <!--<div class="widgetTitle">
                                     <h5>Sponsored Ad</h5>
