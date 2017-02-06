@@ -40,7 +40,8 @@
         "laravelista/ekko": "^1.3",
         "artesaos/seotools": "^0.10.0",
         "darkin1/intercom": "^1.0",
-        "roumen/sitemap": "^2.6"
+        "roumen/sitemap": "^2.6",
+        "pusher/pusher-php-server": "^2.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

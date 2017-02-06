@@ -88,6 +88,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/pusher/pusher-php-server" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/roumen/sitemap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/comparator" />
@@ -241,6 +242,7 @@
           <root url="file://$MODULE_DIR$/vendor/psr/http-message" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
           <root url="file://$MODULE_DIR$/vendor/psy/psysh" />
+          <root url="file://$MODULE_DIR$/vendor/pusher/pusher-php-server" />
           <root url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
           <root url="file://$MODULE_DIR$/vendor/roumen/sitemap" />
           <root url="file://$MODULE_DIR$/vendor/sebastian/comparator" />
@@ -282,7 +284,6 @@
           <root url="file://$MODULE_DIR$/vendor/webup/laravel-sendinblue" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
-          <root url="jar://$APPLICATION_HOME_DIR$/plugins/phpspec/lib/phpspec.jar!/phpspec_stub" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/99designs/http-signatures" />
@@ -371,6 +372,7 @@
           <root url="file://$MODULE_DIR$/vendor/psr/http-message" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
           <root url="file://$MODULE_DIR$/vendor/psy/psysh" />
+          <root url="file://$MODULE_DIR$/vendor/pusher/pusher-php-server" />
           <root url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
           <root url="file://$MODULE_DIR$/vendor/roumen/sitemap" />
           <root url="file://$MODULE_DIR$/vendor/sebastian/comparator" />
@@ -412,7 +414,6 @@
           <root url="file://$MODULE_DIR$/vendor/webup/laravel-sendinblue" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
-          <root url="jar://$APPLICATION_HOME_DIR$/plugins/phpspec/lib/phpspec.jar!/phpspec_stub" />
         </SOURCES>
       </library>
     </orderEntry>
