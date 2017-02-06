@@ -108,7 +108,7 @@
                                             </md-menu-content>
                                         </md-menu>
                                         <md-button class="md-icon-button" href="messages"><md-icon>email</md-icon></md-button>
-                                        <md-button class="md-icon-button
+                                        <md-button class="md-icon-button">
                                             <md-icon>cloud_upload</md-icon>
                                             <md-tooltip md-direction="left">Upload Project</md-tooltip>
                                         </md-button>
