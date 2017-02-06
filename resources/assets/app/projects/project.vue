@@ -232,7 +232,7 @@
             <!-- end left side content area -->
             <!-- sidebar -->
             <md-layout md-flex md-flex-small="100" md-flex-large="33" class="">
-                <md-layout class="md-flex-100 secBg sidebar">
+                <div class="secBg sidebar">
                         <!-- IndieWise Average Widget -->
                         <div class=" show-for-large">
                             <!--<project-average project="project"></project-average>-->
@@ -357,7 +357,7 @@
                             </div>
                         </div>
                         <!-- end ad banner widget -->
-                </md-layout>
+                </div>
             </md-layout>
             <!-- end sidebar -->
         </md-layout>
@@ -366,8 +366,9 @@
     .sidebar .widgetBox {
         margin-bottom: 10px;
     }
+
     .md-layout.row::before, .md-layout.row::after { display: flex; }
-    .md-layout.md-flex-100.secBg.sidebar > div { width: 100% }
+    .secBg.sidebar, .secBg.sidebar > div, .widgetBox { width: 100% }
 </style>
 <script type="text/babel">
     import projectReactions from './project-reactions.vue';

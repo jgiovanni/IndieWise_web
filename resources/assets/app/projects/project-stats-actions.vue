@@ -3,15 +3,15 @@
         <!-- newest video -->
         <md-layout md-flex class="secBg padding-16">
             <md-layout md-flex="100" style="border-bottom: 1px solid #efefef">
-                <md-layout md-align="center" md-flex=20>
+                <md-layout md-align="center" md-flex=20 md-column>
                     <md-avatar class="md-large">
                         <img :src="project.owner.avatar" alt="post">
                     </md-avatar>
-                    <div class="text-center">
+                    <p class="text-center">
                         <a :href="'/user/' + project.owner.url_id">
                             {{project.owner.fullName}}
                         </a>
-                    </div>
+                    </p>
                 </md-layout>
                 <md-layout md-column md-align="center">
                     <h1 class="md-headline">

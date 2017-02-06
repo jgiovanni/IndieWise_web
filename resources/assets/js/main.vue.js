@@ -54,12 +54,12 @@ Vue.material.registerTheme({
         // background: { color: 'grey', hue: 300 }
         background: 'white'
     },
-    /*'social': {
+    'social': {
      primary: 'indigo',
      accent: 'indigo',
      warn: 'red',
      background: { color: 'grey', hue: 300 }
-     }*/
+     }
 });
 Vue.use(require('vue-social-sharing'));
 /*Vue.use(VueAnalytics, {
