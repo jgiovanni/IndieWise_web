@@ -35,7 +35,7 @@
             <md-button class="md-accent" md-theme="light-blue" @click.prevent="$refs.snackbar.close()">Close</md-button>
         </md-snackbar>
 
-        <md-layout md-column>
+        <md-layout>
             @yield('layout')
         </md-layout>
 

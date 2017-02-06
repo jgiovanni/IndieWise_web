@@ -1,7 +1,7 @@
 <template>
-    <md-layout md-flex="100" md-gutter="8" md-column-small class="row" v-if="project">
+    <md-layout md-flex="100" md-gutter="8" class="row" v-if="project">
             <!-- left side content area -->
-            <md-layout md-flex md-flex-medium="100" md-flex-xlarge="66" class="">
+            <md-layout md-flex md-flex-small="100" md-flex-large="66" class="">
                 <!-- single post stats -->
                 <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
                 <!-- End single post stats -->
@@ -231,10 +231,10 @@
             </md-layout>
             <!-- end left side content area -->
             <!-- sidebar -->
-            <md-layout md-flex md-flex-medium="100" md-flex-xlarge="33" class="">
-                <md-layout md-flex="100" class="secBg sidebar">
+            <md-layout md-flex md-flex-small="100" md-flex-large="33" class="">
+                <md-layout class="md-flex-100 secBg sidebar">
                         <!-- IndieWise Average Widget -->
-                        <md-layout md-flex="100" md-align="center" class=" show-for-large">
+                        <div class=" show-for-large">
                             <!--<project-average project="project"></project-average>-->
                             <div class="widgetBox">
                                 <div class="widgetTitle">
@@ -248,12 +248,13 @@
                                     </h5>
                                 </div>
                             </div>
-                        </md-layout>
+                        </div>
                         <!-- End IndieWise Average Widget -->
 
                         <!-- Awards Widget -->
-                        <md-layout md-flex="100" md-align="center" class=" show-for-large">
+                        <div class=" show-for-large">
                             <!--<project-awards project="project"></project-awards>-->
+
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5 class="has-tip" style="display: block;">
@@ -287,11 +288,11 @@
                                 </div>
 
                             </div>
-                        </md-layout>
+                        </div>
                         <!-- End Awards Widget -->
 
                         <!-- Reactions Widget -->
-                        <md-layout md-flex="100" md-align="center" class=" show-for-large" v-if="project.reactions_count>0">
+                        <div class=" show-for-large" v-if="project.reactions_count>0">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Reactions</h5>
@@ -300,11 +301,11 @@
                                     <project-reactions :project="project"></project-reactions>
                                 </div>
                             </div>
-                        </md-layout>
+                        </div>
                         <!-- End Reactions Widget -->
 
                         <!-- most view Widget -->
-                        <md-layout md-flex="100" md-align="center" class="">
+                        <div class="">
                             <div class="widgetBox">
                                 <div class="widgetTitle">
                                     <h5>Recommended Next</h5>
@@ -337,12 +338,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </md-layout>
+                        </div>
                         <!-- end most view Widget -->
 
 
                         <!-- ad banner widget -->
-                        <md-layout md-flex="100" md-align="center" class="">
+                        <div class="">
                             <div class="widgetBox">
                                 <!--<div class="widgetTitle">
                                     <h5>Sponsored Ad</h5>
@@ -354,17 +355,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </md-layout>
+                        </div>
                         <!-- end ad banner widget -->
                 </md-layout>
             </md-layout>
             <!-- end sidebar -->
         </md-layout>
 </template>
-<style scoped>
+<style>
     .sidebar .widgetBox {
         margin-bottom: 10px;
     }
+    .md-layout.row::before, .md-layout.row::after { display: flex; }
+    .md-layout.md-flex-100.secBg.sidebar > div { width: 100% }
 </style>
 <script type="text/babel">
     import projectReactions from './project-reactions.vue';

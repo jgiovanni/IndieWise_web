@@ -4,7 +4,7 @@
     <div id="overlay"></div>
 
     <!--breadcrumbs-->
-    <section id="breadcrumb" class="md-layout">
+    <section id="breadcrumb" class="md-layout md-flex-100">
         <div class="md-layout md-gutter">
             <div class="md-layout md-flex-50" style="align-items: center;">
                 <nav aria-label="You are here:" role="navigation">
@@ -28,7 +28,7 @@
     <!--end breadcrumbs-->
 
     <!-- full width Video -->
-    <div class="md-layout md-column">
+    <div class="md-layout md-flex-100 md-column">
         <section class="fullwidth-single-video" v-bind:class="{'no-padding': playerResponsiveMode}">
             <div class="row" style="width: 100%;" v-bind:class="{'no-max-width': playerResponsiveMode}">
                 <div class="large-12" v-bind:class="{'columns': !playerResponsiveMode}">

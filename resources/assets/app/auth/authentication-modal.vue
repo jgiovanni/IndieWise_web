@@ -113,9 +113,9 @@
 
             getUserData(){
                 this.$root.getUser().then(function (data) {
-                    this.$root.$emit('userHasLoggedIn');
                     this.$root.user = data;
                     this.$root.authenticated = true;
+                    this.$root.$emit('userHasLoggedIn', data);
                 });
             },
 

@@ -1,5 +1,5 @@
 <template>
-    <md-sidenav ref="leftSidenav" class="md-left" v-cloak style="position: fixed;">
+    <md-sidenav ref="leftSidenav" class="md-left" v-cloak>
         <md-toolbar class="md-primary">
             <h2 class="md-title text-white" style="flex: 1">Menu</h2>
 
@@ -24,12 +24,12 @@
 
                 <md-list-expand>
                     <md-list class="md-dense">
-                        <md-list-item class="md-inset" href="profile">My Profile</md-list-item>
-                        <md-list-item class="md-inset" href="profile/projects">My Projects</md-list-item>
-                        <md-list-item class="md-inset" href="profile/critiques">My Critiques</md-list-item>
-                        <md-list-item class="md-inset" href="profile/reactions">My Reactions</md-list-item>
-                        <md-list-item class="md-inset" href="profile/awards">My Awards</md-list-item>
-                        <md-list-item class="md-inset" href="profile/settings">My Settings</md-list-item>
+                        <md-list-item class="md-inset" :href="'/user/'+ $root.user.url_id">My Profile</md-list-item>
+                        <md-list-item class="md-inset" :href="'/user/'+ $root.user.url_id + '/projects'">My Projects</md-list-item>
+                        <md-list-item class="md-inset" :href="'/user/'+ $root.user.url_id + '/critiques'">My Critiques</md-list-item>
+                        <md-list-item class="md-inset" :href="'/user/'+ $root.user.url_id + '/reactions'">My Reactions</md-list-item>
+                        <md-list-item class="md-inset" :href="'/user/'+ $root.user.url_id + '/awards'">My Awards</md-list-item>
+                        <md-list-item class="md-inset" :href="'/user/'+ $root.user.url_id + '/settings'">My Settings</md-list-item>
                     </md-list>
                 </md-list-expand>
             </md-list-item>
@@ -62,7 +62,7 @@
                 <md-list-item v-if="!isAuthenticated" href="sign-in" @click="closeLeftSideNav()">
                     <span>Login/Register</span>
                 </md-list-item>
-                <md-list-item href="profile/about" v-if="isAuthenticated" @click="closeLeftSideNav()">
+                <md-list-item :href="'/user/' + $root.user.url_id" v-if="isAuthenticated" @click="closeLeftSideNav()">
                     <md-icon>account_circle</md-icon>
                     <span>Profile</span>
                 </md-list-item>
@@ -73,7 +73,7 @@
                         <!--<span v-show="$root.MessageNotifications.unread>0" class="alert badge">{{AppData.MessageNotifications.unread}}</span>-->
                     </span>
                 </md-list-item>
-                <md-list-item href="profile/upload" @click="closeLeftSideNav()">
+                <md-list-item href="upload" @click="closeLeftSideNav()">
                     <md-icon>cloud_upload</md-icon>
                     <span>Upload</span>
                 </md-list-item>

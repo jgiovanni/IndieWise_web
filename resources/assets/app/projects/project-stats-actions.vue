@@ -1,7 +1,7 @@
 <template>
     <md-layout md-flex="100" class="SinglePostStats" id="SinglePostStats">
         <!-- newest video -->
-        <md-layout md-flex class="secBg">
+        <md-layout md-flex class="secBg padding-16">
             <md-layout md-flex="100" style="border-bottom: 1px solid #efefef">
                 <md-layout md-align="center" md-flex=20>
                     <md-avatar class="md-large">

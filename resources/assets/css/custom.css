@@ -703,4 +703,20 @@ button .emoticon {
     box-shadow: none;
     margin:0;
 }
+
+.padding-8 {
+    padding: 8px;
+}
+.padding-16 {
+    padding: 16px;
+}
+.padding-24 {
+    padding: 24px;
+}
+.padding-32 {
+    padding: 32px;
+}
+
+
 [type='text']:focus, [type='password']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='week']:focus, [type='email']:focus, [type='number']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='url']:focus, [type='color']:focus, textarea:focus
+
