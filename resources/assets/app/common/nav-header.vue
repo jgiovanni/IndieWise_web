@@ -40,7 +40,7 @@
                             </md-button>
                             <md-image href="/" md-src="/assets/img/Logo_alt2_web_87x45.png"></md-image>
                             <span style="flex: 1;"></span>
-                            <md-avatar class="md-icon-button" aria-label="Profile" href="profile">
+                            <md-avatar class="md-icon-button" aria-label="Profile" :href="isAuthenticated ? ('/user/' + $root.user) : '/login'">
                                 <md-icon v-if="!isAuthenticated || (isAuthenticated && !$root.user.avatar)">
                                     account_circle
                                 </md-icon>
@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="top-bar-right search-btn" v-cloak>
                                     <ul v-if="isAuthenticated" class="menu dropdown" dropdown-menu>
-                                        <a :href="'/' + $root.user.url_id">
+                                        <a :href="'/user/' + $root.user.url_id">
                                             <md-avatar class="md-icon-button" aria-label="Profile" >
                                                 <img v-if="$root.user.avatar" :src="$root.user.avatar"
                                                      class="md-avatar md-contact-avatar" :alt="$root.user.fullName"/>

@@ -31,4 +31,9 @@
 @yield('js')
 
 <script type="text/javascript" src="{{ elixir('js/vendor.js') }}"></script>
-<script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>
+<script type="text/javascript" src="{{ elixir('js/resources.vue.js') }}"></script>
+@if(isActiveRoute('user.*') === 'active' || isActiveMatch('user') === 'active')
+    <script type="text/javascript" src="{{ elixir('js/users.vue.js') }}"></script>
+@else
+    <script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>
+@endif

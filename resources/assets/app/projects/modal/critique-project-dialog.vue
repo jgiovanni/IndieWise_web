@@ -7,171 +7,171 @@
                 <div class="row">
                     <div v-if="critique.type === 'video'">
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Acting</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.performances" :items="starArray" @change="updateStar" name="performances"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="hyphenate">Cinematography</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.cinematography" :items="starArray" @change="updateStar" name="cinematography"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Direction</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.direction" :items="starArray" @change="updateStar" name="direction"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Editing</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.structure" :items="starArray" @change="updateStar" name="structure"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Music</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.music" :items="starArray" @change="updateStar" name="music"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Originality</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.originality" :items="starArray" @change="updateStar" name="originality"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Pacing</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.pacing" :items="starArray" @change="updateStar" name="pacing"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Production Value</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.production" :items="starArray" @change="updateStar" name="production"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Sound Quality</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.audio" :items="starArray" @change="updateStar" name="audio"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Writing</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.writing" :items="starArray" @change="updateStar" name="writing"></rating>
                             </div>
                         </div>
                     </div>
                     <div v-else>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Concept</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.concept" :items="starArray" @change="updateStar" name="concept"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="hyphenate">Presentation</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.presentation" :items="starArray" @change="updateStar" name="presentation"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Characters</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.characters" :items="starArray" @change="updateStar" name="characters"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Structure</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.structure" :items="starArray" @change="updateStar" name="structure"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Dialogue</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.dialogue" :items="starArray" @change="updateStar" name="dialogue"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Originality</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.originality" :items="starArray" @change="updateStar" name="originality"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Pacing</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.pacing" :items="starArray" @change="updateStar" name="pacing"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Theme</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.theme" :items="starArray" @change="updateStar" name="theme"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Style</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.style" :items="starArray" @change="updateStar" name="style"></rating>
                             </div>
                         </div>
                         <div class="columns row">
-                            <div class="columns small-4 text-right">
+                            <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Plot</span>
                             </div>
-                            <div class="columns small-8">
+                            <div class="columns small-12 text-center medium-4">
                                 <rating :value="critique.writing" :items="starArray" @change="updateStar" name="writing"></rating>
                             </div>
                         </div>
                     </div>
                     <hr class="thin">
                     <div class="columns row">
-                        <div class="columns small-8 text-right">
+                        <div class="columns small-12 text-center medium-4 text-right">
                             <span class="">Overall Rating</span>
                         </div>
                         <div class="columns small-4">

@@ -1,8 +1,4 @@
-window.Vue = require('vue');
-require('vue-resource');
-// import VueAnalytics from 'vue-ua';
-// import VueAdsense from 'vue-adsense';
-// import VueSocial from '@blocklevel/vue-social'
+const Vue = window.Vue;
 
 import authenticationModal from '../app/auth/authentication-modal.vue';
 import navHeader from '../app/common/nav-header.vue';
@@ -14,69 +10,8 @@ import project from '../app/projects/project.vue';
 import projectBreadcrumbs from '../app/projects/project-breadcrumbs.vue';
 import projectVideoPlayer from '../app/projects/project-video-player.vue';
 import projectScriptViewer from '../app/projects/project-script-viewer.vue';
-
 import critique from '../app/critiques/critique.vue';
 import winners from '../app/winners/winners.vue';
-// import profile from '../app/profile/profile.vue';
-
-import user from '../app/user/user.vue';
-import userTop from '../app/user/user-top.vue';
-import userSidenav from '../app/user/user-sidenav.vue';
-import userAbout from '../app/user/user-about.vue';
-import userProjects from '../app/user/user-projects.vue';
-import userCritiques from '../app/user/user-critiques.vue';
-import userReactions from '../app/user/user-reactions.vue';
-import userAwards from '../app/user/user-awards.vue';
-
-// import comments from '../app/comments/comments.vue';
-
-
-// Global Components
-// Vue.use(Vuex);
-// Vue.component('adsense', VueAdsense);
-// Vue Form Validation
-// Vue.use(require('vue-cookie'));
-// Vue.use(VueSocial);
-/*Vue.social.auth = {
-    facebook: 'api/auth/facebook',
-    // twitter: 'api/auth/twitter',
-    google: 'api/auth/google',
-};*/
-
-Vue.use(require('vee-validate'));
-Vue.use(require('vue-localforage'));
-Vue.use(require('vue-material'));
-Vue.material.registerTheme({
-    'default': {
-        primary: 'indigo',
-        accent: 'amber',
-        warn: 'red',
-        // background: { color: 'grey', hue: 300 }
-        background: 'white'
-    },
-    'social': {
-     primary: 'indigo',
-     accent: 'indigo',
-     warn: 'red',
-     background: { color: 'grey', hue: 300 }
-     }
-});
-Vue.use(require('vue-social-sharing'));
-/*Vue.use(VueAnalytics, {
- appName: '<app_name>', // Mandatory
- appVersion: '<app_version>', // Mandatory
- trackingId: '<your_tracking_id>', // Mandatory
- debug: true, // Whether or not display console logs debugs (optional)
- ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
- globalDimensions: [ // Optional
- {dimension: 1, value: 'MyDimensionValue'},
- {dimension: 2, value: 'AnotherDimensionValue'}
- ],
- globalMetrics: [ // Optional
- {metric: 1, value: 'MyMetricValue'},
- {metric: 2, value: 'AnotherMetricValue'}
- ]
- });*/
 
 Vue.http.options.root = '/api';
 Vue.http.interceptors.push((request, next) => {
@@ -496,6 +431,8 @@ new Vue({
     components: {
         navHeader,
         navMobile,
+        authenticationModal,
+
         home,
         browse,
         latest,
@@ -505,18 +442,6 @@ new Vue({
         projectScriptViewer,
         critique,
         winners,
-        // comments,
-
-        // Profile
-        user,
-        userTop,
-        userSidenav,
-        userAbout,
-        userProjects,
-        userCritiques,
-        userReactions,
-        userAwards,
-        authenticationModal,
     },
     data: {
         filepickerApiKey: 'APbjTx44SlSuCI6P58jwvz',

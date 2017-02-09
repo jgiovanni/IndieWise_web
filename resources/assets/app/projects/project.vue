@@ -28,12 +28,10 @@
                                         <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
 
                                         <span>{{win.award.data.name}}</span>
-                                        <!--<span class="flex"></span>-->
-                                        <md-icon v-if="win.rewarded === 0">hourglass_empty</md-icon>
-                                        <!--<small v-if="win.rewarded === 0" class="has-tip no-border">
-											pending
-										</small>-->
-                                        <md-tooltip v-if="win.rewarded === 0" md-direction="top">Awards are reviewed before being given. Once verified this label will disappear.</md-tooltip>
+                                        <template v-if="win.rewarded === 0">
+                                            <md-icon>hourglass_empty</md-icon>
+                                            <md-tooltip md-direction="top">Awards are reviewed before being given. Once verified the hourglass icon will disappear.</md-tooltip>
+                                        </template>
                                     </md-list-item>
                                     <md-list-item class="md-inset" v-else>
                                         No Awards won yet.
@@ -135,7 +133,7 @@
                                    :parent-owner-id="project.owner_id" :disable="project.disableCritique"></critiques>
                         <!-- End Critiques -->
                     </md-tab>
-                    <md-tab  :md-label="pluralizeWinsCount">
+                    <md-tab  :md-label="pluralizeNominationsCount">
                         <!-- Awards -->
                         <section class="content comments">
                             <div class="row secBg">
@@ -145,14 +143,12 @@
                                             <div class="medium-12 small-12 columns">
                                                 <div class="head-title">
                                                     <i class="fa fa-trophy"></i>
-                                                    <h4>Awards <span>({{project.wins_count||0}})</span></h4>
+                                                    <h4>Nominations <span>({{project.nominations_count||0}})</span></h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <md-tabs md-fixed md-dynamic-height md-centered class="md-transparent">
-                                        <md-tab md-active :md-label="'Nominations ' + (nominations.length||0)">
-                                            <div class="comment-sort text-right">
+                                    <div class="comment-sort text-right">
                                         <span>
                                                 <md-icon>sort</md-icon>
                                                 <a :class="{'active':sortOrderA=='created_at|desc'}"
@@ -160,67 +156,36 @@
                                                 :class="{'active':sortOrderA=='created_at|asc'}"
                                                 @click="sortOrderA='created_at|asc'">oldest</a>
                                         </span>
-                                            </div>
+                                    </div>
 
-                                            <!-- main comment -->
-                                            <div class="main-comment showmore_one">
-                                                <div class="media-object stack-for-small"
-                                                     v-for="nom in sortNominations">
-                                                    <div class="media-object-section comment-img text-center">
-                                                        <div class="comment-box-img">
-                                                            <img :src="nom.user.data.avatar || '/assets/img/avatar-1.png'"
-                                                                 alt="comment">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-object-section comment-desc">
-                                                        <div class="comment-title">
+                                    <!-- main comment -->
+                                    <div class="main-comment showmore_one">
+                                        <div class="media-object stack-for-small"
+                                             v-for="nom in sortNominations">
+                                            <div class="media-object-section comment-img text-center">
+                                                <div class="comment-box-img">
+                                                    <img :src="nom.user.data.avatar || '/assets/img/avatar-1.png'"
+                                                         alt="comment">
+                                                </div>
+                                            </div>
+                                            <div class="media-object-section comment-desc">
+                                                <div class="comment-title">
                                                             <span class="name"><a :href="'/user/'+nom.user.data.url_id">
                                                                 {{nom.user.data.fullName}}</a> nominated this video for:
                                                             </span>
-                                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                                                <!--<abbr :title="nom.created_at|amUtc|amLocal|amDateFormat:'lll'"
-																	  am-time-ago="nom.created_at"></abbr>-->
+                                                    <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                        <!--<abbr :title="nom.created_at|amUtc|amLocal|amDateFormat:'lll'"
+															  am-time-ago="nom.created_at"></abbr>-->
                                                             </span>
-                                                        </div>
-                                                        <div class="comment-text">
-                                                            <p>{{nom.award.data.name||nom.award.name}} Award</p>
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                                <div class="comment-text">
+                                                    <p>{{nom.award.data.name||nom.award.name}} Award</p>
                                                 </div>
                                             </div>
-                                            <!-- End main comment -->
-                                        </md-tab>
-                                        <md-tab :md-label="'Wins ' + (wins.length||0)">
-                                            <div class="comment-sort text-right">
-                                <span><md-icon>sort</md-icon><a :class="{'active':sortOrderA=='-created_at'}"
-                                                                @click="sortOrderA='-created_at'">newest</a> | <a
-                                        :class="{'active':sortOrderA=='created_at'}"
-                                        @click="sortOrderA='created_at'">oldest</a></span>
-                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End main comment -->
 
-                                            <div class="main-comment showmore_one">
-                                                <div class="media-object stack-for-small" v-for="win in wins">
-                                                    <div class="media-object-section comment-img text-center">
-                                                        <div class="comment-box-img">
-                                                            <img src="/assets/img/award_win_small.png" alt="award">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-object-section comment-desc">
-                                                        <div class="comment-title">
-                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
-                                                <!--<abbr title="{{win.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
-                                                      am-time-ago="win.created_at"></abbr>-->
-                                            </span>
-                                                        </div>
-                                                        <div class="comment-text">
-                                                            <h2>{{win.award.data.name}}</h2>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </md-tab>
-                                    </md-tabs>
 
                                 </div>
                             </div>
@@ -267,24 +232,16 @@
                                     <md-list>
                                         <md-list-item v-if="wins.length" v-for="win in wins">
                                             <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
-                                            <!--<span class="md-icon fa-stack fa-lg">
-                                                  <i class="fa fa-circle fa-stack-2x" style="color: #EEEEEE;"></i>
-                                                  <i class="fa fa-trophy fa-stack-1x fa-inverse" style="color: #FFC10E;"></i>
-                                                </span>-->
-
                                             <span>{{win.award.data.name}}</span>
-                                                <!--<span class="flex"></span>-->
-                                            <md-icon v-if="win.rewarded === 0">hourglass_empty</md-icon>
-                                                <!--<small v-if="win.rewarded === 0" class="has-tip no-border">
-                                                    pending
-                                                </small>-->
-                                            <md-tooltip v-if="win.rewarded === 0" md-direction="top">Awards are reviewed before being given. Once verified this label will disappear.</md-tooltip>
+                                            <template v-if="win.rewarded === 0">
+                                                <md-icon>hourglass_empty</md-icon>
+                                                <md-tooltip md-direction="top">Awards are reviewed before being given. Once verified the hourglass icon will disappear.</md-tooltip>
+                                            </template>
                                         </md-list-item>
                                         <md-list-item v-else>
                                             No Awards won yet.
                                         </md-list-item>
                                     </md-list>
-
                                 </div>
 
                             </div>
@@ -415,13 +372,13 @@
                     return this.project.critiques_count + ' Critiques';
                 }
             },
-            pluralizeWinsCount() {
-                if (this.project.wins_count === 0) {
-                    return 'Awards';
-                } else if (this.project.wins_count === 1) {
-                    return '1 Award';
+            pluralizeNominationsCount() {
+                if (this.project.nominations_count === 0) {
+                    return 'Nominations';
+                } else if (this.project.nominations_count === 1) {
+                    return '1 Nomination';
                 } else {
-                    return this.project.wins_count + ' Awards';
+                    return this.project.nominations_count + ' Nominations';
                 }
             },
             sortNominations() {

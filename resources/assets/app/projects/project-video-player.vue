@@ -22,9 +22,11 @@
 </template>
 <style>
     .flex-video.widescreen {
+        padding-bottom: 0;
         height: auto;
-        padding: 0;
     }
+    .vjs-vimeo { min-height: 100%; height: 360px !important; }
+    iframe#vjs_video_3_Vimeo_api.vimeoplayer { height: 55%; }
     /*.vjs-fluid {
         padding-top: 0;
     }*/

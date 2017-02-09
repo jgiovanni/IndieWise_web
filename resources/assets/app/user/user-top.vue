@@ -25,7 +25,8 @@
 						<h4 class="text-center" style="color:#414CAB;">
 							<br>
 							Here you may <span class="text-black">customize</span> your Profile,<br>
-							<span class="text-black">monitor</span> your Personal Activity, <br>and <span class="text-white">upload</span>
+							<span class="text-black">monitor</span> your Personal Activity, <br>and <span
+								class="text-white">upload</span>
 							your Indie Projects
 						</h4>
 					</div>
@@ -99,40 +100,60 @@
 			</div>
 		</section>
 
-		<section class="hide-for-large" id="randomMedia" style="padding: 0;">
-			<div class="random-media-head text-center">
-				<div class="row">
-					<div class="large-12 columns">
-						<ul class="tabs" data-tabs id="media">
-							<li class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', '')}">
-								<a :href="'/user/' + user.url_id"><i class="fa fa-user"></i></a>
-							</li>
-							<!--<li v-if="isUser" class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', 'playlists')}">
-								<a :href="'user/' + user.url_id + '/playlists'"><i class="fa fa-heart"></i></a>
-							</li>-->
-							<li class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', 'projects')}">
-								<a :href="'/user/' + user.url_id + '/videos'"><i class="fa fa-video-camera"></i></a>
-							</li>
-							<li class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', 'critiques')}">
-								<a :href="'/user/' + user.url_id + '/critiques'"><i class="fa fa-star"></i></a>
-							</li>
-							<li class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', 'reactions')}">
-								<a :href="'/user/' + user.url_id + '/reactions'"><i class="fa fa-smile-o"></i></a>
-							</li>
-							<li class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', 'awards')}">
-								<a :href="'/user/' + user.url_id + '/awards'"><i class="fa fa-trophy"></i></a>
-							</li>
-							<li v-if="isUser" class="tabs-title" :class="{'is-active': isCurrentUrlChild('user', 'settings')}">
-								<a :href="'/user/' + user.url_id + '/settings'"><i class="fa fa-gears"></i></a>
-							</li>
-							<li v-if="isUser" class="tabs-title" :class="{'is-active': isFirstUrlSegment('upload')}">
-								<a href="/upload"><i class="fa fa-upload"></i></a>
-							</li>
-						</ul>
+		<div class="md-tabs md-theme-default hide-for-large">
+			<nav class="md-whiteframe md-tabs-navigation md-whiteframe-0dp md-has-icon md-centered">
+				<button type="button" class="md-tab-header" :class="{'md-active': view === ''}" @click="navigateTo('')">
+					<div class="md-tab-header-container">
+						<md-icon>account_circle</md-icon>
+						<!----> <!---->
 					</div>
-				</div>
-			</div>
-		</section>
+					<md-ink-ripple></md-ink-ripple>
+					<span class="md-tab-indicator"></span>
+				</button>
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'projects'}" @click="navigateTo('projects')">
+					<div class="md-tab-header-container">
+						<md-icon>videocam</md-icon>
+						<!----> <!---->
+					</div>
+					<md-ink-ripple></md-ink-ripple>
+				</button>
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'critiques'}" @click="navigateTo('critiques')">
+					<div class="md-tab-header-container">
+						<md-icon>star</md-icon>
+						<!----> <!---->
+					</div>
+					<md-ink-ripple></md-ink-ripple>
+				</button>
+				<!--<button type="button" class="md-tab-header" @click.native="navigateTo('')">
+					<div class="md-tab-header-container">
+						<md-icon>face</md-icon>
+						&lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;
+					</div>
+					<md-ink-ripple></md-ink-ripple>
+				</button>-->
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'awards'}" @click="navigateTo('awards')">
+					<div class="md-tab-header-container">
+						<md-icon md-src="/assets/svg/trophy.svg"></md-icon>
+						<!----> <!---->
+					</div>
+					<md-ink-ripple></md-ink-ripple>
+				</button>
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'settings'}" @click="navigateTo('settings')">
+					<div class="md-tab-header-container">
+						<md-icon>settings</md-icon>
+						<!----> <!---->
+					</div>
+					<md-ink-ripple></md-ink-ripple>
+				</button>
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'upload'}" @click="navigateTo('upload')">
+					<div class="md-tab-header-container">
+						<md-icon>cloud_upload</md-icon>
+						<!----> <!---->
+					</div>
+					<md-ink-ripple></md-ink-ripple>
+				</button>
+			</nav>
+		</div>
 	</div>
 </template>
 <style>
@@ -147,21 +168,25 @@
 <script type="text/babel">
     export default{
         name: 'user-top',
-	    props: {
+        props: {
             user: {
                 type: Object,
             },
             stats: {
                 type: Object,
-	            required: false
-            }
-	    },
+                required: false
+            },
+	        view: {
+                type: String,
+		        required: true
+	        }
+        },
         data(){
             return {}
         },
-	    computed: {
+        computed: {
             isUser(){
-				return this.$root.user && (this.user.id === this.$root.user.id);
+                return this.$root.user && (this.user.id === this.$root.user.id);
             },
             bgImg() {
                 return this.user ? this.user.coverPhoto : '/assets/images/profile-bg.png';
@@ -169,18 +194,21 @@
             avatarImg() {
                 return this.user ? this.user.avatar : '/assets/img/avatar-1.png';
             },
-	    },
+        },
         methods: {
+            navigateTo(view){
+                return window.location = '/user/' + this.user.url_id + '/' + view;
+            },
             pickBanner(){
                 let self = this;
                 filepicker.pick({
-                        cropRatio: 32/7,
+                        cropRatio: 32 / 7,
                         mimetype: 'image/*',
                         services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
                         conversions: ['crop', 'rotate', 'filter'],
                         customSourcePath: self.user.url_id + '/banners/'
                     },
-                    function (Blob){
+                    function (Blob) {
                         self.user.coverPhoto = Blob.url + '?cache=true';
                         self.$http.put('user/me/' + self.user.id, self.user).then(function (res) {
                             self.$root.$emit('toastMessage', 'Cover Photo Updated!');
@@ -192,14 +220,14 @@
             pickAvatar(){
                 let self = this;
                 filepicker.pick({
-                        cropRatio: [1/1],
+                        cropRatio: [1 / 1],
                         cropForce: true,
                         mimetype: 'image/*',
                         services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
                         conversions: ['crop', 'rotate', 'filter'],
                         customSourcePath: self.user.url_id + '/avatars/'
                     },
-                    function (Blob){
+                    function (Blob) {
                         self.user.avatar = Blob.url + '?cache=true';
                         self.$http.put('user/me/' + self.user.id, self.user).then(function (res) {
                             self.$root.$emit('toastMessage', 'Avatar Updated!');

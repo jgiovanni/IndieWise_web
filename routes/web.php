@@ -133,6 +133,9 @@ if (App::environment('local')) {
 Route::get('sign-in', function () {
     return view('auth.login');
 });
+Route::get('login', function () {
+    return view('auth.login');
+});
 Route::post('sign-in', 'Auth\AuthController@authenticate');
 Route::post('login', 'Api\AuthController@login');
 Route::get('register', 'Auth\AuthController@register');
@@ -196,53 +199,23 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
         return view('user.views.about', compact('user', 'stats'));
     });
 
-    $this->get('{id}/about', function ($id) {
-        return redirect('user/' . $id);
-    });
-
-    $this->get('{id}/projects', function ($id) use ($dispatcher) {
+    $this->get('{id}/{view}', function ($id, $view) use ($dispatcher) {
         $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
         $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
-        SEO::setTitle($user->fullName . ' Projects');
+        SEO::setTitle($user->fullName . ' ' . ucfirst($view));
 
-        return view('user.views.projects', compact('user', 'stats'));
+        return view('user.views.' . $view, compact('view', 'user', 'stats'));
+    })->where('view', 'projects||awards||critiques||settings||analytics');
+
+    // Redirect old urls
+    $this->get('{id}/about', function ($id) {
+        return redirect('user/' . $id);
     });
 
     $this->get('{id}/videos', function ($id) {
         return redirect('user/' . $id . '/projects');
     });
 
-    $this->get('{id}/awards', function ($id) use ($dispatcher) {
-        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
-        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
-        SEO::setTitle($user->fullName . ' Awards');
-
-        return view('user.views.awards', compact('user', 'stats'));
-    });
-
-    $this->get('{id}/critiques', function ($id) use ($dispatcher) {
-        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
-        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
-        SEO::setTitle($user->fullName . ' Critiques');
-
-        return view('user.views.critiques', compact('user', 'stats'));
-    });
-
-    $this->get('{id}/reactions', function ($id) use ($dispatcher) {
-        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
-        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
-        SEO::setTitle($user->fullName . ' Reactions');
-
-        return view('user.views.reactions', compact('user', 'stats'));
-    });
-
-    $this->get('{id}/settings', function ($id) use ($dispatcher) {
-        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
-        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
-        SEO::setTitle($user->fullName . ' Settings');
-
-        return view('user.views.settings', compact('user', 'stats'));
-    });
 });
 
 Route::get('{project_id}', function ($project_id) use ($dispatcher) {

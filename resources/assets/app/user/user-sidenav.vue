@@ -11,7 +11,7 @@
 						<div class="widgetContent">
 							<ul class="profile-overview">
 								<li class="clearfix">
-									<a :class="{'active': isCurrentUrlChild('user', '')}" :href="'/user/' + user.url_id">
+									<a :class="{'active': view === ''}" :href="'/user/' + user.url_id">
 										<i class="fa fa-user"></i>about me
 									</a>
 								</li>
@@ -21,36 +21,36 @@
 									</a>
 								</li>-->
 								<li class="clearfix">
-									<a :class="{'active': isCurrentUrlChild('user', 'projects')}" :href="'/user/' + user.url_id + '/videos'">
+									<a :class="{'active': view === 'projects'}" :href="'/user/' + user.url_id + '/videos'">
 										<i class="fa fa-video-camera"></i>Projects
 										<span class="float-right">{{stats.projectCount}}</span>
 									</a>
 								</li>
 								<li class="clearfix">
-									<a :class="{'active': isCurrentUrlChild('user', 'critiques')}" :href="'/user/' + user.url_id + '/critiques'">
+									<a :class="{'active': view === 'critiques'}" :href="'/user/' + user.url_id + '/critiques'">
 										<i class="fa fa-star"></i>Critiques
 										<span class="float-right">{{stats.critiqueCount}}</span>
 									</a>
 								</li>
-								<li class="clearfix">
-									<a :class="{'active': isCurrentUrlChild('user', 'reactions')}" :href="'/user/' + user.url_id + '/reactions'">
+								<!--<li class="clearfix">
+									<a :class="{'active': view === 'reactions'}" :href="'/user/' + user.url_id + '/reactions'">
 										<i class="fa fa-smile-o"></i>Reactions
 										<span class="float-right">{{stats.reactionCount}}</span>
 									</a>
-								</li>
+								</li>-->
 								<li class="clearfix">
-									<a :class="{'active': isCurrentUrlChild('user', 'awards')}" :href="'/user/' + user.url_id + '/awards'">
+									<a :class="{'active': view === 'awards'}" :href="'/user/' + user.url_id + '/awards'">
 										<i class="fa fa-trophy"></i>Awards
 										<span class="float-right">{{stats.winCount}}</span>
 									</a>
 								</li>
 								<li v-if="isUser" class="clearfix">
-									<a :class="{'active': isCurrentUrlChild('user', 'settings')}" :href="'/user/' + user.url_id + '/settings'">
+									<a :class="{'active': view === 'settings'}" :href="'/user/' + user.url_id + '/settings'">
 										<i class="fa fa-gears"></i>Settings
 									</a>
 								</li>
 								<li v-if="isUser" class="clearfix">
-									<a :class="{'active': isFirstUrlSegment('upload')}" href="/upload">
+									<a :class="{'active': view === 'upload'}" href="/upload">
 										<i class="fa fa-upload"></i>Upload Project
 									</a>
 								</li>
@@ -80,6 +80,10 @@
             stats: {
                 type: Object,
                 required: false
+            },
+            view: {
+                type: String,
+                required: true
             }
         },
         data(){
