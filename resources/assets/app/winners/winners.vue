@@ -260,15 +260,17 @@
             </md-content>
         </md-tab>-->
         <md-tab md-label="IndustryBOOST Competition 2016">
-            <md-layout class="text-center">
-                <a href="/9XLmv6ZxGj">
-                    <img src="https://img.youtube.com/vi/0FkjJGhbfaM/hqdefault.jpg" class="img-responsive" alt="Safe Train">
-                </a>
-            </md-layout>
+            <a href="/9XLmv6ZxGj">
+                <img src="https://img.youtube.com/vi/0FkjJGhbfaM/hqdefault.jpg" style="width:100%;" class="" alt="Safe Train">
+            </a>
         </md-tab>
     </md-tabs>
 </template>
-<style scoped></style>
+<style scoped>
+    .md-card {
+        box-shadow: none;
+    }
+</style>
 <script type="text/babel">
     export default {
         name: 'winners',

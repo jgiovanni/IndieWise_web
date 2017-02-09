@@ -1,5 +1,5 @@
 <template>
-    <section class="category-content latest-page">
+    <section class="category-content row latest-page">
             <div class="row">
                 <!-- sidebar -->
                 <div class="large-4 columns">

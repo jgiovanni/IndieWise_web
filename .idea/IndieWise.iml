@@ -242,7 +242,6 @@
           <root url="file://$MODULE_DIR$/vendor/psr/http-message" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
           <root url="file://$MODULE_DIR$/vendor/psy/psysh" />
-          <root url="file://$MODULE_DIR$/vendor/pusher/pusher-php-server" />
           <root url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
           <root url="file://$MODULE_DIR$/vendor/roumen/sitemap" />
           <root url="file://$MODULE_DIR$/vendor/sebastian/comparator" />
@@ -373,7 +372,6 @@
           <root url="file://$MODULE_DIR$/vendor/psr/http-message" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
           <root url="file://$MODULE_DIR$/vendor/psy/psysh" />
-          <root url="file://$MODULE_DIR$/vendor/pusher/pusher-php-server" />
           <root url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
           <root url="file://$MODULE_DIR$/vendor/roumen/sitemap" />
           <root url="file://$MODULE_DIR$/vendor/sebastian/comparator" />

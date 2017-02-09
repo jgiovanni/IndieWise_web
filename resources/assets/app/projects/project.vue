@@ -1,7 +1,7 @@
 <template>
     <md-layout md-flex="100" md-gutter="8" class="row" v-if="project">
             <!-- left side content area -->
-            <md-layout md-flex md-flex-small="100" md-flex-large="66" class="">
+            <md-layout md-flex md-flex-small="100" md-flex-xlarge="66" class="">
                 <!-- single post stats -->
                 <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
                 <!-- End single post stats -->
@@ -196,7 +196,7 @@
             </md-layout>
             <!-- end left side content area -->
             <!-- sidebar -->
-            <md-layout md-flex md-flex-small="100" md-flex-large="33" class="">
+            <md-layout md-flex md-flex-small="100" md-flex-xlarge="33" class="">
                 <div class="secBg sidebar">
                         <!-- IndieWise Average Widget -->
                         <div class=" show-for-large">

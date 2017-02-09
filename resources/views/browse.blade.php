@@ -2,9 +2,9 @@
 
 @section('layout')
     <!--breadcrumbs-->
-    <section id="breadcrumb" class="breadMargin">
-        <div class="row">
-            <div class="large-12 columns">
+    <section id="breadcrumb" class="md-layout md-flex-100 breadMargin">
+        <div class="md-layout row md-gutter">
+            <div class="md-layout md-flex-100" style="align-items: center;">
                 <nav aria-label="You are here:" role="navigation">
                     <ul class="breadcrumbs">
                         <li><i class="fa fa-home"></i><a href="/">Home</a></li>
@@ -16,8 +16,13 @@
             </div>
         </div>
     </section><!--end breadcrumbs-->
+    <div class="row">
+        <!-- Category -->
+        <watching-carousel></watching-carousel>
+        <!-- End Category -->
 
-    <browse></browse>
+        <browse></browse>
+    </div>
 @endsection
 
 @section('js')

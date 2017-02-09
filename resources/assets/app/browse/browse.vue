@@ -1,9 +1,5 @@
 <template>
     <div>
-        <!-- Category -->
-        <watching-carousel></watching-carousel>
-        <!-- End Category -->
-
         <md-sidenav ref="filterNav" class="md-left" v-cloak>
             <md-toolbar class="md-primary">
                 <h2 class="md-title text-white" style="flex: 1">Filters</h2>
@@ -58,7 +54,7 @@
         </md-sidenav>
 
         <section class="category-content">
-            <div class="row">
+            <md-layout md-flex="100" class="row">
                 <!-- left side content area -->
                 <div class="large-8 columns">
                     <section class="content content-with-sidebar">
@@ -195,7 +191,7 @@
                         </div>
                     </aside>
                 </div><!-- end sidebar -->
-            </div>
+            </md-layout>
         </section>
         <!-- End Category Content-->
     </div>
@@ -207,10 +203,9 @@
 </style>
 <script type="text/babel">
     import projectCard from '../common/project-card.vue';
-    import watchingCarousel from './watching-carousel.vue';
     export default {
         name: 'browse',
-        components: {projectCard, watchingCarousel},
+        components: {projectCard},
         data(){
             return {
                 typeA: 'grid-medium',

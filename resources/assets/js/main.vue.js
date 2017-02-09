@@ -3,8 +3,16 @@ const Vue = window.Vue;
 import authenticationModal from '../app/auth/authentication-modal.vue';
 import navHeader from '../app/common/nav-header.vue';
 import navMobile from '../app/common/nav-mobile.vue';
-import home from '../app/home/home.vue';
+import contactForm from '../app/contact-form.vue';
+// import home from '../app/home/home.vue';
+import layerSlider from '../app/home/layer-slider.vue';
+import premiumCarousel from '../app/home/premium-carousel.vue';
+import sponsorCarousel from '../app/home/sponsor-carousel.vue';
+import homeProjectsList from '../app/home/home-projects-list.vue';
+
 import browse from '../app/browse/browse.vue';
+import watchingCarousel from '../app/browse/watching-carousel.vue';
+
 import latest from '../app/latest/latest.vue';
 import project from '../app/projects/project.vue';
 import projectBreadcrumbs from '../app/projects/project-breadcrumbs.vue';
@@ -432,9 +440,17 @@ new Vue({
         navHeader,
         navMobile,
         authenticationModal,
+        contactForm,
 
-        home,
+        // home,
+        layerSlider,
+        premiumCarousel,
+        sponsorCarousel,
+        homeProjectsList,
+
         browse,
+        watchingCarousel,
+
         latest,
         project,
         projectBreadcrumbs,
