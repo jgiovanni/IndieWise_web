@@ -4,7 +4,7 @@
 
         <md-dialog-content>
             <div class="input-group">
-                <input class="input-group-field" type="text" @click="selectShareUrl()" :value="shareLink" readonly/>
+                <input class="input-group-field" type="text" @click.native="selectShareUrl()" :value="shareLink" readonly/>
             </div>
             <social-sharing :url="shareLink" :title="name" :description="description"
                             hashtags="#indiewise,#getindiewise" twitter-user="indiewise" inline-template>
@@ -64,7 +64,7 @@
             </social-sharing>
         </md-dialog-content>
         <md-dialog-actions>
-            <md-button class="md-primary" @click="closeShareDialog">Close</md-button>
+            <md-button class="md-primary" @click.native="closeShareDialog">Close</md-button>
         </md-dialog-actions>
     </md-dialog>
 </template>

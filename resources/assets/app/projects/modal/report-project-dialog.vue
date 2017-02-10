@@ -8,14 +8,16 @@
                     <md-input v-model="name" v-validate="'required|alpha_spaces'" data-vv-name="name" placeholder="Full Name" maxlength="255" required></md-input>
                     <span class="md-error" v-show="errors.has('name')">{{ errors.first('name') }}</span>
                 </md-input-container>
+
                 <md-input-container :class="{'md-input-invalid': errors.has('email')}">
                     <label>Email Address</label>
                     <md-input v-model="email" v-validate="'required|email'" data-vv-name="email" placeholder="Email Address" maxlength="255" required></md-input>
                     <span class="md-error" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                 </md-input-container>
+
                 <md-input-container :class="{'md-input-invalid': errors.has('body')}">
                     <label>Explain the situation</label>
-                    <md-textarea v-model="body" v-validate="'required'" data-vv-name="body" placeholder="Explain the situation" maxlength="1000" required></md-textarea>
+                    <md-input v-model="body" v-validate="'required'" data-vv-name="body" placeholder="Explain the situation" maxlength="1000" required></md-input>
                     <span class="md-error" v-show="errors.has('body')">{{ errors.first('body') }}</span>
                 </md-input-container>
 
@@ -28,7 +30,7 @@
         </md-dialog-content>
 
         <md-dialog-actions>
-            <md-button class="" @click="closeDialog">Cancel</md-button>
+            <md-button class="" @click.native="closeDialog">Cancel</md-button>
             <md-button class="md-accent" type="submit" form="ReportForm">Send Report</md-button>
         </md-dialog-actions>
     </md-dialog>

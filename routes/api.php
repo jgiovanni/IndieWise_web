@@ -77,7 +77,7 @@ $api->version('v1', [
 //        $user_id = '00000000-0000-6463-7952-633635765552';
             $enricher = new Enrich();
             $feed = FeedManager::getNotificationFeed($user_id);
-            $activities = $feed->getActivities(0,25)['results'];
+            $activities = $feed->getActivities(0,10)['results'];
             $unseen = 0;
             $unread = 0;
 

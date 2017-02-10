@@ -12,7 +12,7 @@
                     <i class="fa fa-clock-o"></i>&nbsp;{{ critique.created_at|vmTimeAgo }}
                 </span>
 
-                <md-button class="md-icon-button" @click="cancel">
+                <md-button class="md-icon-button" @click.native="cancel">
                     <md-icon>close</md-icon>
                 </md-button>
 
@@ -212,7 +212,7 @@
             </md-dialog-content>
 
             <md-dialog-actions>
-                <md-button class="md-primary" @click="cancel">close</md-button>
+                <md-button class="md-primary" @click.native="cancel">close</md-button>
             </md-dialog-actions>
         </template>
     </md-dialog>

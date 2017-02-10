@@ -5,9 +5,9 @@ var HomeController = (function () {
         this.type = 'grid-default';
         this.$rootScope.metadata.title = 'Home';
     }
+    HomeController.$inject = ['$rootScope'];
     return HomeController;
 }());
-HomeController.$inject = ['$rootScope'];
 exports.HomeController = HomeController;
 angular.module('IndieWise.home', [])
     .component('home', {

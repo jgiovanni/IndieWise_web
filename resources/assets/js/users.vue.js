@@ -1,8 +1,8 @@
 const Vue = window.Vue;
 
-import authenticationModal from '../app/auth/authentication-modal.vue';
-import navHeader from '../app/common/nav-header.vue';
-import navMobile from '../app/common/nav-mobile.vue';
+import authenticationModal from '../app/authentication-modal.vue';
+import navHeader from '../app/nav-header.vue';
+import navMobile from '../app/nav-mobile.vue';
 
 import user from '../app/user/user.vue';
 import userTop from '../app/user/user-top.vue';
@@ -605,7 +605,6 @@ new Vue({
         }
 
         this.$on('toastAction', function (message, button, action, duration) {
-            debugger;
             this.toastType = 'action';
             this.toastMessage = message;
             this.toastButton = button;
@@ -620,8 +619,7 @@ new Vue({
             this.$refs.snackbar.open();
         });
         this.$on('verifyAction', function (message) {
-            debugger;
-            this.$emit();
+            this.$emit('toastAction', message, 'Verify Now', this.requestVerificationEmail);
         });
 
         this.$on('userHasLoggedIn', function (user) {
@@ -660,16 +658,11 @@ new Vue({
             //this.listenNotifications(newValue.username);
             // this.getNewMessages();
         });
-
-        this.$root.$on('playerResponsiveMode', function (mode) {
-            self.playerResponsiveMode = mode;
-        });
-
     },
     mounted(){
-// Some Template JS
+        // Some Template JS
         jQuery(document).foundation();
-        // jQuery(document).ready(function (jQuery) {
+
         //back to top
         let backtotop = '#back-to-top';
         if (jQuery(backtotop).length) {
@@ -724,7 +717,16 @@ new Vue({
             let n = jQuery(this).hasClass('down') ? '+=200' : '-=200'; // Direction
             $par.animate({scrollTop: n});
         });
-        // });
+
+        FB.init({
+            appId: '150687055270744',
+            status: true,
+            cookie: true,
+            xfbml: true,
+            version: 'v2.8'
+        });
+
+        FB.AppEvents.activateApp();
     }
 
 });

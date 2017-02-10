@@ -178,7 +178,7 @@
                             <template v-else>
                                 <div class="row columns">
                                     <div class="row columns text-center" style="border-bottom: 1px solid #ddd;">
-                                        <md-button class="" @click="toggleSize()">
+                                        <md-button class="" @click.native="toggleSize()">
                                             <md-icon>poll</md-icon>
                                             Show Scores
                                         </md-button>
@@ -202,10 +202,10 @@
 
         <md-card-expand :class="{'md-active': critique.comments && critique.comments.data.length > 0}">
             <md-card-actions>
-                <md-button class="md-dense" @click="showQuickReply =! showQuickReply">
+                <md-button class="md-dense" @click.native="showQuickReply =! showQuickReply">
                     <md-icon>reply</md-icon> Reply critique
                 </md-button>
-                <md-button class="md-dense" @click="view($event)">
+                <md-button class="md-dense" @click.native="view($event)">
                     <md-icon>remove_red_eye</md-icon> View
                 </md-button>
                 <md-button class="md-dense" :href="'/'+parentUrlId + '/critique/' + critique.url_id">

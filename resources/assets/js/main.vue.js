@@ -1,8 +1,8 @@
 const Vue = window.Vue;
 
-import authenticationModal from '../app/auth/authentication-modal.vue';
-import navHeader from '../app/common/nav-header.vue';
-import navMobile from '../app/common/nav-mobile.vue';
+import authenticationModal from '../app/authentication-modal.vue';
+import navHeader from '../app/nav-header.vue';
+import navMobile from '../app/nav-mobile.vue';
 import contactForm from '../app/contact-form.vue';
 // import home from '../app/home/home.vue';
 import layerSlider from '../app/home/layer-slider.vue';
@@ -488,6 +488,21 @@ new Vue({
 
         //project page
         playerResponsiveMode: localStorage.playerResponsiveMode ? JSON.parse(localStorage.playerResponsiveMode) : _.contains(['small', 'medium', 'large'], Foundation.MediaQuery.current),
+        authProviders: {
+            facebook: {
+                authorizationEndpoint: 'https://www.facebook.com/v2.8/dialog/oauth',
+                scope: ['email'],
+                clientId: '150687055270744',
+                url: '/auth/facebook',
+                redirectUri: window.location.origin + '/auth/facebook',
+            },
+            google: {
+                path: '',
+                clientId: '322274582930-4m1dueb708gvdic28n12e5dhqq121a6b.apps.googleusercontent.com',
+                url: '/auth/google',
+                redirectUri: window.location.origin + '/auth/google'
+            }
+        }
     },
     computed: {
         /*user(){
@@ -497,6 +512,12 @@ new Vue({
          },*/
     },
     methods: {
+        logout(){
+            this.user = null;
+            this.authenticated = false;
+            localStorage.removeItem('jwt-token');
+            self.$removeItem('user')
+        },
         setUser() {
 
         },
@@ -619,7 +640,6 @@ new Vue({
         }
 
         this.$on('toastAction', function (message, button, action, duration) {
-            debugger;
             this.toastType = 'action';
             this.toastMessage = message;
             this.toastButton = button;
@@ -634,11 +654,11 @@ new Vue({
             this.$refs.snackbar.open();
         });
         this.$on('verifyAction', function (message) {
-            debugger;
-            this.$emit();
+            this.$emit('toastAction', message, 'Verify Now', this.requestVerificationEmail);
         });
 
         this.$on('userHasLoggedIn', function (user) {
+
             let newValue = user;
             // Intercom
             newValue.name = newValue.fullName;
@@ -681,9 +701,8 @@ new Vue({
 
     },
     mounted(){
-// Some Template JS
+        // Some Template JS
         jQuery(document).foundation();
-        // jQuery(document).ready(function (jQuery) {
         //back to top
         let backtotop = '#back-to-top';
         if (jQuery(backtotop).length) {
@@ -738,7 +757,16 @@ new Vue({
             let n = jQuery(this).hasClass('down') ? '+=200' : '-=200'; // Direction
             $par.animate({scrollTop: n});
         });
-        // });
+
+        FB.init({
+            appId: '150687055270744',
+            status: true,
+            cookie: true,
+            xfbml: true,
+            version: 'v2.8'
+        });
+
+        FB.AppEvents.activateApp();
     }
 
 });

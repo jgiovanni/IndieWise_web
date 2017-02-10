@@ -79,6 +79,7 @@ class AuthController extends Controller
      */
     public function redirect($provider = 'facebook', Request $request, SocialAccountService $service)
     {
+//        dd('here');
         //return $this->socialite->with($provider)->stateless()->redirect();
 
         if ($provider == 'twitter') {
@@ -86,7 +87,8 @@ class AuthController extends Controller
             // Part 1 of 2: Initial request from Satellizer.
             if (!$request->input('oauth_token') || !$request->input('oauth_verifier')) {
                 // Redirect to fill the session (without actually redirecting)
-                $provider/*->stateless()*/->redirect();
+                $provider/*->stateless()*/
+                ->redirect();
 
                 /** @var TemporaryCredentials $temp */
                 $credentials = $request->getSession()->get('oauth.temp');
@@ -108,7 +110,7 @@ class AuthController extends Controller
 
         // Step 1 + 2
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user(), $provider);
-        if($user) {
+        if ($user) {
 //            Auth::login($user, true);
             $customClaims = [
                 'id' => $user->id,
@@ -119,7 +121,7 @@ class AuthController extends Controller
                 'picture' => $user->avatar,
             ];
             $token = JWTAuth::claims($customClaims)->fromUser($user);
-        }else{
+        } else {
             return response()->make('something went wrong');
         }
 
@@ -136,7 +138,7 @@ class AuthController extends Controller
     public function callback($provider = null, SocialAccountService $service)
     {
         $user = $service->createOrGetUser($this->socialite->with($provider)->stateless()->user());
-        if($user) {
+        if ($user) {
             $customClaims = [
                 'id' => $user->id,
                 'email' => $user->email,
@@ -147,7 +149,7 @@ class AuthController extends Controller
             ];
 //            Auth::login($user, true);
             $token = JWTAuth::claims($customClaims)->fromUser($user);
-        }else{
+        } else {
             return response()->make('something went wrong');
         }
 

@@ -144,6 +144,7 @@ $this->get('logout', 'Auth\AuthController@logout');
 
 //$this->group(['middleware' => 'web'], function () {
 //    $this->get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->get('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
 $this->post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
 $this->get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 //});

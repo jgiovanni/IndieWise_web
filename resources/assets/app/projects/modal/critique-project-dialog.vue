@@ -187,7 +187,7 @@
                         </md-input-container>
 
                         <md-checkbox v-model="critique.private">Make Private?</md-checkbox>
-                        <md-button class="md-icon-button md-primary" @click="helpToggle=!helpToggle"><md-icon>info</md-icon></md-button>
+                        <md-button class="md-icon-button md-primary" @click.native="helpToggle=!helpToggle"><md-icon>info</md-icon></md-button>
 
                         <p v-show="helpToggle" class="help-text">By choosing this "Make private" Option, individual rating categories, such as "Production Value", "Originality", etc. will not be publicly visible to users other than you and the project author. However, the overall rating generated from these individual results will always be publicly visible.</p>
 
@@ -217,7 +217,7 @@
         </md-dialog-content>
 
         <md-dialog-actions>
-            <md-button class="" @click="close()">Cancel</md-button>
+            <md-button class="" @click.native="close()">Cancel</md-button>
             <md-button class="md-primary" form="CritiqueProjectDialogForm" type="submit">Submit</md-button>
         </md-dialog-actions>
     </md-dialog>
