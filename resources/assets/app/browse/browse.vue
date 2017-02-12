@@ -126,7 +126,7 @@
                                     <md-layout md-column class="widgetContent">
                                         <md-input-container>
                                             <label for="filterSort">Sort</label>
-                                            <md-select id="filterNavSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
+                                            <md-select id="filterSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
                                                 <md-option value="recent">Recently Added</md-option>
                                                 <md-option value="trending">Trending</md-option>
                                                 <md-option value="rating">Highest Rated</md-option>
@@ -355,9 +355,11 @@
             },
         },
         mounted(){
-            this.handleUrlFilters();
+            setTimeout(function () {
+                this.handleUrlFilters();
 
-            this.refresh();
+                this.refresh();
+            }.bind(this), 2000)
         }
     }
 </script>

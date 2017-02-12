@@ -1,5 +1,5 @@
 <template>
-    <md-dialog ref="ReactionDialog">
+    <md-dialog ref="reactionDialog">
         <md-dialog-title>How'd this make you feel?</md-dialog-title>
         <md-dialog-content>
             <md-input-container>
@@ -38,21 +38,21 @@
         },
         methods: {
             close() {
-                this.$refs.ReactionDialog.close();
+                this.$refs.reactionDialog.close();
             },
             getEmoticonByEmotion (emotion) {
                 return _.findWhere($scope.emotions, {emotion: emotion});
             },
             selectedEmotion (e) {
                 this.$root.$emit('projectReactionSelected', e);
-                this.$refs.ReactionDialog.close();
+                this.$refs.reactionDialog.close();
             }
         },
         created() {
             let self = this;
             this.emotions = this.generateReactions();
             this.$root.$on('openReactionDialog', function () {
-                self.$refs.ReactionDialog.open();
+                self.$refs.reactionDialog.open();
             })
         },
         mounted(){

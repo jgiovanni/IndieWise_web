@@ -1,5 +1,5 @@
 <template>
-    <md-dialog ref="reportDialog">
+    <md-dialog ref="ReportDialog">
         <md-dialog-title>Explain Why You Are Flagging this Video</md-dialog-title>
         <md-dialog-content>
             <form id="ReportForm" novalidate @submit.prevent="throttledConfirm">
@@ -8,7 +8,7 @@
                     <md-input v-model="name" v-validate="'required|alpha_spaces'" data-vv-name="name" placeholder="Full Name" maxlength="255" required></md-input>
                     <span class="md-error" v-show="errors.has('name')">{{ errors.first('name') }}</span>
                 </md-input-container>
-
+                
                 <md-input-container :class="{'md-input-invalid': errors.has('email')}">
                     <label>Email Address</label>
                     <md-input v-model="email" v-validate="'required|email'" data-vv-name="email" placeholder="Email Address" maxlength="255" required></md-input>
@@ -17,7 +17,7 @@
 
                 <md-input-container :class="{'md-input-invalid': errors.has('body')}">
                     <label>Explain the situation</label>
-                    <md-input v-model="body" v-validate="'required'" data-vv-name="body" placeholder="Explain the situation" maxlength="1000" required></md-input>
+                    <md-textarea v-model="body" v-validate="'required'" data-vv-name="body" placeholder="Explain the situation" maxlength="1000" required></md-textarea>
                     <span class="md-error" v-show="errors.has('body')">{{ errors.first('body') }}</span>
                 </md-input-container>
 
@@ -47,7 +47,7 @@
         },
         data(){
             return {
-                button_id: '#reportDialogButtonA',
+                button_id: '#ReportDialogButtonA',
                 name: '',
                 email: '',
                 body: '',
@@ -56,7 +56,7 @@
         },
         methods: {
             closeDialog() {
-                this.$refs.reportDialog.close();
+                this.$refs.ReportDialog.close();
             },
             confirm() {
                 let self = this;
@@ -79,7 +79,7 @@
                             body: '',
                         });
                         self.errors.clear();
-                        self.$refs.reportDialog.close();
+                        self.$refs.ReportDialog.close();
 
                     });
                 }, function (error) {
@@ -92,7 +92,7 @@
             let self = this;
             this.$root.$on('openReportDialog', function (id) {
                 self.button_id = '#' + id;
-                self.$refs.reportDialog.open();
+                self.$refs.ReportDialog.open();
             });
             this.throttledConfirm = _.throttle(this.confirm, 3000);
         }

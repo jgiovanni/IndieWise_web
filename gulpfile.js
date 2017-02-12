@@ -52,10 +52,11 @@ elixir(function(mix) {
     // mix.webpack('vendor.js');
     // mix.webpack('resources.vue.js');
     mix.webpack('main.vue.js');
+    mix.webpack('projects.vue.js');
     mix.webpack('users.vue.js');
 
     // Versioning
-    mix.version(["css/app.css", "css/all.css",/* "js/main.js", "js/angular.js", "js/templates.js",*/"js/main.vue.js", "js/users.vue.js"]);
+    mix.version(["css/app.css", "css/all.css", "js/main.vue.js", "js/projects.vue.js", "js/users.vue.js"]);
 
     /*mix.browserSync({
         proxy: 'indiewise.dev'

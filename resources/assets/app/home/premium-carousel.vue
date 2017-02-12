@@ -1,6 +1,6 @@
 <template>
     <section id="premium" style="background-color: transparent;">
-        <div class="main-heading" style="margin-bottom: 15px;">
+        <div class="main-heading">
             <div class="row secBg padding-14">
                 <div class="large-11 columns">
                     <div class="head-title">

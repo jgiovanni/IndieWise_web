@@ -178,7 +178,7 @@
                                                     </a>&nbsp;nominated this video for <b>{{nom.award.data.name||nom.award.name}} Award</b>
                                                 </span>
                                                 <span>
-                                                    <i class="fa fa-clock-o"></i>&nbsp;{{nom.created_at|vmUtc|vmLocal|vmDateFormat('lll')}}
+                                                    <i class="fa fa-clock-o"></i>&nbsp;{{ nom.created_at|vmUtc|vmLocal|vmDateFormat('lll') }}
                                                 </span>
                                             </div>
                                         </md-list-item>
@@ -425,7 +425,7 @@
             qNominations () {
                 let self = this;
                 this.loadingNominations = true;
-                this.$http.get('nominations', { params: {include: 'user,award', project: this.project.id, sort: this.sortOrderA, per_page: 50, page: this.nominationsPage}})
+                this.$http.get('nominations', { params: {include: 'user,award', project: this.project.id, sort: this.sortOrderA, per_page: 25, page: this.nominationsPage}})
                     .then((result) => {
                         self.loadingNominations = false;
                         self.nominations = result.data.data;
@@ -489,7 +489,8 @@
                 this.critiquesParams = {
                     include: 'comments:limit(1|0)',
                     project: this.project.id,
-                    sort: 'comments_count'
+                    sort: 'comments_count',
+                    per_page: 25
                 }
             });
 

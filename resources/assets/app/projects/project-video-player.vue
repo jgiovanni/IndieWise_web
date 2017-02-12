@@ -1,24 +1,5 @@
 <template>
     <video-player v-if="videoOptions" :configs="configs" :options="videoOptions" @player-state-changed="playerStateChanged" ref="myPlayer"></video-player>
-    <!--<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="1170" height="264"
-           poster="https://getindiewise.com/assets/img/default_video_thumbnail.jpg" data-setup="{}">
-        <source src="https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm" type='video/webm'>
-        <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a web browser that
-            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-        </p>
-    </video>-->
-    <!--<section class="main-preview-player">
-        <video id="video" class="video-js vjs-default-skin vjs-16-9 vjs-big-play-centered vjs-fluid" controls
-               preload="auto" crossorigin="anonymous">
-            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser
-                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-        </video>
-
-        &lt;!&ndash;<div class="playlist-container  preview-player-dimensions vjs-fluid">
-            <ol class="vjs-playlist"></ol>
-        </div>&ndash;&gt;
-    </section>-->
 </template>
 <style>
     .flex-video.widescreen {
@@ -101,7 +82,7 @@
         methods: {
             playerStateChanged(playerCurrentState) {
                 // console.log(playerCurrentState);
-                if (playerCurrentState.currentTime) {
+                if (playerCurrentState.currentTime && !this.watched) {
                     this.throttledWatcher(playerCurrentState.currentTime);
                 }
             },
@@ -156,9 +137,8 @@
                 if (time > 10 && !this.watched) {
                     //console.log('Marked as Watched');
                     this.$http.post('projects/watched', {
-                        project_id: plitem.id
+                        project_id: this.project.id
                     }).then(function () {
-                        this.player.off('timeupdate', this.markAsWatched);
                         this.watched = true;
                     });
                 }

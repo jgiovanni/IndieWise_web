@@ -1,6 +1,7 @@
 {
   "css/all.css": "css/all-2a5ef430c1.css",
   "css/app.css": "css/app-039e829a7a.css",
-  "js/main.vue.js": "js/main-767f981151.vue.js",
-  "js/users.vue.js": "js/users-3266576474.vue.js"
+  "js/main.vue.js": "js/main-b3904cc979.vue.js",
+  "js/projects.vue.js": "js/projects-c1d076123e.vue.js",
+  "js/users.vue.js": "js/users-228ad949f2.vue.js"
 }

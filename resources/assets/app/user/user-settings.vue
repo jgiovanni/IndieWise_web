@@ -366,6 +366,12 @@
         mounted(){
             let self = this;
 
+            this.$root.$on('userHasLoggedOut', function (user) {
+				if (self.user.id === user.id) {
+                    window.location = '/user/' + this.user.url_id;
+				}
+            });
+
             if (this.isAuthenticated && this.user.id === this.$root.user.id) {
                 this.$http.get('users/' + this.user.id).then(function (response) {
                     this.userData = response.data.data;

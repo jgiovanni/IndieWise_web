@@ -21,7 +21,7 @@
 	</md-button-toggle>
 </template>
 <style scoped>
-	.player-toggles {
+	.cinema-mode .player-toggles {
 		z-index: 10;
 	}
 </style>
