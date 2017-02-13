@@ -112,10 +112,10 @@
 											<md-radio v-model="userData.gender" id="gender" name="gender" md-value="female">Female</md-radio>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container v-show="countries.length">
+											<md-input-container v-show="$root.countryList.length">
 												<label for="country">Country</label>
 												<md-select name="country" id="country" v-model="userData.country_id">
-													<md-option :value="country.id" v-for="country in countries">{{ country.name }}</md-option>
+													<md-option :value="country.id" v-for="country in $root.countryList">{{ country.name }}</md-option>
 												</md-select>
 											</md-input-container>
 										</div>
@@ -139,8 +139,8 @@
 												Types:</label>
 
 											<div class="checkbox-inline" style="margin-bottom: 20px;"
-											     v-if="typesList.length">
-												<template v-for="t in typesList">
+											     v-if="$root.typesList.length">
+												<template v-for="t in $root.typesList">
 													<input type="checkbox"
 													       v-model="bool" name="type{{$index}}" id="type{{$index}}"
 													       @click="syncTypes(bool, t)"
@@ -270,7 +270,6 @@
                 userData: false,
                 genres: [],
                 UserTypes: [],
-                countries: [],
                 genresArr: [],
                 typesArr: [],
                 saveComplete: false,
@@ -386,11 +385,11 @@
 //            this.genresArr = this.user.genres.data; //Genres.data.data;
 //            this.typesArr = this.user.types;// UserTypes.data.data;
 
-                this.generateCountries().then(res => self.countries = res);
+                this.generateCountries();
 
-                this.generateGenres().then(res => self.genresList = res);
+                this.generateGenres();
 
-                this.generateTypes().then(res => self.typesList = res);
+                this.generateTypes();
             } else {
                 window.location = '/user/' + this.user.url_id;
             }

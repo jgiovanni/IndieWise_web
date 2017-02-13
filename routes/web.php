@@ -13,6 +13,7 @@
 
 //use Dingo\Api\Auth\Auth;
 use App\Award;
+use App\Critique;
 use App\Reaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -153,12 +154,13 @@ $this->get('verification/error', 'Auth\VerifyController@getVerificationError');
 $this->get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
 //$this->get('verification/{token}', 'Auth\AuthController@getVerification');
 
-$this->get('', function () {
+$this->get('', function () use ($dispatcher) {
+    $featured = $dispatcher->get('api/projects', [ 'random' => true, 'per_page' => 3]);
     SEO::setTitle('Home');
 //    SEO::setDescription('This is my page description');
 //    SEO::opengraph()->addProperty('type', 'articles');
 
-    return view('home');
+    return view('home', compact('featured'));
 });
 
 $this->get('browse', function () {
@@ -240,7 +242,8 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
 });
 
 $this->get('{project_id}', function ($project_id) use ($dispatcher) {
-    $project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
+    $project = Project::where('url_id', $project_id)->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->firstOrFail();
+    //$project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
     // dd($project);
 
     SEO::setTitle($project->name);
@@ -263,10 +266,10 @@ $this->get('{project_id}', function ($project_id) use ($dispatcher) {
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
 $this->get('{project_id}/critique/{critique_id}', function ($project_id, $critique_id) use ($dispatcher) {
-    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);
-//    $token = JWTAuth::getToken();
-//    $user = JWTAuth::parseToken()->authenticate();
-//    dd(Cookie::get('token'));
+    $critique = Critique::where('url_id', $critique_id)->with('project.owner')->withCount(['comments'])->firstOrFail();
+//    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);
+
+    SEO::setTitle('Critique by ' . $critique->user->name . ' for ' . $critique->project->name);
     return view('project.critique', compact('critique'));
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
 

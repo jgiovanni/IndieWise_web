@@ -208,6 +208,7 @@
                 </md-layout>
                 <md-layout>
                     <comments v-if="comments" :comments="comments" :disable="false" :parent="critique" :child="false"></comments>
+                    <md-progress v-else md-indeterminate></md-progress>
                 </md-layout>
             </md-dialog-content>
 
@@ -223,12 +224,13 @@
     export default {
         name: 'critique-view',
         components: {comments},
-        props: ['critique', 'parentUrlId', 'parentOwnerId'],
+        props: ['parentUrlId', 'parentOwnerId'],
         data(){
             return {
                 showQuickReply: false,
                 comments: null,
                 sortOrder: 'created_at|desc',
+                critique: false
             }
         },
         watch: {
@@ -259,7 +261,8 @@
         },
         created(){
             let self = this;
-            this.$root.$on('openCritiqueView', function () {
+            this.$root.$on('openCritiqueView', function (critique) {
+                self.critique = critique;
                 self.$nextTick(function () {
                     self.$refs.CritiqueView.open();
                 });
@@ -271,7 +274,6 @@
             });
 
         },
-        mounted(){
-        }
+        mounted(){}
     }
 </script>

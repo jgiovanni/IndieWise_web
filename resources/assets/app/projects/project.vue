@@ -1,343 +1,142 @@
 <template>
-    <md-layout md-flex="100" md-gutter="8" class="row" v-if="project">
-        <!--<md-layout md-flex="100" v-show="!loaded">
-            <md-progress md-indeterminate></md-progress>
-        </md-layout>-->
-        <!-- left side content area -->
-        <md-layout md-flex md-flex-small="100" md-flex="66" class="">
-            <!-- single post stats -->
-            <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
-            <!-- End single post stats -->
+    <div v-if="project">
+        <!-- single post stats -->
+        <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
+        <!-- End single post stats -->
 
-            <md-layout md-flex="100" class="SinglePostStats hide-for-large">
-                <md-layout md-flex md-column class="secBg">
-                    <md-list>
-                        <md-list-item>
-                            <md-icon>star</md-icon>
-                            <span>IndieWise Average</span>
+        <md-layout md-flex="100" class="SinglePostStats hide-for-large">
+            <md-layout md-flex md-column class="secBg">
+                <md-list>
 
-                            <md-button class="md-list-action">
-                                <span v-if="project.critiques_count > 0" class="label info">{{project.iwRating.toFixed(1)}}</span>
-                                <span v-else class="label info">N/A</span>
-                            </md-button>
-                        </md-list-item>
+                    <project-average view="mobile" :rating="project.iwRating"
+                                     :critiques="project.critiques_count"></project-average>
 
-                        <md-list-item>
-                            <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
-                            <span>Awards</span>
+                    <md-list-item>
+                        <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
+                        <span v-if="project.wins_count > 0"> {{project.wins_count}} Awards</span>
+                        <span v-else>No Awards won yet.</span>
 
-                            <md-list-expand>
-                                <md-list-item class="md-inset" v-if="wins.length" v-for="win in wins">
-                                    <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
+                        <md-list-expand>
+                            <project-awards view="mobile" :id="project.id"></project-awards>
+                        </md-list-expand>
+                    </md-list-item>
 
-                                    <span>{{win.award.data.name}}</span>
-                                    <template v-if="win.rewarded === 0">
-                                        <md-icon>hourglass_empty</md-icon>
-                                        <md-tooltip md-direction="top">Awards are reviewed before being given. Once verified the hourglass icon will disappear.</md-tooltip>
-                                    </template>
-                                </md-list-item>
-                                <md-list-item class="md-inset" v-else>
-                                    No Awards won yet.
-                                </md-list-item>
-                            </md-list-expand>
-                        </md-list-item>
+                    <md-list-item>
+                        <md-icon>face</md-icon>
+                        <span>Reactions</span>
 
-                        <md-list-item>
-                            <md-icon>face</md-icon>
-                            <span>Reactions</span>
-
-                            <md-list-expand>
-                                <project-reactions :project="project" :inset="true"></project-reactions>
-                            </md-list-expand>
-                        </md-list-item>
-                    </md-list>
-                </md-layout>
+                        <md-list-expand>
+                            <project-reactions :id="project.id" :reactions-count="project.reactions_count"
+                                               :inset="true"></project-reactions>
+                        </md-list-expand>
+                    </md-list-item>
+                </md-list>
             </md-layout>
-            <!-- single post description -->
-            <md-layout md-flex="100" v-once class="singlePostDescription">
-                <md-layout md-flex md-column class="secBg">
-                    <div class="large-12 columns">
-                        <div class="heading">
-                            <h5>Description</h5>
-                        </div>
-                        <div class="description showmore_one" toggle-show-more>
-                            <p v-if="project.description" v-text="project.description"></p>
+        </md-layout>
 
-                            <div class="row" v-if="project.keyCast">
-                                <div class="columns small-6">
+        <!-- single post description -->
+        <md-layout md-flex="100" v-once class="singlePostDescription">
+            <md-layout md-flex md-column class="secBg">
+                <div class="large-12 columns">
+                    <div class="heading">
+                        <h5>Description</h5>
+                    </div>
+                    <div class="description">
+                        <p v-if="project.description" v-text="project.description"></p>
+
+                        <div class="row" v-if="project.keyCast">
+                            <div class="columns small-6">
                             <span>
                                 <b>Key Cast</b><br>
                                 <span v-text="project.keyCast"></span>
                             </span><br>
-                                </div>
                             </div>
-
-                            <div class="categories" v-if="project.director.length">
-                                <button><i class="fa fa-chevron-right"></i>Director</button>
-                                <a :href="'browse?q=' + project.director" class="inner-btn"
-                                   v-text="project.director"></a>
-                            </div>
-                            <div class="categories">
-                                <button><i class="fa fa-chevron-right"></i>Writer</button>
-                                <a :href="'browse?q=' + project.writer" class="inner-btn"
-                                   v-text="project.writer"></a>
-                            </div>
-                            <div class="categories">
-                                <button><i class="fa fa-chevron-right"></i>Producer(s)</button>
-                                <a :href="'browse?q=' + project.producers" class="inner-btn"
-                                   v-text="project.producers"></a>
-                            </div>
-                            <div class="categories" v-if="project.hosting_type !== 'script'">
-                                <button><i class="fa fa-chevron-right"></i>Country of Filming</button>
-                                <a :href="'browse?filming_country=' + project.filming_country.name" class="inner-btn"
-                                   v-text="project.filming_country.name"></a>
-                            </div>
-                            <div class="categories">
-                                <button><i class="fa fa-chevron-right"></i>Year of Completion</button>
-                                <a :href="'browse?q=' + project.completionDate" class="inner-btn"
-                                   v-text="(project.completionDate)||'N/A'"></a>
-                            </div>
-                            <div class="categories">
-                                <button><i class="fa fa-chevron-right"></i>Type</button>
-                                <a :href="'browse?types=' + project.type.name" class="inner-btn"
-                                   v-text="project.type.name"></a>
-                            </div>
-                            <div class="categories">
-                                <button><i class="fa fa-chevron-right"></i>Genres</button>
-                                <a v-for="g in project.genres" :href="'browse?genres=' + g.name"
-                                   style="margin-right: 2px;" class="inner-btn">{{g.name}}</a>
-                            </div>
-                            <div class="categories" v-if="project.hosting_type !== 'script'">
-                                <button><i class="fa fa-chevron-right"></i>Running Time</button>
-                                <a class="inner-btn">{{ project.runTime|secondsToTimeLength }}</a>
-                            </div>
-                            <div class="categories" v-if="project.hosting_type === 'script'">
-                                <button><i class="fa fa-chevron-right"></i>Pages</button>
-                                <a class="inner-btn" v-text="project.runTime"></a>
-                            </div>
-                            <div class="tags" v-if="project.tags.length">
-                                <button><i class="fa fa-tags"></i>Tags</button>
-                                <a class="inner-btn" :href="'browse?q=' + tag" v-for="tag in tagsArray"
-                                   style="margin-right: 2px;">{{tag}}</a>
-                            </div>
-                            <br>
                         </div>
+
+                        <div class="categories" v-if="project.director.length">
+                            <button><i class="fa fa-chevron-right"></i>Director</button>
+                            <a :href="'browse?q=' + project.director" class="inner-btn"
+                               v-text="project.director"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Writer</button>
+                            <a :href="'browse?q=' + project.writer" class="inner-btn"
+                               v-text="project.writer"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Producer(s)</button>
+                            <a :href="'browse?q=' + project.producers" class="inner-btn"
+                               v-text="project.producers"></a>
+                        </div>
+                        <div class="categories" v-if="project.hosting_type !== 'script'">
+                            <button><i class="fa fa-chevron-right"></i>Country of Filming</button>
+                            <a :href="'browse?filming_country=' + project.filming_country.name" class="inner-btn"
+                               v-text="project.filming_country.name"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Year of Completion</button>
+                            <a :href="'browse?q=' + project.completionDate" class="inner-btn"
+                               v-text="(project.completionDate)||'N/A'"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Type</button>
+                            <a :href="'browse?type=' + project.type.slug" class="inner-btn"
+                               v-text="project.type.name"></a>
+                        </div>
+                        <div class="categories">
+                            <button><i class="fa fa-chevron-right"></i>Genres</button>
+                            <a v-for="g in project.genres" :href="'browse?genres=' + g.slug"
+                               style="margin-right: 2px;" class="inner-btn">{{g.name}}</a>
+                        </div>
+                        <div class="categories" v-if="project.hosting_type !== 'script'">
+                            <button><i class="fa fa-chevron-right"></i>Running Time</button>
+                            <a class="inner-btn">{{ project.runTime|secondsToTimeLength }}</a>
+                        </div>
+                        <div class="categories" v-if="project.hosting_type === 'script'">
+                            <button><i class="fa fa-chevron-right"></i>Pages</button>
+                            <a class="inner-btn" v-text="project.runTime"></a>
+                        </div>
+                        <div class="tags" v-if="project.tags.length">
+                            <button><i class="fa fa-tags"></i>Tags</button>
+                            <a class="inner-btn" :href="'browse?q=' + tag" v-for="tag in tagsArray"
+                               style="margin-right: 2px;">{{tag}}</a>
+                        </div>
+                        <br>
                     </div>
-                </md-layout>
+                </div>
             </md-layout>
-            <!-- End single post description -->
-
-            <md-tabs md-fixed md-dynamic-height md-centered class="md-transparents">
-                <md-tab md-active :md-label="pluralizeCritiquesCount">
-                    <!-- Critiques -->
-                    <critique-view :critique="selectedCritique" :parent-url-id="project.url_id" :parent-owner-id="project.owner_id"></critique-view>
-
-                    <critiques :parent-url-id="project.url_id" :params="critiquesParams"
-                               :parent-owner-id="project.owner_id" :disable="project.disableCritique"></critiques>
-                    <!-- End Critiques -->
-                </md-tab>
-                <md-tab  :md-label="pluralizeNominationsCount">
-                    <!-- Awards -->
-                    <section class="content comments">
-                        <div class="row secBg">
-                            <div class="large-12 columns">
-                                <div class="main-heading borderBottom">
-                                    <div class="row padding-14">
-                                        <div class="medium-12 small-12 columns">
-                                            <div class="head-title">
-                                                <i class="fa fa-trophy"></i>
-                                                <h4>Nominations <span>({{project.nominations_count||0}})</span></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment-sort text-right">
-                                    <span>
-                                            <md-icon>sort</md-icon>
-                                            <a :class="{'active':sortOrderA==='created_at|desc'}"
-                                               @click="sortOrderA='created_at|desc'">newest</a> | <a
-                                            :class="{'active':sortOrderA==='created_at|asc'}"
-                                            @click="sortOrderA='created_at|asc'">oldest</a>
-                                    </span>
-                                </div>
-
-                                <!-- main comment -->
-                                <div class="main-comment showmore_one">
-                                    <md-progress v-if="loadingNominations" md-indeterminate></md-progress>
-
-                                    <md-list class="md-double-line">
-                                        <md-list-item v-for="nom in sortNominations">
-                                            <md-avatar>
-                                                <img :src="nom.user.data.avatar || '/assets/img/avatar-1.png'" :alt="nom.user.data.fullName">
-                                            </md-avatar>
-
-                                            <div class="md-list-text-container">
-                                                <span>
-                                                    <a :href="'/user/'+nom.user.data.url_id">
-                                                        {{nom.user.data.fullName}}
-                                                    </a>&nbsp;nominated this video for <b>{{nom.award.data.name||nom.award.name}} Award</b>
-                                                </span>
-                                                <span>
-                                                    <i class="fa fa-clock-o"></i>&nbsp;{{ nom.created_at|vmUtc|vmLocal|vmDateFormat('lll') }}
-                                                </span>
-                                            </div>
-                                        </md-list-item>
-                                    </md-list>
-                                </div>
-                                <!-- End main comment -->
-
-
-                            </div>
-                        </div>
-                    </section>
-                    <!-- End Awards -->
-                </md-tab>
-            </md-tabs>
         </md-layout>
-        <!-- end left side content area -->
-        <!-- sidebar -->
-        <md-layout md-flex md-flex-small="100" md-flex="33" class="">
-            <div class="secBg sidebar">
-                    <!-- IndieWise Average Widget -->
-                    <div class=" show-for-large">
-                        <!--<project-average project="project"></project-average>-->
-                        <div class="widgetBox">
-                            <div class="widgetTitle">
-                                <h5 class="has-tip" style="display: block;">
-                                    IndieWise Average
-                                    <span style="float: right;">
-                                        <span v-if="project.critiques_count > 0" class="label info">{{project.iwRating.toFixed(1)}}</span>
-                                        <span v-else class="label info">N/A</span>
-                                    </span>
-                                    <md-tooltip md-direction="bottom">This is the Average of all Ratings you've received on this Video.</md-tooltip>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End IndieWise Average Widget -->
-
-                    <!-- Awards Widget -->
-                    <div class=" show-for-large">
-                        <!--<project-awards project="project"></project-awards>-->
-
-                        <div class="widgetBox">
-                            <div class="widgetTitle">
-                                <h5 class="has-tip" style="display: block;">
-                                    Awards
-                                    <md-tooltip md-direction="top">You need at least 5 nominations of the same award to win</md-tooltip>
-                                </h5>
-
-                            </div>
-                            <div class="widgetContent">
-                                <md-list>
-                                    <md-list-item v-if="loadingWins">
-                                        <md-progress md-indeterminate></md-progress>
-                                    </md-list-item>
-                                    <md-list-item v-if="wins.length" v-for="win in wins">
-                                        <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
-                                        <span>{{win.award.data.name}}</span>
-                                        <template v-if="win.rewarded === 0">
-                                            <md-icon>hourglass_empty</md-icon>
-                                            <md-tooltip md-direction="top">Awards are reviewed before being given. Once verified the hourglass icon will disappear.</md-tooltip>
-                                        </template>
-                                    </md-list-item>
-                                    <md-list-item v-else>
-                                        No Awards won yet.
-                                    </md-list-item>
-                                </md-list>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- End Awards Widget -->
-
-                    <!-- Reactions Widget -->
-                    <div class=" show-for-large" v-if="project.reactions_count>0">
-                        <div class="widgetBox">
-                            <div class="widgetTitle">
-                                <h5>Reactions</h5>
-                            </div>
-                            <div class="widgetContent">
-                                <project-reactions :project="project"></project-reactions>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Reactions Widget -->
-
-                    <!-- most view Widget -->
-                    <div class="">
-                        <div class="widgetBox">
-                            <div class="widgetTitle">
-                                <h5>Recommended Next</h5>
-                            </div>
-                            <div class="widgetContent">
-                                <div class="media-object stack-for-small" v-for="video in relatedVideos">
-                                    <div class="media-object-section">
-                                        <div class="recent-img">
-                                            <img :src="video.thumbnail_url || '/assets/img/default_video_thumbnail.jpg'"
-                                                 :alt="video.name">
-                                            <a :href="video.url_id" class="hover-posts">
-                                                <span><i class="fa fa-play"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="media-object-section">
-                                        <div class="media-content">
-                                            <h6><a :href="video.url_id">{{video.name}}</a></h6>
-                                            <p>
-                                                <!--<i class="fa fa-user"></i>-->
-                                                <span>
-                                                    <i class="fa fa-user"></i>
-                                                    <a :href="'/user/' + video.owner.url_id + '/about'">
-                                                        {{video.owner.fullName}}
-                                                    </a>
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end most view Widget -->
+        <!-- End single post description -->
+    </div>
 
 
-                    <!-- ad banner widget -->
-                    <div class="">
-                        <div class="widgetBox">
-                            <!--<div class="widgetTitle">
-                                <h5>Sponsored Ad</h5>
-                            </div>-->
-                            <div class="widgetContent">
-                                <div class="advBanner text-center">
-                                    <!--<broadstreet-zone zone="51349" width="300" height="250"></broadstreet-zone>-->
-                                    <!--<a><img src="/assets/images/sideradv.png" alt="sidebar adv"></a>-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end ad banner widget -->
-            </div>
-        </md-layout>
-        <!-- end sidebar -->
-    </md-layout>
 </template>
 <style>
     .sidebar .widgetBox {
         margin-bottom: 10px;
     }
 
-    .md-layout.row::before, .md-layout.row::after { display: flex; }
-    .secBg.sidebar, .secBg.sidebar > div, .widgetBox { width: 100% }
+    .md-layout.row::before, .md-layout.row::after {
+        display: flex;
+    }
+
+    .secBg.sidebar, .secBg.sidebar > div, .widgetBox {
+        width: 100%
+    }
 </style>
 <script type="text/babel">
     import projectReactions from './project-reactions.vue';
+    import projectAverage from './project-average.vue';
+    import projectAwards from './project-awards.vue';
     import projectStatsActions from './project-stats-actions.vue';
-    import critiques from '../critiques/critiques.vue';
-    import critiqueView from '../critiques/critique-view.vue';
     export default {
         name: 'project',
-        components:{projectReactions, projectStatsActions, critiques, critiqueView},
+        components: {
+            projectAverage,
+            projectAwards,
+            projectReactions,
+            projectStatsActions,
+        },
         props: {
             id: {
                 type: String,
@@ -347,26 +146,14 @@
         data(){
             return {
                 loaded: false,
-                loadingWins: true,
                 loadingNominations: true,
                 displayShare: false,
                 toggleReactionsList: false,
-                playerResponsiveMode: localStorage.playerResponsiveMode ? JSON.parse(localStorage.playerResponsiveMode) : _.contains(['small', 'medium', 'large'], Foundation.MediaQuery.current),
                 tagsArray: [],
                 lightsOff: false,
                 project: null,
-                critiquesParams: {},
                 selectedCritique: null,
-                wins: [],
-                nominations: [],
-                nominationsPage: 1,
                 sortOrderA: 'created_at|desc',
-                relatedVideos: null
-            }
-        },
-        watch: {
-            'sortOrderA'() {
-                this.qNominations();
             }
         },
         computed: {
@@ -388,9 +175,6 @@
                     return this.project.nominations_count + ' Nominations';
                 }
             },
-            sortNominations() {
-                return _.sortBy(this.nominations, this.sortOrderA);
-            }
         },
         methods: {
             init(project) {
@@ -398,52 +182,12 @@
 
                 this.loaded = true;
 
-                this.qNominations();
-
-                this.qWins();
-
                 //Populate tags array
                 if (_.isString(project.tags) && project.tags.length) {
                     if (project.tags.indexOf(',') > -1) {
                         self.tagsArray = project.tags.replace(/,\s/g, ',').split(',');
                     }
                 }
-
-                // Get related videos
-                this.$http.get('projects', { params: { notVideo: project.id, 
-                    notOwner: this.$root.user ? this.$root.user.id : undefined,
-                    per_page: 3,
-                    random: true,
-                }})
-                    .then((res) => {
-                        if (res) {
-                            self.relatedVideos = res.data.data;
-                        }
-                    }, (error) => console.log(error));
-            },
-
-            qNominations () {
-                let self = this;
-                this.loadingNominations = true;
-                this.$http.get('nominations', { params: {include: 'user,award', project: this.project.id, sort: this.sortOrderA, per_page: 25, page: this.nominationsPage}})
-                    .then((result) => {
-                        self.loadingNominations = false;
-                        self.nominations = result.data.data;
-                        //// console.log('Nomination: ', result.data);
-                    }, (error) => console.log(error));
-            },
-
-            qWins () {
-                let self = this;
-                this.loadingWins = true;
-                this.$http.get('wins', { params: {project: this.project.id, sort: 'name'}})
-                    .then((result) => {
-                        self.wins = result.data.data;
-                        // console.log('AwardWin: ', result.data);
-                    }, (error) => console.log(error)).then(function () {
-                    this.loadingWins = false;
-
-                });
             },
 
             handleActions(action, data) {
@@ -486,20 +230,10 @@
             this.$http.get('projects/' + this.id).then(function (response) {
                 this.project = response.data.data;
                 this.init(this.project);
-                this.critiquesParams = {
-                    include: 'comments:limit(1|0)',
-                    project: this.project.id,
-                    sort: 'comments_count',
-                    per_page: 25
-                }
             });
 
             this.$root.$on('openCritiqueView', function (critique) {
                 self.selectedCritique = critique;
-            });
-
-            this.$root.$on('playerResponsiveMode', function (mode) {
-                self.playerResponsiveMode = mode;
             });
 
         }

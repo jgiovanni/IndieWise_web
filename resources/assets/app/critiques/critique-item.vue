@@ -202,8 +202,8 @@
 
         <md-card-expand :class="{'md-active': critique.comments && critique.comments.data.length > 0}">
             <md-card-actions>
-                <md-button class="md-dense" @click.native="showQuickReply =! showQuickReply">
-                    <md-icon>reply</md-icon> Reply critique
+                <md-button class="md-dense md-icon-button" @click.native="showQuickReply =! showQuickReply">
+                    <md-icon>reply</md-icon>
                 </md-button>
                 <md-button class="md-dense" @click.native="view($event)">
                     <md-icon>remove_red_eye</md-icon> View
@@ -223,7 +223,7 @@
                 <template v-if="critique.comments">
                     <md-button class="" md-expand-trigger>
                         <md-icon>keyboard_arrow_down</md-icon>
-                        {{critique.comments_count||0}} comments
+                        {{critique.comments_count||0}} <md-icon>chat_bubble_outline</md-icon>
                     </md-button>
                 </template>
             </md-card-actions>

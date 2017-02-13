@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="row secBg">
+        <div class="row">
             <div class="large-12 columns">
                 <div>
                     <div class="tabs-panel is-active" style="display: block;" id="popular-all">

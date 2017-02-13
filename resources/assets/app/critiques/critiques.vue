@@ -137,7 +137,6 @@
         },
         mounted(){
             let self = this;
-            this.$parent.projectCritiques = this;
             this.load();
 
             this.$root.$on('loadProjectCritiques', function () {

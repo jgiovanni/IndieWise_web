@@ -146,9 +146,12 @@
                                         <li :class="{active: isFirstUrlSegment('')}">
                                             <a href="/"><i class="fa fa-home"></i>Home</a>
                                         </li>
+
                                         <li :class="{active: isFirstUrlSegment('browse')}">
-                                            <a href="/browse"><i class="fa fa-th"></i>Browse
-                                            </a>
+                                            <a href="/browse"><i class="fa fa-th"></i>Browse</a>
+                                            <ul class="menu submenu is-dropdown-submenu first-sub vertical" data-submenu="" aria-hidden="true" role="menu">
+                                                <li v-for="type in $root.typesList" class="menu-item is-submenu-item is-dropdown-submenu-item" role="menuitem"><a :href="'/browse?types='+type.slug"><i class="fa fa-play"></i><span class="fontawesome-text"> {{type.name}}</span></a></li>
+                                            </ul>
                                         </li>
                                         <li :class="{active: isFirstUrlSegment('latest')}">
                                             <a href="/latest"><i class="fa fa-bolt"></i>Latest</a>
@@ -224,11 +227,22 @@
                 this.markAllAsRead();
                 this.markAllAsSeen()
             },
-            markAllAsRead(){},
+            markAllAsRead(){
+                let self = this;
+                this.$root.getNotificationToken('notification', this.$root.user.id).then(function (token) {
+                    let feed = self.$root.StreamClient.feed('notification', self.$root.user.id, token);
+                    feed.get({limit: 20, mark_read: true}, function (a) {
+                        _.each(self.$root.notifications.list, function (n) {
+                            n.is_read = true;
+                        });
+                        self.$root.notifications.unread = 0;
+                    })
+                });
+            },
             markAllAsSeen(){},
         },
         mounted(){
-
+            this.generateTypes()
         }
     }
 </script>

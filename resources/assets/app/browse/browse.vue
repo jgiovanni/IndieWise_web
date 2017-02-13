@@ -29,9 +29,9 @@
                     </form>
 
                     <h6>Types</h6>
-                    <template v-for="(g, $index) in typesList">
+                    <template v-for="(g, $index) in $root.typesList">
                         <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedTypes, g.id) }">
+                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedTypes', g.id) }">
                             <div class="md-checkbox-container">
                                 <input :id="'typeCheckA'+$index" type="checkbox" v-model="selectedTypes" :value="g.id">
                             </div>
@@ -40,9 +40,9 @@
                     </template>
 
                     <h6>Genres</h6>
-                    <template v-for="(g, $index) in genresList">
+                    <template v-for="(g, $index) in $root.genresList">
                         <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedGenres, g.id) }">
+                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedGenres', g.id) }">
                             <div class="md-checkbox-container">
                                 <input :id="'genreCheckA'+$index" type="checkbox" v-model="selectedGenres" :value="g.id">
                             </div>
@@ -160,9 +160,9 @@
                                         <!--<hr class="">-->
                                         <!--{{typesList}}-->
                                         <h6>Types</h6>
-                                        <template v-for="(g, $index) in typesList">
+                                        <template v-for="(g, $index) in $root.typesList">
                                             <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedTypes, g.id) }">
+                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedTypes', g.id) }">
                                                 <div class="md-checkbox-container">
                                                     <input :id="'typeCheck'+$index" type="checkbox" v-model="selectedTypes" :value="g.id">
                                                 </div>
@@ -171,9 +171,9 @@
                                         </template>
 
                                         <h6>Genres</h6>
-                                        <template v-for="(g, $index) in genresList">
+                                        <template v-for="(g, $index) in $root.genresList">
                                             <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedGenres, g.id) }">
+                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedGenres', g.id) }">
                                                 <div class="md-checkbox-container">
                                                     <input :id="'genreCheck'+$index" type="checkbox" v-model="selectedGenres" :value="g.id">
                                                 </div>
@@ -238,7 +238,7 @@
         },
         methods: {
             contains(arr, string){
-                return _.contains(arr, string);
+                return _.contains(this[arr], string);
             },
             handleUrlFilters(){
                 let self = this;
@@ -249,6 +249,16 @@
                         arr[0] = 'search';
                     self.filters[arr[0]] = arr[1];
                 });
+                if(this.filters.type) {
+                    // handle types
+                    let type = _.findWhere(this.$root.typesList, {slug: this.filters.type});
+                    this.selectedTypes.push(type.id);
+                }
+                if(this.filters.genres) {
+                    // handle genres
+                    let genres = _.findWhere(this.$root.genresList, {slug: this.filters.genres});
+                    this.selectedGenres.push(type.id);
+                }
             },
             refresh() {
                 let self = this;

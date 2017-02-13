@@ -3,7 +3,7 @@
         <md-list-item v-if="!loaded">
             <md-progress md-indeterminate></md-progress>
         </md-list-item>
-        <reaction class="{'md-inset': inset}" v-if="project.reactions_count" v-for="(count, key) in chartedReactions" :count="count" :id="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
+        <reaction class="{'md-inset': inset}" v-if="reactionsCount" v-for="(count, key) in chartedReactions" :count="count" :id="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
         <md-list-item class="{'md-inset': inset}" v-else>
             No Reactions made yet.
         </md-list-item>
@@ -16,8 +16,12 @@
         name: 'project-reactions',
         components: {reaction},
         props: {
-            project: {
-                type: Object,
+            id: {
+                type: String,
+                required: true
+            },
+            reactionsCount: {
+                type: Number,
                 required: true
             },
             inset: {
@@ -35,11 +39,11 @@
         },
         methods: {
             computedProgress(count) {
-                return (( count / this.project.reactions_count ) * 100) + '%';
+                return (( count / this.reactionsCount ) * 100) + '%';
             },
             refresh() {
                 this.loaded = false;
-                this.$http.get('projects/reactions', { params: {project: this.project.id}})
+                this.$http.get('projects/reactions', { params: {project: this.id}})
                     .then(function (response) {
                         this.chartedReactions = response.data.data;
                         this.loaded = true;
@@ -52,7 +56,7 @@
         mounted(){
             let self = this;
             this.reactions = this.generateReactions();
-            this.reactionCountMax = this.project.reactions_count;
+            this.reactionCountMax = this.reactionsCount;
             this.refresh();
 
             this.$root.$on('loadProjectReactions', function () {

@@ -88,10 +88,6 @@ Vue.mixin({
     data() {
         return {
             authModalOpen: false,
-            genresList: [],
-            typesList: [],
-            countryList: [],
-            languageList: [],
         }
     },
     computed: {
@@ -109,7 +105,19 @@ Vue.mixin({
         },
         isNotVerified() {
             return !this.$root.user.verified;
-        }
+        },
+        /*genresList() {
+            return this.$root.genresList;
+        },
+        typesList() {
+            return this.$root.typesList;
+        },
+        countryList() {
+            return this.$root.countryList;
+        },
+        languageList() {
+            return this.$root.languageList;
+        },*/
     },
     methods: {
         // Auth Methods
@@ -150,11 +158,11 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('types', function (err, data) {
                     if (data) {
-                        self.typesList = data;
+                        self.$root.typesList = data;
                         resolve(data);
                     } else {
                         self.$http.get('types').then(function (result) {
-                            self.typesList = result.data.Types;
+                            self.$root.typesList = result.data.Types;
                             self.$setItem('types', result.data.Types);
                             self.$setItem('timestamp', moment().toISOString());
                             resolve(result.data.Types);
@@ -168,11 +176,11 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('genres', function (err, data) {
                     if (data) {
-                        self.genresList = data;
+                        self.$root.genresList = data;
                         resolve(data);
                     } else {
                         self.$http.get('genres').then(function (result) {
-                            self.genresList = result.data.Genres;
+                            self.$root.genresList = result.data.Genres;
                             self.$setItem('genres', result.data.Genres);
                             self.$setItem('timestamp', moment().toISOString());
                             resolve(result.data.Genres);
@@ -186,11 +194,11 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('countries', function (err, data) {
                     if (data) {
-                        self.countryList = data;
+                        self.$root.countryList = data;
                         resolve(data);
                     } else {
                         self.$http.get('countries').then(function (result) {
-                            self.countryList = result.data.Countries;
+                            self.$root.countryList = result.data.Countries;
                             self.$setItem('countries', result.data.Countries);
                             self.$setItem('timestamp', moment().toISOString());
                             resolve(result.data.Countries);
@@ -204,11 +212,11 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('languages', function (err, data) {
                     if (data) {
-                        self.languageList = data;
+                        self.$root.languageList = data;
                         resolve(data);
                     } else {
                         self.$http.get('languages').then(function (result) {
-                            self.languageList = result.data.Languages;
+                            self.$root.languageList = result.data.Languages;
                             self.$setItem('languages', result.data.Languages);
                             self.$setItem('timestamp', moment().toISOString());
                             resolve(result.data.Languages);
@@ -217,7 +225,7 @@ Vue.mixin({
                 });
             });
         },
-        generateReactions () {
+        generateReactions() {
             return [
                 {name: 'Happy', emotion: 'happy', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
                 {name: 'Sad', emotion: 'sad', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
@@ -419,6 +427,11 @@ let AppData = {
     toastButton: '',
     toastAction: null,
 
+    genresList: [],
+    typesList: [],
+    countryList: [],
+    languageList: [],
+
     searchText: '',
     user: null,
     notifications: {
@@ -488,14 +501,14 @@ let AppMethods = {
         let base64 = base64Url.replace('-', '+').replace('_', '/');
         return JSON.parse(atob(base64));
     },
-    getNewToken (type, id) {
+    getNotificationToken (type, id) {
         return this.$http.get('notifications/token?type=' + type).then(function (res) {
             return res.data.token;
         });
     },
     subscribeUserFeeds () {
         let self = this;
-        this.getNewToken('notification', self.user.id).then(function (token) {
+        this.getNotificationToken('notification', self.user.id).then(function (token) {
             let feed = self.StreamClient.feed('notification', self.user.id, token);
             feed.subscribe(function (obj) {
                 console.log('Notification: ', obj);
@@ -504,7 +517,7 @@ let AppMethods = {
                 self.getNotificationsFeed();
             });
         });
-        /*this.getNewToken('message', this.user.id).then(function (token) {
+        /*this.getNotificationToken('message', this.user.id).then(function (token) {
          let feed = this.StreamClient.feed('message', this.user.id, token);
          feed.subscribe(function (obj) {
          console.log('Messages: ', obj);

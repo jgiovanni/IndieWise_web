@@ -8,7 +8,7 @@
 				<span v-else>Lights On</span>
 			</md-tooltip>
 		</md-button>
-		<md-button class="md-icon-button md-toggle show-for-large" @click.native="toggleWidthMode()" style="position: relative;z-index: 11;font-size: 13px;color: #ffffff;">
+		<md-button class="md-icon-button md-toggle show-for-large" @click.native="toggleWidthMode()" style="color: #ffffff;">
 			<!--<i v-if="!playerResponsiveMode" class="fa fa-expand"></i>-->
 			<!--<i v-else class="fa fa-compress"></i>-->
 			<md-icon v-if="!playerResponsiveMode">aspect_ratio</md-icon>

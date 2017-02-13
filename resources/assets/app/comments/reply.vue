@@ -2,7 +2,7 @@
     <md-layout>
         <md-layout md-flex="20" md-flex-large="10">
             <md-list>
-                <md-list-item :href="$root.user ? 'user/' + $root.user.id + '/about' : '#'">
+                <md-list-item :href="$root.user ? '/user/' + $root.user.id + '/about' : '#'">
                     <md-avatar md-flex="20" md-flex-large="10">
                         <img v-if="$root.user" :src="$root.user.avatar || '/assets/img/avatar-1.png'" alt="comment">
                         <img v-else src="/assets/img/avatar-1.png" alt="comment">

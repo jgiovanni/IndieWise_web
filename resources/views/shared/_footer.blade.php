@@ -34,7 +34,7 @@
 
 @if(isActiveRoute('user.*') === 'active' || isActiveMatch('user') === 'active')
     <script type="text/javascript" src="{{ elixir('js/users.vue.js') }}"></script>
-@elseif(isset($project))
+@elseif(isset($project) || isset($critique))
 
 @else
     <script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>
