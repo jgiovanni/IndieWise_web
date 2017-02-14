@@ -9,6 +9,12 @@
         #premium .owl-carousel .item figure.premium-img figcaption {
             background: rgba(0, 0, 0, 0.6) none;
         }
+        .content .grid-system a.current {
+            background: rgb(105, 105, 233);
+        }
+        .content .grid-system a.current .fa {
+            color: #ffffff;
+        }
     </style>
 @endsection
 
@@ -55,8 +61,8 @@
                         @foreach($featured as $item)
                             <div class="item">
                                 <figure class="premium-img">
-                                    <img src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
-                                         alt="{{ $item->name }}">
+                                    <md-image md-src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
+                                              alt="{{ $item->name }}"></md-image>
                                     <figcaption>
                                         <h5>{{ str_limit($item->name, 40) }}</h5>
                                         <p>{{ $item->owner->fullName }}</p>
@@ -77,7 +83,49 @@
     <div class="md-layout md-flex-100">
         <div class="row">
             <!-- Trending Videos -->
-            <home-projects-list sort="trending" :per-page="8"></home-projects-list>
+            <section class="content">
+                <div class="main-heading">
+                    <div class="md-layout row padding-14">
+                        <div class="medium-8 small-8 columns">
+                            <div class="head-title">
+                                <i class="fa fa-line-chart"></i>
+                                <h4 class="has-tip">
+                                    Trending
+                                    <md-tooltip md-direction="right">Top videos ranked according to number of Reactions received</md-tooltip>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="medium-4 small-4 columns">
+                            <div class="grid-system pull-right show-for-large">
+                                <a class="secondary-button grid-default" v-on:click="toggleType('grid-default')"
+                                :class="{'current': layoutType === 'grid-default'}"><i class="fa fa-th"></i></a>
+                                <a class="secondary-button grid-medium" v-on:click="toggleType('grid-medium')"
+                                :class="{'current': layoutType === 'grid-medium'}"><i class="fa fa-th-large"></i></a>
+                                <a class="secondary-button list" v-on:click="toggleType('list')" :class="{'current':layoutType === 'list'}"><i
+                                        class="fa fa-th-list"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div>
+                            <div class="tabs-panel is-active" style="display: block;" id="popular-all">
+                                <div class="row list-group">
+                                    @foreach($trending as $item)
+                                    <project-card key="{{ $item->id }}" :index="{{ $loop->index }}"
+                                                  :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
+                                                  :queried="true"></project-card>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center row-btn">
+                            <a class="button radius" href="browse?sort=trending">View More Videos</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- ad Section -->
             <div class="googleAdv text-center">
@@ -92,7 +140,49 @@
     <div class="md-layout md-flex-100">
         <div class="row">
             <!-- Highest Rated  video -->
-            <home-projects-list sort="rating" :per-page="8"></home-projects-list>
+            <section class="content">
+                <div class="main-heading">
+                    <div class="md-layout row padding-14">
+                        <div class="medium-8 small-8 columns">
+                            <div class="head-title">
+                                <i class="fa fa-star"></i>
+                                <h4 class="has-tip">
+                                    Highest Rated
+                                    <md-tooltip md-direction="right">Top videos ranked according to IndieWise Average</md-tooltip>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="medium-4 small-4 columns">
+                            <div class="grid-system pull-right show-for-large">
+                                <a class="secondary-button grid-default" v-on:click="toggleType('grid-default')"
+                                   :class="{'current': layoutType === 'grid-default'}"><i class="fa fa-th"></i></a>
+                                <a class="secondary-button grid-medium" v-on:click="toggleType('grid-medium')"
+                                   :class="{'current': layoutType === 'grid-medium'}"><i class="fa fa-th-large"></i></a>
+                                <a class="secondary-button list" v-on:click="toggleType('list')" :class="{'current':layoutType === 'list'}"><i
+                                            class="fa fa-th-list"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div>
+                            <div class="tabs-panel is-active" style="display: block;" id="popular-all">
+                                <div class="row list-group">
+                                    @foreach($highestRated as $item)
+                                        <project-card key="{{ $item->id }}" :index="{{ $loop->index }}"
+                                                      :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
+                                                      :queried="true"></project-card>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center row-btn">
+                            <a class="button radius" href="browse?sort=rating">View More Videos</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- ad Section -->
             <div class="googleAdv text-center">
@@ -106,7 +196,49 @@
     <div class="md-layout md-flex-100">
         <div class="row">
             <!-- Highest Awarded video -->
-            <home-projects-list sort="awards" :per-page="8"></home-projects-list>
+            <section class="content">
+                <div class="main-heading">
+                    <div class="md-layout row padding-14">
+                        <div class="medium-8 small-8 columns">
+                            <div class="head-title">
+                                <i class="fa fa-trophy"></i>
+                                <h4 class="has-tip">
+                                    Award-Winning
+                                    <md-tooltip md-direction="right">Top videos ranked according to number of Award Wins</md-tooltip>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="medium-4 small-4 columns">
+                            <div class="grid-system pull-right show-for-large">
+                                <a class="secondary-button grid-default" v-on:click="toggleType('grid-default')"
+                                   :class="{'current': layoutType === 'grid-default'}"><i class="fa fa-th"></i></a>
+                                <a class="secondary-button grid-medium" v-on:click="toggleType('grid-medium')"
+                                   :class="{'current': layoutType === 'grid-medium'}"><i class="fa fa-th-large"></i></a>
+                                <a class="secondary-button list" v-on:click="toggleType('list')" :class="{'current':layoutType === 'list'}"><i
+                                            class="fa fa-th-list"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div>
+                            <div class="tabs-panel is-active" style="display: block;" id="popular-all">
+                                <div class="row list-group">
+                                    @foreach($awardWinning as $item)
+                                        <project-card key="{{ $item->id }}" :index="{{ $loop->index }}"
+                                                      :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
+                                                      :queried="true"></project-card>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center row-btn">
+                            <a class="button radius" href="browse?sort=awards">View More Videos</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- ad Section -->
             <div class="googleAdv text-center">

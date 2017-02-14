@@ -84,6 +84,35 @@ Vue.directive('toggleShowMore', {
     }
 });
 
+Vue.http.options.root = '/api';
+Vue.http.interceptors.push((request, next) => {
+
+    console.log(request);
+    let token, headers;
+
+    token = localStorage.getItem('jwt-token');
+    headers = request.headers || (request.headers = {});
+
+    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+    if (token !== null && token !== 'undefined') {
+        request.headers.set('Authorization', token);
+    }
+
+    // continue to next interceptor
+    next(response => {
+        if (response.status && response.status.code === 401) {
+            localStorage.removeItem('jwt-token')
+        }
+        if (response.headers && response.headers.Authorization) {
+            localStorage.setItem('jwt-token', response.headers.Authorization)
+        }
+        if (response.entity && response.entity.token && response.entity.token.length > 10) {
+            localStorage.setItem('jwt-token', 'Bearer ' + response.entity.token)
+        }
+
+    });
+});
+
 Vue.mixin({
     data() {
         return {
@@ -107,17 +136,17 @@ Vue.mixin({
             return !this.$root.user.verified;
         },
         /*genresList() {
-            return this.$root.genresList;
-        },
-        typesList() {
-            return this.$root.typesList;
-        },
-        countryList() {
-            return this.$root.countryList;
-        },
-        languageList() {
-            return this.$root.languageList;
-        },*/
+         return this.$root.genresList;
+         },
+         typesList() {
+         return this.$root.typesList;
+         },
+         countryList() {
+         return this.$root.countryList;
+         },
+         languageList() {
+         return this.$root.languageList;
+         },*/
     },
     methods: {
         // Auth Methods
@@ -386,33 +415,6 @@ Vue.mixin({
             this.authModalOpen = true;
         }
     }
-});
-
-Vue.http.options.root = '/api';
-Vue.http.interceptors.push((request, next) => {
-    let token, headers;
-
-    token = localStorage.getItem('jwt-token');
-    headers = request.headers || (request.headers = {});
-
-    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-    if (token !== null && token !== 'undefined') {
-        request.headers.set('Authorization', token);
-    }
-
-    // continue to next interceptor
-    next(response => {
-        if (response.status && response.status.code === 401) {
-            localStorage.removeItem('jwt-token')
-        }
-        if (response.headers && response.headers.Authorization) {
-            localStorage.setItem('jwt-token', response.headers.Authorization)
-        }
-        if (response.entity && response.entity.token && response.entity.token.length > 10) {
-            localStorage.setItem('jwt-token', 'Bearer ' + response.entity.token)
-        }
-
-    });
 });
 
 let AppData = {

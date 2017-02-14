@@ -1,7 +1,7 @@
 <template>
     <section class="content">
         <div class="main-heading">
-            <div class="row secBg padding-14 head-text">
+            <div class="md-layout row padding-14">
                 <div class="medium-8 small-8 columns">
                     <div class="head-title">
                         <i :class="icon"></i>

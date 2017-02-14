@@ -156,11 +156,13 @@ $this->get('verification/{token}', 'Auth\VerifyController@doVerificationProcess'
 
 $this->get('', function () use ($dispatcher) {
     $featured = $dispatcher->get('api/projects', [ 'random' => true, 'per_page' => 3]);
+    $trending = $dispatcher->get('api/projects', [ 'sort' => 'reactions_count', 'per_page' => 8]);
+    $highestRated = $dispatcher->get('api/projects', [ 'sort' => 'topRating', 'per_page' => 8]);
+    $awardWinning = $dispatcher->get('api/projects', [ 'sort' => 'wins_count', 'per_page' => 8]);
     SEO::setTitle('Home');
-//    SEO::setDescription('This is my page description');
-//    SEO::opengraph()->addProperty('type', 'articles');
 
-    return view('home', compact('featured'));
+
+    return view('home', compact('featured', 'trending', 'highestRated', 'awardWinning'));
 });
 
 $this->get('browse', function () {

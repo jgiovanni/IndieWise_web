@@ -6,6 +6,7 @@ import authenticationModal from '../app/authentication-modal.vue';
 import navHeader from '../app/nav-header.vue';
 import navMobile from '../app/nav-mobile.vue';
 import contactForm from '../app/contact-form.vue';
+import projectCard from '../app/common/project-card.vue'
 
 import layerSlider from '../app/home/layer-slider.vue';
 import premiumCarousel from '../app/home/premium-carousel.vue';
@@ -37,6 +38,7 @@ new Vue({
         premiumCarousel,
         sponsorCarousel,
         homeProjectsList,
+        projectCard,
 
         browse,
         watchingCarousel,
@@ -44,9 +46,15 @@ new Vue({
         latest,
         winners,
     },
-    data: AppResources.AppData,
+    data: _.extend(AppResources.AppData, {
+        layoutType: 'grid-default'
+    }),
     computed: AppResources.AppComputed,
-    methods: AppResources.AppMethods,
+    methods: _.extend(AppResources.AppMethods, {
+        toggleType(type){
+            this.layoutType = type;
+        }
+    }),
     created() {
         let self = this;
         AppResources.AppCreated(this);
