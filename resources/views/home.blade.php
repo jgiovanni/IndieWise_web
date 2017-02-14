@@ -61,8 +61,8 @@
                         @foreach($featured as $item)
                             <div class="item">
                                 <figure class="premium-img">
-                                    <md-image md-src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
-                                              alt="{{ $item->name }}"></md-image>
+                                    <img src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
+                                              alt="{{ $item->name }}">
                                     <figcaption>
                                         <h5>{{ str_limit($item->name, 40) }}</h5>
                                         <p>{{ $item->owner->fullName }}</p>
