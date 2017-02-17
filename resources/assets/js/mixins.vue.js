@@ -86,8 +86,6 @@ Vue.directive('toggleShowMore', {
 
 Vue.http.options.root = '/api';
 Vue.http.interceptors.push((request, next) => {
-
-    console.log(request);
     let token, headers;
 
     token = localStorage.getItem('jwt-token');
@@ -130,10 +128,10 @@ Vue.mixin({
             return this.$root.authenticated;
         },
         isVerified() {
-            return this.$root.user.verified;
+            return this.$root.user && this.$root.user.verified;
         },
         isNotVerified() {
-            return !this.$root.user.verified;
+            return !this.isVerified;
         },
         /*genresList() {
          return this.$root.genresList;
@@ -585,12 +583,14 @@ function AppCreated(vm) {
             localStorage.removeItem('jwt-token');
             vm.$removeItem('user');
             vm.authenticated = false;
+            vm.$emit('checkedAuthentication', false);
         } else {
             // Load user data
             vm.getUser().then(function (data) {
                 vm.user = data;
                 vm.authenticated = true;
                 vm.$emit('userHasLoggedIn', data);
+                vm.$emit('checkedAuthentication', data);
             });
         }
     }

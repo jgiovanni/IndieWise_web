@@ -19,6 +19,8 @@ import watchingCarousel from '../app/browse/watching-carousel.vue';
 import latest from '../app/latest/latest.vue';
 import winners from '../app/winners/winners.vue';
 
+import upload from '../app/upload.vue';
+
 new Vue({
     el: '#app',
     http: {
@@ -45,6 +47,7 @@ new Vue({
 
         latest,
         winners,
+        upload,
     },
     data: _.extend(AppResources.AppData, {
         layoutType: 'grid-default'

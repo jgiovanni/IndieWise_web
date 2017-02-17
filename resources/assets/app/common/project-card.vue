@@ -1,6 +1,5 @@
 <template>
-    <div :id="'card-' + video.id" class="item large-3 medium-6 small-12 columns project-card" v-if="video.name"
-         :class="[{'end': isLast()}, type]">
+    <div :id="'card-' + video.id" class="item large-3 medium-6 small-12 columns project-card" v-if="video.name" :class="[{'end': isLast()}, type]">
         <div class="post thumb-border">
             <a class="post-thumb" :href="'/' + video.url_id">
                 <md-ink-ripple></md-ink-ripple>

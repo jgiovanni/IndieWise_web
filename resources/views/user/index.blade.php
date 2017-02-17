@@ -35,5 +35,5 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript" src="//api.filepicker.io/v2/filepicker.js"></script>
+    <script type="text/javascript" src="//api.filestackapi.com/filestack.js"></script>
 @endsection

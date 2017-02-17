@@ -182,7 +182,7 @@ $this->get('winners', function () {
 
 $this->get('upload', function () {
     SEO::setTitle('Upload');
-    return view('user.views.upload');
+    return view('upload');
 });
 
 $this->get('about', function () use ($dispatcher) {

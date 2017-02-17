@@ -200,6 +200,20 @@ $api->version('v1', [
         $api->get('nominations/latest', 'NominationsController@latest');
         $api->get('critiques/latest', 'CritiquesController@latest');
         $api->get('playlistItems/check/{id?}', 'PlaylistItemsController@checkIn');
+        $api->get('policies/upload', function () {
+            $json_policy = json_encode([
+//            "handle" => "KW9EJhYtS6y48Whm2S6D",
+                "expiry" => intval(time() + (60 * 60)),
+                "call" => ["write", "convert", "pick" , "store"],
+//                "maxSize" => 1073741824 // 1GB
+                "maxSize" => 2147483648 // 2GB
+            ]);
+            $policy = strtr(base64_encode($json_policy), '+/=', '-_');
+            $signature = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
+
+            return response()->json(compact('policy', 'signature'));
+
+        });
 
         // Static Data Routes
         $api->resource('countries', 'CountriesController');
