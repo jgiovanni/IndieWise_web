@@ -1,5 +1,5 @@
 <template>
-    <section id="carouselSlider">
+    <section id="carouselSlider" class="md-flex-100">
         <md-layout md-row>
             <md-layout class="item hide-xs" md-flex>
                 <md-layout md-column>
@@ -83,9 +83,7 @@
                 </md-layout>
             </md-layout>
         </md-layout>
-
     </section><!--end slider-->
-
 </template>
 <style scoped></style>
 <script type="text/babel">

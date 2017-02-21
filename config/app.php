@@ -158,7 +158,7 @@ return [
         Payum\LaravelPackage\PayumServiceProvider::class,
         Berkayk\OneSignal\OneSignalServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        DevDojo\Chatter\ChatterServiceProvider::class,
+//        DevDojo\Chatter\ChatterServiceProvider::class,
         Darkin1\Intercom\IntercomServiceProvider::class,
         Laravelista\Ekko\EkkoServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,

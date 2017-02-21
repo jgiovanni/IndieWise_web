@@ -3,7 +3,7 @@
         <md-dialog-title>Authentication</md-dialog-title>
         <md-dialog-content>
             <md-layout md-align="center" md-column-medium class="">
-                <md-layout md-flex md-flex-large="50" class="">
+                <md-layout md-flex md-column class="">
                     <div class="social-login text-center" style="width: 100%">
                         <h5 class="">Login via a Social Profile</h5>
                         <!--<div class="social-login-btn facebook">-->
@@ -23,11 +23,9 @@
                         </md-button>
                         <!--</div>-->
                     </div>
-                </md-layout>
-                <md-layout md-flex md-flex-large="50" md-column class="">
                     <template v-if="currentState === 'login'">
                         <div class="register-form">
-                            <h5 class="text-center">Login via Email</h5>
+                            <h5 class="text-center"> Or Login via Email</h5>
                             <form id="ModalLoginForm" novalidate @submit.stop.prevent="doLogin()">
                                 <div class="alert callout" style="display: none;">
                                     <p><i class="fa fa-exclamation-triangle"></i> There are some errors in your form.

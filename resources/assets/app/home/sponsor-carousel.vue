@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <!-- category carousel -->
-                <div id="owl-sponsor" owl-carousel class="owl-carousel carousel" data-car-length="6" data-items="6" data-loop="true"
+                <div id="owl-demo-cat" owl-carousel class="owl-carousel carousel" data-car-length="6" data-items="6" data-loop="true"
                      data-nav="false" data-autoplay="true" data-autoplay-timeout="3000" data-auto-width="true"
                      data-margin="10" data-dots="false">
                     <div class="item-cat item thumb-border">
@@ -117,7 +117,7 @@
         methods: {},
         mounted(){
             setTimeout(function () {
-                let carouselEl = jQuery('#owl-sponsor');
+                let carouselEl = jQuery('#owl-demo-cat');
                 carouselEl.each(function () {
                     let owl = jQuery(this);
                     jQuery(".prev").on('click', function () {

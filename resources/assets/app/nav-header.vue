@@ -35,7 +35,7 @@
                      style="width: 100%; background: rgb(255, 255, 255);" data-sticky-on="small">
                     <div class="row" style="">
                         <md-toolbar md-theme="white hide-for-large" :class="{'md-tall': showMobileSearch}">
-                            <md-button class="md-icon-button" aria-label="Menu" @click="toggleLeftSidenav()">
+                            <md-button class="md-icon-button" aria-label="Menu" @click.native="toggleLeftSidenav()">
                                 <md-icon>menu</md-icon>
                             </md-button>
                             <md-image href="/" md-src="/assets/img/Logo_alt2_web_87x45.png"></md-image>
@@ -48,11 +48,11 @@
                                      class="md-avatar md-contact-avatar" :alt="$root.user.fullName"/>
                             </md-avatar>
                             <md-button class="md-icon-button" aria-label="Notifications"
-                                       @click="toggleRightSidenav()" v-if="isAuthenticated">
+                                       @click.native="toggleRightSidenav()" v-if="isAuthenticated">
                                 <md-icon>notifications</md-icon>
                             </md-button>
                             <md-button class="md-icon-button" aria-label="Search"
-                                       @click="showMobileSearch=!showMobileSearch">
+                                       @click.native="showMobileSearch=!showMobileSearch">
                                 <md-icon v-if="showMobileSearch">close</md-icon>
                                 <md-icon v-else>search</md-icon>
                             </md-button>
@@ -115,7 +115,7 @@
                                             </md-menu-content>
                                         </md-menu>
                                         <!--<md-button class="md-icon-button" href="/messages"><md-icon>email</md-icon></md-button>-->
-                                        <md-button class="md-icon-button" href="/upload">
+                                        <md-button class="md-icon-button md-raised md-primary" href="/upload">
                                             <md-icon>cloud_upload</md-icon>
                                             <md-tooltip md-direction="left">Upload Project</md-tooltip>
                                         </md-button>
@@ -134,7 +134,7 @@
                                         </li>-->
                                     </ul>
                                     <ul v-else class="menu dropdown" dropdown-menu>
-                                        <md-button class="md-icon-button" href="/upload">
+                                        <md-button class="md-icon-button md-raised md-primary" href="/upload">
                                             <md-icon>cloud_upload</md-icon>
                                             <md-tooltip md-direction="left">Upload Project</md-tooltip>
                                         </md-button>

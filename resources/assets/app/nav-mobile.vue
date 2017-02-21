@@ -3,7 +3,7 @@
         <md-toolbar class="md-primary">
             <h2 class="md-title text-white" style="flex: 1">Menu</h2>
 
-            <md-button class="md-icon-button" @click="closeLeftSideNav()">
+            <md-button class="md-icon-button" @click.native="closeLeftSideNav()">
                 <md-icon>close</md-icon>
             </md-button>
         </md-toolbar>
@@ -43,41 +43,41 @@
             </md-input-container>
         </md-subheader>&#45;&#45;}}-->
             <md-list class="md-dense">
-                <md-list-item href="/" @click="closeLeftSideNav()">
+                <md-list-item href="/" @click.native="closeLeftSideNav()">
                     <md-icon>home</md-icon>
                     <span>Home</span>
                 </md-list-item>
-                <md-list-item href="browse" @click="closeLeftSideNav()">
+                <md-list-item href="browse" @click.native="closeLeftSideNav()">
                     <md-icon>view_list</md-icon>
                     <span>Browse</span>
                 </md-list-item>
-                <md-list-item href="latest" @click="closeLeftSideNav()">
+                <md-list-item href="latest" @click.native="closeLeftSideNav()">
                     <md-icon>new_releases</md-icon>
                     <span>Latest</span>
                 </md-list-item>
-                <md-list-item href="winners" @click="closeLeftSideNav()">
+                <md-list-item href="winners" @click.native="closeLeftSideNav()">
                     <md-icon>grade</md-icon>
                     <span>Winners</span>
                 </md-list-item>
-                <md-list-item v-if="!isAuthenticated" href="sign-in" @click="closeLeftSideNav()">
+                <md-list-item v-if="!isAuthenticated" href="sign-in" @click.native="closeLeftSideNav()">
                     <span>Login/Register</span>
                 </md-list-item>
-                <md-list-item :href="'/user/' + $root.user.url_id" v-if="isAuthenticated" @click="closeLeftSideNav()">
+                <md-list-item :href="'/user/' + $root.user.url_id" v-if="isAuthenticated" @click.native="closeLeftSideNav()">
                     <md-icon>account_circle</md-icon>
                     <span>Profile</span>
                 </md-list-item>
-                <md-list-item href="messages" v-if="isAuthenticated" @click="closeLeftSideNav()">
+                <md-list-item href="messages" v-if="isAuthenticated" @click.native="closeLeftSideNav()">
                     <md-icon>email</md-icon>
                     <span>
                         Messages
                         <!--<span v-show="$root.MessageNotifications.unread>0" class="alert badge">{{AppData.MessageNotifications.unread}}</span>-->
                     </span>
                 </md-list-item>
-                <md-list-item href="upload" @click="closeLeftSideNav()">
+                <md-list-item href="upload" @click.native="closeLeftSideNav()">
                     <md-icon>cloud_upload</md-icon>
                     <span>Upload</span>
                 </md-list-item>
-                <md-list-item v-if="isAuthenticated" @click="doSignOut();closeLeftSideNav()">
+                <md-list-item v-if="isAuthenticated" @click.native="doSignOut();closeLeftSideNav()">
                     <md-icon>exit_to_app</md-icon>
                     <span>Logout</span>
                 </md-list-item>

@@ -574,27 +574,6 @@ function AppCreated(vm) {
     vm.generateGenres();
     vm.generateTypes();
 
-    if (!localStorage.hasOwnProperty('jwt-token')) {
-        vm.$removeItem('user');
-    } else {
-        // Check validity of token
-        let tokenData = vm.parseJwt(localStorage.getItem('jwt-token'));
-        if (moment.unix(tokenData.exp).isBefore()) {
-            localStorage.removeItem('jwt-token');
-            vm.$removeItem('user');
-            vm.authenticated = false;
-            vm.$emit('checkedAuthentication', false);
-        } else {
-            // Load user data
-            vm.getUser().then(function (data) {
-                vm.user = data;
-                vm.authenticated = true;
-                vm.$emit('userHasLoggedIn', data);
-                vm.$emit('checkedAuthentication', data);
-            });
-        }
-    }
-
     vm.$on('toastAction', function (message, button, action, duration) {
         vm.toastType = 'action';
         vm.toastMessage = message;
@@ -652,6 +631,29 @@ function AppCreated(vm) {
 }
 function AppMounted(vm) {
     let self = vm;
+
+    if (!localStorage.hasOwnProperty('jwt-token')) {
+        vm.$removeItem('user');
+        vm.$emit('checkedAuthentication', 'true');
+    } else {
+        // Check validity of token
+        let tokenData = vm.parseJwt(localStorage.getItem('jwt-token'));
+        if (moment.unix(tokenData.exp).isBefore()) {
+            localStorage.removeItem('jwt-token');
+            vm.$removeItem('user');
+            vm.authenticated = false;
+            vm.$emit('checkedAuthentication', true);
+        } else {
+            // Load user data
+            vm.getUser().then(function (data) {
+                vm.user = data;
+                vm.authenticated = true;
+                vm.$emit('userHasLoggedIn', data);
+                vm.$emit('checkedAuthentication', data);
+            });
+        }
+    }
+
     // Some Template JS
     jQuery(document).foundation();
 

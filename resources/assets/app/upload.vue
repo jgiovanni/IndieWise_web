@@ -326,27 +326,32 @@
             </form>
         </template>
         <template v-else-if="viewState === 'verify'">
-            <h1 class="text-center">
+            <div class="md-display-1 text-center padding-24">
                 Please verify your account so you can upload videos!
                 <br>
-                <md-button @click.native="requestVerificationEmail">Verify Now!</md-button>
+                <md-button class="md-raised md-primary" @click.native="requestVerificationEmail">Verify Now!</md-button>
                 <span>Check your spam folder too!</span>
-            </h1>
+            </div>
         </template>
         <template v-else-if="viewState === 'loading'">
-            <h1 class="text-center">Loading</h1>
-            <md-progress md-indeterminate></md-progress>
+            <div class="md-display-1 text-center padding-24">
+                Loading
+                <br>
+                <md-progress md-indeterminate></md-progress>
+            </div>
         </template>
         <template v-else-if="viewState === 'limit'">
-            <h1 class="text-center">Oh no! Looks like you've reached the upload limit!</h1>
+            <div class="md-display-1 text-center padding-24">Oh no! Looks like you've reached the upload limit!</div>
         </template>
         <template v-else>
-            <h1 class="text-center">
-                You must login/register before you can upload content. Join an every growing community of indie film
+            <div class="md-display-1 text-center padding-24">
+                You must login/register before you can upload content.
+                <br>
+                Join an ever growing community of indie film
                 makers!
                 <br>
-                <md-button @click.native="loginModal">Login / Register</md-button>
-            </h1>
+                <md-button class="md-raised md-primary" @click.native="loginModal">Login / Register</md-button>
+            </div>
         </template>
     </div>
 </template>
@@ -473,13 +478,13 @@
                                         ? res.data[0].sizes[5] : !_.isUndefined(res.data[0].sizes[4])
                                             ? res.data[0].sizes[4] : res.data[0].sizes[3];
                             });
-                    } else if (url.indexOf('dailymotion') != -1) {
+                    }/* else if (url.indexOf('dailymotion') != -1) {
                         let video_id = url.split('video/')[1].split('_')[0];
                         self.projectData.hosting_type = 'dailymotion';
                         self.projectData.hosting_id = video_id;
                         this.$http.get('https://api.dailymotion.com/video/' + video_id + '?fields=thumbnail_large_url')
                             .then(res => self.projectData.thumbnail_url = res.data.thumbnail_large_url);
-                    }
+                    }*/
                     /* else if (url.indexOf('youku') != -1) {
                      self.projectData.hosting_type = 'youku';
                      self.projectData.hosting_id = undefined;
@@ -604,7 +609,8 @@
                                 console.log(project.data.data);
                                 self.$root.$emit('toastMessage', 'Project Uploaded Successfully');
                                 // register Action
-                                self.$state.go('video', {url_id: project.data.data.url_id});
+                                window.location = '/' + project.data.data.url_id;
+//                                self.$state.go('video', {url_id: project.data.data.url_id});
                                 //return film;
                             }, function (err) {
                                 // console.log(err);
@@ -722,8 +728,8 @@
         mounted(){
 
             // Generate lists
-            this.generateGenres();
-            this.generateTypes();
+//            this.generateGenres();
+//            this.generateTypes();
             this.generateCountries();
             this.generateLanguages();
 

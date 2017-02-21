@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="md-layout md-flex-100 padding-14" style="background-color: rgba(65, 76, 171, .2)">
-                <div class="row">
+                <div class="row md-layout md-flex-100">
                     <div id="owl-featured" class="owl-carousel carousel" data-car-length="3" data-items="3"
                          data-loop="true" data-nav="false" data-autoplay="true" data-autoplay-timeout="5000"
                          data-dots="false" data-auto-width="false" data-responsive-small="1" data-responsive-medium="3"
@@ -61,8 +61,8 @@
                         @foreach($featured as $item)
                             <div class="item">
                                 <figure class="premium-img">
-                                    <img src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
-                                              alt="{{ $item->name }}">
+                                    <md-image md-src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
+                                              alt="{{ $item->name }}"></md-image>
                                     <figcaption>
                                         <h5>{{ str_limit($item->name, 40) }}</h5>
                                         <p>{{ $item->owner->fullName }}</p>
