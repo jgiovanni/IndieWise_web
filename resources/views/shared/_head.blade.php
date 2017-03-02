@@ -78,7 +78,7 @@
     </script>
     {{--<script type="text/javascript" src="//cdn.broadstreetads.com/init.js"></script>--}}
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
     @yield('css')
 
