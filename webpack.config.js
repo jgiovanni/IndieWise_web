@@ -1,4 +1,4 @@
-Elixir.webpack.mergeConfig({
+    Elixir.webpack.mergeConfig({
     module: {
         preLoaders: [{
             test: /\.json$/,

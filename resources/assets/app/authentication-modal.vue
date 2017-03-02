@@ -2,7 +2,7 @@
     <md-dialog ref="AuthModal">
         <md-dialog-title>Authentication</md-dialog-title>
         <md-dialog-content>
-            <md-layout md-align="center" md-column-medium class="">
+            <md-layout md-align="center" md-column-medium class="padding-8">
                 <md-layout md-flex md-column class="">
                     <div class="social-login text-center" style="width: 100%">
                         <h5 class="">Login via a Social Profile</h5>
@@ -77,7 +77,7 @@
                                 <md-layout md-gutter>
                                     <md-button @click.native="currentState = 'login'">Login</md-button>
                                     <span style="flex: 1;"></span>
-                                    <md-button @click.native="currentState = 'register'">Create a new Account
+                                    <md-button @click.native="currentState = 'register'">New Account
                                     </md-button>
                                 </md-layout>
                             </form>

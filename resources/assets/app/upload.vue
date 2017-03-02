@@ -347,8 +347,7 @@
             <div class="md-display-1 text-center padding-24">
                 You must login/register before you can upload content.
                 <br>
-                Join an ever growing community of indie film
-                makers!
+                Join an ever growing community of indie film makers, viewers, and critics!
                 <br>
                 <md-button class="md-raised md-primary" @click.native="loginModal">Login / Register</md-button>
             </div>

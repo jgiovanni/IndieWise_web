@@ -88,7 +88,7 @@
         props: {
             critiqueId: {
                 type: String,
-                default: ''
+                required: true
             },
             disable: {
                 type: Boolean

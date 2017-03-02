@@ -207,7 +207,7 @@
                     </md-dialog-actions>
                 </md-layout>
                 <md-layout>
-                    <comments v-if="comments" :comments="comments" :disable="false" :parent="critique" :child="false"></comments>
+                    <comments :disable="false" :critique-id="critique.id" :parent="critique" :child="false"></comments>
                     <md-progress v-else md-indeterminate></md-progress>
                 </md-layout>
             </md-dialog-content>
