@@ -73,6 +73,7 @@
     "vue-material": "^0.7.1",
     "vue-resource": "^1.0.3",
     "vue-social-sharing": "^1.1.0",
+    "vue-template-compiler": "^2.2.4",
     "vue-ua": "^1.2.2",
     "vue-validator": "^3.0.0-alpha.2",
     "vuex": "^2.1.1"
