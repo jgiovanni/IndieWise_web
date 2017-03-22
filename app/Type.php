@@ -8,7 +8,7 @@ class Type extends Model
 {
     use UuidForKey;
     //
-    protected $table = 'Type';
+    protected $table = 'type';
     public $timestamps = false;
 
     public function projects()
@@ -21,7 +21,7 @@ class Type extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'UserTypes');
+        return $this->belongsToMany(User::class, 'user_types');
     }
 
 }
