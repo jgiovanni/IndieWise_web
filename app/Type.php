@@ -8,7 +8,7 @@ class Type extends Model
 {
     use UuidForKey;
     //
-    protected $table = 'type';
+    protected $table = 'types';
     public $timestamps = false;
 
     public function projects()

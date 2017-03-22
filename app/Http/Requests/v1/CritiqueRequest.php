@@ -31,7 +31,7 @@ class CritiqueRequest extends FormRequest
             'overall' =>        'required|numeric',
             'private' =>        'required|boolean',
             'body' =>           'required',
-            'project_id' =>     'required|exists:Project,id',
+            'project_id' =>     'required|exists:projects,id',
             'user_id' =>        'required|exists:users,id',
             'type' =>           'required|in:video,script|string',
 

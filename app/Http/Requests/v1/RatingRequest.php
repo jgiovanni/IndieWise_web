@@ -26,7 +26,7 @@ class RatingRequest extends FormRequest
         if ($this->isMethod('post')) {
             $rules = [
                 'author_id' => 'required|string|exists:users,id',
-                'project_id' => 'required|string|exists:Project,id',
+                'project_id' => 'required|string|exists:projects,id',
                 'up' => 'required|boolean',
                 'down' => 'required|boolean',
             ];

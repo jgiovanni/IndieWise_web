@@ -15,7 +15,7 @@ class Critique extends Model
 {
     use SoftDeletes, Filterable, UuidForKey, ActivityTrait;
 
-    protected $table = 'Critique';
+    protected $table = 'critiques';
 
     protected $guarded = ['id', 'url_id'];
 
@@ -142,7 +142,7 @@ class Critique extends Model
      */
     public function updateIndieWiseAverage($id)
     {
-        DB::update('UPDATE Project p INNER JOIN ( SELECT (SUM(c.overall) / count(*)) AS iwAverage, c.project_id FROM Critique c GROUP BY c.project_id) AS crit ON crit.project_id = p.id SET p.iwRating = crit.iwAverage WHERE p.id = :id', [$id]);
+        DB::update('UPDATE projects p INNER JOIN ( SELECT (SUM(c.overall) / count(*)) AS iwAverage, c.project_id FROM critiques c GROUP BY c.project_id) AS crit ON crit.project_id = p.id SET p.iwRating = crit.iwAverage WHERE p.id = :id', [$id]);
     }
 
 

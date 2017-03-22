@@ -9,7 +9,7 @@ class PlaylistItem extends Model
 {
     use UuidForKey, Filterable;
 
-    protected $table = 'PlaylistItem';
+    protected $table = 'playlist_items';
     public $timestamps = false;
 
     public function playlist()

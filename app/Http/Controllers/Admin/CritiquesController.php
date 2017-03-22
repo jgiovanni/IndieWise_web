@@ -52,7 +52,7 @@ class CritiquesController extends Controller
     {
         // Check if user is owner of same project
         $me = $this->auth()->user();
-        $projectOwnerId = DB::table('Project')->where('id', $request->get('project_id'))->value('owner_id');
+        $projectOwnerId = DB::table('projects')->where('id', $request->get('project_id'))->value('owner_id');
 
         if ($me->id === $projectOwnerId ) {
             return response()->json(['status' => 'failed', 'reason' => 'You cannot critique your own project'], 403);
@@ -103,7 +103,7 @@ class CritiquesController extends Controller
 
     public function latest()
     {
-        $critiques = DB::select('SELECT c.id, c.created_at, c.url_id, c.overall, c.user_id, author.userFullName, author.userUrlId, author.userAvatar, c.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM Critique c LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail, p.unlist FROM Project p ) AS project ON project.id = c.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS author ON author.id = c.user_id WHERE project.unlist = FALSE ORDER BY c.created_at DESC LIMIT 6');
+        $critiques = DB::select('SELECT c.id, c.created_at, c.url_id, c.overall, c.user_id, author.userFullName, author.userUrlId, author.userAvatar, c.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM critiques c LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail, p.unlist FROM projects p ) AS project ON project.id = c.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS author ON author.id = c.user_id WHERE project.unlist = FALSE ORDER BY c.created_at DESC LIMIT 6');
         return response()->json($critiques);
     }
 

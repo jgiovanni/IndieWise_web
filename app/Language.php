@@ -8,7 +8,7 @@ class Language extends Model
 {
     use UuidForKey;
     //
-    protected $table = 'Language';
+    protected $table = 'languages';
     public $timestamps = false;
 
     public function projects()

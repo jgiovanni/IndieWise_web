@@ -9,7 +9,7 @@ class Award extends Model
 {
     use UuidForKey, Filterable;
     //
-    protected $table = 'award';
+    protected $table = 'awards';
     public $timestamps = false;
 
     public function wins()

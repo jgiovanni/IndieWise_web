@@ -11,7 +11,7 @@ class Project extends Model
 {
     use SoftDeletes, Filterable, UuidForKey;
 
-    protected $table = 'Project';
+    protected $table = 'projects';
 
     protected $guarded = ['id', 'url_id'];
 
@@ -159,7 +159,7 @@ class Project extends Model
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class, 'Genreables');
+        return $this->belongsToMany(Genre::class, 'genreables');
     }
 
     public function wins()
