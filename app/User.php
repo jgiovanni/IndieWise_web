@@ -190,7 +190,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function types()
     {
-        return $this->belongsToMany(Type::class, 'UserTypes');
+        return $this->belongsToMany(Type::class, 'user_types');
     }
 
     public function syncTypes($ids)

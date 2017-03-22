@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Watch extends Model
 {
-    protected $table = 'Watched';
+    protected $table = 'watched';
 
     protected $primaryKey = 'project_id'; // or null
 
