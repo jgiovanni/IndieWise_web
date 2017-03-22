@@ -14,7 +14,7 @@ class Comment extends Model
 {
     use SoftDeletes, Filterable, UuidForKey, ActivityTrait;
     //
-    protected $table = 'Comment';
+    protected $table = 'comments';
 
     protected $with = ['author'];
 

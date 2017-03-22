@@ -8,7 +8,7 @@ class Playlist extends Model
 {
     use UuidForKey;
 
-    protected $table = 'Playlist';
+    protected $table = 'playlists';
     protected $guarded = ['id'];
     public $timestamps = false;
 

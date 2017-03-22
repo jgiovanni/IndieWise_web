@@ -171,7 +171,7 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class, 'Genreables');
+        return $this->belongsToMany(Genre::class, 'genreables');
     }
 
     public function syncGenres($ids)

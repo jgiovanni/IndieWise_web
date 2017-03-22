@@ -89,7 +89,7 @@ class NominationsController extends Controller
     
     public function latest()
     {
-        $nominations = DB::select('SELECT nom.id, nom.created_at, nom.award_id, award.awardName, nom.user_id, nominator.userFullName, nominator.userUrlId, nominator.userAvatar, nom.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM Nomination nom LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail, p.unlist FROM Project p) AS project ON project.id = nom.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS nominator ON nominator.id = nom.user_id LEFT JOIN (SELECT aw.id, aw.name AS awardName FROM Award aw) AS award ON award.id = nom.award_id WHERE project.unlist = FALSE ORDER BY nom.created_at DESC LIMIT 6');
+        $nominations = DB::select('SELECT nom.id, nom.created_at, nom.award_id, award.awardName, nom.user_id, nominator.userFullName, nominator.userUrlId, nominator.userAvatar, nom.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM nominations nom LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail, p.unlist FROM projects p) AS project ON project.id = nom.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS nominator ON nominator.id = nom.user_id LEFT JOIN (SELECT aw.id, aw.name AS awardName FROM Award aw) AS award ON award.id = nom.award_id WHERE project.unlist = FALSE ORDER BY nom.created_at DESC LIMIT 6');
         return response()->json($nominations);
     }
 }

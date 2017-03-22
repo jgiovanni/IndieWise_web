@@ -13,7 +13,7 @@ class Nomination extends Model
 {
     use UuidForKey, Filterable, ActivityTrait;
 
-    protected $table = 'Nomination';
+    protected $table = 'nominations';
 
     protected $guarded = ['id'];
 

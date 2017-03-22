@@ -8,7 +8,7 @@ class Action extends Model
 {
     use UuidForKey;
     //
-    protected $table = 'action';
+    protected $table = 'actions';
 
     protected $guarded = ['id'];
 

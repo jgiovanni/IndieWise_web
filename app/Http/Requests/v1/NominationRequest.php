@@ -24,9 +24,9 @@ class NominationRequest extends FormRequest
     public function rules()
     {
         return [
-            'award_id' => 'required|exists:Award,id',
-            'critique_id' => 'required|exists:Critique,id',
-            'project_id' => 'required|exists:Project,id',
+            'award_id' => 'required|exists:awards,id',
+            'critique_id' => 'required|exists:critiques,id',
+            'project_id' => 'required|exists:projects,id',
             'user_id' => 'required|exists:users,id',
         ];
         // TODO: limit nomination to 1 per project by user
