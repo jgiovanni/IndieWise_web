@@ -9,7 +9,7 @@
             <!--<md-layout md-flex="75" md-flex-large="85" md-column>-->
             <div class="md-list-text-container">
                 <span>
-                    <a class="" :href="'user/' + reply.author.url_id">{{reply.author.fullName}}</a>
+                    <a class="" :href="'/user/' + reply.author.url_id">{{reply.author.fullName}}</a>
                     <span class="md-caption float-right">
                         <i class="fa fa-clock-o"></i>
                         <abbr :title="reply.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
@@ -21,7 +21,7 @@
                 <span v-if="!editCommentMode" v-text="reply.body"></span>
             </div>
 
-            <md-button class="md-icon-button md-list-action" @click="toggleReplyInput()">
+            <md-button class="md-icon-button md-list-action" @click.native="toggleReplyInput()">
                 <template v-if="!showReplyInput"><md-icon>reply</md-icon></template>
                 <template v-else><md-icon>close</md-icon></template>
             </md-button>

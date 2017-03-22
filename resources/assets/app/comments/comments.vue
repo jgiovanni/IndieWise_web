@@ -8,7 +8,7 @@
                             <div class="medium-12 small-12 columns">
                                 <div class="head-title">
                                     <i class="fa fa-comments"></i>
-                                    <h4>Comments <span>({{comments.data.length}})</span></h4>
+                                    <h4>Comments <span>({{comments.length}})</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                                     <img :src="$root.user ? $root.user.avatar : '/assets/img/avatar-1.png'"
                                          alt="comment">
                                 </div>
-                                <h6 v-if="$root.user"><a href="'user/' + $root.user.id">{{$root.user.fullName}}</a></h6>
+                                <h6 v-if="$root.user"><a href="'/user/' + $root.user.id">{{$root.user.fullName}}</a></h6>
                             </div>
                             <div class="media-object-section comment-textarea">
                                 <form novalidate @submit.stop.prevent="postComment()" style="flex: 1">
@@ -62,9 +62,9 @@
 
                 <!-- main comment -->
                 <div class="main-comment showmore_one">
-                    <comment v-if="comments.data.length" v-for="comment in comments.data" :comment="comment" :parent="parent"></comment>
+                    <comment v-if="comments.length" v-for="comment in comments" :comment="comment" :parent="parent"></comment>
 
-                    <div class="text-center loadMore" v-show="comments.meta.pagination.total_pages > 0">
+                    <div class="text-center loadMore" v-show="pagination.total_pages > 0">
                         <button class="button" type="button" @click="loadMore" :disabled="loading">
                             <span v-if="!loading">load more</span>
                             <span v-else><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
@@ -86,12 +86,9 @@
         name: 'comments',
         components: {comment},
         props: {
-            comments: {
-                type: Object,
-            },
             critiqueId: {
                 type: String,
-                default: ''
+                required: true
             },
             disable: {
                 type: Boolean
@@ -106,8 +103,10 @@
         data(){
             return {
                 sortOrder: this.$parent.sortOrder,
+                pagination: { current_page: 1 },
                 myComment: null,
 				loading: true,
+                comments: []
             }
         },
         methods: {
@@ -148,22 +147,38 @@
             },
 
             reSort(order) {
-                this.$root.$emit('reSortComments', order);
-				this.loading = true;
+                this.sortOrder = order;
+                this.pagination.current_page = 1;
+                this.loadComments();
 			},
 			loadMore(){
-                let nextPage = this.comments.meta.pagination.current_page < this.comments.meta.pagination.total_pages ? this.comments.meta.pagination.current_page + 1 : this.comments.meta.pagination.current_page
-				this.$root.$emit('loadComments', nextPage);
-				this.loading = true;
-			}
+                this.pagination.current_page = this.pagination.current_page < this.pagination.total_pages ? this.pagination.current_page + 1 : this.pagination.current_page
+                this.loading = true;
+                this.loadComments();
+			},
+            loadComments() {
+                // Fetch Comments
+                this.$http.get('comments', {
+                    params: {
+                        critique: this.critiqueId,
+                        per_page: 10,
+                        page: this.pagination.current_page,
+                        replies: false,
+                        sort: this.sortOrder,
+                        include: 'replies'
+                    }
+                }).then(function(result) {
+                    this.comments = result.data.data;
+                    this.pagination = result.data.meta.pagination;
+                    this.loading = false;
+                }, function(error){
+                    console.log(error);
+                });
+            }
 
         },
         mounted(){
-            if (this.critiqueId.length) {
-                this.$http.get('comments', {critique: this.critiqueId, include: 'replies'}).then(function (response) {
-                    this.comments = response.data;
-                });
-            }
+            this.loadComments();
         }
     }
 </script>

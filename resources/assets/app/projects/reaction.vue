@@ -1,22 +1,18 @@
 <template>
-    <md-list-item class="has-tip" style="display: block;border-bottom: none">
+    <md-list-item>
         <md-icon class="emoticon" :md-src="reaction.src"></md-icon>
         <div class="md-list-text-container">
             <span>{{reaction.name}}</span>
-            <span>
-                <md-progress class="md-primary" :md-progress="progress"></md-progress>
-                <!--<div class="progress" role="progressbar" tabindex="0"
-                     :aria-valuenow="(count/reactions.length)*100" aria-valuemin="0"
-                     :aria-valuetext="((count/reactions.length)*100) + ' percent'"
-                     aria-valuemax="100">
-                    <div class="progress-meter" :style="{width: computedProgress(count)}"></div>
-                </div>-->
-             </span>
+            <span><md-progress class="md-primary" :md-progress="progress"></md-progress></span>
         </div>
-        <md-tooltip md-direction="top"> {{ pluralizedEmotionCount(count, reaction.name) }}</md-tooltip>
+        <md-tooltip md-direction="top">{{ pluralizedEmotionCount(count, reaction.name) }}</md-tooltip>
     </md-list-item>
 </template>
-<style scoped></style>
+<style scoped>
+    .md-list-item {
+
+    }
+</style>
 <script type="text/babel">
     export default {
         name: 'reaction',

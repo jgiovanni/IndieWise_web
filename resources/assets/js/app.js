@@ -59,7 +59,7 @@ jQuery(document).ready(function (jQuery) {
         $par.animate({ scrollTop: n });
     });
 });
-var angular_1 = require("angular");
+var angular_1 = require('angular');
 var IndieWise;
 (function (IndieWise_1) {
     IndieWise_1.IndieWise = angular_1.module('IndieWise', [

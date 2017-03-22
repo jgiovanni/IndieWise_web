@@ -71,12 +71,12 @@
                     </div>
                     <div class="widgetContent">
                         <div class="">
-                            <a class="text-white tiny expanded button" href="privacy">Privacy Policy</a>
-                            <a class="text-white tiny expanded button" href="faq">FAQ</a>
-                            <a class="text-white tiny expanded button" href="advertise">Advertise</a>
-                            <a class="text-white tiny expanded button" href="tos">Terms of Service</a>
-                            <a class="text-white tiny expanded button" href="contact">Contact</a>
-                            <a class="text-white tiny expanded button" href="about">About</a>
+                            <a class="text-white tiny expanded button" href="/privacy">Privacy Policy</a>
+                            <a class="text-white tiny expanded button" href="/faq">FAQ</a>
+                            <a class="text-white tiny expanded button" href="/advertise">Advertise</a>
+                            <a class="text-white tiny expanded button" href="/tos">Terms of Service</a>
+                            <a class="text-white tiny expanded button" href="/contact">Contact</a>
+                            <a class="text-white tiny expanded button" href="/about">About</a>
                         </div>
                         {{--<form data-abide ng-submit="Body.newsletterRegister(Body.notifyMe)" name="notifyMe">
                             <p>Subscribe to get exclusive videos</p>

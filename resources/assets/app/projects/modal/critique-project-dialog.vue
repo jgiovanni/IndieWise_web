@@ -1,6 +1,6 @@
 <template>
     <md-dialog ref="CritiqueProjectDialog">
-        <md-dialog-title>Judge {{project.name}}</md-dialog-title>
+        <md-dialog-title>Judge This Project</md-dialog-title>
 
         <md-dialog-content>
             <form id="CritiqueProjectDialogForm" @submit.stop.prevent="validateCritique">
@@ -10,7 +10,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Acting</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.performances" :items="starArray" @change="updateStar" name="performances"></rating>
                             </div>
                         </div>
@@ -18,7 +18,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="hyphenate">Cinematography</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.cinematography" :items="starArray" @change="updateStar" name="cinematography"></rating>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Direction</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.direction" :items="starArray" @change="updateStar" name="direction"></rating>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Editing</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.structure" :items="starArray" @change="updateStar" name="structure"></rating>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Music</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.music" :items="starArray" @change="updateStar" name="music"></rating>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Originality</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.originality" :items="starArray" @change="updateStar" name="originality"></rating>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Pacing</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.pacing" :items="starArray" @change="updateStar" name="pacing"></rating>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Production Value</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.production" :items="starArray" @change="updateStar" name="production"></rating>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Sound Quality</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.audio" :items="starArray" @change="updateStar" name="audio"></rating>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Writing</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.writing" :items="starArray" @change="updateStar" name="writing"></rating>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Concept</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.concept" :items="starArray" @change="updateStar" name="concept"></rating>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="hyphenate">Presentation</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.presentation" :items="starArray" @change="updateStar" name="presentation"></rating>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Characters</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.characters" :items="starArray" @change="updateStar" name="characters"></rating>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Structure</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.structure" :items="starArray" @change="updateStar" name="structure"></rating>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Dialogue</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.dialogue" :items="starArray" @change="updateStar" name="dialogue"></rating>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Originality</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.originality" :items="starArray" @change="updateStar" name="originality"></rating>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Pacing</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.pacing" :items="starArray" @change="updateStar" name="pacing"></rating>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Theme</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.theme" :items="starArray" @change="updateStar" name="theme"></rating>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Style</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.style" :items="starArray" @change="updateStar" name="style"></rating>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                             <div class="columns small-12 text-center medium-4 medium-text-right">
                                 <span class="">Plot</span>
                             </div>
-                            <div class="columns small-12 text-center medium-4">
+                            <div class="columns small-12 text-center medium-8">
                                 <rating :value="critique.writing" :items="starArray" @change="updateStar" name="writing"></rating>
                             </div>
                         </div>
@@ -183,11 +183,12 @@
                     <div class="columns">
                         <md-input-container>
                             <label>Tell us why</label>
-                            <md-textarea v-model="critique.body" minlength="1" required></md-textarea>
+                            <!--<md-input v-model="critique.body" maxlength="3000" required></md-input>-->
+                            <md-textarea v-model="critique.body" maxlength="3000" required></md-textarea>
                         </md-input-container>
 
                         <md-checkbox v-model="critique.private">Make Private?</md-checkbox>
-                        <md-button class="md-icon-button md-primary" @click="helpToggle=!helpToggle"><md-icon>info</md-icon></md-button>
+                        <md-button class="md-icon-button md-primary" @click.native="helpToggle=!helpToggle"><md-icon>info</md-icon></md-button>
 
                         <p v-show="helpToggle" class="help-text">By choosing this "Make private" Option, individual rating categories, such as "Production Value", "Originality", etc. will not be publicly visible to users other than you and the project author. However, the overall rating generated from these individual results will always be publicly visible.</p>
 
@@ -217,12 +218,27 @@
         </md-dialog-content>
 
         <md-dialog-actions>
-            <md-button class="" @click="close()">Cancel</md-button>
+            <md-button class="" @click.native="close()">Cancel</md-button>
             <md-button class="md-primary" form="CritiqueProjectDialogForm" type="submit">Submit</md-button>
         </md-dialog-actions>
     </md-dialog>
 </template>
-<style scoped></style>
+<style>
+    @media (max-width: 600px)  {
+        #CritiqueProjectDialogForm .md-button.md-icon-button.md-dense {
+            padding: 0 !important;
+            font-size: 10px;
+            min-width: 22px;
+            height: 22px;
+            width: 22px;
+            min-height: 24px;
+            line-height: 24px;
+        }
+        #CritiqueProjectDialogForm i.md-icon.md-theme-default.material-icons {
+            font-size: 24px;
+        }
+    }
+</style>
 <script type="text/babel">
     import rating from '../../rating.vue';
     export default {
@@ -285,6 +301,11 @@
                 },
                 deep: true
             },
+            'canNominate'(val) {
+                if (!val) {
+                    this.award_id = null;
+                }
+            }
         },
         methods: {
             close() {

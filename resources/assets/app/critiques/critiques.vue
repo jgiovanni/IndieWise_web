@@ -33,15 +33,20 @@
                                 <critique-item v-for="critique in critiques" :critique="critique"
                                                :parent-url-id="parentUrlId" :parent-owner-id="parentOwnerId"></critique-item>
 
-                                <!--<div class="text-center loadMore" v-show="pagination.total_pages > 0">
-                                    <button class="button" type="button" @click="loadMore" :disabled="loading">
+                                <div class="text-center loadMore" v-show="pagination.total_pages > 0">
+                                    <button class="button" type="button" @click.native="loadMore" :disabled="loading">
                                         <span v-if="!loading">load more</span>
                                         <span v-else><i class="fa fa-spinner fa-spin"></i>&nbsp;Loading</span>
                                     </button>
-                                </div>-->
+                                </div>
                             </div>
                             <!-- End main comment -->
                         </template>
+                    </template>
+                    <template v-else>
+                        <md-progress md-indeterminate></md-progress>
+                        <br>
+                        <br>
                     </template>
 
                 </template>
@@ -131,8 +136,13 @@
             },
         },
         mounted(){
-            this.$parent.projectCritiques = this;
+            let self = this;
             this.load();
+
+            this.$root.$on('loadProjectCritiques', function () {
+                self.load();
+            });
+
         }
     }
 </script>

@@ -138,14 +138,14 @@
 					</div>
 					<md-ink-ripple></md-ink-ripple>
 				</button>
-				<button type="button" class="md-tab-header" :class="{'md-active': view === 'settings'}" @click="navigateTo('settings')">
+				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'settings'}" @click="navigateTo('settings')">
 					<div class="md-tab-header-container">
 						<md-icon>settings</md-icon>
 						<!----> <!---->
 					</div>
 					<md-ink-ripple></md-ink-ripple>
 				</button>
-				<button type="button" class="md-tab-header" :class="{'md-active': view === 'upload'}" @click="navigateTo('upload')">
+				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'upload'}" @click="navigateTo('upload')">
 					<div class="md-tab-header-container">
 						<md-icon>cloud_upload</md-icon>
 						<!----> <!---->

@@ -32,7 +32,7 @@
 							<md-button class="video-btn" :href="'/'+video.url_id + '/edit'">
 								<md-icon>edit_mode</md-icon> Edit
 							</md-button>
-							<md-button class="video-btn" @click="deleteProject(video.id)">
+							<md-button class="video-btn" @click.native="deleteProject(video.id)">
 								<md-icon>delete</md-icon> Delete
 							</md-button>
 						</md-card-actions>

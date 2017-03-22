@@ -2,9 +2,9 @@
 
 @section('layout')
     <!--breadcrumbs-->
-    <section id="breadcrumb" class="md-layout md-flex-100">
-        <div class="row">
-            <div class="large-12 columns">
+    <section id="breadcrumb" class="md-layout md-flex-100 breadMargins">
+        <div class="md-layout row md-gutter">
+            <div class="md-layout md-flex-100" style="align-items: center;">
                 <nav aria-label="You are here:" role="navigation">
                     <ul class="breadcrumbs">
                         <li><i class="fa fa-home"></i><a ui-sref="home">Home</a></li>
@@ -35,5 +35,5 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript" src="//api.filepicker.io/v2/filepicker.js"></script>
+    <script type="text/javascript" src="//api.filestackapi.com/filestack.js"></script>
 @endsection

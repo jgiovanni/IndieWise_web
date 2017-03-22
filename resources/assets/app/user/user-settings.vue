@@ -48,7 +48,7 @@
 									</div>
 									<div class="row">
 										<div class="medium-6 columns">
-											<button class="button expanded" type="button" v-if="!userData.verified" @click="requestVerificationEmail()">
+											<button class="button expanded" type="button" v-if="!userData.verified" @click.native="requestVerificationEmail()">
 												<i class="fa fa-envelope"></i> Resend Verification Email
 											</button>
 										</div>
@@ -112,10 +112,10 @@
 											<md-radio v-model="userData.gender" id="gender" name="gender" md-value="female">Female</md-radio>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container v-show="countries.length">
+											<md-input-container v-show="$root.countryList.length">
 												<label for="country">Country</label>
 												<md-select name="country" id="country" v-model="userData.country_id">
-													<md-option :value="country.id" v-for="country in countries">{{ country.name }}</md-option>
+													<md-option :value="country.id" v-for="country in $root.countryList">{{ country.name }}</md-option>
 												</md-select>
 											</md-input-container>
 										</div>
@@ -139,8 +139,8 @@
 												Types:</label>
 
 											<div class="checkbox-inline" style="margin-bottom: 20px;"
-											     v-if="typesList.length">
-												<template v-for="t in typesList">
+											     v-if="$root.typesList.length">
+												<template v-for="t in $root.typesList">
 													<input type="checkbox"
 													       v-model="bool" name="type{{$index}}" id="type{{$index}}"
 													       @click="syncTypes(bool, t)"
@@ -160,49 +160,33 @@
 									</div>
 								</div>
 								<div class="setting-form-inner">
-									<div class="row">
+									<div class="row" v-if="userData">
 										<div class="large-12 columns">
-											<h6 class="borderBottom">Social Profile links:</h6>
+											<h6 class="borderBottom">Social Profile Links:</h6>
 										</div>
 										<div class="medium-6 columns">
 											<md-input-container>
 												<label>Website URL</label>
-												<md-input v-model="userData.website" placeholder="Enter your website url..."></md-input>
+												<md-input v-model="userData.website"></md-input>
 											</md-input-container>
-											<!--<label>Website URL:
-												<input type="url" v-model="userData.website"
-												       placeholder="Enter your website url..">
-											</label>-->
 										</div>
 										<div class="medium-6 columns">
 											<md-input-container>
 												<label>Facebook</label>
-												<md-input v-model="userData.urlFacebook" placeholder="Enter your profile link..."></md-input>
+												<md-input v-model="userData.urlFacebook"></md-input>
 											</md-input-container>
-											<!--<label>facebook:
-												<input type="url" v-model="userData.urlFacebook"
-												       placeholder="Enter your profile link..">
-											</label>-->
 										</div>
 										<div class="medium-6 columns">
 											<md-input-container>
 												<label>Twitter</label>
-												<md-input v-model="userData.urlTwitter" placeholder="Enter your profile link..."></md-input>
+												<md-input v-model="userData.urlTwitter"></md-input>
 											</md-input-container>
-											<!--<label>twitter:
-												<input type="url" v-model="userData.urlTwitter"
-												       placeholder="Enter your profile link..">
-											</label>-->
 										</div>
 										<div class="medium-6 columns end">
 											<md-input-container>
 												<label>Google Plus</label>
-												<md-input v-model="userData.urlGoogle" placeholder="Enter your profile link"></md-input>
+												<md-input v-model="userData.urlGoogle"></md-input>
 											</md-input-container>
-											<!--<label>Google Plus:
-												<input type="url" v-model="userData.urlGoogle"
-												       placeholder="Enter your profile link..">
-											</label>-->
 										</div>
 									</div>
 								</div>
@@ -221,61 +205,41 @@
 													<md-checkbox v-model="userData.settings.email_critique">Critiques on your videos.</md-checkbox>
 													<md-checkbox v-model="userData.settings.email_nomination">Nominations of your videos.</md-checkbox>
 													<md-checkbox v-model="userData.settings.email_win">Awards for your videos.</md-checkbox>
-													<!--<div class="checkbox">
-														<input type="checkbox" id="emailNotifA" v-model="userData.settings.email_critique"
-														       @click="">
-														<label class="customLabel" for="emailNotifA">Critiques on your videos.</label>
-													</div>
-													<div class="checkbox">
-														<input type="checkbox" id="emailNotifB" v-model="userData.settings.email_nomination"
-														       @click="">
-														<label class="customLabel" for="emailNotifB">Nominations of your videos.</label>
-													</div>
-													<div class="checkbox">
-														<input type="checkbox" id="emailNotifC" v-model="userData.settings.email_win"
-														       @click="">
-														<label class="customLabel" for="emailNotifC">Awards for your videos.</label>
-													</div>-->
 												</div>
 												<div class="medium-6 columns end">
 													<md-checkbox v-model="userData.settings.email_comment">Comments to your critiques.</md-checkbox>
 													<md-checkbox v-model="userData.settings.email_message">Messages you receive.</md-checkbox>
-													<!--<div class="checkbox">
-														<input type="checkbox" id="emailNotifX" v-model="userData.settings.email_comment"
-														       @click="">
-														<label class="customLabel" for="emailNotifX">Comments to your critiques, .</label>
-													</div>
-													<div class="checkbox">
-														<input type="checkbox" id="emailNotifY" v-model="userData.settings.email_message"
-														       @click="">
-														<label class="customLabel" for="emailNotifY">Messages you receive.</label>
-													</div>-->
-													<!--<div class="checkbox">
-														<input type="checkbox" id="emailNotifZ" v-model="userData.settings.email_like"
-															   @click="">
-														<label class="customLabel" for="emailNotifZ">Likes for your videos.</label>
-													</div>-->
+
 												</div>
 											</div>
 										</div>
 										<!--
-																			<div class="medium-12 columns">
-																				<div class="checkbox">
-																					<input type="checkbox" id="notifA" v-model="notificationsActive"
-																						   @click="toggleNotifications(notificationsActive)">
-																					<label class="customLabel" for="notifA">Allow Notifications</label>
-																				</div>
-																			</div>
+											<div class="medium-12 columns">
+												<div class="checkbox">
+													<input type="checkbox" id="notifA" v-model="notificationsActive"
+														   @click="toggleNotifications(notificationsActive)">
+													<label class="customLabel" for="notifA">Allow Notifications</label>
+												</div>
+											</div>
 										-->
 									</div>
 								</div>
 								<div class="row">
 									<div class="medium-6 columns">
 										<div class="">
-											<md-button class="md-warn" @click.stop.prevent="confirmTerminate($event)">
+											<md-button class="md-warn" @click.stop.prevent.native="confirmTerminate($event)">
 												<span>Deactivate Account</span>
 											</md-button>
 										</div>
+
+										<md-dialog-confirm
+												md-title="Terminate Account"
+												md-content="Are you sure you want to terminate your account?"
+												md-ok-text="Yes"
+												md-cancel-text="No"
+												@close="onCloseTerminate"
+												ref="terminateAccount">
+										</md-dialog-confirm>
 									</div>
 									<div class="medium-6 columns end">
 										<div class="setting-form-inner">
@@ -306,7 +270,6 @@
                 userData: false,
                 genres: [],
                 UserTypes: [],
-                countries: [],
                 genresArr: [],
                 typesArr: [],
                 saveComplete: false,
@@ -325,12 +288,12 @@
             _updateUser() {
                 let self = this;
                 if (!this.updating) {
-                    let user = this.user;
+                    let user = this.userData;
                     this.updating = true;
-                    user.genres = this._.pluck(this.genresArr, 'id');
-                    user.types = this._.pluck(this.typesArr, 'id');
+                    user.genres = _.pluck(this.genresArr, 'id');
+                    user.types = _.pluck(this.typesArr, 'id');
                     user.settings = JSON.stringify(user.settings);
-                    this.$http.get('users/' + user.id, user).then(function (res) {
+                    this.$http.put('users/' + user.id, user).then(function (res) {
                         // console.log(res);
                         res.data.data.dob = moment(res.data.data.dob).toDate();
                         res.data.data.settings = JSON.parse(res.data.data.settings);
@@ -359,12 +322,12 @@
                             window.pushwooshSubscribe();
 
                             window.pushwooshSetTags({
-                                id: this.user.id,
-                                urlId: this.user.url_id,
-                                username: this.user.email,
-                                firstName: this.user.firstName,
-                                lastName: this.user.lastName
-                            }.bind(this));
+                                id: this.userData.id,
+                                urlId: this.userData.url_id,
+                                username: this.userData.email,
+                                firstName: this.userData.firstName,
+                                lastName: this.userData.lastName
+                            });
                         }
 
                     }
@@ -378,25 +341,21 @@
             },
 
             confirmTerminate(ev) {
-                let confirm = this.$mdDialog.confirm()
-                    .title('Terminate Account')
-                    .textContent('Are you sure you want to terminate your account?')
-                    .ariaLabel('Terminate Account')
-                    .targetEvent(ev)
-                    .ok('Yes')
-                    .cancel('No');
+                this.$refs.terminateAccount.open();
+            },
 
-                this.$mdDialog.show(confirm)
-                    .then(function () {
-                        this.AuthService.deleteUser(this.user)
-                            .then(function (res) {
-                                if (res.data.status) {
-                                    this.AuthService.logout().then( res => window.location.reload() );
-                                }
-                            }.bind(this));
-                    }.bind(this), function () {
-
-                    });
+            onCloseTerminate(type) {
+                let self = this;
+                console.log('Closed', type);
+                if (type === 'ok'){
+                    this.$http.delete('users/me', this.userData.id).then(function (res) {
+						if (res.data.status) {
+							self.$http.post('logout').then( function (res) {
+								self.$root.logout();
+							});
+                        }
+                	});
+                }
             },
 
             updateDOB(date) {
@@ -406,30 +365,34 @@
         mounted(){
             let self = this;
 
-            this.$http.get('users/' + this.user.id).then(function (response) {
-                this.userData = response.data.data;
-                this.userData.dob = moment(this.userData.dob).startOf('day').format('YYYY-MM-DD');
-                this.userData.settings = _.isObject(this.userData.settings) ? this.userData.settings : JSON.parse(this.userData.settings || '{}');
+            this.$root.$on('userHasLoggedOut', function (user) {
+				if (self.user.id === user.id) {
+                    window.location = '/user/' + this.user.url_id;
+				}
             });
-            /*} else {
+
+            if (this.isAuthenticated && this.user.id === this.$root.user.id) {
                 this.$http.get('users/' + this.user.id).then(function (response) {
                     this.userData = response.data.data;
+                    this.userData.dob = moment(this.userData.dob).startOf('day').format('YYYY-MM-DD');
+                    this.userData.settings = _.isObject(this.userData.settings) ? this.userData.settings : JSON.parse(this.userData.settings || '{}');
                 });
-            }*/
+                this.updateUser = _.throttle(this._updateUser, 1000);
 
-            this.updateUser = _.throttle(this._updateUser, 1000);
-
-            let pwSetting = window.localStorage.getItem('pwAllowPushNotifications');
-            this.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
+                let pwSetting = window.localStorage.getItem('pwAllowPushNotifications');
+                this.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
 
 //            this.genresArr = this.user.genres.data; //Genres.data.data;
 //            this.typesArr = this.user.types;// UserTypes.data.data;
 
-            this.generateCountries().then(res => self.countries = res);
+                this.generateCountries();
 
-            this.generateGenres().then(res => self.genresList = res);
+                this.generateGenres();
 
-            this.generateTypes().then(res => self.typesList = res);
+                this.generateTypes();
+            } else {
+                window.location = '/user/' + this.user.url_id;
+            }
         }
     }
 </script>

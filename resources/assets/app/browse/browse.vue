@@ -1,9 +1,5 @@
 <template>
     <div>
-        <!-- Category -->
-        <watching-carousel></watching-carousel>
-        <!-- End Category -->
-
         <md-sidenav ref="filterNav" class="md-left" v-cloak>
             <md-toolbar class="md-primary">
                 <h2 class="md-title text-white" style="flex: 1">Filters</h2>
@@ -33,9 +29,9 @@
                     </form>
 
                     <h6>Types</h6>
-                    <template v-for="(g, $index) in typesList">
+                    <template v-for="(g, $index) in $root.typesList">
                         <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedTypes, g.id) }">
+                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedTypes', g.id) }">
                             <div class="md-checkbox-container">
                                 <input :id="'typeCheckA'+$index" type="checkbox" v-model="selectedTypes" :value="g.id">
                             </div>
@@ -44,9 +40,9 @@
                     </template>
 
                     <h6>Genres</h6>
-                    <template v-for="(g, $index) in genresList">
+                    <template v-for="(g, $index) in $root.genresList">
                         <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedGenres, g.id) }">
+                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedGenres', g.id) }">
                             <div class="md-checkbox-container">
                                 <input :id="'genreCheckA'+$index" type="checkbox" v-model="selectedGenres" :value="g.id">
                             </div>
@@ -58,7 +54,7 @@
         </md-sidenav>
 
         <section class="category-content">
-            <div class="row">
+            <md-layout md-flex="100" class="row">
                 <!-- left side content area -->
                 <div class="large-8 columns">
                     <section class="content content-with-sidebar">
@@ -130,7 +126,7 @@
                                     <md-layout md-column class="widgetContent">
                                         <md-input-container>
                                             <label for="filterSort">Sort</label>
-                                            <md-select id="filterNavSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
+                                            <md-select id="filterSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
                                                 <md-option value="recent">Recently Added</md-option>
                                                 <md-option value="trending">Trending</md-option>
                                                 <md-option value="rating">Highest Rated</md-option>
@@ -164,9 +160,9 @@
                                         <!--<hr class="">-->
                                         <!--{{typesList}}-->
                                         <h6>Types</h6>
-                                        <template v-for="(g, $index) in typesList">
+                                        <template v-for="(g, $index) in $root.typesList">
                                             <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedTypes, g.id) }">
+                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedTypes', g.id) }">
                                                 <div class="md-checkbox-container">
                                                     <input :id="'typeCheck'+$index" type="checkbox" v-model="selectedTypes" :value="g.id">
                                                 </div>
@@ -175,9 +171,9 @@
                                         </template>
 
                                         <h6>Genres</h6>
-                                        <template v-for="(g, $index) in genresList">
+                                        <template v-for="(g, $index) in $root.genresList">
                                             <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(selectedGenres, g.id) }">
+                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedGenres', g.id) }">
                                                 <div class="md-checkbox-container">
                                                     <input :id="'genreCheck'+$index" type="checkbox" v-model="selectedGenres" :value="g.id">
                                                 </div>
@@ -195,7 +191,7 @@
                         </div>
                     </aside>
                 </div><!-- end sidebar -->
-            </div>
+            </md-layout>
         </section>
         <!-- End Category Content-->
     </div>
@@ -207,10 +203,9 @@
 </style>
 <script type="text/babel">
     import projectCard from '../common/project-card.vue';
-    import watchingCarousel from './watching-carousel.vue';
     export default {
         name: 'browse',
-        components: {projectCard, watchingCarousel},
+        components: {projectCard},
         data(){
             return {
                 typeA: 'grid-medium',
@@ -243,7 +238,7 @@
         },
         methods: {
             contains(arr, string){
-                return _.contains(arr, string);
+                return _.contains(this[arr], string);
             },
             handleUrlFilters(){
                 let self = this;
@@ -254,6 +249,16 @@
                         arr[0] = 'search';
                     self.filters[arr[0]] = arr[1];
                 });
+                if(this.filters.type) {
+                    // handle types
+                    let type = _.findWhere(this.$root.typesList, {slug: this.filters.type});
+                    this.selectedTypes.push(type.id);
+                }
+                if(this.filters.genres) {
+                    // handle genres
+                    let genres = _.findWhere(this.$root.genresList, {slug: this.filters.genres});
+                    this.selectedGenres.push(type.id);
+                }
             },
             refresh() {
                 let self = this;
@@ -360,9 +365,11 @@
             },
         },
         mounted(){
-            this.handleUrlFilters();
+            setTimeout(function () {
+                this.handleUrlFilters();
 
-            this.refresh();
+                this.refresh();
+            }.bind(this), 2000)
         }
     }
 </script>

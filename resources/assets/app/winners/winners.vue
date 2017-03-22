@@ -47,10 +47,14 @@
                             <template v-if="award.winners.length > 0">
                                 <md-table-row v-for="(winner, index) in award.winners" :key="index">
                                     <template v-if="winner.project">
-                                        <md-table-cell><a :href="winner.project.url_id" v-text="winner.project.name"></a></md-table-cell>
+                                        <md-table-cell><a :href="'/'+winner.project.url_id" v-text="winner.project.name"></a></md-table-cell>
                                         <md-table-cell>{{ winner.project.director }}</md-table-cell>
                                         <md-table-cell>{{ winner.project.type.name }}</md-table-cell>
-                                        <md-table-cell><span v-for="genre in winner.project.genres">{{genre.name}}<span v-if="!isLast(index, award)">,</span> </span></md-table-cell>
+                                        <md-table-cell>
+                                            <span class="md-chip md-theme-default" v-for="(genre, gIndex) in winner.project.genres">
+                                                {{genre.name}}
+                                            </span>
+                                        </md-table-cell>
                                         <md-table-cell>{{ winner.project.filming_country.name }}</md-table-cell>
                                     </template>
                                 </md-table-row>
@@ -260,15 +264,22 @@
             </md-content>
         </md-tab>-->
         <md-tab md-label="IndustryBOOST Competition 2016">
-            <md-layout class="text-center">
-                <a href="/9XLmv6ZxGj">
-                    <img src="https://img.youtube.com/vi/0FkjJGhbfaM/hqdefault.jpg" class="img-responsive" alt="Safe Train">
-                </a>
-            </md-layout>
+            <a href="/9XLmv6ZxGj">
+                <img src="https://img.youtube.com/vi/0FkjJGhbfaM/hqdefault.jpg" style="width:100%;" class="" alt="Safe Train">
+            </a>
         </md-tab>
     </md-tabs>
 </template>
-<style scoped></style>
+<style scoped>
+    .md-card {
+        box-shadow: none;
+    }
+    .md-chip {
+        height: 22px;
+        margin: 1px;
+        line-height:6px;
+    }
+</style>
 <script type="text/babel">
     export default {
         name: 'winners',

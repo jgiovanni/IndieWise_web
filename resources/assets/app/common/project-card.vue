@@ -1,12 +1,11 @@
 <template>
-    <div :id="'card-' + video.id" class="item large-3 medium-6 small-12 columns project-card" v-if="video.name"
-         :class="[{'end': isLast()}, type]">
+    <div :id="'card-' + video.id" class="item large-3 medium-6 small-12 columns project-card" v-if="video.name" :class="[{'end': isLast()}, type]">
         <div class="post thumb-border">
-            <a class="post-thumb" :href="video.url_id">
+            <a class="post-thumb" :href="'/' + video.url_id">
                 <md-ink-ripple></md-ink-ripple>
                 <img v-if="video.hosting_type !== 'script'"
                      :src="video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'" :alt="video.name">
-                <img v-else :src="video.thumbnail_url||'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng'"
+                <img v-else :src="video.thumbnail_url||'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng?cache=true'"
                      alt="new video">
                 <!--<a class="hover-posts">
                     <span><i class="fa fa-play"></i>Watch Video</span>
@@ -35,12 +34,12 @@
                 </div>
             </a>
             <div class="post-des">
-                <h6><a :href="video.url_id">{{video.name}}</a></h6>
+                <h6><a :href="'/' + video.url_id">{{video.name}}</a></h6>
                 <div class="post-stats clearfix">
                     <p class="pull-left">
                         <i class="fa fa-user"></i>
                         <span>
-                        <a :href="'user/'+video.owner.url_id+'/about'">{{video.owner.fullName}}</a>
+                        <a :href="'/user/'+video.owner.url_id+'/about'">{{video.owner.fullName}}</a>
                     </span>
                     </p>
                     <p class="pull-left" v-if="!isFirstUrlSegment('profile')">
@@ -70,7 +69,7 @@
                     <p>{{video.description}}</p>
                 </div>
                 <div class="post-button">
-                    <a :href="video.url_id" class="secondary-button"><i
+                    <a :href="'/' + video.url_id" class="secondary-button"><i
                             class="fa fa-play-circle"></i>watch video</a>
                 </div>
             </div>

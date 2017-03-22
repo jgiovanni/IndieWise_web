@@ -1,8 +1,9 @@
 <template>
     <md-layout md-flex="100" class="SinglePostStats" id="SinglePostStats">
         <!-- newest video -->
-        <md-layout md-flex class="secBg padding-16">
-            <md-layout md-flex="100" style="border-bottom: 1px solid #efefef">
+        <md-layout md-flex class="secBg padding-8">
+            <md-layout md-flex="100" class="padding-8" style="border-bottom: 1px solid #efefef">
+
                 <md-layout md-align="center" md-flex=20 md-column>
                     <md-avatar class="md-large">
                         <img :src="project.owner.avatar" alt="post">
@@ -37,8 +38,10 @@
                 </md-layout>
             </md-layout>
             <md-layout md-flex="100" md-column-xsmall>
+                <md-progress v-if="loadingRate||loadingReact||loadingCritique" md-indeterminate></md-progress>
+
                 <md-layout style="order: 2" md-align="end" md-align-xsmall="center">
-                    <md-button class="md-primary md-dense" @click.stop.prevent="openReactionDialog()">
+                    <md-button class="md-primary md-dense" @click.native="openReactionDialog">
                         <span v-if="canReact!==true && canReact !== 'login' && canReact !==false">
                             <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
                             {{canReact.emotion}}
@@ -48,7 +51,7 @@
                             I'm feeling ...</span>
                     </md-button>
 
-                    <md-button class="md-primary md-dense" @click.stop.prevent="openCritiqueDialog()">
+                    <md-button class="md-primary md-dense" @click.native="openCritiqueDialog">
                         <span v-if="canCritique!==true && canCritique !== 'login' && canCritique !== false">
                             Judged: <span>{{canCritique.overall}}</span>
                         </span>
@@ -59,20 +62,20 @@
                     </md-button>
                 </md-layout>
                 <md-layout style="order: 1" md-align="start" md-align-xsmall="center">
-                    <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('up')"
+                    <md-button class="md-raise md-dense double-thumbs md-primary" @click.native="rate('up')"
                                :class="{'md-raised':canRate.up}">
                         <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
                     </md-button>
-                    <md-button class="md-raise md-dense double-thumbs md-primary" @click="rate('down')"
+                    <md-button class="md-raise md-dense double-thumbs md-primary" @click.native="rate('down')"
                                :class="{'md-raised':canRate.down}">
                         <i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
                     </md-button>
                     <!--<project-playlists :project="project"></project-playlists>-->
-                    <md-button class="md-icon-button md-accent" @click="openShareDialog">
+                    <md-button class="md-icon-button md-accent" @click.native="openShareDialog">
                         <md-icon>share</md-icon>
                     </md-button>
                     <md-button id="reportDialogButtonA" class="md-icon-button md-warn "
-                               @click="openReportDialog($event)">
+                               @click.native="openReportDialog($event)">
                         <md-icon>flag</md-icon>
                     </md-button>
 
@@ -108,22 +111,37 @@
                 canRate: false,
                 canReact: false,
                 canCritique: false,
+                critiqued: false,
                 isFaved: false,
                 isSaved: false,
                 rateThrottled: false,
                 emotions: [],
                 preppedCritique: null,
+                loadingRate: false,
+                loadingReact: false,
+                loadingCritique: false,
             }
         },
-        computed: {
-
+        watch: {
+            canCritique(val) {
+                console.log('canCritique: ', val)
+            },
+            canReact(val) {
+                console.log('canReact: ', val)
+            },
+            canRate(val) {
+                console.log('canRate: ', val)
+            },
         },
         methods: {
             canReactCheck(id){
+                let self = this;
+                this.loadingReact = true;
                 return this.$promise(function (resolve, reject) {
                     if (this.$root.user) {
                         this.$http.get('reactions', {params: {project: id, user: this.$root.user.id}})
                             .then(function (response) {
+                                self.loadingReact = false;
                                 response.data.data.length
                                     // critique exists already from this user
                                     ? reject(response.data.data[0])
@@ -131,15 +149,19 @@
                                     : resolve(true);
                             });
                     } else {
+                        this.loadingReact = false;
                         reject(false);
                     }
                 });
             },
             canCritiqueCheck(id){
+                let self = this;
+                this.loadingCritique = true;
                 return this.$promise(function (resolve, reject) {
                     if (this.$root.user) {
                         this.$http.get('critiques', {params: {project: id, user: this.$root.user.id}})
                             .then(function (response) {
+                                self.loadingCritique = false;
                                 response.data.data.length
                                     // critique exists already from this user
                                     ? reject(response.data.data[0])
@@ -147,15 +169,19 @@
                                     : resolve(true);
                             });
                     } else {
+                        this.loadingCritique = false;
                         reject(false);
                     }
                 });
             },
             canRateCheck(id){
+                let self = this;
+                this.loadingRate = true;
                 return this.$promise(function (resolve, reject) {
                     if (this.$root.user) {
                         this.$http.get('ratings', {params: {project: id, user: this.$root.user.id}})
                             .then(function (response) {
+                                self.loadingRate = false;
                                 response.data.ratings.length
                                     // critique exists already from this user
                                     ? reject(response.data.ratings[0])
@@ -163,6 +189,7 @@
                                     : resolve(true);
                             });
                     } else {
+                        this.loadingRate = false;
                         reject(false);
                     }
                 });
@@ -171,29 +198,37 @@
                 let self = this;
                 if (this.isAuthenticated) {
                     this.canReactCheck(self.project.id).then(function (res) {
-                        self.canReact = res;
+                        return self.canReact = res;
                     }, function (error) {
-                        self.canReact = error;
+                        return self.canReact = error;
+                    }).then(function () {
+                        self.loadingReact = false;
                     });
 
                     if (self.project.disableCritique || (self.project.owner_id === this.$root.user.id)) {
                         console.log('owner');
                         self.canCritique = false;
+                        self.loadingCritique = false;
                     } else {
                         this.canCritiqueCheck(self.project.id).then(function (res) {
-                            self.canCritique = res;
+                            return self.canCritique = res;
                         }, function (error) {
-                            self.canCritique = error;
+                            return self.canCritique = self.critiqued = error;
+                        }).then(function () {
+                            self.loadingCritique = false;
                         });
                     }
 
                     this.canRateCheck(self.project.id).then(function (res) {
-                        self.canRate = res;
+                        return self.canRate = res;
                     }, function (error) {
-                        self.canRate = error;
+                        return self.canRate = error;
+                    }).then(function () {
+                        self.loadingRate = false;
                     });
                 } else {
                     self.canCritique = true;
+                    self.loadingCritique = false;
                 }
             },
             handleActions(type, data){
@@ -238,7 +273,6 @@
                     }
                 }
             },
-
             rate(direction) {
                 let self = this;
                 if (this.rateThrottled) {
@@ -364,8 +398,7 @@
                     self.rateThrottled = false;
                 }, 1000);
             },
-
-            openCritiqueDialog($event) {
+            openCritiqueDialog() {
                 let self = this;
 
                 if (this.canCritique !== true && this.canCritique !== false) {
@@ -389,11 +422,9 @@
 
                 } else self.loginModal();
             },
-
             openShareDialog() {
                 this.$root.$emit('openShareDialog-' + this.project.id);
             },
-
             openReactionDialog() {
                 let self = this;
                 // is logged in
@@ -410,14 +441,12 @@
                 }
 
             },
-
             canReactIcon () {
                 if (_.isObject(this.canReact)) {
                     let emoticon = _.findWhere(this.emotions, {'emotion': this.canReact.emotion});
                     return _.isObject(emoticon) ? emoticon.src : '';
                 } else return false;
             },
-
             openAddToDialog () {
                 this.$modal.open({
                     templateUrl: 'common/share-dialog.html',
@@ -438,15 +467,12 @@
                     }]
                 })
             },
-
             openReportDialog (event) {
-                let self = this;
                 this.$root.$emit('openReportDialog', event.target.id);
             },
         },
         mounted(){
             let self = this;
-            this.$parent.projectStats = this;
             this.emotions = this.generateReactions();
 
             if (this.isAuthenticated) {

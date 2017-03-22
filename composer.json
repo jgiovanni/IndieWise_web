@@ -36,7 +36,6 @@
         "berkayk/onesignal-laravel": "^0.9.3",
         "yajra/laravel-datatables-oracle": "~6.0",
         "intercom/intercom-php": "^3.0",
-        "devdojo/chatter": "0.1.*",
         "laravelista/ekko": "^1.3",
         "artesaos/seotools": "^0.10.0",
         "darkin1/intercom": "^1.0",

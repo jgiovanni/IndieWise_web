@@ -13,6 +13,7 @@
 
 //use Dingo\Api\Auth\Auth;
 use App\Award;
+use App\Critique;
 use App\Reaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -136,59 +137,83 @@ Route::get('sign-in', function () {
 Route::get('login', function () {
     return view('auth.login');
 });
-Route::post('sign-in', 'Auth\AuthController@authenticate');
-Route::post('login', 'Api\AuthController@login');
-Route::get('register', 'Auth\AuthController@register');
-Route::get('logout', 'Auth\AuthController@logout');
+$this->post('sign-in', 'Auth\AuthController@authenticate');
+$this->post('login', 'Api\AuthController@login');
+$this->get('register', 'Auth\AuthController@register');
+$this->get('logout', 'Auth\AuthController@logout');
 
 
-//Route::group(['middleware' => 'web'], function () {
-//    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-Route::post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-Route::get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+//$this->group(['middleware' => 'web'], function () {
+//    $this->get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->get('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 //});
 
-Route::get('verification/error', 'Auth\VerifyController@getVerificationError');
-Route::get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
-//Route::get('verification/{token}', 'Auth\AuthController@getVerification');
+$this->get('verification/error', 'Auth\VerifyController@getVerificationError');
+$this->get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
+//$this->get('verification/{token}', 'Auth\AuthController@getVerification');
 
-Route::get('', function () {
+$this->get('', function () use ($dispatcher) {
+    $featured = $dispatcher->get('api/projects', [ 'random' => true, 'per_page' => 3]);
+    $trending = $dispatcher->get('api/projects', [ 'sort' => 'reactions_count', 'per_page' => 8]);
+    $highestRated = $dispatcher->get('api/projects', [ 'sort' => 'topRating', 'per_page' => 8]);
+    $awardWinning = $dispatcher->get('api/projects', [ 'sort' => 'wins_count', 'per_page' => 8]);
     SEO::setTitle('Home');
-//    SEO::setDescription('This is my page description');
-//    SEO::opengraph()->addProperty('type', 'articles');
 
-    return view('home');
+
+    return view('home', compact('featured', 'trending', 'highestRated', 'awardWinning'));
 });
 
-Route::get('browse', function () {
+$this->get('browse', function () {
     SEO::setTitle('Browse');
     return view('browse');
 });
 
-Route::get('latest', function () {
+$this->get('latest', function () {
     SEO::setTitle('Latest');
     return view('latest');
 });
 
-Route::get('winners', function () {
+$this->get('winners', function () {
     SEO::setTitle('Winners');
     return view('winners');
 });
 
-Route::get('upload', function () {
+$this->get('upload', function () {
     SEO::setTitle('Upload');
-    return view('user.views.upload');
+    return view('upload');
 });
 
-/*$this->group([ 'prefix' => 'profile'], function () use ($dispatcher) {
-    $this->get('/', function () use ($dispatcher) {
-        dd('here');
-        return view('profile.index');
-    });
-    $this->get('/about', function () {
-        return redirect('profile');
-    });
-});*/
+$this->get('about', function () use ($dispatcher) {
+    SEO::setTitle('About');
+    return view('misc.about');
+});
+
+$this->get('faq', function () use ($dispatcher) {
+    SEO::setTitle('FAQ');
+    return view('misc.faq');
+});
+
+$this->get('privacy', function () use ($dispatcher) {
+    SEO::setTitle('Privacy Policy');
+    return view('misc.privacy-policy');
+});
+
+$this->get('tos', function () use ($dispatcher) {
+    SEO::setTitle('Terms of Service');
+    return view('misc.terms');
+});
+
+$this->get('contact', function () use ($dispatcher) {
+    SEO::setTitle('Contact Us');
+    return view('misc.contact');
+});
+
+$this->get('advertise', function () use ($dispatcher) {
+    SEO::setTitle('Advertise');
+    return view('misc.about');
+});
 
 $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
     $this->get('{id}', function ($id) use ($dispatcher) {
@@ -218,8 +243,9 @@ $this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
 
 });
 
-Route::get('{project_id}', function ($project_id) use ($dispatcher) {
-    $project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
+$this->get('{project_id}', function ($project_id) use ($dispatcher) {
+    $project = Project::where('url_id', $project_id)->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->firstOrFail();
+    //$project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
     // dd($project);
 
     SEO::setTitle($project->name);
@@ -241,15 +267,15 @@ Route::get('{project_id}', function ($project_id) use ($dispatcher) {
     return view('project.index', compact('project'));
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
-Route::get('{project_id}/critique/{critique_id}', function ($project_id, $critique_id) use ($dispatcher) {
-    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);
-//    $token = JWTAuth::getToken();
-//    $user = JWTAuth::parseToken()->authenticate();
-//    dd(Cookie::get('token'));
+$this->get('{project_id}/critique/{critique_id}', function ($project_id, $critique_id) use ($dispatcher) {
+    $critique = Critique::where('url_id', $critique_id)->with('project.owner')->withCount(['comments'])->firstOrFail();
+//    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);
+
+    SEO::setTitle('Critique by ' . $critique->user->name . ' for ' . $critique->project->name);
     return view('project.critique', compact('critique'));
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
-Route::get('sitemap', function(){
+$this->get('sitemap', function(){
 
     // create new sitemap object
     $sitemap = App::make("sitemap");
@@ -293,7 +319,6 @@ Route::get('sitemap', function(){
 
         }
 
-        // TODO list profiles routes
         // TODO list profiles routes
     }
 
