@@ -208,7 +208,7 @@
                 </md-layout>
                 <md-layout>
                     <comments :disable="false" :critique-id="critique.id" :parent="critique" :child="false"></comments>
-                    <md-progress v-else md-indeterminate></md-progress>
+                    <!--<md-progress v-else md-indeterminate></md-progress>-->
                 </md-layout>
             </md-dialog-content>
 

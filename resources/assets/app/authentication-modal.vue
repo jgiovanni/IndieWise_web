@@ -72,6 +72,7 @@
                                     <md-input type="email" v-model="resetUser.email" placeholder="Enter your email"
                                               required>
                                         <span class="form-error">email is required</span>
+                                    </md-input>
                                 </md-input-container>
                                 <button class="button expanded" type="submit" name="submit">reset Now</button>
                                 <md-layout md-gutter>

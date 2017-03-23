@@ -21,7 +21,7 @@
     }*/
 </style>
 <script type="text/babel">
-        import { videoPlayer } from 'vue-video-player'
+    import { videoPlayer } from 'vue-video-player'
     export default {
         name: 'project-video-player',
         components: {videoPlayer},

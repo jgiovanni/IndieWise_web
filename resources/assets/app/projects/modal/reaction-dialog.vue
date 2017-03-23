@@ -3,7 +3,7 @@
         <md-dialog-title>How'd this make you feel?</md-dialog-title>
         <md-dialog-content>
             <md-input-container>
-                <md-input v-model="search" placeholder="Search a feeling">
+                <md-input v-model="search" placeholder="Search a feeling"></md-input>
             </md-input-container>
             <md-list style="height: 300px;overflow-y: scroll;">
                 <md-list-item class="angucomplete-row" v-for="reaction in filteredEmotions" @click.native="selectedEmotion(reaction)">

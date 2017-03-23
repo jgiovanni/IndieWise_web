@@ -94,6 +94,6 @@
     "vue-flickity": "^1.0.7",
     "vue-property-decorator": "^3.4.0",
     "vue-rawmodel": "^1.0.1",
-    "vue-video-player": "^2.5.0"
+    "vue-video-player": "^3.0.0"
   }
 }
