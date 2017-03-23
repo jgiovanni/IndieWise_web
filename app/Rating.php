@@ -12,7 +12,7 @@ class Rating extends Model
 {
     use UuidForKey, Filterable, ActivityTrait;
 
-    protected $table = 'Rating';
+    protected $table = 'ratings';
 
     protected $guarded = ['id'];
 

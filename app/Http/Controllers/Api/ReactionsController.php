@@ -87,7 +87,7 @@ class ReactionsController extends Controller
     public function latest()
     {
 //        $reactions = Reaction::with('project', 'user')->whereHas('project', function ($query) { $query->where('unlist', 0); })->orderBy('created_at', 'DESC')->take(6)->get();
-        $reactions = DB::select('SELECT r.id, r.created_at, r.emotion, r.user_id, reactor.userFullName, reactor.userUrlId, reactor.userAvatar, r.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM Reaction r LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail, p.unlist FROM Project p ) AS project ON project.id = r.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS reactor ON reactor.id = r.user_id WHERE project.unlist = FALSE ORDER BY r.created_at DESC LIMIT 6');
+        $reactions = DB::select('SELECT r.id, r.created_at, r.emotion, r.user_id, reactor.userFullName, reactor.userUrlId, reactor.userAvatar, r.project_id, project.projectName, project.projectUrlId, project.projectThumbnail FROM reactions r LEFT JOIN ( SELECT p.id, p.name AS projectName, p.url_id AS projectUrlId, p.thumbnail_url AS projectThumbnail, p.unlist FROM projects p ) AS project ON project.id = r.project_id LEFT JOIN ( SELECT u.id, CONCAT(u.firstName, \' \', u.lastName) AS userFullName, u.url_id AS userUrlId, u.avatar AS userAvatar FROM users u) AS reactor ON reactor.id = r.user_id WHERE project.unlist = FALSE ORDER BY r.created_at DESC LIMIT 6');
         return response()->json($reactions);
     }
 }

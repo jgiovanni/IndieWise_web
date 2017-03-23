@@ -13,6 +13,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/cviebrock/eloquent-sluggable" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/darkin1/intercom" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/devdojo/chatter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dingo/api" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dingo/blueprint" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dnoegel/php-xdg-base-dir" />
@@ -156,6 +157,7 @@
           <root url="file://$MODULE_DIR$/vendor/composer" />
           <root url="file://$MODULE_DIR$/vendor/cviebrock/eloquent-sluggable" />
           <root url="file://$MODULE_DIR$/vendor/darkin1/intercom" />
+          <root url="file://$MODULE_DIR$/vendor/devdojo/chatter" />
           <root url="file://$MODULE_DIR$/vendor/dingo/api" />
           <root url="file://$MODULE_DIR$/vendor/dingo/blueprint" />
           <root url="file://$MODULE_DIR$/vendor/dnoegel/php-xdg-base-dir" />
@@ -286,6 +288,7 @@
           <root url="file://$MODULE_DIR$/vendor/composer" />
           <root url="file://$MODULE_DIR$/vendor/cviebrock/eloquent-sluggable" />
           <root url="file://$MODULE_DIR$/vendor/darkin1/intercom" />
+          <root url="file://$MODULE_DIR$/vendor/devdojo/chatter" />
           <root url="file://$MODULE_DIR$/vendor/dingo/api" />
           <root url="file://$MODULE_DIR$/vendor/dingo/blueprint" />
           <root url="file://$MODULE_DIR$/vendor/dnoegel/php-xdg-base-dir" />

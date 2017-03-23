@@ -15,7 +15,7 @@ class Win extends Model
 {
     use SoftDeletes, Filterable, UuidForKey, ActivityTrait;
     //
-    protected $table = 'AwardWin';
+    protected $table = 'award_win';
 
     protected $fillable = ['award_id', 'project_id', 'owner_id', 'rewarded', 'rewarded_at'];
 

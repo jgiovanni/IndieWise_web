@@ -13,7 +13,7 @@ class Reaction extends Model
 {
     use UuidForKey, Filterable, ActivityTrait;
     //
-    protected $table = 'Reaction';
+    protected $table = 'reactions';
 
     protected $guarded = ['id'];
 

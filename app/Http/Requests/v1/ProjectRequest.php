@@ -29,9 +29,9 @@ class ProjectRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'owner_id' => 'required|exists:users,id',
-            'type_id' => 'required|exists:Type,id',
-            'language_id' => 'required|exists:Language,id',
-            'filmingCountry_id' => 'required|exists:Country,id',
+            'type_id' => 'required|exists:types,id',
+            'language_id' => 'required|exists:languages,id',
+            'filmingCountry_id' => 'required|exists:countries,id',
             'completionDate' => 'required|date|before:now',
             'hosting_type' => 'required|string|in:youtube,vimeo,HTML5,script',
 //            'hosting_id' => 'string|max:255',

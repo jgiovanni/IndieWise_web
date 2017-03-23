@@ -8,7 +8,7 @@ class Country extends Model
 {
     use UuidForKey;
     //
-    protected $table = 'Country';
+    protected $table = 'countries';
     
     public $timestamps = false;
 

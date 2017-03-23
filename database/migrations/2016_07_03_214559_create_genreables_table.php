@@ -14,7 +14,7 @@ class CreateGenreablesTable extends Migration
     {
         Schema::create('genreables', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->uuid('genre_id')->index()->references('id')->on('Genre');
+            $table->uuid('genre_id')->index()->references('id')->on('genres');
             $table->uuid('genreables_id')->index();
             $table->string('genreables_type');
         });
