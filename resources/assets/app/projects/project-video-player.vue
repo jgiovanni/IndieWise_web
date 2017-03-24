@@ -71,6 +71,7 @@
                          }
                          },*/
                         videoJsResolutionSwitcher: {
+                            ui: true,
                             default: 'high',
                             dynamicLabel: true
                         }
@@ -106,6 +107,12 @@
                         src.type = 'video/youtube';
                         src.src = 'https://www.youtube.com/watch?v=' + video.hosting_id;
                         // source.youtube = { 'ytControls': 2, 'cc_load_policy': 1, 'iv_load_policy': 1, 'modestbranding': 1, 'cc': 1};
+                        this.setupOptions.youtube = {
+                            ytControls: 2,
+                                customVars: {
+                                wmode: 'transparent'
+                            }
+                        };
                         break;
                     case 'vimeo':
                         src.type = 'video/vimeo';
@@ -152,7 +159,15 @@
                 live: false,
                 autoplay: false,
                 controls: true,
-                source: {}
+                height: 500,
+                source: {},
+                plugins: {
+                    videoJsResolutionSwitcher: {
+                        ui: true,
+                        default: 3,
+                        dynamicLabel: true
+                    }
+                }
             };
 
             switch (this.project.hosting_type) {
@@ -166,6 +181,18 @@
                     config.source.type = 'video/youtube';
                     config.source.src = 'https://www.youtube.com/watch?v=' + this.project.hosting_id;
                     config.ytControls = false;
+                    _.extend(config.plugins, {
+                        videoJsResolutionSwitcher: {
+                            default: 'low',
+                            dynamicLabel: true
+                        }
+                    });
+                    config.youtube = {
+                        ytControls: 2,
+                            customVars: {
+                            wmode: 'transparent'
+                        }
+                    }
 //                    config.techOrder = ['youtube'];
                     // source.youtube = { 'ytControls': 2, 'cc_load_policy': 1, 'iv_load_policy': 1, 'modestbranding': 1, 'cc': 1};
                     break;
