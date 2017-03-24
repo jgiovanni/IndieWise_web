@@ -325,10 +325,10 @@
                 deferred.resolve(data);
             }, function (error) {
                 DataService.collection('genres').then(function (result) {
-                    $rootScope.genresList = result.data.Genres;
-                    $localForage.setItem('genres', result.data.Genres);
+                    $rootScope.genresList = result.data.genres;
+                    $localForage.setItem('genres', result.data.genres);
                     $localForage.setItem('timestamp', moment().toISOString());
-                    deferred.resolve(result.data.Genres);
+                    deferred.resolve(result.data.genres);
                 });
             });
 
@@ -343,10 +343,10 @@
                 deferred.resolve(data);
             }, function (error) {
                 DataService.collection('types').then(function (result) {
-                    $rootScope.typesList = result.data.Types;
-                    $localForage.setItem('types', result.data.Types);
+                    $rootScope.typesList = result.data.types;
+                    $localForage.setItem('types', result.data.types);
                     $localForage.setItem('timestamp', moment().toISOString());
-                    deferred.resolve(result.data.Types);
+                    deferred.resolve(result.data.types);
                 });
             });
 
@@ -361,10 +361,10 @@
                 deferred.resolve(data);
             }, function (error) {
                 DataService.collection('countries').then(function (result) {
-                    $rootScope.countryList = result.data.Countries;
-                    $localForage.setItem('countries', result.data.Countries);
+                    $rootScope.countryList = result.data.countries;
+                    $localForage.setItem('countries', result.data.countries);
                     $localForage.setItem('timestamp', moment().toISOString());
-                    deferred.resolve(result.data.Countries);
+                    deferred.resolve(result.data.countries);
                 });
             });
 
@@ -379,10 +379,10 @@
                 deferred.resolve(data);
             }, function (error) {
                 DataService.collection('languages').then(function (result) {
-                    $rootScope.languageList = result.data.Languages;
-                    $localForage.setItem('languages', result.data.Languages);
+                    $rootScope.languageList = result.data.languages;
+                    $localForage.setItem('languages', result.data.languages);
                     $localForage.setItem('timestamp', moment().toISOString());
-                    deferred.resolve(result.data.Languages);
+                    deferred.resolve(result.data.languages);
                 });
             });
 
