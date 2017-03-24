@@ -21,6 +21,17 @@ import critiqueView from '../app/critiques/critique-view.vue';
 import critique from '../app/critiques/critique.vue';
 import comments from '../app/comments/comments.vue';
 
+// VideoPlayer
+import VueVideoPlayer from 'vue-video-player';
+Vue.use(VueVideoPlayer);
+
+require('videojs-youtube');
+require('./videojs-vimeo.min');
+require('videojs-contrib-hls');
+require('videojs-resolution-switcher');
+//    require('videojs-resolution-switcher/lib/videojs-resolution-switcher.css');
+
+
 new Vue({
     el: '#app',
     http: {

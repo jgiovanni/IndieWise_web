@@ -1,5 +1,5 @@
 <template>
-    <video-player v-if="videoOptions" :configs="configs" :options="videoOptions" @player-state-changed="playerStateChanged" ref="myPlayer"></video-player>
+    <video-player v-if="videoOptions" :options="videoOptions" @player-state-changed="playerStateChanged" @timeupdate="onPlayerTimeupdate" ref="myPlayer"></video-player>
 </template>
 <style>
     .flex-video.widescreen {
@@ -19,12 +19,47 @@
         overflow-x: hidden;
         background: #000;
     }*/
+    .vjs-resolution-button {
+        color: #ccc;
+        font-family: VideoJS;
+    }
+
+    .vjs-resolution-button .vjs-resolution-button-staticlabel:before {
+        content: '\f110';
+        font-size: 1.8em;
+        line-height: 1.67;
+    }
+
+    .vjs-resolution-button .vjs-resolution-button-label {
+        font-size: 1em;
+        line-height: 3em;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        box-sizing: inherit;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .vjs-resolution-button ul.vjs-menu-content {
+        width: 4em !important;
+    }
+
+    .vjs-resolution-button .vjs-menu {
+        left: 0;
+    }
+
+    .vjs-resolution-button .vjs-menu li {
+        text-transform: none;
+        font-size: 1em;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 </style>
 <script type="text/babel">
-    import { videoPlayer } from 'vue-video-player'
     export default {
         name: 'project-video-player',
-        components: {videoPlayer},
         props: {
             project: {
                 type: Object,
@@ -41,11 +76,6 @@
         data(){
             return {
                 player: null,
-                configs: {
-                    youtube: true,
-                    vimeo: true,
-                    hls: false,
-                },
                 throttledWatcher: null,
                 watched: false,
                 playlist: [],
@@ -82,9 +112,11 @@
         },
         methods: {
             playerStateChanged(playerCurrentState) {
-                // console.log(playerCurrentState);
-                if (playerCurrentState.currentTime && !this.watched) {
-                    this.throttledWatcher(playerCurrentState.currentTime);
+
+            },
+            onPlayerTimeupdate(player){
+                if (player.currentTime() && !this.watched) {
+                    this.throttledWatcher(player.currentTime());
                 }
             },
             setupSource(video, dest) {
@@ -163,43 +195,41 @@
                 source: {},
                 plugins: {
                     videoJsResolutionSwitcher: {
-                        ui: true,
-                        default: 3,
+                        default: 'low',
                         dynamicLabel: true
                     }
-                }
+                },
+                sources: [],
             };
 
             switch (this.project.hosting_type) {
                 case 'HTML5':
-                    config.source.type = 'video/mp4';
-                    config.source.src = this.project.video_url;
+                    config.sources.push({
+                        type: 'video/mp4',
+                        src: this.project.video_url
+                    });
                     config.controls = true;
-//                    config.techOrder = ['Html5'];
                     break;
                 case 'youtube':
-                    config.source.type = 'video/youtube';
-                    config.source.src = 'https://www.youtube.com/watch?v=' + this.project.hosting_id;
-                    config.ytControls = false;
-                    _.extend(config.plugins, {
-                        videoJsResolutionSwitcher: {
-                            default: 'low',
-                            dynamicLabel: true
-                        }
+                    config.sources.push({
+                        type: 'video/youtube',
+                        src: 'https://www.youtube.com/watch?v=' + this.project.hosting_id
                     });
+
+                    /*config.controls = false;
                     config.youtube = {
                         ytControls: 2,
-                            customVars: {
+                        customVars: {
                             wmode: 'transparent'
                         }
-                    }
-//                    config.techOrder = ['youtube'];
-                    // source.youtube = { 'ytControls': 2, 'cc_load_policy': 1, 'iv_load_policy': 1, 'modestbranding': 1, 'cc': 1};
+                    };*/
+
                     break;
                 case 'vimeo':
-                    config.source.type = 'video/vimeo';
-                    config.source.src = 'https://vimeo.com/' + this.project.hosting_id;
-//                    config.techOrder = ['vimeo'];
+                    config.sources.push({
+                        type: 'video/vimeo',
+                        src: 'https://vimeo.com/' + this.project.hosting_id
+                    });
                     // source.vimeo = { "ytControls": 2 };
                     break;
             }
