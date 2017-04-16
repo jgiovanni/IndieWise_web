@@ -51,7 +51,8 @@
                             I'm feeling ...</span>
                     </md-button>
 
-                    <md-button class="md-primary md-dense" @click.native="openCritiqueDialog">
+                    <md-button class="md-primary md-dense" @click.native="openCritiqueDialog" :disabled="isOwner">
+                        <md-tooltip v-show="isOwner" md-direction="top">Project owner can not critique their own content.</md-tooltip>
                         <span v-if="canCritique!==true && canCritique !== 'login' && canCritique !== false">
                             Judged: <span>{{canCritique.overall}}</span>
                         </span>
@@ -122,6 +123,11 @@
                 loadingCritique: false,
             }
         },
+        computed: {
+            isOwner() {
+                return this.$root.user && this.project.owner_id === this.$root.user.id;
+            }
+        },
         watch: {
             canCritique(val) {
                 console.log('canCritique: ', val)
@@ -142,9 +148,9 @@
                         this.$http.get('reactions', {params: {project: id, user: this.$root.user.id}})
                             .then(function (response) {
                                 self.loadingReact = false;
-                                response.data.data.length
+                                response.body.data.length
                                     // critique exists already from this user
-                                    ? reject(response.data.data[0])
+                                    ? reject(response.body.data[0])
                                     // user hasn't critiqued yet
                                     : resolve(true);
                             });
@@ -162,9 +168,9 @@
                         this.$http.get('critiques', {params: {project: id, user: this.$root.user.id}})
                             .then(function (response) {
                                 self.loadingCritique = false;
-                                response.data.data.length
+                                response.body.data.length
                                     // critique exists already from this user
-                                    ? reject(response.data.data[0])
+                                    ? reject(response.body.data[0])
                                     // user hasn't critiqued yet
                                     : resolve(true);
                             });
@@ -182,9 +188,9 @@
                         this.$http.get('ratings', {params: {project: id, user: this.$root.user.id}})
                             .then(function (response) {
                                 self.loadingRate = false;
-                                response.data.ratings.length
+                                response.body.ratings.length
                                     // critique exists already from this user
-                                    ? reject(response.data.ratings[0])
+                                    ? reject(response.body.ratings[0])
                                     // user hasn't critiqued yet
                                     : resolve(true);
                             });
@@ -205,7 +211,7 @@
                         self.loadingReact = false;
                     });
 
-                    if (self.project.disableCritique || (self.project.owner_id === this.$root.user.id)) {
+                    if (self.project.disableCritique || (self.isOwner)) {
                         console.log('owner');
                         self.canCritique = false;
                         self.loadingCritique = false;
@@ -257,7 +263,7 @@
                             self.project.reactions_count++;
                             
                             self.checkUserActions();
-                            self.handleActions('reaction', resA.data.data);
+                            self.handleActions('reaction', resA.body.data);
                         });
                     } else if (_.isObject(self.canReact)) {
                         if (self.canReact.emotion !== emotion.emotion) {
@@ -267,7 +273,7 @@
                                 self.canReact = resA.data;
                                 
                                 self.checkUserActions();
-                                self.handleActions('reaction', resA.data.data);
+                                self.handleActions('reaction', resA.body.data);
                             });
                         }
                     }
@@ -314,7 +320,7 @@
                         
                         _.extend(res.data, {projectOwner: self.project.owner_id});
                         self.checkUserActions();
-                        self.handleActions('rate', res.data.data);
+                        self.handleActions('rate', res.body.data);
                     });
 
                 } else if (_.isObject(self.canRate)) {
@@ -341,7 +347,7 @@
                                 _.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.handleActions('rate', res.data.data);
+                                self.handleActions('rate', res.body.data);
                             });
 
                         // up is already true && direction is up
@@ -353,7 +359,7 @@
                                 self.project.up_ratings_count--;
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.handleActions('rate', res.data.data);
+                                self.handleActions('rate', res.body.data);
                             });
 
                         // down is already true && direction is down
@@ -366,7 +372,7 @@
                                 
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.handleActions('rate', res.data.data);
+                                self.handleActions('rate', res.body.data);
                             });
 
                         // down is true && direction is up || up is true && direction is down -> reversal
@@ -390,7 +396,7 @@
                         ratingsResource.update({id: self.canRate.id}, { up: up, down: down}).then(function (res) {
                             //self.checkUserActions();
                             _.extend(res.data, {projectOwner: self.project.owner_id});
-                            self.handleActions('rate', res.data.data);
+                            self.handleActions('rate', res.body.data);
                         });
                     }
                 }
@@ -482,6 +488,7 @@
             this.$root.$on('userHasLoggedIn', function () {
                 self.checkUserActions();
             });
+
             this.$root.$on('projectReactionSelected', function (e) {
                 self.react(e);
             });

@@ -292,7 +292,7 @@
         created(){
 
             this.$http.get('users/countUserStats')
-                .then(response => this.userStats = response.data, (error) => console.log(error))
+                .then(response => this.userStats = response.body, (error) => console.log(error))
         },
         mounted(){
 

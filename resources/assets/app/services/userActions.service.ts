@@ -38,9 +38,9 @@ export default class UserActionsService implements IUserActionsService {
         if (this.AuthService.isAuthenticated()) {
             this.DataService.collection('critiques', {project: filmId, user: this.AuthService.currentUser.id})
                 .then(function (res) {
-                    res.data.data.length
+                    res.body.data.length
                         // critique exists already from this user
-                        ? deferred.reject(res.data.data[0])
+                        ? deferred.reject(res.body.data[0])
                         // user hasn't critiqued yet
                         : deferred.resolve(true);
                 });
@@ -54,9 +54,9 @@ export default class UserActionsService implements IUserActionsService {
         if (this.AuthService.currentUser) {
             this.DataService.collection('reactions', {project: filmId, user: this.AuthService.currentUser.id})
                 .then(function (res) {
-                    res.data.data.length
+                    res.body.data.length
                         // critique exists already from this user
-                        ? deferred.reject(res.data.data[0])
+                        ? deferred.reject(res.body.data[0])
                         // user hasn't critiqued yet
                         : deferred.resolve(true);
                 });

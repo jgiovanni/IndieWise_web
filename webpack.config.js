@@ -1,4 +1,6 @@
-    Elixir.webpack.mergeConfig({
+var webpack = require('webpack');
+
+Elixir.webpack.mergeConfig({
     module: {
         preLoaders: [{
             test: /\.json$/,
@@ -13,5 +15,11 @@
                 test: /\.scss$/,
                 loaders: ["style-loader", "css-loader", "sass-loader"]
             }],
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': '"production"'
+            })
+        ]
+
     }
 });

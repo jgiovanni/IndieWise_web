@@ -30,7 +30,7 @@ export class ProjectReactionsController implements IProjectReactions {
         let self = this;
         this.DataService.collection('projects/reactions', {project: this.project.id})
             .then(function (response: Object) {
-                self.chartedReactions = response.data.data;
+                self.chartedReactions = response.body.data;
             });
     }
 

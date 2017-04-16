@@ -16,7 +16,7 @@ export class WinnersController {
             date_start: self.date,
             date_end: moment(self.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')
         }).then(function (response) {
-            self.awards = response.data.Awards;
+            self.awards = response.body.Awards;
         });
     }
 }

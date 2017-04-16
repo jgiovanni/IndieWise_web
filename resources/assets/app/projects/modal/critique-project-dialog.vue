@@ -371,7 +371,7 @@
                 this.processing = true;
                 this.critique.url_id = moment().valueOf();
                 self.$http.post('critiques?include=user,award', this.critique).then(function (res) {
-                    let obj = res.data.data;
+                    let obj = res.body.data;
 
                     self.critiques.push(obj);
 //                    self.calcIwAverage(self.critiques);
@@ -399,7 +399,7 @@
                     } else {
 
                     }
-                    self.projectCtrl.handleActions('rate', critique.data.data);
+                    self.projectCtrl.handleActions('rate', critique.body.data);
 
                 }, function (error) {
                     alert('Failed to create new critique, with error code: ' + error.message);

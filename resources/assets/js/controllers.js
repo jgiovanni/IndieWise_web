@@ -42,7 +42,7 @@
                 $localForage.clear();
             });
             DataService.collection('projects', { per_page: 3, sort: 'created_at' }).then(function (result) {
-                _.each(result.data.data, function (i) {
+                _.each(result.body.data, function (i) {
                 });
                 self.footerRecentVideos = result.data;
             });

@@ -150,8 +150,8 @@
                     // Generate playlist
                     DataService.collection('projects', {owner: scope.film.owner.id, notVideo: scope.film.id, per_page: 20})
                         .then(function (response) {
-                            scope.otherSources = response.data.data;
-                            _.each(response.data.data, function (vid) {
+                            scope.otherSources = response.body.data;
+                            _.each(response.body.data, function (vid) {
                                 // setupSource(vid, otherSources);
                                 otherSources.push({
                                     title: vid.name,
@@ -375,8 +375,8 @@
                     // Generate playlist
                     DataService.collection('projects', {owner: scope.film.owner.id, notVideo: scope.film.id, per_page: 20})
                         .then(function (response) {
-                            /!*scope.otherSources = response.data.data;
-                            _.each(response.data.data, function (vid) {
+                            /!*scope.otherSources = response.body.data;
+                            _.each(response.body.data, function (vid) {
                                 setupSource(vid, sources);
                             });*!/
 
@@ -438,7 +438,7 @@
 
                     // Generate playlist
                     DataService.collection('projects', {owner: video.owner.id, notVideo: video.id, per_page: 20}).then(function (result) {
-                        scope.playlistFilms = result.data.data;
+                        scope.playlistFilms = result.body.data;
                         return scope.playlistFilms;
                     }).then(function (res) {
                         _.each(res, function (vid) {

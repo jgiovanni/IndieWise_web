@@ -96,8 +96,32 @@ Vue.http.interceptors.push((request, next) => {
         request.headers.set('Authorization', token);
     }
 
+    // Show Spinners in all components where they exist
+    if (_.contains(['GET', 'POST', 'PUT'], request.method.toUpperCase()) && request.root === '/api') {
+        if (this.$refs && this.$refs.spinner && !request.params.hideLoader) {
+            switch (request.method.toUpperCase()) {
+                case 'GET':
+                    this.$refs.spinner.show({text: 'Loading'});
+                    break;
+                case 'POST':
+                    this.$refs.spinner.show({text: 'Saving'});
+                    break;
+                case 'PUT':
+                    this.$refs.spinner.show({text: 'Updating'});
+                    break;
+            }
+        }
+    }
+
+
     // continue to next interceptor
     next(response => {
+
+        // Hide Spinners in all components where they exist
+        if (this.$refs && this.$refs.spinner && !_.isUndefined(this.$refs.spinner._started)) {
+            this.$refs.spinner.hide();
+        }
+
         if (response.status && response.status.code === 401) {
             localStorage.removeItem('jwt-token')
         }
@@ -168,6 +192,15 @@ Vue.mixin({
                 });
         },
 
+        // Sort Methods
+        sortByAsc(array, property){
+            return array.sort(function (a, b) {
+                var textA = a[property].toUpperCase();
+                var textB = b[property].toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            })
+        },
+
         // Misc Methods
         isMobile() {
             return this.isIOS || this.isAndroid || Foundation.MediaQuery.current === 'small';
@@ -185,14 +218,15 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('types', function (err, data) {
                     if (data) {
-                        self.$root.typesList = data;
-                        resolve(data);
+                        self.$root.typesList = self.sortByAsc(data, 'name');
+                        resolve(self.$root.typesList);
                     } else {
                         self.$http.get('types').then(function (result) {
-                            self.$root.typesList = result.data.Types;
-                            self.$setItem('types', result.data.Types);
+                            let types = self.sortByAsc(result.body.types, 'name');
+                            self.$root.typesList = types;
+                            self.$setItem('types', types);
                             self.$setItem('timestamp', moment().toISOString());
-                            resolve(result.data.Types);
+                            resolve(types);
                         });
                     }
                 });
@@ -203,14 +237,15 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('genres', function (err, data) {
                     if (data) {
-                        self.$root.genresList = data;
-                        resolve(data);
+                        self.$root.genresList = self.sortByAsc(data, 'name');
+                        resolve(self.$root.genresList);
                     } else {
                         self.$http.get('genres').then(function (result) {
-                            self.$root.genresList = result.data.Genres;
-                            self.$setItem('genres', result.data.Genres);
+                            let genres = self.sortByAsc(result.body.genres, 'name');
+                            self.$root.genresList = genres;
+                            self.$setItem('genres', genres);
                             self.$setItem('timestamp', moment().toISOString());
-                            resolve(result.data.Genres);
+                            resolve(genres);
                         });
                     }
                 });
@@ -221,14 +256,15 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('countries', function (err, data) {
                     if (data) {
-                        self.$root.countryList = data;
-                        resolve(data);
+                        self.$root.countryList = self.sortByAsc(data, 'name');
+                        resolve(self.$root.countryList);
                     } else {
                         self.$http.get('countries').then(function (result) {
-                            self.$root.countryList = result.data.Countries;
-                            self.$setItem('countries', result.data.Countries);
+                            let countries = self.sortByAsc(result.body.countries, 'name');
+                            self.$root.countryList = countries;
+                            self.$setItem('countries', countries);
                             self.$setItem('timestamp', moment().toISOString());
-                            resolve(result.data.Countries);
+                            resolve(countries);
                         });
                     }
                 });
@@ -239,14 +275,15 @@ Vue.mixin({
             return this.$promise(function (resolve, reject) {
                 self.$getItem('languages', function (err, data) {
                     if (data) {
-                        self.$root.languageList = data;
-                        resolve(data);
+                        self.$root.languageList = self.sortByAsc(data, 'English');
+                        resolve(self.$root.languageList);
                     } else {
                         self.$http.get('languages').then(function (result) {
-                            self.$root.languageList = result.data.Languages;
-                            self.$setItem('languages', result.data.Languages);
+                            let languages = self.sortByAsc(result.body.languages, 'English');
+                            self.$root.languageList = languages;
+                            self.$setItem('languages', languages);
                             self.$setItem('timestamp', moment().toISOString());
-                            resolve(result.data.Languages);
+                            resolve(languages);
                         });
                     }
                 });

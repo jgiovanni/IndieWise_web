@@ -128,7 +128,7 @@
                     user_id: this.$root.user.id
                 })
                         .then(function (comment) {
-                            self.comments.data.push(comment.data.data);
+                            self.comments.data.push(comment.body.data);
                             self.$root.$emit('toastMessage', 'Comment posted!');
                             self.myComment = null;
                             self.clearCommentinput();
@@ -168,7 +168,7 @@
                         include: 'replies'
                     }
                 }).then(function(result) {
-                    this.comments = result.data.data;
+                    this.comments = result.body.data;
                     this.pagination = result.data.meta.pagination;
                     this.loading = false;
                 }, function(error){

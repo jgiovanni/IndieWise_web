@@ -35,7 +35,7 @@ export default class AuthService implements IAuthService {
             let self = this;
             return this.$http.get(this.API + 'check_verification').then(function (response) {
                 self.lastCheckedVerification = moment();
-                return response.data.check;
+                return response.body.check;
             });
         }.bind(this), 30000);
     }
@@ -118,8 +118,8 @@ export default class AuthService implements IAuthService {
                 this.$http.get(this.API + 'authenticate')
                     .then((response) => {
                         this.$cookies.put('iw_token', this.$auth.getToken(), {secure: true});
-                        // console.log(response.data.user);
-                        deferred.resolve(this.$rootScope.AppData.User = this.currentUser = response.data.user);
+                        // console.log(response.body.user);
+                        deferred.resolve(this.$rootScope.AppData.User = this.currentUser = response.body.user);
                     }, (error) => {
                         deferred.reject(error);
                     });
@@ -138,9 +138,9 @@ export default class AuthService implements IAuthService {
         return this.$auth.login({email: _user, password: _password})
             .then((response) => {
                 if (response.status === 200) {
-                    this.$http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    this.$auth.setToken(response.data.token);
-                    this.$cookies.put('iw_token', response.data.token, {secure: true});
+                    this.$http.defaults.headers.common.Authorization = 'Bearer ' + response.body.token;
+                    this.$auth.setToken(response.body.token);
+                    this.$cookies.put('iw_token', response.body.token, {secure: true});
                     this.getCurrentUser();
                     return true;
                     // return { status: true };
@@ -157,7 +157,7 @@ export default class AuthService implements IAuthService {
                 console.log(response);
                 return {
                     status: false,
-                    errors: this.error = response.data ? response.data.errors : 'Unknown error from server'
+                    errors: this.error = response.body ? response.body.errors : 'Unknown error from server'
                 };
             });
     }
@@ -167,7 +167,7 @@ export default class AuthService implements IAuthService {
         isModal = isModal || false;
         return this.$auth.authenticate(provider)
             .then(function (response) {
-                // console.log(response.data);
+                // console.log(response.body);
                 self.getCurrentUser().then(function (user) {
                     self.error = '';
                     if (!isModal) {

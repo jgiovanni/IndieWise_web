@@ -80,7 +80,7 @@
                             .then(function (pl) {
                                 self.toggleNewPlInput(false);
                                 self.model.newName = null;
-                                self.playlists.push(pl.data.data);
+                                self.playlists.push(pl.body.data);
                             }, function (error) {
                                 console.log(error);
                             });
@@ -143,7 +143,7 @@
                         }})
                             .then(function (resA) {
                                 // console.log(resA);
-                                self.model.playlistArr = resA.data.data;
+                                self.model.playlistArr = resA.body.data;
 
                                 // list playlists
                                 self.playlists = res.data.playlists;

@@ -30,7 +30,7 @@
             let self = this;
             this.$http.get('wins', {params: {project: this.id, sort: 'name'}})
                 .then((result) => {
-                    self.wins = result.data.data;
+                    self.wins = result.body.data;
                     // console.log('AwardWin: ', result.data);
                 }, (error) => console.log(error)).then(function () {
                 this.loading = false;

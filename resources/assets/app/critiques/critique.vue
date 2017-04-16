@@ -211,7 +211,7 @@
                     include: 'project.owner'
                 }
             }).then(function (response) {
-                this.critique = response.data.data;
+                this.critique = response.body.data;
             });
 
         }

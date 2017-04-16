@@ -73,6 +73,15 @@ hr.thin {
     margin: 0 0 30px;
 }
 
+.sponsor {
+    display: inline-block;
+}
+
+.normal-wrap span {
+    white-space: normal !important;
+}
+
+
 /* Custom Alert Styles */
 #alerts {
     left: 0;

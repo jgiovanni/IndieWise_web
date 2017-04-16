@@ -212,10 +212,10 @@ export class ProfileUploadController implements IProfile {
 
             self.DataService.save('projects', filmParams)
                 .then(function (project) {
-                    console.log(project.data.data);
+                    console.log(project.body.data);
                     self.$rootScope.toastMessage('Project Uploaded Successfully');
                     // register Action
-                    self.$state.go('video', {url_id: project.data.data.url_id});
+                    self.$state.go('video', {url_id: project.body.data.url_id});
                     //return film;
                 }, function (err) {
                     // console.log(err);

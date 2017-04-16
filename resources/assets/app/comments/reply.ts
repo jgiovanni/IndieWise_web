@@ -45,7 +45,7 @@ export class ReplyController implements IReply {
             comment_id: this.targetComment.id,
             user_id: this.isLoggedIn.id
         }).then(function (comment) {
-            self.onReply({ reply: comment.data.data });
+            self.onReply({ reply: comment.body.data });
             self.myReply = null;
         }, function (error) {
             console.log('Failed to create new reply, with error code: ' + error.message);

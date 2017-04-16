@@ -97,12 +97,12 @@
                 this.user = this.$root.user;
             } else {
                 this.$http.get('users/' + this.user.id).then(function (response) {
-                    this.user = response.data.data;
+                    this.user = response.body.data;
                 });
             }
 
             this.$http.get('projects', {params: {owner: this.user.id, sort: 'created_at', per_page: 50}}).then(function (response) {
-	            this.projects = response.data;
+	            this.projects = response.body;
             })
 
         }

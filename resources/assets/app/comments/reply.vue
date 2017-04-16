@@ -64,7 +64,7 @@
                     comment_id: this.targetComment ? this.targetComment.id : null,
                     user_id: this.$root.user.id
                 }).then(function (comment) {
-                    // self.onReply({ reply: comment.data.data });
+                    // self.onReply({ reply: comment.body.data });
                     self.myReply = null;
                 }, function (error) {
                     console.log('Failed to create new reply, with error code: ' + error.message);

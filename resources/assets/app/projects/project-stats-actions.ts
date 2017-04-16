@@ -111,7 +111,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     self.project.reactions_count++;
                     // self.updateVideoObj();
                     self.checkUserActions();
-                    self.projectCtrl.handleActions('reaction', resA.data.data);
+                    self.projectCtrl.handleActions('reaction', resA.body.data);
                 });
             } else if (angular.isObject(self.canReact)) {
                 if (self.canReact.emotion !== emotion.emotion) {
@@ -121,7 +121,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         self.canReact = resA.data;
                         // self.updateVideoObj();
                         self.checkUserActions();
-                        self.projectCtrl.handleActions('reaction', resA.data.data);
+                        self.projectCtrl.handleActions('reaction', resA.body.data);
                     });
                 }
             }
@@ -169,7 +169,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                 // self.updateVideoObj();
                 angular.extend(res.data, {projectOwner: self.project.owner_id});
                 self.checkUserActions();
-                self.projectCtrl.handleActions('rate', res.data.data);
+                self.projectCtrl.handleActions('rate', res.body.data);
             });
 
         } else if (angular.isObject(self.canRate)) {
@@ -195,7 +195,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         //self.updateVideoObj();
                         angular.extend(res.data, {projectOwner: self.project.owner_id});
                         //self.checkUserActions();
-                        self.projectCtrl.handleActions('rate', res.data.data);
+                        self.projectCtrl.handleActions('rate', res.body.data);
                     });
 
                 // up is already true && direction is up
@@ -208,7 +208,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         //self.updateVideoObj();
                         angular.extend(res.data, {projectOwner: self.project.owner_id});
                         //self.checkUserActions();
-                        self.projectCtrl.handleActions('rate', res.data.data);
+                        self.projectCtrl.handleActions('rate', res.body.data);
                     });
 
                 // down is already true && direction is down
@@ -221,7 +221,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                         //self.updateVideoObj();
                         angular.extend(res.data, {projectOwner: self.project.owner_id});
                         //self.checkUserActions();
-                        self.projectCtrl.handleActions('rate', res.data.data);
+                        self.projectCtrl.handleActions('rate', res.body.data);
                     });
 
                 // down is true && direction is up || up is true && direction is down -> reversal
@@ -246,7 +246,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     //self.updateVideoObj();
                     //self.checkUserActions();
                     angular.extend(res.data, {projectOwner: self.project.owner_id});
-                    self.projectCtrl.handleActions('rate', res.data.data);
+                    self.projectCtrl.handleActions('rate', res.body.data);
                 });
             }
         }
@@ -378,7 +378,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                 $scope.processing = true;
                 $scope.critique.url_id = moment().valueOf();
                 self.DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
-                    let obj = res.data.data;
+                    let obj = res.body.data;
 
                     self.critiques.push(obj);
                     self.calcIwAverage(self.critiques);
@@ -406,7 +406,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                     } else {
 
                     }
-                    self.projectCtrl.handleActions('rate', critique.data.data);
+                    self.projectCtrl.handleActions('rate', critique.body.data);
 
                 }, function (error) {
                     alert('Failed to create new critique, with error code: ' + error.message);

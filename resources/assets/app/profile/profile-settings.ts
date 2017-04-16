@@ -29,8 +29,8 @@ export class ProfileSettingsController implements IProfile {
         let pwSetting = this.$window.localStorage.getItem('pwAllowPushNotifications');
         this.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
 
-        this.genresArr = this.user.genres.data; //Genres.data.data;
-        this.typesArr = this.user.types;// UserTypes.data.data;
+        this.genresArr = this.user.genres.data; //Genres.body.data;
+        this.typesArr = this.user.types;// UserTypes.body.data;
 
         this.user.dob = moment(this.user.dob).startOf('day').toDate();
         this.user.settings = angular.isObject(this.user.settings) ? this.user.settings : JSON.parse(this.user.settings || '{}');
@@ -52,11 +52,11 @@ export class ProfileSettingsController implements IProfile {
             user.settings = JSON.stringify(user.settings);
             this.AuthService.updateUser(user).then(function (res) {
                 // console.log(res);
-                res.data.data.dob = moment(res.data.data.dob).toDate();
-                res.data.data.settings = JSON.parse(res.data.data.settings);
-                this.AuthService.currentUser = self.user = res.data.data;
-                res.data.data.name = res.data.data.fullName;
-                this.$intercom.update(res.data.data);
+                res.body.data.dob = moment(res.body.data.dob).toDate();
+                res.body.data.settings = JSON.parse(res.body.data.settings);
+                this.AuthService.currentUser = self.user = res.body.data;
+                res.body.data.name = res.body.data.fullName;
+                this.$intercom.update(res.body.data);
                 this.saveComplete = true;
                 this.updating = false;
                 this.anchorSmoothScroll.scrollTo('success');

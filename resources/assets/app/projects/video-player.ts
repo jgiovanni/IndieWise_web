@@ -64,8 +64,8 @@ export class VideoPlayerController implements IVideoPlayer {
         // Generate playlist
         this.DataService.collection('projects', {owner: this.project.owner.id, notVideo: this.project.id, per_page: 20})
             .then(function (response) {
-                self.otherSources = response.data.data;
-                self._.each(response.data.data, function (vid) {
+                self.otherSources = response.body.data;
+                self._.each(response.body.data, function (vid) {
                     // setupSource(vid, otherSources);
                     self.otherSources.push({
                         title: vid.name,

@@ -42,7 +42,7 @@ export class CritiquesController implements ICritiques {
         this.params.sort = this.sortOrder || 'created_at|desc';
         this.DataService.collection('critiques', this.params)
             .then((result) => {
-                self.critiques = result.data.data;
+                self.critiques = result.body.data;
                 self.pagination = result.data.meta.pagination;
                 // self.calcIwAverage(self.critiques);
             }, (error) => {
@@ -59,7 +59,7 @@ export class CritiquesController implements ICritiques {
         this.loading = true;
         this.DataService.collection('critiques', this.params)
             .then((result) => {
-                self.critiques = this._.union(self.critiques, result.data.data);
+                self.critiques = this._.union(self.critiques, result.body.data);
                 self.pagination = result.data.meta.pagination;
                 // self.calcIwAverage(self.critiques);
             }, (error) => {

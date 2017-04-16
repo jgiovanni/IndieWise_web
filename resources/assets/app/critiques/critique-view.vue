@@ -256,7 +256,7 @@
 
             loadComments() {
                 this.$http.get('comments', {params: { include: 'replies', replies: false, critique: this.critique.id, per_page: 50, sort: this.sortOrder}})
-                    .then((response) => this.comments = response.data, (error) => console.log(error));
+                    .then((response) => this.comments = response.body, (error) => console.log(error));
             },
         },
         created(){

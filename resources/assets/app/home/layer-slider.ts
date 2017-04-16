@@ -15,7 +15,7 @@ export class LayerSliderController implements ILayerSlider {
     $onInit = function() {
         let self = this;
         var b = this.DataService.collection('projects', { random: true, per_page: 3}).then(function (response: Object) {
-            self.projects = response.data;
+            self.projects = response.body;
         });
 
         this.$q.all([b]).then(function () {

@@ -267,6 +267,15 @@ $this->get('{project_id}', function ($project_id) use ($dispatcher) {
     return view('project.index', compact('project'));
 })->where('project_id', '[0-9a-zA-Z]{10,13}+');
 
+$this->get('{project_id}/edit', function ($project_id) use ($dispatcher) {
+    $project = Project::where('url_id', $project_id)->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->firstOrFail();
+    //$project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
+    // dd($project);
+
+    SEO::setTitle('Edit: ' . $project->name);
+    return view('project.edit', compact('project_id'));
+})->where('project_id', '[0-9a-zA-Z]{10,13}+');
+
 $this->get('{project_id}/critique/{critique_id}', function ($project_id, $critique_id) use ($dispatcher) {
     $critique = Critique::where('url_id', $critique_id)->with('project.owner')->withCount(['comments'])->firstOrFail();
 //    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);

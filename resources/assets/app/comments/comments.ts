@@ -52,7 +52,7 @@ export class CommentsController implements IComments {
             user_id: this.model.isLoggedIn.id
         })
             .then(function (comment) {
-                self.comments.data.push(comment.data.data);
+                self.comments.data.push(comment.body.data);
                 self.$rootScope.toastMessage('Comment posted!');
                 self.model.myComment = null;
                 self.clearCommentinput();

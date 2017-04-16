@@ -235,7 +235,7 @@ var IndieWise;
                 resolve: {
                     Critique: ['$stateParams', 'DataService', function ($stateParams, DataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(function (result) { return result.data.data; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.body.data; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -246,7 +246,7 @@ var IndieWise;
                 resolve: {
                     Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService, $stateParams, DataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(function (result) { return (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result.data.data : 'Not Owner'; }, function (error) { return console.log(error); });
+                                .then(function (result) { return (AuthService.isAuthenticated() && result.body.data.user_id === AuthService.currentUser.id) ? result.body.data : 'Not Owner'; }, function (error) { return console.log(error); });
                         }]
                 }
             })
@@ -257,7 +257,7 @@ var IndieWise;
                 resolve: {
                     User: ['$stateParams', 'DataService', function ($stateParams, DataService) {
                             return DataService.item('users', $stateParams.url_id)
-                                .then(function (result) { return result.data.data; }, function (error) { return console.log(error); });
+                                .then(function (result) { return result.body.data; }, function (error) { return console.log(error); });
                         }],
                     UserStats: ['User', 'DataService', function (User, DataService) {
                             return DataService.item('users/countUserStats', User.id)
@@ -334,7 +334,7 @@ var IndieWise;
                     User: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return AuthService.getCurrentUser()
                                 .then(function (response) { return DataService.item('users', response.id, 'genres')
-                                .then(function (response) { return response.data.data; }, function (error) { return console.log(error); }); }, function (error) { return console.log(error); });
+                                .then(function (response) { return response.body.data; }, function (error) { return console.log(error); }); }, function (error) { return console.log(error); });
                         }],
                     UserStats: ['AuthService', 'DataService', function (AuthService, DataService) {
                             return DataService.collection('users/countUserStats')
@@ -560,7 +560,7 @@ var IndieWise;
                     Project: ['$stateParams', 'DataService', '$q', function ($stateParams, DataService, $q) {
                             var deferred = $q.defer();
                             DataService.item('projects', $stateParams.url_id, '')
-                                .then(function (result) { return deferred.resolve(result.data.data); })
+                                .then(function (result) { return deferred.resolve(result.body.data); })
                                 .catch(function (response) { return deferred.reject(response); });
                             return deferred.promise;
                         }]

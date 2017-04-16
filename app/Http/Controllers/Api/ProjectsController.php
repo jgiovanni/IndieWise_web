@@ -89,7 +89,7 @@ class ProjectsController extends Controller
      */
     public function update(ProjectRequest $request, $id)
     {
-        $project = $this->project->where('id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
+        $project = $this->project->where('id', $id)->orWhere('url_id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
         $project->update($request->except('genres', 'owner', 'language', 'type', 'filming_country', 'up_ratings_count', 'down_ratings_count', 'wins_count', 'critiques_count', 'nominations_count', 'reactions_count'));
         $project->syncGenres($request->get('genres'));
         return $this->response->item($project, new ProjectTransformer);

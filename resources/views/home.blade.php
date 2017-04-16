@@ -263,10 +263,93 @@
         </div>
     </div>
 
-    <div class="row">
-        <!-- Category -->
-        <sponsor-carousel v-once></sponsor-carousel>
-        <!-- End Category -->
+    <div class="md-layout md-flex-100">
+        <div class="row">
+            <!-- Trending Videos -->
+            <section class="content">
+                <div class="main-heading">
+                    <div class="md-layout row padding-14">
+                        <div class="medium-8 small-8 columns">
+                            <div class="head-title">
+                                <i class="fa fa-folder-open"></i>
+                                <h4 class="has-tip">
+                                    <a :href="isMobile()?'mailto:sponsor@getindiewise.com':'/contact?email=sponsor@getindiewise.com'">Sponsors</a>
+                                    <md-tooltip md-direction="right">Click here to find out how you may appear on this list</md-tooltip>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns text-center">
+                        <div>
+                            <div class="sponsor">
+                                <figure class="premium-img">
+                                    <a href="https://filmfreeway.com/festival/widescreenfestival" target="_blank" class="">
+                                        <img src="https://cdn.filepicker.io/api/file/0LVOS06iQ2e8tnZWyuM9?cache=true" alt="WideScreen Film Festival">
+                                        <!--<span><i class="fa fa-search"></i></span>-->
+                                    </a>
+                                </figure>
+                                <!--<h6><a href="https://filmfreeway.com/festival/widescreenfestival">WideScreen Film Festival</a></h6>-->
+                            </div>
+                            <div class="sponsor">
+                                <figure class="premium-img">
+                                    <a href="http://www.poprouser.com/" target="_blank" class="">
+                                        <img src="https://cdn.filepicker.io/api/file/48g4bjVSlMOCVRd5lvRw?cache=true" alt="Poprouser">
+                                        <!--<span><i class="fa fa-search"></i></span>-->
+                                    </a>
+                                </figure>
+                                <!--<h6><a ui-sref="home">Poprouser</a></h6>-->
+                            </div>
+                            <div class="sponsor">
+                                <figure class="premium-img">
+                                    <a href="http://tabletops.io" target="_blank" class="">
+                                        <img src="https://cdn.filepicker.io/api/file/DESwwGUBQiSQy8lRUWku?cache=true" alt="Tabletops">
+                                        <!--<span><i class="fa fa-search"></i></span>-->
+                                    </a>
+                                </figure>
+                                <!--<h6><a href="https://tabletops.io">Tabletops</a></h6>-->
+                            </div>
+                            <div class="sponsor">
+                                <figure class="premium-img">
+                                    <a href="http://miamindiefest.com/" target="_blank" class="">
+                                        <img src="https://res.cloudinary.com/indiewise/image/upload/v1475092649/mindie_csrdht.png" alt="Miami Indie Film Fest">
+                                        <!--<span><i class="fa fa-search"></i></span>-->
+                                    </a>
+                                </figure>
+                                <!--<h6><a href="http://miamindiefest.com/">Miami Indie Film Fest</a></h6>-->
+                            </div>
+                            <div class="sponsor">
+                                <figure class="premium-img">
+                                    <a href="https://filestack.com" target="_blank" class="">
+                                        <img src="https://cdn.filepicker.io/api/file/yiXMlD0dSoGyN04g1xtH?cache=true" alt="FileStack">
+                                        <!--<span><i class="fa fa-search"></i></span>-->
+                                    </a>
+                                </figure>
+                                <!--<h6><a href="https://filestack.com">FileStack</a></h6>-->
+                            </div>
+                            <div class="sponsor">
+                                <figure class="premium-img">
+                                    <a href="https://www.corkynat.com/" target="_blank" class="">
+                                        <img src="https://cdn.filepicker.io/api/file/OIcZhS3DQKyPq2W0QvGg" alt="carousel">
+                                        <!--<span><i class="fa fa-search"></i></span>-->
+                                    </a>
+                                </figure>
+                                <!--<h6><a href="https://www.corkynat.com/">Corky Nat</a></h6>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ad Section -->
+            <div class="googleAdv text-center">
+                <!--<broadstreet-zone zone="51348" width="728" height="90"></broadstreet-zone>-->
+                <!--<script>window.broadstreet.zone(51348);</script>-->
+                <!--<a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>-->
+            </div><!-- End ad Section -->
+
+        </div>
     </div>
 @endsection
 

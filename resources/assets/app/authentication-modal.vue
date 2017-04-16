@@ -34,7 +34,7 @@
 
                                 <md-input-container :class="{'md-input-invalid': errors.has('email')}">
                                     <md-icon>account_circle</md-icon>
-                                    <md-input placeholder="Enter your email" v-validate="'required|email'"
+                                    <md-input placeholder="Enter your email" v-validate="'email'"
                                               data-vv-name="email" v-model="user.email" required></md-input>
                                     <span class="md-error"
                                           v-show="errors.has('email')">{{ errors.first('email') }}</span>

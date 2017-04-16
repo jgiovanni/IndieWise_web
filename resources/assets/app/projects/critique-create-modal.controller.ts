@@ -116,7 +116,7 @@ function CritiqueDialogController($scope: IScope, DataService: IDataService, $mo
         $scope.processing = true;
         $scope.critique.url_id = moment().valueOf();
         DataService.save('critiques?include=user,award', $scope.critique).then(function (res) {
-            let obj = res.data.data;
+            let obj = res.body.data;
 
             self.critiques.push(obj);
             self.calcIwAverage(self.critiques);

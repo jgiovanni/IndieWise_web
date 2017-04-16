@@ -45,7 +45,7 @@
                 this.loaded = false;
                 this.$http.get('projects/reactions', { params: {project: this.id}})
                     .then(function (response) {
-                        this.chartedReactions = response.data.data;
+                        this.chartedReactions = response.body.data;
                         this.loaded = true;
                     });
             },

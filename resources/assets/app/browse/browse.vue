@@ -65,7 +65,7 @@
                                     <div class="head-title">
                                         <i class="fa fa-search"></i>
                                         <h4>Browse {{pagination.total}} Videos</h4>
-                                        <md-button @click="toggleFilterNav()" class="pull-right hide-for-large">
+                                        <md-button @click.native="toggleFilterNav()" class="pull-right hide-for-large">
                                             <i class="fa fa-filter"></i>&nbsp;Filters
                                         </md-button>
                                     </div>
@@ -220,7 +220,7 @@
                     types: []
                 },
                 filters: {
-                    sort: 'created_at',
+                    sort: 'recent',
                     genres: '',
                     type: '',
                     search: '',
@@ -299,7 +299,7 @@
                     page: self.filters.page
                 }}).then(res => {
                     self.pagination = res.data.meta.pagination;
-                    return self.films = res.data.data;
+                    return self.films = res.body.data;
                 }, (error) => console.log(error)).then(() => self.loading = false);
 
             },
@@ -337,7 +337,7 @@
                     per_page: 50,
                     page: ++self.filters.page
                 }})
-                    .then(res => self.films = _.union(self.films, res.data.data), (error) => console.log(error))
+                    .then(res => self.films = _.union(self.films, res.body.data), (error) => console.log(error))
                     .then(() => self.loading = false);
             },
 

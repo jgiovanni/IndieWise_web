@@ -63,7 +63,9 @@ new Vue({
         selectedCritique: null,
         playerResponsiveMode: localStorage.playerResponsiveMode ? JSON.parse(localStorage.playerResponsiveMode) : _.contains(['small', 'medium', 'large'], Foundation.MediaQuery.current),
     }),
-    computed: AppResources.AppComputed,
+    computed: _.extend(AppResources.AppComputed, {
+
+    }),
     methods: AppResources.AppMethods,
     created() {
         let self = this;

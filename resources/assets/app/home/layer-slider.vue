@@ -97,7 +97,7 @@
         methods: {},
         mounted(){
             this.$http.get('projects', { params: { random: true, per_page: 3}}).then(function (response) {
-                this.projects = response.data;
+                this.projects = response.body;
             }).then(function () {
                 jQuery("#layerslider").layerSlider({
                     responsive: true,

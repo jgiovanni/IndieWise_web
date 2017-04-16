@@ -51,8 +51,8 @@ export class MessagesController {
                             page: this.meta.pagination.current_page
                         })
                             .then(function (response) {
-                                self.convoMessages.data = _.union(self.convoMessages.data, response.data.data);
-                                angular.extend(self.convoMessages.meta, response.data.meta);
+                                self.convoMessages.data = _.union(self.convoMessages.data, response.body.data);
+                                angular.extend(self.convoMessages.meta, response.body.meta);
                             })
                             .then(function () {
                                 console.log(self.convoMessages);
@@ -134,7 +134,7 @@ export class MessagesController {
                     self.myReply = null;
                     $rootScope.toastMessage('Message sent!');
                     fetchConvos().then(function (conversations) {
-                        selectConvo(_.findWhere(conversations, {id: response.data.id}));
+                        selectConvo(_.findWhere(conversations, {id: response.body.id}));
                     });
                 });
             }
@@ -148,7 +148,7 @@ export class MessagesController {
                 search: query,
                 notUsers: $rootScope.AppData.User.id
             }).then(function (response) {
-                return response.data.data;
+                return response.body.data;
             });
         }
 

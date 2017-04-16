@@ -299,7 +299,7 @@ module IndieWise {
                     resolve: {
                         Critique: ['$stateParams', 'DataService', function ($stateParams: IStateParamsService, DataService: IDataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(result => result.data.data, (error) => console.log(error));
+                                .then(result => result.body.data, (error) => console.log(error));
                         }]
                     }
                 })
@@ -312,7 +312,7 @@ module IndieWise {
                     resolve: {
                         Critique: ['AuthService', '$stateParams', 'DataService', function (AuthService: IAuthService, $stateParams: IStateParamsService, DataService: IDataService) {
                             return DataService.item('critiques', $stateParams.url_id, 'project.owner')
-                                .then(result => (AuthService.isAuthenticated() && result.data.data.user_id === AuthService.currentUser.id) ? result.data.data : 'Not Owner', (error) => console.log(error));
+                                .then(result => (AuthService.isAuthenticated() && result.body.data.user_id === AuthService.currentUser.id) ? result.body.data : 'Not Owner', (error) => console.log(error));
                         }]
                     }
                 })
@@ -325,7 +325,7 @@ module IndieWise {
                     resolve: {
                         User: ['$stateParams', 'DataService', function ($stateParams: IStateParamsService, DataService: IDataService) {
                             return DataService.item('users', $stateParams.url_id)
-                                .then(result => result.data.data, (error) => console.log(error));
+                                .then(result => result.body.data, (error) => console.log(error));
                         }],
                         UserStats: ['User', 'DataService', function (User, DataService: IDataService) {
                             return DataService.item('users/countUserStats', User.id)
@@ -404,7 +404,7 @@ module IndieWise {
                         User: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
                             return AuthService.getCurrentUser()
                                 .then(response => DataService.item('users', response.id, 'genres')
-                                    .then(response => response.data.data, (error) => console.log(error))
+                                    .then(response => response.body.data, (error) => console.log(error))
                                 , (error) => console.log(error) )
                         }],
                         UserStats: ['AuthService', 'DataService', function (AuthService: IAuthService, DataService: IDataService) {
@@ -662,7 +662,7 @@ module IndieWise {
                         Project: ['$stateParams', 'DataService', '$q', function ($stateParams: IStateParamsService, DataService: IDataService, $q: IQService) {
                             let deferred = $q.defer();
                             DataService.item('projects', $stateParams.url_id, '')
-                                .then(result => deferred.resolve(result.data.data))
+                                .then(result => deferred.resolve(result.body.data))
                                 .catch(response => deferred.reject(response));
 
                             return deferred.promise;

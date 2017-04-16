@@ -168,8 +168,8 @@ export class ProfileVideosEditController implements IProfile{
             data: {file: file},
             skipAuthorization: true  // `Authorization: Bearer <token>` will not be sent on this request.
         }).then(function (response) {
-            console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.data);
-            self.editedProject.thumbnail_url = response.data.secure_url;
+            console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.body);
+            self.editedProject.thumbnail_url = response.body.secure_url;
             self.DataService.update('projects', self.editedProject.id, self.editedProject);
         }, function (response) {
             console.log('Error status: ' + response.status);

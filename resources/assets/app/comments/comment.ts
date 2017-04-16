@@ -112,7 +112,7 @@ export class CommentController implements IComment {
         if (this.comment.replies.length < this.comment.replies_count) {
             this.DataService.collection('comments', {comment: this.comment.id})
                 .then((replies) => {
-                    this.comment.replies = replies.data.data;
+                    this.comment.replies = replies.body.data;
                     this.showReplies = !this.showReplies;
                 }, (error) => {
                     console.log(error);

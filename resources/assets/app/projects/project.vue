@@ -1,5 +1,6 @@
 <template>
     <div v-if="project">
+        <project-owner-actions v-if="isOwner" :project="project"></project-owner-actions>
         <!-- single post stats -->
         <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
         <!-- End single post stats -->
@@ -125,6 +126,7 @@
     }
 </style>
 <script type="text/babel">
+    import projectOwnerActions from './project-owner-actions.vue';
     import projectReactions from './project-reactions.vue';
     import projectAverage from './project-average.vue';
     import projectAwards from './project-awards.vue';
@@ -132,6 +134,7 @@
     export default {
         name: 'project',
         components: {
+            projectOwnerActions,
             projectAverage,
             projectAwards,
             projectReactions,
@@ -175,6 +178,9 @@
                     return this.project.nominations_count + ' Nominations';
                 }
             },
+            isOwner() {
+                return this.$root.user && this.project.owner_id === this.$root.user.id;
+            }
         },
         methods: {
             init(project) {
@@ -215,7 +221,7 @@
                 return this.$http.get('projects' + this.project.id)
                     .then(function (response) {
                         console.log('Project Updated: ', response);
-                        self.project = response.data.data;
+                        self.project = response.body.data;
                     }, (error) => console.log(error));
             },
 
@@ -228,7 +234,7 @@
             let self = this;
 
             this.$http.get('projects/' + this.id).then(function (response) {
-                this.project = response.data.data;
+                this.project = response.body.data;
                 this.init(this.project);
             });
 

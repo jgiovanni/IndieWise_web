@@ -16,7 +16,7 @@
             </div>
         </div>
     </section><!--end breadcrumbs-->
-    <div class="row">
+    <div class="row" style="display: block;overflow-x: hidden;">
         <!-- Category -->
         <watching-carousel></watching-carousel>
         <!-- End Category -->

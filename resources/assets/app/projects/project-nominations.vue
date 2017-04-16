@@ -33,7 +33,7 @@
                                      :alt="nom.user.data.fullName">
                             </md-avatar>
 
-                            <div class="md-list-text-container">
+                            <div class="md-list-text-container normal-wrap">
                                                 <span>
                                                     <a :href="'/user/'+nom.user.data.url_id">
                                                         {{nom.user.data.fullName}}
@@ -91,7 +91,7 @@
                 })
                     .then((result) => {
                         self.loadingNominations = false;
-                        self.nominations = result.data.data;
+                        self.nominations = result.body.data;
                         self.pagination = result.data.meta.pagination;
                         //// console.log('Nomination: ', result.data);
                     }, (error) => console.log(error));

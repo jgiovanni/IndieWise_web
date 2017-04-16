@@ -57,7 +57,7 @@ import ISCEService = angular.ISCEService;
 
             // Recent Videos Footer Section
             DataService.collection('projects', {per_page: 3, sort: 'created_at'}).then(function (result) {
-                _.each(result.data.data, function (i) {
+                _.each(result.body.data, function (i) {
                     // i.created_at = $filter('amUTC')(i.created_at);
                 });
                 self.footerRecentVideos = result.data;

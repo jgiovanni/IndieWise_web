@@ -295,11 +295,11 @@
                     user.settings = JSON.stringify(user.settings);
                     this.$http.put('users/' + user.id, user).then(function (res) {
                         // console.log(res);
-                        res.data.data.dob = moment(res.data.data.dob).toDate();
-                        res.data.data.settings = JSON.parse(res.data.data.settings);
-                        this.$root.user = self.user = res.data.data;
-                        res.data.data.name = res.data.data.fullName;
-                        window.Intercom('update', res.data.data);
+                        res.body.data.dob = moment(res.body.data.dob).toDate();
+                        res.body.data.settings = JSON.parse(res.body.data.settings);
+                        this.$root.user = self.user = res.body.data;
+                        res.body.data.name = res.body.data.fullName;
+                        window.Intercom('update', res.body.data);
                         this.saveComplete = true;
                         this.updating = false;
 //                        this.anchorSmoothScroll.scrollTo('success');
@@ -373,7 +373,7 @@
 
             if (this.isAuthenticated && this.user.id === this.$root.user.id) {
                 this.$http.get('users/' + this.user.id).then(function (response) {
-                    this.userData = response.data.data;
+                    this.userData = response.body.data;
                     this.userData.dob = moment(this.userData.dob).startOf('day').format('YYYY-MM-DD');
                     this.userData.settings = _.isObject(this.userData.settings) ? this.userData.settings : JSON.parse(this.userData.settings || '{}');
                 });
@@ -382,8 +382,8 @@
                 let pwSetting = window.localStorage.getItem('pwAllowPushNotifications');
                 this.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
 
-//            this.genresArr = this.user.genres.data; //Genres.data.data;
-//            this.typesArr = this.user.types;// UserTypes.data.data;
+//            this.genresArr = this.user.genres.data; //Genres.body.data;
+//            this.typesArr = this.user.types;// UserTypes.body.data;
 
                 this.generateCountries();
 

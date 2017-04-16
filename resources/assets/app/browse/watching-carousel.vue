@@ -17,6 +17,20 @@
                     </div>
                 </div>
                 <!-- category carousel -->
+                <!--<flickity v-if="watched.length && isMobile()" ref="flickity" :options="flickityOptions">
+                    <div class="carousel-cell item-cat item thumb-borde" v-for="w in watched">
+                        <figure class="premium-img">
+                            <img :src="w.projectThumbnail || '/assets/img/default_video_thumbnail.jpg'" alt="carousel">
+                            <a :href="w.projectUrlId" class="hover-posts">
+                                <span><i class="fa fa-play"></i></span>
+                            </a>
+                        </figure>
+                        <h6>
+                            <a :href="w.projectUrlId">{{ w.projectName|truncate(50) }}</a>
+                        </h6>
+                    </div>
+                </flickity>-->
+
                 <div id="owl-demo-cat" class="owl-carousel carousel" data-car-length="6" data-items="6" data-loop="true" data-nav="false" data-autoplay="true" data-autoplay-timeout="3000" data-auto-width="true" data-margin="10" data-dots="false">
                     <div class="item-cat item thumb-borde" v-for="w in watched">
                         <figure class="premium-img">
@@ -40,19 +54,58 @@
         </div>
     </section>
 </template>
-<style scoped></style>
+<style>
+    .flickity-viewport {
+        overflow: hidden;
+    }
+    .carousel-cell {
+        width: 50%; /* full width */
+        height: 160px; /* height of carousel */
+        margin-right: 10px;
+    }
+</style>
 <script type="text/babel">
+    require('flickity-imagesloaded');
+    import Flickity from 'vue-flickity';
     export default {
         name: 'watching-carousel',
+        components: {Flickity},
         data(){
             return {
+                flickityOptions: {
+                    initialIndex: 1,
+                    imagesLoaded: true,
+                    prevNextButtons: false,
+                    pageDots: false,
+                    wrapAround: true,
+                    autoPlay: true,
+                    setGallerySize: true,
+                    adaptiveHeight: true
+                },
                 watched: [],
             }
         },
-        methods: {},
+        methods: {
+            /*next() {
+                this.$refs.flickity.next();
+            },
+
+            previous() {
+                this.$refs.flickity.previous();
+            }*/
+        },
         mounted(){
             this.$http.get('projects/watched').then(function (result) {
-                this.watched = result.data;
+                this.watched = result.body;
+                /*setTimeout(function () {
+                    if (this.$refs.flickity) {
+                        this.$refs.flickity.resize();
+                        this.$refs.flickity.on('scroll', function (progress) {
+//                        console.log(progress);
+//                        this.resize();
+                        });
+                    }
+                }.bind(this), 1000);*/
                 setTimeout(function () {
                     //console.log('run owl');
                     //Premium carousel

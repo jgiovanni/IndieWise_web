@@ -97,7 +97,7 @@ export class BrowseController implements IBrowse {
             page: self.filters.page
         }).then(res => {
             self.pagination = res.data.meta.pagination;
-            return self.films = res.data.data;
+            return self.films = res.body.data;
         }, (error) => console.log(error)).then(() => self.loading = false);
 
 
@@ -137,7 +137,7 @@ export class BrowseController implements IBrowse {
             per_page: 50,
             page: ++self.filters.page
         })
-            .then(res => self.films = self._.union(self.films, res.data.data), (error) => console.log(error))
+            .then(res => self.films = self._.union(self.films, res.body.data), (error) => console.log(error))
             .then(() => self.loading = false);
     }
 

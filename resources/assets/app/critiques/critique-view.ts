@@ -51,7 +51,7 @@ export class CritiqueViewController implements ICritiqueView {
     loadComments() {
         this.DataService.collection('comments', { include: 'replies', replies: false, critique: this.critique.id, per_page: 50, sort: this.sortOrder})
             .then((response: Object) => {
-                this.comments = response.data;
+                this.comments = response.body;
                 // console.log(this);
             }, (error: any) => {
                 console.log(error);

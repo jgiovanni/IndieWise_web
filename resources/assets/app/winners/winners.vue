@@ -8,8 +8,8 @@
                         <option value="2016-11-01 00:00:00">November 2016</option>
                         <option value="2016-12-01 00:00:00">December 2016</option>
                         <option value="2017-01-01 00:00:00">January 2017</option>
-                        <!--<option value="2017-02-01 00:00:00">February 2017</option>-->
-                        <!--<option value="2017-03-01 00:00:00">March 2017</option>-->
+                        <option value="2017-02-01 00:00:00">February 2017</option>
+                        <option value="2017-03-01 00:00:00">March 2017</option>
                         <!--<option value="2017-04-01 00:00:00">April 2017</option>-->
                         <!--<option value="2017-05-01 00:00:00">May 2017</option>-->
                     </select>
@@ -300,7 +300,7 @@
                     date_start: self.date,
                     date_end: moment(self.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')
                 }}).then(function (response) {
-                    self.awards = response.data.Awards;
+                    self.awards = response.body.awards;
                 });
             }
         },
