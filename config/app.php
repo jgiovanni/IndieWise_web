@@ -158,8 +158,11 @@ return [
         Payum\LaravelPackage\PayumServiceProvider::class,
         Berkayk\OneSignal\OneSignalServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        DevDojo\Chatter\ChatterServiceProvider::class,
-//        Darkin1\Intercom\IntercomServiceProvider::class,
+//        DevDojo\Chatter\ChatterServiceProvider::class,
+        Darkin1\Intercom\IntercomServiceProvider::class,
+        Laravelista\Ekko\EkkoServiceProvider::class,
+        Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+        Roumen\Sitemap\SitemapServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -234,7 +237,12 @@ return [
         'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
         'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
-
+        'Intercom'  => Darkin1\Intercom\Facades\Intercom::class,
+        'Ekko' => Laravelista\Ekko\Facades\Ekko::class,
+//        'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
+//        'OpenGraph' => Artesaos\SEOTools\Facades\OpenGraph::class,
+//        'Twitter'   => Artesaos\SEOTools\Facades\TwitterCard::class,
+        'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
     ],
 
 ];

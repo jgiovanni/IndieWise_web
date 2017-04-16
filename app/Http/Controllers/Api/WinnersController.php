@@ -30,13 +30,13 @@ class WinnersController extends Controller
     {
         $awards = Award::with(['winners' => function ($query) use ($request) {
             $query->whereHas('win', function ($q) use ($request) {
-                $q->where('AwardWin.created_at', '>=', $request->get('date_start'))
-                    ->where('AwardWin.created_at', '<', $request->get('date_end'));
+                $q->where('award_win.created_at', '>=', $request->get('date_start'))
+                    ->where('award_win.created_at', '<', $request->get('date_end'));
             });
         }, 'winners.project'])/*->withCount(['wins' => function ($query) {
             $query
-                ->where('AwardWin.created_at', '>=', '2016-09-01 00:00:00')
-                ->where('AwardWin.created_at', '<', '2016-10-01 00:00:00');
+                ->where('award_win.created_at', '>=', '2016-09-01 00:00:00')
+                ->where('award_win.created_at', '<', '2016-10-01 00:00:00');
 
         }])*/->orderBy('name', 'asc')->get();
 

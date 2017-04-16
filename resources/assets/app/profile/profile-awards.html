@@ -1,0 +1,163 @@
+<section class="profile-videos" id="randomMedia" style="padding: 0;">
+    <div class="row secBg">
+        <div class="random-media-head text-center">
+            <div class="row">
+                <div class="large-12 columns">
+                    <ul class="tabs" data-tabs id="media">
+                        <li class="tabs-title is-active"><a href="#allNominations">{{::(ProfileAwardsCtrl.nominations.length + ProfileAwardsCtrl.nominated.length)}} Nominations</a></li>
+                        <li class="tabs-title"><a href="#awards">{{::ProfileAwardsCtrl.awards.length}} Wins</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <section class="content" ng-init="sortOrder='-created_at'">
+            <!-- newest video -->
+            <div class="row">
+                <div class="large-12 columns">
+                    <div class="tabs-content" data-tabs-content="media">
+                        <div class="tabs-panel is-active" id="allNominations">
+                            <div class="large-12 columns comments">
+                                <div class="row secBg">
+                                    <div class="random-media-head text-center">
+                                        <div class="row">
+                                            <div class="large-12 columns">
+                                                <ul class="tabs" data-tabs id="mediaSub">
+                                                    <li class="tabs-title is-active"><a href="#givenNoms">{{::ProfileAwardsCtrl.nominations.length}} Nominations Given</a></li>
+                                                    <li class="tabs-title"><a href="#recNoms">{{::ProfileAwardsCtrl.nominated.length}} Nominations Received</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <section class="content" ng-init="sortOrder='-created_at'">
+                                        <!-- newest video -->
+                                        <div class="row">
+                                            <div class="large-12 columns">
+                                                <div class="tabs-content" data-tabs-content="mediaSub">
+                                                    <div class="tabs-panel is-active" id="givenNoms">
+                                                        <div class="large-12 columns comments">
+
+                                                            <div class="comment-sort text-right">
+                                                                <span>Sort By :
+                                                                    <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a> |
+                                                                    <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a>
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="main-comment">
+                                                                <div class="media-object stack-for-small" ng-repeat="nom in ProfileAwardsCtrl.nominations.data">
+                                                                    <div class="media-object-section comment-img text-center">
+                                                                        <div class="comment-box-img">
+                                                                            <img src="/assets/img/award_win_small.png"
+                                                                                 alt="award">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="media-object-section comment-desc">
+                                                                        <div class="comment-title">
+                                                                            <span class="name">
+                                                                                <a ui-sref="profile.about">You</a> nominated:
+                                                                            </span>
+
+                                                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                                                <abbr title="{{::nom.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                                                      am-time-ago="::nom.created_at"></abbr>
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="comment-text">
+                                                                            <a ui-sref="video({url_id:nom.project.data.url_id})">{{::nom.project.data.name}}</a> for:
+                                                                            <h3>{{::nom.award.data.name||nom.award.name}}</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tabs-panel" id="recNoms">
+                                                        <div class="large-12 columns comments">
+
+                                                            <div class="comment-sort text-right">
+                                                                <span>Sort By :
+                                                                    <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a> |
+                                                                    <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a></span>
+                                                            </div>
+
+                                                            <div class="main-comment">
+                                                                <div class="media-object stack-for-small" ng-repeat="nom in ProfileAwardsCtrl.nominated.data">
+                                                                    <div class="media-object-section comment-img text-center">
+                                                                        <div class="comment-box-img">
+                                                                            <img src="/assets/img/award_win_small.png"
+                                                                                 alt="award">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="media-object-section comment-desc">
+                                                                        <div class="comment-title">
+                                                                            <span class="name"><a ui-sref="user.about({url_id: nom.user.data.url_id})">
+                                                                                {{::nom.user.data.fullName}}</a> nominated:
+                                                                            </span>
+
+                                                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                                                <abbr title="{{::nom.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                                                      am-time-ago="::nom.created_at"></abbr>
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="comment-text">
+                                                                            <a ui-sref="video({url_id:nom.project.data.url_id})">{{::nom.project.data.name}}</a> for:
+                                                                            <h3>{{::nom.award.data.name||nom.award.name}}</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tabs-panel" id="awards">
+                            <div class="large-12 columns comments">
+
+                                <div class="comment-sort text-right">
+                                    <span>Sort By :
+                                        <a ng-class="{'active':sortOrder=='-created_at'}" ng-click="sortOrder='-created_at'">newest</a> |
+                                        <a ng-class="{'active':sortOrder=='created_at'}" ng-click="sortOrder='created_at'">oldest</a></span>
+                                </div>
+
+                                <div class="main-comment showmore_one">
+                                    <div class="media-object stack-for-small" ng-repeat="win in ProfileAwardsCtrl.awards.data">
+                                        <div class="media-object-section comment-img text-center">
+                                            <div class="comment-box-img">
+                                                <img src="/assets/img/award_win_small.png"
+                                                     alt="award">
+                                            </div>
+                                        </div>
+                                        <div class="media-object-section comment-desc">
+                                            <div class="comment-title">
+                                            <span class="time float-right"><i class="fa fa-clock-o"></i>
+                                                <abbr title="{{::win.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                                                      am-time-ago="::win.created_at"></abbr>
+                                            </span>
+                                            </div>
+                                            <div class="comment-text">
+                                                <a ui-sref="video({url_id:win.project.data.url_id})">{{::win.project.data.name}}</a> won:
+                                                <h3>{{::win.award.data.name||win.award.name}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</section>

@@ -13,7 +13,10 @@
 
 //use Dingo\Api\Auth\Auth;
 use App\Award;
+use App\Critique;
+use App\Reaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use GetStream\Stream\Client;
@@ -24,6 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Vinkla\Hashids\Facades\Hashids;
+use Artesaos\SEOTools\Facades\SEOTools as SEO;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
@@ -66,7 +70,22 @@ Route::group(['prefix' => 'console'], function () use ($dispatcher) {
     }
 });*/
 
+/*Route::get('test', function () {
+    $id = '7ec2df4f-fa41-4c6c-b437-697ad79a0f0b';
+    if ( isset($id) ) {
+        $reactions = Reaction::where('project_id', $id)->get();
+        $mapped = $reactions->groupBy('emotion')->map(function ($item) use ($arr) {
+            return count($item);
+        })->sort()->reverse();
+        return response()->json(['mapped' => $mapped]);
+        dd($mapped);
+    } else {
+        return response()->json(['message' => 'project_id required']);
+    }
+});*/
+
 if (App::environment('local')) {
+
 
     Route::get('testy', function () {
         /*$users = Project::groupBy('url_id')->havingRaw('COUNT(*) > 1')->get();
@@ -112,51 +131,213 @@ if (App::environment('local')) {
     });
 }
 
+Route::get('sign-in', function () {
+    return view('auth.login');
+});
+Route::get('login', function () {
+    return view('auth.login');
+});
+$this->post('sign-in', 'Auth\AuthController@authenticate');
+$this->post('login', 'Api\AuthController@login');
+$this->get('register', 'Auth\AuthController@register');
+$this->get('logout', 'Auth\AuthController@logout');
 
-//Route::group(['middleware' => 'web'], function () {
-//    Route::get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-Route::post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
-Route::get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+
+//$this->group(['middleware' => 'web'], function () {
+//    $this->get('auth/{provider?}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->get('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+$this->get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 //});
 
-Route::get('verification/error', 'Auth\VerifyController@getVerificationError');
-Route::get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
-//Route::get('verification/{token}', 'Auth\AuthController@getVerification');
+$this->get('verification/error', 'Auth\VerifyController@getVerificationError');
+$this->get('verification/{token}', 'Auth\VerifyController@doVerificationProcess');
+//$this->get('verification/{token}', 'Auth\AuthController@getVerification');
 
-Route::any('{path?}', function () use ($dispatcher) {
-    $countries = Country::orderBy('name', 'desc')->get();
+$this->get('', function () use ($dispatcher) {
+    $featured = $dispatcher->get('api/projects', [ 'random' => true, 'per_page' => 3]);
+    $trending = $dispatcher->get('api/projects', [ 'sort' => 'reactions_count', 'per_page' => 8]);
+    $highestRated = $dispatcher->get('api/projects', [ 'sort' => 'topRating', 'per_page' => 8]);
+    $awardWinning = $dispatcher->get('api/projects', [ 'sort' => 'wins_count', 'per_page' => 8]);
+    SEO::setTitle('Home');
 
-    if (App::environment('local')) {
-        return view("dev", compact('countries'));
-    } else {
-        $ua = request()->server('HTTP_USER_AGENT');
 
-        if (preg_match('/facebookexternalhit|Facebot|Twitterbot|Pinterest|Google.*snippet/i', $ua)) {
-            $segments = request()->segments();
-            try {
-                $project = $dispatcher->get('projects/' . end($segments));
-            } catch (Dingo\Api\Exception\InternalHttpException $e) {
-                $response = $e->getResponse();
-            } catch (NotFoundHttpException $e) {
-                return redirect('404');
-//                $response = $e->getResponse();
-            } catch (ModelNotFoundException $e) {
-                return redirect('404');
-//                $response = $e;
+    return view('home', compact('featured', 'trending', 'highestRated', 'awardWinning'));
+});
+
+$this->get('browse', function () {
+    SEO::setTitle('Browse');
+    return view('browse');
+});
+
+$this->get('latest', function () {
+    SEO::setTitle('Latest');
+    return view('latest');
+});
+
+$this->get('winners', function () {
+    SEO::setTitle('Winners');
+    return view('winners');
+});
+
+$this->get('upload', function () {
+    SEO::setTitle('Upload');
+    return view('upload');
+});
+
+$this->get('about', function () use ($dispatcher) {
+    SEO::setTitle('About');
+    return view('misc.about');
+});
+
+$this->get('faq', function () use ($dispatcher) {
+    SEO::setTitle('FAQ');
+    return view('misc.faq');
+});
+
+$this->get('privacy', function () use ($dispatcher) {
+    SEO::setTitle('Privacy Policy');
+    return view('misc.privacy-policy');
+});
+
+$this->get('tos', function () use ($dispatcher) {
+    SEO::setTitle('Terms of Service');
+    return view('misc.terms');
+});
+
+$this->get('contact', function () use ($dispatcher) {
+    SEO::setTitle('Contact Us');
+    return view('misc.contact');
+});
+
+$this->get('advertise', function () use ($dispatcher) {
+    SEO::setTitle('Advertise');
+    return view('misc.about');
+});
+
+$this->group(['prefix' => 'user'], function ($id) use ($dispatcher) {
+    $this->get('{id}', function ($id) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName);
+
+        return view('user.views.about', compact('user', 'stats'));
+    });
+
+    $this->get('{id}/{view}', function ($id, $view) use ($dispatcher) {
+        $user = $dispatcher->get('api/users/' . $id, [ 'include' => 'genres' ]);
+        $stats = $dispatcher->get('api/users/countUserStats/' . $id, [ 'include' => '' ]);
+        SEO::setTitle($user->fullName . ' ' . ucfirst($view));
+
+        return view('user.views.' . $view, compact('view', 'user', 'stats'));
+    })->where('view', 'projects||awards||critiques||settings||analytics');
+
+    // Redirect old urls
+    $this->get('{id}/about', function ($id) {
+        return redirect('user/' . $id);
+    });
+
+    $this->get('{id}/videos', function ($id) {
+        return redirect('user/' . $id . '/projects');
+    });
+
+});
+
+$this->get('{project_id}', function ($project_id) use ($dispatcher) {
+    $project = Project::where('url_id', $project_id)->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->firstOrFail();
+    //$project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
+    // dd($project);
+
+    SEO::setTitle($project->name);
+    SEO::setDescription($project->description);
+    SEO::opengraph()->setDescription($project->description);
+    SEO::opengraph()->setType($project->hosting_type === 'script' ? 'indiewise:screenplay' : 'video.other');
+    SEO::opengraph()->setVideoOther([
+//        'actor' => (strpos($project->director, ',') || strpos($project->director, ',') || strstr($project->director, PHP_EOL)) !== false ? $project->director : preg_split('/(,|,\s|\/|\s\/\s|\r\n|\n|\r)/', $project->director),
+//        'actor:role' => 'string',
+//        'director' => (strpos($project->director, ',') || strpos($project->director, '/')) !== false ? $project->director : preg_split("/(,|,\s|\/|\s\/\s)/", $project->director),
+//        'writer' => (strpos($project->writer, ',') || strpos($project->writer, '/')) !== false ? $project->writer : preg_split('/(,|,\s|\/|\s\/\s)/', $project->writer),
+        'duration' => $project->runTime,
+        'release_date' => $project->completionDate,
+        'tag' => strpos($project->tags, ',') !== false ? $project->tags : preg_split('/(,|,\s)/', $project->tags)
+    ]);
+    SEO::opengraph()->addImage($project->thumbnail_url . '?cache=true', ['secure_url' => $project->thumbnail_url . '?cache=true', 'height' => 500, 'width' => 1170]);
+    SEO::twitter()->setDescription($project->description);
+    SEO::twitter()->setUrl('/' . $project->url_id);
+    return view('project.index', compact('project'));
+})->where('project_id', '[0-9a-zA-Z]{10,13}+');
+
+$this->get('{project_id}/edit', function ($project_id) use ($dispatcher) {
+    $project = Project::where('url_id', $project_id)->withCount('upRatings', 'downRatings', 'wins', 'critiques', 'nominations', 'reactions')->firstOrFail();
+    //$project = $dispatcher->get('api/projects/' . $project_id, [ 'include' => '' ]);
+    // dd($project);
+
+    SEO::setTitle('Edit: ' . $project->name);
+    return view('project.edit', compact('project_id'));
+})->where('project_id', '[0-9a-zA-Z]{10,13}+');
+
+$this->get('{project_id}/critique/{critique_id}', function ($project_id, $critique_id) use ($dispatcher) {
+    $critique = Critique::where('url_id', $critique_id)->with('project.owner')->withCount(['comments'])->firstOrFail();
+//    $critique = $dispatcher->get('api/critiques/' . $critique_id, [ 'include' => 'project.owner' ]);
+
+    SEO::setTitle('Critique by ' . $critique->user->name . ' for ' . $critique->project->name);
+    return view('project.critique', compact('critique'));
+})->where('project_id', '[0-9a-zA-Z]{10,13}+');
+
+$this->get('sitemap', function(){
+
+    // create new sitemap object
+    $sitemap = App::make("sitemap");
+
+    // set cache key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean)
+    // by default cache is disabled
+    $sitemap->setCache('laravel.sitemap', 60);
+
+    // check if there is cached sitemap and build new only if is not
+    if (!$sitemap->isCached())
+    {
+        // add item to the sitemap (url, date, priority, freq)
+        $sitemap->add(URL::to('/'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+        $sitemap->add(URL::to('/browse'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+        $sitemap->add(URL::to('/latest'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+        $sitemap->add(URL::to('/forum'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+
+        $sitemap->add(URL::to('/about'), '2016-09-21T08:00:00-05:00', '0.8', 'monthly');
+        $sitemap->add(URL::to('/faq'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+        $sitemap->add(URL::to('/contact'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+        $sitemap->add(URL::to('/privacy-policy'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+        $sitemap->add(URL::to('/terms-of-service'), '2016-09-21T08:00:00-05:00', '0.9', 'monthly');
+//        $sitemap->add(URL::to('/'), '2016-09-21T08:00:00-05:00', '1.0', 'daily');
+
+        // get all posts from db
+        $projects = Project::with('critiques')->orderBy('created_at', 'desc')->get();
+
+        // add every post to the sitemap
+        foreach ($projects as $project)
+        {
+            $images = [
+                    ['url' => $project->thumbnail_url . '?cache=true', 'title' => $project->name, 'caption' => $project->description, 'geo_location' => $project->filmingCountry->name],
+            ];
+            $sitemap->add(URL::to($project->url_id), $project->edited_at, '0.8', 'daily', $images);
+
+            // add every critique per project
+            foreach ($project->critiques as $critique)
+            {
+                $sitemap->add(URL::to($project->url_id . '/critique/' . $critique->url_id), $critique->edited_at, '0.7', 'weekly');
             }
-            return view("hard-video", compact('project', 'countries'));
-        } else
-            return view("index", compact('countries'));
-    }
-})->where("path", ".+")/*->where("path", "!community")*/
-;
 
-Route::auth();
+        }
+
+        // TODO list profiles routes
+    }
+
+    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
+    return $sitemap->render('xml');
+//    return $sitemap->store('xml', 'sitemap');
+
+});
 
 /*
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/logout', function () {
     //Auth::logout();

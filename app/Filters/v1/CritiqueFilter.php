@@ -73,7 +73,7 @@ class CritiqueFilter extends ModelFilter
     public function sort($sort)
     {
         $sortable = [
-            'created_at'
+            'created_at', 'comments_count'
         ];
 
         $param = preg_split('/\|+/', $sort);

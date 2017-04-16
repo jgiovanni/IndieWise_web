@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Action;
+use App\Reaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -88,7 +89,7 @@ class ProjectsController extends Controller
      */
     public function update(ProjectRequest $request, $id)
     {
-        $project = $this->project->where('id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
+        $project = $this->project->where('id', $id)->orWhere('url_id', $id)->where('owner_id', $this->user()->id)->firstOrFail();
         $project->update($request->except('genres', 'owner', 'language', 'type', 'filming_country', 'up_ratings_count', 'down_ratings_count', 'wins_count', 'critiques_count', 'nominations_count', 'reactions_count'));
         $project->syncGenres($request->get('genres'));
         return $this->response->item($project, new ProjectTransformer);
@@ -139,6 +140,20 @@ class ProjectsController extends Controller
         //
         $projects = $this->project->all('id')->count();
         return response()->json($projects);
+    }
+
+    public function reactionStats(Request $request) {
+        $id = $request->get('project');
+        if ( isset($id) ) {
+            $reactions = Reaction::where('project_id', $id)->get();
+            $mapped = $reactions->groupBy('emotion')->map(function ($item) {
+                return count($item);
+            })->sort()->reverse();
+            return response()->json(['data' => $mapped]);
+
+        } else {
+            return response()->json(['message' => 'project_id required']);
+        }
     }
 
 

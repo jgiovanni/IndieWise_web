@@ -1,0 +1,70 @@
+<div class="item large-3 medium-6 small-12 columns {{$ctrl.type||'grid-default'}} project-card nga-default nga-stagger nga-fade" ng-if="::$ctrl.video.name" ng-class="{'end':$ctrl.$last}">
+    <div class="post thumb-border">
+        <a class="post-thumb" ui-sref="video({url_id: $ctrl.video.url_id})">
+            <img ng-if="::$ctrl.video.hosting_type !== 'script'" ng-src="{{::$ctrl.video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'}}" alt="new video">
+            <img ng-if="::$ctrl.video.hosting_type === 'script'" ng-src="{{::$ctrl.video.thumbnail_url||'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng'}}" alt="new video">
+            <!--<a class="hover-posts">
+                <span><i class="fa fa-play"></i>Watch Video</span>
+            </a>-->
+            <div class="video-stats clearfix">
+                <div class="thumb-stats pull-left" >
+                    <i class="fa fa-star has-tip" tooltip="IndieWise Average"></i>
+                    <span ng-if="$ctrl.video.critiques_count>0">{{::$ctrl.video.iwRating|number:1}}</span>
+                    <span ng-if="$ctrl.video.critiques_count==0">N/A</span>
+                </div>
+                <div class="thumb-stats pull-left">
+                    <i class="fa fa-trophy has-tip" tooltip="Award Wins"></i>
+                    <span>{{::($ctrl.video.wins_count)||0}}</span>
+                </div>
+                <div class="thumb-stats pull-left">
+                    <i class="fa fa-smile-o has-tip" tooltip="Reactions"></i>
+                    <span>{{::($ctrl.video.reactions_count)||0}}</span>
+                </div>
+                <div class="thumb-stats pull-right">
+                    <span ng-if="::$ctrl.video.hosting_type !== 'script'">{{::$ctrl.video.runTime|secondsToDateTime|date:'HH:mm:ss'}}</span>
+                    <span ng-if="::$ctrl.video.hosting_type === 'script'">{{::$ctrl.video.runTime}} pages</span>
+                </div>
+            </div>
+        </a>
+        <div class="post-des">
+            <h6><a ui-sref="video({url_id: $ctrl.video.url_id})">{{::$ctrl.video.name|truncate:50}}</a></h6>
+            <div class="post-stats clearfix">
+                <p class="pull-left">
+                    <i class="fa fa-user"></i>
+                    <span>
+                        <a ui-sref="user.about({url_id: $ctrl.video.owner.url_id})">{{::$ctrl.video.owner.fullName}}</a>
+                    </span>
+                </p>
+                <p class="pull-left" ng-if="::!$ctrl.$state.is('profile')">
+                    <i class="fa fa-share"></i>
+                    <span><a ng-click="$ctrl.openShareDialog()">Share</a></span>
+                </p>
+                <!--<dropdown-toggle close-on-click="true" class="pull-left" ng-if="::!$state.is('profile')" ng-click="check(video)">
+                    <toggle>
+                        <i class="fa fa-heart"></i>
+                        <span><a href="#">Add to</a></span>
+                    </toggle>
+                    <pane>
+                        <ul class="menu vertical">
+                            <li class="checkbox">
+                                <input type="checkbox" id="isFaved" ng-model="isFaved" ng-false-value="false||'login'" ng-change="toFavorites(video)">
+                                <label class="customLabel" for="isFaved">Favorites</label>
+                            </li>
+                            <li class="checkbox">
+                                <input type="checkbox" id="isSaved" ng-model="isSaved" ng-false-value="false||'login'" ng-change="toWatchLater(video)">
+                                <label class="customLabel" for="isSaved">Watch Later</label>
+                            </li>
+                        </ul>
+                    </pane>
+                </dropdown-toggle>-->
+            </div>
+            <div class="post-summary">
+                <p>{{::$ctrl.video.description|truncate:100}}</p>
+            </div>
+            <div class="post-button">
+                <a ui-sref="video({url_id: $ctrl.video.url_id})" class="secondary-button"><i class="fa fa-play-circle"></i>watch video</a>
+            </div>
+        </div>
+    </div>
+</div>
+

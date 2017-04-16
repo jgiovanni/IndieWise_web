@@ -1,9 +1,7 @@
 {
-  "css/all.css": "css/all-b151795cf6.css",
-  "css/app.css": "css/app-efe1c6eb9a.css",
-  "js/all.js": "js/all-140a515e88.js",
-  "js/angular.js": "js/angular-aa3e0ceeb7.js",
-  "js/app.js": "js/app-86d46e24ef.js",
-  "js/main.js": "js/main-539dee81e2.js",
-  "js/templates.js": "js/templates-e7c9f6438f.js"
+  "css/all.css": "css/all-796b686bff.css",
+  "css/app.css": "css/app-be5dcb2f75.css",
+  "js/main.vue.js": "js/main-8c2ab58594.vue.js",
+  "js/projects.vue.js": "js/projects-bcba8fa34f.vue.js",
+  "js/users.vue.js": "js/users-fb639edaa6.vue.js"
 }

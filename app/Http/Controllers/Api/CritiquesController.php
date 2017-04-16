@@ -31,7 +31,7 @@ class CritiquesController extends Controller
      */
     public function index(Request $request)
     {
-        $critiques = $this->critique->filter($request->all())->withCount('comments')->paginate($request->get('per_page', 50));
+        $critiques = $this->critique->withCount('comments')->filter($request->all())->paginate($request->get('per_page', 50));
         return $this->response->paginator($critiques, new CritiqueTransformer);
     }
 

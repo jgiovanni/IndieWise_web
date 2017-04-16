@@ -26,7 +26,7 @@ class ProjectRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $data = [
             'name' => 'required|max:255',
             'owner_id' => 'required|exists:users,id',
             'type_id' => 'required|exists:types,id',
@@ -50,5 +50,7 @@ class ProjectRequest extends FormRequest
             'disableComments' => 'required|boolean',
             'copyrightOwner' => 'required|boolean',
         ];
+
+        return $data;
     }
 }

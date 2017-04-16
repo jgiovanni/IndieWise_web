@@ -1,4 +1,4 @@
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .hidden {
+[v-cloak], [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .hidden {
     display: none !important;
 }
 
@@ -72,6 +72,15 @@ hr.thin {
 .row-btn {
     margin: 0 0 30px;
 }
+
+.sponsor {
+    display: inline-block;
+}
+
+.normal-wrap span {
+    white-space: normal !important;
+}
+
 
 /* Custom Alert Styles */
 #alerts {
@@ -493,7 +502,7 @@ a.double-thumbs.active {
     border-color: #6969e9 !important;
 }
 
-.double-thumbs i, .post-like-btn i {
+.double-thumbs i {
     display: inline-block;
     color: inherit;
     margin-right: 5px;
@@ -658,11 +667,11 @@ button .emoticon {
 }
 
 .text-white {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 .text-black {
-    color: #000;
+    color: #000 !important;
 }
 
 /* Mobile Styles */
@@ -697,3 +706,36 @@ button .emoticon {
         margin-bottom: 314px;
     }
 }
+
+.md-input-container input, .md-input-container input:focus, .md-input-container textarea, .md-input-container textarea:focus {
+    border: none;
+    box-shadow: none;
+    margin:0;
+}
+
+.padding-8 {
+    padding: 8px;
+}
+.padding-16 {
+    padding: 16px;
+}
+.padding-24 {
+    padding: 24px;
+}
+.padding-32 {
+    padding: 32px;
+}
+
+.md-layout.row {
+    max-width: 75rem;
+    min-width: auto;
+    margin: auto !important;
+}
+
+ul.breadcrumbs:not(.md-list)>li+li {
+    margin-top: 0 ;
+}
+
+
+[type='text']:focus, [type='password']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='week']:focus, [type='email']:focus, [type='number']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='url']:focus, [type='color']:focus, textarea:focus
+

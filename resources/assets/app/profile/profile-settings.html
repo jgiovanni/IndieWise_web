@@ -1,0 +1,257 @@
+<!-- profile settings -->
+<div id="success" class="callout alert-box success" ng-show="PSC.saveComplete">
+    <strong>Yay!</strong> Settings Saved!
+    <button class="close-button" aria-label="Dismiss alert" type="button" ng-click="PSC.saveComplete = false">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<section class="profile-settings">
+    <div class="row secBg">
+        <div class="large-12 columns">
+            <div class="heading">
+                <i class="fa fa-gears"></i>
+                <h4>Profile Settings</h4>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <div class="setting-form">
+                        <form name="settings" ng-submit="PSC.updateUser()">
+                            <div class="setting-form-inner">
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <h6 class="borderBottom">Username Setting:</h6>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>First Name:
+                                            <input type="text" ng-model="PSC.user.firstName"
+                                                   placeholder="Enter your first name..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Last Name:
+                                            <input type="text" ng-model="PSC.user.lastName"
+                                                   placeholder="Enter your last name..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Username:
+                                            <input type="text" ng-model="PSC.user.username"
+                                                   placeholder="Enter your username...">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="medium-6 columns">
+                                        <button class="button expanded" type="button" ng-if="!PSC.user.verified" ng-click="PSC.requestVerificationEmail()">
+                                           <i class="fa fa-envelope"></i> Resend Verification Email
+                                        </button>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <div class="callout alert-box info" ng-if="PSC.verificationEmailSentMessage">
+                                            <strong>Okay!</strong> The verification email has been sent. Please also check your spam folder!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-form-inner">
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <h6 class="borderBottom">Update Password:</h6>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>New Password:
+                                            <input type="password" ng-model="PSC.user.password" placeholder="Enter new password..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Verify Password:
+                                            <input type="password" ng-model="PSC.user.password_confirmation" placeholder="Enter new password again..">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-form-inner">
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <h6 class="borderBottom">About Me:</h6>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Email ID:
+                                            <input type="email" ng-model="PSC.user.email"
+                                                   placeholder="Enter your email address..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Date of Birth:
+                                            <input type="date" ng-model="PSC.user.dob" datepicker=""
+                                                   placeholder="Enter your date of birth..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Gender:
+                                            <select ng-model="PSC.user.gender">
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Country:
+                                            <select ng-model="PSC.user.country_id"
+                                                    ng-show="PSC.$rootScope.countries.length>0"
+                                                    ng-options="c.id as c.name for c in PSC.$rootScope.countries|orderBy:'name'">
+                                                <option value="">Select Country</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="medium-12 columns">
+                                        <label class="borderBottom" style="margin-bottom: 10px;">Preferred
+                                            Genres:</label>
+
+                                        <div class="checkbox-inline" style="margin-bottom: 20px;">
+                                            <input type="checkbox"
+                                                   ng-repeat-start="g in PSC.$rootScope.genresList|orderBy:'name'"
+                                                   ng-model="bool" name="genre{{$index}}" id="genre{{$index}}"
+                                                   ng-click="PSC.syncGenres(bool, g)"
+                                                   ng-checked="PSC.isCheckedGenre(g.id)">
+                                            <label ng-repeat-end class="customLabel"
+                                                   for="genre{{$index}}">{{::g.name}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-12 columns">
+                                        <label class="borderBottom" style="margin-bottom: 10px;">Preferred
+                                            Types:</label>
+
+                                        <div class="checkbox-inline" style="margin-bottom: 20px;"
+                                             ng-if="PSC.typesList.length">
+                                            <input type="checkbox"
+                                                   ng-repeat-start="t in PSC.$rootScope.typesList|orderBy:'name'"
+                                                   ng-model="bool" name="type{{$index}}" id="type{{$index}}"
+                                                   ng-click="PSC.syncTypes(bool, t)"
+                                                   ng-checked="PSC.isCheckedType(t.id)">
+                                            <label ng-repeat-end class="customLabel"
+                                                   for="type{{$index}}">{{::t.name}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-12 columns end">
+                                        <label>Bio Description:
+                                            <textarea ng-model="PSC.user.bio"></textarea>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-form-inner">
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <h6 class="borderBottom">Social Profile links:</h6>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>Website URL:
+                                            <input type="url" ng-model="PSC.user.website"
+                                                   placeholder="Enter your website url..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>facebook:
+                                            <input type="url" ng-model="PSC.user.urlFacebook"
+                                                   placeholder="Enter your profile link..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns">
+                                        <label>twitter:
+                                            <input type="url" ng-model="PSC.user.urlTwitter"
+                                                   placeholder="Enter your profile link..">
+                                        </label>
+                                    </div>
+                                    <div class="medium-6 columns end">
+                                        <label>Google Plus:
+                                            <input type="url" ng-model="PSC.user.urlGoogle"
+                                                   placeholder="Enter your profile link..">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-form-inner">
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <h6 class="borderBottom">Notification Settings:</h6>
+                                    </div>
+                                    <div class="medium-12 columns">
+                                        <p>
+                                            <b>Email Notifications:</b><br>
+                                            When checked, you will receive email notifications for the following events.
+                                        </p>
+                                        <div class="row">
+                                            <div class="medium-6 columns">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifA" ng-model="PSC.user.settings.email_critique"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifA">Critiques on your videos.</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifB" ng-model="PSC.user.settings.email_nomination"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifB">Nominations of your videos.</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifC" ng-model="PSC.user.settings.email_win"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifC">Awards for your videos.</label>
+                                                </div>
+                                            </div>
+                                            <div class="medium-6 columns end">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifX" ng-model="PSC.user.settings.email_comment"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifX">Comments to your critiques, .</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifY" ng-model="PSC.user.settings.email_message"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifY">Messages you receive.</label>
+                                                </div>
+                                                <!--<div class="checkbox">
+                                                    <input type="checkbox" id="emailNotifZ" ng-model="PSC.user.settings.email_like"
+                                                           ng-click="">
+                                                    <label class="customLabel" for="emailNotifZ">Likes for your videos.</label>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+<!--
+                                    <div class="medium-12 columns">
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="notifA" ng-model="PSC.notificationsActive"
+                                                   ng-click="PSC.toggleNotifications(PSC.notificationsActive)">
+                                            <label class="customLabel" for="notifA">Allow Notifications</label>
+                                        </div>
+                                    </div>
+-->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-6 columns">
+                                    <div class="">
+                                        <button class="button alert" type="button" ng-click="PSC.confirmTerminate($event)">
+                                            <span>Deactivate Account</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="medium-6 columns end">
+                                    <div class="setting-form-inner">
+                                        <button class="button expanded" type="submit">
+                                            <span ng-if="!PSC.updating">update now</span>
+                                            <span ng-if="!!PSC.updating"><i class="fa fa-spinner fa-spin"></i>&nbsp;Updating</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End profile settings -->

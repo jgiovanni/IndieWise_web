@@ -1,0 +1,113 @@
+<section class="SinglePostStats" id="SinglePostStats">
+	<!-- newest video -->
+	<div class="row secBg">
+		<div class="large-12 columns">
+			<div class="media-object stack-for-small">
+				<div class="media-object-section">
+					<div class="author-img-sec">
+						<div class="thumbnail author-single-post">
+							<a ui-sref="user.about({url_id: $ctrl.project.owner.url_id})">
+								<img src="{{$ctrl.project.owner.avatar}}" alt="post">
+							</a>
+						</div>
+						<p class="text-center">
+							<a ui-sref="user.about({url_id: $ctrl.project.owner.url_id})">
+								{{$ctrl.project.owner.fullName}}
+							</a>
+						</p>
+					</div>
+				</div>
+				<div class="media-object-section object-second">
+					<div class="author-des clearfix">
+						<div class="post-title">
+							<h4>{{$ctrl.project.name}} <span ng-if="$ctrl.project.nsfw" style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E" class="button tiny alert hollow">Mature</span></h4>
+							<p>
+                                <span>
+                                    <i class="fa fa-clock-o"></i>
+                                    <i class="md-caption" am-time-ago="$ctrl.project.created_at"></i>
+                                </span>
+								<span><i class="fa fa-smile-o"></i>{{$ctrl.project.reactions_count||0}}</span>
+								<span class="double-thumbs"><i class="fa fa-thumbs-o-up"></i><i
+										class="fa fa-thumbs-o-up"></i>{{$ctrl.project.up_ratings_count||0}}</span>
+								<span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
+										class="fa fa-thumbs-o-down"></i>{{$ctrl.project.down_ratings_count||0}}</span>
+								<!--<span><i class="fa fa-commenting"></i>{{$ctrl.project.commentCount||0}}</span>-->
+							</p>
+						</div>
+						<div class="subscribe">
+							<form>
+								<button ng-click="$ctrl.openReactionDialog()">
+									<span ng-if="$ctrl.canReact===true" class="fa fa-smile-o"></span>
+									<span ng-if="$ctrl.canReact===true">I'm feeling ...</span>
+									<span ng-if="$ctrl.canReact!==true && $ctrl.canReact != 'login'">
+                                        <md-icon class="emoticon" md-svg-icon="{{$ctrl.canReactIcon()}}"></md-icon>
+                                        I'm feeling {{$ctrl.canReact.emotion}}
+                                    </span>
+								</button>
+								<a class="primary button tiny show-for-small-only"
+								   ng-click="$ctrl.openCritiqueDialog()" ng-if="$ctrl.canCritique">
+									<span class="fa fa-star"></span>
+									<span ng-if="$ctrl.canCritique===true">Judge</span>
+									<span ng-if="$ctrl.canCritique!==true && $ctrl.canCritique != 'login'">
+                                        Judged: <span>{{$ctrl.canCritique.overall}}</span>
+                                    </span>
+								</a>
+								<a class="primary button small hide-for-small-only" ng-cloak
+								   ng-click="$ctrl.openCritiqueDialog()" ng-if="$ctrl.canCritique">
+									<span class="fa fa-star"></span>
+									<span ng-if="$ctrl.canCritique===true">Judge</span>
+									<span ng-if="$ctrl.canCritique!==true && $ctrl.canCritique != 'login'">
+                                        Judged: <span>{{$ctrl.canCritique.overall}}</span>
+                                    </span>
+								</a>
+							</form>
+						</div>
+					</div>
+					<div class="social-share hide-for-small-only">
+						<div class="post-like-btn clearfix">
+							<form>
+								<a class="double-thumbs primary button tiny" ng-click="$ctrl.rate('up')"
+								   ng-class="{'active':$ctrl.canRate.up}">
+									<i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+								</a>
+								<a class="double-thumbs primary button tiny" ng-click="$ctrl.rate('down')"
+								   ng-class="{'active':$ctrl.canRate.down}">
+									<i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+								</a>
+								<playlists project="$ctrl.project"></playlists>
+								<a class="button tiny" ng-click="$ctrl.openShareDialog()"><i
+										class="fa fa-share"></i>Share
+								</a>
+								<a class="button tiny alert" ng-click="$ctrl.openReportDialog()">
+									<i class="fa fa-flag"></i> Flag
+								</a>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="social-share show-for-small-only">
+					<div class="post-like-btn clearfix">
+						<form>
+							<a class="double-thumbs primary button tiny" ng-click="$ctrl.rate('up')"
+							   ng-class="{'active':$ctrl.canRate.up}">
+								<i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
+							</a>
+							<a class="double-thumbs primary button tiny" ng-click="$ctrl.rate('down')"
+							   ng-class="{'active':$ctrl.canRate.down}">
+								<i class="fa fa-thumbs-o-down"></i><i class="fa fa-thumbs-o-down"></i>
+							</a>
+							<playlists project="$ctrl.project"></playlists>
+							<a class="button tiny" ng-click="$ctrl.openShareDialog()"><i
+									class="fa fa-share"></i>Share
+							</a>
+							<a class="button tiny alert" ng-click="$ctrl.openReportDialog()">
+								<i class="fa fa-flag"></i> Flag
+							</a>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>

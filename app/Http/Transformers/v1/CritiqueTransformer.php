@@ -4,16 +4,21 @@ namespace App\Http\Transformers\v1;
 
 
 use App\Critique;
+use League\Fractal\ParamBag;
 use League\Fractal\TransformerAbstract;
 
 class CritiqueTransformer extends TransformerAbstract
 {
     /**
-     * List of resources to automatically include
+     * List of resources to possibly include
      *
      * @var array
      */
     protected $availableIncludes = ['project', 'user', 'comments'];
+
+//    protected $defaultIncludes = [];
+
+    private $validParams = ['limit', 'order'];
 
     /**
      * Turn this item object into a generic array
@@ -60,14 +65,38 @@ class CritiqueTransformer extends TransformerAbstract
      * @param Critique $critique
      * @return \League\Fractal\Resource\Item
      */
-    public function includeComments(Critique $critique)
+    public function includeComments(Critique $critique, ParamBag $params = null)
     {
-        $comments = $critique->comments->take(1);
-        if($comments)
+        if ($params === null) {
+            $comments = $critique->comments;
+            if ($comments)
+                return $this->collection($comments, new CommentTransformer);
+            return [];
+        }
+
+
+        // Optional params validation
+        $usedParams = array_keys(iterator_to_array($params));
+        if ($invalidParams = array_diff($usedParams, $this->validParams)) {
+            throw new \Exception(sprintf(
+                'Invalid param(s): "%s". Valid param(s): "%s"',
+                implode(',', $usedParams),
+                implode(',', $this->validParams)
+            ));
+        }
+
+        // Processing
+        list($limit, $offset) = $params->get('limit');
+        list($orderCol, $orderBy) = $params->get('order');
+
+        $comments = $critique->comments
+//            ->offset($offset)
+            ->where('comment_id', null)
+            ->sortByDesc('created_at')
+            ->take($limit);
+//            ->orderBy($orderCol, $orderBy);
+        if ($comments)
             return $this->collection($comments, new CommentTransformer);
 
     }
-
-
-
 }

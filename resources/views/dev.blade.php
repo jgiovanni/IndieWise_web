@@ -2,7 +2,7 @@
 <html lang="en" ng-app="IndieWise" class="no-js" ng-strict-di>
 <head>
     <title>IndieWise</title>
-    <base href="http://indiewise.dev/">
+    <base href="http//indiewise.dev/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:title" content="IndieWise" />
@@ -35,6 +35,11 @@
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="msapplication-TileImage" content="/public/mstile-144x144.png?v=dLL8Gal3KG">
     <meta name="theme-color" content="#ffffff">
+
+    {{-- ES6 Shims --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
+    <script src="https://unpkg.com/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
@@ -85,7 +90,7 @@
         /* Replace 'APP_ID' with your app ID */
         (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function")    {ic('reattach_activator');ic('update',intercomSettings);}else{var    d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args)   {i.q.push(args)};w.Intercom=i;function l(){var   s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ppp65byn';var x=d.getElementsByTagName('script')   [0];x.parentNode.insertBefore(s,x);}if(w.attachEvent)   {w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
     </script>
-    <script src="//cdn.broadstreetads.com/init.js"></script>
+    {{--<script src="//cdn.broadstreetads.com/init.js"></script>--}}
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 
@@ -212,7 +217,7 @@
 <!--<script src="/public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
 {{--<script src="/public/app/bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>--}}
-<script type="text/javascript" src="/public/{{ elixir('js/all.js') }}"></script>
+<script type="text/javascript" src="/public/{{ elixir('js/bundle.js') }}"></script>
 {{--<script src="/public/src/utils.js"></script>--}}
 
 {{--<script src="/public/src/directives.js"></script>--}}

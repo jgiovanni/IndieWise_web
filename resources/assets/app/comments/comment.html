@@ -1,0 +1,40 @@
+<div class="media-object stack-for-small">
+	<div class="media-object-section comment-img text-center">
+		<div class="comment-box-img">
+			<a ui-sref="user.about({url_id: $ctrl.comment.author.url_id})">
+				<img ng-src="{{::$ctrl.comment.author.avatar || '/assets/img/avatar-1.png'}}" alt="comment">
+			</a>
+		</div>
+	</div>
+	<div class="media-object-section comment-desc">
+		<div class="comment-title">
+            <span class="name"><a ui-sref="user.about({url_id: $ctrl.comment.author.url_id})">
+                {{::$ctrl.comment.author.fullName}}</a> Said:
+            </span>
+			<span class="time float-right"><i class="fa fa-clock-o"></i>
+                <abbr title="{{::$ctrl.comment.created_at|amUtc|amLocal|amDateFormat:'lll'}}"
+                      am-time-ago="::$ctrl.comment.created_at"></abbr>
+            </span>
+		</div>
+		<div class="comment-text">
+			<p ng-bind="$ctrl.comment.body"></p>
+		</div>
+		<div class="comment-btns">
+            <span>
+                <!--<a href="#"><i class="fa fa-thumbs-o-up"></i></a> |-->
+                <!--<a href="#"><i class="fa fa-thumbs-o-down"></i></a> |-->
+                {{$ctrl.comment.replies_count||0}}&nbsp;<i class="fa fa-comments"></i>
+            </span>
+			<span><a ng-click="$ctrl.toggleReplyInput()"><i class="fa fa-share"></i>Reply</a></span>
+			<span ng-if="$ctrl.comment.replies_count" class='reply float-right reply-toggle' ng-click="$ctrl.loadReplies()">
+                Show replies <i class="fa fa-angle-down"></i>
+            </span>
+		</div>
+
+		<reply target-comment="$ctrl.comment" parent="$ctrl.parent" on-reply="$ctrl.handleReply(reply)" ng-if="$ctrl.showReplyInput"></reply>
+
+		<!--sub comments-->
+		<replies ng-repeat="reply in $ctrl.comment.replies| orderBy: '-created_at'" reply="reply" target-comment="$ctrl.comment" parent="$ctrl.parent" on-reply="$ctrl.handleReply(reply)"></replies>
+		<!-- end sub comment -->
+	</div>
+</div>

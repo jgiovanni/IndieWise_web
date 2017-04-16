@@ -77,7 +77,7 @@ $api->version('v1', [
 //        $user_id = '00000000-0000-6463-7952-633635765552';
             $enricher = new Enrich();
             $feed = FeedManager::getNotificationFeed($user_id);
-            $activities = $feed->getActivities(0,25)['results'];
+            $activities = $feed->getActivities(0,10)['results'];
             $unseen = 0;
             $unread = 0;
 
@@ -180,6 +180,9 @@ $api->version('v1', [
         $api->get('emailCheck', 'AuthController@checkEmailUse');
         $api->get('request_verification', 'AuthController@requestVerification');
         $api->get('check_verification', 'AuthController@checkVerification');
+        $api->post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
+        $api->get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
+
 
         // User Routes
         $api->put('users/me/{id?}', 'AuthController@updateMe');
@@ -192,10 +195,25 @@ $api->version('v1', [
         $api->post('projects/watched', 'ProjectsController@recordWatched');
         $api->get('projects/limit', 'ProjectsController@canUpload');
         $api->get('projects/count', 'ProjectsController@count');
+        $api->get('projects/reactions', 'ProjectsController@reactionStats');
         $api->get('reactions/latest', 'ReactionsController@latest');
         $api->get('nominations/latest', 'NominationsController@latest');
         $api->get('critiques/latest', 'CritiquesController@latest');
         $api->get('playlistItems/check/{id?}', 'PlaylistItemsController@checkIn');
+        $api->get('policies/upload', function () {
+            $json_policy = json_encode([
+//            "handle" => "KW9EJhYtS6y48Whm2S6D",
+                "expiry" => intval(time() + (60 * 60)),
+                "call" => ["write", "convert", "pick" , "store"],
+//                "maxSize" => 1073741824 // 1GB
+                "maxSize" => 2147483648 // 2GB
+            ]);
+            $policy = strtr(base64_encode($json_policy), '+/=', '-_');
+            $signature = hash_hmac("sha256", $policy, "6FU2RG57IFGDPE6EIEUIEXJWIM");
+
+            return response()->json(compact('policy', 'signature'));
+
+        });
 
         // Static Data Routes
         $api->resource('countries', 'CountriesController');

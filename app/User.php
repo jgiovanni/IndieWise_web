@@ -159,6 +159,11 @@ class User extends Authenticatable implements JWTSubject, AuthenticatableContrac
         return $this->hasMany(Critique::class);
     }
 
+    /*public function critiqued()
+    {
+        return $this->belongsToMany(Critique::class,'');
+    }*/
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
