@@ -1,4 +1,4 @@
-window.Vue = require('vue');
+window.Vue = require('vue/dist/vue.min');
 require('vue-resource');
 let VueMaterial = require('vue-material');
 let VeeValidate = require('vee-validate');

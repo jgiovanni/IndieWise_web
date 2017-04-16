@@ -596,6 +596,11 @@ let AppMethods = {
 };
 function AppCreated(vm) {
     console.log('Vue Ready');
+    // Comment these three for local build.
+    Vue.config.devtools = false;
+    Vue.config.debug = false;
+    Vue.config.silent = true;
+
 
     vm.StreamClient = AppData.StreamClient = stream.connect(AppData.StreamConfig.streamApiKey, null, AppData.StreamConfig.streamApp, {location: 'us-east'})
 

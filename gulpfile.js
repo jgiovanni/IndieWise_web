@@ -1,19 +1,8 @@
 var gulp = require('gulp');
 // var glob = require('glob');
 var elixir = require('laravel-elixir');
-// require('laravel-elixir-vueify');
+require('laravel-elixir-vueify');
 require('laravel-elixir-vue-2');
-// var templateCache = require('gulp-angular-templatecache');
-
-// require("laravel-elixir-ng-templates");
-// require('laravel-elixir-ngtemplatecache');
-/*elixir.extend('ngTemplates', function(source, output, options) {
-    new elixir.Task('ngTemplates', function() {
-        return gulp.src(source)
-            .pipe(templateCache(options))
-            .pipe(gulp.dest(output));
-    }).watch(source).ignore(output);
-});*/
 
 /*
  |--------------------------------------------------------------------------
@@ -42,11 +31,6 @@ elixir(function(mix) {
 
     ]);
     mix.sass('app.scss');
-    // complie js
-    // mix.combine('resources/assets/js/main.js');
-    // mix.webpack('resources/assets/js/videojs.js');
-    // mix.webpack('resources/assets/js/vendor.js');
-    // mix.browserify('angular.js');
 
     // VueJS file
     // mix.webpack('vendor.js');
