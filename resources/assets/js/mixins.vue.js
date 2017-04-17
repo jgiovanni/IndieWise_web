@@ -174,11 +174,14 @@ Vue.mixin({
         // Auth Methods
         doSignOut() {
             localStorage.removeItem('jwt-token');
-            this.$http.post('logout').then(function () {
+            this.$removeItem('user');
+            this.authenticated = false;
+            location.href = location.origin + '/logout';
+            /*this.$http.post('/logout').then(function () {
                 this.$root.$emit('userHasLoggedOut', this.$root.user);
                 this.$removeItem('user');
                 this.authenticated = false;
-            });
+            });*/
         },
         justVerified() {
             return false;
