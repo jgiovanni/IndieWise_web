@@ -160,7 +160,8 @@ class AuthController extends Controller
     {
 //        JWTAuth::invalidate(JWTAuth::getToken());
         Auth::logout();
-        return redirect('/');
+        return back();
+//        return redirect('/');
     }
 
 
