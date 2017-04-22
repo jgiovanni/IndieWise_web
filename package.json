@@ -90,8 +90,11 @@
     "typescript": "^2.1.5",
     "vee-validate": "^2.0.0-beta.21",
     "vue-flickity": "^1.0.7",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^11.3.4",
     "vue-property-decorator": "^3.4.0",
     "vue-rawmodel": "^1.0.1",
+    "vue-style-loader": "^3.0.0",
     "vue-video-player": "^3.0.0"
   }
 }
