@@ -380,7 +380,7 @@
 
                     // register Action
 //                    Analytics.trackEvent('video', 'critique', self.project.name);
-
+                    self.$ua.trackEvent('project', 'critique', self.project.name);
                     // if an award has been selected, create a nomination
                     if (!!this.dialogModel.award_id && _.isString(this.dialogModel.award_id)) {
                         this.nominated.critique_id = obj.id;
@@ -393,6 +393,7 @@
                             // self.qNominations();
                             nom.critique = obj;
 //                            Analytics.trackEvent('video', 'nominate', self.project.name);
+                            self.$ua.trackEvent('project', 'nominate', self.project.name);
                         }, function (error) {
                             alert('Failed to create new nomination, with error code: ' + error.message);
                         })

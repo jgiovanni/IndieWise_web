@@ -115,7 +115,7 @@
 
             },
             onPlayerTimeupdate(player){
-                if (player.currentTime() && !this.watched) {
+                if (player.currentTime()) {
                     this.throttledWatcher(player.currentTime());
                 }
             },
@@ -173,8 +173,11 @@
                 }
             },
             markAsWatched(time){
+                this.$ua.trackTiming('Projects', 'watch', (time * 1000), this.project.name);
+
                 if (time > 10 && !this.watched) {
                     //console.log('Marked as Watched');
+                    this.$ua.trackEvent('project', 'play', this.project.name);
                     this.$http.post('projects/watched', {
                         project_id: this.project.id
                     }).then(function () {

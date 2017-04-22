@@ -261,7 +261,7 @@
                             emotion: emotion.emotion
                         }).then(function (resA) {
                             self.project.reactions_count++;
-                            
+                            this.$ua.trackEvent('project', 'react', self.project.name);
                             self.checkUserActions();
                             self.handleActions('reaction', resA.body.data);
                         });
@@ -304,6 +304,7 @@
                         up: direction === 'up',
                         down: direction === 'down'
                     }).then(function (res) {
+                        this.$ua.trackEvent('project', 'rate', self.project.name);
                         // console.log(res);
                         switch (direction) {
                             case 'up':
@@ -429,6 +430,7 @@
                 } else self.loginModal();
             },
             openShareDialog() {
+                this.$ua.trackEvent('project', 'share', this.project.name);
                 this.$root.$emit('openShareDialog-' + this.project.id);
             },
             openReactionDialog() {

@@ -70,11 +70,13 @@
     <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="/assets/css/jquery.kyco.easyshare.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
+
     <!-- Elite Video Player Styles-->
     {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite.css" type="text/css" media="screen"/>--}}
     {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">--}}
     {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">--}}
     <!-- Custom Styles  -->
+
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
 
     <script>
