@@ -8,13 +8,13 @@
 					<div class="large-12 columns">
 						<md-tabs md-fixed md-dynamic-height v-if="critiques && critiqued">
 							<md-tab id="critiques" :md-label="critiques.data.length + ' Critiques Given'">
-								<critique-item v-for="critique in critiques.data" :critique="critique"
+								<critique-item v-for="critique in critiques.data" :key="critique.id" :critique="critique"
 								               :parent-url-id="critique.project ? critique.project.data.url_id : ''"
 								               :parent-owner-id="critique.project ? critique.project.data.owner_id: ''"></critique-item>
 							</md-tab>
 
 							<md-tab id="critiqued" :md-label="critiqued.data.length + ' Critiques Received'">
-								<critique-item v-for="critique in critiqued.data" :critique="critique"
+								<critique-item v-for="critique in critiqued.data" :key="critique.id" :critique="critique"
 								               :parent-url-id="critique.project ? critique.project.data.url_id : ''"
 								               :parent-owner-id="critique.project ? critique.project.data.owner_id : ''"></critique-item>
 							</md-tab>

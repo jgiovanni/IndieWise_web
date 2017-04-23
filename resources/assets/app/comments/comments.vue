@@ -62,7 +62,7 @@
 
                 <!-- main comment -->
                 <div class="main-comment showmore_one">
-                    <comment v-if="comments.length" v-for="comment in comments" :comment="comment" :parent="parent"></comment>
+                    <comment v-if="comments.length" v-for="comment in comments" :key="comment.id" :comment="comment" :parent="parent"></comment>
 
                     <div class="text-center loadMore" v-show="pagination.total_pages > 0">
                         <button class="button" type="button" @click="loadMore" :disabled="loading">

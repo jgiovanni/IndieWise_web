@@ -11,7 +11,7 @@
 								<md-tabs md-fixed md-dynamic-height>
 									<md-tab id="nominations" :md-label="nominations.data.length + ' Nominations Given'">
 										<md-list class="">
-											<md-list-item v-for="nom in nominations.data" :href="'/user/' + nom.user.data.url_id">
+											<md-list-item v-for="nom in nominations.data" :key="nom.id" :href="'/user/' + nom.user.data.url_id">
 												<md-avatar>
 													<img src="/assets/img/award_win_small.png" alt="award">
 												</md-avatar>
@@ -30,7 +30,7 @@
 									</md-tab>
 									<md-tab id="nominated" :md-label="nominated.data.length + ' Nominations Given'">
 										<md-list class="">
-											<md-list-item v-for="nom in nominated.data" :href="'/user/' + nom.user.data.url_id">
+											<md-list-item v-for="nom in nominated.data" :key="nom.id" :href="'/user/' + nom.user.data.url_id">
 												<md-avatar>
 													<img src="/assets/img/award_win_small.png" alt="award">
 												</md-avatar>
@@ -51,7 +51,7 @@
 							</md-tab>
 							<md-tab id="awards" :md-label="awards.data.length + ' Awards'">
 								<md-list class="">
-									<md-list-item v-for="win in awards.data" :href="'/' + win.project.data.url_id">
+									<md-list-item v-for="win in awards.data" :key="win.id" :href="'/' + win.project.data.url_id">
 										<md-icon md-src="/assets/svg/trophy.svg"></md-icon>
 
 										<div class="md-list-text-container">

@@ -29,7 +29,7 @@
             </md-card-content>
 
             <md-card-content v-if="showReplies">
-                <replies v-for="reply in comment.replies" :reply="reply" :target-comment="comment" :parent="parent"
+                <replies v-for="reply in comment.replies" :key="reply.id" :reply="reply" :target-comment="comment" :parent="parent"
                          @default-post-reply="handleReply(reply)"></replies>
             </md-card-content>
         </md-card-area>

@@ -32,5 +32,5 @@ Vue.use(VueAnalytics, {
     appName: 'IndieWise',
     appVersion: '2.0',
     trackingId: 'UA-27155404-17',
-    debug: true, // Whether or not display console logs debugs (optional)
+    debug: false, // Whether or not display console logs debugs (optional)
 });

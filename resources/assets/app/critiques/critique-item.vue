@@ -230,7 +230,7 @@
 
             <template v-if="critique.comments">
                 <md-card-content v-show="critique.comments.data.length > 0">
-                    <comment v-for="comment in critique.comments.data" :comment="comment" :parent="critique" :child="true"></comment>
+                    <comment v-for="comment in critique.comments.data" :key="comment.id" :comment="comment" :parent="critique" :child="true"></comment>
                 </md-card-content>
             </template>
         </md-card-expand>
