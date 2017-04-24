@@ -159,6 +159,9 @@
                                         <li :class="{active: isFirstUrlSegment('winners')}">
                                             <a href="/winners"><i class="fa fa-star"></i>Winners</a>
                                         </li>
+                                        <li class="">
+                                            <a href="https://convention.getindiewise.com" style="background-color: rgba(105,105,233, .8);color: #fff;border-radius: 5px;padding: 32px 15px;"><i class="fa fa-group"></i>Convention</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

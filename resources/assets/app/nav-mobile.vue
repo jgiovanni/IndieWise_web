@@ -59,6 +59,10 @@
                     <md-icon>grade</md-icon>
                     <span>Winners</span>
                 </md-list-item>
+                <md-list-item href="https://convention.getindiewise.com" target="_blank" @click.native="closeLeftSideNav()">
+                    <md-icon>group</md-icon>
+                    <span>Convention</span>
+                </md-list-item>
                 <md-list-item v-if="!isAuthenticated" href="sign-in" @click.native="closeLeftSideNav()">
                     <span>Login/Register</span>
                 </md-list-item>

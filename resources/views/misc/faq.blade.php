@@ -192,7 +192,7 @@
                                     <dd><b class="answer">A:</b> Yes Indeed!</dd>
                                 </dl>
                                 <dl>
-                                    <dt>15. <b class="question">Q:</b> Will my film play at the July 2017 Convention in Miami, FL</dt>
+                                    <dt>15. <b class="question">Q:</b> Will my film play at the August 2017 Convention in Miami, FL</dt>
                                     <dd><b class="answer">A:</b> Our Internal Jury will go through the IndieWise website periodically and observe
                                         films
                                         which they feel stand out. They will make selections as to which films they feel
