@@ -88,10 +88,16 @@
 
     </script>
     {{--<script type="text/javascript" src="//cdn.broadstreetads.com/init.js"></script>--}}
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script src="https://static.filestackapi.com/v3/filestack.js"></script>
 
     @yield('css')
 
 </head>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-2958450117695281",
+        enable_page_level_ads: true
+    });
+</script>
