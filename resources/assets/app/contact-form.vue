@@ -77,9 +77,21 @@
                         description: 'So you’d like to take the bold step of investing in IndieWise! Great choice. Let’s talk!'
                     },
                     {
-                        title: 'Register for IndieWise Convention (AUG 25-27, 2017)',
+                        title: 'Register for IndieWise Convention (AUG 24-27, 2017)',
                         address: 'convention@getindiewise.com',
-                        description: 'Register for our Annual Convention, in Miami, FL! Registration opens on JAN 2, 2017. Over 10,000 Filmmakers from 140+ Countries will be in attendance, as we provide you with 3 days of interactive workshops, educational seminars, film screenings, VIP Receptions, a Yacht Party, and a Closing Gala.<br>Regular 3- Day Package: $150  |  VIP 3-Day Package (Including Yacht Party): $250 (450 Tickets max. To Be Sold)'
+                        description: 'Register for our Grand Convention, August 24-27, 2017 in Miami, Florida, where we\'ll be screening 300+ films at the AMC 24 Aventura Theatre, attracting 400+ Filmmakers and Industry Professionals from 80+ Countries.<br>' +
+                        'Prepare for the time of your life, as we experience 4 days of:' +
+                        '<ul class=""><li>Networking</li>' +
+                        '<li>A Mega Yacht Party</li>' +
+                        '<li>Workshops & Master Classes</li>' +
+                        '<li>Guest Speakers & Motivational Speaker</li>' +
+                        '<li>Pitch Sessions to Distributors & Experts</li>' +
+                        '<li>Charity Fundraising</li>' +
+                        '<li>Blue Carpet Photo Ops</li>' +
+                        '<li>A Pool & Beach Party!</li>' +
+                        '<li>Live Entertainment</li>' +
+                        '<li>Host Beachfront Resort Rates starting at ONLY $89 Per Night</li></ul>' +
+                        '<a href="https://indiewiseconvention2017.eventbrite.com">Register Now</a>'
                     },
                     {
                         title: 'Feedback Center',
