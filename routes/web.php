@@ -375,7 +375,7 @@ $this->get('sitemap-generate', function(){
             // add every critique per project
             foreach ($project->critiques as $critique)
             {
-                $sitemap->add(URL::to($project->url_id . '/critique/' . $critique->url_id), $critique->edited_at, '0.7', 'weekly');
+                $sitemap->add(URL::to($project->url_id . '/critique/' . $critique->url_id), $critique->updated_at, '0.7', 'weekly');
             }
 
         }
