@@ -367,9 +367,12 @@ $this->get('sitemap-generate', function(){
         // add every post to the sitemap
         foreach ($projects as $project)
         {
-            $images = [
+            $images = [];
+            if (isset($project->thumbnail_url) && $project->thumbnail_url !== '') {
+                $images = [
                     ['url' => $project->thumbnail_url . '?cache=true', 'title' => $project->name, 'caption' => $project->description, 'geo_location' => $project->filmingCountry->name],
-            ];
+                ];
+            }
             $sitemap->add(URL::to($project->url_id), $project->edited_at, '0.8', 'daily', $images);
 
             // add every critique per project
