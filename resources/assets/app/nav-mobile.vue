@@ -63,7 +63,7 @@
                     <md-icon>group</md-icon>
                     <span>Convention</span>
                 </md-list-item>
-                <md-list-item v-if="!isAuthenticated" href="sign-in" @click.native="closeLeftSideNav()">
+                <md-list-item v-if="!isAuthenticated" @click.native="loginModal();closeLeftSideNav()">
                     <span>Login/Register</span>
                 </md-list-item>
                 <md-list-item :href="'/user/' + $root.user.url_id" v-if="isAuthenticated" @click.native="closeLeftSideNav()">
