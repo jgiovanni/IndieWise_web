@@ -172,7 +172,7 @@
                             <md-input-container>
                                 <label>Search Projects</label>
                                 <!--<md-input v-model="searchText" :fetch="startSearch"></md-input>-->
-                                <md-autocomplete v-model="searchText" :debounce="250" :fetch="startSearch" @selected="handleSelectedResult" @keydown.enter="window.location = '/browse?q=' + searchText"></md-autocomplete>
+                                <md-autocomplete v-model="searchText" :debounce="800" :fetch="startSearch" @selected="handleSelectedResult" @keydown.enter="window.location = '/browse?q=' + searchText"></md-autocomplete>
                                 <md-button :href="'/browse?q=' + searchText" class="md-primary">Search</md-button>
                             </md-input-container>
                         </form>
