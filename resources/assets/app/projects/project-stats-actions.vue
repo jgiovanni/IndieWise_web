@@ -456,24 +456,26 @@
                 } else return false;
             },
             openAddToDialog () {
-                this.$modal.open({
-                    templateUrl: 'common/share-dialog.html',
-                    resolve: {
-                        Video: function () {
-                            return self.project;
-                        }
-                    },
-                    size: window.Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
-                    controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
-                        // zIndexPlayer();
-                        $scope.video = Video;
-                        $scope.shareLink = window.location.origin + '/' + Video.url_id;
-                        $scope.cancel = function () {
-                            // zIndexPlayer(true);
-                            $modalInstance.close();
-                        };
-                    }]
-                })
+//                this.$nextTick(() => {
+                    this.$modal.open({
+                        templateUrl: 'common/share-dialog.html',
+                        resolve: {
+                            Video: function () {
+                                return self.project;
+                            }
+                        },
+                        size: window.Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
+                        controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
+                            // zIndexPlayer();
+                            $scope.video = Video;
+                            $scope.shareLink = window.location.origin + '/' + Video.url_id;
+                            $scope.cancel = function () {
+                                // zIndexPlayer(true);
+                                $modalInstance.close();
+                            };
+                        }]
+                    });
+//                });
             },
             openReportDialog (event) {
                 this.$root.$emit('openReportDialog', event.target.id);

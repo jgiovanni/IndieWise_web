@@ -91,7 +91,7 @@
                                 <div class="tabs-content" data-tabs-content="newVideos">
                                     <div class="tabs-panel is-active" style="display: block;" id="new-all">
                                         <div class="row list-group" v-if="films.length">
-                                            <project-card v-for="video in films" :video="video" :type="typeA"
+                                            <project-card v-for="video in films" :key="video.id" :video="video" :type="typeA"
                                                           :queried="true"></project-card>
                                         </div>
                                         <h3 v-else>No results found</h3>

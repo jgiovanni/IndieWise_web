@@ -9,6 +9,11 @@
     -webkit-overflow-scrolling : touch;
 }*/
 
+.md-size-0 {
+    width: auto !important;
+    min-width: 350px;
+}
+
 .vjs-playlist-items {
     top: 0;
 }
@@ -738,4 +743,3 @@ ul.breadcrumbs:not(.md-list)>li+li {
 
 
 [type='text']:focus, [type='password']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='week']:focus, [type='email']:focus, [type='number']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='url']:focus, [type='color']:focus, textarea:focus
-

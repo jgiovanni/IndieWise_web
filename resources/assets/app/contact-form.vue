@@ -8,7 +8,7 @@
             <label for="department">Select a Department</label>
             <md-select id="department" v-model="selectedEmail" required>
                 <option value="" selected>Select a Department</option>
-                <md-option v-for="email in emails" :value="email">{{ email.title }}</md-option>
+                <md-option v-for="email in emails" :value="email" :key="email.address">{{ email.title }}</md-option>
             </md-select>
         </md-input-container>
         <md-input-container>

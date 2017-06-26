@@ -27,7 +27,7 @@
                     <md-progress v-if="loadingNominations" md-indeterminate></md-progress>
 
                     <md-list class="md-double-line">
-                        <md-list-item v-for="nom in sortNominations">
+                        <md-list-item v-for="nom in sortNominations" :key="nom.id">
                             <md-avatar>
                                 <img :src="nom.user.data.avatar || '/assets/img/avatar-1.png'"
                                      :alt="nom.user.data.fullName">

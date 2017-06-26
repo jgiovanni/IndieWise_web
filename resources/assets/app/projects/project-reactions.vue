@@ -3,7 +3,7 @@
         <md-list-item v-if="!loaded">
             <md-progress md-indeterminate></md-progress>
         </md-list-item>
-        <reaction class="{'md-inset': inset}" v-if="reactionsCount" v-for="(count, key) in chartedReactions" :count="count" :id="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
+        <reaction class="{'md-inset': inset}" v-if="reactionsCount" v-for="(count, key) in chartedReactions" :count="count" :id="key" :key="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
         <md-list-item class="{'md-inset': inset}" v-else>
             No Reactions made yet.
         </md-list-item>

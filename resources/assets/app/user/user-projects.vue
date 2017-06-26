@@ -8,7 +8,7 @@
 					<h4>Projects</h4>
 				</div>
 				<template v-if="projects">
-					<md-card v-for="video in projects.data">
+					<md-card v-for="video in projects.data" :key="video.id">
 						<md-card-header>
 							<md-card-header-text>
 								<div class="md-title"><a :href="'/'+video.url_id"> {{video.name}}</a></div>

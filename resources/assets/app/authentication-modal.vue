@@ -209,15 +209,14 @@
 										<label for="country">Select Country</label>
 										<md-select name="country" id="country" v-model="user.country" required>
 											<md-option value="" selected>Select Country</md-option>
-											<md-option :value="country.id" v-for="country in $root.countryList">
+											<md-option :value="country.id" v-for="country in $root.countryList" :key="country.id">
 												{{ country.name }}
 											</md-option>
 										</md-select>
 									</md-input-container>
 
 									<small>By registering, you agree to our <a ui-sref="tos">Terms</a>
-										and have read our <a
-												ui-sref="privacy">Privacy Policy</a></small>
+										and have read our <a ui-sref="privacy">Privacy Policy</a></small>
 
 									<span class="form-error">your email is invalid</span>
 									<button class="button expanded iw-button" type="submit" name="submit">register Now
@@ -346,7 +345,7 @@
             },
             loginRequest(){
                 let self = this;
-                this.$http.post('login', {email: this.user.email, password: this.user.password}).then(function (res) {
+                this.$http.post('/login', {email: this.user.email, password: this.user.password}).then(function (res) {
                     console.log('Success', res);
                     localStorage.setItem('jwt-token', 'Bearer ' + res.data.token);
                     self.getUserData();

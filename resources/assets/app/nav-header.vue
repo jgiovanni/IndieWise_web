@@ -34,7 +34,7 @@
                      data-btm-anchor="footer-bottom:bottom" data-margin-top="0" data-margin-bottom="0"
                      style="width: 100%; background: rgb(255, 255, 255);" data-sticky-on="small">
                     <div class="row" style="">
-                        <md-toolbar md-theme="white hide-for-large" :class="{'md-tall': showMobileSearch}">
+                        <md-toolbar md-theme="white hide-for-large" :class="{'md-tall': showSearchBar}">
                             <md-button class="md-icon-button" aria-label="Menu" @click.native="toggleLeftSidenav()">
                                 <md-icon>menu</md-icon>
                             </md-button>
@@ -52,13 +52,13 @@
                                 <md-icon>notifications</md-icon>
                             </md-button>
                             <md-button class="md-icon-button" aria-label="Search"
-                                       @click.native="showMobileSearch=!showMobileSearch">
-                                <md-icon v-if="showMobileSearch">close</md-icon>
+                                       @click.native="showSearchBar=!showSearchBar">
+                                <md-icon v-if="showSearchBar">close</md-icon>
                                 <md-icon v-else>search</md-icon>
                             </md-button>
-                                <!--<form flex="100" v-show="showMobileSearch" @submit.prevent="Body.startSearch($root.searchText)" id="NavSearch" name="NavSearch">
+                                <!--<form flex="100" v-show="showSearchBar" @submit.prevent="Body.startSearch($root.searchText)" id="NavSearch" name="NavSearch">
                                     {{&#45;&#45;<md-input-container class="md-block">
-                                    <input ng-model="$root.searchText" my-enter="Body.startSearch($root.searchText)" type="text" placeholder="Search Anything" md-autofocus="showMobileSearch">
+                                    <input ng-model="$root.searchText" my-enter="Body.startSearch($root.searchText)" type="text" placeholder="Search Anything" md-autofocus="showSearchBar">
                                 </md-input-container>&#45;&#45;}}
                                     <div class="input-group" style="margin: 10px 0 0">
                                         <input class="input-group-field" ng-model="$root.searchText" my-enter="Body.startSearch($root.searchText)" type="text" placeholder="Search Anything">
@@ -79,7 +79,7 @@
                                                 <img src="/assets/img/Logo_alt2_web_87x45.png" alt="logo">
                                             </a>
                                         </li>
-                                        <li class="search end">
+                                        <li class="search end" @click="showSearchBar = !showSearchBar">
                                             <i class="fa fa-search"></i>
                                         </li>
                                     </ul>
@@ -110,7 +110,7 @@
                                                     </md-button>
                                                 </md-toolbar>
                                                 <md-list class="notification-list">
-                                                    <notification-item v-for="notice in $root.notifications.list" :notification="notice" :verb="notice.verb" :class="{'unread': !notice.is_read}"></notification-item>
+                                                    <notification-item v-for="notice in $root.notifications.list" :key="notice.id" :notification="notice" :verb="notice.verb" :class="{'unread': !notice.is_read}"></notification-item>
                                                 </md-list>
                                             </md-menu-content>
                                         </md-menu>
@@ -150,7 +150,7 @@
                                         <li :class="{active: isFirstUrlSegment('browse')}">
                                             <a href="/browse"><i class="fa fa-th"></i>Browse</a>
                                             <ul class="menu submenu is-dropdown-submenu first-sub vertical" data-submenu="" aria-hidden="true" role="menu">
-                                                <li v-for="type in $root.typesList" class="menu-item is-submenu-item is-dropdown-submenu-item" role="menuitem"><a :href="'/browse?types='+type.slug"><i class="fa fa-play"></i><span class="fontawesome-text"> {{type.name}}</span></a></li>
+                                                <li v-for="type in $root.typesList" :key="type.id" class="menu-item is-submenu-item is-dropdown-submenu-item" role="menuitem"><a :href="'/browse?types='+type.slug"><i class="fa fa-play"></i><span class="fontawesome-text"> {{type.name}}</span></a></li>
                                             </ul>
                                         </li>
                                         <li :class="{active: isFirstUrlSegment('latest')}">
@@ -167,23 +167,14 @@
                             </div>
                         </div>
                     </div>
-                    <div id="search-bar" class="clearfix search-bar-light">
-                        <form @submit.prevent="Body.startSearch($root.searchText)">
-                            <div class="search-input float-left">
-                                <!--<angucomplete-alt id="members"
-                                                  placeholder="Search"
-                                                  pause="400"
-                                                  selected-object="$root.searchSelected"
-                                                  remote-url="https://api.backand.com:443/1/objects/Search?pageSize=20&pageNumber=1&exclude=metadata%2C%20totalRows&search="
-                                                  remote-url-data-field="data"
-                                                  title-field="term"
-                                                  input-class="form-control form-control-small"/>-->
-                                <input type="search" v-model="searchText" my-enter="startSearch($root.searchText)"
-                                       placeholder="Search Anything">
-                            </div>
-                            <div class="search-btn float-right text-right">
-                                <button class="button" type="submit">search now</button>
-                            </div>
+                    <div id="search-bar" class="clearfix search-bar-light" :class="{ 'search-bar-active': showSearchBar }">
+                        <form @submit.prevent="searchTerms">
+                            <md-input-container>
+                                <label>Search Projects</label>
+                                <!--<md-input v-model="searchText" :fetch="startSearch"></md-input>-->
+                                <md-autocomplete v-model="searchText" :debounce="250" :fetch="startSearch" @selected="handleSelectedResult" @keydown.enter="window.location = '/browse?q=' + searchText"></md-autocomplete>
+                                <md-button :href="'/browse?q=' + searchText" class="md-primary">Search</md-button>
+                            </md-input-container>
                         </form>
                     </div>
                 </div>
@@ -200,6 +191,9 @@
         top: -10px;
         position: relative;
     }
+    .search-bar-light.search-bar-active {
+        display: block !important;
+    }
 </style>
 <script type="text/babel">
     import notificationItem from './notification-item.vue';
@@ -208,8 +202,9 @@
         components: {notificationItem},
         data() {
             return {
-                showMobileSearch: false,
-                searchText: ''
+                showSearchBar: false,
+                searchText: '',
+                lastSearchRequest: null,
             }
         },
         computed: {},
@@ -227,7 +222,7 @@
                 this.$root.$emit('overVideoPlayer', false);
             },
             notificationsMenuOpened() {
-                this.markAllAsRead();
+                thiblockkAllAsRead();
                 this.markAllAsSeen()
             },
             markAllAsRead(){
@@ -243,9 +238,38 @@
                 });
             },
             markAllAsSeen(){},
+            startSearch(params){
+                return this.$http.get('projects', { params: {
+                    order: 'DESC',
+                    search: params.q,
+                    per_page: 10,
+                    page: 1
+                }, before: function(xhr) {
+                    if (this.lastSearchRequest) {
+                        this.lastSearchRequest.abort();
+                    }
+                    this.lastSearchRequest = xhr;
+                }}).then(function (response) {
+                    return response.body.data;
+                }, function (error) {
+                    // console.log(error);
+                });
+            },
+            searchTerms(){
+                window.location = '/browse?q=' + this.searchText;
+            },
+            handleSelectedResult(project) {
+                console.log(project);
+                window.location = '/' + project.url_id;
+
+            }
         },
         mounted(){
-            this.generateTypes()
+            this.generateTypes();
+            let self = this;
+            this.$root.$on('search-bar:toggle', function (val) {
+                self.showSearchBar = val || !self.showSearchBar;
+            });
         }
     }
 </script>

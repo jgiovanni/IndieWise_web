@@ -115,7 +115,7 @@
 											<md-input-container v-show="$root.countryList.length">
 												<label for="country">Country</label>
 												<md-select name="country" id="country" v-model="userData.country_id">
-													<md-option :value="country.id" v-for="country in $root.countryList">{{ country.name }}</md-option>
+													<md-option :value="country.id" v-for="country in $root.countryList" :key="country.id">{{ country.name }}</md-option>
 												</md-select>
 											</md-input-container>
 										</div>
@@ -367,32 +367,34 @@
 
             this.$root.$on('userHasLoggedOut', function (user) {
 				if (self.user.id === user.id) {
-                    window.location = '/user/' + this.user.url_id;
+                    window.location = '/user/' + self.user.url_id;
 				}
             });
 
-            if (this.isAuthenticated && this.user.id === this.$root.user.id) {
-                this.$http.get('users/' + this.user.id).then(function (response) {
-                    this.userData = response.body.data;
-                    this.userData.dob = moment(this.userData.dob).startOf('day').format('YYYY-MM-DD');
-                    this.userData.settings = _.isObject(this.userData.settings) ? this.userData.settings : JSON.parse(this.userData.settings || '{}');
-                });
-                this.updateUser = _.throttle(this._updateUser, 1000);
+            this.$root.$on('checkedAuthentication', function (user) {
+                if (self.isAuthenticated && self.user.id === self.$root.user.id) {
+                    self.$http.get('users/' + self.user.id).then(function (response) {
+                        self.userData = response.body.data;
+                        self.userData.dob = moment(self.userData.dob).startOf('day').format('YYYY-MM-DD');
+                        self.userData.settings = _.isObject(self.userData.settings) ? self.userData.settings : JSON.parse(self.userData.settings || '{}');
+                    });
+                    self.updateUser = _.throttle(self._updateUser, 1000);
 
-                let pwSetting = window.localStorage.getItem('pwAllowPushNotifications');
-                this.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
+                    let pwSetting = window.localStorage.getItem('pwAllowPushNotifications');
+                    self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
 
-//            this.genresArr = this.user.genres.data; //Genres.body.data;
-//            this.typesArr = this.user.types;// UserTypes.body.data;
+//            self.genresArr = self.user.genres.data; //Genres.body.data;
+//            self.typesArr = self.user.types;// UserTypes.body.data;
 
-                this.generateCountries();
+                    self.generateCountries();
 
-                this.generateGenres();
+                    self.generateGenres();
 
-                this.generateTypes();
-            } else {
-                window.location = '/user/' + this.user.url_id;
-            }
+                    self.generateTypes();
+                } else {
+                    window.location = '/user/' + self.user.url_id;
+                }
+            });
         }
     }
 </script>

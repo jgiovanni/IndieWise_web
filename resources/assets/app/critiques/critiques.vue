@@ -30,7 +30,7 @@
 
                             <!-- main comment -->
                             <div class="main-comment showmore_ones" toggle-show-mores="368">
-                                <critique-item v-for="critique in critiques" :critique="critique"
+                                <critique-item v-for="critique in critiques" :critique="critique" :key="critique.id"
                                                :parent-url-id="parentUrlId" :parent-owner-id="parentOwnerId"></critique-item>
 
                                 <div class="text-center loadMore" v-show="pagination.total_pages > 0">

@@ -92,7 +92,9 @@
             let self = this;
             this.$root.$on('openReportDialog', function (id) {
                 self.button_id = '#' + id;
-                self.$refs.ReportDialog.open();
+                self.$nextTick(() => {
+                    self.$refs.ReportDialog.open();
+                });
             });
             this.throttledConfirm = _.throttle(this.confirm, 3000);
         }

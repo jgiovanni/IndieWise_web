@@ -9,7 +9,7 @@
             <div class="md-layout md-flex-50" style="align-items: center;">
                 <nav aria-label="You are here:" role="navigation">
                     <ul class="breadcrumbs">
-                        <li><i class="fa fa-home"></i><a href="">Home</a></li>
+                        <li><i class="fa fa-home"></i><a href="/">Home</a></li>
                         <li>
                             <a href="user/{{ $project->owner->url_id }}/about">{{$project->owner->fullName}}</a>
                         </li>

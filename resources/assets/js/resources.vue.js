@@ -22,7 +22,19 @@ Vue.material.registerTheme({
         accent: 'indigo',
         warn: 'red',
         background: { color: 'grey', hue: 900 }
-    }
+    },
+    'white': {
+        primary: 'white',
+        accent: 'indigo',
+        warn: 'red',
+        background: { color: 'grey', hue: 900 }
+    },
+    'light-blue': {
+        primary: 'light-blue',
+        accent: 'indigo',
+        warn: 'red',
+        background: { color: 'grey', hue: 900 }
+    },
 });
 Vue.use(VeeValidate);
 Vue.use(require('vue-localforage'));

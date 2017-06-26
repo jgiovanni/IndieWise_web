@@ -9,7 +9,7 @@
 						<md-tabs md-fixed md-dynamic-height v-if="reactions && reacted">
 							<md-tab id="reactions" :md-label="reactions.data.length + ' Reactions Given'">
 								<md-list class="">
-									<md-list-item v-for="reaction in reactions.data" :href="'/' + reaction.project.data.url_id">
+									<md-list-item v-for="reaction in reactions.data" :key="reaction.id" :href="'/' + reaction.project.data.url_id">
 										<md-icon class="emoticon" :md-src="getEmoticonByEmotion(reaction.emotion).src"></md-icon>
 
 										<div class="md-list-text-container">
@@ -26,7 +26,7 @@
 
 							<md-tab id="reacted" :md-label="reacted.data.length + ' Reactions Received'">
 								<md-list class="">
-									<md-list-item v-for="reaction in reacted.data" :href="'/' + reaction.project.data.url_id">
+									<md-list-item v-for="reaction in reacted.data" :key="reaction.id" :href="'/' + reaction.project.data.url_id">
 										<md-icon class="emoticon" :md-src="getEmoticonByEmotion(reaction.emotion).src"></md-icon>
 
 										<div class="md-list-text-container">

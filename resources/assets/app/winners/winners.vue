@@ -3,15 +3,7 @@
         <md-tab md-label="Audience Awards">
                 <h3>
                     <select v-model="date" @change="fetchWinners()">
-                        <option value="2016-09-01 00:00:00">September 2016</option>
-                        <option value="2016-10-01 00:00:00">October 2016</option>
-                        <option value="2016-11-01 00:00:00">November 2016</option>
-                        <option value="2016-12-01 00:00:00">December 2016</option>
-                        <option value="2017-01-01 00:00:00">January 2017</option>
-                        <option value="2017-02-01 00:00:00">February 2017</option>
-                        <option value="2017-03-01 00:00:00">March 2017</option>
-                        <!--<option value="2017-04-01 00:00:00">April 2017</option>-->
-                        <!--<option value="2017-05-01 00:00:00">May 2017</option>-->
+                        <option :value="date.value" v-for="date in winnersMonths" v-text="date.label"></option>
                     </select>
                 </h3>
             <template v-if="awards" v-for="award in awards">
@@ -281,6 +273,7 @@
     }
 </style>
 <script type="text/babel">
+    import _ from 'underscore';
     export default {
         name: 'winners',
         data(){
@@ -288,6 +281,18 @@
                 awards: [],
                 date: moment().subtract(1, 'months').date(1).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
                 sort: 'name'
+            }
+        },
+        computed: {
+            winnersMonths() {
+                let dates = [{value: '2016-09-01 00:00:00', label: 'September 2016'}];
+                let thisDate =  _.extend({}, dates[0]);
+                while (moment(thisDate.value).isBefore(moment().subtract(1, 'months'))) {
+                    thisDate.value = moment(thisDate.value).add(1, 'months').startOf('day').format('YYYY-MM-DD HH:mm:ss');
+                    thisDate.label = moment(thisDate.value).format('MMMM YYYY');
+                    dates.push({ value: thisDate.value, label: thisDate.label });
+                }
+                return _.initial(dates);
             }
         },
         methods: {

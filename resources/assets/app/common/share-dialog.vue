@@ -11,53 +11,53 @@
                 <div>
                     <ul class="md-list">
                         <li class="md-list-item">
-                            <facebook class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="facebook" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-facebook md-icon material-icons md-theme-default"></i> <span>Facebook</span>
                                     </span>
-                            </facebook>
+                            </network>
                         </li>
                         <li class="md-list-item">
-                            <twitter class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="twitter" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-twitter md-icon material-icons md-theme-default"></i> <span>Twitter</span>
                                     </span>
-                            </twitter>
+                            </network>
                         </li>
                         <li class="md-list-item">
-                            <googleplus class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="googleplus" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-google-plus md-icon material-icons md-theme-default"></i> <span>Google +</span>
                                     </span>
-                            </googleplus>
+                            </network>
                         </li>
                         <li class="md-list-item">
-                            <pinterest class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="pinterest" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-pinterest md-icon material-icons md-theme-default"></i> <span>Pinterest</span>
                                     </span>
-                            </pinterest>
+                            </network>
                         </li>
                         <li class="md-list-item">
-                            <reddit class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="reddit" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-reddit md-icon material-icons md-theme-default"></i> <span>Reddit</span>
                                     </span>
-                            </reddit>
+                            </network>
                         </li>
                         <li class="md-list-item">
-                            <linkedin class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="linkedin" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-linkedin md-icon material-icons md-theme-default"></i> <span>LinkedIn</span>
                                     </span>
-                            </linkedin>
+                            </network>
                         </li>
                         <li class="md-list-item">
-                            <whatsapp class="md-button md-button md-list-item-container md-theme-default">
+                            <network network="whatsapp" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
                                         <i class="fa fa-whatsapp md-icon material-icons md-theme-default"></i> <span>Whatsapp</span>
                                     </span>
-                            </whatsapp>
+                            </network>
                         </li>
                     </ul>
                 </div>
@@ -70,6 +70,7 @@
 </template>
 <style scoped></style>
 <script type="text/babel">
+    import network from 'vue-social-sharing'
     export default {
         name: 'share-dialog',
         props: ['id', 'name', 'description', 'url'],

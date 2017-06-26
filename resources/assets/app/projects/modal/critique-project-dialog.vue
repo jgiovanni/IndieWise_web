@@ -199,7 +199,7 @@
                             </label>
                             <md-select id="nom" v-model="award_id" :disabled="!canNominate">
                                 <md-option value="">No</md-option>
-                                <md-option :value="a.id" v-for="a in awardsList">{{a.name}}</md-option>
+                                <md-option :value="a.id" v-for="a in awardsList" :key="a.id">{{a.name}}</md-option>
                             </md-select>
                         </md-input-container>
                         <span class="help-text">In order to Nominate this project, an overall score of at least 6 is required.</span>
@@ -207,8 +207,8 @@
 
                     </div>
                     <div class="columns">
-                        <div id="errors" class="alert callout" v-if="errors.length">
-                            <template v-for="e in errors">
+                        <div id="restrictionErrors" class="alert callout" v-if="restrictionErrors.length">
+                            <template v-for="e in restrictionErrors">
                                 <span>{{e}}</span><br>
                             </template>
                         </div>
@@ -251,7 +251,7 @@
                 canNominate: false,
                 makePrivateHelp: false,
                 processing: false,
-                errors: [],
+                restrictionErrors: [],
                 awardsList: [],
                 starArray : _.clone([{title: '0 stars', value: 0}, {title: '1 stars', value: 1}, {title: '2 stars', value: 2}, {title: '3 stars', value: 3}, {title: '4 stars', value: 4}, {title: '5 stars', value: 5}, {title: '6 stars', value: 6}, {title: '7 stars', value: 7}, {title: '8 stars', value: 8}, {title: '9 stars', value: 9}, {title: '1 stars', value: 10}]),
                 ratingMax: 10,
@@ -330,7 +330,7 @@
                 }
             },
             validateCritique () {
-                this.errors = [];
+                this.restrictionErrors = [];
 
                 let failA = true;
                 let failB = true;
@@ -338,7 +338,7 @@
                 this.critique.body.trim();
                 failA = this.critique.body.length < 1;
                 if (failA) {
-                    this.errors.push('Tell us why you gave this critique an overall rating of ' + this.critique.overall);
+                    this.restrictionErrors.push('Tell us why you gave this critique an overall rating of ' + this.critique.overall);
                 }
                 switch (this.critique.type) {
                     case 'script':
@@ -355,7 +355,7 @@
                 }
 
                 if (failB) {
-                    this.errors.push('Be sure to put a minimum of 1-star in every category.')
+                    this.restrictionErrors.push('Be sure to put a minimum of 1-star in every category.')
                 }
 
                 if (!failA && !failB) {
@@ -415,7 +415,9 @@
         created() {
             let self = this;
             this.$root.$on('openCritiqueDialog', function () {
-                self.$refs.CritiqueProjectDialog.open();
+                self.$nextTick(() => {
+                    self.$refs.CritiqueProjectDialog.open();
+                });
             });
         },
         mounted(){

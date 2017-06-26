@@ -12,7 +12,7 @@
                                         <h5>Reactions</h5>
                                     </div>
                                     <div class="widgetContent">
-                                        <div class="media-object stack-for-small" v-for="r in reactions">
+                                        <div class="media-object stack-for-small" v-for="r in reactions" :key="r.id">
                                             <div class="media-object-section">
                                                 <div class="recent-img">
                                                     <img :src="r.projectThumbnail||'/assets/img/default_video_thumbnail.jpg'"
@@ -57,7 +57,7 @@
                                         <h5>Nominations</h5>
                                     </div>
                                     <div class="widgetContent">
-                                        <div class="media-object stack-for-small" v-for="n in nominations">
+                                        <div class="media-object stack-for-small" v-for="n in nominations" :key="n.id">
                                             <div class="media-object-section">
                                                 <div class="recent-img">
                                                     <img :src="n.projectThumbnail||'/assets/img/default_video_thumbnail.jpg'"
@@ -100,7 +100,7 @@
                                         <h5>Critiques</h5>
                                     </div>
                                     <div class="widgetContent">
-                                        <div class="media-object stack-for-small" v-for="c in critiques">
+                                        <div class="media-object stack-for-small" v-for="c in critiques" :key="c.id">
                                             <div class="media-object-section">
                                                 <div class="recent-img">
                                                     <img :src="c.projectThumbnail||'/assets/img/default_video_thumbnail.jpg'"
@@ -138,9 +138,9 @@
             </div>
 
             <!-- ad Section -->
-            <div class="googleAdv text-center">
+            <!--<div class="googleAdv text-center">
                 <a href="#"><img src="/assets/images/goodleadv.png" alt="googel ads"></a>
-            </div>
+            </div>-->
             <!-- End ad Section -->
 
         </section>
