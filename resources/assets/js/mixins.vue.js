@@ -13,7 +13,6 @@ Vue.filter('vmDateFormat', function (value, format) {
             return '';
         }
 
-        // var date = amMoment.preprocessDate(value);
         let date = moment(value);
         if (!date.isValid()) {
             return '';
@@ -21,8 +20,6 @@ Vue.filter('vmDateFormat', function (value, format) {
 
         return date.format(format);
     }
-
-    // amDateFormatFilter.$stateful = angularMomentConfig.statefulFilters;
 
     return amDateFormatFilter(value, format);
 });
