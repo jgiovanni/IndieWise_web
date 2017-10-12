@@ -29,8 +29,8 @@ export class UserVideosController implements IUser{
                 size: window.Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
                 keyboard: true
             });
-            modalInstance.result.then(function () {
-                self.DataService.delete('projects', videoId).then(function () {
+            modalInstance.result.then(() => {
+                self.DataService.delete('projects', videoId).then(() => {
                     self.projects.data = self._.reject(self.projects.data, function (response) {
                         return response.id === videoId;
                     });

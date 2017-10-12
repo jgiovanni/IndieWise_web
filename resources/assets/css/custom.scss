@@ -55,7 +55,7 @@ body.cinema-mode .flex-video {
 
 .content .post .post-thumb .video-stats .thumb-stats {
     margin-right: 5px;
-    /*padding: 0 6px;*/
+    padding: 3px 6px !important;
 }
 
 .content .post .post-thumb .video-stats .thumb-stats.pull-right {
@@ -712,7 +712,8 @@ button .emoticon {
     }
 }
 
-.md-input-container input, .md-input-container input:focus, .md-input-container textarea, .md-input-container textarea:focus {
+.md-input-container input, .md-input-container input:focus,
+.md-input-container textarea, .md-input-container textarea:focus {
     border: none;
     box-shadow: none;
     margin:0;
@@ -742,4 +743,4 @@ ul.breadcrumbs:not(.md-list)>li+li {
 }
 
 
-[type='text']:focus, [type='password']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='week']:focus, [type='email']:focus, [type='number']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='url']:focus, [type='color']:focus, textarea:focus
+//[type='text']:focus, [type='password']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='week']:focus, [type='email']:focus, [type='number']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='url']:focus, [type='color']:focus, textarea:focus

@@ -55,7 +55,7 @@ export class CommentController implements IComment {
                     .targetEvent(event)
                     .ok('Delete')
                     .cancel('Cancel');
-                this.$modal.show(confirm).then(function () {
+                this.$modal.show(confirm).then(() => {
                     let p = this.comment.parentComment || undefined;
 
                     this.DataService.delete('comments', this.comment.id).then(function (res) {

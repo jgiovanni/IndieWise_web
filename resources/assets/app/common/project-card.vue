@@ -42,6 +42,10 @@
                         <a :href="'/user/'+video.owner.url_id+'/about'">{{video.owner.fullName}}</a>
                     </span>
                     </p>
+                    <p class="pull-left" v-if="video.watches_count">
+                        <i class="fa fa-eye"></i>
+                        <span>{{video.watches_count}} Views</span>
+                    </p>
                     <p class="pull-left" v-if="!isFirstUrlSegment('profile')">
                         <i class="fa fa-share"></i>
                         <span><a @click="openShareDialog()">Share</a></span>

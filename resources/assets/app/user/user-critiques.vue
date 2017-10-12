@@ -53,7 +53,7 @@
 			/*if (this.isUser) {
 			 this.user = this.$root.user;
 			 } else {
-			 this.$http.get('users/' + this.user.id).then(function (response) {
+			 this.$http.get('users/' + this.user.id).then((response) => {
 			 this.user = response.body.data;
 			 });
 			 }*/
@@ -63,12 +63,12 @@
             });
 
             this.$http.get('critiques', {params: {user: this.user.id, include: 'project'}})
-                .then(function (response) {
+                .then((response) => {
                     this.critiques = response.body
                 });
 
             this.$http.get('critiques', {params: {notUser: this.user.id, include: 'project'}})
-                .then(function (response) {
+                .then((response) => {
                     this.critiqued = response.body
                 });
 

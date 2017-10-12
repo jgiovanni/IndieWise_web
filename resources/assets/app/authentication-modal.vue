@@ -237,7 +237,7 @@
 
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import datePicker from './date-picker';
     export default {
         name: 'authentication-modal',
@@ -352,7 +352,7 @@
                 }, function (res) {
                     self.error = res;
                     console.log('Failed', res);
-                }).then(function () {
+                }).then(() => {
                     self.cancel();
                 });
             },
@@ -383,7 +383,7 @@
                             callback: function (response) {
                                 let token = JSON.parse(response).token;
                                 localStorage.setItem('jwt-token', 'Bearer ' + token);
-                                self.getUserData().then(function () {
+                                self.getUserData().then(() => {
                                     self.$refs.AuthModal.close();
                                 });
                             }
@@ -404,7 +404,7 @@
                             callback: function (response) {
                                 let token = JSON.parse(response).token;
                                 localStorage.setItem('jwt-token', 'Bearer ' + token);
-                                self.getUserData().then(function () {
+                                self.getUserData().then(() => {
                                     self.$refs.AuthModal.close();
                                 });
                             }

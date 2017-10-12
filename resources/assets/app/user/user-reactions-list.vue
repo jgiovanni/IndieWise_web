@@ -7,7 +7,7 @@
 	</md-list>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import reaction from '../projects/reaction.vue';
     export default {
         name: 'user-reactions-list',
@@ -35,7 +35,7 @@
             },
             refresh() {
                 this.$http.get('projects/reactions', { params: {project: this.project.id}})
-                    .then(function (response) {
+                    .then((response) => {
                         this.chartedReactions = response.body.data;
                     });
             },

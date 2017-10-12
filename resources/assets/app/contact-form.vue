@@ -30,7 +30,7 @@
     </form>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'contact-form',
         data(){

@@ -7,7 +7,7 @@
     </md-button-toggle>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'rating',
         props: {

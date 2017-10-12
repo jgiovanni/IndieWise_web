@@ -276,11 +276,11 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
             $scope.errors = [];
 
             if ($scope.project.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
-                self.DataService.collection('awards', {trailer: true}).then(function (result) {
+                self.DataService.collection('awards', {trailer: true}).then((result) => {
                     $scope.awardsList = result.data.Awards;
                 });
             } else {
-                self.DataService.collection('awards').then(function (result) {
+                self.DataService.collection('awards').then((result) => {
                     $scope.awardsList = result.data.Awards;
                 });
             }
@@ -411,7 +411,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                 }, function (error) {
                     alert('Failed to create new critique, with error code: ' + error.message);
                     $scope.processing = false;
-                }).then(function () {
+                }).then(() => {
                     // self.qCritiques();
                     self.checkUserActions();
                     $scope.closeDialog();
@@ -555,7 +555,7 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
                 self.react(reaction);
             }, function () {
                 // console.info('Modal dismissed at: ' + new Date());
-            }).then(function () {
+            }).then(() => {
                 self.$timeout(function () {
                     // console.log('remove is-reveal-open');
                     jQuery('body').removeClass('is-reveal-open')
@@ -630,12 +630,12 @@ export class ProjectStatsActionsController implements IProjectStatsActions {
         });
 
         modalInstance.result.then(function (report) {
-            self.DataService.mail('report', report).then(function () {
+            self.DataService.mail('report', report).then(() => {
                 self.$rootScope.toastMessage('Your Report has been Sent');
             });
         }, function () {
             // console.info('Modal dismissed at: ' + new Date());
-        }).then(function () {
+        }).then(() => {
             self.$timeout(function () {
                 // console.log('remove is-reveal-open');
                 jQuery('body').removeClass('is-reveal-open')

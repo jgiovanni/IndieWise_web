@@ -259,7 +259,7 @@
 	</section>
 </template>
 <style></style>
-<script type="text/babel">
+<script type="text/javascript">
     import datePicker from '../date-picker';
     export default{
         name: 'user-settings',
@@ -373,7 +373,7 @@
 
             this.$root.$on('checkedAuthentication', function (user) {
                 if (self.isAuthenticated && self.user.id === self.$root.user.id) {
-                    self.$http.get('users/' + self.user.id).then(function (response) {
+                    self.$http.get('users/' + self.user.id).then((response) => {
                         self.userData = response.body.data;
                         self.userData.dob = moment(self.userData.dob).startOf('day').format('YYYY-MM-DD');
                         self.userData.settings = _.isObject(self.userData.settings) ? self.userData.settings : JSON.parse(self.userData.settings || '{}');

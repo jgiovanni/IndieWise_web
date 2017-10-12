@@ -81,57 +81,6 @@ Vue.directive('toggleShowMore', {
     }
 });
 
-Vue.http.options.root = '/api';
-Vue.http.interceptors.push((request, next) => {
-    let token, headers;
-
-    token = localStorage.getItem('jwt-token');
-    headers = request.headers || (request.headers = {});
-
-    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-    if (token !== null && token !== 'undefined') {
-        request.headers.set('Authorization', token);
-    }
-
-    // Show Spinners in all components where they exist
-    if (_.contains(['GET', 'POST', 'PUT'], request.method.toUpperCase()) && request.root === '/api') {
-        if (this.$refs && this.$refs.spinner && !request.params.hideLoader) {
-            switch (request.method.toUpperCase()) {
-                case 'GET':
-                    this.$refs.spinner.show({text: 'Loading'});
-                    break;
-                case 'POST':
-                    this.$refs.spinner.show({text: 'Saving'});
-                    break;
-                case 'PUT':
-                    this.$refs.spinner.show({text: 'Updating'});
-                    break;
-            }
-        }
-    }
-
-
-    // continue to next interceptor
-    next(response => {
-
-        // Hide Spinners in all components where they exist
-        if (this.$refs && this.$refs.spinner && !_.isUndefined(this.$refs.spinner._started)) {
-            this.$refs.spinner.hide();
-        }
-
-        if (response.status && response.status.code === 401) {
-            localStorage.removeItem('jwt-token')
-        }
-        if (response.headers && response.headers.Authorization) {
-            localStorage.setItem('jwt-token', response.headers.Authorization)
-        }
-        if (response.entity && response.entity.token && response.entity.token.length > 10) {
-            localStorage.setItem('jwt-token', 'Bearer ' + response.entity.token)
-        }
-
-    });
-});
-
 Vue.mixin({
     data() {
         return {
@@ -215,7 +164,7 @@ Vue.mixin({
         },
         generateTypes(){
             let self = this;
-            return this.$promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 self.$getItem('types', function (err, data) {
                     if (data) {
                         self.$root.typesList = self.sortByAsc(data, 'name');
@@ -234,7 +183,7 @@ Vue.mixin({
         },
         generateGenres(){
             let self = this;
-            return this.$promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 self.$getItem('genres', function (err, data) {
                     if (data) {
                         self.$root.genresList = self.sortByAsc(data, 'name');
@@ -253,7 +202,7 @@ Vue.mixin({
         },
         generateCountries(){
             let self = this;
-            return this.$promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 self.$getItem('countries', function (err, data) {
                     if (data) {
                         self.$root.countryList = self.sortByAsc(data, 'name');
@@ -272,7 +221,7 @@ Vue.mixin({
         },
         generateLanguages(){
             let self = this;
-            return this.$promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 self.$getItem('languages', function (err, data) {
                     if (data) {
                         self.$root.languageList = self.sortByAsc(data, 'English');
@@ -515,7 +464,7 @@ let AppMethods = {
     },
     getUser(){
         let self = this;
-        return this.$promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.$getItem('user').then(function (data) {
                 if (_.isNull(data)) {
                     self.$http.get('authenticate')
@@ -600,6 +549,59 @@ function AppCreated(vm) {
     // Vue.config.devtools = false;
     // Vue.config.debug = false;
     // Vue.config.silent = true;
+
+    let self = vm;
+    self.$http.interceptors.request.use((config) => {
+        let token, headers;
+
+        token = localStorage.getItem('jwt-token');
+        if (token !== null && token !== 'undefined') {
+            config.headers.common['Authorization'] = token;
+        }
+
+        // Show Spinners in all components where they exist
+        if (_.contains(['GET', 'POST', 'PUT'], config.method.toUpperCase()) && config.root === '/api') {
+            if (self.$refs && self.$refs.spinner && !config.params.hideLoader) {
+                switch (config.method.toUpperCase()) {
+                    case 'GET':
+                        self.$refs.spinner.show({text: 'Loading'});
+                        break;
+                    case 'POST':
+                        self.$refs.spinner.show({text: 'Saving'});
+                        break;
+                    case 'PUT':
+                        self.$refs.spinner.show({text: 'Updating'});
+                        break;
+                }
+            }
+        }
+    }, (error) => {
+        // Do something with request error
+        // debugger;
+        return Promise.reject(error);
+    });
+    self.$http.interceptors.response.use((config) => {
+        // Hide Spinners in all components where they exist
+        if (self.$refs && self.$refs.spinner && !_.isUndefined(self.$refs.spinner._started)) {
+            self.$refs.spinner.hide();
+        }
+
+        if (config.status && config.status.code === 401) {
+            localStorage.removeItem('jwt-token')
+        }
+        if (config.headers && config.headers.Authorization) {
+            localStorage.setItem('jwt-token', config.headers.Authorization)
+        }
+        if (config.entity && config.entity.token && config.entity.token.length > 10) {
+            localStorage.setItem('jwt-token', 'Bearer ' + config.entity.token)
+        }
+
+    }, (error) => {
+        // Do something with request error
+        // debugger;
+        return Promise.reject(error);
+    });
+
 
 
     vm.StreamClient = AppData.StreamClient = stream.connect(AppData.StreamConfig.streamApiKey, null, AppData.StreamConfig.streamApp, {location: 'us-east'})
@@ -697,7 +699,9 @@ function AppMounted(vm) {
     }
 
     // Some Template JS
-    jQuery(document).foundation();
+    jQuery(document).ready(() => {
+        jQuery(document).foundation();
+    });
 
     //back to top
     let backtotop = '#back-to-top';

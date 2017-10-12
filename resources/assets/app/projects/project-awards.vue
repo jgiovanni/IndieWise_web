@@ -15,7 +15,7 @@
     </md-list>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'project-awards',
         props: ['view', 'id'],
@@ -32,7 +32,7 @@
                 .then((result) => {
                     self.wins = result.body.data;
                     // console.log('AwardWin: ', result.data);
-                }, (error) => console.log(error)).then(function () {
+                }, (error) => console.log(error)).then(() => {
                 this.loading = false;
 
             });

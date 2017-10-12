@@ -80,7 +80,7 @@
     </section>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import comment from './comment.vue';
     export default {
         name: 'comments',

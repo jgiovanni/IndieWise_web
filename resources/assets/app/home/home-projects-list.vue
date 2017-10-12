@@ -71,7 +71,7 @@
         methods: {
             refresh() {
                 this.$http.get('projects', { params: {sort: this.field, per_page: this.perPage}})
-                    .then(function (result) {
+                    .then((result) => {
                         this.projects = result.data;
                     });
             },

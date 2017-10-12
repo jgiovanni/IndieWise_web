@@ -22,7 +22,7 @@ export class PremiumCarouselController implements IPremiumCarousel {
             .then(function (result: Object) {
                 self.featuredProjects = result.data;
                 // console.log("featuredFilms: ", scope.featuredFilms);
-            }).then(function () {
+            }).then(() => {
             self.$timeout(function () {
                 // console.log('run owl');
                 //Premium carousel

@@ -272,7 +272,7 @@
         line-height:6px;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import _ from 'underscore';
     export default {
         name: 'winners',
@@ -304,7 +304,7 @@
                 this.$http.get('winners', { params: {
                     date_start: self.date,
                     date_end: moment(self.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')
-                }}).then(function (response) {
+                }}).then((response) => {
                     self.awards = response.body.awards;
                 });
             }

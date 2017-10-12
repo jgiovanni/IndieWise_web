@@ -19,7 +19,7 @@
     </h5>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'project-average',
         props: ['view', 'rating', 'critiques'],

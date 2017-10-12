@@ -18,7 +18,7 @@ export class VideoCritiqueEditController {
         self.$scope.editedCritique = angular.copy(self.$scope.critique);
 
         self.DataService.collection('awards')
-            .then(function (result) {
+            .then((result) => {
                 self.$scope.awardsList = result.data.awards;
             });
 

@@ -158,6 +158,7 @@ $this->get('', function () use ($dispatcher) {
     $featured = $dispatcher->get('api/projects', [ 'random' => true, 'per_page' => 3]);
     $trending = $dispatcher->get('api/projects', [ 'sort' => 'reactions_count', 'per_page' => 8]);
     $highestRated = $dispatcher->get('api/projects', [ 'sort' => 'topRating', 'per_page' => 8]);
+//    dd($highestRated);
     $awardWinning = $dispatcher->get('api/projects', [ 'sort' => 'wins_count', 'per_page' => 8]);
     SEO::setTitle('Home');
 

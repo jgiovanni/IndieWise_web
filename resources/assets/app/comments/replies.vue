@@ -33,7 +33,7 @@
 </template>
 <style scoped>
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import reply from './reply.vue';
     export default {
         name: 'replies',

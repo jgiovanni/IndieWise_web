@@ -69,7 +69,7 @@
     </md-dialog>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import network from 'vue-social-sharing'
     export default {
         name: 'share-dialog',

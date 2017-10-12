@@ -14,11 +14,11 @@ function CritiqueDialogController($scope: IScope, DataService: IDataService, $mo
     $scope.errors = [];
 
     if ($scope.project.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
-        DataService.collection('awards', {trailer: true}).then(function (result) {
+        DataService.collection('awards', {trailer: true}).then((result) => {
             $scope.awardsList = result.data.Awards;
         });
     } else {
-        DataService.collection('awards').then(function (result) {
+        DataService.collection('awards').then((result) => {
             $scope.awardsList = result.data.Awards;
         });
     }
@@ -148,7 +148,7 @@ function CritiqueDialogController($scope: IScope, DataService: IDataService, $mo
         }, function (error) {
             alert('Failed to create new critique, with error code: ' + error.message);
             $scope.processing = false;
-        }).then(function () {
+        }).then(() => {
             self.qCritiques();
             self.checkUserActions();
             $scope.closeDialog();
@@ -186,12 +186,12 @@ export class CritiqueCreateModalController {
 
         if (this.project.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
             this.DataService.collection('awards', {trailer: true})
-                .then(function (result) {
+                .then((result) => {
                     self.awardsList = result.data.Awards;
                 });
         } else {
             this.DataService.collection('awards')
-                .then(function (result) {
+                .then((result) => {
                     self.awardsList = result.data.Awards;
                 });
         }

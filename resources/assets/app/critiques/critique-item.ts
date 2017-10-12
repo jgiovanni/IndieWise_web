@@ -75,9 +75,9 @@ export class CritiqueController implements ICritique {
                     .ok('Yes')
                     .cancel('No');
 
-                this.$mdDialog.show(confirm).then(function () {
+                this.$mdDialog.show(confirm).then(() => {
                     if (this.isOwnerOrAuthor) {
-                        this.DataService.delete('Critique', this.critique.id).then(function () {
+                        this.DataService.delete('Critique', this.critique.id).then(() => {
                             this.$rootScope.toastMessage('Your critique was deleted.');
                             // Decrement film critiques_count
                             this.film.critiques_count--;

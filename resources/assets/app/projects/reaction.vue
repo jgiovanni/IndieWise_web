@@ -13,7 +13,7 @@
 
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'reaction',
         props: ['count', 'id', 'reaction', 'max'],

@@ -145,7 +145,6 @@ return [
         //Laravel\Socialite\SocialiteServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-        Cmgmyr\Messenger\MessengerServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
@@ -163,6 +162,8 @@ return [
         Laravelista\Ekko\EkkoServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
         Roumen\Sitemap\SitemapServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -64,7 +64,7 @@
         margin-right: 10px;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     require('flickity-imagesloaded');
     import Flickity from 'vue-flickity';
     export default {
@@ -95,7 +95,7 @@
             }*/
         },
         mounted(){
-            this.$http.get('projects/watched').then(function (result) {
+            this.$http.get('projects/watched').then((result) => {
                 this.watched = result.body;
                 /*setTimeout(function () {
                     if (this.$refs.flickity) {

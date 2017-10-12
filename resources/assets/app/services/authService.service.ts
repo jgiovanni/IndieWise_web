@@ -33,7 +33,7 @@ export default class AuthService implements IAuthService {
         this.currentUser = this.getCurrentUser();
         this.throttledVerificationCheck = this._.throttle(function () {
             let self = this;
-            return this.$http.get(this.API + 'check_verification').then(function (response) {
+            return this.$http.get(this.API + 'check_verification').then((response) => {
                 self.lastCheckedVerification = moment();
                 return response.body.check;
             });
@@ -83,7 +83,7 @@ export default class AuthService implements IAuthService {
 
     updateUser(_userParams: any) {
         return this.DataService.update('users/me', _userParams.id, _userParams, null)
-            .then(function (response) {
+            .then((response) => {
                 return response;
             }).catch(function (error) {
                 console.log(error);
@@ -93,7 +93,7 @@ export default class AuthService implements IAuthService {
 
     deleteUser(_userParams: any) {
         return this.DataService.delete('users/me', _userParams.id)
-            .then(function (response) {
+            .then((response) => {
                 return response;
             }).catch(function (error) {
                 console.log(error);
@@ -166,7 +166,7 @@ export default class AuthService implements IAuthService {
         let self = this;
         isModal = isModal || false;
         return this.$auth.authenticate(provider)
-            .then(function (response) {
+            .then((response) => {
                 // console.log(response.body);
                 self.getCurrentUser().then(function (user) {
                     self.error = '';

@@ -86,7 +86,7 @@
     </section><!--end slider-->
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'layer-slider',
         data(){
@@ -96,9 +96,9 @@
         },
         methods: {},
         mounted(){
-            this.$http.get('projects', { params: { random: true, per_page: 3}}).then(function (response) {
+            this.$http.get('projects', { params: { random: true, per_page: 3}}).then((response) => {
                 this.projects = response.body;
-            }).then(function () {
+            }).then(() => {
                 jQuery("#layerslider").layerSlider({
                     responsive: true,
                     // responsiveUnder: 950,

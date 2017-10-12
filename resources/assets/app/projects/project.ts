@@ -172,7 +172,7 @@ export class ProjectController implements IProject {
     updateVideoObj () {
         let self = this;
         return this.DataService.item('projects', this.project.id)
-            .then(function (response) {
+            .then((response) => {
                 console.log('Project Updated: ', response);
                 self.project = response.body.data;
             }, (error) => console.log(error));

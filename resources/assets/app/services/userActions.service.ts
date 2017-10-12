@@ -145,7 +145,7 @@ class SignInModalController {
         }, function (res) {
             this.error = res;
             console.log('Failed', res);
-        }).then(function () {
+        }).then(() => {
             this.ok();
         });
     }
@@ -195,7 +195,7 @@ function SignInModalCtrl($rootScope, $timeout, AuthService, $modalInstance) {
         }, function (res) {
             self.error = res;
             console.log('Failed', res);
-        }).then(function () {
+        }).then(() => {
             self.ok();
         });
     };

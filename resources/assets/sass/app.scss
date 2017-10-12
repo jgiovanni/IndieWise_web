@@ -1,8 +1,9 @@
 // Theme Styles
-//@import "node_modules/angular-material/angular-material.scss";
-//@import "node_modules/vue-material/dist/vue-material";
+@import '~vue-material/dist/vue-material.css';
 @import "resources/assets/scss/app.scss";
 @import "resources/assets/scss/theme.scss";
+@import "~videojs-sublime-skin/dist/videojs-sublime-skin.css";
+@import "resources/assets/css/custom.scss";
 // Video.js and plugin styles
 //@import "node_modules/video.js/src/css/video-js.scss";
 //@import "node_modules/videojs-playlist-thumbs/src/plugin.scss";

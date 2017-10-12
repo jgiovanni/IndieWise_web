@@ -62,9 +62,9 @@
         methods: {},
         mounted(){
             this.$http.get("projects", { params: {random: true, per_page: 3}})
-                .then(function (result) {
+                .then((result) => {
                     this.featuredProjects = result.data;
-                }).then(function () {
+                }).then(() => {
                 //Premium carousel
                 setTimeout(function () {
                     let carouselEl = jQuery('#owl-featured');

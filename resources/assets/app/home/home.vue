@@ -3,7 +3,7 @@
 
     </div>
 </template>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'home',
         components: {homeProjectsList, layerSlider, premiumCarousel, sponsorCarousel},

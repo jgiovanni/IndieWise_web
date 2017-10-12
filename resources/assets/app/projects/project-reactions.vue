@@ -10,7 +10,7 @@
     </md-list>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import reaction from './reaction.vue';
     export default {
         name: 'project-reactions',
@@ -44,7 +44,7 @@
             refresh() {
                 this.loaded = false;
                 this.$http.get('projects/reactions', { params: {project: this.id}})
-                    .then(function (response) {
+                    .then((response) => {
                         this.chartedReactions = response.body.data;
                         this.loaded = true;
                     });

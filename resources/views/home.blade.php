@@ -114,7 +114,7 @@
                                 <div class="row list-group">
                                     @foreach($trending as $item)
                                     <project-card key="{{ $item->id }}" :index="{{ $loop->index }}"
-                                                  :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
+                                                  :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'watches_count' => $item->watches_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
                                                   :queried="true"></project-card>
                                     @endforeach
                                 </div>
@@ -171,7 +171,7 @@
                                 <div class="row list-group">
                                     @foreach($highestRated as $item)
                                         <project-card key="{{ $item->id }}" :index="{{ $loop->index }}"
-                                                      :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
+                                                      :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'watches_count' => $item->watches_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
                                                       :queried="true"></project-card>
                                     @endforeach
                                 </div>
@@ -227,7 +227,7 @@
                                 <div class="row list-group">
                                     @foreach($awardWinning as $item)
                                         <project-card key="{{ $item->id }}" :index="{{ $loop->index }}"
-                                                      :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
+                                                      :video="{{ json_encode([ 'id' => $item->id, 'url_id' => $item->url_id, 'thumbnail_url' => $item->thumbnail_url, 'iwRating' => $item->iwRating, 'wins_count' => $item->wins_count, 'watches_count' => $item->watches_count, 'reactions_count' => $item->reactions_count, 'runTime' => $item->runTime, 'name' => $item->name, 'description' => str_limit($item->description, 40), 'owner' => ['fullName' => $item->owner->fullName, 'url_id' => $item->owner->url_id,]]) }}" :type="layoutType"
                                                       :queried="true"></project-card>
                                     @endforeach
                                 </div>

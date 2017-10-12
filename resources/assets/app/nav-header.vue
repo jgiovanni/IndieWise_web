@@ -195,7 +195,7 @@
         display: block !important;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import notificationItem from './notification-item.vue';
     export default {
         name: 'nav-header',
@@ -249,7 +249,7 @@
                         this.lastSearchRequest.abort();
                     }
                     this.lastSearchRequest = xhr;
-                }}).then(function (response) {
+                }}).then((response) => {
                     return response.body.data;
                 }, function (error) {
                     // console.log(error);

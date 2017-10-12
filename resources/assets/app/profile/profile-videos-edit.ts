@@ -23,7 +23,7 @@ export class ProfileVideosEditController implements IProfile{
          .targetEvent(ev)
          .ok('Delete it!')
          .cancel('Never mind');
-         $modal.show(confirm).then(function () {
+         $modal.show(confirm).then(() => {
          //self.project.set('disableProject', true);
          self.project.destroy({
          success: function (myObject) {
@@ -167,7 +167,7 @@ export class ProfileVideosEditController implements IProfile{
             params: {upload_preset: 'dzachn6p'},
             data: {file: file},
             skipAuthorization: true  // `Authorization: Bearer <token>` will not be sent on this request.
-        }).then(function (response) {
+        }).then((response) => {
             console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.body);
             self.editedProject.thumbnail_url = response.body.secure_url;
             self.DataService.update('projects', self.editedProject.id, self.editedProject);

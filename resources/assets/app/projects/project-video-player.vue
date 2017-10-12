@@ -57,7 +57,7 @@
         font-family: Arial, Helvetica, sans-serif;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'project-video-player',
         props: {
@@ -180,7 +180,7 @@
                     this.$ua.trackEvent('project', 'play', this.project.name);
                     this.$http.post('projects/watched', {
                         project_id: this.project.id
-                    }).then(function () {
+                    }).then(() => {
                         this.watched = true;
                     });
                 }

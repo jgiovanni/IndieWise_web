@@ -239,7 +239,7 @@
         }
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import rating from '../../rating.vue';
     export default {
         name: 'critique-project-dialog',
@@ -405,7 +405,7 @@
                 }, function (error) {
                     alert('Failed to create new critique, with error code: ' + error.message);
                     this.processing = false;
-                }).then(function () {
+                }).then(() => {
                     // self.qCritiques();
                     self.checkUserActions();
                     this.closeDialog();
@@ -422,11 +422,11 @@
         },
         mounted(){
             if (this.project.type.id === '39704d3d-2941-11e6-b8db-86ac961c55b2') {
-                this.$http.get('awards', { params: {trailer: true}}).then(function (result) {
+                this.$http.get('awards', { params: {trailer: true}}).then((result) => {
                     this.awardsList = result.data.Awards;
                 });
             } else {
-                this.$http.get('awards').then(function (result) {
+                this.$http.get('awards').then((result) => {
                     this.awardsList = result.data.Awards;
                 });
             }

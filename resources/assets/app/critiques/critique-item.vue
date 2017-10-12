@@ -248,7 +248,7 @@
         box-shadow: none;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import comment from '../comments/comment.vue';
     import reply from '../comments/reply.vue';
     export default {
@@ -303,9 +303,9 @@
                             .ok('Yes')
                             .cancel('No');
 
-                        this.$mdDialog.show(confirm).then(function () {
+                        this.$mdDialog.show(confirm).then(() => {
                             if (this.isOwnerOrAuthor) {
-                                this.$http.delete('critique', this.critique.id).then(function () {
+                                this.$http.delete('critique', this.critique.id).then(() => {
                                     this.$root.$emit('toastMessage', 'Your critique was deleted.');
                                     // Decrement film critiques_count
                                     this.film.critiques_count--;

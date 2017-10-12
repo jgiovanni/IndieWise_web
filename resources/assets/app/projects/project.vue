@@ -125,7 +125,7 @@
         width: 100%
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import projectOwnerActions from './project-owner-actions.vue';
     import projectReactions from './project-reactions.vue';
     import projectAverage from './project-average.vue';
@@ -219,7 +219,7 @@
             updateVideoObj () {
                 let self = this;
                 return this.$http.get('projects' + this.project.id)
-                    .then(function (response) {
+                    .then((response) => {
                         console.log('Project Updated: ', response);
                         self.project = response.body.data;
                     }, (error) => console.log(error));
@@ -233,7 +233,7 @@
         created() {
             let self = this;
 
-            this.$http.get('projects/' + this.id).then(function (response) {
+            this.$http.get('projects/' + this.id).then((response) => {
                 this.project = response.body.data;
                 this.init(this.project);
             });

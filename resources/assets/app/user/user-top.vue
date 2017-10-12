@@ -165,7 +165,7 @@
 		vertical-align: top !important;
 	}
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     export default{
         name: 'user-top',
         props: {

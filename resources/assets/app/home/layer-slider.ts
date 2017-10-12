@@ -18,7 +18,7 @@ export class LayerSliderController implements ILayerSlider {
             self.projects = response.body;
         });
 
-        this.$q.all([b]).then(function () {
+        this.$q.all([b]).then(() => {
             self.$timeout(function () {
                 // jQuery('#slippry').slippry();
                 jQuery("#layerslider").layerSlider({

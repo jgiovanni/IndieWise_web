@@ -15,9 +15,10 @@ class Project extends Model
 
     protected $guarded = ['id', 'url_id'];
 
-    protected $with = ['owner', 'genres', 'type', 'filmingCountry', 'language'];
+    protected $with = ['owner', 'genres', 'type', 'filmingCountry', 'language', 'watches'];
 
-//    protected $appends = ['fp_policy', 'fp_signature'];
+    // protected $appends = ['fp_policy', 'fp_signature'];
+    protected $appends = ['watches_count'];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'completionDate'];
 
@@ -117,6 +118,12 @@ class Project extends Model
     public function setCopyrightOwnerAttribute($val)
     {
         $this->attributes['copyrightOwner'] = (boolean)($val);
+    }
+
+    public function getWatchesCountAttribute() {
+        if ($this->watches)
+            return $this->watches->count;
+        else return 0;
     }
 
     // Scopes

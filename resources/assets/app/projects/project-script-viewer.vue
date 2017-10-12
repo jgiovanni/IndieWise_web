@@ -2,7 +2,7 @@
     <filepicker-preview :url="script"></filepicker-preview>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import filepickerPreview from '../filepicker-preview.vue';
     export default {
         name: 'project-script-viewer',

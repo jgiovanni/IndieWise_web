@@ -1,6 +1,6 @@
-var gulp = require('gulp');
+let gulp = require('gulp');
 // var glob = require('glob');
-var elixir = require('laravel-elixir');
+let elixir = require('laravel-elixir');
 require('laravel-elixir-vueify');
 require('laravel-elixir-vue-2');
 

@@ -15,7 +15,7 @@ export class WinnersController {
         this.DataService.collection('winners', {
             date_start: self.date,
             date_end: moment(self.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')
-        }).then(function (response) {
+        }).then((response) => {
             self.awards = response.body.Awards;
         });
     }

@@ -1,12 +1,4 @@
 <head>
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-2958450117695281",
-            enable_page_level_ads: true
-        });
-    </script>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -55,9 +47,6 @@
         ga('send', 'pageview');
 
     </script>
-    @if(app()->environment('production'))
-    <script src="//load.sumome.com/" data-sumo-site-id="bd61565ea45ede680e6c69602db06da1dc57c27a149161e1f80022fde485c516" async="async"></script>
-    @endif
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
@@ -73,7 +62,7 @@
     {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
 
     <!-- BeTube Styles-->
-    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     <link rel="stylesheet" href="/assets/layerslider/css/layerslider.css" type="text/css">
@@ -88,7 +77,7 @@
     {{--<link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">--}}
     <!-- Custom Styles  -->
 
-    <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
+    {{--<link rel="stylesheet" href="{{ mix('css/all.css') }}"/>--}}
 
     <script>
         window.intercomSettings = {
@@ -104,16 +93,18 @@
 
     @yield('css')
 
-<!-- Hotjar Tracking Code for getindiewise.com -->
-    <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:597112,hjsv:5};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
+    @if(app()->environment('production'))
+    <!-- Hotjar Tracking Code for getindiewise.com -->
+        <script>
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:597112,hjsv:5};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+        </script>
+    @endif
 
 </head>

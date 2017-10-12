@@ -191,7 +191,7 @@
     </section>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default{
         name: 'critique',
         props: ['id'],
@@ -210,7 +210,7 @@
                     id: this.id,
                     include: 'project.owner'
                 }
-            }).then(function (response) {
+            }).then((response) => {
                 this.critique = response.body.data;
             });
 

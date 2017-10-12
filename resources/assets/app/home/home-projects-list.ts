@@ -70,7 +70,7 @@ export class ProjectsListController implements ProjectListInterface {
 
     refresh() {
         let self = this;
-        this.DataService.collection('projects', {sort: this.field, per_page: this.perPage}).then(function (result) {
+        this.DataService.collection('projects', {sort: this.field, per_page: this.perPage}).then((result) => {
             self.projects = result.data;
         });
     };

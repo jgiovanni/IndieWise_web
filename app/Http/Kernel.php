@@ -30,6 +30,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Barryvdh\Cors\HandleCors::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
         ],
         'api' => [
 //             'throttle:60,1',

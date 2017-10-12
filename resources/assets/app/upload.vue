@@ -682,7 +682,7 @@
     </div>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'upload',
         props: {
@@ -1079,7 +1079,7 @@
             },
 
             generateFpSecurity(){
-                this.$http.get('policies/upload').then(function (response) {
+                this.$http.get('policies/upload').then((response) => {
                     this.fpPolicy = response.body.policy;
                     this.fpSignature = response.body.signature;
                 });
@@ -1102,9 +1102,9 @@
                             let countriesP = this.generateCountries();
                             let languagesP = this.generateLanguages();
 
-                            Promise.all([genresP, typesP, countriesP, languagesP]).then(function () {
+                            Promise.all([genresP, typesP, countriesP, languagesP]).then(() => {
                                 this.$http.get('projects/' + self.id)
-                                    .then(function (response) {
+                                    .then((response) => {
                                         let project = response.body.data;
                                         project.tags = project.tags !== '' ? project.tags.split(/,\s*/) : [];
                                         project.type = project.type_id;
@@ -1137,10 +1137,10 @@
                                         // Get FileStack Policy and Signature
                                         self.generateFpSecurity();
                                     });
-                            }.bind(this));
+                            });
                         } else {
                             this.$http.get('projects/limit')
-                                .then(function (response) {
+                                .then((response) => {
                                     if (response.body.status) {
                                         self.viewState = 'upload';
 

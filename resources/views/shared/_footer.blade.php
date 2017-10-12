@@ -28,14 +28,14 @@
 {{--<script src="/assets/js/app.js"></script>--}}
 {{--<script src="/assets/js/owl.carousel.min.js"></script>--}}
 
-<script type="text/javascript" src="{{ elixir('js/vendor.js') }}"></script>
-<script type="text/javascript" src="{{ elixir('js/resources.vue.js') }}"></script>
+<script type="text/javascript" src="{{ mix('js/vendor.js') }}"></script>
+<script type="text/javascript" src="{{ mix('js/resources.vue.js') }}"></script>
 @yield('js')
 
 @if(isActiveRoute('user.*') === 'active' || isActiveMatch('user') === 'active')
-    <script type="text/javascript" src="{{ elixir('js/users.vue.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('js/users.vue.js') }}"></script>
 @elseif(isset($project) || isset($critique))
 
 @else
-    <script type="text/javascript" src="{{ elixir('js/main.vue.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('js/main.vue.js') }}"></script>
 @endif

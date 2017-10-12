@@ -17,7 +17,7 @@ export class WatchingCarouselController implements IWatchingCarousel {
     getWatchedList() {
         let self = this;
         this.DataService.collection('projects/watched')
-            .then(function (result) {
+            .then((result) => {
                 self.watched = result.data;
                 self.$timeout(function () {
                     //console.log('run owl');

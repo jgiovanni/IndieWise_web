@@ -219,7 +219,7 @@
     </md-dialog>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import comments from '../comments/comments.vue';
     export default {
         name: 'critique-view',

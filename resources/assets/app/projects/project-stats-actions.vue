@@ -92,7 +92,7 @@
     </md-layout>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import projectPlaylists from './project-playlists.vue';
     import reportProjectDialog from './modal/report-project-dialog.vue';
     import critiqueProjectDialog from './modal/critique-project-dialog.vue';
@@ -146,7 +146,7 @@
                 return this.$promise(function (resolve, reject) {
                     if (this.$root.user) {
                         this.$http.get('reactions', {params: {project: id, user: this.$root.user.id}})
-                            .then(function (response) {
+                            .then((response) => {
                                 self.loadingReact = false;
                                 response.body.data.length
                                     // critique exists already from this user
@@ -166,7 +166,7 @@
                 return this.$promise(function (resolve, reject) {
                     if (this.$root.user) {
                         this.$http.get('critiques', {params: {project: id, user: this.$root.user.id}})
-                            .then(function (response) {
+                            .then((response) => {
                                 self.loadingCritique = false;
                                 response.body.data.length
                                     // critique exists already from this user
@@ -186,7 +186,7 @@
                 return this.$promise(function (resolve, reject) {
                     if (this.$root.user) {
                         this.$http.get('ratings', {params: {project: id, user: this.$root.user.id}})
-                            .then(function (response) {
+                            .then((response) => {
                                 self.loadingRate = false;
                                 response.body.ratings.length
                                     // critique exists already from this user
@@ -207,7 +207,7 @@
                         return self.canReact = res;
                     }, function (error) {
                         return self.canReact = error;
-                    }).then(function () {
+                    }).then(() => {
                         self.loadingReact = false;
                     });
 
@@ -220,7 +220,7 @@
                             return self.canCritique = res;
                         }, function (error) {
                             return self.canCritique = self.critiqued = error;
-                        }).then(function () {
+                        }).then(() => {
                             self.loadingCritique = false;
                         });
                     }
@@ -229,7 +229,7 @@
                         return self.canRate = res;
                     }, function (error) {
                         return self.canRate = error;
-                    }).then(function () {
+                    }).then(() => {
                         self.loadingRate = false;
                     });
                 } else {

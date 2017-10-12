@@ -50,7 +50,7 @@
         width: 100%;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import reply from './reply.vue';
     import replies from './replies.vue';
     export default {
@@ -104,7 +104,7 @@
                             .targetEvent(event)
                             .ok('Delete')
                             .cancel('Cancel');
-                        this.$modal.show(confirm).then(function () {
+                        this.$modal.show(confirm).then(() => {
                             let p = this.comment.parentComment || undefined;
 
                             this.$http.delete('comments', this.comment.id).then(function (res) {

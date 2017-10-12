@@ -67,7 +67,7 @@
     </section>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     import critiqueItem from './critique-item.vue';
     export default {
         name: 'critiques',

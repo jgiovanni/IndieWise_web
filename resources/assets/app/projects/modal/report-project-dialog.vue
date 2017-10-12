@@ -36,7 +36,7 @@
     </md-dialog>
 </template>
 <style scoped></style>
-<script type="text/babel">
+<script type="text/javascript">
     export default {
         name: 'report-project-dialog',
         props: {
@@ -71,7 +71,7 @@
                         body: self.body,
                         project_id: self.projectId,
                     };
-                    self.$http.post('report', report).then(function () {
+                    self.$http.post('report', report).then(() => {
                         self.$root.$emit('toastMessage', 'Your Report has been Sent');
                         _.extend(self, {
                             name: '',

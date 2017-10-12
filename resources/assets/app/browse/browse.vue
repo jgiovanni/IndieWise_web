@@ -201,7 +201,7 @@
         margin: 5px 8px 5px 0;
     }
 </style>
-<script type="text/babel">
+<script type="text/javascript">
     import projectCard from '../common/project-card.vue';
     export default {
         name: 'browse',

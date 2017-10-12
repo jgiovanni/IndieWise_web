@@ -50,11 +50,11 @@ export class MessagesController {
                             per_page: count,
                             page: this.meta.pagination.current_page
                         })
-                            .then(function (response) {
+                            .then((response) => {
                                 self.convoMessages.data = _.union(self.convoMessages.data, response.body.data);
                                 angular.extend(self.convoMessages.meta, response.body.meta);
                             })
-                            .then(function () {
+                            .then(() => {
                                 console.log(self.convoMessages);
                                 // reverse logic
                                 let result = [];
@@ -93,7 +93,7 @@ export class MessagesController {
                         let reply = self.myReply;
                         self.myReply = null;
                         DataService.update('messages', self.selectedConvo.id, {message: reply})
-                            .then(function (result) {
+                            .then((result) => {
                                 // self.adapter.append([result.data.message]);
                                 self.convoMessages.data.push(result.data.message);
                                 $scope.adapter.append([result.data.message]);
@@ -104,7 +104,7 @@ export class MessagesController {
                             }, function (response) {
                                 self.reply = reply;
                             })
-                            .then(function () {
+                            .then(() => {
                                 // scroll to bottom of viewport
                                 let viewport = angular.element('.viewport.main-comment');
                                 viewport.scrollTop(viewport.prop("scrollHeight"));
@@ -130,7 +130,7 @@ export class MessagesController {
                     subject: _.pluck(self.selectedConvo.participants, 'fullName').toString() + ', ' + $rootScope.AppData.User.fullName,
                     message: self.myReply,
                     recipients: _.pluck(self.selectedConvo.participants, 'id')
-                }).then(function (response) {
+                }).then((response) => {
                     self.myReply = null;
                     $rootScope.toastMessage('Message sent!');
                     fetchConvos().then(function (conversations) {
@@ -147,13 +147,13 @@ export class MessagesController {
             return DataService.collection('users', {
                 search: query,
                 notUsers: $rootScope.AppData.User.id
-            }).then(function (response) {
+            }).then((response) => {
                 return response.body.data;
             });
         }
 
         function fetchConvos() {
-            return DataService.collection('messages').then(function (result) {
+            return DataService.collection('messages').then((result) => {
                 return self.conversations = result.data.conversations;
             });
         }
@@ -167,7 +167,7 @@ export class MessagesController {
                 //.targetEvent(ev)
                 .ok('Yes')
                 .cancel('No');
-            $modal.show(confirm).then(function () {
+            $modal.show(confirm).then(() => {
                 let me = $rootScope.AppData.User.id;
                 let message = new Parse.Object('Message');
                 message.set('body', me.first_name + ' ' + me.last_name + ' left the conversation...');
@@ -177,12 +177,12 @@ export class MessagesController {
                     objectId: self.selectedConvo.id
                 });
                 message.set('from', $rootScope.AppData.User.id);
-                message.save().then(function (result) {
+                message.save().then((result) => {
                     let relParticipants = self.selectedConvo.relation('participants');
                     relParticipants.remove(me);
 
                     self.selectedConvo.set('updatedAt', moment().toDate());
-                    self.selectedConvo.save().then(function () {
+                    self.selectedConvo.save().then(() => {
                         self.myReply = null;
                         self.messages = [];
                         self.newMode = false;

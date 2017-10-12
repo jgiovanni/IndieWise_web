@@ -161,7 +161,7 @@ export class ProfileSettingsController implements IProfile {
             .cancel('No');
 
         this.$mdDialog.show(confirm)
-            .then(function () {
+            .then(() => {
                 this.AuthService.deleteUser(this.user)
                     .then(function (res) {
                         if (res.data.status) {

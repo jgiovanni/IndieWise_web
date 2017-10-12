@@ -5,12 +5,12 @@ namespace App;
 use EloquentFilter\Filterable;
 use Grimthorr\LaravelUserSettings\Setting;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Support\Facades\Hash;
 //use Jrean\UserVerification\Facades\UserVerification;
+use Laravel\Passport\HasApiTokens;
 use Sendinblue\Mailin;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements JWTSubject, AuthenticatableContract, CanResetPasswordContract
 {
-    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, Messagable/*, EntrustUserTrait*/
+    use CanResetPassword, SoftDeletes, Filterable, UuidForKey, HasApiTokens/*, EntrustUserTrait*/
         ;
 
 

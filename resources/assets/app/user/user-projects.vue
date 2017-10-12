@@ -83,7 +83,7 @@
             onDeleteClose(type) {
 				if (type === 'ok') {
 				    let ID = this.selectedDelete;
-                    this.$http.delete('projects/' + ID).then(function () {
+                    this.$http.delete('projects/' + ID).then(() => {
                         this.projects.data = _.reject(this.projects.data, function (response) {
                             return response.id === ID;
                         });
@@ -96,12 +96,12 @@
             if (this.isUser) {
                 this.user = this.$root.user;
             } else {
-                this.$http.get('users/' + this.user.id).then(function (response) {
+                this.$http.get('users/' + this.user.id).then((response) => {
                     this.user = response.body.data;
                 });
             }
 
-            this.$http.get('projects', {params: {owner: this.user.id, sort: 'created_at', per_page: 50}}).then(function (response) {
+            this.$http.get('projects', {params: {owner: this.user.id, sort: 'created_at', per_page: 50}}).then((response) => {
 	            this.projects = response.body;
             })
 

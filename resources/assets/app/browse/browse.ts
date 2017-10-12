@@ -163,7 +163,7 @@ export class BrowseController implements IBrowse {
     toggleFilterNav() {
         this.$mdSidenav('filterNav')
             .toggle()
-            .then(function () {
+            .then(() => {
 
             });
 
