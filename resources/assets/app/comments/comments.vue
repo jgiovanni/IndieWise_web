@@ -25,12 +25,12 @@
                             </div>
                             <div class="media-object-section comment-textarea">
                                 <form novalidate @submit.stop.prevent="postComment()" style="flex: 1">
-                                    <md-input-container md-inline>
+                                    <md-field md-inline>
                                         <md-textarea name="commentText" placeholder="Add a comment here.."
                                                      style="border: none;"
                                                      v-model="myComment" minlength="1"></md-textarea>
                                         <md-button type="submit">Send</md-button>
-                                    </md-input-container>
+                                    </md-field>
                                 </form>
                             </div>
                         </div>
@@ -127,8 +127,8 @@
                     critique_id: !this.parent.hasOwnProperty('unlist') ? this.parent.id : undefined,
                     user_id: this.$root.user.id
                 })
-                        .then(function (comment) {
-                            self.comments.data.push(comment.body.data);
+                        .then((comment) => {
+                            self.comments.data.push(comment.data.data);
                             self.$root.$emit('toastMessage', 'Comment posted!');
                             self.myComment = null;
                             self.clearCommentinput();
@@ -167,8 +167,8 @@
                         sort: this.sortOrder,
                         include: 'replies'
                     }
-                }).then(function(result) {
-                    this.comments = result.body.data;
+                }).then((result) => {
+                    this.comments = result.data.data;
                     this.pagination = result.data.meta.pagination;
                     this.loading = false;
                 }, function(error){

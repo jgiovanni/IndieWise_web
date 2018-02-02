@@ -16,30 +16,30 @@
 											<h6 class="borderBottom">Username Setting:</h6>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>First Name</label>
 												<md-input v-model="userData.firstName" placeholder="Enter your first name"></md-input>
-											</md-input-container>
+											</md-field>
 											<!--<label>First Name:
 												<input type="text" v-model="userData.firstName"
 												       placeholder="Enter your first name..">
 											</label>-->
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>Last Name</label>
 												<md-input v-model="userData.lastName" placeholder="Enter your last name"></md-input>
-											</md-input-container>
+											</md-field>
 											<!--<label>Last Name:
 												<input type="text" v-model="userData.lastName"
 												       placeholder="Enter your last name..">
 											</label>-->
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>Username</label>
 												<md-input v-model="userData.username" placeholder="Enter your username"></md-input>
-											</md-input-container>
+											</md-field>
 											<!--<label>Username:
 												<input type="text" v-model="userData.username"
 												       placeholder="Enter your username...">
@@ -65,19 +65,19 @@
 											<h6 class="borderBottom">Update Password:</h6>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container md-has-password>
+											<md-field md-has-password>
 												<label>New Password</label>
 												<md-input type="password" v-model="userData.password" placeholder="Enter new password..."></md-input>
-											</md-input-container>
+											</md-field>
 											<!--<label>New Password:
 												<input type="password" v-model="userData.password" placeholder="Enter new password..">
 											</label>-->
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container md-has-password>
+											<md-field md-has-password>
 												<label>Verify Password</label>
 												<md-input type="password" v-model="userData.password_confirmation" placeholder="Enter new password again..."></md-input>
-											</md-input-container>
+											</md-field>
 											<!--<label>Verify Password:
 												<input type="password" v-model="userData.password_confirmation" placeholder="Enter new password again..">
 											</label>-->
@@ -90,20 +90,20 @@
 											<h6 class="borderBottom">About Me:</h6>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>Email ID</label>
 												<md-input type="email" v-model="userData.email" placeholder="Enter your email address..."></md-input>
-											</md-input-container>
+											</md-field>
 											<!--<label>Email ID:
 												<input type="email" v-model="userData.email"
 												       placeholder="Enter your email address..">
 											</label>-->
 										</div>
 										<div class="medium-6 columns">
-											<!--<md-input-container>
+											<!--<md-field>
 												<label>Date of Birth</label>
 												<md-input v-model="userData.dob" placeholder="Enter your date of birth..."></md-input>
-											</md-input-container>-->
+											</md-field>-->
 											<date-picker :date="{ time: userData.dob }" :options="{ placeholder: 'Date of Birth'}" @change="updateDOB"></date-picker>
 										</div>
 										<div class="medium-6 columns">
@@ -112,12 +112,12 @@
 											<md-radio v-model="userData.gender" id="gender" name="gender" md-value="female">Female</md-radio>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container v-show="$root.countryList.length">
+											<md-field v-show="$root.countryList.length">
 												<label for="country">Country</label>
 												<md-select name="country" id="country" v-model="userData.country_id">
 													<md-option :value="country.id" v-for="country in $root.countryList" :key="country.id">{{ country.name }}</md-option>
 												</md-select>
-											</md-input-container>
+											</md-field>
 										</div>
 										<!--<div class="medium-12 columns">
 											<label class="borderBottom" style="margin-bottom: 10px;">Preferred
@@ -152,10 +152,10 @@
 											</div>
 										</div>-->
 										<div class="medium-12 columns end">
-											<md-input-container>
+											<md-field>
 												<label>Bio Description</label>
 												<md-textarea v-model="userData.bio"></md-textarea>
-											</md-input-container>
+											</md-field>
 										</div>
 									</div>
 								</div>
@@ -165,28 +165,28 @@
 											<h6 class="borderBottom">Social Profile Links:</h6>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>Website URL</label>
 												<md-input v-model="userData.website"></md-input>
-											</md-input-container>
+											</md-field>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>Facebook</label>
 												<md-input v-model="userData.urlFacebook"></md-input>
-											</md-input-container>
+											</md-field>
 										</div>
 										<div class="medium-6 columns">
-											<md-input-container>
+											<md-field>
 												<label>Twitter</label>
 												<md-input v-model="userData.urlTwitter"></md-input>
-											</md-input-container>
+											</md-field>
 										</div>
 										<div class="medium-6 columns end">
-											<md-input-container>
+											<md-field>
 												<label>Google Plus</label>
 												<md-input v-model="userData.urlGoogle"></md-input>
-											</md-input-container>
+											</md-field>
 										</div>
 									</div>
 								</div>
@@ -293,18 +293,18 @@
                     user.genres = _.pluck(this.genresArr, 'id');
                     user.types = _.pluck(this.typesArr, 'id');
                     user.settings = JSON.stringify(user.settings);
-                    this.$http.put('users/' + user.id, user).then(function (res) {
+                    this.$http.put('users/' + user.id, user).then((res) => {
                         // console.log(res);
-                        res.body.data.dob = moment(res.body.data.dob).toDate();
-                        res.body.data.settings = JSON.parse(res.body.data.settings);
-                        this.$root.user = self.user = res.body.data;
-                        res.body.data.name = res.body.data.fullName;
-                        window.Intercom('update', res.body.data);
+                        res.data.data.dob = moment(res.data.data.dob).toDate();
+                        res.data.data.settings = JSON.parse(res.data.data.settings);
+                        this.$root.user = self.user = res.data.data;
+                        res.data.data.name = res.data.data.fullName;
+                        window.Intercom('update', res.data.data);
                         this.saveComplete = true;
                         this.updating = false;
 //                        this.anchorSmoothScroll.scrollTo('success');
                         this.$root.$emit('toastMessage', 'Profile Updated');
-                    }.bind(this));
+                    });
                 } else {
                     this.$root.$emit('toastMessage', 'Please wait...');
                 }
@@ -348,7 +348,7 @@
                 let self = this;
                 console.log('Closed', type);
                 if (type === 'ok'){
-                    this.$http.delete('users/me', this.userData.id).then(function (res) {
+                    this.$http.delete('users/me', this.userData.id).then((res) => {
 						if (res.data.status) {
 							self.$http.post('logout').then( function (res) {
 								self.$root.logout();
@@ -374,7 +374,7 @@
             this.$root.$on('checkedAuthentication', function (user) {
                 if (self.isAuthenticated && self.user.id === self.$root.user.id) {
                     self.$http.get('users/' + self.user.id).then((response) => {
-                        self.userData = response.body.data;
+                        self.userData = response.data.data;
                         self.userData.dob = moment(self.userData.dob).startOf('day').format('YYYY-MM-DD');
                         self.userData.settings = _.isObject(self.userData.settings) ? self.userData.settings : JSON.parse(self.userData.settings || '{}');
                     });
@@ -383,8 +383,8 @@
                     let pwSetting = window.localStorage.getItem('pwAllowPushNotifications');
                     self.notificationsActive = pwSetting !== 'undefined' && !!JSON.parse(pwSetting);
 
-//            self.genresArr = self.user.genres.data; //Genres.body.data;
-//            self.typesArr = self.user.types;// UserTypes.body.data;
+//            self.genresArr = self.user.genres.data; //Genres.data.data;
+//            self.typesArr = self.user.types;// UserTypes.data.data;
 
                     self.generateCountries();
 

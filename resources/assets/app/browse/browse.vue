@@ -1,6 +1,6 @@
 <template>
     <div>
-        <md-sidenav ref="filterNav" class="md-left" v-cloak>
+        <md-drawer ref="filterNav" class="md-left" v-cloak>
             <md-toolbar class="md-primary">
                 <h2 class="md-title text-white" style="flex: 1">Filters</h2>
 
@@ -9,7 +9,7 @@
                 </md-button>
             </md-toolbar>
 
-            <md-input-container>
+            <md-field>
                 <label for="filterNavSort">Sort</label>
                 <md-select id="filterNavSort" name="filterNavSort" v-model="filters.sort" @change="filterBy(filters.sort)">
                     <md-option value="recent">Recently Added</md-option>
@@ -17,15 +17,15 @@
                     <md-option value="rating">Highest Rated</md-option>
                     <md-option value="awards">Award Winning</md-option>
                 </md-select>
-            </md-input-container>
-            <md-layout md-column md-align="center" md-gutter="8">
-                <md-layout md-flex md-column>
+            </md-field>
+            <div class="md-layout" md-column md-align="center" md-gutter="8">
+                <div class="md-layout" md-flex md-column>
 
                     <form id="searchformA" @submit.stop.prevent="search()" role="search">
-                        <md-input-container>
+                        <md-field>
                             <label>Search</label>
                             <md-input v-model="filters.search" placeholder="Search"></md-input>
-                        </md-input-container>
+                        </md-field>
                     </form>
 
                     <h6>Types</h6>
@@ -49,12 +49,12 @@
                             <label class="md-checkbox-label" :for="'genreCheckA'+$index">{{g.name}}</label>
                         </div>
                     </template>
-                </md-layout>
-            </md-layout>
-        </md-sidenav>
+                </div>
+            </div>
+        </md-drawer>
 
         <section class="category-content">
-            <md-layout md-flex="100" class="row">
+            <div md-flex="100" class="md-layout row">
                 <!-- left side content area -->
                 <div class="large-8 columns">
                     <section class="content content-with-sidebar">
@@ -123,8 +123,8 @@
                                             filters
                                         </h5>
                                     </div>
-                                    <md-layout md-column class="widgetContent">
-                                        <md-input-container>
+                                    <div md-column class="md-layout widgetContent">
+                                        <md-field>
                                             <label for="filterSort">Sort</label>
                                             <md-select id="filterSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
                                                 <md-option value="recent">Recently Added</md-option>
@@ -132,7 +132,7 @@
                                                 <md-option value="rating">Highest Rated</md-option>
                                                 <md-option value="awards">Award Winning</md-option>
                                             </md-select>
-                                        </md-input-container>
+                                        </md-field>
 
                                         <!--<label>Sort by:
                                             <select v-model="filters.sort" @change="filterBy(filters.sort)">
@@ -144,11 +144,11 @@
                                         </label>-->
                                         <!--<hr class="">-->
                                         <form id="searchform" @submit.stop.prevent="search()" role="search">
-                                            <md-input-container md-inline>
+                                            <md-field md-inline>
                                                 <label>Search</label>
                                                 <md-input v-model="filters.search"></md-input>
                                                 <md-button class="md-icon-button"><md-icon class="md-accent">search</md-icon></md-button>
-                                            </md-input-container>
+                                            </md-field>
                                             <!--<div class="input-group">
                                                 <input class="input-group-field" type="text" v-model="filters.search"
                                                        my-enter="search()" placeholder="Enter your keyword">
@@ -184,14 +184,14 @@
 
 
 
-                                    </md-layout>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
                     </aside>
                 </div><!-- end sidebar -->
-            </md-layout>
+            </div>
         </section>
         <!-- End Category Content-->
     </div>
@@ -263,7 +263,7 @@
             refresh() {
                 let self = this;
                 Promise.all([self.generateTypes(), self.generateGenres()])
-                    .then(function (values) {
+                    .then((values) => {
                         self.search();
                     });
             },
@@ -299,7 +299,7 @@
                     page: self.filters.page
                 }}).then(res => {
                     self.pagination = res.data.meta.pagination;
-                    return self.films = res.body.data;
+                    return self.films = res.data.data;
                 }, (error) => console.log(error)).then(() => self.loading = false);
 
             },
@@ -337,23 +337,9 @@
                     per_page: 50,
                     page: ++self.filters.page
                 }})
-                    .then(res => self.films = _.union(self.films, res.body.data), (error) => console.log(error))
+                    .then(res => self.films = _.union(self.films, res.data.data), (error) => console.log(error))
                     .then(() => self.loading = false);
             },
-
-            /*selectGenres(genre) {
-                let self = this;
-                let exists = _.findWhere(self.selectedGenres, {id: genre.id});
-                !!exists ? self.selectedGenres = _.reject(self.selectedGenres, genre) : self.selectedGenres.push(genre);
-                self.search();
-            },
-
-            selectTypes(type) {
-                debugger;
-                let exists = _.find(this.selectedTypes, {id: type.id});
-                !!exists ? this.selectedTypes = _.reject(this.selectedTypes, type) : this.selectedTypes.push(type);
-                this.search();
-            },*/
 
             filterBy(filter) {
                 let self = this;

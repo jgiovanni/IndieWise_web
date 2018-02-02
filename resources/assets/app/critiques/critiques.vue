@@ -103,7 +103,7 @@
                 this.params.sort = this.sortOrder || 'created_at|desc';
                 this.$http.get('critiques', {params: this.params})
                     .then((result) => {
-                        self.critiques = result.body.data;
+                        self.critiques = result.data.data;
                         self.pagination = result.data.meta.pagination;
                         this.loading = false;
                     }, (error) => {
@@ -118,7 +118,7 @@
                 this.loading = true;
                 this.$http.get('critiques', {params: this.params})
                     .then((result) => {
-                        self.critiques = _.union(self.critiques, result.body.data);
+                        self.critiques = _.union(self.critiques, result.data.data);
                         self.pagination = result.data.meta.pagination;
                         this.loading = false;
                     }, (error) => {

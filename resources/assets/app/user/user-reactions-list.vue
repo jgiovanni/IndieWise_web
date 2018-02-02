@@ -36,7 +36,7 @@
             refresh() {
                 this.$http.get('projects/reactions', { params: {project: this.project.id}})
                     .then((response) => {
-                        this.chartedReactions = response.body.data;
+                        this.chartedReactions = response.data.data;
                     });
             },
             getEmoticonByEmotion(emotion) {

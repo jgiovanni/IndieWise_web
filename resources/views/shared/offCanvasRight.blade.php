@@ -1,4 +1,4 @@
-<md-sidenav md-component-id="right" ng-cloak class="md-sidenav-right">
+<md-drawer md-component-id="right" ng-cloak md-right>
     <md-toolbar class="md-accent">
         <div class="md-toolbar-tools">
             <h1 class="md-toolbar-tools text-white">Notifications</h1>
@@ -71,4 +71,4 @@
             </ng-repeat>
         </md-list>
     </md-content>
-</md-sidenav>
+</md-drawer>

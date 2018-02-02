@@ -95,7 +95,7 @@
             },
 
             deleteComment(event) {
-                this.checkAuth().then(function (res) {
+                this.checkAuth().then((res) => {
                     if (res) {
                         let confirm = this.$modal.confirm()
                             .title('Would you like to delete your comment?')
@@ -107,7 +107,7 @@
                         this.$modal.show(confirm).then(() => {
                             let p = this.comment.parentComment || undefined;
 
-                            this.$http.delete('comments', this.comment.id).then(function (res) {
+                            this.$http.delete('comments', this.comment.id).then((res) => {
                                 // Decrement film commentCount
                                 this.parent.commentCount--;
 
@@ -129,7 +129,7 @@
                                     });
                                     // Increment film commentCount
                                     // let pcQuery = new Parse.Query("Comment");
-                                    // pcQuery.get(p.id).then(function (res) {
+                                    // pcQuery.get(p.id).then((res) => {
                                     //     res.increment('replyCount', -1);
                                     //     res.save();
                                     // });
@@ -161,7 +161,7 @@
                 if (this.comment.replies.length < this.comment.replies_count) {
                     this.$http.get('comments', {params: {comment: this.comment.id}})
                         .then((replies) => {
-                            this.comment.replies = replies.body.data;
+                            this.comment.replies = replies.data.data;
                             this.showReplies = !this.showReplies;
                         }, (error) => {
                             console.log(error);

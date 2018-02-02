@@ -4,8 +4,8 @@
             <a class="button tiny text-white"><i class="fa fa-heart"></i>Add to</a>
         </div>
         <md-menu-content>
-            <md-layout md-align="center" md-gutter="16">
-                <md-layout md-flex>
+            <div class="md-layout" md-align="center" md-gutter="16">
+                <div class="md-layout" md-flex>
                     <ul class="menu vertical">
                         <li class="checkbox" v-for="(pl, $index) in sortedPlaylists">
                             <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains(model.playlistArr, pl.id) }">
@@ -36,8 +36,8 @@
                             </form>
                         </li>
                     </ul>
-                </md-layout>
-            </md-layout>
+                </div>
+            </div>
         </md-menu-content>
     </md-menu>
 </template>
@@ -75,18 +75,18 @@
             newPlaylist() {
                 let self = this;
                 this.checkAuth()
-                    .then(function (res) {
+                    .then((res) => {
                         self.$http.post('playlists', {name: self.model.newName, user_id: self.$root.user.id})
-                            .then(function (pl) {
+                            .then((pl) => {
                                 self.toggleNewPlInput(false);
                                 self.model.newName = null;
-                                self.playlists.push(pl.body.data);
+                                self.playlists.push(pl.data.data);
                             }, function (error) {
                                 console.log(error);
                             });
                     }, function (err) {
                         self.loginModal()
-                            .then(function (res) {
+                            .then((res) => {
                                 debugger;
                             }, function (error) {
                                 console.log(error);
@@ -135,15 +135,15 @@
             // Get playlists
             if (this.$root.user) {
                 this.$http.get('playlists')
-                    .then(function (res) {
+                    .then((res) => {
                         // Check playlist items for this video
                         self.$http.get('playlistItems', { params: {
                             project: self.project.id,
                             playlists: _.pluck(res.data.playlists, 'id').toString()
                         }})
-                            .then(function (resA) {
+                            .then((resA) => {
                                 // console.log(resA);
-                                self.model.playlistArr = resA.body.data;
+                                self.model.playlistArr = resA.data.data;
 
                                 // list playlists
                                 self.playlists = res.data.playlists;

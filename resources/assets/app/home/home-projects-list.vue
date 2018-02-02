@@ -73,7 +73,7 @@
                 this.$http.get('projects', { params: {sort: this.field, per_page: this.perPage}})
                     .then((result) => {
                         this.projects = result.data;
-                    });
+                    }).catch((error) => { console.log(error); });
             },
             toggleType(type){
                 this.$parent.type = type;

@@ -5,24 +5,24 @@
                 <form @submit.stop.prevent="submitNewVideo()" name="NewVideoForm" novalidate>
                     <div class="row">
                         <div class="large-12 columns">
-                            <md-input-container :class="{'md-input-invalid': errors.has('name')}">
+                            <md-field :class="{'md-input-invalid': errors.has('name')}">
                                 <label for="name">Title</label>
                                 <md-input id="name" v-model="projectData.name" data-vv-name="name" v-validate="'required'"
                                           placeholder="Enter your video title..." required></md-input>
                                 <span class="md-error" v-show="errors.has('name')">{{ errors.first('name') }}</span>
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <div class="large-12 columns">
-                            <h6 class="borderBottom">Choose Video/Script Method</h6>
+                            <h6 class="borderBottom">Choose Video Link</h6>
 
                             <!--<p><strong>Note:</strong> Please choose one of the following ways to embed the video
 								into your post, the video is determined in the order: Video Code > Video URL > Video
 								File.</p>-->
                             <md-button-toggle md-single class="md-primary">
-                                <md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>
-                                <md-button @click.native="projectData.hosting_type = 'HTML5'">
+                                <!--<md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>-->
+                                <!--<md-button @click.native="projectData.hosting_type = 'HTML5'">
                                     MP4 Video File. (Max Size: 1GB)
-                                </md-button>
+                                </md-button>-->
                                 <md-button @click.native="projectData.hosting_type = 'youtube'" class="md-toggle">YouTube
                                     Video URL
                                 </md-button>
@@ -30,12 +30,12 @@
                             </md-button-toggle>
                         </div>
                         <div class="large-12 columns">
-                            <template v-if="uploadType === 1">
+                            <!--<template v-if="uploadType === 1">
                                 <div class="large-12 columns">
                                     <div class="padding-16">
-                                        <!--<md-button class="md-fab" @click.native="pickVideo">
+                                        &lt;!&ndash;<md-button class="md-fab" @click.native="pickVideo">
 											<md-icon>edit</md-icon>
-										</md-button>-->
+										</md-button>&ndash;&gt;
 
                                         <input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
                                                data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
@@ -45,15 +45,15 @@
 
 
                                     </div>
-                                    <!--<hr>-->
+                                    &lt;!&ndash;<hr>&ndash;&gt;
                                 </div>
                             </template>
                             <template v-else-if="uploadType === 4">
                                 <div class="large-12 columns">
                                     <div class="padding-16">
-                                        <!--<md-button class="md-fab" @click.native="pickScript">
+                                        &lt;!&ndash;<md-button class="md-fab" @click.native="pickScript">
 											<md-icon>edit</md-icon>
-										</md-button>-->
+										</md-button>&ndash;&gt;
 
 
                                         <input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
@@ -62,28 +62,28 @@
                                                :data-fp-policy="fpPolicy" :data-fp-signature="fpSignature"
                                                data-fp-debug="true"/>
 
-                                        <!--<md-theme class="complete-example" md-name="orange">
+                                        &lt;!&ndash;<md-theme class="complete-example" md-name="orange">
 											<md-button class="md-fab" :class="{ 'md-primary': done }">
 												<md-icon>cloud_upload</md-icon>
 												&lt;!&ndash;<md-icon v-if="done">done</md-icon>&ndash;&gt;
 											</md-button>
 
 											<md-spinner :md-size="74" :md-stroke="2.2" md-inderterminate></md-spinner>
-										</md-theme>-->
+										</md-theme>&ndash;&gt;
                                     </div>
-                                    <!--<hr>-->
+                                    &lt;!&ndash;<hr>&ndash;&gt;
                                 </div>
-                            </template>
-                            <template v-else>
+                            </template>-->
+                            <!--<template v-else>-->
                                 <div class="large-12 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('videoUrl')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('videoUrl')}">
                                         <label for="video_url">{{projectData.hosting_type.toUpperCase()}} Video URL</label>
                                         <md-input id="video_url" type="url" v-model="projectData.video_url"
                                                   data-vv-name="videoUrl" v-validate="'required|url'"
                                                   :required="uploadType == 2 || uploadType == 3"></md-input>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
-                            </template>
+                            <!--</template>-->
 
                         </div>
 
@@ -97,10 +97,10 @@
                                 </md-checkbox>
                             </div>
                             <div class="large-12 columns" v-if="!uploadOwnArt">
-                                <md-input-container>
+                                <md-field>
                                     <label for="thumbnail_url">Poster Artwork/Video Thumbnail URL</label>
                                     <md-input id="thumbnail_url" type="url" v-model="projectData.thumbnail_url"></md-input>
-                                </md-input-container>
+                                </md-field>
                                 <hr v-if="projectData.thumbnail_url != ''">
                                 <img v-if="projectData.thumbnail_url != ''" :src="projectData.thumbnail_url"
                                      alt="Video Thumbnail URL">
@@ -120,112 +120,112 @@
                         <hr>
 
                         <div class="large-12 columns">
-                            <md-input-container :class="{'md-input-invalid': errors.has('completionDate')}">
+                            <md-field :class="{'md-input-invalid': errors.has('completionDate')}">
                                 <label for="completionDate">Year of Completion</label>
                                 <md-input id="completionDate" v-model="projectData.completionDate"
                                           data-vv-name="completionDate" v-validate="'required|date_format:YYYY'"
                                           required></md-input>
                                 <span class="md-error" v-show="errors.has('completionDate')">{{ errors.first('completionDate') }}</span>
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <div class="large-12 columns">
-                            <md-input-container>
+                            <md-field>
                                 <label>Description</label>
                                 <md-textarea v-model="projectData.description" maxlength="3000"></md-textarea>
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <template v-if="projectData.hosting_type !== 'script'">
                             <div class="large-12 columns row">
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('director')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('director')}">
                                         <label for="director">Director</label>
                                         <md-input id="director" v-model="projectData.director" data-vv-name="director"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('director')">{{ errors.first('director') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('writer')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('writer')}">
                                         <label for="writer">Writer</label>
                                         <md-input id="writer" v-model="projectData.writer" data-vv-name="writer"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('writer')">{{ errors.first('writer') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('producers')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('producers')}">
                                         <label for="producers">Producers</label>
                                         <md-input id="producers" v-model="projectData.producers" data-vv-name="producers"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('producers')">{{ errors.first('producers') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                             </div>
                             <div class="large-12 columns">
-                                <md-input-container>
+                                <md-field>
                                     <label>Key Cast</label>
                                     <md-textarea v-model="projectData.keyCast"></md-textarea>
-                                </md-input-container>
+                                </md-field>
                             </div>
                             <fieldset class="large-12 columns row">
                                 <legend style="margin-left: 20px">
                                     Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                 </legend>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('hours')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('hours')}">
                                         <label for="hours">Hours</label>
                                         <md-input id="hours" type="number" v-model="runtime.hours" min="0"
                                                   data-vv-name="hours" v-validate="'required|min_value:0'"
                                                   required></md-input>
                                         <span class="md-error" v-show="errors.has('hours')">{{ errors.first('hours') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('minutes')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('minutes')}">
                                         <label for="mins">Minutes</label>
                                         <md-input id="mins" type="number" v-model="runtime.mins" min="0" max="60"
                                                   data-vv-name="minutes" v-validate="'required|min_value:0|max_value:60'"
                                                   required></md-input>
                                         <span class="md-error" v-show="errors.has('minutes')">{{ errors.first('minutes') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('seconds')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('seconds')}">
                                         <label for="secs">Seconds</label>
                                         <md-input id="secs" type="number" v-model="runtime.secs" min="0" max="60"
                                                   data-vv-name="seconds" v-validate="'required|min_value:0|max_value:60'"
                                                   required></md-input>
                                         <span class="md-error" v-show="errors.has('seconds')">{{ errors.first('seconds') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                             </fieldset>
                         </template>
                         <template v-else>
                             <div class="large-12 columns row">
                                 <div class="large-6 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('writer')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('writer')}">
                                         <label for="writer">Writer</label>
                                         <md-input id="writer" v-model="projectData.writer" data-vv-name="writer"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('writer')">{{ errors.first('writer') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-6 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('producers')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('producers')}">
                                         <label for="producers">Producers</label>
                                         <md-input id="producers" v-model="projectData.producers" data-vv-name="producers"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('producers')">{{ errors.first('producers') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                             </div>
                             <div class="large-12 columns">
-                                <md-input-container :class="{'md-input-invalid': errors.has('pages')}">
+                                <md-field :class="{'md-input-invalid': errors.has('pages')}">
                                     <label for="pages"># of pages</label>
                                     <md-input id="pages" type="number" v-model="projectData.runTime" min="1"
                                               data-vv-name="pages" v-validate="'required|min_value:1'" required></md-input>
                                     <span class="md-error" v-show="errors.has('pages')">{{ errors.first('pages') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                         </template>
 
@@ -245,7 +245,7 @@
                                 </div>
                             </template>
                             <div class="post-category">
-                                <md-input-container :class="{'md-input-invalid': errors.has('type')}">
+                                <md-field :class="{'md-input-invalid': errors.has('type')}">
                                     <label for="projectType">Type</label>
                                     <md-select name="projectType" id="projectType" v-model="projectData.type"
                                                data-vv-name="type" v-validate="'required'" required>
@@ -253,10 +253,10 @@
                                         </md-option>
                                     </md-select>
                                     <span class="md-error" v-show="errors.has('type')">{{ errors.first('type') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                             <div class="post-category">
-                                <md-input-container :class="{'md-input-invalid': errors.has('language')}">
+                                <md-field :class="{'md-input-invalid': errors.has('language')}">
                                     <label for="language">Language</label>
                                     <md-select name="language" id="language" v-model="projectData.language"
                                                data-vv-name="language" v-validate="'required'" required>
@@ -267,10 +267,10 @@
                                         </md-option>
                                     </md-select>
                                     <span class="md-error" v-show="errors.has('language')">{{ errors.first('language') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                             <div class="post-category">
-                                <md-input-container :class="{'md-input-invalid': errors.has('country')}">
+                                <md-field :class="{'md-input-invalid': errors.has('country')}">
                                     <label for="filmingCountry">
                                         <template v-if="projectData.hosting_type !== 'script'">Country of Filming</template>
                                         <template v-else>Country of Origin</template>
@@ -283,7 +283,7 @@
                                         </md-option>
                                     </md-select>
                                     <span class="md-error" v-show="errors.has('country')">{{ errors.first('country') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                         </div>
                         <div class="large-12 columns">
@@ -317,7 +317,7 @@
                         <div class="large-12 columns">
                             <md-chips v-model="projectData.tags"
                                       md-input-placeholder="Tags: (separate by pressing enter key)">
-                                <template scope="chip">{{ chip.value }}</template>
+                                <template slot-scope="chip">{{ chip.value }}</template>
                             </md-chips>
                         </div>
                         <div class="large-12 columns">
@@ -330,12 +330,12 @@
                 <form @submit.stop.prevent="updateVideo()" name="NewVideoForm" novalidate>
                     <div class="row">
                         <div class="large-12 columns">
-                            <md-input-container :class="{'md-input-invalid': errors.has('name')}">
+                            <md-field :class="{'md-input-invalid': errors.has('name')}">
                                 <label for="name">Title</label>
                                 <md-input id="name" v-model="projectData.name" data-vv-name="name" v-validate="'required'"
                                           placeholder="Enter your video title..." required></md-input>
                                 <span class="md-error" v-show="errors.has('name')">{{ errors.first('name') }}</span>
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <div class="large-12 columns">
                             <h6 class="borderBottom">Choose Video/Script Method</h6>
@@ -344,10 +344,10 @@
 								into your post, the video is determined in the order: Video Code > Video URL > Video
 								File.</p>-->
                             <md-button-toggle md-single class="md-primary">
-                                <md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>
-                                <md-button @click.native="projectData.hosting_type = 'HTML5'">
+                                <!--<md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>-->
+                                <!--<md-button @click.native="projectData.hosting_type = 'HTML5'">
                                     MP4 Video File. (Max Size: 1GB)
-                                </md-button>
+                                </md-button>-->
                                 <md-button @click.native="projectData.hosting_type = 'youtube'" class="md-toggle">YouTube
                                     Video URL
                                 </md-button>
@@ -355,12 +355,12 @@
                             </md-button-toggle>
                         </div>
                         <div class="large-12 columns">
-                            <template v-if="uploadType === 1">
+                            <!--<template v-if="uploadType === 1">
                                 <div class="large-12 columns">
                                     <div class="padding-16">
-                                        <!--<md-button class="md-fab" @click.native="pickVideo">
+                                        &lt;!&ndash;<md-button class="md-fab" @click.native="pickVideo">
 											<md-icon>edit</md-icon>
-										</md-button>-->
+										</md-button>&ndash;&gt;
 
                                         <input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
                                                data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
@@ -370,15 +370,15 @@
 
 
                                     </div>
-                                    <!--<hr>-->
+                                    &lt;!&ndash;<hr>&ndash;&gt;
                                 </div>
-                            </template>
-                            <template v-else-if="uploadType === 4">
+                            </template>-->
+                            <!--<template v-else-if="uploadType === 4">
                                 <div class="large-12 columns">
                                     <div class="padding-16">
-                                        <!--<md-button class="md-fab" @click.native="pickScript">
+                                        &lt;!&ndash;<md-button class="md-fab" @click.native="pickScript">
 											<md-icon>edit</md-icon>
-										</md-button>-->
+										</md-button>&ndash;&gt;
 
 
                                         <input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
@@ -387,28 +387,28 @@
                                                :data-fp-policy="fpPolicy" :data-fp-signature="fpSignature"
                                                data-fp-debug="true"/>
 
-                                        <!--<md-theme class="complete-example" md-name="orange">
+                                        &lt;!&ndash;<md-theme class="complete-example" md-name="orange">
 											<md-button class="md-fab" :class="{ 'md-primary': done }">
 												<md-icon>cloud_upload</md-icon>
 												&lt;!&ndash;<md-icon v-if="done">done</md-icon>&ndash;&gt;
 											</md-button>
 
 											<md-spinner :md-size="74" :md-stroke="2.2" md-inderterminate></md-spinner>
-										</md-theme>-->
+										</md-theme>&ndash;&gt;
                                     </div>
-                                    <!--<hr>-->
+                                    &lt;!&ndash;<hr>&ndash;&gt;
                                 </div>
-                            </template>
-                            <template v-else>
+                            </template>-->
+                            <!--<template v-else>-->
                                 <div class="large-12 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('videoUrl')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('videoUrl')}">
                                         <label for="video_url">{{projectData.hosting_type.toUpperCase()}} Video URL</label>
                                         <md-input id="video_url" type="url" v-model="projectData.video_url"
                                                   data-vv-name="videoUrl" v-validate="'required|url'"
                                                   :required="uploadType == 2 || uploadType == 3"></md-input>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
-                            </template>
+                            <!--</template>-->
 
                         </div>
 
@@ -422,10 +422,10 @@
                                 </md-checkbox>
                             </div>
                             <div class="large-12 columns" v-if="!uploadOwnArt">
-                                <md-input-container>
+                                <md-field>
                                     <label for="thumbnail_url">Poster Artwork/Video Thumbnail URL</label>
                                     <md-input id="thumbnail_url" type="url" v-model="projectData.thumbnail_url"></md-input>
-                                </md-input-container>
+                                </md-field>
                                 <hr v-if="projectData.thumbnail_url != ''">
                                 <img v-if="projectData.thumbnail_url != ''" :src="projectData.thumbnail_url"
                                      alt="Video Thumbnail URL">
@@ -445,112 +445,112 @@
                         <hr>
 
                         <div class="large-12 columns">
-                            <md-input-container :class="{'md-input-invalid': errors.has('completionDate')}">
+                            <md-field :class="{'md-input-invalid': errors.has('completionDate')}">
                                 <label for="completionDate">Year of Completion</label>
                                 <md-input id="completionDate" v-model="projectData.completionDate"
                                           data-vv-name="completionDate" v-validate="'required|date_format:YYYY'"
                                           required></md-input>
                                 <span class="md-error" v-show="errors.has('completionDate')">{{ errors.first('completionDate') }}</span>
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <div class="large-12 columns">
-                            <md-input-container>
+                            <md-field>
                                 <label>Description</label>
                                 <md-textarea v-model="projectData.description" maxlength="3000"></md-textarea>
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <template v-if="projectData.hosting_type !== 'script'">
                             <div class="large-12 columns row">
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('director')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('director')}">
                                         <label for="director">Director</label>
                                         <md-input id="director" v-model="projectData.director" data-vv-name="director"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('director')">{{ errors.first('director') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('writer')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('writer')}">
                                         <label for="writer">Writer</label>
                                         <md-input id="writer" v-model="projectData.writer" data-vv-name="writer"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('writer')">{{ errors.first('writer') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('producers')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('producers')}">
                                         <label for="producers">Producers</label>
                                         <md-input id="producers" v-model="projectData.producers" data-vv-name="producers"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('producers')">{{ errors.first('producers') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                             </div>
                             <div class="large-12 columns">
-                                <md-input-container>
+                                <md-field>
                                     <label>Key Cast</label>
                                     <md-textarea v-model="projectData.keyCast"></md-textarea>
-                                </md-input-container>
+                                </md-field>
                             </div>
                             <fieldset class="large-12 columns row">
                                 <legend style="margin-left: 20px">
                                     Video Duration <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                                 </legend>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('hours')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('hours')}">
                                         <label for="hours">Hours</label>
                                         <md-input id="hours" type="number" v-model="runtime.hours" min="0"
                                                   data-vv-name="hours" v-validate="'required|min_value:0'"
                                                   required></md-input>
                                         <span class="md-error" v-show="errors.has('hours')">{{ errors.first('hours') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('minutes')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('minutes')}">
                                         <label for="mins">Minutes</label>
                                         <md-input id="mins" type="number" v-model="runtime.mins" min="0" max="60"
                                                   data-vv-name="minutes" v-validate="'required|min_value:0|max_value:60'"
                                                   required></md-input>
                                         <span class="md-error" v-show="errors.has('minutes')">{{ errors.first('minutes') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-4 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('seconds')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('seconds')}">
                                         <label for="secs">Seconds</label>
                                         <md-input id="secs" type="number" v-model="runtime.secs" min="0" max="60"
                                                   data-vv-name="seconds" v-validate="'required|min_value:0|max_value:60'"
                                                   required></md-input>
                                         <span class="md-error" v-show="errors.has('seconds')">{{ errors.first('seconds') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                             </fieldset>
                         </template>
                         <template v-else>
                             <div class="large-12 columns row">
                                 <div class="large-6 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('writer')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('writer')}">
                                         <label for="writer">Writer</label>
                                         <md-input id="writer" v-model="projectData.writer" data-vv-name="writer"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('writer')">{{ errors.first('writer') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                                 <div class="large-6 columns">
-                                    <md-input-container :class="{'md-input-invalid': errors.has('producers')}">
+                                    <md-field :class="{'md-input-invalid': errors.has('producers')}">
                                         <label for="producers">Producers</label>
                                         <md-input id="producers" v-model="projectData.producers" data-vv-name="producers"
                                                   v-validate="'required'" required></md-input>
                                         <span class="md-error" v-show="errors.has('producers')">{{ errors.first('producers') }}</span>
-                                    </md-input-container>
+                                    </md-field>
                                 </div>
                             </div>
                             <div class="large-12 columns">
-                                <md-input-container :class="{'md-input-invalid': errors.has('pages')}">
+                                <md-field :class="{'md-input-invalid': errors.has('pages')}">
                                     <label for="pages"># of pages</label>
                                     <md-input id="pages" type="number" v-model="projectData.runTime" min="1"
                                               data-vv-name="pages" v-validate="'required|min_value:1'" required></md-input>
                                     <span class="md-error" v-show="errors.has('pages')">{{ errors.first('pages') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                         </template>
 
@@ -570,7 +570,7 @@
                                 </div>
                             </template>
                             <div class="post-category">
-                                <md-input-container :class="{'md-input-invalid': errors.has('type')}">
+                                <md-field :class="{'md-input-invalid': errors.has('type')}">
                                     <label for="projectType">Type</label>
                                     <md-select name="projectType" id="projectType" v-model="projectData.type"
                                                data-vv-name="type" v-validate="'required'" required>
@@ -578,10 +578,10 @@
                                         </md-option>
                                     </md-select>
                                     <span class="md-error" v-show="errors.has('type')">{{ errors.first('type') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                             <div class="post-category">
-                                <md-input-container :class="{'md-input-invalid': errors.has('language')}">
+                                <md-field :class="{'md-input-invalid': errors.has('language')}">
                                     <label for="language">Language</label>
                                     <md-select name="language" id="language" v-model="projectData.language"
                                                data-vv-name="language" v-validate="'required'" required>
@@ -592,10 +592,10 @@
                                         </md-option>
                                     </md-select>
                                     <span class="md-error" v-show="errors.has('language')">{{ errors.first('language') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                             <div class="post-category">
-                                <md-input-container :class="{'md-input-invalid': errors.has('country')}">
+                                <md-field :class="{'md-input-invalid': errors.has('country')}">
                                     <label for="filmingCountry">
                                         <template v-if="projectData.hosting_type !== 'script'">Country of Filming</template>
                                         <template v-else>Country of Origin</template>
@@ -608,7 +608,7 @@
                                         </md-option>
                                     </md-select>
                                     <span class="md-error" v-show="errors.has('country')">{{ errors.first('country') }}</span>
-                                </md-input-container>
+                                </md-field>
                             </div>
                         </div>
                         <div class="large-12 columns">
@@ -642,7 +642,7 @@
                         <div class="large-12 columns">
                             <md-chips v-model="projectData.tags"
                                       md-input-placeholder="Tags: (separate by pressing enter key)">
-                                <template scope="chip">{{ chip.value }}</template>
+                                <template slot-scope="chip">{{ chip.value }}</template>
                             </md-chips>
                         </div>
                         <div class="large-12 columns">
@@ -705,6 +705,7 @@
                 genresArr: [],
                 files: [], //JSON.parse($window.localStorage.getItem('files') || '[]'),
                 maxDate: moment().toDate(),
+                temporaryArtwork: null,
                 projectData: {
                     name: '',
                     description: '',
@@ -744,9 +745,9 @@
                 switch (val) {
                     case 'HTML5':
                         this.uploadType = 1;
-                        this.$nextTick(function () {
+                        /*this.$nextTick(function () {
                             filepicker.constructWidget($('input[type=filepicker]'));
-                        });
+                        });*/
                         break;
                     case 'youtube':
                         this.uploadType = 2;
@@ -807,7 +808,7 @@
                         self.projectData.hosting_id = video_id;
                         this.$http.jsonp('https://api.vimeo.com/videos/' + video_id + '/pictures.json?callback=JSON_CALLBACK')
                             .then(res => {
-                                //$http.jsonp('http://www.vimeo.com/api/v2/video/' + video_id + '.json?callback=JSON_CALLBACK').then(function (res) {
+                                //$http.jsonp('http://www.vimeo.com/api/v2/video/' + video_id + '.json?callback=JSON_CALLBACK').then((res) => {
                                 return self.projectData.thumbnail_url = !_.isUndefined(res.data[0].sizes[6])
                                     ? res.data[0].sizes[6] : !_.isUndefined(res.data[0].sizes[5])
                                         ? res.data[0].sizes[5] : !_.isUndefined(res.data[0].sizes[4])
@@ -827,7 +828,7 @@
                      } else if (url.indexOf('vine') != -1) {
                      self.projectData.hosting_type = 'vine';
                      self.projectData.hosting_id = undefined;
-                     $http.get('/utils/get-vine-data.php?url=' + url).then(function (res) {
+                     $http.get('/utils/get-vine-data.php?url=' + url).then((res) => {
                      return self.projectData.thumbnail_url = res.data;
                      });
                      }*/
@@ -936,12 +937,12 @@
                         };
 
                         self.$http.post('projects', filmParams)
-                            .then(function (project) {
-                                console.log(project.body.data);
+                            .then((project) => {
+                                console.log(project.data.data);
                                 self.$root.$emit('toastMessage', 'Project Uploaded Successfully');
                                 // register Action
-                                window.location = '/' + project.body.data.url_id;
-//                                self.$state.go('video', {url_id: project.body.data.url_id});
+                                window.location = '/' + project.data.data.url_id;
+//                                self.$state.go('video', {url_id: project.data.data.url_id});
                                 //return film;
                             }, function (err) {
                                 // console.log(err);
@@ -995,12 +996,12 @@
                         };
 
                         self.$http.put('projects/' + self.id, filmParams)
-                            .then(function (project) {
-                                console.log(project.body.data);
+                            .then((project) => {
+                                console.log(project.data.data);
                                 self.$root.$emit('toastMessage', 'Project Uploaded Successfully');
                                 // register Action
-                                window.location = '/' + project.body.data.url_id;
-//                                self.$state.go('video', {url_id: project.body.data.url_id});
+                                window.location = '/' + project.data.data.url_id;
+//                                self.$state.go('video', {url_id: project.data.data.url_id});
                                 //return film;
                             }, function (err) {
                                 // console.log(err);
@@ -1018,10 +1019,25 @@
 
             pickArtwork (){
                 let self = this;
-                filepicker.pick(
+
+                window.cloudinary.openUploadWidget({
+                  upload_preset: 'ss3p66uy',
+                  multiple: false,
+                  cropping: 'server',
+                  cropping_aspect_ratio: 1.33333,
+                  cropping_show_back_button: true,
+                }, function(error, result) {
+                  if (error) {}
+                  if (result) {
+                    self.temporaryArtwork = result[0];
+                    self.projectData.thumbnail_url = self.temporaryArtwork.secure_url;
+                  }
+
+                });
+                /*filepicker.pick(
                     {
                         cropRatio: 4 / 3,
-                        mimetype: 'image/*',
+                        mimetype: 'image/!*',
                         services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'INSTAGRAM', 'URL'],
                         conversions: ['crop', 'rotate', 'filter'],
                         customSourcePath: self.user.url_id + '/films/',
@@ -1031,7 +1047,7 @@
                     function (Blob) {
                         self.projectData.thumbnail_url = Blob.url + '?cache=true';
                     }
-                );
+                );*/
             },
 
             pickVideo () {
@@ -1080,12 +1096,13 @@
 
             generateFpSecurity(){
                 this.$http.get('policies/upload').then((response) => {
-                    this.fpPolicy = response.body.policy;
-                    this.fpSignature = response.body.signature;
+                    this.fpPolicy = response.data.policy;
+                    this.fpSignature = response.data.signature;
                 });
             }
         },
         created() {
+            cloudinary.setCloudName('indiewise');
             window.filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
             let self = this;
             this.$root.$on('checkedAuthentication', function (data) {
@@ -1105,7 +1122,7 @@
                             Promise.all([genresP, typesP, countriesP, languagesP]).then(() => {
                                 this.$http.get('projects/' + self.id)
                                     .then((response) => {
-                                        let project = response.body.data;
+                                        let project = response.data.data;
                                         project.tags = project.tags !== '' ? project.tags.split(/,\s*/) : [];
                                         project.type = project.type_id;
                                         project.language = project.language_id;
@@ -1141,7 +1158,7 @@
                         } else {
                             this.$http.get('projects/limit')
                                 .then((response) => {
-                                    if (response.body.status) {
+                                    if (response.data.status) {
                                         self.viewState = 'upload';
 
                                         // Get FileStack Policy and Signature

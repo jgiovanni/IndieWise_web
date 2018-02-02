@@ -74,15 +74,15 @@
                     <h4>or with an account</h4>
                     <form>
                         <div layout="column">
-                            <md-input-container>
+                            <md-field>
                                 <md-icon md-svg-icon="email"></md-icon>
                                 <input ng-model="SIC.user.email" type="email" placeholder="Email" ng-required="true">
-                            </md-input-container>
-                            <md-input-container>
+                            </md-field>
+                            <md-field>
                                 <md-icon md-svg-icon="security"></md-icon>
                                 <input ng-model="SIC.user.password" type="password" placeholder="Password"
                                        ng-required="true">
-                            </md-input-container>
+                            </md-field>
                         </div>
                         <h3 ng-if="SIC.error" style="color: #ff0000;">
                             <span ng-show="SIC.error.code === 101">Please check your credentials and try again.</span>

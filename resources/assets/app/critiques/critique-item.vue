@@ -15,11 +15,11 @@
             </md-card-header>
 
             <md-card-content>
-                <md-layout>
-                    <md-layout md-flex="60" md-flex-medium="60">
+                <div class="md-layout">
+                    <div class="md-layout" md-flex="60" md-flex-medium="60">
                         <p v-text="critique.body"></p>
-                    </md-layout>
-                    <md-layout md-flex="40" md-flex-medium="40">
+                    </div>
+                    <div class="md-layout" md-flex="40" md-flex-medium="40">
                         <div class="row" v-if="isPrivate() && !isOwnerOrAuthor()">
                             <h3 class="text-center">Private</h3>
 
@@ -195,8 +195,8 @@
                             </template>
 
                         </template>
-                    </md-layout>
-                </md-layout>
+                    </div>
+                </div>
             </md-card-content>
         </md-card-area>
 
@@ -293,7 +293,7 @@
 
             deleteCritique($event) {
                 let self = this;
-                this.UserActions.checkAuth().then(function (res) {
+                this.UserActions.checkAuth().then((res) => {
                     if (res) {
                         let confirm = this.$mdDialog.confirm()
                             .title('Delete Critique')

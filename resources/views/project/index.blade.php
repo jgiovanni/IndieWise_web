@@ -48,10 +48,10 @@
         </section>
     </div>
 
-    <md-layout md-flex="100" md-gutter="8" class="row">
+    <div md-flex="100" md-gutter="8" class="md-layout row">
 
         <!-- left side content area -->
-        <md-layout class="md-flex-small-100 md-flex-66">
+        <div class="md-layout md-flex-small-100 md-flex-66">
             <project id="{{ $project->id }}"></project>
 
             <md-tabs md-fixed md-dynamic-height md-centered class="md-transparents">
@@ -82,12 +82,12 @@
                     <!-- End Awards -->
                 </md-tab>
             </md-tabs>
-        </md-layout>
+        </div>
         <!-- end left side content area -->
 
 
         <!-- sidebar -->
-        <md-layout class="md-layout md-flex-small-100 md-flex-33">
+        <div class="md-layout md-flex-small-100 md-flex-33">
             <div class="secBg sidebar">
                 <!-- IndieWise Average Widget -->
                 <div class="show-for-large">
@@ -167,10 +167,10 @@
                 </div>
                 <!-- end ad banner widget -->
             </div>
-        </md-layout>
+        </div>
         <!-- end sidebar -->
 
-    </md-layout>
+    </div>
 
 @endsection
 

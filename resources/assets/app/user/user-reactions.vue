@@ -75,16 +75,16 @@
         mounted(){
             this.$http.get('reactions', {params: {user: this.user.id, include: 'user,project'}})
                 .then((response) => {
-                    this.reactions = response.body
+                    this.reactions = response.data
                 });
 
             this.$http.get('reactions', {params: {notUser: this.user.id, include: 'user,project'}})
                 .then((response) => {
-                    this.reacted = response.body
+                    this.reacted = response.data
                 });
 
             this.$http.get('projects', {params: { include: ''}}).then((response) => {
-	            this.projects = response.body.data;
+	            this.projects = response.data.data;
             });
         }
     }

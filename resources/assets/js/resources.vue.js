@@ -1,9 +1,9 @@
 window.Vue = require('vue');
-
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
 import axios from 'axios';
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
 let csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
 if (csrfToken) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
@@ -112,13 +112,10 @@ Resource.actions = {
     put: {method: 'PUT'},
     remove: {method: 'DELETE'},
     delete: {method: 'DELETE'}
-
 };
 // Resource END
 Vue.prototype.$resource = Resource;
 
-let VueMaterial = require('vue-material');
-let VeeValidate = require('vee-validate');
 // import VueAdsense from 'vue-adsense';
 // import VueSocial from '@blocklevel/vue-social'
 
@@ -126,34 +123,7 @@ let VeeValidate = require('vee-validate');
 // Vue.component('adsense', VueAdsense);
 // Vue.use(require('vue-cookie'));
 Vue.use(VueMaterial);
-Vue.material.registerTheme({
-    'default': {
-        primary: 'indigo',
-        accent: 'amber',
-        warn: 'red',
-        // background: { color: 'grey', hue: 300 }
-        background: 'white'
-    },
-    'dark': {
-        primary: 'indigo',
-        accent: 'indigo',
-        warn: 'red',
-        background: { color: 'grey', hue: 900 }
-    },
-    'white': {
-        primary: 'white',
-        accent: 'indigo',
-        warn: 'red',
-        background: { color: 'grey', hue: 900 }
-    },
-    'light-blue': {
-        primary: 'light-blue',
-        accent: 'indigo',
-        warn: 'red',
-        background: { color: 'grey', hue: 900 }
-    },
-});
-Vue.use(VeeValidate);
+Vue.use(require('vee-validate'));
 Vue.use(require('vue-localforage'));
 Vue.use(require('vue-social-sharing'));
 import VueAnalytics from 'vue-ua';

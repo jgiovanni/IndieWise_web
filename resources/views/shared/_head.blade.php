@@ -36,6 +36,7 @@
     @if(app()->environment('production'))
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     @endif
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -50,6 +51,7 @@
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     {{--<link rel="stylesheet" href="/app/bower_components/foundation-datepicker/css/foundation-datepicker.min.css"/>--}}
     <link rel="stylesheet" href="/app/bower_components/animate.css/animate.min.css"/>
 
@@ -64,7 +66,6 @@
     <!-- BeTube Styles-->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     <link rel="stylesheet" href="/assets/layerslider/css/layerslider.css" type="text/css">
     <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
@@ -90,6 +91,7 @@
     {{--<script type="text/javascript" src="//cdn.broadstreetads.com/init.js"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script src="https://static.filestackapi.com/v3/filestack.js"></script>
+    <script type="text/javascript" src="{{ mix('js/vendor.js') }}"></script>
 
     @yield('css')
 

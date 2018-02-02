@@ -28,7 +28,6 @@
 {{--<script src="/assets/js/app.js"></script>--}}
 {{--<script src="/assets/js/owl.carousel.min.js"></script>--}}
 
-<script type="text/javascript" src="{{ mix('js/vendor.js') }}"></script>
 <script type="text/javascript" src="{{ mix('js/resources.vue.js') }}"></script>
 @yield('js')
 

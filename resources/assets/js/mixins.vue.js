@@ -1,3 +1,4 @@
+const Vue = window.Vue;
 // Vue Filters
 Vue.filter('vmUtc', function (value) {
     return moment.utc(value);
@@ -71,7 +72,7 @@ Vue.filter('secondsToTimeLength', function (seconds) {
 Vue.directive('toggleShowMore', {
     inserted(el, binding) {
         //show more and less
-        jQuery(el).showMore({
+        $(el).showMore({
             speedDown: 300,
             speedUp: 300,
             height: binding.value ? binding.value + 'px' : '165px',
@@ -82,323 +83,323 @@ Vue.directive('toggleShowMore', {
 });
 
 Vue.mixin({
-    data() {
-        return {
-            authModalOpen: false,
-        }
-    },
-    computed: {
-        isIOS (){
-            return !!(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
-        },
-        isAndroid(){
-            return !!navigator.userAgent.match(/Android/i);
-        },
-        isAuthenticated() {
-            return this.$root.authenticated;
-        },
-        isVerified() {
-            return this.$root.user && this.$root.user.verified;
-        },
-        isNotVerified() {
-            return !this.isVerified;
-        },
-        /*genresList() {
-         return this.$root.genresList;
-         },
-         typesList() {
-         return this.$root.typesList;
-         },
-         countryList() {
-         return this.$root.countryList;
-         },
-         languageList() {
-         return this.$root.languageList;
-         },*/
-    },
-    methods: {
-        // Auth Methods
-        doSignOut() {
-            localStorage.removeItem('jwt-token');
-            this.$removeItem('user');
-            this.authenticated = false;
-            location.href = location.origin + '/logout';
-            /*this.$http.post('/logout').then(function () {
-                this.$root.$emit('userHasLoggedOut', this.$root.user);
-                this.$removeItem('user');
-                this.authenticated = false;
-            });*/
-        },
-        justVerified() {
-            return false;
-        },
-        requestVerificationEmail() {
-            return this.$http.get('request_verification')
-                .then((response) => {
-                    return response;
-                }, (error) => {
-                    return error;
-                });
-        },
-
-        // Sort Methods
-        sortByAsc(array, property){
-            return array.sort(function (a, b) {
-                var textA = a[property].toUpperCase();
-                var textB = b[property].toUpperCase();
-                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            })
-        },
-
-        // Misc Methods
-        isMobile() {
-            return this.isIOS || this.isAndroid || Foundation.MediaQuery.current === 'small';
-        },
-        isFirstUrlSegment(url) {
-            return location.pathname.split('/').slice(1, 2).toString() === url;
-        },
-        isCurrentUrlChild(url, child) {
-            let arr = location.pathname.split('/');
-            arr = arr.splice(1);
-            return _.contains(arr, url) && _.contains(arr, child);
-        },
-        generateTypes(){
-            let self = this;
-            return new Promise(function (resolve, reject) {
-                self.$getItem('types', function (err, data) {
-                    if (data) {
-                        self.$root.typesList = self.sortByAsc(data, 'name');
-                        resolve(self.$root.typesList);
-                    } else {
-                        self.$http.get('types').then(function (result) {
-                            let types = self.sortByAsc(result.body.types, 'name');
-                            self.$root.typesList = types;
-                            self.$setItem('types', types);
-                            self.$setItem('timestamp', moment().toISOString());
-                            resolve(types);
-                        });
-                    }
-                });
-            });
-        },
-        generateGenres(){
-            let self = this;
-            return new Promise(function (resolve, reject) {
-                self.$getItem('genres', function (err, data) {
-                    if (data) {
-                        self.$root.genresList = self.sortByAsc(data, 'name');
-                        resolve(self.$root.genresList);
-                    } else {
-                        self.$http.get('genres').then(function (result) {
-                            let genres = self.sortByAsc(result.body.genres, 'name');
-                            self.$root.genresList = genres;
-                            self.$setItem('genres', genres);
-                            self.$setItem('timestamp', moment().toISOString());
-                            resolve(genres);
-                        });
-                    }
-                });
-            });
-        },
-        generateCountries(){
-            let self = this;
-            return new Promise(function (resolve, reject) {
-                self.$getItem('countries', function (err, data) {
-                    if (data) {
-                        self.$root.countryList = self.sortByAsc(data, 'name');
-                        resolve(self.$root.countryList);
-                    } else {
-                        self.$http.get('countries').then(function (result) {
-                            let countries = self.sortByAsc(result.body.countries, 'name');
-                            self.$root.countryList = countries;
-                            self.$setItem('countries', countries);
-                            self.$setItem('timestamp', moment().toISOString());
-                            resolve(countries);
-                        });
-                    }
-                });
-            });
-        },
-        generateLanguages(){
-            let self = this;
-            return new Promise(function (resolve, reject) {
-                self.$getItem('languages', function (err, data) {
-                    if (data) {
-                        self.$root.languageList = self.sortByAsc(data, 'English');
-                        resolve(self.$root.languageList);
-                    } else {
-                        self.$http.get('languages').then(function (result) {
-                            let languages = self.sortByAsc(result.body.languages, 'English');
-                            self.$root.languageList = languages;
-                            self.$setItem('languages', languages);
-                            self.$setItem('timestamp', moment().toISOString());
-                            resolve(languages);
-                        });
-                    }
-                });
-            });
-        },
-        generateReactions() {
-            return [
-                {name: 'Happy', emotion: 'happy', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Sad', emotion: 'sad', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
-                {name: 'Offended', emotion: 'offended', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Amused', emotion: 'amused', icon: 'grinning', src: '/assets/svg/emoticons/grinning.svg'},
-                {name: 'Mad', emotion: 'mad', icon: 'mad', src: '/assets/svg/emoticons/mad.svg'},
-                {name: 'Furious', emotion: 'furious', icon: 'angry', src: '/assets/svg/emoticons/angry.svg'},
-                {name: 'Awesome', emotion: 'awesome', icon: 'woah', src: '/assets/svg/emoticons/woah.svg'},
-                {name: 'Terrified', emotion: 'terrified', icon: 'shocked', src: '/assets/svg/emoticons/shocked.svg'},
-                {name: 'Confused', emotion: 'confused', icon: 'confused', src: '/assets/svg/emoticons/confused.svg'},
-                {name: 'In-Love', emotion: 'in-love', icon: 'love', src: '/assets/svg/emoticons/love.svg'},
-                {name: 'Amazed', emotion: 'amazed', icon: 'woah', src: '/assets/svg/emoticons/woah.svg'},
-                {
-                    name: 'Motivated',
-                    emotion: 'motivated',
-                    icon: 'interested',
-                    src: '/assets/svg/emoticons/interested.svg'
-                },
-                {
-                    name: 'Inspired',
-                    emotion: 'inspired',
-                    icon: 'interested',
-                    src: '/assets/svg/emoticons/interested.svg'
-                },
-                {name: 'Bored', emotion: 'bored', icon: 'bored', src: '/assets/svg/emoticons/bored.svg'},
-                {name: 'Sleepy', emotion: 'sleepy', icon: 'bored', src: '/assets/svg/emoticons/bored.svg'},
-                {
-                    name: 'Emotional',
-                    emotion: 'emotional',
-                    icon: 'emotional',
-                    src: '/assets/svg/emoticons/emotional.svg'
-                },
-                {name: 'Excited', emotion: 'excited', icon: 'big-smile', src: '/assets/svg/emoticons/big-smile.svg'},
-                {
-                    name: 'Nostalgic',
-                    emotion: 'nostalgic',
-                    icon: 'nostalgic',
-                    src: '/assets/svg/emoticons/nostalgic.svg'
-                },
-                {name: 'Annoyed', emotion: 'annoyed', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Sorry', emotion: 'sorry', icon: 'sad-tear', src: '/assets/svg/emoticons/sad-tear.svg'},
-                {name: 'Ashamed', emotion: 'ashamed', icon: 'sad-tear', src: '/assets/svg/emoticons/sad-tear.svg'},
-                {name: 'Meh', emotion: 'meh', icon: 'meh', src: '/assets/svg/emoticons/meh.svg'},
-                {name: 'Special', emotion: 'special', icon: 'wink', src: '/assets/svg/emoticons/wink.svg'},
-                {name: 'Sick', emotion: 'sick', icon: 'mute', src: '/assets/svg/emoticons/mute.svg'},
-                {name: 'Great', emotion: 'great', icon: 'grinning', src: '/assets/svg/emoticons/grinning.svg'},
-                {name: 'Guilty', emotion: 'guilty', icon: 'sympathetic', src: '/assets/svg/emoticons/sympathetic.svg'},
-                {name: 'Hopeful', emotion: 'hopeful', icon: 'hopeful', src: '/assets/svg/emoticons/hopeful.svg'},
-                {name: 'Hopeless', emotion: 'hopeless', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
-                {name: 'Secure', emotion: 'secure', icon: 'nerdy', src: '/assets/svg/emoticons/nerdy.svg'},
-                {name: 'Blessed', emotion: 'blessed', icon: 'grinning', src: '/assets/svg/emoticons/grinning.svg'},
-                {
-                    name: 'Interested',
-                    emotion: 'interested',
-                    icon: 'interested',
-                    src: '/assets/svg/emoticons/interested.svg'
-                },
-                {name: 'Comfortable', emotion: 'comfortable', icon: 'hehe', src: '/assets/svg/emoticons/hehe.svg'},
-                {name: 'Disturbed', emotion: 'disturbed', icon: 'confused', src: '/assets/svg/emoticons/confused.svg'},
-                {name: 'Stupid', emotion: 'stupid', icon: 'confused', src: '/assets/svg/emoticons/confused.svg'},
-                {name: 'Sexy', emotion: 'sexy', icon: 'sexy', src: '/assets/svg/emoticons/sexy.svg'},
-                {name: 'Relaxed', emotion: 'relaxed', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Empowered', emotion: 'empowered', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Cool', emotion: 'cool', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Pumped', emotion: 'pumped', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Turned On', emotion: 'turned on', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Proud', emotion: 'Proud', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Disgusted', emotion: 'disgusted', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Sympathetic', emotion: 'sympathetic', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Overwhelmed', emotion: 'overwhelmed', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Passionate', emotion: 'passionate', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Thrilled', emotion: 'thrilled', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Loved', emotion: 'loved', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Thankful', emotion: 'thankful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Appreciated', emotion: 'appreciated', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Romantic', emotion: 'romantic', icon: 'love', src: '/assets/svg/emoticons/love.svg'},
-                {name: 'Chill', emotion: 'chill', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Pissed Off', emotion: 'pissed off', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Accomplished', emotion: 'accomplished', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Honored', emotion: 'honored', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Young', emotion: 'young', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Wild', emotion: 'wild', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Old', emotion: 'old', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Free', emotion: 'free', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Epic', emotion: 'epic', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Fired Up', emotion: 'fired up', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Detached', emotion: 'detached', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {
-                    name: 'Disconnected',
-                    emotion: 'disconnected',
-                    icon: 'confused',
-                    src: '/assets/svg/emoticons/confused.svg'
-                },
-                {name: 'Connected', emotion: 'connected', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Beautiful', emotion: 'beautiful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Confident', emotion: 'confident', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Positive', emotion: 'positive', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Negative', emotion: 'negative', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {
-                    name: 'Heartbroken',
-                    emotion: 'heartbroken',
-                    icon: 'emotional',
-                    src: '/assets/svg/emoticons/emotional.svg'
-                },
-                {name: 'Silly', emotion: 'silly', icon: 'hehe', src: '/assets/svg/emoticons/hehe.svg'},
-                {name: 'Disappointed', emotion: 'disappointed', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
-                {name: 'Stressed', emotion: 'stressed', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {
-                    name: 'Fantastic',
-                    emotion: 'fantastic',
-                    icon: 'big-smile',
-                    src: '/assets/svg/emoticons/big-smile.svg'
-                },
-                {name: 'Hungry', emotion: 'hungry', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Shocked', emotion: 'shocked', icon: 'shocked', src: '/assets/svg/emoticons/shocked.svg'},
-                {name: 'Frustrated', emotion: 'frustrated', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {
-                    name: 'Engrossed',
-                    emotion: 'engrossed',
-                    icon: 'interested',
-                    src: '/assets/svg/emoticons/interested.svg'
-                },
-                {name: 'Peaceful', emotion: 'peaceful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Surprised', emotion: 'surprised', icon: 'woah', src: '/assets/svg/emoticons/woah.svg'},
-                {name: 'Satisfied', emotion: 'satisfied', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Incomplete', emotion: 'incomplete', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
-                {name: 'Complete', emotion: 'complete', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Entertained', emotion: 'entertained', icon: 'hehe', src: '/assets/svg/emoticons/hehe.svg'},
-                {name: 'Enlightened', emotion: 'enlightened', icon: 'interested', src: '/assets/svg/emoticons/interested.svg'},
-                {name: 'Relieved', emotion: 'relieved', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Concerned', emotion: 'concerned', icon: 'sympathetic', src: '/assets/svg/emoticons/sympathetic.svg'},
-                {name: 'Strong', emotion: 'strong', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Optimistic', emotion: 'optimistic', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Discouraged', emotion: 'discouraged', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Lucky', emotion: 'lucky', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Scared', emotion: 'scared', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Brave', emotion: 'brave', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Naughty', emotion: 'naughty', icon: 'sexy', src: '/assets/svg/emoticons/sexy.svg'},
-                {name: 'Alert', emotion: 'alert', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Alive', emotion: 'alive', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Perfect', emotion: 'perfect', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Nervous', emotion: 'nervous', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Tense', emotion: 'tense', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Impatient', emotion: 'impatient', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Philosophical', emotion: 'philosophical', icon: 'interested', src: '/assets/svg/emoticons/interested.svg'},
-                {name: 'Empty', emotion: 'empty', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Informed', emotion: 'informed', icon: 'nerdy', src: '/assets/svg/emoticons/nerdy.svg'},
-                {name: 'Playful', emotion: 'playful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Wise', emotion: 'wise', icon: 'nerdy', src: '/assets/svg/emoticons/nerdy.svg'},
-                {name: 'Refreshed', emotion: 'refreshed', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Wanted', emotion: 'wanted', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
-                {name: 'Thirsty', emotion: 'thirsty', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
-                {name: 'Desperate', emotion: 'desperate', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'}
-            ];
-        },
-        loginModal(){
-            this.$root.$emit('openAuthModal');
-            this.authModalOpen = true;
-        }
+  data() {
+    return {
+      authModalOpen: false,
     }
+  },
+  computed: {
+    isIOS (){
+      return !!(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
+    },
+    isAndroid(){
+      return !!navigator.userAgent.match(/Android/i);
+    },
+    isAuthenticated() {
+      return this.$root.authenticated;
+    },
+    isVerified() {
+      return this.$root.user && this.$root.user.verified;
+    },
+    isNotVerified() {
+      return !this.isVerified;
+    },
+    /*genresList() {
+     return this.$root.genresList;
+     },
+     typesList() {
+     return this.$root.typesList;
+     },
+     countryList() {
+     return this.$root.countryList;
+     },
+     languageList() {
+     return this.$root.languageList;
+     },*/
+  },
+  methods: {
+    // Auth Methods
+    doSignOut() {
+      localStorage.removeItem('jwt-token');
+      this.$removeItem('user');
+      this.authenticated = false;
+      location.href = location.origin + '/logout';
+      /*this.$http.post('/logout').then(function () {
+          this.$root.$emit('userHasLoggedOut', this.$root.user);
+          this.$removeItem('user');
+          this.authenticated = false;
+      });*/
+    },
+    justVerified() {
+      return false;
+    },
+    requestVerificationEmail() {
+      return this.$http.get('request_verification')
+        .then((response) => {
+          return response;
+        }, (error) => {
+          return error;
+        });
+    },
+    
+    // Sort Methods
+    sortByAsc(array, property){
+      return array.sort(function (a, b) {
+        var textA = a[property].toUpperCase();
+        var textB = b[property].toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      })
+    },
+    
+    // Misc Methods
+    isMobile() {
+      return this.isIOS || this.isAndroid || Foundation.MediaQuery.current === 'small';
+    },
+    isFirstUrlSegment(url) {
+      return location.pathname.split('/').slice(1, 2).toString() === url;
+    },
+    isCurrentUrlChild(url, child) {
+      let arr = location.pathname.split('/');
+      arr = arr.splice(1);
+      return _.contains(arr, url) && _.contains(arr, child);
+    },
+    generateTypes(){
+      let self = this;
+      return new Promise((resolve, reject) => {
+        self.$getItem('types', function (err, data) {
+          if (data) {
+            self.$root.typesList = self.sortByAsc(data, 'name');
+            resolve(self.$root.typesList);
+          } else {
+            self.$http.get('types').then((result) => {
+              let types = self.sortByAsc(result.data.types, 'name');
+              self.$root.typesList = types;
+              self.$setItem('types', types);
+              self.$setItem('timestamp', moment().toISOString());
+              resolve(types);
+            }).catch((error) => { console.log(error); });
+          }
+        });
+      });
+    },
+    generateGenres(){
+      let self = this;
+      return new Promise((resolve, reject) => {
+        self.$getItem('genres', function (err, data) {
+          if (data) {
+            self.$root.genresList = self.sortByAsc(data, 'name');
+            resolve(self.$root.genresList);
+          } else {
+            self.$http.get('genres').then((result) => {
+              let genres = self.sortByAsc(result.data.genres, 'name');
+              self.$root.genresList = genres;
+              self.$setItem('genres', genres);
+              self.$setItem('timestamp', moment().toISOString());
+              resolve(genres);
+            }).catch((error) => { console.log(error); });
+          }
+        });
+      });
+    },
+    generateCountries(){
+      let self = this;
+      return new Promise((resolve, reject) => {
+        self.$getItem('countries', function (err, data) {
+          if (data) {
+            self.$root.countryList = self.sortByAsc(data, 'name');
+            resolve(self.$root.countryList);
+          } else {
+            self.$http.get('countries').then((result) => {
+              let countries = self.sortByAsc(result.data.countries, 'name');
+              self.$root.countryList = countries;
+              self.$setItem('countries', countries);
+              self.$setItem('timestamp', moment().toISOString());
+              resolve(countries);
+            }).catch((error) => { console.log(error); });
+          }
+        });
+      });
+    },
+    generateLanguages(){
+      let self = this;
+      return new Promise((resolve, reject) => {
+        self.$getItem('languages', function (err, data) {
+          if (data) {
+            self.$root.languageList = self.sortByAsc(data, 'English');
+            resolve(self.$root.languageList);
+          } else {
+            self.$http.get('languages').then((result) => {
+              let languages = self.sortByAsc(result.data.languages, 'English');
+              self.$root.languageList = languages;
+              self.$setItem('languages', languages);
+              self.$setItem('timestamp', moment().toISOString());
+              resolve(languages);
+            }).catch((error) => { console.log(error); });
+          }
+        });
+      });
+    },
+    generateReactions() {
+      return [
+        {name: 'Happy', emotion: 'happy', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Sad', emotion: 'sad', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
+        {name: 'Offended', emotion: 'offended', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Amused', emotion: 'amused', icon: 'grinning', src: '/assets/svg/emoticons/grinning.svg'},
+        {name: 'Mad', emotion: 'mad', icon: 'mad', src: '/assets/svg/emoticons/mad.svg'},
+        {name: 'Furious', emotion: 'furious', icon: 'angry', src: '/assets/svg/emoticons/angry.svg'},
+        {name: 'Awesome', emotion: 'awesome', icon: 'woah', src: '/assets/svg/emoticons/woah.svg'},
+        {name: 'Terrified', emotion: 'terrified', icon: 'shocked', src: '/assets/svg/emoticons/shocked.svg'},
+        {name: 'Confused', emotion: 'confused', icon: 'confused', src: '/assets/svg/emoticons/confused.svg'},
+        {name: 'In-Love', emotion: 'in-love', icon: 'love', src: '/assets/svg/emoticons/love.svg'},
+        {name: 'Amazed', emotion: 'amazed', icon: 'woah', src: '/assets/svg/emoticons/woah.svg'},
+        {
+          name: 'Motivated',
+          emotion: 'motivated',
+          icon: 'interested',
+          src: '/assets/svg/emoticons/interested.svg'
+        },
+        {
+          name: 'Inspired',
+          emotion: 'inspired',
+          icon: 'interested',
+          src: '/assets/svg/emoticons/interested.svg'
+        },
+        {name: 'Bored', emotion: 'bored', icon: 'bored', src: '/assets/svg/emoticons/bored.svg'},
+        {name: 'Sleepy', emotion: 'sleepy', icon: 'bored', src: '/assets/svg/emoticons/bored.svg'},
+        {
+          name: 'Emotional',
+          emotion: 'emotional',
+          icon: 'emotional',
+          src: '/assets/svg/emoticons/emotional.svg'
+        },
+        {name: 'Excited', emotion: 'excited', icon: 'big-smile', src: '/assets/svg/emoticons/big-smile.svg'},
+        {
+          name: 'Nostalgic',
+          emotion: 'nostalgic',
+          icon: 'nostalgic',
+          src: '/assets/svg/emoticons/nostalgic.svg'
+        },
+        {name: 'Annoyed', emotion: 'annoyed', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Sorry', emotion: 'sorry', icon: 'sad-tear', src: '/assets/svg/emoticons/sad-tear.svg'},
+        {name: 'Ashamed', emotion: 'ashamed', icon: 'sad-tear', src: '/assets/svg/emoticons/sad-tear.svg'},
+        {name: 'Meh', emotion: 'meh', icon: 'meh', src: '/assets/svg/emoticons/meh.svg'},
+        {name: 'Special', emotion: 'special', icon: 'wink', src: '/assets/svg/emoticons/wink.svg'},
+        {name: 'Sick', emotion: 'sick', icon: 'mute', src: '/assets/svg/emoticons/mute.svg'},
+        {name: 'Great', emotion: 'great', icon: 'grinning', src: '/assets/svg/emoticons/grinning.svg'},
+        {name: 'Guilty', emotion: 'guilty', icon: 'sympathetic', src: '/assets/svg/emoticons/sympathetic.svg'},
+        {name: 'Hopeful', emotion: 'hopeful', icon: 'hopeful', src: '/assets/svg/emoticons/hopeful.svg'},
+        {name: 'Hopeless', emotion: 'hopeless', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
+        {name: 'Secure', emotion: 'secure', icon: 'nerdy', src: '/assets/svg/emoticons/nerdy.svg'},
+        {name: 'Blessed', emotion: 'blessed', icon: 'grinning', src: '/assets/svg/emoticons/grinning.svg'},
+        {
+          name: 'Interested',
+          emotion: 'interested',
+          icon: 'interested',
+          src: '/assets/svg/emoticons/interested.svg'
+        },
+        {name: 'Comfortable', emotion: 'comfortable', icon: 'hehe', src: '/assets/svg/emoticons/hehe.svg'},
+        {name: 'Disturbed', emotion: 'disturbed', icon: 'confused', src: '/assets/svg/emoticons/confused.svg'},
+        {name: 'Stupid', emotion: 'stupid', icon: 'confused', src: '/assets/svg/emoticons/confused.svg'},
+        {name: 'Sexy', emotion: 'sexy', icon: 'sexy', src: '/assets/svg/emoticons/sexy.svg'},
+        {name: 'Relaxed', emotion: 'relaxed', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Empowered', emotion: 'empowered', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Cool', emotion: 'cool', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Pumped', emotion: 'pumped', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Turned On', emotion: 'turned on', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Proud', emotion: 'Proud', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Disgusted', emotion: 'disgusted', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Sympathetic', emotion: 'sympathetic', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Overwhelmed', emotion: 'overwhelmed', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Passionate', emotion: 'passionate', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Thrilled', emotion: 'thrilled', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Loved', emotion: 'loved', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Thankful', emotion: 'thankful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Appreciated', emotion: 'appreciated', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Romantic', emotion: 'romantic', icon: 'love', src: '/assets/svg/emoticons/love.svg'},
+        {name: 'Chill', emotion: 'chill', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Pissed Off', emotion: 'pissed off', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Accomplished', emotion: 'accomplished', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Honored', emotion: 'honored', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Young', emotion: 'young', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Wild', emotion: 'wild', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Old', emotion: 'old', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Free', emotion: 'free', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Epic', emotion: 'epic', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Fired Up', emotion: 'fired up', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Detached', emotion: 'detached', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {
+          name: 'Disconnected',
+          emotion: 'disconnected',
+          icon: 'confused',
+          src: '/assets/svg/emoticons/confused.svg'
+        },
+        {name: 'Connected', emotion: 'connected', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Beautiful', emotion: 'beautiful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Confident', emotion: 'confident', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Positive', emotion: 'positive', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Negative', emotion: 'negative', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {
+          name: 'Heartbroken',
+          emotion: 'heartbroken',
+          icon: 'emotional',
+          src: '/assets/svg/emoticons/emotional.svg'
+        },
+        {name: 'Silly', emotion: 'silly', icon: 'hehe', src: '/assets/svg/emoticons/hehe.svg'},
+        {name: 'Disappointed', emotion: 'disappointed', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
+        {name: 'Stressed', emotion: 'stressed', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {
+          name: 'Fantastic',
+          emotion: 'fantastic',
+          icon: 'big-smile',
+          src: '/assets/svg/emoticons/big-smile.svg'
+        },
+        {name: 'Hungry', emotion: 'hungry', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Shocked', emotion: 'shocked', icon: 'shocked', src: '/assets/svg/emoticons/shocked.svg'},
+        {name: 'Frustrated', emotion: 'frustrated', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {
+          name: 'Engrossed',
+          emotion: 'engrossed',
+          icon: 'interested',
+          src: '/assets/svg/emoticons/interested.svg'
+        },
+        {name: 'Peaceful', emotion: 'peaceful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Surprised', emotion: 'surprised', icon: 'woah', src: '/assets/svg/emoticons/woah.svg'},
+        {name: 'Satisfied', emotion: 'satisfied', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Incomplete', emotion: 'incomplete', icon: 'sad', src: '/assets/svg/emoticons/sad.svg'},
+        {name: 'Complete', emotion: 'complete', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Entertained', emotion: 'entertained', icon: 'hehe', src: '/assets/svg/emoticons/hehe.svg'},
+        {name: 'Enlightened', emotion: 'enlightened', icon: 'interested', src: '/assets/svg/emoticons/interested.svg'},
+        {name: 'Relieved', emotion: 'relieved', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Concerned', emotion: 'concerned', icon: 'sympathetic', src: '/assets/svg/emoticons/sympathetic.svg'},
+        {name: 'Strong', emotion: 'strong', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Optimistic', emotion: 'optimistic', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Discouraged', emotion: 'discouraged', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Lucky', emotion: 'lucky', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Scared', emotion: 'scared', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Brave', emotion: 'brave', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Naughty', emotion: 'naughty', icon: 'sexy', src: '/assets/svg/emoticons/sexy.svg'},
+        {name: 'Alert', emotion: 'alert', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Alive', emotion: 'alive', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Perfect', emotion: 'perfect', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Nervous', emotion: 'nervous', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Tense', emotion: 'tense', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Impatient', emotion: 'impatient', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Philosophical', emotion: 'philosophical', icon: 'interested', src: '/assets/svg/emoticons/interested.svg'},
+        {name: 'Empty', emotion: 'empty', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Informed', emotion: 'informed', icon: 'nerdy', src: '/assets/svg/emoticons/nerdy.svg'},
+        {name: 'Playful', emotion: 'playful', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Wise', emotion: 'wise', icon: 'nerdy', src: '/assets/svg/emoticons/nerdy.svg'},
+        {name: 'Refreshed', emotion: 'refreshed', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Wanted', emotion: 'wanted', icon: 'annoyed', src: '/assets/svg/emoticons/annoyed.svg'},
+        {name: 'Thirsty', emotion: 'thirsty', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'},
+        {name: 'Desperate', emotion: 'desperate', icon: 'happy', src: '/assets/svg/emoticons/happy.svg'}
+      ];
+    },
+    loginModal(){
+      this.$root.$emit('openAuthModal');
+      this.authModalOpen = true;
+    }
+  }
 });
 
 let AppData = {
@@ -449,9 +450,10 @@ let AppData = {
         }
     }
 };
-function AppComputed() {
+let AppComputed = {
 
-}
+};
+
 let AppMethods = {
     logout(){
         this.user = null;
@@ -514,7 +516,7 @@ let AppMethods = {
          });*/
     },
     getNotificationsFeed () {
-        this.$http.get('notifications/feed').then(function (res) {
+        this.$http.get('notifications/feed').then((res) => {
             console.log('Notification: ', res.data.activities);
             this.notifications = {
                 loaded: true,
@@ -545,13 +547,13 @@ let AppMethods = {
 };
 function AppCreated(vm) {
     console.log('Vue Ready');
+    console.log(vm);
     // Comment these three for local build.
     // Vue.config.devtools = false;
     // Vue.config.debug = false;
     // Vue.config.silent = true;
 
-    let self = vm;
-    self.$http.interceptors.request.use((config) => {
+    vm.$http.interceptors.request.use((config) => {
         let token, headers;
 
         token = localStorage.getItem('jwt-token');
@@ -561,29 +563,30 @@ function AppCreated(vm) {
 
         // Show Spinners in all components where they exist
         if (_.contains(['GET', 'POST', 'PUT'], config.method.toUpperCase()) && config.root === '/api') {
-            if (self.$refs && self.$refs.spinner && !config.params.hideLoader) {
+            if (vm.$refs && vm.$refs.spinner && !config.params.hideLoader) {
                 switch (config.method.toUpperCase()) {
                     case 'GET':
-                        self.$refs.spinner.show({text: 'Loading'});
+                        vm.$refs.spinner.show({text: 'Loading'});
                         break;
                     case 'POST':
-                        self.$refs.spinner.show({text: 'Saving'});
+                        vm.$refs.spinner.show({text: 'Saving'});
                         break;
                     case 'PUT':
-                        self.$refs.spinner.show({text: 'Updating'});
+                        vm.$refs.spinner.show({text: 'Updating'});
                         break;
                 }
             }
         }
+        return config;
     }, (error) => {
         // Do something with request error
         // debugger;
         return Promise.reject(error);
     });
-    self.$http.interceptors.response.use((config) => {
+    vm.$http.interceptors.response.use((config) => {
         // Hide Spinners in all components where they exist
-        if (self.$refs && self.$refs.spinner && !_.isUndefined(self.$refs.spinner._started)) {
-            self.$refs.spinner.hide();
+        if (vm.$refs && vm.$refs.spinner && !_.isUndefined(vm.$refs.spinner._started)) {
+            vm.$refs.spinner.hide();
         }
 
         if (config.status && config.status.code === 401) {
@@ -595,10 +598,15 @@ function AppCreated(vm) {
         if (config.entity && config.entity.token && config.entity.token.length > 10) {
             localStorage.setItem('jwt-token', 'Bearer ' + config.entity.token)
         }
-
+        return config;
     }, (error) => {
         // Do something with request error
         // debugger;
+      if (error.response) {
+        if (error.response.status === 500) {
+          console.log('Oops! Something went wrong with the server.')
+        }
+      }
         return Promise.reject(error);
     });
 
@@ -674,8 +682,6 @@ function AppCreated(vm) {
     });
 }
 function AppMounted(vm) {
-    let self = vm;
-
     if (!localStorage.hasOwnProperty('jwt-token')) {
         vm.$removeItem('user');
         vm.$emit('checkedAuthentication', 'true');
@@ -694,55 +700,56 @@ function AppMounted(vm) {
                 vm.authenticated = true;
                 vm.$emit('userHasLoggedIn', data);
                 vm.$emit('checkedAuthentication', data);
-            });
+            }).catch((error) => { console.log(error); });
         }
     }
 
     // Some Template JS
-    jQuery(document).ready(() => {
-        jQuery(document).foundation();
+    $(document).ready(() => {
+        if ($.fn.foundation)
+            $(document).foundation();
     });
 
     //back to top
     let backtotop = '#back-to-top';
-    if (jQuery(backtotop).length) {
+    if ($(backtotop).length) {
         let scrollTrigger = 100; // px
         let backToTop = function () {
-            let scrollTop = jQuery(window).scrollTop();
+            let scrollTop = $(window).scrollTop();
             if (scrollTop > scrollTrigger) {
-                jQuery(backtotop).addClass('show');
+                $(backtotop).addClass('show');
             } else {
-                jQuery(backtotop).removeClass('show');
+                $(backtotop).removeClass('show');
             }
         };
         backToTop();
-        jQuery(window).on('scroll', function () {
+        $(window).on('scroll', function () {
             backToTop();
         });
-        jQuery('#back-to-top').on('click', function (e) {
+        $('#back-to-top').on('click', function (e) {
             e.preventDefault();
-            jQuery('html,body').animate({
+            $('html,body').animate({
                 scrollTop: 0
             }, 700);
         });
     }
 
     //vertical thumb slider
-    let thumb = jQuery('.thumb-slider .thumbs').find('.ver-thumbnail');
-    jQuery(thumb).on('click', function () {
-        let id = jQuery(thisthis).attr('id');
+    let thumb = $('.thumb-slider .thumbs').find('.ver-thumbnail');
+    $(thumb).on('click', function () {
+        let id = $(thisthis).attr('id');
         //alert(id);
-        let thisIMG = jQuery('.image');
+        let thisIMG = $('.image');
         thisIMG.eq(0).show();
         thisIMG.hide();
         thisIMG.hide();
-        jQuery('.' + id).fadeIn();
+        $('.' + id).fadeIn();
     });
 
-    let $par = jQuery('.thumb-slider .thumbs .thumbnails').scrollTop(0);
-    jQuery('.thumb-slider .thumbs a').click(function (e) {
+    let $par = $('.thumb-slider .thumbs .thumbnails').scrollTop(0);
+    $('.thumb-slider .thumbs a').click(function (e) {
         e.preventDefault();                      // Prevent default Anchors behavior
-        let n = jQuery(this).hasClass('down') ? '+=200' : '-=200'; // Direction
+        let n = $(this).hasClass('down') ? '+=200' : '-=200'; // Direction
         $par.animate({scrollTop: n});
     });
 

@@ -15,6 +15,7 @@ use GetStream\Stream\Client;
 use GetStream\StreamLaravel\Enrich;
 use GetStream\StreamLaravel\EnrichedActivity;
 use GetStream\StreamLaravel\Facades\FeedManager;
+use JD\Cloudder\Facades\Cloudder;
 use Vinkla\Hashids\Facades\Hashids;
 
 $api = app('Dingo\Api\Routing\Router');
@@ -183,7 +184,6 @@ $api->version('v1', [
         $api->post('auth/{provider}', 'Auth\AuthController@redirect')->where('provider', 'google|twitter|facebook');
         $api->get('auth/{provider}/callback', 'Auth\AuthController@callback')->where('provider', 'google|twitter|facebook');
 
-
         // User Routes
         $api->put('users/me/{id?}', 'AuthController@updateMe');
         $api->delete('users/me/{id?}', 'AuthController@terminate');
@@ -214,7 +214,13 @@ $api->version('v1', [
             return response()->json(compact('policy', 'signature'));
 
         });
+        $api->delete('uploads/images/:public_id', function ($publicId) {
+            $options = [
 
+            ];
+            Cloudder::destroyImage($publicId, $options);
+            Cloudder::delete($publicId, $options);
+        });
         // Static Data Routes
         $api->resource('countries', 'CountriesController');
         $api->resource('languages', 'LanguagesController');

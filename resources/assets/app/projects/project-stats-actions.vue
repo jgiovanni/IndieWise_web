@@ -1,10 +1,10 @@
 <template>
-    <md-layout md-flex="100" class="SinglePostStats" id="SinglePostStats">
+    <div md-flex="100" class="md-layout SinglePostStats" id="SinglePostStats">
         <!-- newest video -->
-        <md-layout md-flex class="secBg padding-8">
-            <md-layout md-flex="100" class="padding-8" style="border-bottom: 1px solid #efefef">
+        <div md-flex class="md-layout secBg padding-8">
+            <div md-flex="100" class="md-layout padding-8" style="border-bottom: 1px solid #efefef">
 
-                <md-layout md-align="center" md-flex=20 md-column>
+                <div class="md-layout" md-align="center" md-flex=20 md-column>
                     <md-avatar class="md-large">
                         <img :src="project.owner.avatar" alt="post">
                     </md-avatar>
@@ -13,8 +13,8 @@
                             {{project.owner.fullName}}
                         </a>
                     </p>
-                </md-layout>
-                <md-layout md-column md-align="center">
+                </div>
+                <div class="md-layout" md-column md-align="center">
                     <h1 class="md-headline">
                         {{project.name}}&nbsp;
                         <span v-if="project.nsfw" style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
@@ -35,12 +35,12 @@
                         <span class="double-thumbs"><i class="fa fa-thumbs-o-down"></i><i
                                 class="fa fa-thumbs-o-down"></i>&nbsp;&nbsp;{{project.down_ratings_count||0}}</span>
                     </div>
-                </md-layout>
-            </md-layout>
-            <md-layout md-flex="100" md-column-xsmall>
+                </div>
+            </div>
+            <div class="md-layout" md-flex="100" md-column-xsmall>
                 <md-progress v-if="loadingRate||loadingReact||loadingCritique" md-indeterminate></md-progress>
 
-                <md-layout style="order: 2" md-align="end" md-align-xsmall="center">
+                <div class="md-layout" style="order: 2" md-align="end" md-align-xsmall="center">
                     <md-button class="md-primary md-dense" @click.native="openReactionDialog">
                         <span v-if="canReact!==true && canReact !== 'login' && canReact !==false">
                             <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
@@ -61,8 +61,8 @@
                             Judge
                         </span>
                     </md-button>
-                </md-layout>
-                <md-layout style="order: 1" md-align="start" md-align-xsmall="center">
+                </div>
+                <div class="md-layout" style="order: 1" md-align="start" md-align-xsmall="center">
                     <md-button class="md-raise md-dense double-thumbs md-primary" @click.native="rate('up')"
                                :class="{'md-raised':canRate.up}">
                         <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
@@ -80,16 +80,16 @@
                         <md-icon>flag</md-icon>
                     </md-button>
 
-                </md-layout>
-            </md-layout>
-        </md-layout>
+                </div>
+            </div>
+        </div>
 
         <share-dialog :id="project.id" :url="project.url_id" :name="project.name"
                       :description="project.description"></share-dialog>
         <report-project-dialog :project-id="project.id"></report-project-dialog>
         <critique-project-dialog v-if="canCritique === true" :project="project" ></critique-project-dialog>
         <reaction-dialog></reaction-dialog>
-    </md-layout>
+    </div>
 </template>
 <style scoped></style>
 <script type="text/javascript">
@@ -130,27 +130,28 @@
         },
         watch: {
             canCritique(val) {
-                console.log('canCritique: ', val)
+                // console.log('canCritique: ', val)
             },
             canReact(val) {
-                console.log('canReact: ', val)
+                // console.log('canReact: ', val)
             },
             canRate(val) {
-                console.log('canRate: ', val)
+                // console.log('canRate: ', val)
             },
         },
         methods: {
             canReactCheck(id){
                 let self = this;
                 this.loadingReact = true;
-                return this.$promise(function (resolve, reject) {
+
+                return new Promise((resolve, reject) => {
                     if (this.$root.user) {
                         this.$http.get('reactions', {params: {project: id, user: this.$root.user.id}})
                             .then((response) => {
                                 self.loadingReact = false;
-                                response.body.data.length
+                                response.data.data.length
                                     // critique exists already from this user
-                                    ? reject(response.body.data[0])
+                                    ? reject(response.data.data[0])
                                     // user hasn't critiqued yet
                                     : resolve(true);
                             });
@@ -163,14 +164,14 @@
             canCritiqueCheck(id){
                 let self = this;
                 this.loadingCritique = true;
-                return this.$promise(function (resolve, reject) {
+                return new Promise((resolve, reject) => {
                     if (this.$root.user) {
                         this.$http.get('critiques', {params: {project: id, user: this.$root.user.id}})
                             .then((response) => {
                                 self.loadingCritique = false;
-                                response.body.data.length
+                                response.data.data.length
                                     // critique exists already from this user
-                                    ? reject(response.body.data[0])
+                                    ? reject(response.data.data[0])
                                     // user hasn't critiqued yet
                                     : resolve(true);
                             });
@@ -183,14 +184,14 @@
             canRateCheck(id){
                 let self = this;
                 this.loadingRate = true;
-                return this.$promise(function (resolve, reject) {
+                return new Promise((resolve, reject) => {
                     if (this.$root.user) {
                         this.$http.get('ratings', {params: {project: id, user: this.$root.user.id}})
                             .then((response) => {
                                 self.loadingRate = false;
-                                response.body.ratings.length
+                                response.data.ratings.length
                                     // critique exists already from this user
-                                    ? reject(response.body.ratings[0])
+                                    ? reject(response.data.ratings[0])
                                     // user hasn't critiqued yet
                                     : resolve(true);
                             });
@@ -203,7 +204,7 @@
             checkUserActions() {
                 let self = this;
                 if (this.isAuthenticated) {
-                    this.canReactCheck(self.project.id).then(function (res) {
+                    this.canReactCheck(self.project.id).then((res) => {
                         return self.canReact = res;
                     }, function (error) {
                         return self.canReact = error;
@@ -216,7 +217,7 @@
                         self.canCritique = false;
                         self.loadingCritique = false;
                     } else {
-                        this.canCritiqueCheck(self.project.id).then(function (res) {
+                        this.canCritiqueCheck(self.project.id).then((res) => {
                             return self.canCritique = res;
                         }, function (error) {
                             return self.canCritique = self.critiqued = error;
@@ -225,7 +226,7 @@
                         });
                     }
 
-                    this.canRateCheck(self.project.id).then(function (res) {
+                    this.canRateCheck(self.project.id).then((res) => {
                         return self.canRate = res;
                     }, function (error) {
                         return self.canRate = error;
@@ -259,21 +260,21 @@
                             user_id: this.$root.user.id,
                             project_id: self.project.id,
                             emotion: emotion.emotion
-                        }).then(function (resA) {
+                        }).then((resA) => {
                             self.project.reactions_count++;
                             this.$ua.trackEvent('project', 'react', self.project.name);
                             self.checkUserActions();
-                            self.handleActions('reaction', resA.body.data);
+                            self.handleActions('reaction', resA.data.data);
                         });
                     } else if (_.isObject(self.canReact)) {
                         if (self.canReact.emotion !== emotion.emotion) {
                             this.$http.put('reactions/' + self.canReact.id, {
                                 emotion: emotion.emotion
-                            }).then(function (resA) {
+                            }).then((resA) => {
                                 self.canReact = resA.data;
                                 
                                 self.checkUserActions();
-                                self.handleActions('reaction', resA.body.data);
+                                self.handleActions('reaction', resA.data.data);
                             });
                         }
                     }
@@ -303,7 +304,7 @@
                         project_id: this.project.id,
                         up: direction === 'up',
                         down: direction === 'down'
-                    }).then(function (res) {
+                    }).then((res) => {
                         this.$ua.trackEvent('project', 'rate', self.project.name);
                         // console.log(res);
                         switch (direction) {
@@ -321,7 +322,7 @@
                         
                         _.extend(res.data, {projectOwner: self.project.owner_id});
                         self.checkUserActions();
-                        self.handleActions('rate', res.body.data);
+                        self.handleActions('rate', res.data.data);
                     });
 
                 } else if (_.isObject(self.canRate)) {
@@ -333,7 +334,7 @@
                             up: direction === 'up',
                             down: direction === 'down',
                         })
-                            .then(function (res) {
+                            .then((res) => {
                                 switch (direction) {
                                     case 'up':
                                         // Increment project up_ratings_count
@@ -348,7 +349,7 @@
                                 _.extend(self.canRate, {up: direction === 'up', down: direction === 'down'});
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.handleActions('rate', res.body.data);
+                                self.handleActions('rate', res.data.data);
                             });
 
                         // up is already true && direction is up
@@ -356,11 +357,11 @@
                         //$http.delete('Rating', self.canRate.id)
                         _.extend(self.canRate, {up: false});
                         ratingsResource.update({id: self.canRate.id}, { up: false, down: false})
-                            .then(function (res) {
+                            .then((res) => {
                                 self.project.up_ratings_count--;
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.handleActions('rate', res.body.data);
+                                self.handleActions('rate', res.data.data);
                             });
 
                         // down is already true && direction is down
@@ -368,12 +369,12 @@
                         //$http.delete('Rating', self.canRate.id)
                         _.extend(self.canRate, {down: false});
                         ratingsResource.update({id: self.canRate.id}, { up: false, down: false})
-                            .then(function (res) {
+                            .then((res) => {
                                 self.project.down_ratings_count--;
                                 
                                 _.extend(res.data, {projectOwner: self.project.owner_id});
                                 //self.checkUserActions();
-                                self.handleActions('rate', res.body.data);
+                                self.handleActions('rate', res.data.data);
                             });
 
                         // down is true && direction is up || up is true && direction is down -> reversal
@@ -394,10 +395,10 @@
                                 actionVerb = 'unlike';
                                 break;
                         }
-                        ratingsResource.update({id: self.canRate.id}, { up: up, down: down}).then(function (res) {
+                        ratingsResource.update({id: self.canRate.id}, { up: up, down: down}).then((res) => {
                             //self.checkUserActions();
                             _.extend(res.data, {projectOwner: self.project.owner_id});
-                            self.handleActions('rate', res.body.data);
+                            self.handleActions('rate', res.data.data);
                         });
                     }
                 }

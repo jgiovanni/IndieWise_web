@@ -1,6 +1,6 @@
 const Vue = window.Vue;
-require('./mixins.vue');
 import * as AppResources from './mixins.vue';
+require('./mixins.vue');
 
 import authenticationModal from '../app/authentication-modal.vue';
 import navHeader from '../app/nav-header.vue';
@@ -23,12 +23,6 @@ import upload from '../app/upload.vue';
 
 new Vue({
     el: '#app',
-    http: {
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            // 'Authorization': localStorage.getItem('jwt-token')
-        }
-    },
     components: {
         navHeader,
         navMobile,
@@ -60,11 +54,11 @@ new Vue({
     }),
     created() {
         let self = this;
-        AppResources.AppCreated(this);
+        AppResources.AppCreated(self);
     },
     mounted(){
         let self = this;
-        AppResources.AppMounted(this);
+        AppResources.AppMounted(self);
     }
 
 });

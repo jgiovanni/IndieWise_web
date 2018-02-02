@@ -16,6 +16,6 @@ mix.js('resources/assets/js/main.vue.js', 'public/js')
 mix.version();
 
 mix.browserSync({
-    proxy: 'indiewise.dev',
-    port: 3001
+    proxy: 'indiewise.test',
+    port: 3009
 });

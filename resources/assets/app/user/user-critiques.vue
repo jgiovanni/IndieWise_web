@@ -54,7 +54,7 @@
 			 this.user = this.$root.user;
 			 } else {
 			 this.$http.get('users/' + this.user.id).then((response) => {
-			 this.user = response.body.data;
+			 this.user = response.data.data;
 			 });
 			 }*/
 			let self = this;
@@ -64,12 +64,12 @@
 
             this.$http.get('critiques', {params: {user: this.user.id, include: 'project'}})
                 .then((response) => {
-                    this.critiques = response.body
+                    this.critiques = response.data
                 });
 
             this.$http.get('critiques', {params: {notUser: this.user.id, include: 'project'}})
                 .then((response) => {
-                    this.critiqued = response.body
+                    this.critiqued = response.data
                 });
 
         }

@@ -34,12 +34,6 @@ require('videojs-resolution-switcher');
 
 new Vue({
     el: '#app',
-    http: {
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            // 'Authorization': localStorage.getItem('jwt-token')
-        }
-    },
     components: {
         navHeader,
         navMobile,
@@ -63,9 +57,7 @@ new Vue({
         selectedCritique: null,
         playerResponsiveMode: localStorage.playerResponsiveMode ? JSON.parse(localStorage.playerResponsiveMode) : _.contains(['small', 'medium', 'large'], Foundation.MediaQuery.current),
     }),
-    computed: _.extend(AppResources.AppComputed, {
-
-    }),
+    computed: {},
     methods: AppResources.AppMethods,
     created() {
         let self = this;

@@ -143,7 +143,7 @@
                 this.user = this.$root.user;
             } else {
                 this.$http.get('users/' + this.user.id).then((response) => {
-	                this.user = response.body.data;
+	                this.user = response.data.data;
                 });
             }
 

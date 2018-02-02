@@ -37,7 +37,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
-    <script type="text/javascript" src="{{ elixir('js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('js/main.js') }}"></script>
 
     <script>window.BASE = '/';</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -57,7 +57,7 @@
     {{--<script type="text/javascript" src="/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>--}}
 
     <!-- BeTube Styles-->
-    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
     <link rel="stylesheet" href="/assets/layerslider/css/layerslider.css" type="text/css">
@@ -70,7 +70,7 @@
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
+    <link rel="stylesheet" href="{{ mix('css/all.css') }}"/>
 
     @yield('css')
 
@@ -165,8 +165,8 @@
 
 
 {{--<!-- AngularJs Components -->--}}
-<script type="text/javascript" src="{{ elixir('js/angular.js') }}"></script>
-<script type="text/javascript" src="{{ elixir('js/templates.js') }}"></script>
+<script type="text/javascript" src="{{ mix('js/angular.js') }}"></script>
+<script type="text/javascript" src="{{ mix('js/templates.js') }}"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
@@ -213,7 +213,7 @@
 {{--<script src="/src/services.js"></script>--}}
 {{--<script src="/src/controllers.js"></script>--}}
 {{--<script src="/src/app.js"></script>--}}
-<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+<script type="text/javascript" src="{{ mix('js/all.js') }}"></script>
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>--}}
 
 @yield('js')

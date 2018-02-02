@@ -91,7 +91,7 @@
                 })
                     .then((result) => {
                         self.loadingNominations = false;
-                        self.nominations = result.body.data;
+                        self.nominations = result.data.data;
                         self.pagination = result.data.meta.pagination;
                         //// console.log('Nomination: ', result.data);
                     }, (error) => console.log(error));

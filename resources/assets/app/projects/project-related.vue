@@ -51,7 +51,7 @@
             })
                 .then((res) => {
                     if (res) {
-                        self.relatedVideos = res.body.data;
+                        self.relatedVideos = res.data.data;
                     }
                 }, (error) => console.log(error));
         }

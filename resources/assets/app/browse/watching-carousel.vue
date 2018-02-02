@@ -96,7 +96,7 @@
         },
         mounted(){
             this.$http.get('projects/watched').then((result) => {
-                this.watched = result.body;
+                this.watched = result.data;
                 /*setTimeout(function () {
                     if (this.$refs.flickity) {
                         this.$refs.flickity.resize();

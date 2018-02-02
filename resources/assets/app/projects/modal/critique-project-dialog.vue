@@ -181,18 +181,18 @@
                     <hr class="thin">
                     <br>
                     <div class="columns">
-                        <md-input-container>
+                        <md-field>
                             <label>Tell us why</label>
                             <!--<md-input v-model="critique.body" maxlength="3000" required></md-input>-->
                             <md-textarea v-model="critique.body" maxlength="3000" required></md-textarea>
-                        </md-input-container>
+                        </md-field>
 
                         <md-checkbox v-model="critique.private">Make Private?</md-checkbox>
                         <md-button class="md-icon-button md-primary" @click.native="helpToggle=!helpToggle"><md-icon>info</md-icon></md-button>
 
                         <p v-show="helpToggle" class="help-text">By choosing this "Make private" Option, individual rating categories, such as "Production Value", "Originality", etc. will not be publicly visible to users other than you and the project author. However, the overall rating generated from these individual results will always be publicly visible.</p>
 
-                        <md-input-container>
+                        <md-field>
                             <label for="nom">
                                 Award Worthy? Nominate it!
                                 <md-tooltip md-direction="top">A project needs 5 or more Nominations, for the exact same Award, by different users in order to secure a win for that particular award.</md-tooltip>
@@ -201,7 +201,7 @@
                                 <md-option value="">No</md-option>
                                 <md-option :value="a.id" v-for="a in awardsList" :key="a.id">{{a.name}}</md-option>
                             </md-select>
-                        </md-input-container>
+                        </md-field>
                         <span class="help-text">In order to Nominate this project, an overall score of at least 6 is required.</span>
 
 
@@ -370,8 +370,8 @@
 
                 this.processing = true;
                 this.critique.url_id = moment().valueOf();
-                self.$http.post('critiques?include=user,award', this.critique).then(function (res) {
-                    let obj = res.body.data;
+                self.$http.post('critiques?include=user,award', this.critique).then((res) => {
+                    let obj = res.data.data;
 
                     self.critiques.push(obj);
 //                    self.calcIwAverage(self.critiques);
@@ -385,7 +385,7 @@
                     if (!!this.dialogModel.award_id && _.isString(this.dialogModel.award_id)) {
                         this.nominated.critique_id = obj.id;
                         this.nominated.award_id = this.dialogModel.award_id;
-                        self.$http.post('nominations', this.nominated).then(function (nom) {
+                        self.$http.post('nominations', this.nominated).then((nom) => {
                             // Increment project commentCount
                             self.project.nominationCount++;
                             // self.updateVideoObj();
@@ -400,7 +400,7 @@
                     } else {
 
                     }
-                    self.projectCtrl.handleActions('rate', critique.body.data);
+                    self.projectCtrl.handleActions('rate', critique.data.data);
 
                 }, function (error) {
                     alert('Failed to create new critique, with error code: ' + error.message);

@@ -264,7 +264,7 @@
                     },
                     function (Blob){
                         self.user.coverPhoto = Blob.url + '?cache=true';
-                        self.$http.put('user/me/' + self.user.id, self.user).then(function (res) {
+                        self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
                             self.$root.$emit('toastMessage', 'Cover Photo Updated!');
                         }, (error) => console.log(error));
                     }
@@ -282,7 +282,7 @@
                     },
                     function (Blob){
                         self.user.avatar = Blob.url + '?cache=true';
-                        self.$http.put('user/me/' + self.user.id, self.user).then(function (res) {
+                        self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
                             self.$root.$emit('toastMessage', 'Avatar Updated!');
                         }, (error) => console.log(error));
                     }
@@ -292,7 +292,7 @@
         created(){
 
             this.$http.get('users/countUserStats')
-                .then(response => this.userStats = response.body, (error) => console.log(error))
+                .then(response => this.userStats = response.data, (error) => console.log(error))
         },
         mounted(){
 

@@ -23,9 +23,9 @@
     <layer-slider></layer-slider>
     <!--end slider-->
 
-    <div class="md-layout md-align-center md-flex-100">
+    <div class="md-layout">
         <!-- Premium Videos -->
-        <div class="md-layout" id="premium" style="background-color: transparent;">
+        <div class="md-layout-item" id="premium" style="background-color: transparent;">
             <div class="md-layout md-flex-100">
                 <div class="row md-layout">
                     <div class="main-heading">
@@ -61,8 +61,7 @@
                         @foreach($featured as $item)
                             <div class="item">
                                 <figure class="premium-img">
-                                    <md-image md-src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}"
-                                              alt="{{ $item->name }}"></md-image>
+                                    <img src="{{ $item->thumbnail_url or '/assets/img/default_video_thumbnail.jpg' }}" alt="{{ $item->name }}"/>
                                     <figcaption>
                                         <h5>{{ str_limit($item->name, 40) }}</h5>
                                         <p>{{ $item->owner->fullName }}</p>
@@ -80,7 +79,7 @@
         <!-- End Premium Videos -->
     </div>
 
-    <div class="md-layout md-flex-100">
+    <div class="">
         <div class="row">
             <!-- Trending Videos -->
             <section class="content">
@@ -137,7 +136,7 @@
         </div>
     </div>
 
-    <div class="md-layout md-flex-100">
+    <div class="">
         <div class="row">
             <!-- Highest Rated  video -->
             <section class="content">
@@ -193,7 +192,7 @@
         </div>
     </div>
 
-    <div class="md-layout md-flex-100">
+    <div class="">
         <div class="row">
             <!-- Highest Awarded video -->
             <section class="content">
@@ -249,7 +248,7 @@
         </div>
     </div>
 
-    <div class="md-layout md-flex-100">
+    <div class="">
         <div class="row">
             <!-- Recently Added video -->
             <home-projects-list sort="recent" :per-page="8"></home-projects-list>
@@ -263,7 +262,7 @@
         </div>
     </div>
 
-    <div class="md-layout md-flex-100">
+    <div class="">
         <div class="row">
             <!-- Trending Videos -->
             <section class="content">
@@ -301,7 +300,7 @@
                                 </figure>
                                 <!--<h6><a ui-sref="home">Poprouser</a></h6>-->
                             </div>
-                            <div class="sponsor">
+                            {{--<div class="sponsor">
                                 <figure class="premium-img">
                                     <a href="http://tabletops.io" target="_blank" class="">
                                         <img src="https://cdn.filepicker.io/api/file/DESwwGUBQiSQy8lRUWku?cache=true" alt="Tabletops">
@@ -309,7 +308,7 @@
                                     </a>
                                 </figure>
                                 <!--<h6><a href="https://tabletops.io">Tabletops</a></h6>-->
-                            </div>
+                            </div>--}}
                             <div class="sponsor">
                                 <figure class="premium-img">
                                     <a href="http://miamindiefest.com/" target="_blank" class="">
@@ -319,7 +318,7 @@
                                 </figure>
                                 <!--<h6><a href="http://miamindiefest.com/">Miami Indie Film Fest</a></h6>-->
                             </div>
-                            <div class="sponsor">
+                            {{--<div class="sponsor">
                                 <figure class="premium-img">
                                     <a href="https://filestack.com" target="_blank" class="">
                                         <img src="https://cdn.filepicker.io/api/file/yiXMlD0dSoGyN04g1xtH?cache=true" alt="FileStack">
@@ -327,7 +326,7 @@
                                     </a>
                                 </figure>
                                 <!--<h6><a href="https://filestack.com">FileStack</a></h6>-->
-                            </div>
+                            </div>--}}
                             <div class="sponsor">
                                 <figure class="premium-img">
                                     <a href="https://www.corkynat.com/" target="_blank" class="">

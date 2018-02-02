@@ -2,7 +2,7 @@
     <div :id="'card-' + video.id" class="item large-3 medium-6 small-12 columns project-card" v-if="video.name" :class="[{'end': isLast()}, type]">
         <div class="post thumb-border">
             <a class="post-thumb" :href="'/' + video.url_id">
-                <md-ink-ripple></md-ink-ripple>
+
                 <img v-if="video.hosting_type !== 'script'"
                      :src="video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'" :alt="video.name">
                 <img v-else :src="video.thumbnail_url||'https://cdn.filepicker.io/api/file/XFaspYLQTreMc63hx9ng?cache=true'"
@@ -48,7 +48,7 @@
                     </p>
                     <p class="pull-left" v-if="!isFirstUrlSegment('profile')">
                         <i class="fa fa-share"></i>
-                        <span><a @click="openShareDialog()">Share</a></span>
+                        <span><a @click.native="openShareDialog()">Share</a></span>
                     </p>
                     <!--<dropdown-toggle close-on-click="true" class="pull-left" ng-if="!$state.is('profile')" ng-click="check(video)">
                         <toggle>

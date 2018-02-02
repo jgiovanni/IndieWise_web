@@ -1,5 +1,5 @@
 <template>
-    <md-sidenav ref="leftSidenav" class="md-left" v-cloak>
+    <md-drawer ref="leftSidenav" class="md-left" v-cloak>
         <md-toolbar class="md-primary">
             <h2 class="md-title text-white" style="flex: 1">Menu</h2>
 
@@ -35,12 +35,12 @@
             </md-list-item>
         </md-list>
 
-        <md-layout md-column>
+        <div class="md-layout" md-column>
             <!--{{&#45;&#45;<md-subheader>
-            <md-input-container>
+            <md-field>
                 <label for="leftMenuSearch">Search Anything</label>
                 <input id="leftMenuSearch" type="text" ng-model="AppData.searchText" my-enter="Body.startSearch(AppData.searchText)" placeholder="Search Anything">
-            </md-input-container>
+            </md-field>
         </md-subheader>&#45;&#45;}}-->
             <md-list class="md-dense">
                 <md-list-item href="/" @click.native="closeLeftSideNav()">
@@ -87,16 +87,16 @@
                 </md-list-item>
             </md-list>
 
-            <md-layout class="off-social" md-column>
+            <div class="md-layout off-social" md-column>
                 <h6 class="text-center">Get Social</h6>
-                <md-layout md-align="center" md-flex>
+                <div class="md-layout" md-align="center" md-flex>
                     <a class="secondary-button" href="https://facebook.com/getindiewise" target="_blank"><i class="fa fa-facebook"></i></a>
                     <a class="secondary-button" href="https://twitter.com/getindiewise" target="_blank"><i class="fa fa-twitter"></i></a>
                     <a class="secondary-button" href="https://instagram.com/getindiewise/" target="_blank"><i class="fa fa-instagram"></i></a>
-                </md-layout>
-            </md-layout>
-        </md-layout>
-    </md-sidenav>
+                </div>
+            </div>
+        </div>
+    </md-drawer>
 </template>
 <style scoped></style>
 <script type="text/javascript">

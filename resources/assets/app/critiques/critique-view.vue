@@ -26,11 +26,11 @@
                     </span>-->
             </md-toolbar>
             <md-dialog-content>
-                <md-layout>
-                    <md-layout md-flex="60" md-flex-medium="60">
+                <div class="md-layout">
+                    <div class="md-layout" md-flex="60" md-flex-medium="60">
                         <p v-text="critique.body"></p>
-                    </md-layout>
-                    <md-layout md-flex="40" md-flex-medium="40">
+                    </div>
+                    <div class="md-layout" md-flex="40" md-flex-medium="40">
                         <div class="row" v-if="isPrivate() && !isOwnerOrAuthor()">
                             <h3 class="text-center">Private</h3>
 
@@ -185,9 +185,9 @@
                                 </div>
                             </div>
                         </div>
-                    </md-layout>
-                </md-layout>
-                <md-layout>
+                    </div>
+                </div>
+                <div class="md-layout">
                     <md-dialog-actions>
                         <md-button>
                             {{critique.comments_count||0}} comments
@@ -205,11 +205,11 @@
                             <md-icon>mode_edit</md-icon> Edit
                         </md-button>
                     </md-dialog-actions>
-                </md-layout>
-                <md-layout>
+                </div>
+                <div class="md-layout">
                     <comments :disable="false" :critique-id="critique.id" :parent="critique" :child="false"></comments>
                     <!--<md-progress v-else md-indeterminate></md-progress>-->
-                </md-layout>
+                </div>
             </md-dialog-content>
 
             <md-dialog-actions>
@@ -256,7 +256,7 @@
 
             loadComments() {
                 this.$http.get('comments', {params: { include: 'replies', replies: false, critique: this.critique.id, per_page: 50, sort: this.sortOrder}})
-                    .then((response) => this.comments = response.body, (error) => console.log(error));
+                    .then((response) => this.comments = response.data, (error) => console.log(error));
             },
         },
         created(){

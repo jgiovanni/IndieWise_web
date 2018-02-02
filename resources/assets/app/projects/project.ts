@@ -99,7 +99,7 @@ export class ProjectController implements IProject {
         })
             .then((res) => {
                 if (res) {
-                    self.relatedvideo = res.body.data[0];
+                    self.relatedvideo = res.data.data[0];
                 }
             }, (error) => console.log(error));
     }
@@ -108,7 +108,7 @@ export class ProjectController implements IProject {
         let self = this;
         this.DataService.collection('nominations', {include: 'user,award', project: this.project.id, sort: 'created_at', per_page: 200, page: this.nominationsPage})
             .then((result) => {
-                self.nominations = result.body.data;
+                self.nominations = result.data.data;
                 //// console.log('Nomination: ', result.data);
             }, (error) => console.log(error));
     }
@@ -117,7 +117,7 @@ export class ProjectController implements IProject {
         let self = this;
         this.DataService.collection('wins', {project: this.project.id, sort: 'created_at'})
             .then((result) => {
-                self.wins = result.body.data;
+                self.wins = result.data.data;
                 // console.log('AwardWin: ', result.data);
             }, (error) => console.log(error));
     }
@@ -174,7 +174,7 @@ export class ProjectController implements IProject {
         return this.DataService.item('projects', this.project.id)
             .then((response) => {
                 console.log('Project Updated: ', response);
-                self.project = response.body.data;
+                self.project = response.data.data;
             }, (error) => console.log(error));
     }
 

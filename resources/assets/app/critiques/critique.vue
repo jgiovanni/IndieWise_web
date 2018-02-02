@@ -211,7 +211,7 @@
                     include: 'project.owner'
                 }
             }).then((response) => {
-                this.critique = response.body.data;
+                this.critique = response.data.data;
             });
 
         }

@@ -38,7 +38,7 @@
 
     <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/underscorejs@1.8.3,jquery@1.11.2,momentjs@2.13.0,momentjs.timezone@0.5.4(moment-timezone-with-data.min.js),fastclick@1.0.6"></script>--}}
-    <script type="text/javascript" src="/public/{{ elixir('js/main.js') }}"></script>
+    <script type="text/javascript" src="/public/{{ mix('js/main.js') }}"></script>
     {{--<script src="https://cdn.jsdelivr.net/g/momentjs.timezone@0.5.4(moment-timezone-with-data.min.js)"></script>--}}
     <script>window.BASE = '/public/';</script>
 
@@ -59,7 +59,7 @@
     <script type="text/javascript" src="/public/app/eliteplayer/deploy/js/ZeroClipboard.js"></script>
 
     <!-- BeTube Styles-->
-    <link rel="stylesheet" href="/public/{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="/public/{{ mix('css/app.css') }}">
     {{--<link rel="stylesheet" href="/public/assets/css/theme.css">--}}
     <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" type="text/css">
@@ -73,7 +73,7 @@
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/elite-font-awesome.css" type="text/css">
     <link rel="stylesheet" href="/public/app/eliteplayer/deploy/css/jquery.mCustomScrollbar.css" type="text/css">
     <!-- Custom Styles  -->
-    <link rel="stylesheet" href="/public/{{ elixir('css/all.css') }}">
+    <link rel="stylesheet" href="/public/{{ mix('css/all.css') }}">
 
     @yield('css')
 
@@ -163,8 +163,8 @@
 </script>
 
 <!-- AngularJs Components -->
-<script type="text/javascript" src="/public/{{ elixir('js/angular.js') }}"></script>
-<script type="text/javascript" src="/public/{{ elixir('js/templates.js') }}"></script>
+<script type="text/javascript" src="/public/{{ mix('js/angular.js') }}"></script>
+<script type="text/javascript" src="/public/{{ mix('js/templates.js') }}"></script>
 
 <script src="//cdn.rawgit.com/gdi2290/angular-intercom/master/angular-intercom.min.js"></script>
 <script src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
@@ -187,7 +187,7 @@
 <!--<script src="/public/assets/js/inewsticker.js" type="text/javascript"></script>-->
 <!--<script src="/public/assets/js/jquery.kyco.easyshare.js" type="text/javascript"></script>-->
 
-<script type="text/javascript" src="/public/{{ elixir('js/all.js') }}"></script>
+<script type="text/javascript" src="/public/{{ mix('js/all.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 @yield('js')

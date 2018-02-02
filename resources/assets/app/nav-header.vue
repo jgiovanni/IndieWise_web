@@ -8,6 +8,7 @@
                         <a href="https://www.facebook.com/getindiewise" target="_blank"><i class="fa fa-facebook-f"></i></a>
                         <a href="https://twitter.com/getindiewise" target="_blank"><i class="fa fa-twitter"></i></a>
                         <a href="https://www.instagram.com/getindiewise/" target="_blank"><i class="fa fa-instagram"></i></a>
+                        <a href="https://convention.getindiewise.com" target="_blank" style="width: auto;padding-left: 7px;padding-right: 7px;"><i>IndieWise Convention</i></a>
                     </div>
                 </div>
                 <div class="medium-6 columns">
@@ -57,9 +58,9 @@
                                 <md-icon v-else>search</md-icon>
                             </md-button>
                                 <!--<form flex="100" v-show="showSearchBar" @submit.prevent="Body.startSearch($root.searchText)" id="NavSearch" name="NavSearch">
-                                    {{&#45;&#45;<md-input-container class="md-block">
+                                    {{&#45;&#45;<md-field class="md-block">
                                     <input ng-model="$root.searchText" my-enter="Body.startSearch($root.searchText)" type="text" placeholder="Search Anything" md-autofocus="showSearchBar">
-                                </md-input-container>&#45;&#45;}}
+                                </md-field>&#45;&#45;}}
                                     <div class="input-group" style="margin: 10px 0 0">
                                         <input class="input-group-field" ng-model="$root.searchText" my-enter="Body.startSearch($root.searchText)" type="text" placeholder="Search Anything">
 
@@ -159,22 +160,28 @@
                                         <li :class="{active: isFirstUrlSegment('winners')}">
                                             <a href="/winners"><i class="fa fa-star"></i>Winners</a>
                                         </li>
-                                        <li class="">
+                                        <!--<li class="">
                                             <a href="https://convention.getindiewise.com" style="background-color: rgba(105,105,233, .8);color: #fff;border-radius: 5px;padding: 32px 15px;"><i class="fa fa-group"></i>Convention</a>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="search-bar" class="clearfix search-bar-light" :class="{ 'search-bar-active': showSearchBar }">
-                        <form @submit.prevent="searchTerms">
-                            <md-input-container>
-                                <label>Search Projects</label>
+                        <form class="md-layout md-layout-item md-alignment-center-center" @submit.prevent="searchTerms">
+                            <div class="md-layout-item">
                                 <!--<md-input v-model="searchText" :fetch="startSearch"></md-input>-->
-                                <md-autocomplete v-model="searchText" :debounce="800" :fetch="startSearch" @selected="handleSelectedResult" @keydown.enter="window.location = '/browse?q=' + searchText"></md-autocomplete>
+                                <md-autocomplete v-model="searchText" :md-options="searchResults"
+                                                 @md-changed="startSearch" @md-selected="handleSelectedResult"
+                                                 @keydown.enter="window.location = '/browse?q=' + searchText">
+                                    <label>Search Projects</label>
+                                    <template slot="md-autocomplete-item" slot-scope="{ item }">{{ item.name }}</template>
+                                </md-autocomplete>
+                            </div>
+                            <div class="md-layout-item md-size-15">
                                 <md-button :href="'/browse?q=' + searchText" class="md-primary">Search</md-button>
-                            </md-input-container>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -204,6 +211,7 @@
             return {
                 showSearchBar: false,
                 searchText: '',
+                searchResults: [],
                 lastSearchRequest: null,
             }
         },
@@ -250,7 +258,7 @@
                     }
                     this.lastSearchRequest = xhr;
                 }}).then((response) => {
-                    return response.body.data;
+                    return this.searchResults = response.data.data;
                 }, function (error) {
                     // console.log(error);
                 });

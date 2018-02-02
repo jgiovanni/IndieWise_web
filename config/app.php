@@ -152,7 +152,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Grimthorr\LaravelUserSettings\ServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
-        Nutsweb\LaravelPrerender\LaravelPrerenderServiceProvider::class,
+        JD\Cloudder\CloudderServiceProvider::class,
         Webup\LaravelSendinBlue\SendinBlueServiceProvider::class,
         Payum\LaravelPackage\PayumServiceProvider::class,
         Berkayk\OneSignal\OneSignalServiceProvider::class,
@@ -244,6 +244,7 @@ return [
 //        'OpenGraph' => Artesaos\SEOTools\Facades\OpenGraph::class,
 //        'Twitter'   => Artesaos\SEOTools\Facades\TwitterCard::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
+        'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
     ],
 
 ];

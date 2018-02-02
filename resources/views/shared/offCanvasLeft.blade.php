@@ -1,4 +1,4 @@
-<md-sidenav md-component-id="left" class="md-sidenav-left" ng-cloak md-whiteframe="4">
+<md-drawer md-component-id="left" class="md-drawer-left" ng-cloak md-whiteframe="4">
     <md-toolbar class="md-accent">
         <div class="md-toolbar-tools">
             <h1 class="md-toolbar-tools text-white">Menu</h1>
@@ -73,4 +73,4 @@
             <a class="secondary-button" href="https://instagram.com/getindiewise/" target="_blank"><i class="fa fa-instagram"></i></a>
         </div>
     </md-content>
-</md-sidenav>
+</md-drawer>

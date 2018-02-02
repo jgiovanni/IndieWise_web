@@ -2,9 +2,9 @@
     <md-dialog ref="reactionDialog">
         <md-dialog-title>How'd this make you feel?</md-dialog-title>
         <md-dialog-content>
-            <md-input-container>
+            <md-field>
                 <md-input v-model="search" placeholder="Search a feeling"></md-input>
-            </md-input-container>
+            </md-field>
             <md-list style="height: 300px;overflow-y: scroll;">
                 <md-list-item class="angucomplete-row" v-for="reaction in filteredEmotions" :key="reaction.name" @click.native="selectedEmotion(reaction)">
                     <md-icon :md-src="reaction.src"></md-icon>&nbsp;<span>{{reaction.name}}</span>

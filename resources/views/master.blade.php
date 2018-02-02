@@ -9,9 +9,7 @@
 
     <nav-header></nav-header>
 
-    <md-layout md-flex md-column>
-
-        <div v-if="isAuthenticated && isNotVerified" class="callout alert-box warning" data-closable>
+    <div v-if="isAuthenticated && isNotVerified" class="callout alert-box warning" data-closable>
             Please check your e-mail and verify your account to get involved! Check your spam folder just in case.
             <a v-on:click="requestVerificationEmail" data-close>Click here to resend verification email</a>
             <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
@@ -26,8 +24,9 @@
             </button>
         </div>--}}
 
-        <authentication-modal></authentication-modal>
+    <authentication-modal></authentication-modal>
 
+    <div class="md-layout md-alignment-top-center">
         {{-- Causes Error: Cannot read property 'parentNode' of null --}}
         <md-snackbar md-position="bottom center" ref="snackbar" :md-duration="toastDuration">
             <span v-text="toastMessage"></span>
@@ -35,16 +34,14 @@
             <md-button class="md-accent" md-theme="light-blue" @click.prevent="$refs.snackbar.close()">Close</md-button>
         </md-snackbar>
 
-        <md-layout>
+        <div class="md-layout-item md-size-100">
             @yield('layout')
-        </md-layout>
+        </div>
 
-        <md-layout md-column>
-        @include('shared.footer')
-        </md-layout>
-
-    </md-layout>
-
+        <div class="md-layout-item md-size-100">
+            @include('shared.footer')
+        </div>
+    </div>
     {{--@include('shared.offCanvasRight')--}}
 </div>
 

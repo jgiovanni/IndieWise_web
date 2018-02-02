@@ -305,7 +305,7 @@
                     date_start: self.date,
                     date_end: moment(self.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')
                 }}).then((response) => {
-                    self.awards = response.body.awards;
+                    self.awards = response.data.awards;
                 });
             }
         },

@@ -315,7 +315,7 @@
 </style>
 <template>
 	<div class="cov-vue-date">
-		<div class="datepickbox md-input-container md-theme-default md-has-value md-input-placeholder">
+		<div class="datepickbox md-field md-theme-default md-has-value md-input-placeholder">
 			<label>{{option.placeholder}}</label>
 			<input type="text" title="input date" class="cov-datepicker md-input" readonly="readonly" :placeholder="option.placeholder" v-model="date.time" :required="required" @click="showCheck" @foucus="showCheck" :style="option.inputStyle ? option.inputStyle : {}" />
 		</div>

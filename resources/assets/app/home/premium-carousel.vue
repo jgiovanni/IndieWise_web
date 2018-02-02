@@ -1,6 +1,6 @@
 <template>
-    <md-layout id="premium" style="background-color: transparent;">
-        <md-layout md-flex="100">
+    <div class="md-layout" id="premium" style="background-color: transparent;">
+        <div class="md-layout" md-flex="100">
             <div class="row md-layout">
                 <div class="main-heading">
                     <div class="row padding-14">
@@ -22,8 +22,8 @@
                     </div>
                 </div>
             </div>
-        </md-layout>
-        <md-layout md-flex="100" class="padding-14" style="background-color: rgba(65, 76, 171, .2)">
+        </div>
+        <div md-flex="100" class="md-layout padding-14" style="background-color: rgba(65, 76, 171, .2)">
             <div class="row">
                 <div id="owl-featured" class="owl-carousel carousel" data-car-length="3" data-items="3" data-loop="true" data-nav="false" data-autoplay="true" data-autoplay-timeout="5000" data-dots="false" data-auto-width="false" data-responsive-small="1" data-responsive-medium="3" data-responsive-xlarge="3">
                     <div class="item" v-for="f in featuredProjects.data">
@@ -40,8 +40,8 @@
                     </div>
                 </div>
             </div>
-        </md-layout>
-    </md-layout>
+        </div>
+    </div>
 </template>
 <style>
     #premium .owl-item {

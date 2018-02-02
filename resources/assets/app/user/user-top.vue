@@ -107,7 +107,7 @@
 						<md-icon>account_circle</md-icon>
 						<!----> <!---->
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 					<span class="md-tab-indicator"></span>
 				</button>
 				<button type="button" class="md-tab-header" :class="{'md-active': view === 'projects'}" @click="navigateTo('projects')">
@@ -115,42 +115,42 @@
 						<md-icon>videocam</md-icon>
 						<!----> <!---->
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 				</button>
 				<button type="button" class="md-tab-header" :class="{'md-active': view === 'critiques'}" @click="navigateTo('critiques')">
 					<div class="md-tab-header-container">
 						<md-icon>star</md-icon>
 						<!----> <!---->
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 				</button>
 				<!--<button type="button" class="md-tab-header" @click.native="navigateTo('')">
 					<div class="md-tab-header-container">
 						<md-icon>face</md-icon>
 						&lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 				</button>-->
 				<button type="button" class="md-tab-header" :class="{'md-active': view === 'awards'}" @click="navigateTo('awards')">
 					<div class="md-tab-header-container">
 						<md-icon md-src="/assets/svg/trophy.svg"></md-icon>
 						<!----> <!---->
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 				</button>
 				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'settings'}" @click="navigateTo('settings')">
 					<div class="md-tab-header-container">
 						<md-icon>settings</md-icon>
 						<!----> <!---->
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 				</button>
 				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'upload'}" @click="navigateTo('upload')">
 					<div class="md-tab-header-container">
 						<md-icon>cloud_upload</md-icon>
 						<!----> <!---->
 					</div>
-					<md-ink-ripple></md-ink-ripple>
+
 				</button>
 			</nav>
 		</div>
@@ -210,7 +210,7 @@
                     },
                     function (Blob) {
                         self.user.coverPhoto = Blob.url + '?cache=true';
-                        self.$http.put('user/me/' + self.user.id, self.user).then(function (res) {
+                        self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
                             self.$root.$emit('toastMessage', 'Cover Photo Updated!');
                         }, (error) => console.log(error));
                     }
@@ -229,7 +229,7 @@
                     },
                     function (Blob) {
                         self.user.avatar = Blob.url + '?cache=true';
-                        self.$http.put('user/me/' + self.user.id, self.user).then(function (res) {
+                        self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
                             self.$root.$emit('toastMessage', 'Avatar Updated!');
                         }, (error) => console.log(error));
                     }

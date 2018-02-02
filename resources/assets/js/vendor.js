@@ -1,5 +1,5 @@
 require('hammerjs');
-/*window.foundation = */
+// require('foundation-sites/js/foundation.core');
 require('foundation-sites');
 // require('foundation-datepicker/js/foundation-datepicker.min.js');
 window.stream = require('getstream');

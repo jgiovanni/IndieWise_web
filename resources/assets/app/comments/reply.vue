@@ -1,6 +1,6 @@
 <template>
-    <md-layout>
-        <md-layout md-flex="20" md-flex-large="10">
+    <div class="md-layout">
+        <div class="md-layout" md-flex="20" md-flex-large="10">
             <md-list>
                 <md-list-item :href="$root.user ? '/user/' + $root.user.id + '/about' : '#'">
                     <md-avatar md-flex="20" md-flex-large="10">
@@ -9,17 +9,17 @@
                     </md-avatar>
                 </md-list-item>
             </md-list>
-        </md-layout>
-        <md-layout md-flex="80" md-flex-large="90" md-column>
+        </div>
+        <div class="md-layout" md-flex="80" md-flex-large="90" md-column>
             <form novalidate @submit.stop.prevent="postReply()" style="flex: 1">
-                <md-input-container md-inline>
+                <md-field md-inline>
                     <md-textarea name="commentText" :placeholder="'Reply to ' + author"
                                  v-model="myReply" minlength="1"></md-textarea>
                     <md-button type="submit">Send</md-button>
-                </md-input-container>
+                </md-field>
             </form>
-        </md-layout>
-    </md-layout>
+        </div>
+    </div>
 </template>
 <style scoped></style>
 <script type="text/javascript">
@@ -63,8 +63,8 @@
                     critique_id: this.parent.id,
                     comment_id: this.targetComment ? this.targetComment.id : null,
                     user_id: this.$root.user.id
-                }).then(function (comment) {
-                    // self.onReply({ reply: comment.body.data });
+                }).then((comment) => {
+                    // self.onReply({ reply: comment.data.data });
                     self.myReply = null;
                 }, function (error) {
                     console.log('Failed to create new reply, with error code: ' + error.message);

@@ -4,28 +4,28 @@
             <p><i class="fa fa-exclamation-triangle"></i> There are some errors in your </p>
         </div>
         <p class="help-text" v-html="description"></p>
-        <md-input-container>
+        <md-field>
             <label for="department">Select a Department</label>
             <md-select id="department" v-model="selectedEmail" required>
                 <option value="" selected>Select a Department</option>
                 <md-option v-for="email in emails" :value="email" :key="email.address">{{ email.title }}</md-option>
             </md-select>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
             <md-icon>account_circle</md-icon>
             <md-input v-model="name" placeholder="Enter your name" required></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
             <md-icon>mail</md-icon>
             <md-input type="email" v-model="email" placeholder="Enter your email" required></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
             <md-icon>book</md-icon>
             <md-input v-model="subject" placeholder="Enter your subject" required></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
             <md-textarea required placeholder="Your message" v-model="message"></md-textarea>
-        </md-input-container>
+        </md-field>
         <md-button class="md-primary" type="submit">Send</md-button>
     </form>
 </template>
@@ -132,7 +132,7 @@
                     email: this.email,
                     subject: this.subject,
                     message: this.message
-                }).then(function (res) {
+                }).then((res) => {
                     self.$root.$emit('toastMessage', 'Message Sent, Thank you!');
                     _.extend(this, {
                         to: '',

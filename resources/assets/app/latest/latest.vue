@@ -161,19 +161,19 @@
             init() {
                 let self = this;
                 this.$http.get('reactions/latest')
-                    .then(function (res) {
+                    .then((res) => {
                         self.reactions = res.data;
                     }, (error) => {
                         console.log(error);
                     });
                 this.$http.get('nominations/latest')
-                    .then(function (res) {
+                    .then((res) => {
                         self.nominations = res.data;
                     }, (error) => {
                         console.log(error);
                     });
                 this.$http.get('critiques/latest')
-                    .then(function (res) {
+                    .then((res) => {
                         self.critiques = res.data;
                     }, (error) => {
                         console.log(error);

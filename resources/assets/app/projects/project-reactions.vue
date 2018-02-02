@@ -45,9 +45,9 @@
                 this.loaded = false;
                 this.$http.get('projects/reactions', { params: {project: this.id}})
                     .then((response) => {
-                        this.chartedReactions = response.body.data;
+                        this.chartedReactions = response.data.data;
                         this.loaded = true;
-                    });
+                    }).catch((error) => { console.log(error); });
             },
             getEmoticonByEmotion(emotion) {
                 return _.findWhere(this.reactions, {emotion: emotion});

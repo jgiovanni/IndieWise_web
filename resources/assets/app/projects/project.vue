@@ -5,8 +5,8 @@
         <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
         <!-- End single post stats -->
 
-        <md-layout md-flex="100" class="SinglePostStats hide-for-large">
-            <md-layout md-flex md-column class="secBg">
+        <div md-flex="100" class="md-layout SinglePostStats hide-for-large">
+            <div md-flex md-column class="md-layout secBg">
                 <md-list>
 
                     <project-average view="mobile" :rating="project.iwRating"
@@ -32,12 +32,12 @@
                         </md-list-expand>
                     </md-list-item>
                 </md-list>
-            </md-layout>
-        </md-layout>
+            </div>
+        </div>
 
         <!-- single post description -->
-        <md-layout md-flex="100" v-once class="singlePostDescription">
-            <md-layout md-flex md-column class="secBg">
+        <div md-flex="100" v-once class="md-layout singlePostDescription">
+            <div md-flex md-column class="md-layout secBg">
                 <div class="large-12 columns">
                     <div class="heading">
                         <h5>Description</h5>
@@ -105,8 +105,8 @@
                         <br>
                     </div>
                 </div>
-            </md-layout>
-        </md-layout>
+            </div>
+        </div>
         <!-- End single post description -->
     </div>
 
@@ -139,6 +139,7 @@
             projectAwards,
             projectReactions,
             projectStatsActions,
+
         },
         props: {
             id: {
@@ -221,7 +222,7 @@
                 return this.$http.get('projects' + this.project.id)
                     .then((response) => {
                         console.log('Project Updated: ', response);
-                        self.project = response.body.data;
+                        self.project = response.data.data;
                     }, (error) => console.log(error));
             },
 
@@ -234,7 +235,7 @@
             let self = this;
 
             this.$http.get('projects/' + this.id).then((response) => {
-                this.project = response.body.data;
+                this.project = response.data.data;
                 this.init(this.project);
             });
 

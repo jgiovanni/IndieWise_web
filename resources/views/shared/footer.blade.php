@@ -1,6 +1,6 @@
 <!-- footer -->
-<footer style="padding: 0;">
-    <div class="row" style="margin: 80px auto;">
+<footer>
+    <div class="row" style="margin: 20px auto 80px;">
         <div class="large-6 columns">
             <div class="large-6 medium-6 columns">
                 <div class="widgetBox">
@@ -117,9 +117,20 @@
             </div>
         </div>
     </div>
+
     <a href="#" id="back-to-top" title="Back to top"><i class="fa fa-angle-double-up"></i></a>
+    <div id="footer-bottom" style="padding: 0;">
+        <div style="padding: 25px 0;">
+            <div class="logo text-center">
+                <img src="/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
+            </div>
+            <div class="btm-footer-text text-center">
+                <p>2015 - {{ date('Y') }} &copy; IndieWise</p>
+            </div>
+        </div>
+    </div>
 </footer>
-<div id="footer-bottom" style="padding: 0;">
+{{--<div id="footer-bottom" style="padding: 0;">
     <div style="margin: 25px auto;">
         <div class="logo text-center">
             <img src="/assets/img/Logo_alt2_web_87x45_white.png" alt="footer logo">
@@ -128,6 +139,6 @@
             <p>2015 - {{ date('Y') }} &copy; IndieWise</p>
         </div>
     </div>
-</div>
+</div>--}}
 
 <!-- footer -->

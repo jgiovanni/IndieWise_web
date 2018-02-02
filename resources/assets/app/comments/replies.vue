@@ -1,12 +1,12 @@
 <template>
     <md-list class="md-double-line md-dense" md-flex-offset="5" style="width: 100%">
         <md-list-item>
-            <!--<md-layout md-flex-offset="5" md-flex="20" md-flex-large="10">-->
+            <!--<div class="md-layout" md-flex-offset="5" md-flex="20" md-flex-large="10">-->
                 <md-avatar>
                     <img :src="reply.author.avatar || '/assets/img/avatar-1.png'" alt="comment">
                 </md-avatar>
-            <!--</md-layout>-->
-            <!--<md-layout md-flex="75" md-flex-large="85" md-column>-->
+            <!--</div>-->
+            <!--<div class="md-layout" md-flex="75" md-flex-large="85" md-column>-->
             <div class="md-list-text-container">
                 <span>
                     <a class="" :href="'/user/' + reply.author.url_id">{{reply.author.fullName}}</a>

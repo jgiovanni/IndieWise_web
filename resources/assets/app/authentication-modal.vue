@@ -3,8 +3,8 @@
 		<md-dialog ref="AuthModal">
 			<md-dialog-title>Authentication</md-dialog-title>
 			<md-dialog-content>
-				<md-layout md-align="center" md-column-medium class="padding-8">
-					<md-layout md-flex md-column class="">
+				<div md-align="center" md-column-medium class="md-layout padding-8">
+					<div md-flex md-column class="md-layout ">
 						<div class="social-login text-center" style="width: 100%">
 							<h5 class="">Login via a Social Profile</h5>
 							<!--<div class="social-login-btn facebook">-->
@@ -34,15 +34,15 @@
 										</p>
 									</div>
 
-									<md-input-container :class="{'md-input-invalid': errors.has('email')}">
+									<md-field :class="{'md-input-invalid': errors.has('email')}">
 										<md-icon>account_circle</md-icon>
 										<md-input placeholder="Enter your email" v-validate="'email'"
 										          data-vv-name="email" v-model="user.email" required></md-input>
 										<span class="md-error"
 										      v-show="errors.has('email')">{{ errors.first('email') }}</span>
-									</md-input-container>
+									</md-field>
 
-									<md-input-container md-has-password
+									<md-field md-has-password
 									                    :class="{'md-input-invalid': errors.has('password')}">
 										<md-icon>lock</md-icon>
 										<md-input placeholder="Enter your password" v-validate="'required|alpha_dash'"
@@ -50,17 +50,17 @@
 										          required></md-input>
 										<span class="md-error"
 										      v-show="errors.has('password')">{{ errors.first('password') }}</span>
-									</md-input-container>
+									</md-field>
 
 									<md-checkbox id="remember" name="remember">Remember Me</md-checkbox>
 
 									<button class="button expanded" type="submit">login Now</button>
 
-									<md-layout md-gutter>
+									<div class="md-layout" md-gutter>
 										<md-button @click.native="currentState = 'reset'">Forgot Password</md-button>
 										<span style="flex: 1;"></span>
 										<md-button @click.native="currentState = 'register'">New Account</md-button>
-									</md-layout>
+									</div>
 
 								</form>
 							</div>
@@ -70,48 +70,48 @@
 								<h5 class="text-center">Request Password Reset</h5>
 								<br>
 								<form @submit.stop.prevent="doPasswordResetRequest" data-abide novalidate>
-									<md-input-container>
+									<md-field>
 										<md-icon>email</md-icon>
 										<md-input type="email" v-model="resetUser.email" placeholder="Enter your email"
 										          required>
 											<span class="form-error">email is required</span>
 										</md-input>
-									</md-input-container>
+									</md-field>
 									<button class="button expanded" type="submit" name="submit">reset Now</button>
-									<md-layout md-gutter>
+									<div class="md-layout" md-gutter>
 										<md-button @click.native="currentState = 'login'">Login</md-button>
 										<span style="flex: 1;"></span>
 										<md-button @click.native="currentState = 'register'">New Account
 										</md-button>
-									</md-layout>
+									</div>
 								</form>
 							</template>
 							<template v-else class="register-form">
 								<h5 class="text-center">Enter Your New Password</h5>
 								<form @submit="confirmReset()" name="confirmResetForm" novalidate>
 									<small class="help-text">Password must be at least 6 characters.</small>
-									<md-input-container md-has-password>
+									<md-field md-has-password>
 										<md-icon>lock</md-icon>
 										<md-input type="password" v-model="reseting.newPassword"
 										          placeholder="Enter new password..." minlength="6" required></md-input>
-									</md-input-container>
-									<md-input-container md-has-password>
+									</md-field>
+									<md-field md-has-password>
 										<md-icon>lock</md-icon>
 										<md-input type="password" v-model="reseting.newPasswordCheck"
 										          placeholder="Re-type your new password..." minlength="6"
 										          required></md-input>
-									</md-input-container>
+									</md-field>
 
 									<button class="button expanded" type="submit" name="submit"
 									        v-disabled="reseting.newPassword !== reseting.newPasswordCheck && !reseting.newPassword.length">
 										Confirm
 									</button>
 
-									<md-layout md-gutter>
+									<div class="md-layout" md-gutter>
 										<md-button @click.native="currentState = 'login'">Login</md-button>
 										<span style="flex: 1;"></span>
 										<md-button @click.native="currentState = 'register'">New Account</md-button>
-									</md-layout>
+									</div>
 								</form>
 							</template>
 						</template>
@@ -137,13 +137,13 @@
 											<i v-if="registerErrors.email===0" class="fa fa-check" style="color: green;"></i>
 											<i v-if="registerErrors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
 									</span>-->
-									<md-input-container :class="{'has-error': !!registerErrors.email}">
+									<md-field :class="{'has-error': !!registerErrors.email}">
 										<md-icon v-if="registerErrors.email===false">email</md-icon>
 										<md-icon v-if="registerErrors.email===0" style="color: green;">check_circle</md-icon>
 										<md-icon v-if="registerErrors.email" class="md-warn">warning</md-icon>
 										<md-input type="email" v-model="createUser.email" @change="checkEmailUse"
 										          placeholder="Enter a valid email" required></md-input>
-									</md-input-container>
+									</md-field>
 									<!--<input class="input-group-field" type="email" placeholder="Enter a valid email"
 										   v-model="createUser.email" @change="checkEmailUse()"
 										   required :class="{'is-invalid-input': !!registerErrors.email}">
@@ -156,33 +156,33 @@
 									<div class="input-group">
 										<div class="row">
 											<div class="medium-6 columns ">
-												<md-input-container>
+												<md-field>
 													<md-input v-model="createUser.firstName" placeholder="First Name"
 													          required></md-input>
-												</md-input-container>
+												</md-field>
 											</div>
 											<div class="medium-6 columns">
-												<md-input-container>
+												<md-field>
 													<md-input v-model="createUser.lastName" placeholder="Last Name"
 													          required></md-input>
-												</md-input-container>
+												</md-field>
 											</div>
 										</div>
 									</div>
 
 									<small class="help-text">Password must be at least 6 characters.</small>
-									<md-input-container md-has-password>
+									<md-field md-has-password>
 										<md-icon>lock</md-icon>
 										<md-input type="password" v-model="createUser.password"
 										          placeholder="Enter your password..." minlength="6"
 										          required></md-input>
-									</md-input-container>
-									<md-input-container md-has-password>
+									</md-field>
+									<md-field md-has-password>
 										<md-icon>lock</md-icon>
 										<md-input type="password" v-model="createUser.passwordCheck"
 										          placeholder="Re-type new password..." minlength="6"
 										          required></md-input>
-									</md-input-container>
+									</md-field>
 
 									<!--<div class="input-group">
 										<span class="input-group-label"><i class="fa fa-calendar"></i></span>
@@ -205,7 +205,7 @@
 										</div>
 									</div>
 
-									<md-input-container v-show="$root.countryList.length">
+									<md-field v-show="$root.countryList.length">
 										<label for="country">Select Country</label>
 										<md-select name="country" id="country" v-model="user.country" required>
 											<md-option value="" selected>Select Country</md-option>
@@ -213,7 +213,7 @@
 												{{ country.name }}
 											</md-option>
 										</md-select>
-									</md-input-container>
+									</md-field>
 
 									<small>By registering, you agree to our <a ui-sref="tos">Terms</a>
 										and have read our <a ui-sref="privacy">Privacy Policy</a></small>
@@ -221,16 +221,16 @@
 									<span class="form-error">your email is invalid</span>
 									<button class="button expanded iw-button" type="submit" name="submit">register Now
 									</button>
-									<md-layout md-gutter>
+									<div class="md-layout" md-gutter>
 										<md-button @click.native="currentState = 'login'">Login here</md-button>
 										<span style="flex: 1;"></span>
 										<md-button @click.native="currentState = 'reset'">Forgot password?</md-button>
-									</md-layout>
+									</div>
 								</form>
 							</div>
 						</template>
-					</md-layout>
-				</md-layout>
+					</div>
+				</div>
 			</md-dialog-content>
 		</md-dialog>
 	</div>
@@ -345,7 +345,7 @@
             },
             loginRequest(){
                 let self = this;
-                this.$http.post('/login', {email: this.user.email, password: this.user.password}).then(function (res) {
+                this.$http.post('/login', {email: this.user.email, password: this.user.password}).then((res) => {
                     console.log('Success', res);
                     localStorage.setItem('jwt-token', 'Bearer ' + res.data.token);
                     self.getUserData();
@@ -357,7 +357,7 @@
                 });
             },
             getUserData(){
-                return this.$root.getUser().then(function (data) {
+                return this.$root.getUser().then((data) => {
                     this.$root.user = data;
                     this.$root.authenticated = true;
                     this.$root.$emit('userHasLoggedIn', data);
@@ -488,7 +488,7 @@
                     }
 
                     this.createUser.dob = moment(this.createUser.dob).startOf('day').format('YYYY-MM-DD HH:mm:ss');
-                    this.$http.post('users', this.createUser).then(function (res) {
+                    this.$http.post('users', this.createUser).then((res) => {
                         if (!res.status) {
                             this.authErrors = res.errors;
                             this.$root.$emit('toastMessage', 'There is an error, please check your form');
@@ -500,7 +500,7 @@
                         }
                         // window.location.reload();
                         this.creating = false;
-                    }.bind(this));
+                    });
                 } else {
                     this.$root.$emit('toastMessage', 'Please wait...');
                 }
@@ -512,7 +512,7 @@
             doPasswordResetRequest() {
                 let self = this;
                 self.$http.post('requestPasswordReset', {email: this.resetUser.email})
-                    .then(function (res) {
+                    .then((res) => {
                         // console.log(res);
                         self.$root.$emit('toastMessage', 'Check your inbox for our email! Should be there soon.');
                         self.$state.go('sign_in');
@@ -552,9 +552,11 @@
             this.generateCountries();
 
             setTimeout(function () {
-                jQuery(document).foundation();
-                setTimeout(function () {
+                if ($.fn.foundation)
                     jQuery(document).foundation();
+                setTimeout(function () {
+                    if ($.fn.foundation)
+                        jQuery(document).foundation();
                 }, 250);
             }, 0);
         }
