@@ -6,7 +6,7 @@
 				<!-- newest video -->
 				<div class="row">
 					<div class="large-12 columns">
-						<md-tabs md-fixed md-dynamic-height v-if="reactions && reacted">
+						<md-tabs md-alignment="fixed" md-dynamic-height v-if="reactions && reacted">
 							<md-tab id="reactions" :md-label="reactions.data.length + ' Reactions Given'">
 								<md-list class="">
 									<md-list-item v-for="reaction in reactions.data" :key="reaction.id" :href="'/' + reaction.project.data.url_id">

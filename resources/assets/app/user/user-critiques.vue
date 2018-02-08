@@ -6,7 +6,7 @@
 				<!-- newest video -->
 				<div class="row">
 					<div class="large-12 columns">
-						<md-tabs md-fixed md-dynamic-height v-if="critiques && critiqued">
+						<md-tabs md-alignment="fixed" md-dynamic-height v-if="critiques && critiqued">
 							<md-tab id="critiques" :md-label="critiques.data.length + ' Critiques Given'">
 								<critique-item v-for="critique in critiques.data" :key="critique.id" :critique="critique"
 								               :parent-url-id="critique.project ? critique.project.data.url_id : ''"

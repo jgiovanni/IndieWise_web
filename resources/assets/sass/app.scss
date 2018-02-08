@@ -1,9 +1,41 @@
 // Theme Styles
-@import '~vue-material/dist/vue-material.css';
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+@include md-register-theme("default", (
+        primary: md-get-palette-color(indigo, A200), // The primary color of your application
+        accent: md-get-palette-color(amber, A200), // The accent or secondary color
+        warn: md-get-palette-color(red, A200), // The accent or secondary color
+));
+
+@include md-register-theme("dark", (
+        primary: md-get-palette-color(indigo, A200), // The primary color of your application
+        accent: md-get-palette-color(indigo, A200), // The accent or secondary color
+        warn: md-get-palette-color(red, A200), // The accent or secondary color
+        theme: dark
+));
+
+@include md-register-theme("white", (
+        primary: md-get-palette-color(white, A200), // The primary color of your application
+        accent: md-get-palette-color(indigo, A200), // The accent or secondary color
+        warn: md-get-palette-color(red, A200), // The accent or secondary color
+        theme: light
+));
+
+@include md-register-theme("light-blue", (
+        primary: md-get-palette-color(lightblue, A200), // The primary color of your application
+        accent: md-get-palette-color(indigo, A200), // The accent or secondary color
+        warn: md-get-palette-color(red, A200), // The accent or secondary color
+        theme: light
+));
+
+@import "~vue-material/dist/theme/all"; // Apply the theme\
 @import "resources/assets/scss/app.scss";
 @import "resources/assets/scss/theme.scss";
+@import "~video.js/dist/video-js.css";
 @import "~videojs-sublime-skin/dist/videojs-sublime-skin.css";
 @import "resources/assets/css/custom.scss";
+
+
 // Video.js and plugin styles
 //@import "node_modules/video.js/src/css/video-js.scss";
 //@import "node_modules/videojs-playlist-thumbs/src/plugin.scss";

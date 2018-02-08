@@ -1,16 +1,16 @@
 <template>
 	<div>
-		<md-dialog ref="AuthModal">
+		<md-dialog :md-active.sync="showAuthModal">
 			<md-dialog-title>Authentication</md-dialog-title>
 			<md-dialog-content>
 				<div md-align="center" md-column-medium class="md-layout padding-8">
 					<div md-flex md-column class="md-layout ">
-						<div class="social-login text-center" style="width: 100%">
+						<div class="md-layout-item md-size-100 social-login text-center">
 							<h5 class="">Login via a Social Profile</h5>
 							<!--<div class="social-login-btn facebook">-->
 							<!--<md-theme md-name="indigo">-->
 							<md-button @click.native="authenticate('facebook')" class="md-primary">
-								<md-icon md-iconset="fa fa-facebook"></md-icon>
+								<md-icon class="fa fa-facebook"></md-icon>
 								&nbsp;
 								Facebook
 							</md-button>
@@ -18,217 +18,220 @@
 							<!--</div>-->
 							<!--<div class="social-login-btn g-plus">-->
 							<md-button @click.native="authenticate('google')" class="md-warn">
-								<md-icon md-iconset="fa fa-google-plus"></md-icon>
+								<md-icon class="fa fa-google-plus"></md-icon>
 								&nbsp;
 								Google+
 							</md-button>
 							<!--</div>-->
 						</div>
-						<template v-if="currentState === 'login'">
-							<div class="register-form">
-								<h5 class="text-center"> Or Login via Email</h5>
-								<form id="ModalLoginForm" novalidate @submit.stop.prevent="doLogin()">
-									<div class="alert callout" style="display: none;">
-										<p><i class="fa fa-exclamation-triangle"></i>
-											There are some errors in your form.
-										</p>
-									</div>
+						<div class="md-layout-item md-size-100">
+							<template v-if="currentState === 'login'">
+								<div class="register-form">
+									<h5 class="text-center"> Or Login via Email</h5>
+									<form id="ModalLoginForm" novalidate @submit.stop.prevent="doLogin()">
+										<div class="alert callout" style="display: none;">
+											<p><i class="fa fa-exclamation-triangle"></i>
+												There are some errors in your form.
+											</p>
+										</div>
 
-									<md-field :class="{'md-input-invalid': errors.has('email')}">
-										<md-icon>account_circle</md-icon>
-										<md-input placeholder="Enter your email" v-validate="'email'"
-										          data-vv-name="email" v-model="user.email" required></md-input>
-										<span class="md-error"
-										      v-show="errors.has('email')">{{ errors.first('email') }}</span>
-									</md-field>
+										<md-field :class="{'md-input-invalid': errors.has('email')}">
+											<md-icon>account_circle</md-icon>
+											<md-input placeholder="Enter your email" v-validate="'email'"
+											          data-vv-name="email" v-model="user.email" required></md-input>
+											<span class="md-error"
+											      v-show="errors.has('email')">{{ errors.first('email') }}</span>
+										</md-field>
 
-									<md-field md-has-password
-									                    :class="{'md-input-invalid': errors.has('password')}">
-										<md-icon>lock</md-icon>
-										<md-input placeholder="Enter your password" v-validate="'required|alpha_dash'"
-										          data-vv-name="password" v-model="user.password" type="password"
-										          required></md-input>
-										<span class="md-error"
-										      v-show="errors.has('password')">{{ errors.first('password') }}</span>
-									</md-field>
+										<md-field md-has-password
+										          :class="{'md-input-invalid': errors.has('password')}">
+											<md-icon>lock</md-icon>
+											<md-input placeholder="Enter your password" v-validate="'required|alpha_dash'"
+											          data-vv-name="password" v-model="user.password" type="password"
+											          required></md-input>
+											<span class="md-error"
+											      v-show="errors.has('password')">{{ errors.first('password') }}</span>
+										</md-field>
 
-									<md-checkbox id="remember" name="remember">Remember Me</md-checkbox>
+										<md-checkbox id="remember" name="remember">Remember Me</md-checkbox>
 
-									<button class="button expanded" type="submit">login Now</button>
+										<button class="button expanded" type="submit">login Now</button>
 
-									<div class="md-layout" md-gutter>
-										<md-button @click.native="currentState = 'reset'">Forgot Password</md-button>
-										<span style="flex: 1;"></span>
-										<md-button @click.native="currentState = 'register'">New Account</md-button>
-									</div>
+										<div class="md-layout" md-gutter>
+											<md-button @click.native="currentState = 'reset'">Forgot Password</md-button>
+											<span style="flex: 1;"></span>
+											<md-button @click.native="currentState = 'register'">New Account</md-button>
+										</div>
 
-								</form>
-							</div>
-						</template>
-						<template v-else-if="currentState === 'reset'">
-							<template v-if="!hasToken" class="register-form">
-								<h5 class="text-center">Request Password Reset</h5>
-								<br>
-								<form @submit.stop.prevent="doPasswordResetRequest" data-abide novalidate>
-									<md-field>
-										<md-icon>email</md-icon>
-										<md-input type="email" v-model="resetUser.email" placeholder="Enter your email"
-										          required>
-											<span class="form-error">email is required</span>
-										</md-input>
-									</md-field>
-									<button class="button expanded" type="submit" name="submit">reset Now</button>
-									<div class="md-layout" md-gutter>
-										<md-button @click.native="currentState = 'login'">Login</md-button>
-										<span style="flex: 1;"></span>
-										<md-button @click.native="currentState = 'register'">New Account
-										</md-button>
-									</div>
-								</form>
+									</form>
+								</div>
 							</template>
-							<template v-else class="register-form">
-								<h5 class="text-center">Enter Your New Password</h5>
-								<form @submit="confirmReset()" name="confirmResetForm" novalidate>
-									<small class="help-text">Password must be at least 6 characters.</small>
-									<md-field md-has-password>
-										<md-icon>lock</md-icon>
-										<md-input type="password" v-model="reseting.newPassword"
-										          placeholder="Enter new password..." minlength="6" required></md-input>
-									</md-field>
-									<md-field md-has-password>
-										<md-icon>lock</md-icon>
-										<md-input type="password" v-model="reseting.newPasswordCheck"
-										          placeholder="Re-type your new password..." minlength="6"
-										          required></md-input>
-									</md-field>
+							<template v-else-if="currentState === 'reset'">
+								<template v-if="!hasToken" class="register-form">
+									<h5 class="text-center">Request Password Reset</h5>
+									<br>
+									<form @submit.stop.prevent="doPasswordResetRequest" data-abide novalidate>
+										<md-field>
+											<md-icon>email</md-icon>
+											<md-input type="email" v-model="resetUser.email" placeholder="Enter your email"
+											          required>
+												<span class="form-error">email is required</span>
+											</md-input>
+										</md-field>
+										<button class="button expanded" type="submit" name="submit">reset Now</button>
+										<div class="md-layout" md-gutter>
+											<md-button @click.native="currentState = 'login'">Login</md-button>
+											<span style="flex: 1;"></span>
+											<md-button @click.native="currentState = 'register'">New Account
+											</md-button>
+										</div>
+									</form>
+								</template>
+								<template v-else class="register-form">
+									<h5 class="text-center">Enter Your New Password</h5>
+									<form @submit="confirmReset()" name="confirmResetForm" novalidate>
+										<small class="help-text">Password must be at least 6 characters.</small>
+										<md-field md-has-password>
+											<md-icon>lock</md-icon>
+											<md-input type="password" v-model="reseting.newPassword"
+											          placeholder="Enter new password..." minlength="6" required></md-input>
+										</md-field>
+										<md-field md-has-password>
+											<md-icon>lock</md-icon>
+											<md-input type="password" v-model="reseting.newPasswordCheck"
+											          placeholder="Re-type your new password..." minlength="6"
+											          required></md-input>
+										</md-field>
 
-									<button class="button expanded" type="submit" name="submit"
-									        v-disabled="reseting.newPassword !== reseting.newPasswordCheck && !reseting.newPassword.length">
-										Confirm
-									</button>
+										<button class="button expanded" type="submit" name="submit"
+										        v-disabled="reseting.newPassword !== reseting.newPasswordCheck && !reseting.newPassword.length">
+											Confirm
+										</button>
 
-									<div class="md-layout" md-gutter>
-										<md-button @click.native="currentState = 'login'">Login</md-button>
-										<span style="flex: 1;"></span>
-										<md-button @click.native="currentState = 'register'">New Account</md-button>
-									</div>
-								</form>
+										<div class="md-layout" md-gutter>
+											<md-button @click.native="currentState = 'login'">Login</md-button>
+											<span style="flex: 1;"></span>
+											<md-button @click.native="currentState = 'register'">New Account</md-button>
+										</div>
+									</form>
+								</template>
 							</template>
-						</template>
-						<template v-else-if="currentState === 'register'">
-							<div class="register-form">
-								<h5 class="text-center">Create your Account</h5>
-								<form @submit="doRegister" data-abide>
-									<div id="errors" class="alert callout" v-if="!!registerErrors.gender||authErrors.length">
-										<p><i class="fa fa-exclamation-triangle"></i>
-											There are some errors in your form.
-										</p>
-										<p v-show="registerErrors.gender">Please select a gender.</p>
-										<p v-for="(key, value) in authErrors"><b>{{key}}</b>: {{value[0]}}</p>
-									</div>
-									<!--<div class="input-group">
-										<span class="input-group-label"><i class="fa fa-user"></i></span>
-										<input class="input-group-field" type="text" placeholder="Enter your username" required>
-									</div>-->
+							<template v-else-if="currentState === 'register'">
+								<div class="register-form">
+									<h5 class="text-center">Create your Account</h5>
+									<form @submit="doRegister" data-abide>
+										<div id="errors" class="alert callout" v-if="!!registerErrors.gender||authErrors.length">
+											<p><i class="fa fa-exclamation-triangle"></i>
+												There are some errors in your form.
+											</p>
+											<p v-show="registerErrors.gender">Please select a gender.</p>
+											<p v-for="(key, value) in authErrors"><b>{{key}}</b>: {{value[0]}}</p>
+										</div>
+										<!--<div class="input-group">
+											<span class="input-group-label"><i class="fa fa-user"></i></span>
+											<input class="input-group-field" type="text" placeholder="Enter your username" required>
+										</div>-->
 
-									<!--<div class="input-group">
-										<span class="input-group-label">
-											<i v-if="registerErrors.email===false" class="fa fa-envelope"></i>
-											<i v-if="registerErrors.email===0" class="fa fa-check" style="color: green;"></i>
-											<i v-if="registerErrors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
-									</span>-->
-									<md-field :class="{'has-error': !!registerErrors.email}">
-										<md-icon v-if="registerErrors.email===false">email</md-icon>
-										<md-icon v-if="registerErrors.email===0" style="color: green;">check_circle</md-icon>
-										<md-icon v-if="registerErrors.email" class="md-warn">warning</md-icon>
-										<md-input type="email" v-model="createUser.email" @change="checkEmailUse"
-										          placeholder="Enter a valid email" required></md-input>
-									</md-field>
-									<!--<input class="input-group-field" type="email" placeholder="Enter a valid email"
-										   v-model="createUser.email" @change="checkEmailUse()"
-										   required :class="{'is-invalid-input': !!registerErrors.email}">
-									</div>-->
-									<div class="alert callout" v-show="registerErrors.email">
-										<p><i class="fa fa-exclamation-triangle"></i> Email address is already in use.
-											Please try another valid email.</p>
-									</div>
+										<!--<div class="input-group">
+											<span class="input-group-label">
+												<i v-if="registerErrors.email===false" class="fa fa-envelope"></i>
+												<i v-if="registerErrors.email===0" class="fa fa-check" style="color: green;"></i>
+												<i v-if="registerErrors.email" class="fa fa-exclamation-triangle" style="color: red;"></i>
+										</span>-->
+										<md-field :class="{'has-error': !!registerErrors.email}">
+											<md-icon v-if="registerErrors.email===false">email</md-icon>
+											<md-icon v-if="registerErrors.email===0" style="color: green;">check_circle</md-icon>
+											<md-icon v-if="registerErrors.email" class="md-warn">warning</md-icon>
+											<md-input type="email" v-model="createUser.email" @change="checkEmailUse"
+											          placeholder="Enter a valid email" required></md-input>
+										</md-field>
+										<!--<input class="input-group-field" type="email" placeholder="Enter a valid email"
+											   v-model="createUser.email" @change="checkEmailUse()"
+											   required :class="{'is-invalid-input': !!registerErrors.email}">
+										</div>-->
+										<div class="alert callout" v-show="registerErrors.email">
+											<p><i class="fa fa-exclamation-triangle"></i> Email address is already in use.
+												Please try another valid email.</p>
+										</div>
 
-									<div class="input-group">
+										<div class="input-group">
+											<div class="row">
+												<div class="medium-6 columns ">
+													<md-field>
+														<md-input v-model="createUser.firstName" placeholder="First Name"
+														          required></md-input>
+													</md-field>
+												</div>
+												<div class="medium-6 columns">
+													<md-field>
+														<md-input v-model="createUser.lastName" placeholder="Last Name"
+														          required></md-input>
+													</md-field>
+												</div>
+											</div>
+										</div>
+
+										<small class="help-text">Password must be at least 6 characters.</small>
+										<md-field md-has-password>
+											<md-icon>lock</md-icon>
+											<md-input type="password" v-model="createUser.password"
+											          placeholder="Enter your password..." minlength="6"
+											          required></md-input>
+										</md-field>
+										<md-field md-has-password>
+											<md-icon>lock</md-icon>
+											<md-input type="password" v-model="createUser.passwordCheck"
+											          placeholder="Re-type new password..." minlength="6"
+											          required></md-input>
+										</md-field>
+
+										<!--<div class="input-group">
+											<span class="input-group-label"><i class="fa fa-calendar"></i></span>
+											<input type="date" placeholder="Date of Birth" ng-model="user.dob" datepicker='' max="today" required>
+										</div>-->
+
 										<div class="row">
-											<div class="medium-6 columns ">
-												<md-field>
-													<md-input v-model="createUser.firstName" placeholder="First Name"
-													          required></md-input>
-												</md-field>
-											</div>
-											<div class="medium-6 columns">
-												<md-field>
-													<md-input v-model="createUser.lastName" placeholder="Last Name"
-													          required></md-input>
-												</md-field>
+											<div class="medium-12 columns">
+												<date-picker :date="{ time: createUser.dob }"
+												             :options="{ placeholder: 'Date of Birth'}"
+												             @change="updateDOB"></date-picker>
 											</div>
 										</div>
-									</div>
 
-									<small class="help-text">Password must be at least 6 characters.</small>
-									<md-field md-has-password>
-										<md-icon>lock</md-icon>
-										<md-input type="password" v-model="createUser.password"
-										          placeholder="Enter your password..." minlength="6"
-										          required></md-input>
-									</md-field>
-									<md-field md-has-password>
-										<md-icon>lock</md-icon>
-										<md-input type="password" v-model="createUser.passwordCheck"
-										          placeholder="Re-type new password..." minlength="6"
-										          required></md-input>
-									</md-field>
-
-									<!--<div class="input-group">
-										<span class="input-group-label"><i class="fa fa-calendar"></i></span>
-										<input type="date" placeholder="Date of Birth" ng-model="user.dob" datepicker='' max="today" required>
-									</div>-->
-
-									<div class="row">
-										<div class="medium-12 columns">
-											<date-picker :date="{ time: createUser.dob }"
-											             :options="{ placeholder: 'Date of Birth'}"
-											             @change="updateDOB"></date-picker>
+										<div class="row">
+											<div class="medium-12 columns text-center" v-if="user">
+												<label>Gender</label>
+												<md-radio name="genderGroup" id="gender-select-male" v-model="user.gender" :md-value="'male'">Male</md-radio>
+												<md-radio name="genderGroup" id="gender-select-female" v-model="user.gender" :md-value="'female'">Female</md-radio>
+											</div>
 										</div>
-									</div>
 
-									<div class="row">
-										<div class="medium-12 columns text-center" v-if="user">
-											<label>Gender</label>
-											<md-radio name="genderGroup" id="gender-select-male" v-model="user.gender" :md-value="'male'">Male</md-radio>
-											<md-radio name="genderGroup" id="gender-select-female" v-model="user.gender" :md-value="'female'">Female</md-radio>
+										<md-field v-show="$root.countryList.length">
+											<label for="country">Select Country</label>
+											<md-select name="country" id="country" v-model="user.country" required>
+												<md-option value="" selected>Select Country</md-option>
+												<md-option :value="country.id" v-for="country in $root.countryList" :key="country.id">
+													{{ country.name }}
+												</md-option>
+											</md-select>
+										</md-field>
+
+										<small>By registering, you agree to our <a ui-sref="tos">Terms</a>
+											and have read our <a ui-sref="privacy">Privacy Policy</a></small>
+
+										<span class="form-error">your email is invalid</span>
+										<button class="button expanded iw-button" type="submit" name="submit">register Now
+										</button>
+										<div class="md-layout" md-gutter>
+											<md-button @click.native="currentState = 'login'">Login here</md-button>
+											<span style="flex: 1;"></span>
+											<md-button @click.native="currentState = 'reset'">Forgot password?</md-button>
 										</div>
-									</div>
+									</form>
+								</div>
+							</template>
+						</div>
 
-									<md-field v-show="$root.countryList.length">
-										<label for="country">Select Country</label>
-										<md-select name="country" id="country" v-model="user.country" required>
-											<md-option value="" selected>Select Country</md-option>
-											<md-option :value="country.id" v-for="country in $root.countryList" :key="country.id">
-												{{ country.name }}
-											</md-option>
-										</md-select>
-									</md-field>
-
-									<small>By registering, you agree to our <a ui-sref="tos">Terms</a>
-										and have read our <a ui-sref="privacy">Privacy Policy</a></small>
-
-									<span class="form-error">your email is invalid</span>
-									<button class="button expanded iw-button" type="submit" name="submit">register Now
-									</button>
-									<div class="md-layout" md-gutter>
-										<md-button @click.native="currentState = 'login'">Login here</md-button>
-										<span style="flex: 1;"></span>
-										<md-button @click.native="currentState = 'reset'">Forgot password?</md-button>
-									</div>
-								</form>
-							</div>
-						</template>
 					</div>
 				</div>
 			</md-dialog-content>
@@ -298,6 +301,9 @@
                     email: ''
                 },
 
+              // modal state
+              showAuthModal: false,
+
             }
         },
         watch: {
@@ -327,7 +333,7 @@
                 }
             },
             cancel() {
-                this.$refs.AuthModal.close();
+              self.showAuthModal = false;
             },
 
             // Login Functions
@@ -384,7 +390,7 @@
                                 let token = JSON.parse(response).token;
                                 localStorage.setItem('jwt-token', 'Bearer ' + token);
                                 self.getUserData().then(() => {
-                                    self.$refs.AuthModal.close();
+                                  self.showAuthModal = false;
                                 });
                             }
                         });
@@ -405,7 +411,7 @@
                                 let token = JSON.parse(response).token;
                                 localStorage.setItem('jwt-token', 'Bearer ' + token);
                                 self.getUserData().then(() => {
-                                    self.$refs.AuthModal.close();
+                                  self.showAuthModal = false;
                                 });
                             }
                         });
@@ -544,7 +550,7 @@
             let self = this;
             this.$root.$on('openAuthModal', function (state) {
                 self.currentState = state || 'login';
-                self.$refs.AuthModal.open();
+                self.showAuthModal = true;
             })
         },
         mounted(){

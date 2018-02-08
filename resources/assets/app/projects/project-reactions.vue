@@ -1,7 +1,7 @@
 <template>
     <md-list class="md-denses">
         <md-list-item v-if="!loaded">
-            <md-progress md-indeterminate></md-progress>
+            <md-progress-bar md-mode="indeterminate"></md-progress-bar>
         </md-list-item>
         <reaction class="{'md-inset': inset}" v-if="reactionsCount" v-for="(count, key) in chartedReactions" :count="count" :id="key" :key="key" :reaction="getEmoticonByEmotion(key)" :max="reactionCountMax"></reaction>
         <md-list-item class="{'md-inset': inset}" v-else>

@@ -1,10 +1,10 @@
 <template>
-    <md-button-toggle md-single class="md-accent">
+    <div class="md-accent">
         <md-button class="md-icon-button md-dense" v-for="(star, index) in items" :key="star.value" @click.native="change(star.value)">
             <md-icon v-if="selected < star.value">star_border</md-icon>
             <md-icon v-else :class="{'md-accent': selected > star.value}">star</md-icon>
         </md-button>
-    </md-button-toggle>
+    </div>
 </template>
 <style scoped></style>
 <script type="text/javascript">

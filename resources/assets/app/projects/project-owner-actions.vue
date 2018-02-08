@@ -1,6 +1,6 @@
 <template>
-	<div md-flex="100" class="md-layout SinglePostStats" id="SinglePostStats">
-		<div md-flex class="md-layout secBg padding-8">
+	<div class="md-layout SinglePostStats" id="SinglePostStats">
+		<div class="md-layout-item secBg padding-8">
 			<md-button class="video-btn" :href="'/'+project.url_id + '/edit'">
 				<md-icon>edit_mode</md-icon> Edit Project
 			</md-button>

@@ -26,7 +26,7 @@
     <div class="md-layout">
         <!-- Premium Videos -->
         <div class="md-layout-item" id="premium" style="background-color: transparent;">
-            <div class="md-layout md-flex-100">
+            <div class="md-layout md-size-100">
                 <div class="row md-layout">
                     <div class="main-heading">
                         <div class="row padding-14">
@@ -52,8 +52,8 @@
                     </div>
                 </div>
             </div>
-            <div class="md-layout md-flex-100 padding-14" style="background-color: rgba(65, 76, 171, .2)">
-                <div class="row md-layout md-flex-100">
+            <div class="md-layout md-size-100 padding-14" style="background-color: rgba(65, 76, 171, .2)">
+                <div class="row md-layout md-size-100">
                     <div id="owl-featured" class="owl-carousel carousel" data-car-length="3" data-items="3"
                          data-loop="true" data-nav="false" data-autoplay="true" data-autoplay-timeout="5000"
                          data-dots="false" data-auto-width="false" data-responsive-small="1" data-responsive-medium="3"

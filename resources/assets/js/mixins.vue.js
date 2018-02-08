@@ -404,6 +404,7 @@ Vue.mixin({
 
 let AppData = {
     filepickerApiKey: 'APbjTx44SlSuCI6P58jwvz',
+    showSnackbar: false,
     showSuccess: false,
     showError: false,
     // showSuccess: false,
@@ -632,13 +633,13 @@ function AppCreated(vm) {
         vm.toastButton = button;
         vm.toastAction = action;
         vm.toastDuration = duration || 4000;
-        vm.$refs.snackbar.open();
+        vm.showSnackbar = true;
     });
     vm.$on('toastMessage', function (message, duration) {
         vm.toastType = 'message';
         vm.toastMessage = message;
         vm.toastDuration = duration || 4000;
-        vm.$refs.snackbar.open();
+        vm.showSnackbar = true;
     });
     vm.$on('verifyAction', function (message) {
         vm.$emit('toastAction', message, 'Verify Now', vm.requestVerificationEmail);

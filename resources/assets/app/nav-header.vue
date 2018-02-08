@@ -86,7 +86,7 @@
                                     </ul>
                                 </div>
                                 <div class="top-bar-right search-btn" v-cloak>
-                                    <ul v-if="isAuthenticated" class="menu dropdown" dropdown-menu>
+                                    <ul v-if="isAuthenticated" class="" dropdown-menu>
                                         <a :href="'/user/' + $root.user.url_id">
                                             <md-avatar class="md-icon-button" aria-label="Profile" >
                                                 <img v-if="$root.user.avatar" :src="$root.user.avatar"
@@ -94,7 +94,7 @@
                                                 <md-icon v-else>account_circle</md-icon>
                                             </md-avatar>
                                         </a>
-                                        <md-menu md-size="6" md-direction="bottom left" @open="notificationsMenuOpened" id="notificationsMenu" ref="notificationsMenu">
+                                        <md-menu md-size="huge" md-direction="bottom-start" @open="notificationsMenuOpened" id="notificationsMenu" ref="notificationsMenu">
                                             <md-button class="md-icon-button" md-menu-trigger>
                                                 <md-icon v-if="!$root.notifications.loaded">notifications_none</md-icon>
                                                 <template v-else>
@@ -102,8 +102,8 @@
                                                     <md-icon v-else>notifications</md-icon>
                                                 </template>
                                             </md-button>
-                                            <md-menu-content>
-                                                <md-toolbar class="md-dense">
+                                            <md-menu-content id="notificationsMenuContent">
+                                                <md-toolbar class="md-dense md-primary">
                                                     <div class="md-title" style="flex: 1;">Notifications</div>
                                                     <md-button class="md-dense md-icon-button" @click.native="markAllAsRead">
                                                         <md-icon>check_circle</md-icon>
@@ -195,8 +195,12 @@
         right: 10px;
     }
     .md-menu[id='notificationsMenu'] {
-        top: -10px;
+        top: -6px;
         position: relative;
+    }
+    .menu>li>a i,.menu>li>a img,.menu>li>a svg {
+        margin-right: .625rem;
+        display: inline-block
     }
     .search-bar-light.search-bar-active {
         display: block !important;
@@ -230,7 +234,7 @@
                 this.$root.$emit('overVideoPlayer', false);
             },
             notificationsMenuOpened() {
-                thiblockkAllAsRead();
+                this.markAllAsRead();
                 this.markAllAsSeen()
             },
             markAllAsRead(){

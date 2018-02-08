@@ -1,5 +1,5 @@
 <template>
-    <md-dialog ref="ReportDialog">
+    <md-dialog ref="ReportDialog" :md-active.sync="showReportDialog">
         <md-dialog-title>Explain Why You Are Flagging this Video</md-dialog-title>
         <md-dialog-content>
             <form id="ReportForm" novalidate @submit.prevent="throttledConfirm">
@@ -47,6 +47,7 @@
         },
         data(){
             return {
+              showReportDialog: false,
                 button_id: '#ReportDialogButtonA',
                 name: '',
                 email: '',
@@ -56,7 +57,7 @@
         },
         methods: {
             closeDialog() {
-                this.$refs.ReportDialog.close();
+                this.showReportDialog = false;
             },
             confirm() {
                 let self = this;
@@ -79,7 +80,7 @@
                             body: '',
                         });
                         self.errors.clear();
-                        self.$refs.ReportDialog.close();
+                        self.closeDialog();
 
                     });
                 }, function (error) {
@@ -89,12 +90,11 @@
             }
         },
         mounted(){
-            let self = this;
-            this.$root.$on('openReportDialog', function (id) {
-                self.button_id = '#' + id;
-                self.$nextTick(() => {
-                    self.$refs.ReportDialog.open();
-                });
+            this.$root.$on('openReportDialog', (id) => {
+              this.button_id = '#' + id;
+              this.$nextTick(() => {
+                this.showReportDialog = true;
+              });
             });
             this.throttledConfirm = _.throttle(this.confirm, 3000);
         }

@@ -1,9 +1,9 @@
 @extends('master')
 
 @section('layout')
-    <div class="profile-inner row md-layout md-flex-100">
+    <div class="profile-inner row md-layout md-size-100">
         <!-- profile settings -->
-        <section class="submit-post padding-24 md-flex-100">
+        <section class="submit-post padding-24 md-size-100">
             <div class="row secBg">
                 <div class="large-12 columns" style="min-width: 100%;">
                     <div class="heading">

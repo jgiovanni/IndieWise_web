@@ -1,5 +1,5 @@
 <template>
-    <md-dialog ref="CritiqueProjectDialog">
+    <md-dialog ref="CritiqueProjectDialog" :md-active.sync="showCritiqueProjectDialog">
         <md-dialog-title>Judge This Project</md-dialog-title>
 
         <md-dialog-content>
@@ -223,7 +223,13 @@
         </md-dialog-actions>
     </md-dialog>
 </template>
-<style>
+<style scoped>
+    .md-dialog {
+        min-width: 80%;
+    }
+    #CritiqueProjectDialogForm .md-icon-button {
+        margin-right: 0;
+    }
     @media (max-width: 600px)  {
         #CritiqueProjectDialogForm .md-button.md-icon-button.md-dense {
             padding: 0 !important;
@@ -247,6 +253,7 @@
         props: ['project'],
         data(){
             return {
+              showCritiqueProjectDialog: false,
                 helpToggle: false,
                 canNominate: false,
                 makePrivateHelp: false,
@@ -309,7 +316,7 @@
         },
         methods: {
             close() {
-                this.$refs.CritiqueProjectDialog.close();
+                this.showCritiqueProjectDialog = false;
             },
             updateStar(val, name) {
                 this.critique[name] = val;
@@ -416,7 +423,7 @@
             let self = this;
             this.$root.$on('openCritiqueDialog', function () {
                 self.$nextTick(() => {
-                    self.$refs.CritiqueProjectDialog.open();
+                    self.showCritiqueProjectDialog = true;
                 });
             });
         },

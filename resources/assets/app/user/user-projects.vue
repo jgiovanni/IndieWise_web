@@ -17,12 +17,19 @@
 									<span v-else><i class="fa fa-square-o" style="color: #000;"></i> un-listed</span>
 									&nbsp;&middot;&nbsp;
 									<span><i class="fa fa-clock-o"></i> {{video.created_at|vmUtc|vmLocal|vmDateFormat('ll')}}</span>
+									<div v-if="isUser && checkDownloadable(video)">
+										<md-button class="md-raised md-primary md-dense" @click.native="getDownload(video)">
+											<md-icon>file_download</md-icon>
+											Download File
+										</md-button>
+									</div>
 									<!--<span><i class="fa fa-eye"></i>1,862K</span>-->
 								</div>
 							</md-card-header-text>
 
 							<md-card-media md-big>
-								<img :src="video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'" alt="video thumbnail">
+								<img :src="video.thumbnail_url||'/assets/img/default_video_thumbnail.jpg'"
+								     alt="video thumbnail">
 							</md-card-media>
 						</md-card-header>
 
@@ -30,10 +37,12 @@
 
 						<md-card-actions v-if="isUser">
 							<md-button class="video-btn" :href="'/'+video.url_id + '/edit'">
-								<md-icon>edit_mode</md-icon> Edit
+								<md-icon>edit_mode</md-icon>
+								Edit
 							</md-button>
 							<md-button class="video-btn" @click.native="deleteProject(video.id)">
-								<md-icon>delete</md-icon> Delete
+								<md-icon>delete</md-icon>
+								Delete
 							</md-button>
 						</md-card-actions>
 					</md-card>
@@ -46,65 +55,123 @@
 		</div>
 
 		<md-dialog-confirm
+				:md-active.sync="showDeleteDialog"
 				md-title="Delete Project"
 				md-content="Are you sure you want to delete this project ?"
-				md-ok-text="Confirm"
+				md-confirm-text="Confirm"
 				md-cancel-text="Cancel"
-				@close="onDeleteClose"
-				ref="deleteDialog">
+				@md-confirm="onDeleteClose">
 		</md-dialog-confirm>
 	</section>
 	<!-- End single post description -->
 </template>
 <style></style>
 <script type="text/javascript">
-    export default{
-        name: 'user-projects',
-        props: ['user'],
-        data(){
-            return {
-                projects: null,
-	            selectedDelete: null,
-            }
-        },
-        computed: {
-            isUser(){
-                return this.$root.user && (this.user.id === this.$root.user.id);
-            },
-        },
-        methods: {
-            deleteProject (videoId) {
-                let self = this;
-                if (this.isUser) {
-                    this.selectedDelete = videoId;
-                    this.$refs.deleteDialog.open();
-                }
-            },
-            onDeleteClose(type) {
-				if (type === 'ok') {
-				    let ID = this.selectedDelete;
-                    this.$http.delete('projects/' + ID).then(() => {
-                        this.projects.data = _.reject(this.projects.data, function (response) {
-                            return response.id === ID;
-                        });
-                    });
-				}
-                this.selectedDelete = null;
-            }
-        },
-        mounted(){
-            if (this.isUser) {
-                this.user = this.$root.user;
-            } else {
-                this.$http.get('users/' + this.user.id).then((response) => {
-                    this.user = response.data.data;
-                });
-            }
+  import FileSaver from 'file-saver';
 
-            this.$http.get('projects', {params: {owner: this.user.id, sort: 'created_at', per_page: 50}}).then((response) => {
-	            this.projects = response.data;
-            })
+  export default {
+    name: 'user-projects',
+    props: ['user'],
+    data() {
+      return {
+        projects: null,
+        selectedDelete: null,
+        showDeleteDialog: false,
+        client: null,
+      }
+    },
+    watch: {
+      '$root.user'(val) {
+        if (this.isUser) {
+          this.userData = val;
+          this.client = filestack.init('APbjTx44SlSuCI6P58jwvz');
 
         }
+      }
+    },
+    computed: {
+      isUser() {
+        return this.$root.user && (this.user.id === this.$root.user.id);
+      },
+      userData: {
+        get() {
+          return this.user;
+        }, set() {}
+      }
+    },
+    methods: {
+      deleteProject(videoId) {
+        let self = this;
+        if (this.isUser) {
+          this.selectedDelete = videoId;
+          this.showDeleteDialog = true;
+        }
+      },
+      onDeleteClose() {
+        let ID = this.selectedDelete;
+        this.$http.delete('projects/' + ID).then(() => {
+          this.projects.data = _.reject(this.projects.data, function (response) {
+            return response.id === ID;
+          });
+        });
+        this.selectedDelete = null;
+      },
+      checkDownloadable(video) {
+        return video.video_url.includes('filepicker') || video.video_url.includes('filestackcontent');
+        // return video.thumbnail_url.includes('filepicker') || video.thumbnail_url.includes('filestackcontent');
+      },
+      getDownload(video) {
+        // let link = video.thumbnail_url;
+        let link = video.video_url;
+        let newLink = null;
+        if (link.includes('filepicker')) {
+          newLink = link
+            .replace(/cache=true/g, '')
+            .replace('https://cdn.filepicker.io/api/file/', '')
+            .replace(/policy=([A-Za-z0-9=]+)/, '')
+            .replace(/signature=([A-Za-z0-9=]+)/, '')
+            .replace(/[\?\&]/g, '');
+        } else if (link.includes('filestackcontent')) {
+          newLink = link
+            .replace(/cache=true/g, '')
+            .replace('https://cdn.filestackcontent.com/', '')
+            .replace(/policy=([A-Za-z0-9=]+)/, '')
+            .replace(/signature=([A-Za-z0-9=]+)/, '')
+            .replace(/[\?\&]/g, '');
+        }
+        if (newLink) {
+          // get metadata
+          this.client.metadata(newLink)
+            .then((meta) => {
+              // download blob
+              this.client.retrieve(newLink, {dl: true})
+                .then((blob) => {
+                  FileSaver.saveAs(blob, meta.filename);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            })
+            .catch((meta) => {
+              console.log(meta);
+              alert('There seems to be an issue locating your file, please contact us to resolve this issue.')
+            });
+        }
+      }
+    },
+    mounted() {
+      if (this.isUser) {
+        this.user = this.$root.user;
+      } else {
+        this.$http.get('users/' + this.user.id).then((response) => {
+          this.userData = response.data.data;
+        });
+      }
+
+      this.$http.get('projects', {params: {owner: this.user.id, sort: 'created_at', per_page: 50}}).then((response) => {
+        this.projects = response.data;
+      })
+
     }
+  }
 </script>

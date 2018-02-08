@@ -1,7 +1,7 @@
 <template>
      <md-list>
         <md-list-item v-if="loading">
-            <md-progress md-indeterminate></md-progress>
+            <md-progress-bar md-mode="indeterminate"></md-progress-bar>
         </md-list-item>
         <md-list-item v-else v-for="win in wins" :key="win.id">
             <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>

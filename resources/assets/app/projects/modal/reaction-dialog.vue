@@ -1,12 +1,12 @@
 <template>
-    <md-dialog ref="reactionDialog">
+    <md-dialog ref="reactionDialog" :md-active.sync="showReactionDialog">
         <md-dialog-title>How'd this make you feel?</md-dialog-title>
         <md-dialog-content>
             <md-field>
                 <md-input v-model="search" placeholder="Search a feeling"></md-input>
             </md-field>
             <md-list style="height: 300px;overflow-y: scroll;">
-                <md-list-item class="angucomplete-row" v-for="reaction in filteredEmotions" :key="reaction.name" @click.native="selectedEmotion(reaction)">
+                <md-list-item class="angucomplete-row" v-for="reaction in filteredEmotions" :key="reaction.name" @click="selectedEmotion(reaction)">
                     <md-icon :md-src="reaction.src"></md-icon>&nbsp;<span>{{reaction.name}}</span>
                 </md-list-item>
             </md-list>
@@ -23,6 +23,7 @@
         name: 'reaction-dialog',
         data(){
             return {
+              showReactionDialog: false,
                 emotions: [],
                 search: '',
             }
@@ -38,14 +39,14 @@
         },
         methods: {
             close() {
-                this.$refs.reactionDialog.close();
+                this.showReactionDialog = false;
             },
             getEmoticonByEmotion (emotion) {
-                return _.findWhere($scope.emotions, {emotion: emotion});
+                return _.findWhere(this.emotions, {emotion: emotion});
             },
             selectedEmotion (e) {
                 this.$root.$emit('projectReactionSelected', e);
-                this.$refs.reactionDialog.close();
+                this.showReactionDialog = false;
             }
         },
         created() {
@@ -53,7 +54,7 @@
             this.emotions = this.generateReactions();
             this.$root.$on('openReactionDialog', function () {
                 self.$nextTick(() => {
-                    self.$refs.reactionDialog.open();
+                    self.showReactionDialog = true;
                 });
             })
         },

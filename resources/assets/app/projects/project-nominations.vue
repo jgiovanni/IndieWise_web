@@ -24,7 +24,7 @@
 
                 <!-- main comment -->
                 <div class="main-comment showmore_one">
-                    <md-progress v-if="loadingNominations" md-indeterminate></md-progress>
+                    <md-progress-bar v-if="loadingNominations" md-mode="indeterminate"></md-progress-bar>
 
                     <md-list class="md-double-line">
                         <md-list-item v-for="nom in sortNominations" :key="nom.id">

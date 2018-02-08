@@ -3,7 +3,7 @@
         <md-icon class="emoticon" :md-src="reaction.src"></md-icon>
         <div class="md-list-text-container">
             <span>{{reaction.name}}</span>
-            <span><md-progress class="md-primary" :md-progress="progress"></md-progress></span>
+            <span><md-progress-bar class="md-primary" :md-progress-bar="progress"></md-progress-bar></span>
         </div>
         <md-tooltip md-direction="top">{{ pluralizedEmotionCount(count, reaction.name) }}</md-tooltip>
     </md-list-item>

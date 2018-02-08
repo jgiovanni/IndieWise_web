@@ -1,7 +1,7 @@
 <template>
-    <md-dialog ref="CritiqueView">
+    <md-dialog :md-active.sync="showCritiqueView">
         <template v-if="critique">
-            <md-toolbar class="md-transparent">
+            <md-toolbar class="md-transparent" md-elevation="0">
                 <md-avatar class="md-icon-button" aria-label="Avatar">
                     <img :src="critique.user.avatar||'/assets/img/avatar-1.png'" :alt="critique.user.fullName" />
                 </md-avatar>
@@ -9,7 +9,7 @@
                 <a :href="'user/' + critique.user.url_id + '/about'">{{critique.user.fullName}}</a>
                 <span style="flex: 1;"></span>
                 <span class="md-subhead" :title="critique.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
-                    <i class="fa fa-clock-o"></i>&nbsp;{{ critique.created_at|vmTimeAgo }}
+                    <i class="fa fa-clock-o"></i>&nbsp;{{ critique.created_at|vmUtc|vmLocal|vmTimeAgo }}
                 </span>
 
                 <md-button class="md-icon-button" @click.native="cancel">
@@ -208,7 +208,7 @@
                 </div>
                 <div class="md-layout">
                     <comments :disable="false" :critique-id="critique.id" :parent="critique" :child="false"></comments>
-                    <!--<md-progress v-else md-indeterminate></md-progress>-->
+                    <!--<md-progress-bar v-else md-mode="indeterminate"></md-progress-bar>-->
                 </div>
             </md-dialog-content>
 
@@ -227,6 +227,7 @@
         props: ['parentUrlId', 'parentOwnerId'],
         data(){
             return {
+                showCritiqueView: false,
                 showQuickReply: false,
                 comments: null,
                 sortOrder: 'created_at|desc',
@@ -242,7 +243,7 @@
         },
         methods: {
             cancel() {
-                this.$refs.CritiqueView.close();
+                this.showCritiqueView = false;
                 setTimeout(this.$parent.selectedCritique = null, 200)
             },
 
@@ -261,10 +262,10 @@
         },
         created(){
             let self = this;
-            this.$root.$on('openCritiqueView', function (critique) {
+            this.$root.$on('openCritiqueView', (critique) => {
                 self.critique = critique;
                 self.$nextTick(function () {
-                    self.$refs.CritiqueView.open();
+                    self.showCritiqueView = true;
                 });
             });
 

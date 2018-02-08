@@ -1,20 +1,21 @@
 <template>
-    <div md-flex="100" class="md-layout SinglePostStats" id="SinglePostStats">
+    <div class="md-layout SinglePostStats" id="SinglePostStats">
         <!-- newest video -->
-        <div md-flex class="md-layout secBg padding-8">
-            <div md-flex="100" class="md-layout padding-8" style="border-bottom: 1px solid #efefef">
-
-                <div class="md-layout" md-align="center" md-flex=20 md-column>
-                    <md-avatar class="md-large">
-                        <img :src="project.owner.avatar" alt="post">
-                    </md-avatar>
-                    <p class="text-center">
+        <div class="md-layout md-layout-item secBg padding-8">
+            <div class="md-layout md-size-100 padding-8" style="border-bottom: 1px solid #efefef">
+                <div class="md-layout md-layout-item md-alignment-center-center md-size-20">
+                    <div class="md-layout md-layout-item md-alignment-center-center md-size-100">
+                        <md-avatar class="md-large">
+                            <img :src="project.owner.avatar" :alt="project.owner.fullName">
+                        </md-avatar>
+                    </div>
+                    <p class="text-center md-layout-item md-size-100">
                         <a :href="'/user/' + project.owner.url_id">
                             {{project.owner.fullName}}
                         </a>
                     </p>
                 </div>
-                <div class="md-layout" md-column md-align="center">
+                <div class="md-layout-item md-alignment-center-center">
                     <h1 class="md-headline">
                         {{project.name}}&nbsp;
                         <span v-if="project.nsfw" style="padding: 5px;cursor: default;color: #CC181E;border-color: #CC181E"
@@ -24,7 +25,7 @@
                     <div class="md-caption">
                         <i class="fa fa-clock-o"></i>
                         <abbr :title="project.created_at|vmUtc|vmLocal|vmDateFormat('lll')">
-                            {{ project.created_at | vmTimeAgo }}
+                            {{ project.created_at|vmUtc|vmLocal|vmTimeAgo }}
                         </abbr>
                         &nbsp;&middot;&nbsp;
                         <i class="fa fa-smile-o"></i>&nbsp;&nbsp;{{project.reactions_count||0}}
@@ -37,10 +38,10 @@
                     </div>
                 </div>
             </div>
-            <div class="md-layout" md-flex="100" md-column-xsmall>
-                <md-progress v-if="loadingRate||loadingReact||loadingCritique" md-indeterminate></md-progress>
+            <div class="md-layout md-layout-item md-size-100">
+                <md-progress-bar v-if="loadingRate||loadingReact||loadingCritique" md-mode="indeterminate"></md-progress-bar>
 
-                <div class="md-layout" style="order: 2" md-align="end" md-align-xsmall="center">
+                <div class="md-layout md-layout-item md-alignment-center-right" style="order: 2" md-align-xsmall="center">
                     <md-button class="md-primary md-dense" @click.native="openReactionDialog">
                         <span v-if="canReact!==true && canReact !== 'login' && canReact !==false">
                             <md-icon class="emoticon" :md-src="canReactIcon()"></md-icon>
@@ -62,7 +63,7 @@
                         </span>
                     </md-button>
                 </div>
-                <div class="md-layout" style="order: 1" md-align="start" md-align-xsmall="center">
+                <div class="md-layout md-layout-item md-alignment-center-left" style="order: 1" md-align-xsmall="center">
                     <md-button class="md-raise md-dense double-thumbs md-primary" @click.native="rate('up')"
                                :class="{'md-raised':canRate.up}">
                         <i class="fa fa-thumbs-o-up"></i><i class="fa fa-thumbs-o-up"></i>
@@ -91,7 +92,11 @@
         <reaction-dialog></reaction-dialog>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+    .emoticon {
+        display: inline-block;
+    }
+</style>
 <script type="text/javascript">
     import projectPlaylists from './project-playlists.vue';
     import reportProjectDialog from './modal/report-project-dialog.vue';
@@ -213,7 +218,7 @@
                     });
 
                     if (self.project.disableCritique || (self.isOwner)) {
-                        console.log('owner');
+                        // console.log('owner');
                         self.canCritique = false;
                         self.loadingCritique = false;
                     } else {
@@ -455,28 +460,6 @@
                     let emoticon = _.findWhere(this.emotions, {'emotion': this.canReact.emotion});
                     return _.isObject(emoticon) ? emoticon.src : '';
                 } else return false;
-            },
-            openAddToDialog () {
-//                this.$nextTick(() => {
-                    this.$modal.open({
-                        templateUrl: 'common/share-dialog.html',
-                        resolve: {
-                            Video: function () {
-                                return self.project;
-                            }
-                        },
-                        size: window.Foundation.MediaQuery.atLeast('large') ? 'tiny' : 'small',
-                        controller: ['$scope', '$modalInstance', 'Video', function ($scope, $modalInstance, Video) {
-                            // zIndexPlayer();
-                            $scope.video = Video;
-                            $scope.shareLink = window.location.origin + '/' + Video.url_id;
-                            $scope.cancel = function () {
-                                // zIndexPlayer(true);
-                                $modalInstance.close();
-                            };
-                        }]
-                    });
-//                });
             },
             openReportDialog (event) {
                 this.$root.$emit('openReportDialog', event.target.id);

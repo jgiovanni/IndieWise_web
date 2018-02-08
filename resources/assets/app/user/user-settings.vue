@@ -104,12 +104,15 @@
 												<label>Date of Birth</label>
 												<md-input v-model="userData.dob" placeholder="Enter your date of birth..."></md-input>
 											</md-field>-->
-											<date-picker :date="{ time: userData.dob }" :options="{ placeholder: 'Date of Birth'}" @change="updateDOB"></date-picker>
+											<!--<date-picker :date="{ time: userData.dob }" :options="{ placeholder: 'Date of Birth'}" @change="updateDOB"></date-picker>-->
+											<md-datepicker v-model="userData.dob" :md-open-on-focus="false" @change="updateDOB">
+												<label>Date of Birth</label>
+											</md-datepicker>
 										</div>
 										<div class="medium-6 columns">
-											<label for="gender">Gender</label>
-											<md-radio v-model="userData.gender" id="gender" name="gender" md-value="male">Male</md-radio>
-											<md-radio v-model="userData.gender" id="gender" name="gender" md-value="female">Female</md-radio>
+											<label>Gender</label>
+											<md-radio v-model="userData.gender" name="gender" value="male">Male</md-radio>
+											<md-radio v-model="userData.gender" name="gender" value="female">Female</md-radio>
 										</div>
 										<div class="medium-6 columns">
 											<md-field v-show="$root.countryList.length">
@@ -233,12 +236,12 @@
 										</div>
 
 										<md-dialog-confirm
+												:md-active.sync="showTerminateAccountDialog"
 												md-title="Terminate Account"
 												md-content="Are you sure you want to terminate your account?"
-												md-ok-text="Yes"
+												md-confirm-text="Yes"
 												md-cancel-text="No"
-												@close="onCloseTerminate"
-												ref="terminateAccount">
+												@md-confirm="onCloseTerminate">
 										</md-dialog-confirm>
 									</div>
 									<div class="medium-6 columns end">
@@ -277,6 +280,7 @@
                 verificationEmailSentMessage: false,
                 updateUser: false,
                 notificationsActive: null,
+              showTerminateAccountDialog: false,
             }
         },
 	    computed: {
@@ -297,7 +301,8 @@
                         // console.log(res);
                         res.data.data.dob = moment(res.data.data.dob).toDate();
                         res.data.data.settings = JSON.parse(res.data.data.settings);
-                        this.$root.user = self.user = res.data.data;
+                        this.$root.user = self.userData = res.data.data;
+                        this.$emit('update:user', res.data.data);
                         res.data.data.name = res.data.data.fullName;
                         window.Intercom('update', res.data.data);
                         this.saveComplete = true;
@@ -341,21 +346,18 @@
             },
 
             confirmTerminate(ev) {
-                this.$refs.terminateAccount.open();
+                this.showTerminateAccountDialog = true;
             },
 
-            onCloseTerminate(type) {
+            onCloseTerminate() {
                 let self = this;
-                console.log('Closed', type);
-                if (type === 'ok'){
-                    this.$http.delete('users/me', this.userData.id).then((res) => {
-						if (res.data.status) {
-							self.$http.post('logout').then( function (res) {
-								self.$root.logout();
-							});
-                        }
-                	});
-                }
+                this.$http.delete('users/me', this.userData.id).then((res) => {
+					if (res.data.status) {
+						self.$http.post('logout').then( function (res) {
+							self.$root.logout();
+						});
+                    }
+                });
             },
 
             updateDOB(date) {

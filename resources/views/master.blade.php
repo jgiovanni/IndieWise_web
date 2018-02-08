@@ -28,7 +28,7 @@
 
     <div class="md-layout md-alignment-top-center">
         {{-- Causes Error: Cannot read property 'parentNode' of null --}}
-        <md-snackbar md-position="bottom center" ref="snackbar" :md-duration="toastDuration">
+        <md-snackbar md-position="center" :md-active.sync="showSnackbar" ref="snackbar" :md-duration="toastDuration">
             <span v-text="toastMessage"></span>
             <md-button v-if="toastType === 'action'" class="md-accent" md-theme="light-blue" @click.prevent="toastAction" v-text="toastButton"></md-button>
             <md-button class="md-accent" md-theme="light-blue" @click.prevent="$refs.snackbar.close()">Close</md-button>

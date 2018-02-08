@@ -1,5 +1,5 @@
 <template>
-	<md-button-toggle class="player-toggles">
+	<div class="player-toggles">
 		<md-button class="md-icon-button md-toggle lights-toggle-button" @click.native="toggleLights()" style="color: #ffffff;">
 			<md-icon :class="{ 'light-on': lightsOff }">lightbulb_outline</md-icon>
 			<!--<i class="fa fa-lightbulb-o" :class="{ 'light-on': lightsOff }"></i>-->
@@ -18,11 +18,14 @@
 				<span v-else>Center</span>
 			</md-tooltip>
 		</md-button>
-	</md-button-toggle>
+	</div>
 </template>
 <style scoped>
 	.cinema-mode .player-toggles {
 		z-index: 10;
+	}
+	.player-toggles .md-icon {
+		color: #fff;
 	}
 </style>
 <script type="text/javascript">

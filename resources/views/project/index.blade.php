@@ -4,9 +4,9 @@
     <div id="overlay"></div>
 
     <!--breadcrumbs-->
-    <section id="breadcrumb" class="md-layout md-flex-100">
+    <section id="breadcrumb" class="md-layout md-size-100">
         <div class="md-layout row md-gutter">
-            <div class="md-layout md-flex-50" style="align-items: center;">
+            <div class="md-layout md-size-50" style="align-items: center;">
                 <nav aria-label="You are here:" role="navigation">
                     <ul class="breadcrumbs">
                         <li><i class="fa fa-home"></i><a href="/">Home</a></li>
@@ -20,7 +20,7 @@
                     </ul>
                 </nav>
             </div>
-            <div class="md-layout md-flex-50 md-align-end">
+            <div class="md-layout md-size-50 md-alignment-center-right">
                 <project-breadcrumbs></project-breadcrumbs>
             </div>
         </div>
@@ -28,8 +28,8 @@
     <!--end breadcrumbs-->
 
     <!-- full width Video -->
-    <div class="md-layout md-flex-100 md-column">
-        <section class="fullwidth-single-video" v-bind:class="{'no-padding': playerResponsiveMode}">
+    <div class="md-layout md-size-100 md-column">
+        <section class="md-layout-item fullwidth-single-video" v-bind:class="{'no-padding': playerResponsiveMode}">
             <div class="row" style="width: 100%;" v-bind:class="{'no-max-width': playerResponsiveMode}">
                 <div class="large-12" v-bind:class="{'columns': !playerResponsiveMode}">
                     <div class="flex-video widescreen">
@@ -48,13 +48,13 @@
         </section>
     </div>
 
-    <div md-flex="100" md-gutter="8" class="md-layout row">
+    <div class="md-gutter md-layout md-size-100 row">
 
         <!-- left side content area -->
-        <div class="md-layout md-flex-small-100 md-flex-66">
-            <project id="{{ $project->id }}"></project>
+        <div class="md-layout md-layout-item md-small-size-100 md-size-66">
+            <project class="md-layout-item md-size-100" id="{{ $project->id }}"></project>
 
-            <md-tabs md-fixed md-dynamic-height md-centered class="md-transparents">
+            <md-tabs md-fixed md-dynamic-height md-centered class="md-transparents md-layout-item md-size-100">
                 @if($project->critiques_count === 0)
                 <md-tab md-active md-label="Critiques">
                 @elseif($project->critiques_count === 1)
@@ -87,7 +87,7 @@
 
 
         <!-- sidebar -->
-        <div class="md-layout md-flex-small-100 md-flex-33">
+        <div class="md-layout md-layout-item md-small-size-100 md-size-33">
             <div class="secBg sidebar">
                 <!-- IndieWise Average Widget -->
                 <div class="show-for-large">

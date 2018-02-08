@@ -7,6 +7,11 @@
         height: auto;
     }
     .vjs-vimeo { min-height: 100%; height: 360px !important; }
+    .vjs_video_3-dimensions {
+        width: 100%;
+    }
+
+
     iframe#vjs_video_3_Vimeo_api.vimeoplayer { height: 55%; }
     /*.vjs-fluid {
         padding-top: 0;
@@ -80,6 +85,7 @@
                 watched: false,
                 playlist: [],
                 setupOptions: {
+                    // width: '800px',
                     fluid: true,
                     controls: true,
                     preload: 'auto',
@@ -124,7 +130,7 @@
                     id: video.id,
 //                    src: video.video_url,
                     name: video.name,
-                    poster: video.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg',
+                    // poster: video.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg',
 //                    thumbnail: video.thumbnail_url || 'https://getindiewise.com/assets/img/default_video_thumbnail.jpg',
                     description: video.description,
                     sources: []
@@ -194,6 +200,7 @@
                 live: false,
                 autoplay: false,
                 controls: true,
+                width: window.getComputedStyle(this.$el.parentElement).width,
                 height: 500,
                 source: {},
                 plugins: {

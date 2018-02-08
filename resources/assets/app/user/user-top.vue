@@ -110,14 +110,16 @@
 
 					<span class="md-tab-indicator"></span>
 				</button>
-				<button type="button" class="md-tab-header" :class="{'md-active': view === 'projects'}" @click="navigateTo('projects')">
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'projects'}"
+				        @click="navigateTo('projects')">
 					<div class="md-tab-header-container">
 						<md-icon>videocam</md-icon>
 						<!----> <!---->
 					</div>
 
 				</button>
-				<button type="button" class="md-tab-header" :class="{'md-active': view === 'critiques'}" @click="navigateTo('critiques')">
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'critiques'}"
+				        @click="navigateTo('critiques')">
 					<div class="md-tab-header-container">
 						<md-icon>star</md-icon>
 						<!----> <!---->
@@ -131,21 +133,24 @@
 					</div>
 
 				</button>-->
-				<button type="button" class="md-tab-header" :class="{'md-active': view === 'awards'}" @click="navigateTo('awards')">
+				<button type="button" class="md-tab-header" :class="{'md-active': view === 'awards'}"
+				        @click="navigateTo('awards')">
 					<div class="md-tab-header-container">
 						<md-icon md-src="/assets/svg/trophy.svg"></md-icon>
 						<!----> <!---->
 					</div>
 
 				</button>
-				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'settings'}" @click="navigateTo('settings')">
+				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'settings'}"
+				        @click="navigateTo('settings')">
 					<div class="md-tab-header-container">
 						<md-icon>settings</md-icon>
 						<!----> <!---->
 					</div>
 
 				</button>
-				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'upload'}" @click="navigateTo('upload')">
+				<button v-if="isUser" type="button" class="md-tab-header" :class="{'md-active': view === 'upload'}"
+				        @click="navigateTo('upload')">
 					<div class="md-tab-header-container">
 						<md-icon>cloud_upload</md-icon>
 						<!----> <!---->
@@ -166,83 +171,125 @@
 	}
 </style>
 <script type="text/javascript">
-    export default{
-        name: 'user-top',
-        props: {
-            user: {
-                type: Object,
-            },
-            stats: {
-                type: Object,
-                required: false
-            },
-	        view: {
-                type: String,
-		        required: true
-	        }
-        },
-        data(){
-            return {}
-        },
-        computed: {
-            isUser(){
-                return this.$root.user && (this.user.id === this.$root.user.id);
-            },
-            bgImg() {
-                return this.user ? this.user.coverPhoto : '/assets/images/profile-bg.png';
-            },
-            avatarImg() {
-                return this.user ? this.user.avatar : '/assets/img/avatar-1.png';
-            },
-        },
-        methods: {
-            navigateTo(view){
-                return window.location = '/user/' + this.user.url_id + '/' + view;
-            },
-            pickBanner(){
-                let self = this;
-                filepicker.pick({
-                        cropRatio: 32 / 7,
-                        mimetype: 'image/*',
-                        services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
-                        conversions: ['crop', 'rotate', 'filter'],
-                        customSourcePath: self.user.url_id + '/banners/'
-                    },
-                    function (Blob) {
-                        self.user.coverPhoto = Blob.url + '?cache=true';
-                        self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
-                            self.$root.$emit('toastMessage', 'Cover Photo Updated!');
-                        }, (error) => console.log(error));
-                    }
-                );
-            },
+  export default {
+    name: 'user-top',
+    props: {
+      user: {
+        type: Object,
+      },
+      stats: {
+        type: Object,
+        required: false
+      },
+      view: {
+        type: String,
+        required: true
+      }
+    },
+    data() {
+      return {}
+    },
+    computed: {
+      isUser: {
+        get() {
+          return this.$root.user && (this.user.id === this.$root.user.id);
+        }, set() {}
+      },
+      bgImg: {
+        get() {
+          return this.user ? this.user.coverPhoto : '/assets/images/profile-bg.png';
+        }, set() {}
+      },
+      avatarImg: {
+        get() {
+          return this.user ? this.user.avatar : '/assets/img/avatar-1.png';
+        }, set() {}
+      },
+    },
+    methods: {
+      navigateTo(view) {
+        return window.location = '/user/' + this.user.url_id + '/' + view;
+      },
+      pickBanner() {
+        let self = this;
+        window.cloudinary.openUploadWidget({
+          upload_preset: 'dzachn6p',
+          multiple: false,
+          cropping: 'server',
+          cropping_aspect_ratio: 2.34,
+          cropping_show_back_button: true,
+        }, function (error, result) {
+          if (error) {
+          }
+          if (result) {
+            self.user.coverPhoto = self.bgImg = result[0].secure_url;
+            self.$http.put('users/me/' + self.user.id, self.user).then((res) => {
+              self.$root.$emit('toastMessage', 'Cover Photo Updated!');
+            }, (error) => console.log(error));
 
-            pickAvatar(){
-                let self = this;
-                filepicker.pick({
-                        cropRatio: [1 / 1],
-                        cropForce: true,
-                        mimetype: 'image/*',
-                        services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
-                        conversions: ['crop', 'rotate', 'filter'],
-                        customSourcePath: self.user.url_id + '/avatars/'
-                    },
-                    function (Blob) {
-                        self.user.avatar = Blob.url + '?cache=true';
-                        self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
-                            self.$root.$emit('toastMessage', 'Avatar Updated!');
-                        }, (error) => console.log(error));
-                    }
-                );
-            }
-        },
-        created(){
-            // Init Filepicker
-            window.filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
+          }
 
-        },
-        mounted(){
+        });
+        /*filepicker.pick({
+				cropRatio: 32 / 7,
+				mimetype: 'image/!*',
+				services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
+				conversions: ['crop', 'rotate', 'filter'],
+				customSourcePath: self.user.url_id + '/banners/'
+			},
+			function (Blob) {
+				self.user.coverPhoto = Blob.url + '?cache=true';
+				self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
+					self.$root.$emit('toastMessage', 'Cover Photo Updated!');
+				}, (error) => console.log(error));
+			}
+		);*/
+      },
 
-        }
+      pickAvatar() {
+        let self = this;
+        window.cloudinary.openUploadWidget({
+          upload_preset: 'r0kuyqef',
+          multiple: false,
+          cropping: 'server',
+          cropping_aspect_ratio: 1.5,
+          cropping_show_back_button: true,
+        }, function (error, result) {
+          if (error) {
+          }
+          if (result) {
+            self.user.avatar = self.avatarImg = result[0].secure_url;
+            self.$http.put('users/me/' + self.user.id, self.user).then((res) => {
+              self.$root.$emit('toastMessage', 'Avatar Updated!');
+            }, (error) => console.log(error));
+          }
+
+        });
+        /*filepicker.pick({
+				cropRatio: [1 / 1],
+				cropForce: true,
+				mimetype: 'image/!*',
+				services: ['CONVERT', 'COMPUTER', 'FACEBOOK', 'GOOGLE_DRIVE', 'WEBCAM', 'INSTAGRAM'],
+				conversions: ['crop', 'rotate', 'filter'],
+				customSourcePath: self.user.url_id + '/avatars/'
+			},
+			function (Blob) {
+				self.user.avatar = Blob.url + '?cache=true';
+				self.$http.put('user/me/' + self.user.id, self.user).then((res) => {
+					self.$root.$emit('toastMessage', 'Avatar Updated!');
+				}, (error) => console.log(error));
+			}
+		);*/
+      }
+    },
+    created() {
+      // Init Filepicker
+      cloudinary.setCloudName('indiewise');
+      window.filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
+
+    },
+    mounted() {
+
     }
+  }
 </script>

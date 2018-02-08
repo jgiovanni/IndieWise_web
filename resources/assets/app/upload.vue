@@ -14,67 +14,71 @@
                         </div>
                         <div class="large-12 columns">
                             <h6 class="borderBottom">Choose Video Link</h6>
+                            <div class="large-3 columns">
 
-                            <!--<p><strong>Note:</strong> Please choose one of the following ways to embed the video
-								into your post, the video is determined in the order: Video Code > Video URL > Video
-								File.</p>-->
-                            <md-button-toggle md-single class="md-primary">
-                                <!--<md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>-->
-                                <!--<md-button @click.native="projectData.hosting_type = 'HTML5'">
-                                    MP4 Video File. (Max Size: 1GB)
-                                </md-button>-->
-                                <md-button @click.native="projectData.hosting_type = 'youtube'" class="md-toggle">YouTube
-                                    Video URL
-                                </md-button>
-                                <md-button @click.native="projectData.hosting_type = 'vimeo'">Vimeo Video URL</md-button>
-                            </md-button-toggle>
-                        </div>
-                        <div class="large-12 columns">
-                            <!--<template v-if="uploadType === 1">
-                                <div class="large-12 columns">
-                                    <div class="padding-16">
-                                        &lt;!&ndash;<md-button class="md-fab" @click.native="pickVideo">
-											<md-icon>edit</md-icon>
-										</md-button>&ndash;&gt;
-
-                                        <input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
-                                               data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
-                                               data-fp-mimetype="video/*" data-fp-store-path="getUserFilmPath()"
-                                               :data-fp-policy="fpPolicy" :data-fp-signature="fpSignature"
-                                               data-fp-debug="true"/>
-
-
-                                    </div>
-                                    &lt;!&ndash;<hr>&ndash;&gt;
+                                <!--<p><strong>Note:</strong> Please choose one of the following ways to embed the video
+									into your post, the video is determined in the order: Video Code > Video URL > Video
+									File.</p>-->
+                                <div md-single class="md-primary">
+                                    <!--<md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>-->
+                                    <!--<md-button @click.native="projectData.hosting_type = 'HTML5'">
+										MP4 Video File. (Max Size: 1GB)
+									</md-button>-->
+                                    <!--<md-button @click.native="projectData.hosting_type = 'youtube'" class="md-toggle">YouTube
+										Video URL
+									</md-button>
+									<md-button @click.native="projectData.hosting_type = 'vimeo'">Vimeo Video URL</md-button>-->
+                                    <md-radio v-model="projectData.hosting_type" value="youtube">YouTube
+                                        Video URL</md-radio>
+                                    <md-radio v-model="projectData.hosting_type" value="vimeo">Vimeo Video URL</md-radio>
                                 </div>
-                            </template>
-                            <template v-else-if="uploadType === 4">
-                                <div class="large-12 columns">
-                                    <div class="padding-16">
-                                        &lt;!&ndash;<md-button class="md-fab" @click.native="pickScript">
-											<md-icon>edit</md-icon>
-										</md-button>&ndash;&gt;
+                            </div>
+                            <div class="large-9 columns">
+                                <!--<template v-if="uploadType === 1">
+									<div class="large-12 columns">
+										<div class="padding-16">
+											&lt;!&ndash;<md-button class="md-fab" @click.native="pickVideo">
+												<md-icon>edit</md-icon>
+											</md-button>&ndash;&gt;
+
+											<input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
+												   data-fp-services="computer,dropbox,video,url,googledrive,skydrive,clouddrive"
+												   data-fp-mimetype="video/*" data-fp-store-path="getUserFilmPath()"
+												   :data-fp-policy="fpPolicy" :data-fp-signature="fpSignature"
+												   data-fp-debug="true"/>
 
 
-                                        <input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
-                                               data-fp-services="computer,dropbox,url,googledrive,skydrive,clouddrive"
-                                               data-fp-extension=".pdf" data-fp-store-path="getUserFilmPath()"
-                                               :data-fp-policy="fpPolicy" :data-fp-signature="fpSignature"
-                                               data-fp-debug="true"/>
+										</div>
+										&lt;!&ndash;<hr>&ndash;&gt;
+									</div>
+								</template>
+								<template v-else-if="uploadType === 4">
+									<div class="large-12 columns">
+										<div class="padding-16">
+											&lt;!&ndash;<md-button class="md-fab" @click.native="pickScript">
+												<md-icon>edit</md-icon>
+											</md-button>&ndash;&gt;
 
-                                        &lt;!&ndash;<md-theme class="complete-example" md-name="orange">
-											<md-button class="md-fab" :class="{ 'md-primary': done }">
-												<md-icon>cloud_upload</md-icon>
-												&lt;!&ndash;<md-icon v-if="done">done</md-icon>&ndash;&gt;
-											</md-button>
 
-											<md-spinner :md-size="74" :md-stroke="2.2" md-inderterminate></md-spinner>
-										</md-theme>&ndash;&gt;
-                                    </div>
-                                    &lt;!&ndash;<hr>&ndash;&gt;
-                                </div>
-                            </template>-->
-                            <!--<template v-else>-->
+											<input filepicker type="filepicker" onchange="" @change="onUploadSuccess"
+												   data-fp-services="computer,dropbox,url,googledrive,skydrive,clouddrive"
+												   data-fp-extension=".pdf" data-fp-store-path="getUserFilmPath()"
+												   :data-fp-policy="fpPolicy" :data-fp-signature="fpSignature"
+												   data-fp-debug="true"/>
+
+											&lt;!&ndash;<md-theme class="complete-example" md-name="orange">
+												<md-button class="md-fab" :class="{ 'md-primary': done }">
+													<md-icon>cloud_upload</md-icon>
+													&lt;!&ndash;<md-icon v-if="done">done</md-icon>&ndash;&gt;
+												</md-button>
+
+												<md-spinner :md-size="74" :md-stroke="2.2" md-inderterminate></md-spinner>
+											</md-theme>&ndash;&gt;
+										</div>
+										&lt;!&ndash;<hr>&ndash;&gt;
+									</div>
+								</template>-->
+                                <!--<template v-else>-->
                                 <div class="large-12 columns">
                                     <md-field :class="{'md-input-invalid': errors.has('videoUrl')}">
                                         <label for="video_url">{{projectData.hosting_type.toUpperCase()}} Video URL</label>
@@ -83,7 +87,9 @@
                                                   :required="uploadType == 2 || uploadType == 3"></md-input>
                                     </md-field>
                                 </div>
-                            <!--</template>-->
+                                <!--</template>-->
+
+                            </div>
 
                         </div>
 
@@ -233,17 +239,7 @@
                             <h6 class="borderBottom" style="borderBoottom: 10px;">
                                 Genres <sup class="fa fa-asterisk req" aria-hidden="true"></sup>
                             </h6>
-                            <template v-for="(g, $index) in $root.genresList">
-                                <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                <div class="md-checkbox md-theme-default"
-                                     :class="{ 'md-checked': contains('genres', g.id) }">
-                                    <div class="md-checkbox-container">
-                                        <input :id="'genreCheckA'+$index" type="checkbox" v-model="projectData.genres"
-                                               :value="g.id">
-                                    </div>
-                                    <label class="md-checkbox-label" :for="'genreCheckA'+$index">{{g.name}}</label>
-                                </div>
-                            </template>
+                            <md-checkbox :value="g.id" v-model="projectData.genres" v-for="(g, $index) in $root.genresList" :key="g.id">{{g.name}}</md-checkbox>
                             <div class="post-category">
                                 <md-field :class="{'md-input-invalid': errors.has('type')}">
                                     <label for="projectType">Type</label>
@@ -299,10 +295,12 @@
                             </div>
                             <div class="medium-12 columns">
                                 <label>Do you own the rights to this content?</label>
-                                <md-button-toggle md-single class="md-primary">
-                                    <md-button @click.native="projectData.copyrightOwner = true">Yes</md-button>
-                                    <md-button @click.native="projectData.copyrightOwner = false">No</md-button>
-                                </md-button-toggle>
+                                <div md-single class="md-primary">
+                                    <!--<md-button @click.native="projectData.copyrightOwner = true">Yes</md-button>-->
+                                    <!--<md-button @click.native="projectData.copyrightOwner = false">No</md-button>-->
+                                    <md-radio v-model="projectData.copyrightOwner" :value="true">Yes</md-radio>
+                                    <md-radio v-model="projectData.copyrightOwner" :value="false">No</md-radio>
+                                </div>
                             </div>
                             <div class="medium-6 columns">
                                 <md-checkbox id="unlist" name="unlist" v-model="projectData.unlist">Unlist Project
@@ -343,16 +341,19 @@
                             <!--<p><strong>Note:</strong> Please choose one of the following ways to embed the video
 								into your post, the video is determined in the order: Video Code > Video URL > Video
 								File.</p>-->
-                            <md-button-toggle md-single class="md-primary">
+                            <div md-single class="md-primary">
                                 <!--<md-button @click.native="projectData.hosting_type = 'script'">Script (PDF)</md-button>-->
                                 <!--<md-button @click.native="projectData.hosting_type = 'HTML5'">
                                     MP4 Video File. (Max Size: 1GB)
                                 </md-button>-->
-                                <md-button @click.native="projectData.hosting_type = 'youtube'" class="md-toggle">YouTube
+                                <md-radio v-model="projectData.hosting_type" value="youtube">YouTube
+                                    Video URL</md-radio>
+                                <md-radio v-model="projectData.hosting_type" value="vimeo">Vimeo Video URL</md-radio>
+                                <!--<md-button @click.native="projectData.hosting_type = 'youtube'" class="md-toggle">YouTube
                                     Video URL
                                 </md-button>
-                                <md-button @click.native="projectData.hosting_type = 'vimeo'">Vimeo Video URL</md-button>
-                            </md-button-toggle>
+                                <md-button @click.native="projectData.hosting_type = 'vimeo'">Vimeo Video URL</md-button>-->
+                            </div>
                         </div>
                         <div class="large-12 columns">
                             <!--<template v-if="uploadType === 1">
@@ -624,10 +625,12 @@
                             </div>
                             <div class="medium-12 columns">
                                 <label>Do you own the rights to this content?</label>
-                                <md-button-toggle md-single class="md-primary">
-                                    <md-button @click.native="projectData.copyrightOwner = true">Yes</md-button>
-                                    <md-button @click.native="projectData.copyrightOwner = false">No</md-button>
-                                </md-button-toggle>
+                                <div md-single class="md-primary">
+                                    <!--<md-button @click.native="projectData.copyrightOwner = true">Yes</md-button>-->
+                                    <!--<md-button @click.native="projectData.copyrightOwner = false">No</md-button>-->
+                                    <md-radio v-model="projectData.copyrightOwner" :value="true">Yes</md-radio>
+                                    <md-radio v-model="projectData.copyrightOwner" :value="false">No</md-radio>
+                                </div>
                             </div>
                             <div class="medium-6 columns">
                                 <md-checkbox id="unlist" name="unlist" v-model="projectData.unlist">Unlist Project
@@ -664,7 +667,7 @@
             <div class="md-display-1 text-center padding-24">
                 Loading
                 <br>
-                <md-progress md-indeterminate></md-progress>
+                <md-progress-bar md-mode="indeterminate"></md-progress-bar>
             </div>
         </template>
         <template v-else-if="viewState === 'limit'">
@@ -938,7 +941,7 @@
 
                         self.$http.post('projects', filmParams)
                             .then((project) => {
-                                console.log(project.data.data);
+                                // console.log(project.data.data);
                                 self.$root.$emit('toastMessage', 'Project Uploaded Successfully');
                                 // register Action
                                 window.location = '/' + project.data.data.url_id;
@@ -997,7 +1000,7 @@
 
                         self.$http.put('projects/' + self.id, filmParams)
                             .then((project) => {
-                                console.log(project.data.data);
+                                // console.log(project.data.data);
                                 self.$root.$emit('toastMessage', 'Project Uploaded Successfully');
                                 // register Action
                                 window.location = '/' + project.data.data.url_id;

@@ -1,19 +1,18 @@
 <template>
-    <section id="carouselSlider" class="md-flex-100">
-        <div class="md-layout" md-row>
+    <section id="carouselSlider" class="md-size-100">
+        <div class="md-layout">
             <div class="md-layout md-layout-item item hide-xs">
-                <div class="md-layout-item" md-column>
-                    <div class=" inner-item" md-flex>
-                        <img src="https://getindiewise.com/assets/images/sliderimages/The%20IndieWise%20Tutorial.PNG" alt="images">
-                        <a href="about" class="hover-posts">
-                            <span><i class="fa fa-play"></i></span>
-                        </a>
-                        <div class="item-title">
-                            <span>What is IndieWise?</span>
-                            <!--<h6>The IndieWise Tutorial</h6>-->
-                        </div>
+                <div class="md-layout-item md-size-100 inner-item">
+                    <img src="https://getindiewise.com/assets/images/sliderimages/The%20IndieWise%20Tutorial.PNG" alt="images">
+                    <a href="about" class="hover-posts">
+                        <span><i class="fa fa-play"></i></span>
+                    </a>
+                    <div class="item-title">
+                        <span>What is IndieWise?</span>
+                        <!--<h6>The IndieWise Tutorial</h6>-->
                     </div>
-                    <div class=" inner-item" md-flex>
+                </div>
+                <div class="md-layout-item md-size-100 inner-item">
                         <img src="https://getindiewise.com/assets/images/sliderimages/FAQ.jpg" alt="images">
                         <a href="faq" class="hover-posts">
                             <span><i class="fa fa-question-circle"></i></span>
@@ -23,11 +22,10 @@
                             <!--<h6>Get Wise About IndieWise</h6>-->
                         </div>
                     </div>
-                </div>
             </div>
             <div class="md-layout md-layout-item item md-size-50 md-small-size-100">
-                <div class="md-layout" md-column>
-                    <div class="md-layout inner-item inner-item-big" md-flex>
+                <div class="md-layout">
+                    <div class="md-layout md-layout-item inner-item inner-item-big">
                         <div id="layerslider" style="width:100%;height:400px;">
                             <!--<div class="ls-slide" data-ls="transition2d:1;" style="background-image: url({{::BASE}}assets/images/fRugjfO-happy-halloween-wallpaper.jpg);background-position: center center;background-size: cover">
                                 &lt;!&ndash;<img ng-src="{{::BASE}}assets/images/fRugjfO-happy-halloween-wallpaper.jpg" class="ls-bg" alt="Slide background"/>&ndash;&gt;
@@ -59,26 +57,24 @@
                 </div>
             </div>
             <div class="md-layout md-layout-item item hide-xs">
-                <div class="md-layout-item">
-                    <div class=" inner-item" md-flex>
-                        <img src="https://getindiewise.com/assets/images/sliderimages/Join%20the%20Discussion.jpg" alt="images">
-                        <a href="forum" class="hover-posts">
-                            <span><i class="fa fa-comments-o"></i></span>
-                        </a>
-                        <div class="item-title">
-                            <span>Community Forum</span>
-                            <!--<h6>Join the Discussion!</h6>-->
-                        </div>
+                <div class="md-layout-item md-size-100 inner-item">
+                    <img src="https://getindiewise.com/assets/images/sliderimages/Join%20the%20Discussion.jpg" alt="images">
+                    <a href="forum" class="hover-posts">
+                        <span><i class="fa fa-comments-o"></i></span>
+                    </a>
+                    <div class="item-title">
+                        <span>Community Forum</span>
+                        <!--<h6>Join the Discussion!</h6>-->
                     </div>
-                    <div class=" inner-item" md-flex>
-                        <img src="https://getindiewise.com/assets/images/sliderimages/Contact%20Us1.png" alt="images">
-                        <a href="contact" class="hover-posts">
-                            <span><i class="fa fa-phone"></i></span>
-                        </a>
-                        <div class="item-title">
-                            <span>Contact Us</span>
-                            <!--<h6>How Can We Better Serve You</h6>-->
-                        </div>
+                </div>
+                <div class="md-layout-item md-size-100 inner-item">
+                    <img src="https://getindiewise.com/assets/images/sliderimages/Contact%20Us1.png" alt="images">
+                    <a href="contact" class="hover-posts">
+                        <span><i class="fa fa-phone"></i></span>
+                    </a>
+                    <div class="item-title">
+                        <span>Contact Us</span>
+                        <!--<h6>How Can We Better Serve You</h6>-->
                     </div>
                 </div>
             </div>

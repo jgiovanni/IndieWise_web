@@ -430,7 +430,7 @@ input[type=checkbox]:checked + .customLabel:before {
 					padding: 10px 0;
 					@include border-radius(3px);
 					@extend .transition;
-					margin-bottom: 30px;
+					/* margin-bottom: 30px; */
 					&:hover{
 						background: $primary;
 						color: $white;
@@ -4145,7 +4145,7 @@ footer{
 		color: #aaaaaa;
 		box-shadow: none;
 		padding-left: 20px;
-		margin-bottom: 30px;
+		/* margin-bottom: 30px; */
 	}
 	textarea{
 		border: 1px solid $border-color;

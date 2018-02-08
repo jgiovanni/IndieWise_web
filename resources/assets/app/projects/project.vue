@@ -5,31 +5,30 @@
         <project-stats-actions :project="project" @handle-actions="handleActions"></project-stats-actions>
         <!-- End single post stats -->
 
-        <div md-flex="100" class="md-layout SinglePostStats hide-for-large">
-            <div md-flex md-column class="md-layout secBg">
+        <div class="md-layout SinglePostStats hide-for-large md-size-100">
+            <div class="md-layout-item md-size-100 secBg">
                 <md-list>
-
                     <project-average view="mobile" :rating="project.iwRating"
                                      :critiques="project.critiques_count"></project-average>
 
-                    <md-list-item>
+                    <md-list-item md-expand>
                         <md-icon style="color: #FFC10E;" md-src="assets/svg/trophy.svg"></md-icon>
                         <span v-if="project.wins_count > 0"> {{project.wins_count}} Awards</span>
                         <span v-else>No Awards won yet.</span>
 
-                        <md-list-expand>
+                        <md-list slot="md-expand">
                             <project-awards view="mobile" :id="project.id"></project-awards>
-                        </md-list-expand>
+                        </md-list>
                     </md-list-item>
 
-                    <md-list-item>
+                    <md-list-item md-expand>
                         <md-icon>face</md-icon>
                         <span>Reactions</span>
 
-                        <md-list-expand>
+                        <md-list slot="md-expand">
                             <project-reactions :id="project.id" :reactions-count="project.reactions_count"
                                                :inset="true"></project-reactions>
-                        </md-list-expand>
+                        </md-list>
                     </md-list-item>
                 </md-list>
             </div>
@@ -109,8 +108,6 @@
         </div>
         <!-- End single post description -->
     </div>
-
-
 </template>
 <style>
     .sidebar .widgetBox {
@@ -201,17 +198,17 @@
                 switch (action) {
                     case 'reaction':
                         // communicate with child to refresh reaction
-                        console.log('refresh reactions');
-                        console.log(data);
+                        // console.log('refresh reactions');
+                        // console.log(data);
                         this.$root.$emit('loadProjectReactions');
                         break;
                     case 'rate':
-                        console.log('refresh rates');
-                        console.log(data);
+                        // console.log('refresh rates');
+                        // console.log(data);
                         break;
                     case 'critique':
-                        console.log('refresh critiques');
-                        console.log(data);
+                        // console.log('refresh critiques');
+                        // console.log(data);
                         this.$root.$emit('loadProjectCritiques');
                         break;
                 }
@@ -221,7 +218,7 @@
                 let self = this;
                 return this.$http.get('projects' + this.project.id)
                     .then((response) => {
-                        console.log('Project Updated: ', response);
+                        // console.log('Project Updated: ', response);
                         self.project = response.data.data;
                     }, (error) => console.log(error));
             },

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <md-drawer ref="filterNav" class="md-left" v-cloak>
+        <md-drawer :md-active.sync="showfilterNav" class="md-left" v-cloak>
             <md-toolbar class="md-primary">
                 <h2 class="md-title text-white" style="flex: 1">Filters</h2>
 
@@ -9,47 +9,36 @@
                 </md-button>
             </md-toolbar>
 
-            <md-field>
-                <label for="filterNavSort">Sort</label>
-                <md-select id="filterNavSort" name="filterNavSort" v-model="filters.sort" @change="filterBy(filters.sort)">
-                    <md-option value="recent">Recently Added</md-option>
-                    <md-option value="trending">Trending</md-option>
-                    <md-option value="rating">Highest Rated</md-option>
-                    <md-option value="awards">Award Winning</md-option>
-                </md-select>
-            </md-field>
-            <div class="md-layout" md-column md-align="center" md-gutter="8">
-                <div class="md-layout" md-flex md-column>
-
+            <div class="md-layout md-alignment-top-center md-gutter">
+                <div class=" md-layout-item md-size-100">
+                    <md-field>
+                        <label for="filterNavSort">Sort</label>
+                        <md-select id="filterNavSort" name="filterNavSort" v-model="filters.sort" @change="filterBy(filters.sort)">
+                            <md-option value="recent">Recently Added</md-option>
+                            <md-option value="trending">Trending</md-option>
+                            <md-option value="rating">Highest Rated</md-option>
+                            <md-option value="awards">Award Winning</md-option>
+                        </md-select>
+                    </md-field>
+                </div>
+                <div class=" md-layout-item md-size-100">
                     <form id="searchformA" @submit.stop.prevent="search()" role="search">
                         <md-field>
                             <label>Search</label>
                             <md-input v-model="filters.search" placeholder="Search"></md-input>
                         </md-field>
                     </form>
-
-                    <h6>Types</h6>
-                    <template v-for="(g, $index) in $root.typesList">
-                        <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedTypes', g.id) }">
-                            <div class="md-checkbox-container">
-                                <input :id="'typeCheckA'+$index" type="checkbox" v-model="selectedTypes" :value="g.id">
-                            </div>
-                            <label class="md-checkbox-label" :for="'typeCheckA'+$index">{{g.name}}</label>
-                        </div>
-                    </template>
-
-                    <h6>Genres</h6>
-                    <template v-for="(g, $index) in $root.genresList">
-                        <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                        <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedGenres', g.id) }">
-                            <div class="md-checkbox-container">
-                                <input :id="'genreCheckA'+$index" type="checkbox" v-model="selectedGenres" :value="g.id">
-                            </div>
-                            <label class="md-checkbox-label" :for="'genreCheckA'+$index">{{g.name}}</label>
-                        </div>
-                    </template>
                 </div>
+                <div class=" md-layout-item md-size-100">
+                    <h6>Types</h6>
+                    <md-checkbox :value="g.id" v-model="selectedTypes" v-for="(g, $index) in $root.typesList" :key="g.id">{{g.name}}</md-checkbox>
+                </div>
+                <div class=" md-layout-item md-size-100">
+                    <h6>Genres</h6>
+                    <md-checkbox :value="g.id" v-model="selectedGenres" v-for="(g, $index) in $root.genresList" :key="g.id">{{g.name}}</md-checkbox>
+                </div>
+                <div class=" md-layout-item md-size-100"></div>
+                <div class=" md-layout-item md-size-100"></div>
             </div>
         </md-drawer>
 
@@ -123,16 +112,45 @@
                                             filters
                                         </h5>
                                     </div>
-                                    <div md-column class="md-layout widgetContent">
-                                        <md-field>
-                                            <label for="filterSort">Sort</label>
-                                            <md-select id="filterSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
-                                                <md-option value="recent">Recently Added</md-option>
-                                                <md-option value="trending">Trending</md-option>
-                                                <md-option value="rating">Highest Rated</md-option>
-                                                <md-option value="awards">Award Winning</md-option>
-                                            </md-select>
-                                        </md-field>
+                                    <div class="md-layout widgetContent">
+                                        <div class=" md-layout-item md-size-100">
+                                            <md-field>
+                                                <label for="filterSort">Sort</label>
+                                                <md-select id="filterSort" name="filterSort" v-model="filters.sort" @change="filterBy(filters.sort)">
+                                                    <md-option value="recent">Recently Added</md-option>
+                                                    <md-option value="trending">Trending</md-option>
+                                                    <md-option value="rating">Highest Rated</md-option>
+                                                    <md-option value="awards">Award Winning</md-option>
+                                                </md-select>
+                                            </md-field>
+                                        </div>
+                                        <div class=" md-layout-item md-size-100">
+                                            <form id="searchform" @submit.stop.prevent="search()" role="search">
+                                                <md-field md-inline>
+                                                    <label>Search</label>
+                                                    <md-input v-model="filters.search"></md-input>
+                                                    <md-button class="md-icon-button"><md-icon class="md-accent">search</md-icon></md-button>
+                                                </md-field>
+                                                <!--<div class="input-group">
+													<input class="input-group-field" type="text" v-model="filters.search"
+														   my-enter="search()" placeholder="Enter your keyword">
+													<div class="input-group-button">
+														<input type="submit" class="button" value="Search">
+													</div>
+												</div>-->
+                                            </form>
+                                        </div>
+                                        <div class=" md-layout-item md-size-100">
+                                            <h6>Types</h6>
+                                            <md-checkbox :value="g.id" v-model="selectedTypes" v-for="(g, $index) in $root.typesList" :key="g.id">{{g.name}}</md-checkbox>
+                                        </div>
+                                        <div class=" md-layout-item md-size-100">
+                                            <h6>Genres</h6>
+                                            <md-checkbox :value="g.id" v-model="selectedGenres" v-for="(g, $index) in $root.genresList" :key="g.id">{{g.name}}</md-checkbox>
+                                        </div>
+                                        <div class=" md-layout-item md-size-100"></div>
+                                        <div class=" md-layout-item md-size-100"></div>
+
 
                                         <!--<label>Sort by:
                                             <select v-model="filters.sort" @change="filterBy(filters.sort)">
@@ -143,43 +161,12 @@
                                             </select>
                                         </label>-->
                                         <!--<hr class="">-->
-                                        <form id="searchform" @submit.stop.prevent="search()" role="search">
-                                            <md-field md-inline>
-                                                <label>Search</label>
-                                                <md-input v-model="filters.search"></md-input>
-                                                <md-button class="md-icon-button"><md-icon class="md-accent">search</md-icon></md-button>
-                                            </md-field>
-                                            <!--<div class="input-group">
-                                                <input class="input-group-field" type="text" v-model="filters.search"
-                                                       my-enter="search()" placeholder="Enter your keyword">
-                                                <div class="input-group-button">
-                                                    <input type="submit" class="button" value="Search">
-                                                </div>
-                                            </div>-->
-                                        </form>
+
                                         <!--<hr class="">-->
                                         <!--{{typesList}}-->
-                                        <h6>Types</h6>
-                                        <template v-for="(g, $index) in $root.typesList">
-                                            <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedTypes', g.id) }">
-                                                <div class="md-checkbox-container">
-                                                    <input :id="'typeCheck'+$index" type="checkbox" v-model="selectedTypes" :value="g.id">
-                                                </div>
-                                                <label class="md-checkbox-label" :for="'typeCheck'+$index">{{g.name}}</label>
-                                            </div>
-                                        </template>
 
-                                        <h6>Genres</h6>
-                                        <template v-for="(g, $index) in $root.genresList">
-                                            <!--<md-checkbox :value="g.id" class="">{{g.name}}</md-checkbox>-->
-                                            <div class="md-checkbox md-theme-default" :class="{ 'md-checked': contains('selectedGenres', g.id) }">
-                                                <div class="md-checkbox-container">
-                                                    <input :id="'genreCheck'+$index" type="checkbox" v-model="selectedGenres" :value="g.id">
-                                                </div>
-                                                <label class="md-checkbox-label" :for="'genreCheck'+$index">{{g.name}}</label>
-                                            </div>
-                                        </template>
+
+
 
 
 
@@ -211,6 +198,7 @@
                 typeA: 'grid-medium',
                 isOpen: false,
                 loading: false,
+                showfilterNav: false,
                 selectedGenres: [],
                 selectedTypes: [],
                 pagination: { current_page: 1 },
@@ -347,7 +335,7 @@
             },
 
             toggleFilterNav() {
-                this.$refs.filterNav.toggle();
+                this.showfilterNav = !this.showfilterNav;
             },
         },
         mounted(){

@@ -44,7 +44,7 @@
                         </template>
                     </template>
                     <template v-else>
-                        <md-progress md-indeterminate></md-progress>
+                        <md-progress-bar md-mode="indeterminate"></md-progress-bar>
                         <br>
                         <br>
                     </template>

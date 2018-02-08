@@ -3076,7 +3076,7 @@ footer {
     color: #aaaaaa;
     box-shadow: none;
     padding-left: 20px;
-    margin-bottom: 30px; }
+    /*margin-bottom: 30px;*/ }
   .submit-post textarea {
     border: 1px solid #ececec;
     width: 100%;

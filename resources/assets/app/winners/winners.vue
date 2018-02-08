@@ -7,7 +7,7 @@
                     </select>
                 </h3>
             <template v-if="awards" v-for="award in awards">
-                <md-table-card :id="award.slug">
+                <md-table md-card :id="award.slug">
                     <md-toolbar>
                         <h1 class="md-title">
                             <span class="fa-stack fa-lg">
@@ -25,41 +25,37 @@
                         </md-button>-->
                     </md-toolbar>
                     <md-table :md-sort="sort" md-sort-type="asc">
-                        <md-table-header>
-                            <md-table-row>
-                                <md-table-head md-sort-by="project.name">Title</md-table-head>
-                                <md-table-head md-sort-by="project.director">Director</md-table-head>
-                                <md-table-head md-sort-by="project.type.name">Type</md-table-head>
-                                <md-table-head md-sort-by="project.genres">Genres</md-table-head>
-                                <md-table-head md-sort-by="project.filming_country.name">Country</md-table-head>
+                        <md-table-row>
+                            <md-table-head md-sort-by="project.name">Title</md-table-head>
+                            <md-table-head md-sort-by="project.director">Director</md-table-head>
+                            <md-table-head md-sort-by="project.type.name">Type</md-table-head>
+                            <md-table-head md-sort-by="project.genres">Genres</md-table-head>
+                            <md-table-head md-sort-by="project.filming_country.name">Country</md-table-head>
+                        </md-table-row>
+
+                        <template v-if="award.winners.length > 0">
+                            <md-table-row v-for="(winner, index) in award.winners" :key="index">
+                                <template v-if="winner.project">
+                                    <md-table-cell><a :href="'/'+winner.project.url_id" v-text="winner.project.name"></a></md-table-cell>
+                                    <md-table-cell>{{ winner.project.director }}</md-table-cell>
+                                    <md-table-cell>{{ winner.project.type.name }}</md-table-cell>
+                                    <md-table-cell>
+                                        <md-chip v-for="(genre, gIndex) in winner.project.genres" :key="genre.name">
+                                            {{genre.name}}
+                                        </md-chip>
+                                    </md-table-cell>
+                                    <md-table-cell>{{ winner.project.filming_country.name }}</md-table-cell>
+                                </template>
                             </md-table-row>
-                        </md-table-header>
+                        </template>
 
-                        <md-table-body>
-                            <template v-if="award.winners.length > 0">
-                                <md-table-row v-for="(winner, index) in award.winners" :key="index">
-                                    <template v-if="winner.project">
-                                        <md-table-cell><a :href="'/'+winner.project.url_id" v-text="winner.project.name"></a></md-table-cell>
-                                        <md-table-cell>{{ winner.project.director }}</md-table-cell>
-                                        <md-table-cell>{{ winner.project.type.name }}</md-table-cell>
-                                        <md-table-cell>
-                                            <span class="md-chip md-theme-default" v-for="(genre, gIndex) in winner.project.genres">
-                                                {{genre.name}}
-                                            </span>
-                                        </md-table-cell>
-                                        <md-table-cell>{{ winner.project.filming_country.name }}</md-table-cell>
-                                    </template>
-                                </md-table-row>
-                            </template>
-
-                            <template v-else>
-                                <md-table-row>
-                                    <md-table-cell colspan="5" class="text-center">No winners this month</md-table-cell>
-                                </md-table-row>
-                            </template>
-                        </md-table-body>
+                        <template v-else>
+                            <md-table-row>
+                                <md-table-cell colspan="5" class="text-center">No winners this month</md-table-cell>
+                            </md-table-row>
+                        </template>
                     </md-table>
-                </md-table-card>
+                </md-table>
                 <br>
             </template>
         </md-tab>
@@ -265,11 +261,6 @@
 <style scoped>
     .md-card {
         box-shadow: none;
-    }
-    .md-chip {
-        height: 22px;
-        margin: 1px;
-        line-height:6px;
     }
 </style>
 <script type="text/javascript">

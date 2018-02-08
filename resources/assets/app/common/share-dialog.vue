@@ -1,5 +1,5 @@
 -<template>
-    <md-dialog :ref="'dialog-' + id">
+    <md-dialog :md-active.sync="showDialog">
         <md-dialog-title>Share</md-dialog-title>
 
         <md-dialog-content>
@@ -55,7 +55,7 @@
                         <li class="md-list-item">
                             <network network="whatsapp" class="md-button md-button md-list-item-container md-theme-default">
                                     <span class="md-list-item-holder">
-                                        <i class="fa fa-whatsapp md-icon material-icons md-theme-default"></i> <span>Whatsapp</span>
+                                        <i class="fa fa-whatsapp md-icon material-icons md-theme-default"></i> <span>WhatsApp</span>
                                     </span>
                             </network>
                         </li>
@@ -76,21 +76,21 @@
         props: ['id', 'name', 'description', 'url'],
         data(){
             return {
+              showDialog: false,
                 shareLink: location.origin + '/' + this.url
             }
         },
         methods: {
             closeShareDialog() {
-                this.$refs['dialog-' + this.id].close();
+                this.showDialog = false;
             },
             selectShareUrl(){
 
             }
         },
         created(){
-            let self = this;
-            this.$root.$on('openShareDialog-' + this.id, function () {
-                self.$refs['dialog-' + self.id].open();
+            this.$root.$on(`openShareDialog-${this.id}`, () => {
+                this.showDialog = true;
             });
         }
     }
