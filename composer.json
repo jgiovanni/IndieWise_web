@@ -14,7 +14,7 @@
         "nategood/httpful": "^0.2.20",
         "league/fractal": "^0.17.0",
         "tucker-eric/eloquentfilter": "^1.2.0",
-        "laravel/socialite": "^2.0",
+        "laravel/socialite": "^3.0",
         "laracasts/utilities": "~2.0",
         "cviebrock/eloquent-sluggable": "4.2.*",
         "vinkla/hashids": "^3.2.0",

@@ -23,6 +23,9 @@
 											Download File
 										</md-button>
 									</div>
+									<md-snackbar md-position="center" :md-duration="9000000" :md-active="showSnackbar" md-persistent>
+										<span>Preparing your file - Please Wait! </span>
+									</md-snackbar>
 									<!--<span><i class="fa fa-eye"></i>1,862K</span>-->
 								</div>
 							</md-card-header-text>
@@ -78,13 +81,15 @@
         selectedDelete: null,
         showDeleteDialog: false,
         client: null,
+        showSnackbar: false,
+        downloadPrepProgress: 0,
       }
     },
     watch: {
       '$root.user'(val) {
         if (this.isUser) {
           this.userData = val;
-          this.client = filestack.init('APbjTx44SlSuCI6P58jwvz');
+          this.client = window.filestack.init('APbjTx44SlSuCI6P58jwvz');
 
         }
       }
@@ -144,8 +149,10 @@
           this.client.metadata(newLink)
             .then((meta) => {
               // download blob
+              this.showSnackbar = true;
               this.client.retrieve(newLink, {dl: true})
                 .then((blob) => {
+                  this.showSnackbar = false;
                   FileSaver.saveAs(blob, meta.filename);
                 })
                 .catch((err) => {
@@ -170,8 +177,9 @@
 
       this.$http.get('projects', {params: {owner: this.user.id, sort: 'created_at', per_page: 50}}).then((response) => {
         this.projects = response.data;
-      })
+      });
 
+      this.client = window.filestack.init('APbjTx44SlSuCI6P58jwvz');
     }
   }
 </script>
