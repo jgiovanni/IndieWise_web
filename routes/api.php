@@ -200,7 +200,7 @@ $api->version('v1', [
         $api->get('nominations/latest', 'NominationsController@latest');
         $api->get('critiques/latest', 'CritiquesController@latest');
         $api->get('playlistItems/check/{id?}', 'PlaylistItemsController@checkIn');
-        $api->get('policies/upload', function () {
+        /*$api->get('policies/upload', function () {
             $json_policy = json_encode([
 //            "handle" => "KW9EJhYtS6y48Whm2S6D",
                 "expiry" => intval(time() + (60 * 60)),
@@ -213,7 +213,7 @@ $api->version('v1', [
 
             return response()->json(compact('policy', 'signature'));
 
-        });
+        });*/
         $api->delete('uploads/images/:public_id', function ($publicId) {
             $options = [
 
