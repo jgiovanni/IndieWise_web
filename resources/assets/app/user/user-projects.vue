@@ -17,12 +17,16 @@
 									<span v-else><i class="fa fa-square-o" style="color: #000;"></i> un-listed</span>
 									&nbsp;&middot;&nbsp;
 									<span><i class="fa fa-clock-o"></i> {{video.created_at|vmUtc|vmLocal|vmDateFormat('ll')}}</span>
-									<div v-if="isUser && checkDownloadable(video)">
+									<!--<div v-if="isUser && checkDownloadable(video)">
 										<md-button class="md-raised md-primary md-dense" @click.native="getDownload(video)">
 											<md-icon>file_download</md-icon>
 											Download File
 										</md-button>
-									</div>
+									</div>-->
+									<md-button v-if="isUser && checkDownloadable(video)" class="video-btn" :href="'/'+video.url_id + '/edit'">
+										<md-icon>edit_mode</md-icon>
+										Change video URL
+									</md-button>
 									<md-snackbar md-position="center" :md-duration="9000000" :md-active="showSnackbar" md-persistent>
 										<span>Preparing your file - Please Wait! </span>
 									</md-snackbar>
@@ -89,7 +93,7 @@
       '$root.user'(val) {
         if (this.isUser) {
           this.userData = val;
-          this.client = window.filestack.init('APbjTx44SlSuCI6P58jwvz');
+          // this.client = window.filestack.init('APbjTx44SlSuCI6P58jwvz');
 
         }
       }
@@ -179,7 +183,7 @@
         this.projects = response.data;
       });
 
-      this.client = window.filestack.init('APbjTx44SlSuCI6P58jwvz');
+      // this.client = window.filestack.init('APbjTx44SlSuCI6P58jwvz');
     }
   }
 </script>
