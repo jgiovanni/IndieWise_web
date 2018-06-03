@@ -29,11 +29,11 @@
 ));
 
 @import "~vue-material/dist/theme/all"; // Apply the theme\
-@import "resources/assets/scss/app.scss";
-@import "resources/assets/scss/theme.scss";
+@import "../scss/app.scss";
+@import "../scss/theme.scss";
 @import "~video.js/dist/video-js.css";
 @import "~videojs-sublime-skin/dist/videojs-sublime-skin.css";
-@import "resources/assets/css/custom.scss";
+@import "../css/custom.scss";
 
 
 // Video.js and plugin styles

@@ -760,9 +760,9 @@
                         break;
                     case 'script':
                         this.uploadType = 4;
-                        this.$nextTick(function () {
+                        /*this.$nextTick(function () {
                             filepicker.constructWidget($('input[type=filepicker]'));
-                        });
+                        });*/
                         break;
                 }
             },
@@ -1053,7 +1053,7 @@
                 );*/
             },
 
-            pickVideo () {
+            /*pickVideo () {
                 let self = this;
                 filepicker.pick({
                         mimetype: 'video/mp4',
@@ -1064,9 +1064,9 @@
                     },
                     self.onUploadSuccess, self.onUploadError, self.onUploadProgress
                 );
-            },
+            },*/
 
-            pickScript () {
+            /*pickScript () {
                 let self = this;
                 filepicker.pick({
                         extension: '.pdf',
@@ -1077,7 +1077,7 @@
                     },
                     self.onUploadSuccess, self.onUploadError, self.onUploadProgress
                 );
-            },
+            },*/
 
             onUploadSuccess (event) {
                 let Blob = event.fpfile || false;
@@ -1106,7 +1106,7 @@
         },
         created() {
             cloudinary.setCloudName('indiewise');
-            window.filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
+            // window.filepicker.setKey('APbjTx44SlSuCI6P58jwvz');
             let self = this;
             this.$root.$on('checkedAuthentication', function (data) {
                 // User is logged in
@@ -1155,7 +1155,7 @@
 
                                         self.viewState = 'edit';
                                         // Get FileStack Policy and Signature
-                                        self.generateFpSecurity();
+                                        // self.generateFpSecurity();
                                     });
                             });
                         } else {
@@ -1165,7 +1165,7 @@
                                         self.viewState = 'upload';
 
                                         // Get FileStack Policy and Signature
-                                        self.generateFpSecurity();
+                                        // self.generateFpSecurity();
                                     } else {
                                         self.viewState = 'limit';
                                     }
