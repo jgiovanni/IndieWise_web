@@ -28,6 +28,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Vinkla\Hashids\Facades\Hashids;
 use Artesaos\SEOTools\Facades\SEOTools as SEO;
+use \Illuminate\Support\Facades\Artisan;
 
 $dispatcher = app('Dingo\Api\Dispatcher');
 
@@ -391,6 +392,11 @@ $this->get('sitemap-generate', function(){
 //    return $sitemap->render('xml');
     return $sitemap->store('xml', 'sitemap');
 
+});
+
+$this->get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return 'Cache is cleared';
 });
 
 /*
