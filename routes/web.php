@@ -132,6 +132,11 @@ if (App::environment('local')) {
     });
 }
 
+Route::get('clear-cache', function() {
+    Artisan::call('cache:clear');
+    return 'Cache is cleared';
+});
+
 Route::get('sign-in', function () {
     return view('auth.login');
 });
@@ -392,11 +397,6 @@ $this->get('sitemap-generate', function(){
 //    return $sitemap->render('xml');
     return $sitemap->store('xml', 'sitemap');
 
-});
-
-$this->get('/clear-cache', function() {
-    Artisan::call('cache:clear');
-    return 'Cache is cleared';
 });
 
 /*
